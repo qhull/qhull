@@ -346,7 +346,96 @@ else()
     set(qhull_STATICR qhullstatic_r)
 endif()
 
+set(
+    qhull_TARGETS_INSTALL
+        ${qhull_CPP} ${qhull_STATIC} ${qhull_STATICR} ${qhull_SHAREDR}
+        qhull rbox qconvex qdelaunay qvoronoi qhalf
+        ${qhull_SHARED} ${qhull_SHAREDP}  # Deprecated, use qhull_r instead
+)
+set(
+    qhull_TARGETS_TEST   # Unused
+        user_eg user_eg2 user_eg3 user_egp testqset testqset_r
+)
 
+# ---------------------------------------
+# Define shared library for reentrant qhull (installed)
+# ---------------------------------------
+
+add_library(${qhull_SHAREDR} SHARED 
+        ${libqhullr_SOURCES}
+        src/libqhull_r/qhull_r-exports.def)
+set_target_properties(${qhull_SHAREDR} PROPERTIES
+    SOVERSION ${qhull_SOVERSION}
+    VERSION ${qhull_VERSION})
+
+if(UNIX)
+    target_link_libraries(${qhull_SHAREDR} m)
+    if(APPLE)
+        set_target_properties(${qhull_SHAREDR} PROPERTIES 
+            INSTALL_NAME_DIR "${LIB_INSTALL_DIR}")
+    else()
+        set_target_properties(${qhull_SHAREDR} PROPERTIES 
+            INSTALL_RPATH "${LIB_INSTALL_DIR}"
+            INSTALL_RPATH_USE_LINK_PATH TRUE
+            BUILD_WITH_INSTALL_RPATH FALSE)
+    endif()
+endif(UNIX)
+
+# ---------------------------------------
+# Define shared library for non-reentrant qhull without qh_QHpointer
+# ---------------------------------------
+
+add_library(${qhull_SHARED} SHARED 
+        ${libqhull_SOURCES}
+        src/libqhull/qhull-exports.def)
+        
+if(qhull_SHARED MATCHES "libqhull")
+   set(qhull_OUTPUT_NAME qhull)
+   set_target_properties(${qhull_SHARED} PROPERTIES
+        OUTPUT_NAME "${qhull_OUTPUT_NAME}" )
+endif()
+
+set_target_properties(${qhull_SHARED} PROPERTIES
+    SOVERSION ${qhull_SOVERSION}
+    VERSION ${qhull_VERSION})
+
+if(UNIX)
+    target_link_libraries(${qhull_SHARED} m)
+    if(APPLE)
+        set_target_properties(${qhull_SHARED} PROPERTIES 
+            INSTALL_NAME_DIR "${LIB_INSTALL_DIR}")
+    else()
+        set_target_properties(${qhull_SHARED} PROPERTIES 
+            INSTALL_RPATH "${LIB_INSTALL_DIR}"
+            INSTALL_RPATH_USE_LINK_PATH TRUE
+            BUILD_WITH_INSTALL_RPATH FALSE)
+    endif()
+endif(UNIX)
+
+# ---------------------------------------
+# Define old shared library qhull with qh_QHpointer
+# ---------------------------------------
+
+add_library(${qhull_SHAREDP} SHARED 
+        ${libqhull_SOURCES}
+        src/libqhull/qhull_p-exports.def)
+set_target_properties(${qhull_SHAREDP} PROPERTIES
+    COMPILE_DEFINITIONS "qh_QHpointer"
+    SOVERSION ${qhull_SOVERSION}
+    VERSION ${qhull_VERSION})
+
+if(UNIX)
+    target_link_libraries(${qhull_SHAREDP} m)
+    if(APPLE)
+        set_target_properties(${qhull_SHAREDP} PROPERTIES 
+            INSTALL_NAME_DIR "${LIB_INSTALL_DIR}")
+    else()
+        set_target_properties(${qhull_SHAREDP} PROPERTIES 
+            INSTALL_RPATH "${LIB_INSTALL_DIR}"
+            INSTALL_RPATH_USE_LINK_PATH TRUE
+            BUILD_WITH_INSTALL_RPATH FALSE)
+    endif()
+endif(UNIX)
 
 # ---------------------------------------
 # Define static libraries qhullstatic (non-reentrant) and qhullstatic_r (reentrant)
@@ -405,6 +494,117 @@ target_link_libraries(qvoronoi ${qhull_STATIC})
 add_executable(qhalf ${qhalf_SOURCES})
 target_link_libraries(qhalf ${qhull_STATIC})
 
+# ---------------------------------------
+# Define options for linking to qhull_SHAREDR or qhull_SHARED
+# ---------------------------------------
+if(MSVC)
+    set(user_eg_DEFINES qh_dllimport)
+    set(user_eg2_DEFINES qh_dllimport)
+    set(user_eg3_DEFINES qh_dllimport)
+    set(user_egp_DEFINES qh_QHpointer_dllimport qh_QHpointer)
+    set(qhullp_DEFINES qh_QHpointer_dllimport qh_QHpointer)
+else()
+    set(user_eg_DEFINES )
+    set(user_eg2_DEFINES )
+    set(user_eg3_DEFINES )
+    set(user_egp_DEFINES )
+    set(qhullp_DEFINES )
+endif()
+
+# ---------------------------------------
+# Define testqset linked to qset.o and mem.o
+# Define testqset_r linked to qset_r.o and mem_r.o
+# ---------------------------------------
+
+add_executable(testqset ${testqset_SOURCES})
+add_executable(testqset_r ${testqsetr_SOURCES})
+
+# ---------------------------------------
+# Define user_eg linked to reentrant qhull shared library
+# ---------------------------------------
+
+set(user_eg_SOURCES     src/user_eg/user_eg_r.c)
+
+add_executable(user_eg ${user_eg_SOURCES})
+# user_eg may be linked to qhull_STATICR if user_eg_DEFINES is removed
+target_link_libraries(user_eg ${qhull_SHAREDR})
+set_target_properties(user_eg PROPERTIES
+    COMPILE_DEFINITIONS "${user_eg_DEFINES}")
+
+# ---------------------------------------
+# Define user_eg2 linked to reentrant qhull static library
+# ---------------------------------------
+
+set(user_eg2_SOURCES    src/user_eg2/user_eg2_r.c)
+
+add_executable(user_eg2 ${user_eg2_SOURCES})
+# user_eg2 may be linked to qhull_SHAREDR if user_eg2_DEFINES is added
+target_link_libraries(user_eg2 ${qhull_STATICR})
+
+# ---------------------------------------
+# Define user_eg3 linked to qhullstatic_r and qhullcpp static library
+# 
+# user_eg3 and qhullcpp must be compiled with the same compiler for setjmp/longjmp
+# ---------------------------------------
+
+set(user_eg3_SOURCES    src/user_eg3/user_eg3_r.cpp)
+
+add_executable(user_eg3 ${user_eg3_SOURCES})
+# qhull_STATICR must be last, otherwise qh_fprintf,etc. are not loaded from qhull_CPP
+# user_eg3 may be linked to qhull_SHAREDR if user_eg3_DEFINES is added
+target_link_libraries(user_eg3 ${qhull_CPP} ${qhull_STATICR})
+
+# ---------------------------------------
+# qhullp is qhull/unix.c linked to deprecated qh_QHpointer libqhull_p
+# Included for testing qh_QHpointer 
+# ---------------------------------------
+
+set(qhullp_SOURCES     src/qhull/unix.c)
+
+add_executable(qhullp EXCLUDE_FROM_ALL ${qhullp_SOURCES})
+target_link_libraries(qhullp ${qhull_SHAREDP})
+set_target_properties(qhullp PROPERTIES
+    COMPILE_DEFINITIONS "${qhullp_DEFINES}")
+
+# ---------------------------------------
+# user_egp is user_eg/user_eg.c linked to deprecated qh_QHpointer libqhull_p
+# Included for compatibility with qhull-2012.1 
+# ---------------------------------------
+
+set(user_egp_SOURCES   src/user_eg/user_eg.c)
+
+add_executable(user_egp EXCLUDE_FROM_ALL ${user_egp_SOURCES})
+target_link_libraries(user_egp ${qhull_SHAREDP})
+set_target_properties(user_egp PROPERTIES
+    COMPILE_DEFINITIONS "${user_egp_DEFINES}")
+
+# ---------------------------------------
+# Define test
+# ---------------------------------------
+
+enable_testing()
+add_test(NAME testqset
+   COMMAND ./testqset 10000)
+add_test(NAME testqset_r
+   COMMAND ./testqset_r 10000)
+add_test(NAME smoketest
+   COMMAND sh -c "./rbox D4 | ./qhull Tv")
+add_test(NAME rbox-10-qhull
+   COMMAND sh -c "./rbox 10 | ./qhull Tv")
+add_test(NAME rbox-10-qconvex
+   COMMAND sh -c "./rbox 10 | ./qconvex Tv")
+add_test(NAME rbox-10-qdelaunay
+   COMMAND sh -c "./rbox 10 | ./qdelaunay Tv")
+add_test(NAME rbox-10-qhalf
+   COMMAND sh -c "./rbox 10 | ./qconvex FQ FV n Tv | ./qhalf Tv")
+add_test(NAME rbox-10-qvoronoi
+   COMMAND sh -c "./rbox 10 | ./qvoronoi Tv")
+add_test(NAME user_eg
+   COMMAND sh -c "./user_eg")
+add_test(NAME user_eg2
+   COMMAND sh -c "./user_eg2")
+add_test(NAME user_eg3
+   COMMAND sh -c "./user_eg3 rbox '10 D2' '2 D2' qhull 's p' facets")
 
 # ---------------------------------------
 # Define install
