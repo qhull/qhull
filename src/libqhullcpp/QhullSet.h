@@ -325,8 +325,8 @@ template <typename T>
 std::vector<T> QhullSet<T>::
 toStdVector() const
 {
-	typename QhullSet<T>::const_iterator i = begin();
-	typename QhullSet<T>::const_iterator e = end();
+    typename QhullSet<T>::const_iterator i = begin();
+    typename QhullSet<T>::const_iterator e = end();
     std::vector<T> vs;
     while(i!=e){
         vs.push_back(*i++);
@@ -340,8 +340,8 @@ template <typename T>
 QList<T> QhullSet<T>::
 toQList() const
 {
-    QhullSet<T>::const_iterator i= begin();
-    QhullSet<T>::const_iterator e= end();
+    typename QhullSet<T>::const_iterator i= begin();
+    typename QhullSet<T>::const_iterator e= end();
     QList<T> vs;
     while(i!=e){
         vs.append(*i++);

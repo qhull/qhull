@@ -20,6 +20,7 @@ r?
 # Build products
 tmp/*
 build?*/
+build/.vs/*
 build/Debug/*
 build/moc/*
 build/qhulltest/moc/
