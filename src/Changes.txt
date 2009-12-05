@@ -1,6 +1,46 @@
 
 .............This file lists all changes to qhull and rbox.....................
 
+
+qhull 2002.1  2002/8/20
+
+Changes to distribution:
+ - Set up savannah.gnu.org/projects/qhull/ [R. Laboissiere]
+ - Set up www.thesa.com/software/qhull as a backup
+ - Added qh-get.htm, a local copy of the download page
+ - Added Visual C++ interface to Qhull, qhull_interface.cpp [K. Erleben]
+ - Use HTTP instead of FTP for downloading Qhull
+ - Renamed qhull-1.0.sit.hqx
+
+Bug fixes:
+ - Fixed sign of coefficients for cdd halfspaces ('FD','Fd')  [T. Abraham]
+
+Changes to code:
+ - Replace qh_version with qh_VERSION in qhull.h.
+   Allows shared libraries and single point of definition
+
+Changes to build
+ - Makefile.txt works under cygwin
+ - Added Make-config.sh to create a Debian build [R. Laboissiere]
+ - Added .exe to Makefile.txt#clean.  
+ - In README, use -fno-strict-aliasing with gcc-2.95.1 [Karas, Krishnaswami]
+ - Fixed chmod in Makefile.txt [B. Karas]
+
+Documentation updates
+ - Documented input options for each program [A. Montesinos]
+ - FAQ: "How to get the radii of the empty spheres for Voronoi vertices"
+
+URL updates:
+ - Changed official URL from locate/qhull to software/qhull
+ - Changed URLs from relative to absolute in qh-home.htm and qh-get.htm
+ - Added URL for Newsgroup: comp.soft-sys.matlab
+ - Added URL for GNU Octave
+ - Added URLs for Google and Google Groups
+ - Replaced qhull_mail.html and qhull_bug.html with mailto links.
+ - Removed URL for Computational Geometry Tribune
+ - Changed URL for locate/cglist to software/cglist
+ - Used site relative links for qh-home.htm
+
 qhull 3.1 2001/10/04
 
 New features
@@ -24,7 +64,7 @@ Changes to options
  
 Corrections to code
  - rbox: allow 'c' and 'd' with 's r', meshes, etc.
- - qh_findbest: redesigned as directed search plus qh_findbesthorizon for coplanarset
+ - qh_findbest: redesigned as directed search. qh_findbesthorizon for coplanar
       qh_findbest is faster for many distributions
  - qh_findbestnew: redesigned to search horizon of coplanar best newfacets
       needed for distributions with a sharp edge, 
@@ -696,7 +736,7 @@ qhull V2.1 6/7/95
 
 qhull V2.1 6/3/95
   - home page for Qhull and new descriptions for the Qhull examples
-      http://www.geom.umn.edu/locate/qhull
+      http://www.geom.umn.edu/software/qhull
   - changed SIOUX buffering for Power Macintosh.   It runs fast now.
       added a project file for Metrowerk's C
   - note in README about compiling qhull on the PC

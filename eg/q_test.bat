@@ -1,4 +1,4 @@
-echo q_test for Windows DOS box 2001/10/04 >q_test.x
+echo q_test for Windows DOS box 2002/6/1 >q_test.x
 echo === errors if 'user_eg' and 'user_eg2' not found ===
 echo === check user_eg === >>q_test.x
 echo "user_eg 'QR1 p n Qt' 'v p' Fp" >>q_test.x

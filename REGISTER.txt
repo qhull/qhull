@@ -28,7 +28,7 @@ To cite Qhull, use
 
     Barber, C.B., Dobkin, D.P., and Huhdanpaa, H.T., "The Quickhull 
 	algorithm for convex hulls," ACM Trans. on Mathematical Software,
-	Dec 1996.  http://www.geom.umn.edu/locate/qhull
+	Dec 1996.  http://www.geom.umn.edu/software/qhull
 
 Please send e-mail to
 

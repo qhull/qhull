@@ -37,7 +37,6 @@ extern "C"
 #include <qhull/poly.h>
 #include <qhull/io.h>
 #include <qhull/stat.h>
-char qh_version[] = "qad 2000/8/1";  /* used for error messages */
 #if defined(__cplusplus)
 }
 #endif

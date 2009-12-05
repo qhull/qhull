@@ -6,7 +6,7 @@
 
    see qh-poly.htm, qhull.h and poly.c
 
-   copyright (c) 1993-2001, The Geometry Center
+   copyright (c) 1993-2002, The Geometry Center
 */
 
 #ifndef qhDEFpoly

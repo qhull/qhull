@@ -11,7 +11,7 @@
        and
      qh_errexit (qhmem_ERRqhull, NULL, NULL) otherwise
 
-   copyright (c) 1993-2001, The Geometry Center
+   copyright (c) 1993-2002, The Geometry Center
 */
 
 #ifndef qhDEFmem

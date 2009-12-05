@@ -10,7 +10,7 @@
 
    see qhull_a.h for internal functions
 
-   copyright (c) 1993-2001 The Geometry Center        
+   copyright (c) 1993-2002 The Geometry Center        
 */
 
 #include "qhull_a.h" 

@@ -6,7 +6,7 @@
 </head>
 
 <body><!-- Navigation links -->
-<p><b>Up:</b> <a href="http://www.geom.umn.edu/locate/qhull">Home page</a> for Qhull<br>
+<p><b>Up:</b> <a href="http://www.geom.umn.edu/software/qhull">Home page</a> for Qhull<br>
 <b>Up:</b> <A href="index.htm#TOC">Qhull manual</a>: Table of Contents<br>
 <b>To:</b> <A href="qh-quick.htm#programs">Programs</a>
 &#149; <A href="qh-quick.htm#options">Options</a> 
@@ -30,7 +30,7 @@ are indicated by 'F' followed by a letter. See <A
 and <A href="qh-optg.htm#geomview">Geomview</a> for other output
 options. </p>
 
-<p><b>Copyright © 1995-2001 The Geometry Center, Minneapolis MN</b></p>
+<p><b>Copyright © 1995-2002 The Geometry Center, Minneapolis MN</b></p>
 
 <hr>
 
@@ -71,7 +71,7 @@ may also be used.</p>
     <dd>print summary: dim, #points, total vertices and 
   facets, #vertices, #facets, max outer and inner plane 
     <dt><A href="#Fd">Fd</a>
-    <dd>use cdd format for input (offset first) 
+    <dd>use  format for input (offset first) 
     <dt><A href="#FD">FD</a>
     <dd>use cdd format for normals (offset first) 
     <dt>
@@ -214,7 +214,8 @@ data ends with an "end" line.</p>
 
 <p>For halfspaces ('<A href="qhalf.htm">qhalf</a> Fd'),
 the input format is the same. Each halfspace starts with its
-offset. The sign of the offset is the opposite of Qhull's
+offset. The signs of the offset and coefficients are the 
+opposite of Qhull's
 convention. The first two lines of the input may be an interior
 point in '<A href="#FV">FV</a>' format.</p>
 
@@ -228,9 +229,9 @@ command line that invoked Qhull. Data starts with a
 "begin" line. The next line is the number of normals or
 points followed by the dimension plus one and "real".
 Then the normals or points are listed with the offset before the
-coefficients. The offset for points is 1.0. The offset for
-normals has the opposite sign. The data ends with an
-"end" line.</p>
+coefficients. The offset for points is 1.0. For normals,
+the offset and coefficients use the opposite sign from Qhull.
+The data ends with an "end" line.</p>
 
 <h3><A href="#format">»</a><a name="FF">FF - print facets w/o
 ridges </a></h3>
@@ -630,7 +631,7 @@ are unordered. <!-- Navigation links --> </p>
 
 <hr>
 
-<p><b>Up:</b> <a href="http://www.geom.umn.edu/locate/qhull">Home page</a> for Qhull<br>
+<p><b>Up:</b> <a href="http://www.geom.umn.edu/software/qhull">Home page</a> for Qhull<br>
 <b>Up:</b> <A href="index.htm#TOC">Qhull manual</a>: Table of Contents<br>
 <b>To:</b> <A href="qh-quick.htm#programs">Programs</a>
 &#149; <A href="qh-quick.htm#options">Options</a> 
@@ -647,8 +648,7 @@ are unordered. <!-- Navigation links --> </p>
  height=40 src="qh--geom.gif" width=40 ></a><i>The Geometry Center
 Home Page </i></p>
 
-<p>Comments to: <a
- href="http://www.geom.umn.edu/software/qhull/qhull-mail.html">qhull@geom.umn.edu
+<p>Comments to: <a href=mailto:qhull@geom.umn.edu>qhull@geom.umn.edu</a>
 </a><br>
 Created: 
 Sept. 25, 1995 --- <!-- hhmts start -->Last modified: see top 

@@ -218,7 +218,7 @@ rbox 6 r s c G0.1 D2 | qhull d FA Tcv
 rbox 6 r s c G0.1 D2 | qhull Qt v p Tcv
 rbox c | qhull Qt C-0.1 Qc FF s FQ Fi n Fo FQ FI Fm Fn FN FO FO FQ Fs FS FV Fv Tcv
 rbox 6 r s c G0.1 D2 P0.1,0.1 | qhull s FP d FO Qt
-RBOX 100 W0 | QHULL Tv Q11 FO
+rbox 100 W0 | qhull Tv Q11 
 
 echo === test unbounded intersection ${d:-`date`}
 rbox c | qhull PD0:0.5 n | qhull H0 Fp Tcv
@@ -351,12 +351,12 @@ rbox 100 D6 t |qhull A-0.9999 Qx Qc Tcv
 rbox 50 D7 t |qhull A-0.99999 Qx Qc Tcv W0.1
 
 echo === check bad cases for Qhull.  May cause errors ${d:-`date`}
-RBOX 1000 L100000 s G1e-6 t | QHULL Tv
-RBOX 1000 L100000 s G1e-6 t | QHULL Tv Q10
+rbox 1000 L100000 s G1e-6 t | qhull Tv
+rbox 1000 L100000 s G1e-6 t | qhull Tv Q10
 rbox 1000 s Z1 G1e-13 t | qhull Tv
-RBOX 1000 s W1e-13 P0 t | QHULL d Qbb Qc Tv
-RBOX 1000 s W1e-13 t | QHULL d Tv
-RBOX 1000 s W1e-13 t D2 | QHULL d Tv
+rbox 1000 s W1e-13 P0 t | qhull d Qbb Qc Tv
+rbox 1000 s W1e-13 t | qhull d Tv
+rbox 1000 s W1e-13 t D2 | qhull d Tv
 
 echo =======================================================
 echo =======================================================

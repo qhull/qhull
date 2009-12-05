@@ -5,7 +5,7 @@
 <meta http-equiv="Content-Type"
 content="text/html; charset=iso-8859-1">
 <meta name="GENERATOR" content="Microsoft FrontPage 2.0">
-<title>Frequently Asked Questions about Qhull</title>
+<title>Qhull FAQ</title>
 <!-- Navigation links 
 NOTE -- verify all links by 'grep href=' 'grep name=' add # 'sort /+7'
 <base href> does not work since #TOC is relative to base instead of doc
@@ -15,8 +15,8 @@ NOTE -- verify all links by 'grep href=' 'grep name=' add # 'sort /+7'
 <body>
 
 <p><a name="TOP"><b>Up:</b></a> <a
- href="http://www.geom.umn.edu/locate/qhull">Home page</a> for Qhull
-(http://www.geom.umn.edu/locate/qhull)<br>
+ href="http://www.geom.umn.edu/software/qhull">Home page</a> for Qhull
+(http://www.geom.umn.edu/software/qhull)<br>
 <b>Up:</b> <A href="index.htm#TOC">Qhull manual</A>: Table of Contents<br>
 <b>To:</b> <A href="qh-quick.htm#programs">Programs</A>
 &#149; <A href="qh-quick.htm#options">Options</A> 
@@ -70,10 +70,10 @@ It should be used for Delaunay triangulations instead of
 using joggled input ('<A href="qh-optq.htm#QJn">QJ</A>').
 
 <p><i>Brad Barber, Cambridge MA, 
-October 4, 2001 <!--
+June 1, 2002 <!--
 --> </i></p>
 
-<p><b>Copyright &copy; 1998-2001 The Geometry Center, Minneapolis MN</b></p>
+<p><b>Copyright &copy; 1998-2002 The Geometry Center, Minneapolis MN</b></p>
 
 <hr>
 
@@ -96,6 +96,9 @@ first.
             vertices? </li>
         </ul>
     <li>Delaunay and Voronoi diagram questions<ul>
+        <li><a href="#maxsphere">How</a> do I get the radii of the empty
+		spheres for each Voronoi vertex?
+
 		<li><A href="#flat">How</A> do I get rid of nearly flat Delaunay 
     triangles? 
     
@@ -469,6 +472,15 @@ prevents coincident input sites. </p>
 </blockquote>
 <h2><A href="#TOC">»</A><a name="delaunay">Delaunay and Voronoi
 diagram questions</a></h2>
+
+<h4><A href="#TOC">»</A><a name="maxsphere">How</a> do I get the radii of the empty
+		spheres for each Voronoi vertex?</h4><blockquote>
+
+Use option '<A href="qh-optf.htm#Fi">Fi</A>' to list each bisector (i.e. Delaunay ridge).  Then compute the
+minimum distance for each Voronoi vertex.
+
+<p>There's other ways to get the same information.   Let me know if you
+find a better method.
 
 <h4><A href="#TOC">»</A><a name="flat">How</a> do I get rid of 
 nearly flat Delaunay triangles?</h4><blockquote>
@@ -1095,19 +1107,19 @@ questions</a></h2>
 <h4><A href="#TOC">»</A><a name="math">Is</a> Qhull available for Mathematica, Matlab, or Maple?</h4><blockquote>
 
 <p>Z. You of <a href="http://www.mathworks.com">MathWorks</a> added qhull to MATLAB 6.  
-See functions <a href="http://www.mathworks.com/access/helpdesk/jhelp/techdoc/ref/convhulln.shtml" 
+See functions <a href="http://www.mathworks.com/access/helpdesk/help/techdoc/ref/convhulln.shtml" 
  >convhulln</a>,
-	<a href="http://www.mathworks.com/access/helpdesk/jhelp/techdoc/ref/delaunayn.shtml" 
+	<a href="http://www.mathworks.com/access/helpdesk/help/techdoc/ref/delaunayn.shtml" 
  >delaunayn</a>,
-	<a href="http://www.mathworks.com/access/helpdesk/jhelp/techdoc/ref/griddata3.shtml" 
+	<a href="http://www.mathworks.com/access/helpdesk/help/techdoc/ref/griddata3.shtml" 
  >griddata3</a>,
-	<a href="http://www.mathworks.com/access/helpdesk/jhelp/techdoc/ref/griddatan.shtml" 
+	<a href="http://www.mathworks.com/access/helpdesk/help/techdoc/ref/griddatan.shtml" 
  >griddatan</a>,
-	<a href="http://www.mathworks.com/access/helpdesk/jhelp/techdoc/ref/tsearch.shtml" 
+	<a href="http://www.mathworks.com/access/helpdesk/help/techdoc/ref/tsearch.shtml" 
  >tsearch</a>,
-	<a href="http://www.mathworks.com/access/helpdesk/jhelp/techdoc/ref/tsearchn.shtml" 
+	<a href="http://www.mathworks.com/access/helpdesk/help/techdoc/ref/tsearchn.shtml" 
  >tsearchn</a>, and
-    <a href="http://www.mathworks.com/access/helpdesk/jhelp/techdoc/ref/voronoin.shtml" 
+    <a href="http://www.mathworks.com/access/helpdesk/help/techdoc/ref/voronoin.shtml" 
  >voronoin</a>.
 
 <p>See <a href="http://www.mathsource.com/Content/Enhancements/Geometry/0211-251" 
@@ -1463,7 +1475,7 @@ the vertex order and the flag facet-&gt;toporient.</p>
 <hr><!-- Navigation links -->
 
 <p><a><b>Up:</b> </a><a
- href="http://www.geom.umn.edu/locate/qhull">Home page for Qhull</a><br>
+ href="http://www.geom.umn.edu/software/qhull">Home page for Qhull</a><br>
 <b>Up:</b> <A href="index.htm#TOC">Qhull manual</A>: Table of Contents <br>
 <b>To:</b> <A href="qh-quick.htm#programs">Programs</A>
 &#149; <A href="qh-quick.htm#options">Options</A> 
@@ -1482,8 +1494,7 @@ the vertex order and the flag facet-&gt;toporient.</p>
  height=40 src="qh--geom.gif" width=40 ></a><i>The Geometry Center
 Home Page </i></p>
 
-<p>Comments to: <a
- href="http://www.geom.umn.edu/software/qhull/qhull-mail.html">qhull@geom.umn.edu
+<p>Comments to: <a href=mailto:qhull@geom.umn.edu>qhull@geom.umn.edu</a>
 </a><br>
 Created: 
 Sept. 25, 1995 --- <!-- hhmts start -->Last modified: see top 

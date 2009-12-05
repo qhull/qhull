@@ -12,7 +12,7 @@
 ./"
 ./"  Warning: a leading quote "'" or dot "." will not format correctly
 ./"
-.TH qhull 1 "October 4, 2001" "Geometry Center"
+.TH qhull 1 "August 20, 2002" "Geometry Center"
 .SH NAME
 qhull \- convex hull, Delaunay triangulation, Voronoi diagram, 
 halfspace intersection about a point, hull volume, facet area
@@ -56,12 +56,11 @@ example:
  - html manual:    index.htm
  - installation:   README.txt
  - see also:       COPYING.txt, REGISTER.txt, Changes.txt
- - WWW:  <http://www.geom.umn.edu/locate/qhull>
+ - WWW:  <http://www.geom.umn.edu/software/qhull>
+ - CVS:  <http://savannah.gnu.org/projects/qhull/>
+ - mirror: <http://www6.uniovi.es/ftp/pub/mirrors/geom.umn.edu/software/ghindex.html>
+ - backup: <http://www.thesa.com/software/qhull>
  - news: <http://www.geom.umn.edu/~bradb/qhull-news.html>
- - ftp:  <ftp://geom.umn.edu/pub/software/qhull.tar.Z>
- -       <ftp://geom.umn.edu/pub/software/qhull.zip>
- -       <ftp://geom.umn.edu/pub/software/qhull-96.ps.Z>
- -       <ftp://geom.umn.edu/pub/software/qhull-1.0.tar.Z>
  - Geomview:  <http://www.geomview.org>
  - news group:     <news:comp.graphics.algorithms>
  - FAQ:       <http://exaflop.org/docs/cgafaq/cga6.html>
@@ -962,7 +961,7 @@ Barber, C. B., D.P. Dobkin, and H.T. Huhdanpaa,
 "The Quickhull Algorithm for Convex Hulls," ACM
 Trans. on Mathematical Software, Dec. 1996.
 http://www.acm.org/pubs/citations/journals/toms/1996-22-4/p469-barber/
-ftp://geom.umn.edu/pub/software/qhull-96.ps.Z
+http://www.geom.umn.edu/software/qhull/qhull-96.ps
 
 Clarkson, K.L., K. Mehlhorn, and R. Seidel, "Four results on randomized 
 incremental construction," Computational Geometry: Theory and Applications,
@@ -999,7 +998,4 @@ The Geometry Center is supported by grant DMS-8920161 from the National
 Science Foundation, by grant DOE/DE-FG02-92ER25137 from the Department 
 of Energy, by the University of Minnesota, and by Minnesota Technology, Inc.
 
-Qhull is available by anonymous ftp from geom.umn.edu.  To retrieve
-a copy go to www.geom.umn.edu/locate/qhull or ftp: geom.umn.edu, 
-user: anonymous, cd pub/software, get qhull.tar.Z, quit, 
-uncompress qhull.tar.Z, tar xf qhull.tar, cd qhull, make
+Qhull is available from http://www.geom.umn.edu/software/qhull

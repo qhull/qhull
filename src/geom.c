@@ -6,7 +6,7 @@
 
    see qh-geom.htm and geom.h
 
-   copyright (c) 1993-2001 The Geometry Center        
+   copyright (c) 1993-2002 The Geometry Center        
 
    infrequent code goes into geom2.c
 */

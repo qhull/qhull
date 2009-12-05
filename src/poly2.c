@@ -8,7 +8,7 @@
 
    frequently used code is in poly.c
 
-   copyright (c) 1993-2001, The Geometry Center
+   copyright (c) 1993-2002, The Geometry Center
 */
 
 #include "qhull_a.h"
@@ -1621,7 +1621,7 @@ void qh_initbuild( void) {
     if (qh TRACElevel || qh IStracing)
       fprintf (qh ferr, "\nTrace level %d for %s | %s\n", 
          qh IStracing ? qh IStracing : qh TRACElevel, qh rbox_command, qh qhull_command);
-    fprintf (qh ferr, "Options selected for Qhull %s:\n%s\n", qh_version, qh qhull_options);
+    fprintf (qh ferr, "Options selected for Qhull %s:\n%s\n", qh_VERSION, qh qhull_options);
   }
   qh_resetlists (False, qh_RESETvisible /*qh visible_list newvertex_list newfacet_list */);
   qh facet_next= qh facet_list;

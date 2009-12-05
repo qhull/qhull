@@ -1,13 +1,11 @@
 
-   Qhull       Version 3.1          October 4, 2001
+ Qhull 2002.1 2002/8/20
 
-        http://www.geom.umn.edu/locate/qhull
+        http://www.geom.umn.edu/software/qhull
+	http://www.geom.umn.edu/software/download/qhull.html
+        http://savannah.gnu.org/projects/qhull/
+        http://www6.uniovi.es/ftp/pub/mirrors/geom.umn.edu/software/ghindex.html
         http://www.geomview.org
-        ftp://geom.umn.edu/pub/software/qhull.tar.gz
-        ftp://geom.umn.edu/pub/software/qhull3-0.zip
-        ftp://geom.umn.edu/pub/software/qhull-96.ps.gz
-        ftp://geom.umn.edu/pub/software/qhull-1.0.tar.gz
-        ftp://geom.umn.edu/pub/software/qhull.sit.hqx
 
 Qhull computes convex hulls, Delaunay triangulations, Voronoi diagrams, 
 furthest-site Voronoi diagrams, and halfspace intersections about a point. 
@@ -20,24 +18,17 @@ input transformations, randomization, tracing, multiple output formats, and
 execution statistics.  The program can be called from within your application.
 You can view the results in 2-d, 3-d and 4-d with Geomview.
 
-To download Qhull on Unix systems:
+To download Qhull:
 
-        ftp geom.umn.edu (or 128.101.25.35), user: anonymous
-        password: <your user id>, cd pub/software, bin, get qhull.tar.gz, quit
-        gunzip qhull.tar.gz, tar xf qhull.tar, cd qhull3.0, more README.txt
+        http://www.geom.umn.edu/software/download/qhull.html
 
-To download Qhull on Win32 systems:
-
-        ftp geom.umn.edu (or 128.101.25.35), user: anonymous
-        password: <your user id>, cd pub/software, bin, get qhull3-0.zip, quit
-        extract with winzip32, read README.txt
-
-Download qhull-96.ps.gz for:
+Download qhull-96.ps for:
 
         Barber, C. B., D.P. Dobkin, and H.T. Huhdanpaa, 
         "The Quickhull Algorithm for Convex Hulls," ACM
         Trans. on Mathematical Software, Dec. 1996.
         http://www.acm.org/pubs/citations/journals/toms/1996-22-4/p469-barber/
+	http://www.geom.umn.edu/software/qhull/qhull-96.ps
 
 Abstract:
 

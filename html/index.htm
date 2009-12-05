@@ -15,7 +15,7 @@ NOTE -- verify all links by 'grep href=' 'grep name=' add # 'sort /+7'
 <body>
 
 <p><a name="TOP"><b>Up:</b></a> <a
-href="http://www.geom.umn.edu/locate/qhull">Home page</a> for Qhull<br>
+href="http://www.geom.umn.edu/software/qhull">Home page</a> for Qhull<br>
 <b>Up:</b><a
 href="http://www.geom.umn.edu/~bradb/qhull-news.html">News</a> about Qhull<br>
 <b>Up:</b> <a href="qh-faq.htm">FAQ</a> about Qhull<br>
@@ -83,9 +83,9 @@ guarantees simplicial output, but it
 is less accurate than merged facets.  For merged facets, Qhull
 reports the maximum outer and inner plane. 
 
-<p><i>Brad Barber, Cambridge MA, October 4, 2001</i></p>
+<p><i>Brad Barber, Cambridge MA, June 1, 2002</i></p>
 
-<p><b>Copyright &copy; 1995-2001 The Geometry Center, Minneapolis MN</b></p>
+<p><b>Copyright &copy; 1995-2002 The Geometry Center, Minneapolis MN</b></p>
 
 <hr>
 
@@ -99,6 +99,7 @@ Contents </a></h2>
         instructions<br>
         <li><a href="../COPYING.txt">COPYING.txt</a> - copyright notice<br>
         <li><a href="../REGISTER.txt">REGISTER.txt</a> - registration<br>
+		<li><a href="qh-get.htm">Download</a> Qhull
 		<li><a href="qh-faq.htm">FAQ</a> - Frequently Asked Questions about Qhull<br>
 		<li><a href="qh-quick.htm#programs">Programs</a> - Program quick reference<br>
 		<li><a href="qh-quick.htm#options">Options</a> - Option quick reference<br>
@@ -136,13 +137,14 @@ Contents </a></h2>
 	 <li><a href="http://www.geom.umn.edu/~bradb/qhull-news.html#use">How</a> is Qhull used?
 	 
 	 <li><a href="http://www.geom.umn.edu/software/qhull/html/qh-faq.htm">Current FAQ</a> for Qhull
-        <li><a href="http://www.geom.umn.edu/locate/qhull">Home page</a> for Qhull with additional URLs
+        <li><a href="http://www.geom.umn.edu/software/qhull">Home page</a> for Qhull with additional URLs
+		(<a href=qh-home.htm>local copy</a>)
 	<li><a href="news:comp.graphics.algorithms">Newsgroup</a>:
         comp.graphics.algorithms
 	<li><a 
         href="http://exaflop.org/docs/cgafaq/">FAQ</a> for computer graphics algorithms and
 		<a href="http://exaflop.org/docs/cgafaq/cga6.html">geometric</a> structures.
-    <li>Amenta's <a href="http://www.geom.umn.edu/locate/cglist">Directory
+    <li>Amenta's <a href="http://www.geom.umn.edu/software/cglist">Directory
         of Computational Geometry Software </a></li>
     <li>Bronnimann's <a
         href="http://www.inria.fr/prisme/personnel/bronnimann/cgt/WWW.html">Computational
@@ -541,8 +543,7 @@ href="http://www.geom.umn.edu/graphics/pix/Special_Topics/Computational_Geometry
 goes wrong</a></h2>
 <blockquote>
 
-<p>Please report bugs to <a
-href="http://www.geom.umn.edu/software/qhull/qhull-bug-mail.html">qhull_bug@geom.umn.edu
+<p>Please report bugs to <a href=mailto:qhull_bug@geom.umn.edu>qhull_bug@geom.umn.edu</a>
 </a>. Please report if Qhull crashes. Please report if Qhull
 generates an &quot;internal error&quot;. Please report if Qhull
 produces a poor approximate hull in 2-d, 3-d or 4-d. Please
@@ -596,10 +597,8 @@ myself. Qhull is maintained part-time. </p>
 <h2><a href="#TOC">»</a><a name="email">Email</a></h2>
 <blockquote>
 
-<p>Please send correspondence to Brad Barber at <a
-href="http://www.geom.umn.edu/software/qhull/qhull-mail.html">qhull@geom.umn.edu
-</a>and report bugs to <a
-href="http://www.geom.umn.edu/software/qhull/qhull-bug-mail.html">qhull_bug@geom.umn.edu
+<p>Please send correspondence to Brad Barber at <a href=mailto:qhull@geom.umn.edu>qhull@geom.umn.edu</a>
+and report bugs to <a href=mailto:qhull_bug@geom.umn.edu>qhull_bug@geom.umn.edu</a>
 </a>. Let me know how you use Qhull. If you mention it in a
 paper, please send a reference and abstract.</p>
 
@@ -661,7 +660,7 @@ Huhdanpaa, &quot;The Quickhull Algorithm for Convex Hulls,&quot; <i>ACM
 Transactions on Mathematical Software</i>, Vol. 22, No. 4 (Dec.
 1996), p. 469-483 [<a
 href="http://www.acm.org/pubs/citations/journals/toms/1996-22-4/p469-barber/">http://www.acm.org</a>;
-<a href="ftp://geom.umn.edu/pub/software/qhull-96.ps">ftp://geom.umn.edu</a>].
+<a href="http://www.geom.umn.edu/software/qhull/qhull-96.ps">http://www.geom.umn.edu/software/qhull/qhull-96.ps</a>].
 </p>
 
 <p><a name="cla-sho89">Clarkson</a>, K.L. and P.W. Shor,
@@ -705,19 +704,12 @@ in C</i>, Cambridge University Press, 1994.</p>
 <p><a name="pre-sha85">Preparata</a>, F. and M. Shamos, <i>Computational
 Geometry</i>, Springer-Verlag, New York, 1985.</p>
 
-<p>Qhull is available by anonymous ftp from geom.umn.edu. To
-retrieve a copy visit <a
-href="http://www.geom.umn.edu/software/download/qhull.html">Download
-Qhull</a> or, in Unix, ftp geom.umn.edu, user: anonymous, cd
-pub/software, get qhull.tar.Z, quit, uncompress qhull.tar.Z, tar
-xf qhull.tar, cd qhull, make </p>
-
 </blockquote>
 <!-- Navigation links -->
 <hr>
 
 <p><b>Up:</b> <a
-href="http://www.geom.umn.edu/locate/qhull">Home page</a> for Qhull<br>
+href="http://www.geom.umn.edu/software/qhull">Home page</a> for Qhull<br>
 <b>Up:</b><a
 href="http://www.geom.umn.edu/~bradb/qhull-news.html">News</a> about Qhull<br>
 <b>Up:</b> <a href="qh-faq.htm">FAQ</a> about Qhull<br>
@@ -743,8 +735,7 @@ structures</a>
 align="middle" width="40" height="40"></a><i>The Geometry Center
 Home Page </i></p>
 
-<p>Comments to: <a
-href="http://www.geom.umn.edu/software/qhull/qhull-mail.html">qhull@geom.umn.edu
+<p>Comments to: <a href=mailto:qhull@geom.umn.edu>qhull@geom.umn.edu</a>
 </a><br>
 Created: Sept. 25, 1995 --- <!-- hhmts start --> Last modified: see top <!-- hhmts end --> </p>
 </body>

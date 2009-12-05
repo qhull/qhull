@@ -46,7 +46,6 @@
   qh_call_qhull( void )
     template for calling qhull from inside your program
     remove #if 0, #endif to compile
-    define: char qh_version[]= "...";
 
   returns: 
     exit code (see qh_ERR... in qhull.h)
@@ -60,8 +59,6 @@
     
 */
 #if 0
-char qh_version[] = "user_eg 98/7/25";  /* used for error messages */
-
 {
   int dim;	            /* dimension of points */
   int numpoints;            /* number of points */
@@ -200,7 +197,7 @@ void qh_errexit(int exitcode, facetT *facet, ridgeT *ridge) {
     qh hulltime= qh_CPUclock - qh hulltime;
   qh_errprint("ERRONEOUS", facet, NULL, ridge, NULL);
   fprintf (qh ferr, "\nWhile executing: %s | %s\n", qh rbox_command, qh qhull_command);
-  fprintf(qh ferr, "Options selected for Qhull %s:\n%s\n", qh_version, qh qhull_options);
+  fprintf(qh ferr, "Options selected for Qhull %s:\n%s\n", qh_VERSION, qh qhull_options);
   if (qh furthest_id >= 0) {
     fprintf(qh ferr, "Last point added to hull was p%d.", qh furthest_id);
     if (zzval_(Ztotmerge))

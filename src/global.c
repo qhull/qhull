@@ -1,16 +1,16 @@
 /*<html><pre>  -<a                             href="qh-globa.htm"
   >-------------------------------</a><a name="TOP">-</a>
 
-   global.c 
+   global.c
    initializes all the globals of the qhull application
 
-   see README 
+   see README
 
    see qhull.h for qh.globals and function prototypes
 
    see qhull_a.h for internal functions
 
-   copyright (c) 1993-2001, The Geometry Center
+   copyright (c) 1993-2002, The Geometry Center
  */
 
 #include "qhull_a.h"
@@ -20,14 +20,14 @@
 #if qh_QHpointer
 qhT *qh_qh= NULL;	/* pointer to all global variables */
 #else
-qhT qh_qh;     		/* all global variables. 
-			   Add "= {0}" if this causes a compiler error.  
+qhT qh_qh;     		/* all global variables.
+			   Add "= {0}" if this causes a compiler error.
 			   Also qh_qhstat in stat.c and qhmem in mem.c.  */
 #endif
 
 /*-<a                             href="qh-globa.htm#TOC"
   >-------------------------------</a><a name="appendprint">-</a>
-  
+
   qh_appendprint( printFormat )
     append printFormat to qh.PRINTout unless already defined
 */
@@ -165,7 +165,7 @@ unsigned long qh_clock (void) {
   }
   ratio= qh_SECticks / (double)clktck;
   ticks= time.tms_utime * ratio;
-  return ticks; 
+  return ticks;
 #else
   fprintf (qh ferr, "qhull internal error (qh_clock): use qh_CLOCKtype 2 in user.h\n");
   qh_errexit (qh_ERRqhull, NULL, NULL); /* never returns */
@@ -175,7 +175,7 @@ unsigned long qh_clock (void) {
 
 /*-<a                             href="qh-globa.htm#TOC"
   >-------------------------------</a><a name="freebuffers">-</a>
-  
+
   qh_freebuffers()
     free up global memory buffers
 
@@ -227,7 +227,7 @@ void qh_freebuffers (void) {
 
 /*-<a                             href="qh-globa.htm#TOC"
   >-------------------------------</a><a name="freebuild">-</a>
-  
+
   qh_freebuild( allmem )
     free global memory used by qh_initbuild and qh_buildhull
     if !allmem,
@@ -266,7 +266,7 @@ void qh_freebuild (boolT allmem) {
       }
     }
   }else if (qh VERTEXneighbors) {
-    FORALLvertices 
+    FORALLvertices
       qh_setfreelong (&(vertex->neighbors));
   }
   qh VERTEXneighbors= False;
@@ -327,7 +327,7 @@ void qh_freebuild (boolT allmem) {
 
 /*-<a                             href="qh-globa.htm#TOC"
   >-------------------------------</a><a name="freeqhull">-</a>
-  
+
   qh_freeqhull( allmem )
     free global memory
     if !allmem,
@@ -359,77 +359,77 @@ void qh_freeqhull (boolT allmem) {
 
 /*-<a                             href="qh-globa.htm#TOC"
   >-------------------------------</a><a name="init_A">-</a>
-  
+
   qh_init_A( infile, outfile, errfile, argc, argv )
     initialize memory and stdio files
     convert input options to option string (qh.qhull_command)
 
   notes:
     infile may be NULL if qh_readpoints() is not called
-    
+
     errfile should always be defined.  It is used for reporting
     errors.  outfile is used for output and format options.
-    
+
     argc/argv may be 0/NULL
-    
+
     called before error handling initialized
     qh_errexit() may not be used
 */
 void qh_init_A (FILE *infile, FILE *outfile, FILE *errfile, int argc, char *argv[]) {
   qh_meminit (errfile);
-  qh_initqhull_start (infile, outfile, errfile); 
+  qh_initqhull_start (infile, outfile, errfile);
   qh_init_qhull_command (argc, argv);
 } /* init_A */
 
 /*-<a                             href="qh-globa.htm#TOC"
   >-------------------------------</a><a name="init_B">-</a>
-  
+
   qh_init_B( points, numpoints, dim, ismalloc )
     initialize globals for points array
-    
+
     points has numpoints dim-dimensional points
       points[0] is the first coordinate of the first point
       points[1] is the second coordinate of the first point
       points[dim] is the first coordinate of the second point
-    
+
     ismalloc=True
       Qhull will call free(points) on exit or input transformation
     ismalloc=False
       Qhull will allocate a new point array if needed for input transformation
-    
-    qh.qhull_command 
-      is the option string.  
+
+    qh.qhull_command
+      is the option string.
       It is defined by qh_init_B(), qh_qhull_command(), or qh_initflags
 
   returns:
     if qh.PROJECTinput or (qh.DELAUNAY and qh.PROJECTdelaunay)
       projects the input to a new point array
- 
-        if qh.DELAUNAY, 
+
+        if qh.DELAUNAY,
           qh.hull_dim is increased by one
-        if qh.ATinfinity, 
+        if qh.ATinfinity,
           qh_projectinput adds point-at-infinity for Delaunay tri.
- 
+
     if qh.SCALEinput
       changes the upper and lower bounds of the input, see qh_scaleinput()
- 
+
     if qh.ROTATEinput
       rotates the input by a random rotation, see qh_rotateinput()
       if qh.DELAUNAY
         rotates about the last coordinate
-        
+
   notes:
     called after points are defined
     qh_errexit() may be used
 */
-void qh_init_B (coordT *points, int numpoints, int dim, boolT ismalloc) { 
+void qh_init_B (coordT *points, int numpoints, int dim, boolT ismalloc) {
   qh_initqhull_globals (points, numpoints, dim, ismalloc);
   if (qhmem.LASTsize == 0)
     qh_initqhull_mem();
   /* mem.c and qset.c are initialized */
   qh_initqhull_buffers();
   qh_initthresholds (qh qhull_command);
-  if (qh PROJECTinput || (qh DELAUNAY && qh PROJECTdelaunay)) 
+  if (qh PROJECTinput || (qh DELAUNAY && qh PROJECTdelaunay))
     qh_projectinput();
   if (qh SCALEinput)
     qh_scaleinput();
@@ -450,16 +450,16 @@ void qh_init_B (coordT *points, int numpoints, int dim, boolT ismalloc) {
 
 /*-<a                             href="qh-globa.htm#TOC"
   >-------------------------------</a><a name="init_qhull_command">-</a>
-  
+
   qh_init_qhull_command( argc, argv )
     build qh.qhull_command from argc/argv
 
   returns:
     a space-deliminated string of options (just as typed)
-    
+
   notes:
-    makes option string easy to input and output 
-    
+    makes option string easy to input and output
+
     argc/argv may be 0/NULL
 */
 void qh_init_qhull_command(int argc, char *argv[]) {
@@ -489,17 +489,17 @@ void qh_init_qhull_command(int argc, char *argv[]) {
 
 /*-<a                             href="qh-globa.htm#TOC"
   >-------------------------------</a><a name="initflags">-</a>
-  
+
   qh_initflags( commandStr )
     set flags and initialized constants from commandStr
 
   returns:
     sets qh.qhull_command to command if needed
-  
+
   notes:
     ignores first word (e.g., "qhull d")
     use qh_strtol/strtod since strtol/strtod may or may not skip trailing spaces
-  
+
   see:
     qh_initthresholds() continues processing of 'Pdn' and 'PDn'
     'prompt' in unix.c for documentation
@@ -515,8 +515,8 @@ void qh_init_qhull_command(int argc, char *argv[]) {
           check syntax
           append approriate option to option string
           set appropriate global variable or append printFormat to print options
-      
-    
+
+
 */
 void qh_initflags(char *command) {
   int k, i, lastproject;
@@ -577,7 +577,7 @@ void qh_initflags(char *command) {
       qh DELAUNAY= True;
       break;
     case 'A':
-      if (!isdigit(*s) && *s != '.' && *s != '-') 
+      if (!isdigit(*s) && *s != '.' && *s != '-')
 	fprintf(qh ferr, "qhull warning: no maximum cosine angle given for option 'An'.  Ignored.\n");
       else {
 	if (*s == '-') {
@@ -589,7 +589,7 @@ void qh_initflags(char *command) {
           qh_option ("Angle-postmerge", NULL, &qh postmerge_cos);
 	  qh POSTmerge= True;
 	}
-	qh MERGING= True; 
+	qh MERGING= True;
       }
       break;
     case 'C':
@@ -605,7 +605,7 @@ void qh_initflags(char *command) {
           qh_option ("Centrum-postmerge", NULL, &qh postmerge_centrum);
 	  qh POSTmerge= True;
 	}
-	qh MERGING= True; 
+	qh MERGING= True;
       }
       break;
     case 'E':
@@ -741,7 +741,7 @@ void qh_initflags(char *command) {
 	  if (qh PRINToptions1st) {
 	    qh_option ("FOptions", NULL, NULL);
 	    qh_appendprint (qh_PRINToptions);
-	  }else 
+	  }else
 	    qh PRINToptions1st= True;
 	  break;
 	case 'p':
@@ -946,7 +946,7 @@ void qh_initflags(char *command) {
 	    if ((r= qh_strtod(s, &s)) == 0.0) {
  	      t= s;            /* need true dimension for memory allocation */
 	      while (*t && !isspace(*t)) {
-	        if (toupper(*t++) == 'B' 
+	        if (toupper(*t++) == 'B'
 	         && k == qh_strtol (t, &t)
 	         && *t++ == ':'
 	         && qh_strtod(t, &t) == 0.0) {
@@ -961,7 +961,7 @@ void qh_initflags(char *command) {
 	    }
   	  }
 	  if (!wasproject) {
-	    if (lastproject == k && r == 0.0) 
+	    if (lastproject == k && r == 0.0)
 	      lastproject= -1;  /* doesn't catch all possible sequences */
 	    else if (key == 'b') {
 	      qh SCALEinput= True;
@@ -1008,6 +1008,15 @@ void qh_initflags(char *command) {
 	  qh_option ("Qtriangulate", NULL, NULL);
 	  qh TRIangulate= True;
 	  break;
+	case 'T':
+	  qh_option ("QTestPoints", NULL, NULL);
+	  if (!isdigit (*s))
+	    fprintf (qh ferr, "qhull input error: missing number of test points for option 'QTn'\n");
+	  else {
+  	    qh TESTpoints= qh_strtol (s, &s);
+            qh_option ("QTestPoints", &qh TESTpoints, NULL);
+          }
+	  break;
 	case 'u':
 	  qh_option ("QupperDelaunay", NULL, NULL);
 	  qh UPPERdelaunay= True;
@@ -1027,7 +1036,7 @@ void qh_initflags(char *command) {
 	case '0':
 	  qh_option ("Q0-no-premerge", NULL, NULL);
 	  qh NOpremerge= True;
-	  break; 
+	  break;
 	case '1':
 	  if (!isdigit(*s)) {
 	    qh_option ("Q1-no-angle-sort", NULL, NULL);
@@ -1060,7 +1069,7 @@ void qh_initflags(char *command) {
 	  qh_option ("Q3-no-merge-vertices", NULL, NULL);
 	  qh MERGEvertices= False;
 	LABELcheckdigit:
-	  if (isdigit(*s)) 
+	  if (isdigit(*s))
 	    fprintf (qh ferr, "qhull warning: can not follow '1', '2', or '3' with a digit.  '%c' skipped.\n",
 	             *s++);
 	  break;
@@ -1090,11 +1099,11 @@ void qh_initflags(char *command) {
 	  break;
 	case 'G':
 	  i= qh_strtol (s, &t);
-	  if (qh GOODpoint) 
+	  if (qh GOODpoint)
 	    fprintf (qh ferr, "qhull warning: good point already defined for option 'QGn'.  Ignored\n");
           else if (s == t)
 	    fprintf (qh ferr, "qhull warning: missing good point id for option 'QGn'.  Ignored\n");
-	  else if (i < 0 || *s == '-') { 
+	  else if (i < 0 || *s == '-') {
  	    qh GOODpoint= i-1;
   	    qh_option ("QGood-if-dont-see-point", &i, NULL);
 	  }else {
@@ -1124,7 +1133,7 @@ void qh_initflags(char *command) {
 	  break;
 	case 'V':
 	  i= qh_strtol (s, &t);
-	  if (qh GOODvertex) 
+	  if (qh GOODvertex)
 	    fprintf (qh ferr, "qhull warning: good vertex already defined for option 'QVn'.  Ignored\n");
           else if (s == t)
 	    fprintf (qh ferr, "qhull warning: no good point id given for option 'QVn'.  Ignored\n");
@@ -1245,7 +1254,7 @@ void qh_initflags(char *command) {
 	      *(t++)= *s++;
 	    }
 	    *t= '\0';
-	    if (isquote) 
+	    if (isquote)
 	      fprintf (qh ferr, "qhull error: missing end quote for option 'TO'.  Rest of line ignored.\n");
 	    else if (!freopen (filename, "w", stdout)) {
 	      fprintf (qh ferr, "qhull error: could not open file \"%s\".", filename);
@@ -1329,7 +1338,7 @@ void qh_initflags(char *command) {
 
 /*-<a                             href="qh-globa.htm#TOC"
   >-------------------------------</a><a name="initqhull_buffers">-</a>
-  
+
   qh_initqhull_buffers()
     initialize global memory buffers
 
@@ -1362,10 +1371,10 @@ void qh_initqhull_buffers (void) {
 
 /*-<a                             href="qh-globa.htm#TOC"
   >-------------------------------</a><a name="initqhull_globals">-</a>
-  
+
   qh_initqhull_globals( points, numpoints, dim, ismalloc )
     initialize globals
-    if ismalloc 
+    if ismalloc
       points were malloc'd and qhull should free at end
 
   returns:
@@ -1377,18 +1386,18 @@ void qh_initqhull_buffers (void) {
 
   notes:
     do not use qh_point() since an input transformation may move them elsewhere
-    
+
   see:
     qh_initqhull_start() sets default values for non-zero globals
-    
+
   design:
     initialize points array from input arguments
-    test for qh.ZEROcentrum 
+    test for qh.ZEROcentrum
       (i.e., use opposite vertex instead of cetrum for convexity testing)
     test for qh.PRINTgood (i.e., only print 'good' facets)
     initialize qh.CENTERtype, qh.normal_size,
       qh.center_size, qh.TRACEpoint/level,
-    initialize and test random numbers 
+    initialize and test random numbers
     check for conflicting print output options
 */
 void qh_initqhull_globals (coordT *points, int numpoints, int dim, boolT ismalloc) {
@@ -1396,10 +1405,10 @@ void qh_initqhull_globals (coordT *points, int numpoints, int dim, boolT ismallo
   boolT printgeom= False, printmath= False, printcoplanar= False;
   realT randr;
   realT factorial;
-  
+
   time_t timedata;
 
-  trace0((qh ferr, "qh_initqhull_globals: for %s | %s\n", qh rbox_command, 
+  trace0((qh ferr, "qh_initqhull_globals: for %s | %s\n", qh rbox_command,
       qh qhull_command));
   qh POINTSmalloc= ismalloc;
   qh first_point= points;
@@ -1427,7 +1436,7 @@ void qh_initqhull_globals (coordT *points, int numpoints, int dim, boolT ismallo
     qh SCALElast= True;
     qh_option ("Qbbound-last-qj", NULL, NULL);
   }
-  if (qh MERGING && !qh POSTmerge && qh premerge_cos > REALmax/2 
+  if (qh MERGING && !qh POSTmerge && qh premerge_cos > REALmax/2
   && qh premerge_centrum == 0) {
     qh ZEROcentrum= True;
     qh ZEROall_ok= True;
@@ -1507,7 +1516,7 @@ void qh_initqhull_globals (coordT *points, int numpoints, int dim, boolT ismallo
   if (qh IStracing) {
     fprintf (qh ferr, "qhull input error: tracing is not installed (qh_NOtrace in user.h)");
     qh_errexit (qh_ERRqhull, NULL, NULL);
-  } 
+  }
 #endif
   if (qh RERUN > 1) {
     qh TRACElastrun= qh IStracing; /* qh_build_withrestart duplicates next conditional */
@@ -1522,7 +1531,7 @@ void qh_initqhull_globals (coordT *points, int numpoints, int dim, boolT ismallo
     if (qh ROTATErandom  == -1) {
       seed= -seed;
       qh_option ("QRandom-seed", &seed, NULL );
-    }else 
+    }else
       qh_option ("QRotate-random", &seed, NULL);
     qh ROTATErandom= seed;
   }
@@ -1638,25 +1647,25 @@ available for 4-d output (ignored).  Could use 'GDn' instead.\n");
   if (qh DROPdim >=0) {    /* after Geomview checks */
     if (qh DROPdim < qh hull_dim) {
       qh PRINTdim--;
-      if (!printgeom || qh hull_dim < 3) 
+      if (!printgeom || qh hull_dim < 3)
         fprintf (qh ferr, "qhull input warning: drop dimension 'GD%d' is only available for 3-d/4-d Geomview\n", qh DROPdim);
     }else
       qh DROPdim= -1;
   }else if (qh VORONOI) {
     qh DROPdim= qh hull_dim-1;
-    qh PRINTdim= qh hull_dim-1; 
+    qh PRINTdim= qh hull_dim-1;
   }
 } /* initqhull_globals */
  
 /*-<a                             href="qh-globa.htm#TOC"
   >-------------------------------</a><a name="initqhull_mem">-</a>
-  
+
   qh_initqhull_mem(  )
     initialize mem.c for qhull
     qh.hull_dim and qh.normal_size determine some of the allocation sizes
-    if qh.MERGING, 
+    if qh.MERGING,
       includes ridgeT
-    calls qh_user_memsizes() to add up to 10 additional sizes for quick allocation 
+    calls qh_user_memsizes() to add up to 10 additional sizes for quick allocation
       (see numsizes below)
 
   returns:
@@ -1671,7 +1680,7 @@ void qh_initqhull_mem (void) {
   int i;
 
   numsizes= 8+10;
-  qh_meminitbuffers (qh IStracing, qh_MEMalign, numsizes, 
+  qh_meminitbuffers (qh IStracing, qh_MEMalign, numsizes,
                      qh_MEMbufsize,qh_MEMinitbuf);
   qh_memsize(sizeof(vertexT));
   if (qh MERGING) {
@@ -1690,7 +1699,7 @@ void qh_initqhull_mem (void) {
 
 /*-<a                             href="qh-globa.htm#TOC"
   >-------------------------------</a><a name="initqhull_start">-</a>
-  
+
   qh_initqhull_start( infile, outfile, errfile )
     start initialization of qhull
     initialize statistics, stdio, default values for global variables
@@ -1753,14 +1762,14 @@ void qh_initqhull_start (FILE *infile, FILE *outfile, FILE *errfile) {
 
 /*-<a                             href="qh-globa.htm#TOC"
   >-------------------------------</a><a name="initthresholds">-</a>
-  
+
   qh_initthresholds( commandString )
     set thresholds for printing and scaling from commandString
 
   returns:
     sets qh.GOODthreshold or qh.SPLITthreshold if 'Pd0D1' used
 
-  see: 
+  see:
     qh_initflags(), 'Qbk' 'QBk' 'Pdk' and 'PDk'
     qh_inthresholds()
 
@@ -1769,14 +1778,14 @@ void qh_initqhull_start (FILE *infile, FILE *outfile, FILE *errfile) {
       check syntax
       set qh.lower_threshold or qh.upper_threshold
     set qh.GOODthreshold if an unbounded threshold is used
-    set qh.SPLITthreshold if a bounded threshold is used  
+    set qh.SPLITthreshold if a bounded threshold is used
 */
 void qh_initthresholds(char *command) {
   realT value;
   int index, maxdim, k;
   char *s= command;
   char key;
-  
+
   maxdim= qh input_dim;
   if (qh DELAUNAY && (qh PROJECTdelaunay || qh PROJECTinput))
     maxdim++;
@@ -1794,7 +1803,7 @@ void qh_initthresholds(char *command) {
 	  }
 	  index= qh_strtol (s, &s);
 	  if (index >= qh hull_dim) {
-	    fprintf(qh ferr, "qhull warning: dimension %d for Print option '%c' is >= %d.  Ignored\n", 
+	    fprintf(qh ferr, "qhull warning: dimension %d for Print option '%c' is >= %d.  Ignored\n",
 	        index, key, qh hull_dim);
 	    continue;
 	  }
@@ -1802,7 +1811,7 @@ void qh_initthresholds(char *command) {
 	    s++;
 	    value= qh_strtod(s, &s);
 	    if (fabs((double)value) > 1.0) {
-	      fprintf(qh ferr, "qhull warning: value %2.4g for Print option %c is > +1 or < -1.  Ignored\n", 
+	      fprintf(qh ferr, "qhull warning: value %2.4g for Print option %c is > +1 or < -1.  Ignored\n",
 	              value, key);
 	      continue;
 	    }
@@ -1833,7 +1842,7 @@ void qh_initthresholds(char *command) {
 	  }
 	  index= qh_strtol (s, &s);
 	  if (index >= maxdim) {
-	    fprintf(qh ferr, "qhull warning: dimension %d for Qhull option %c is >= %d.  Ignored\n", 
+	    fprintf(qh ferr, "qhull warning: dimension %d for Qhull option %c is >= %d.  Ignored\n",
 	        index, key, maxdim);
 	    continue;
 	  }
@@ -1872,7 +1881,7 @@ void qh_initthresholds(char *command) {
 
 /*-<a                             href="qh-globa.htm#TOC"
   >-------------------------------</a><a name="option">-</a>
-  
+
   qh_option( option, intVal, realVal )
     add an option description to qh.qhull_options
 
@@ -1896,14 +1905,14 @@ void qh_option (char *option, int *i, realT *r) {
   if (qh qhull_optionlen >= 80 && maxlen > 0) {
     qh qhull_optionlen= len;
     strncat (qh qhull_options, "\n", maxlen--);
-  }    
+  }
   strncat (qh qhull_options, buf, maxlen);
 } /* option */
 
 #if qh_QHpointer
 /*-<a                             href="qh-globa.htm#TOC"
   >-------------------------------</a><a name="restore_qhull">-</a>
-  
+
   qh_restore_qhull( oldqh )
     restores a previously saved qhull
     also restores qh_qhstat and qhmem.tempstack
@@ -1911,11 +1920,11 @@ void qh_option (char *option, int *i, realT *r) {
   notes:
     errors if current qhull hasn't been saved or freed
     uses qhmem for error reporting
- 
-  NOTE 1998/5/11:  
-    Freeing memory after qh_save_qhull and qh_restore_qhull 
+
+  NOTE 1998/5/11:
+    Freeing memory after qh_save_qhull and qh_restore_qhull
     is complicated.  The procedures will be redesigned.
-    
+
   see:
     qh_save_qhull()
 */
@@ -1944,7 +1953,7 @@ void qh_restore_qhull (qhT **oldqh) {
 
 /*-<a                             href="qh-globa.htm#TOC"
   >-------------------------------</a><a name="save_qhull">-</a>
-  
+
   qh_save_qhull(  )
     saves qhull for a later qh_restore_qhull
     also saves qh_qhstat and qhmem.tempstack
@@ -1954,11 +1963,11 @@ void qh_restore_qhull (qhT **oldqh) {
 
   notes:
     need to initialize qhull or call qh_restore_qhull before continuing
-    
-  NOTE 1998/5/11:  
-    Freeing memory after qh_save_qhull and qh_restore_qhull 
+
+  NOTE 1998/5/11:
+    Freeing memory after qh_save_qhull and qh_restore_qhull
     is complicated.  The procedures will be redesigned.
-    
+
   see:
     qh_restore_qhull()
 */
@@ -1983,7 +1992,7 @@ qhT *qh_save_qhull (void) {
 
 /*-<a                             href="qh-globa.htm#TOC"
   >-------------------------------</a><a name="strtol">-</a>
-  
+
   qh_strtol( s, endp) qh_strtod( s, endp)
     internal versions of strtol() and strtod()
     does not skip trailing spaces

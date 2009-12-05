@@ -6,7 +6,7 @@
 
    see qh-merge.htm and merge.c
 
-   copyright (c) 1993-2001, The Geometry Center
+   copyright (c) 1993-2002, The Geometry Center
 */
 
 #ifndef qhDEFmerge

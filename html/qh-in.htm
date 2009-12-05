@@ -9,7 +9,7 @@
 <body>
 
 <p><a name="TOP"><b>Up:</b></a> <a
-href="http://www.geom.umn.edu/locate/qhull">Home page for Qhull</a>
+href="http://www.geom.umn.edu/software/qhull">Home page for Qhull</a>
 <br>
 <b>Up:</b> <a href="index.htm#TOC">Qhull manual: Table of
 Contents</a><br>
@@ -37,7 +37,7 @@ height="100"></a> Qhull internals</h1>
 
 <p>This section discusses the internals of Qhull. </p>
 
-<p><b>Copyright &copy; 1995-2001 The Geometry Center, Minneapolis MN</b></p>
+<p><b>Copyright &copy; 1995-2002 The Geometry Center, Minneapolis MN</b></p>
 
 <hr>
 
@@ -502,6 +502,8 @@ href="qh-optc.htm#Vn">Vn</a>')
  - determine the limitations of '<a href="qh-optq.htm#Qg">Qg</a>'
 
 Precision improvements:
+ - For 'Qt', resolve cross-linked, butterfly ridges.  
+     May allow retriangulation in qh_addpoint().
  - for Delaunay triangulations ('d' or 'v') under joggled input ('QJ'),
      remove vertical facets whose lowest vertex may be coplanar with convex hull 
  - review use of 'Qbb' with 'd QJ'.  Is MAXabs_coord better than MAXwidth?
@@ -517,6 +519,7 @@ Precision improvements:
 New features:
  - compute volume of Voronoi regions.  You need to determine the dual face
    graph in all dimensions [see Clarkson's hull program]
+ - compute alpha shapes [see Clarkson's hull program]
  - implement deletion of Delaunay vertices 
       see Devillers, ACM Symposium on Computational Geometry, Minneapolis 1999.
  - compute largest empty circle [see O'Rourke, chapter 5.5.3] [Hase]
@@ -531,6 +534,7 @@ New features:
       need to insert a coordinate for Delaunay triangulations
 
 Input/output improvements:
+ - Support the VTK Visualization Toolkit, http://www.kitware.com/vtk.html
  - generate output data array for Qhull library [Gautier]
  - need improved DOS window with screen fonts, scrollbar, cut/paste
  - generate Geomview output for Voronoi ridges and unbounded rays
@@ -558,7 +562,7 @@ Performance improvements:
 <!-- Navigation links -->
 <hr>
 
-<p><b>Up:</b> <a href="http://www.geom.umn.edu/locate/qhull">Home
+<p><b>Up:</b> <a href="http://www.geom.umn.edu/software/qhull">Home
 page for Qhull</a> <br>
 <b>Up:</b> <a href="index.htm#TOC">Qhull manual: Table of
 Contents</a><br>
@@ -581,8 +585,7 @@ structures <!-- GC common information -->
 align="middle" width="40" height="40"></a><i>The Geometry Center
 Home Page </i></p>
 
-<p>Comments to: <a
-href="http://www.geom.umn.edu/software/qhull/qhull-mail.html">qhull@geom.umn.edu
+<p>Comments to: <a href=mailto:qhull@geom.umn.edu>qhull@geom.umn.edu</a>
 </a><br>
 Created: Sept. 25, 1995 --- <!-- hhmts start --> Last modified: see changes.txt <!-- hhmts end --> </p>
 </body>

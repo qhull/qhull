@@ -7,7 +7,7 @@
 
    see qh-qhull.htm
 
-   copyright (c) 1993-2001, The Geometry Center
+   copyright (c) 1993-2002, The Geometry Center
 */
 
 #include <stdio.h>
@@ -39,20 +39,6 @@ int isatty (int);  /* returns 1 if stdin is a tty
 		   if "Undefined symbol" this can be deleted along with call in main() */
 #endif
 
-/*========= version =======================
-
-  notes:
-    change date:    Changes.txt, Announce.txt, README.txt, qhull.man
-                    qhull-news.html, Eudora signatures, 
-    change version: README.txt, qhull.html, file_id.diz, Makefile
-	            qconvex.c qdelaun.c qhalf.c qvoronoi.c
-    change year:    Copying.txt
-    check download size
-    recompile user_eg.c, rbox.c, qhull.c, qconvex.c, qdelaun.c qvoronoi.c, qhalf.c
-*/
-
-char qh_version[]= "version 3.1 2001/10/04"; 
-
 /*-<a                             href="qh-qhull.htm#TOC"
   >-------------------------------</a><a name="prompt">-</a>
 
@@ -64,7 +50,7 @@ char qh_version[]= "version 3.1 2001/10/04";
 */  
 char qh_prompta[]= "\n\
 qhull- compute convex hulls and related structures.\n\
-    http://www.geom.umn.edu/locate/qhull  %s\n\
+    http://www.geom.umn.edu/software/qhull  %s\n\
 \n\
 input (stdin):\n\
     first lines: dimension and number of points (or vice-versa).\n\
@@ -226,8 +212,8 @@ Print options:\n\
   >-------------------------------</a><a name="prompt2">-</a>
 
   qh_prompt2
-    synopsis for qhull 
-*/  
+    synopsis for qhull
+*/
 char qh_prompt2[]= "\n\
 qhull- compute convex hulls and related structures.  %s\n\
     input (stdin): dimension, n, point coordinates\n\
@@ -276,8 +262,8 @@ examples:\n\
   >-------------------------------</a><a name="prompt3">-</a>
 
   qh_prompt3
-    concise prompt for qhull 
-*/  
+    concise prompt for qhull
+*/
 char qh_prompt3[]= "\n\
 Qhull %s.\n\
 Except for 'F.' and 'PG', upper-case options take an argument.\n\
@@ -318,10 +304,10 @@ Except for 'F.' and 'PG', upper-case options take an argument.\n\
 
 /*-<a                             href="qh-qhull.htm#TOC"
   >-------------------------------</a><a name="main">-</a>
-  
+
   main( argc, argv )
     processes the command line, calls qhull() to do the work, and exits
-  
+
   design:
     initializes data structures
     reads points
@@ -344,22 +330,22 @@ int main(int argc, char *argv[]) {
   SIOUXSettings.rows= 40;
   if (setvbuf (stdin, inBuf, _IOFBF, sizeof(inBuf)) < 0   /* w/o, SIOUX I/O is slow*/
   || setvbuf (stdout, outBuf, _IOFBF, sizeof(outBuf)) < 0
-  || (stdout != stderr && setvbuf (stderr, errBuf, _IOFBF, sizeof(errBuf)) < 0)) 
+  || (stdout != stderr && setvbuf (stderr, errBuf, _IOFBF, sizeof(errBuf)) < 0))
     fprintf (stderr, "qhull internal warning (main): could not change stdio to fully buffered.\n");
   argc= ccommand(&argv);
 #endif
 
-  if ((argc == 1) && isatty( 0 /*stdin*/)) {      
-    fprintf(stdout, qh_prompt2, qh_version);
+  if ((argc == 1) && isatty( 0 /*stdin*/)) {
+    fprintf(stdout, qh_prompt2, qh_VERSION);
     exit(qh_ERRnone);
   }
   if (argc > 1 && *argv[1] == '-' && !*(argv[1]+1)) {
-    fprintf(stdout, qh_prompta, qh_version, qh_DEFAULTbox, 
+    fprintf(stdout, qh_prompta, qh_VERSION, qh_DEFAULTbox,
 		qh_promptb, qh_promptc, qh_promptd, qh_prompte);
     exit(qh_ERRnone);
   }
   if (argc >1 && *argv[1] == '.' && !*(argv[1]+1)) {
-    fprintf(stdout, qh_prompt3, qh_version);
+    fprintf(stdout, qh_prompt3, qh_VERSION);
     exit(qh_ERRnone);
   }
   qh_init_A (stdin, stdout, stderr, argc, argv);  /* sets qh qhull_command */
@@ -381,7 +367,7 @@ int main(int argc, char *argv[]) {
 #else
   qh_freeqhull( False);
   qh_memfreeshort (&curlong, &totlong);
-  if (curlong || totlong) 
+  if (curlong || totlong)
     fprintf (stderr, "qhull internal warning (main): did not free %d bytes of long memory (%d pieces)\n",
        totlong, curlong);
 #endif

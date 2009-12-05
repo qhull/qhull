@@ -1,4 +1,4 @@
-                    Qhull, Copyright (c) 1993-2001
+                    Qhull, Copyright (c) 1993-2002
 
        The National Science and Technology Research Center for
         Computation and Visualization of Geometric Structures
@@ -12,7 +12,7 @@
 
 This software includes Qhull from The Geometry Center.  Qhull is 
 copyrighted as noted above.  Qhull is free software and may be obtained 
-via anonymous ftp from geom.umn.edu.  It may be freely copied, modified, 
+via http from www.geom.umn.edu.  It may be freely copied, modified, 
 and redistributed under the following conditions:
 
 1. All copyright notices must remain intact in all files.

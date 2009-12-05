@@ -16,7 +16,7 @@
     - every set is NULL terminated
     - sets may be sorted or unsorted, the caller must distinguish this
    
-   copyright (c) 1993-2001, The Geometry Center
+   copyright (c) 1993-2002, The Geometry Center
 */
 
 #ifndef qhDEFset

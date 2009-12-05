@@ -51,8 +51,6 @@
 
 #include "qhull_a.h"
 
-char qh_version[] = "user_eg2 3.1 2001/10/04";  /* used for error messages */
-
 /*-------------------------------------------------
 -internal function prototypes
 */

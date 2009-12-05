@@ -29,7 +29,7 @@
     qh-mem.htm and mem.h
     global.c (qh_initbuffers) for an example of using mem.c 
    
-  copyright (c) 1993-2001 The Geometry Center
+  copyright (c) 1993-2002 The Geometry Center
 */
 
 #include <stdio.h>

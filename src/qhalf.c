@@ -6,7 +6,7 @@
 
    see unix.c for full interface
 
-   copyright (c) 1993-2001, The Geometry Center
+   copyright (c) 1993-2002, The Geometry Center
 */
 
 #include <stdio.h>
@@ -51,14 +51,12 @@ int isatty (int);  /* returns 1 if stdin is a tty
     concise prompt below
 */  
 
-char qh_version[]= "version 3.1 2001/10/04";   /* used for error messages */
-
 /* duplicated in qhalf.htm */
 char hidden_options[]=" d n v Qbb QbB Qf Qg Qm Qr QR Qv Qx Qz TR E V Fa FA FC FD FS Ft FV Gt Q0 Q1 Q2 Q3 Q4 Q5 Q6 Q7 Q8 Q9 ";
 
 char qh_prompta[]= "\n\
 qhalf- compute the intersection of halfspaces about a point\n\
-    http://www.geom.umn.edu/locate/qhull  %s\n\
+    http://www.geom.umn.edu/software/qhull  %s\n\
 \n\
 input (stdin):\n\
     optional interior point: dimension, 1, coordinates\n\
@@ -273,16 +271,16 @@ int main(int argc, char *argv[]) {
 #endif
 
   if ((argc == 1) && isatty( 0 /*stdin*/)) {      
-    fprintf(stdout, qh_prompt2, qh_version);
+    fprintf(stdout, qh_prompt2, qh_VERSION);
     exit(qh_ERRnone);
   }
   if (argc > 1 && *argv[1] == '-' && !*(argv[1]+1)) {
-    fprintf(stdout, qh_prompta, qh_version, 
+    fprintf(stdout, qh_prompta, qh_VERSION, 
         qh_promptb, qh_promptc, qh_promptd, qh_prompte);
     exit(qh_ERRnone);
   }
   if (argc >1 && *argv[1] == '.' && !*(argv[1]+1)) {
-    fprintf(stdout, qh_prompt3, qh_version);
+    fprintf(stdout, qh_prompt3, qh_VERSION);
     exit(qh_ERRnone);
   }
   qh_init_A (stdin, stdout, stderr, argc, argv);  /* sets qh qhull_command */

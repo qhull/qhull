@@ -6,7 +6,7 @@
 
    see qh-set.htm and qset.h
 
-   copyright (c) 1993-2001 The Geometry Center        
+   copyright (c) 1993-2002 The Geometry Center        
 */
 
 #include <stdio.h>
