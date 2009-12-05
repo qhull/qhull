@@ -1,0 +1,59 @@
+
+   Qhull       Version 3.0          February 11, 2001
+
+        http://www.geom.umn.edu/locate/qhull
+        http://www.geomview.org
+        ftp://geom.umn.edu/pub/software/qhull.tar.gz
+        ftp://geom.umn.edu/pub/software/qhull3-0.zip
+        ftp://geom.umn.edu/pub/software/qhull-96.ps.gz
+        ftp://geom.umn.edu/pub/software/qhull-1.0.tar.gz
+        ftp://geom.umn.edu/pub/software/qhull.sit.hqx
+
+Qhull computes convex hulls, Delaunay triangulations, Voronoi diagrams, 
+furthest-site Voronoi diagrams, and halfspace intersections about a point. 
+It runs in 2-d, 3-d, 4-d, or higher.  It implements the Quickhull algorithm 
+for computing convex hulls.   Qhull handles round-off errors from floating 
+point arithmetic.  It can approximate a convex hull.
+
+The program includes options for hull volume, facet area, partial hulls,
+input transformations, randomization, tracing, multiple output formats, and
+execution statistics.  The program can be called from within your application.
+You can view the results in 2-d, 3-d and 4-d with Geomview.
+
+To download Qhull on Unix systems:
+
+        ftp geom.umn.edu (or 128.101.25.35), user: anonymous
+        password: <your user id>, cd pub/software, bin, get qhull.tar.gz, quit
+        gunzip qhull.tar.gz, tar xf qhull.tar, cd qhull3.0, more README.txt
+
+To download Qhull on Win32 systems:
+
+        ftp geom.umn.edu (or 128.101.25.35), user: anonymous
+        password: <your user id>, cd pub/software, bin, get qhull3-0.zip, quit
+        extract with winzip32, read README.txt
+
+Download qhull-96.ps.gz for:
+
+        Barber, C. B., D.P. Dobkin, and H.T. Huhdanpaa, 
+        "The Quickhull Algorithm for Convex Hulls," ACM
+        Trans. on Mathematical Software, Dec. 1996.
+        http://www.acm.org/pubs/citations/journals/toms/1996-22-4/p469-barber/
+
+Abstract:
+
+The convex hull of a set of points is the smallest convex set that contains
+the points.  This article presents a practical convex hull algorithm that
+combines the two-dimensional Quickhull Algorithm with  the general dimension
+Beneath-Beyond Algorithm.  It is similar to the randomized, incremental
+algorithms for convex hull and Delaunay triangulation.  We provide empirical
+evidence that the algorithm runs faster when the input contains non-extreme
+points, and that it uses less memory. 
+
+Computational geometry algorithms have traditionally assumed that input sets
+are well behaved.  When an algorithm is implemented with floating point
+arithmetic, this assumption can lead to serious errors.  We briefly describe
+a solution to this problem when computing the convex hull in two, three, or
+four dimensions.  The output is a set of "thick" facets that contain all
+possible exact convex hulls of the input.   A variation is effective in five
+or more dimensions.  
+
