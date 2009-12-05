@@ -29,7 +29,7 @@ extern "C"
 #endif
 #include <stdio.h>
 #include <stdlib.h>
-#include <qhull/qhull.h>
+#include <qhull/qhulllib.h>
 #include <qhull/mem.h>
 #include <qhull/qset.h>
 #include <qhull/geom.h>
@@ -63,7 +63,7 @@ void compute_convex_hull(void)
 	int curlong, totlong;	  /* memory remaining after qh_memfreeshort */
 
    	/* initialize dim, numpoints, points[], ismalloc here */
-	exitcode= qh_new_qhull (dim, numpoints, points, ismalloc,
+	exitcode= qh_new_qhull(dim, numpoints, points, ismalloc,
 							flags, outfile, errfile);
 	if (!exitcode) { /* if no error */ 
 		/* 'qh facet_list' contains the convex hull */
@@ -72,9 +72,9 @@ void compute_convex_hull(void)
 		}
 	}
 	qh_freeqhull(!qh_ALL);  
-	qh_memfreeshort (&curlong, &totlong);
+	qh_memfreeshort(&curlong, &totlong);
 	if (curlong || totlong)
-		fprintf (errfile, "qhull internal warning (main): did not free %d bytes of long memory (%d pieces)\n", 
+		fprintf(errfile, "qhull internal warning (main): did not free %d bytes of long memory(%d pieces)\n", 
 		             totlong, curlong);
 };
 
@@ -91,6 +91,6 @@ void main()
 	
 	cout << "Press any key..." << endl;  
 	
-	while(!_kbhit());
+	while (!_kbhit());
 
 };

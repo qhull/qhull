@@ -20,7 +20,7 @@ href="http://www.qhull.org">Home page</a> for Qhull<br>
 &#149; <a href="../html/qh-optq.htm#qhull">Qhull</a> 
 &#149; <a href="../html/qh-optc.htm#prec">Precision</a> 
 &#149; <a href="../html/qh-optt.htm#trace">Trace</a><br>
-<b>Up:</b> <a href="../html/qh-in.htm#TOC">Qhull internals: Table of Contents</a><br>
+<b>Up:</b> <a href="../html/qh-code.htm#TOC">Qhull code: Table of Contents</a><br>
 <b>To:</b> <a href="index.htm">Qhull functions</a>, macros, and data structures<br>
 <b>To:</b> <a href="qh-geom.htm">Geom</a> &#149; <a href="qh-globa.htm">Global</a>
 &#149; <a href="qh-io.htm#TOC">Io</a> &#149; <a href="qh-mem.htm">Mem</a>
@@ -88,22 +88,30 @@ print results of qh_printvdiagram or qh_eachvoronoi</li>
 <h3><a href="qh-io.htm#TOC">»</a><a name="ilevel">User level functions</a></h3>
 
 <ul>
+<li><a href="io.c#copyfilename">qh_copyfilename</a>
+copy filename identified by qh_skipfilename
 <li><a href="io.c#eachvoronoi_all">qh_eachvoronoi_all</a>
 visit each Voronoi ridge of the Voronoi diagram
+<li><a href="io.c#prepare_output">qh_prepare_output</a>
+prepare Qhull for output (called by qh_produce_output())
 <li><a href="io.c#printhelp_degenerate">qh_printhelp_degenerate</a>
 prints descriptive message for precision error </li>
 <li><a href="io.c#printhelp_singular">qh_printhelp_singular</a>
 print help message for singular data </li>
-<li><a href="qhull.c#printsummary">qh_printsummary</a> print
+<li><a href="qhulllib.c#printsummary">qh_printsummary</a> print
 summary ('s')</li>
 <li><a href="io.c#produce_output">qh_produce_output</a>
 prints out the result of qhull()</li>
+<li><a href="io.c#produce_output">qh_produce_output2</a>
+prints out the result of qhull() without calling qh_prepare_output()</li>
 <li><a href="io.c#readfeasible">qh_readfeasible</a> read
 interior point from remainder and qh fin ('H')</li>
 <li><a href="io.c#readpoints">qh_readpoints</a> read input
 points </li>
 <li><a href="io.c#setfeasible">qh_setfeasible</a> set
 interior point from qh feasible_string ('Hn,n,n')</li>
+<li><a href="io.c#skipfilename">qh_skipfilename</a>
+skip filename in string
 </ul>
 
 <h3><a href="qh-io.htm#TOC">»</a><a name="iprint">Print functions for all
@@ -274,7 +282,7 @@ Qhull</a> <br>
 &#149; <a href="../html/qh-optq.htm#qhull">Qhull</a> 
 &#149; <a href="../html/qh-optc.htm#prec">Precision</a> 
 &#149; <a href="../html/qh-optt.htm#trace">Trace</a><br>
-<b>Up:</b> <a href="../html/qh-in.htm#TOC">Qhull internals: Table of Contents</a> <br>
+<b>Up:</b> <a href="../html/qh-code.htm#TOC">Qhull code: Table of Contents</a> <br>
 <b>To:</b> <a href="index.htm">Qhull functions</a>, macros, and data structures<br>
 <b>To:</b> <a href="qh-geom.htm">Geom</a> &#149; 
 <a href="qh-globa.htm">Global</a> &#149; <a href="qh-io.htm">Io</a>

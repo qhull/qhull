@@ -7,17 +7,20 @@
 
    see qh-qhull.htm
 
-   copyright (c) 1993-2003, The Geometry Center
+   copyright (c) 1993-2009 The Geometry Center.
+   $Id: //product/qhull/main/rel/src/unix.c#23 $$Change: 1096 $
+   $DateTime: 2009/12/04 21:52:01 $$Author: bbarber $
 */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <ctype.h>
-#include <math.h>
-#include "qhull.h"
 #include "mem.h"
 #include "qset.h"
+#include "qhulllib.h"
+
+#include <ctype.h>
+#include <math.h>
+#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 #if __MWERKS__ && __POWERPC__
 #include <SIOUX.h>
@@ -27,7 +30,7 @@
 
 #elif __cplusplus
 extern "C" {
-  int isatty (int);
+  int isatty(int);
 }
 
 #elif _MSC_VER
@@ -35,7 +38,7 @@ extern "C" {
 #define isatty _isatty
 
 #else
-int isatty (int);  /* returns 1 if stdin is a tty
+int isatty(int);  /* returns 1 if stdin is a tty
 		   if "Undefined symbol" this can be deleted along with call in main() */
 #endif
 
@@ -109,6 +112,7 @@ char qh_promptb[]= "\
 char qh_promptc[]= "\
 Topts- Trace options:\n\
     T4   - trace at level n, 4=all, 5=mem/gauss, -1= events\n\
+    Ta   - annotate output with message codes\n\
     Tc   - check frequently during execution\n\
     Ts   - print statistics\n\
     Tv   - verify result: structure, convexity, and point inclusion\n\
@@ -171,7 +175,7 @@ More formats:\n\
                       output: #vertices, #facets, #coplanars, #nonsimplicial\n\
                     #real (2), max outer plane, min vertex\n\
     FS   - sizes:   #int (0)\n\
-                    #real(2) tot area, tot volume\n\
+                    #real (2) tot area, tot volume\n\
     Ft   - triangulation with centrums for non-simplicial facets (OFF format)\n\
     Fv   - count plus vertices for each facet\n\
            for 'v', Voronoi diagram as Voronoi vertices for pairs of sites\n\
@@ -231,7 +235,7 @@ options (qh-quick.htm):\n\
     QJ   - joggled input instead of merged facets\n\
     Tv   - verify result: structure, convexity, and point inclusion\n\
     .    - concise list of all options\n\
-    -    - one-line description of all options\n\
+    -    - one-line description of each option\n\
 \n\
 Output options (subset):\n\
     s    - summary of results (default)\n\
@@ -295,9 +299,9 @@ Except for 'F.' and 'PG', upper-case options take an argument.\n\
  Q5_no_check_out Q6_no_concave Q7_depth_first Q8_no_near_in  Q9_pick_furthest\n\
  Q10_no_narrow  Q11_trinormals\n\
 \n\
- T4_trace       Tcheck_often   Tstatistics    Tverify        Tz_stdout\n\
- TFacet_log     TInput_file    TPoint_trace   TMerge_trace   TOutput_file\n\
- TRerun         TWide_trace    TVertex_stop   TCone_stop\n\
+ T4_trace       Tannotate      Tcheck_often   Tstatistics    Tverify\n\
+ Tz_stdout      TFacet_log     TInput_file    TPoint_trace   TMerge_trace\n\
+ TOutput_file   TRerun         TWide_trace    TVertex_stop   TCone_stop\n\
 \n\
  Angle_max      Centrum_size   Error_round    Random_dist    Visible_min\n\
  Ucoplanar_max  Wide_outside\n\
@@ -329,10 +333,10 @@ int main(int argc, char *argv[]) {
   SIOUXSettings.showstatusline= false;
   SIOUXSettings.tabspaces= 1;
   SIOUXSettings.rows= 40;
-  if (setvbuf (stdin, inBuf, _IOFBF, sizeof(inBuf)) < 0   /* w/o, SIOUX I/O is slow*/
-  || setvbuf (stdout, outBuf, _IOFBF, sizeof(outBuf)) < 0
-  || (stdout != stderr && setvbuf (stderr, errBuf, _IOFBF, sizeof(errBuf)) < 0))
-    fprintf (stderr, "qhull internal warning (main): could not change stdio to fully buffered.\n");
+  if (setvbuf(stdin, inBuf, _IOFBF, sizeof(inBuf)) < 0   /* w/o, SIOUX I/O is slow*/
+  || setvbuf(stdout, outBuf, _IOFBF, sizeof(outBuf)) < 0
+  || (stdout != stderr && setvbuf(stderr, errBuf, _IOFBF, sizeof(errBuf)) < 0))
+    fprintf(stderr, "qhull internal warning (main): could not change stdio to fully buffered.\n");
   argc= ccommand(&argv);
 #endif
 
@@ -349,12 +353,12 @@ int main(int argc, char *argv[]) {
     fprintf(stdout, qh_prompt3, qh_version);
     exit(qh_ERRnone);
   }
-  qh_init_A (stdin, stdout, stderr, argc, argv);  /* sets qh qhull_command */
-  exitcode= setjmp (qh errexit); /* simple statement for CRAY J916 */
+  qh_init_A(stdin, stdout, stderr, argc, argv);  /* sets qh qhull_command */
+  exitcode= setjmp(qh errexit); /* simple statement for CRAY J916 */
   if (!exitcode) {
-    qh_initflags (qh qhull_command);
-    points= qh_readpoints (&numpoints, &dim, &ismalloc);
-    qh_init_B (points, numpoints, dim, ismalloc);
+    qh_initflags(qh qhull_command);
+    points= qh_readpoints(&numpoints, &dim, &ismalloc);
+    qh_init_B(points, numpoints, dim, ismalloc);
     qh_qhull();
     qh_check_output();
     qh_produce_output();
@@ -367,9 +371,9 @@ int main(int argc, char *argv[]) {
   qh_freeqhull( True);
 #else
   qh_freeqhull( False);
-  qh_memfreeshort (&curlong, &totlong);
+  qh_memfreeshort(&curlong, &totlong);
   if (curlong || totlong)
-    fprintf (stderr, "qhull internal warning (main): did not free %d bytes of long memory (%d pieces)\n",
+    fprintf(stderr, "qhull internal warning (main): did not free %d bytes of long memory(%d pieces)\n",
        totlong, curlong);
 #endif
   return exitcode;

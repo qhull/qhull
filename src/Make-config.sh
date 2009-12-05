@@ -25,7 +25,7 @@ dnl configure.in for the qhull package
 dnl Author: Rafael Laboissiere <rafael@debian.org>
 dnl Created: Mon Dec  3 21:36:21 CET 2001
 
-AC_INIT(src/qhull.c)
+AC_INIT(src/qhulllib.c)
 AM_INIT_AUTOMAKE(qhull, 2002.1)
 
 AC_PROG_CC
@@ -140,7 +140,7 @@ html_DATA = \
   qh-faq.htm \
   qh-get.htm \
   qh-impre.htm \
-  qh-in.htm \
+  qh-code.htm \
   qh-optc.htm \
   qh-optf.htm \
   qh-optg.htm \
@@ -181,23 +181,24 @@ cat >../src/Makefile.am <<\HERE-SRC
 # to:
 lib_LTLIBRARIES = libqhull.la
 
-# from:
+# from (frequently used files at end):
 libqhull_la_SOURCES = \
   user.c \
   global.c \
+  random.c \
   stat.c \
   io.c \
   geom2.c \
   poly2.c \
   merge.c \
-  qhull.c \
+  qhulllib.c \
   geom.c \
   poly.c \
   qset.c \
   mem.c
 
 # how:
-libqhull_la_LDFLAGS = -version-info 0:0:0 -lm
+libqhull_la_LDFLAGS = -version-info 4:0:0 -lm
 
 ### Utility programs
 
@@ -230,7 +231,7 @@ pkginclude_HEADERS = \
   stat.h \
   io.h \
   merge.h \
-  qhull.h  \
+  qhulllib.h  \
   qset.h \
   user.h
 
@@ -279,7 +280,7 @@ HERE-SRC
 
 echo Run automake, libtoolize, and autoconf
 cd ..; aclocal &&\
+  libtoolize --force --copy && \
   automake --foreign --add-missing --force-missing && \
-  libtoolize --force && \
   autoconf
 

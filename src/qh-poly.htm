@@ -20,7 +20,7 @@ href="http://www.qhull.org">Home page</a> for Qhull<br>
 &#149; <a href="../html/qh-optq.htm#qhull">Qhull</a> 
 &#149; <a href="../html/qh-optc.htm#prec">Precision</a> 
 &#149; <a href="../html/qh-optt.htm#trace">Trace</a><br>
-<b>Up:</b> <a href="../html/qh-in.htm#TOC">Qhull internals: Table of Contents</a><br>
+<b>Up:</b> <a href="../html/qh-code.htm#TOC">Qhull code: Table of Contents</a><br>
 <b>To:</b> <a href="index.htm">Qhull functions</a>, macros, and data structures<br>
 <b>To:</b> <a href="qh-geom.htm">Geom</a> &#149; <a href="qh-globa.htm">Global</a>
 &#149; <a href="qh-io.htm">Io</a> &#149; <a href="qh-mem.htm">Mem</a>
@@ -119,7 +119,7 @@ joggled input, they
 may have zero area or flipped orientation.
 
 </blockquote>
-<p><b>Copyright &copy; 1995-2003 The Geometry Center, Minneapolis MN</b></p>
+<p><b>Copyright &copy; 1995-2009 The Geometry Center, Minneapolis MN</b></p>
 <hr>
 <p><a href="#TOP">»</a> <a href="qh-geom.htm#TOC">Geom</a> 
 <a name="TOC">&#149;</a> <a href="qh-globa.htm#TOC">Global</a>
@@ -130,7 +130,7 @@ may have zero area or flipped orientation.
 </p>
 <h3>Index to <a href="poly.c">poly.c</a>, 
 <a href="poly2.c">poly2.c</a>, <a href="poly.h">poly.h</a>,
-and <a href="qhull.h">qhull.h</a></h3>
+and <a href="qhulllib.h">qhulllib.h</a></h3>
 <ul>
 <li><a href="#ptype">Data types and global
 lists for polyhedrons</a> </li>
@@ -152,15 +152,15 @@ functions</a> </li>
 <h3><a href="qh-poly.htm#TOC">»</a><a name="ptype">Data
 types and global lists for polyhedrons</a></h3>
 <ul>
-<li><a href="qhull.h#facetT">facetT</a> defines a
+<li><a href="qhulllib.h#facetT">facetT</a> defines a
 facet </li>
-<li><a href="qhull.h#ridgeT">ridgeT</a> defines a
+<li><a href="qhulllib.h#ridgeT">ridgeT</a> defines a
 ridge </li>
-<li><a href="qhull.h#vertexT">vertexT</a> defines a
+<li><a href="qhulllib.h#vertexT">vertexT</a> defines a
 vertex </li>
-<li><a href="qhull.h#qh-lists">qh facet and vertex
+<li><a href="qhulllib.h#qh-lists">qh facet and vertex
 lists</a> lists of facets and vertices </li>
-<li><a href="qhull.h#qh-set">qh global sets</a>
+<li><a href="qhulllib.h#qh-set">qh global sets</a>
 global sets for merging, hashing, input, etc. </li>
 </ul>
 <h3><a href="qh-poly.htm#TOC">»</a><a name="pconst">poly.h constants</a></h3>
@@ -179,24 +179,24 @@ a merged ridge </li>
 <h3><a href="qh-poly.htm#TOC">»</a><a name="pgall">Global FORALL
 macros</a></h3>
 <ul>
-<li><a href="qhull.h#FORALLfacets">FORALLfacets</a>
+<li><a href="qhulllib.h#FORALLfacets">FORALLfacets</a>
 assign 'facet' to each facet in qh.facet_list </li>
 <li><a href="poly.h#FORALLnew_facets">FORALLnew_facets</a>
 assign 'facet' to each facet in qh.newfacet_list </li>
 <li><a href="poly.h#FORALLvisible_facets">FORALLvisible_facets</a>
 assign 'visible' to each visible facet in
 qh.visible_list </li>
-<li><a href="qhull.h#FORALLpoints">FORALLpoints</a>
+<li><a href="qhulllib.h#FORALLpoints">FORALLpoints</a>
 assign 'point' to each point in qh.first_point,
 qh.num_points </li>
-<li><a href="qhull.h#FORALLvertices">FORALLvertices</a>
+<li><a href="qhulllib.h#FORALLvertices">FORALLvertices</a>
 assign 'vertex' to each vertex in qh.vertex_list </li>
 </ul>
 <h3><a href="qh-poly.htm#TOC">»</a><a name="pall">FORALL macros</a></h3>
 <ul>
 <li><a href="poly.h#FORALLfacet_">FORALLfacet_</a>
 assign 'facet' to each facet in facetlist </li>
-<li><a href="qhull.h#FORALLpoint_">FORALLpoint_</a>
+<li><a href="qhulllib.h#FORALLpoint_">FORALLpoint_</a>
 assign 'point' to each point in points array</li>
 <li><a href="poly.h#FORALLsame_">FORALLsame_</a>
 assign 'same' to each facet in samecycle</li>
@@ -207,18 +207,18 @@ assign 'vertex' to each vertex in vertexlist </li>
 </ul>
 <h3><a href="qh-poly.htm#TOC">»</a><a name="peach">FOREACH macros</a></h3>
 <ul>
-<li><a href="qhull.h#FOREACHfacet_">FOREACHfacet_</a>
+<li><a href="qhulllib.h#FOREACHfacet_">FOREACHfacet_</a>
 assign 'facet' to each facet in facets </li>
-<li><a href="qhull.h#FOREACHneighbor_">FOREACHneighbor_</a>
+<li><a href="qhulllib.h#FOREACHneighbor_">FOREACHneighbor_</a>
 assign 'neighbor' to each facet in
 facet-&gt;neighbors or vertex-&gt;neighbors</li>
 <li><a href="poly.h#FOREACHnewfacet_">FOREACHnewfacet_</a>
 assign 'newfacet' to each facet in facet set </li>
-<li><a href="qhull.h#FOREACHpoint_">FOREACHpoint_</a>
+<li><a href="qhulllib.h#FOREACHpoint_">FOREACHpoint_</a>
 assign 'point' to each point in points set </li>
-<li><a href="qhull.h#FOREACHridge_">FOREACHridge_</a>
+<li><a href="qhulllib.h#FOREACHridge_">FOREACHridge_</a>
 assign 'ridge' to each ridge in ridge set </li>
-<li><a href="qhull.h#FOREACHvertex_">FOREACHvertex_</a>
+<li><a href="qhulllib.h#FOREACHvertex_">FOREACHvertex_</a>
 assign 'vertex' to each vertex in vertex set </li>
 <li><a href="poly.h#FOREACHvertexA_">FOREACHvertexA_</a>
 assign 'vertexA' to each vertex in vertex set</li>
@@ -228,19 +228,19 @@ assign 'visible' to each facet in facet set </li>
 <h3><a href="qh-poly.htm#TOC">»</a><a name="pieach">Indexed
 FOREACH macros</a></h3>
 <ul>
-<li><a href="qhull.h#FOREACHfacet_i_">FOREACHfacet_i_</a>
+<li><a href="qhulllib.h#FOREACHfacet_i_">FOREACHfacet_i_</a>
 assign 'facet' and 'facet_i' to each facet in
 facet set </li>
-<li><a href="qhull.h#FOREACHneighbor_i_">FOREACHneighbor_i_</a>
+<li><a href="qhulllib.h#FOREACHneighbor_i_">FOREACHneighbor_i_</a>
 assign 'neighbor' and 'neighbor_i' to each facet
 in facet-&gt;neighbors or vertex-&gt;neighbors</li>
-<li><a href="qhull.h#FOREACHpoint_i_">FOREACHpoint_i_</a>
+<li><a href="qhulllib.h#FOREACHpoint_i_">FOREACHpoint_i_</a>
 assign 'point' and 'point_i' to each point in
 points set </li>
-<li><a href="qhull.h#FOREACHridge_i_">FOREACHridge_i_</a>
+<li><a href="qhulllib.h#FOREACHridge_i_">FOREACHridge_i_</a>
 assign 'ridge' and 'ridge_i' to each ridge in
 ridges set </li>
-<li><a href="qhull.h#FOREACHvertex_i_">FOREACHvertex_i_</a>
+<li><a href="qhulllib.h#FOREACHvertex_i_">FOREACHvertex_i_</a>
 assign 'vertex' and 'vertex_i' to each vertex in
 vertices set </li>
 <li><a href="poly.h#FOREACHvertexreverse12_">FOREACHvertexreverse12_</a>
@@ -249,9 +249,9 @@ reverse the order of first two vertices </li>
 </ul>
 <h3><a href="qh-poly.htm#TOC">»</a><a name="pmacro">Other macros for polyhedrons</a></h3>
 <ul>
-<li><a href="qhull.h#getid_">getid_</a> return ID for
+<li><a href="qhulllib.h#getid_">getid_</a> return ID for
 a facet, ridge, or vertex </li>
-<li><a href="qhull.h#otherfacet_">otherfacet_</a>
+<li><a href="qhulllib.h#otherfacet_">otherfacet_</a>
 return neighboring facet for a ridge in a facet </li>
 </ul>
 <h3><a href="qh-poly.htm#TOC">»</a><a name="plist">Facetlist
@@ -460,7 +460,7 @@ Qhull</a> <br>
 &#149; <a href="../html/qh-optq.htm#qhull">Qhull</a> 
 &#149; <a href="../html/qh-optc.htm#prec">Precision</a> 
 &#149; <a href="../html/qh-optt.htm#trace">Trace</a><br>
-<b>Up:</b> <a href="../html/qh-in.htm#TOC">Qhull internals: Table of Contents</a> <br>
+<b>Up:</b> <a href="../html/qh-code.htm#TOC">Qhull code: Table of Contents</a> <br>
 <b>To:</b> <a href="index.htm">Qhull functions</a>, macros, and data structures<br>
 <b>To:</b> <a href="qh-geom.htm">Geom</a> &#149; 
 <a href="qh-globa.htm">Global</a> &#149; <a href="qh-io.htm">Io</a>

@@ -20,7 +20,7 @@ href="http://www.qhull.org">Home page</a> for Qhull<br>
 &#149; <a href="../html/qh-optq.htm#qhull">Qhull</a> 
 &#149; <a href="../html/qh-optc.htm#prec">Precision</a> 
 &#149; <a href="../html/qh-optt.htm#trace">Trace</a><br>
-<b>Up:</b> <a href="../html/qh-in.htm#TOC">Qhull internals: Table of Contents</a><br>
+<b>Up:</b> <a href="../html/qh-code.htm#TOC">Qhull code: Table of Contents</a><br>
 <b>To:</b> <a href="../src/index.htm">Qhull functions</a>, macros, and data structures<br>
 <b>To:</b> <a href="qh-geom.htm#TOC">Geom</a> &#149; <a href="qh-globa.htm">Global</a>
 &#149; <a href="qh-io.htm">Io</a> &#149; <a href="qh-mem.htm">Mem</a>
@@ -32,7 +32,7 @@ href="http://www.qhull.org">Home page</a> for Qhull<br>
 <hr>
 <!-- Main text of document. -->
 
-<h2>geom.c, geom2.c -- geometric and floating point routines</h2>
+<h2>geom.c, geom2.c, random.c -- geometric and floating point routines</h2>
 <blockquote>
 <p>Geometrically, a vertex is a point with <em>d</em> coordinates
 and a facet is a halfspace. A <em>halfspace</em> is defined by an
@@ -64,7 +64,9 @@ distance from vertices to the halfspace. </p>
 <a href="qh-stat.htm#TOC">Stat</a> &#149; <a href="qh-user.htm#TOC">User</a> </p>
 
 <h3>Index to <a href="geom.c">geom.c</a>, 
-<a href="geom2.c">geom2.c</a>, and <a href="geom.h">geom.h</a></h3>
+<a href="geom2.c">geom2.c</a>, <a href="geom.h">geom.h</a>,
+<a href="random.c">random.c</a>, <a href="random.h">random.h</a>
+</h3>
 
 <ul>
 <li><a href="#gtype">geometric data types and constants</a> </li>
@@ -81,9 +83,9 @@ distance from vertices to the halfspace. </p>
 and constants</a></h3>
 
 <ul>
-<li><a href="qhull.h#coordT">coordT</a> coordinates and
+<li><a href="qhulllib.h#coordT">coordT</a> coordinates and
 coefficients are stored as realT</li>
-<li><a href="qhull.h#pointT">pointT</a> a point is an array
+<li><a href="qhulllib.h#pointT">pointT</a> a point is an array
 of <tt>DIM3</tt> coordinates </li>
 </ul>
 
@@ -133,11 +135,11 @@ vector </li>
 vector and report if too small </li>
 <li><a href="geom2.c#printmatrix">qh_printmatrix</a> print
 matrix given by row vectors </li>
-<li><a href="geom2.c#rand">qh_rand/srand</a> generate random
+<li><a href="random.c#rand">qh_rand/srand</a> generate random
 numbers </li>
-<li><a href="geom2.c#randomfactor">qh_randomfactor</a> return
+<li><a href="random.c#randomfactor">qh_randomfactor</a> return
 a random factor near 1.0 </li>
-<li><a href="geom2.c#randommatrix">qh_randommatrix</a>
+<li><a href="random.c#randommatrix">qh_randommatrix</a>
 generate a random dimXdim matrix in range (-1,1) </li>
 </ul>
 
@@ -269,7 +271,7 @@ Qhull</a> <br>
 &#149; <a href="../html/qh-optq.htm#qhull">Qhull</a> 
 &#149; <a href="../html/qh-optc.htm#prec">Precision</a> 
 &#149; <a href="../html/qh-optt.htm#trace">Trace</a><br>
-<b>Up:</b> <a href="../html/qh-in.htm#TOC">Qhull internals: Table of Contents</a> <br>
+<b>Up:</b> <a href="../html/qh-code.htm#TOC">Qhull code: Table of Contents</a> <br>
 <b>To:</b> <a href="index.htm">Qhull functions</a>, macros, and data structures<br>
 <b>To:</b> <a href="qh-geom.htm">Geom</a> &#149; 
 <a href="qh-globa.htm">Global</a> &#149; <a href="qh-io.htm">Io</a>

@@ -7,22 +7,22 @@
 
 <body>
 <!-- Navigation links -->
-<a name="TOP"><b>Up</b></a><b>:</b> 
+<a name="TOP"><b>Up</b></a><b>:</b>
 <a href="http://www.qhull.org">Home page</a> for Qhull<br>
 <b>Up:</b> <a href="index.htm#TOC">Qhull manual</a>: Table of Contents<br>
 <b>To:</b> <a href="qh-quick.htm#programs">Programs</a>
-&#149; <a href="qh-quick.htm#options">Options</a> 
-&#149; <a href="qh-opto.htm#output">Output</a> 
-&#149; <a href="qh-optf.htm#format">Formats</a> 
-&#149; <a href="qh-optg.htm#geomview">Geomview</a> 
+&#149; <a href="qh-quick.htm#options">Options</a>
+&#149; <a href="qh-opto.htm#output">Output</a>
+&#149; <a href="qh-optf.htm#format">Formats</a>
+&#149; <a href="qh-optg.htm#geomview">Geomview</a>
 &#149; <a href="qh-optp.htm#print">Print</a>
-&#149; <a href="qh-optq.htm#qhull">Qhull</a> 
-&#149; <a href="qh-optc.htm#prec">Precision</a> 
+&#149; <a href="qh-optq.htm#qhull">Qhull</a>
+&#149; <a href="qh-optc.htm#prec">Precision</a>
 &#149; <a href="qh-optt.htm#trace">Trace</a><br>
-<b>To:</b> <a href="#synopsis">sy</a>nopsis 
-&#149; <a href="#input">in</a>put &#149; <a href="#outputs">ou</a>tputs 
-&#149; <a href="#controls">co</a>ntrols &#149; <a href="#graphics">gr</a>aphics 
-&#149; <a href="#notes">no</a>tes &#149; <a href="#conventions">co</a>nventions 
+<b>To:</b> <a href="#synopsis">sy</a>nopsis
+&#149; <a href="#input">in</a>put &#149; <a href="#outputs">ou</a>tputs
+&#149; <a href="#controls">co</a>ntrols &#149; <a href="#graphics">gr</a>aphics
+&#149; <a href="#notes">no</a>tes &#149; <a href="#conventions">co</a>nventions
 &#149; <a href="#options">op</a>tions
 
 <hr>
@@ -52,7 +52,7 @@ by O'Rourke [<a href="index.htm#orou94">'94</a>]. </p>
     <dt><b>Example:</b> rbox r y c G0.1 D2 | qdelaunay <a href="qh-opto.htm#s">s</a>
         <a href="qh-optf.htm#Fv">Fv</a> <a href="qh-optq.htm#Qt">Qt</a></dt>
     <dd>Compute the 2-d Delaunay triangulation of a triangle and
-        a small square. Write a summary and unoriented 
+        a small square. Write a summary and unoriented
 	regions to the console.  Produce triangulated output.</dd>
     <dt>&nbsp;</dt>
     <dt><b>Example:</b> rbox 10 D2 | qdelaunay <a
@@ -72,7 +72,7 @@ the sum of the squares of the coordinates. It scales the height
 of the paraboloid to improve numeric precision ('<a href=qh-optq.htm#Qbb>Qbb</a>').
 It computes the convex
 hull of the lifted sites, and projects the lower convex hull to
-the input. 
+the input.
 
 <p>Each region of the Delaunay triangulation
 corresponds to a facet of the lower half of the convex hull.
@@ -89,35 +89,35 @@ For example, the Delaunay triangulation of a square inside a diamond
 ('rbox D2 c d G4 | qdelaunay') contains one region for the square.
 It identifies coincident points.
 
-<p>If you use '<a href="qh-optq.htm#Qt">Qt</a>' (triangulated output), 
-all Delaunay regions will be simplicial (e.g., triangles in 2-d).  
+<p>If you use '<a href="qh-optq.htm#Qt">Qt</a>' (triangulated output),
+all Delaunay regions will be simplicial (e.g., triangles in 2-d).
 Some regions may be
 degenerate and have zero area.  Triangulated output identifies coincident
 points.
 
-<p>If you use '<a href="qh-optq.htm#QJn">QJ</a>' (joggled input), all Delaunay regions 
-will be simplicial (e.g., triangles in 2-d).  Coincident points will 
+<p>If you use '<a href="qh-optq.htm#QJn">QJ</a>' (joggled input), all Delaunay regions
+will be simplicial (e.g., triangles in 2-d).  Coincident points will
 create small regions since the points are joggled apart.  Joggled input
 is less accurate than triangulated output ('Qt').  See <a
 href="qh-impre.htm#joggle">Merged facets or joggled input</a>. </p>
 
-<p>The output for 3-d Delaunay triangulations may be confusing if the 
+<p>The output for 3-d Delaunay triangulations may be confusing if the
 input contains cospherical data.  See the FAQ item
 <a href=qh-faq.htm#extra>Why
-are there extra points in a 4-d or higher convex hull?</a> 
+are there extra points in a 4-d or higher convex hull?</a>
 Avoid these problems with triangulated output ('<a href="qh-optq.htm#Qt">Qt</a>') or
 joggled input ('<a href="qh-optq.htm#QJn">QJ</a>').
 </p>
 
-<p>The 'qdelaunay' program is equivalent to 
+<p>The 'qdelaunay' program is equivalent to
 '<a href=qhull.htm#outputs>qhull d</a> <a href=qh-optq.htm#Qbb>Qbb</a>' in 2-d to 3-d, and
-'<a href=qhull.htm#outputs>qhull d</a> <a href=qh-optq.htm#Qbb>Qbb</a> <a href=qh-optq.htm#Qx>Qx</a>' 
+'<a href=qhull.htm#outputs>qhull d</a> <a href=qh-optq.htm#Qbb>Qbb</a> <a href=qh-optq.htm#Qx>Qx</a>'
 in 4-d and higher.  It disables the following Qhull
 <a href=qh-quick.htm#options>options</a>: <i>d n v H U Qb QB Qc Qf Qg Qi
 Qm Qr QR Qv Qx TR E V FC Fi Fo Fp Ft FV Q0,etc</i>.
 
 
-<p><b>Copyright &copy; 1995-2003 The Geometry Center, Minneapolis MN</b></p>
+<p><b>Copyright &copy; 1995-2008 The Geometry Center, Minneapolis MN</b></p>
 
 <hr>
 
@@ -160,20 +160,20 @@ input</a></h3>
 <blockquote>
 <p>The input data on <tt>stdin</tt> consists of:</p>
 <ul>
-    <li>dimension 
+    <li>dimension
     <li>number of points</li>
     <li>point coordinates</li>
 </ul>
 
 <p>Use I/O redirection (e.g., qdelaunay &lt; data.txt), a pipe (e.g., rbox 10 | qdelaunay),
-or the '<a href=qh-optt.htm#TI>TI</a>' option (e.g., qdelaunay TI data.txt).  
+or the '<a href=qh-optt.htm#TI>TI</a>' option (e.g., qdelaunay TI data.txt).
 
-<p>For example, this is four cocircular points inside a square.  Its Delaunay 
+<p>For example, this is four cocircular points inside a square.  Its Delaunay
 triangulation contains 8 triangles and one four-sided
 figure.
 <p>
 <blockquote>
-<tt>rbox s 4 W0 c G1 D2 &gt; data</tt> 
+<tt>rbox s 4 W0 c G1 D2 &gt; data</tt>
 <blockquote><pre>
 2 RBOX s 4 W0 c D2
 8
@@ -237,23 +237,23 @@ outputs</a></h3>
 	output ('<a href="qh-optq.htm#Qt">Qt</a>') to avoid non-simpicial regions.  For the circle-in-square example,
 	eight Delaunay regions are triangular and the ninth has four input sites.</dd>
     <dt><a href="qh-optf.htm#Fv">Fv</a></dt>
-    <dd>list input sites for each Delaunay region.  The first line is the number of regions.  
+    <dd>list input sites for each Delaunay region.  The first line is the number of regions.
 	Each remaining line starts with the number of input sites.  The regions
 	are unoriented.  For the circle-in-square example,
 	eight Delaunay regions are triangular and the ninth has four input sites.</dd>
     <dt><a href="qh-optf.htm#Fn">Fn</a></dt>
     <dd>list neighboring regions for each Delaunay region.  The first line is the
-	number of regions.  Each remaining line starts with the number of 
+	number of regions.  Each remaining line starts with the number of
 	neighboring regions.  Negative indices (e.g., <em>-1</em>) indicate regions
 	outside of the Delaunay triangulation.
 	For the circle-in-square example, the four regions on the square are neighbors to
 	the region-at-infinity.</dd>
     <dt><a href="qh-optf.htm#FN">FN</a></dt>
     <dd>list the Delaunay regions for each input site.  The first line is the
-	total number of input sites.  Each remaining line starts with the number of 
+	total number of input sites.  Each remaining line starts with the number of
 	Delaunay regions.  Negative indices (e.g., <em>-1</em>) indicate regions
 	outside of the Delaunay triangulation.
-	For the circle-in-square example, each point on the circle belongs to four 
+	For the circle-in-square example, each point on the circle belongs to four
 	Delaunay regions.  Use '<a href="qh-optq.htm#Qc">Qc</a> FN'
 	to include coincident input sites and deleted vertices. </dd>
     <dt><a href="qh-optf.htm#Fa">Fa</a></dt>
@@ -265,19 +265,19 @@ outputs</a></h3>
     <dd><b>Input sites</b></dd>
     <dt><a href="qh-optf.htm#Fc">Fc</a></dt>
     <dd>list coincident input sites for each Delaunay region.
-	The first line is the number of regions.  The remaining lines start with 
+	The first line is the number of regions.  The remaining lines start with
 	the number of coincident sites and deleted vertices.  Deleted vertices
-	indicate highly degenerate input (see'<A href="qh-optf.htm#Fs">Fs</a>').  
+	indicate highly degenerate input (see'<A href="qh-optf.htm#Fs">Fs</a>').
 	A coincident site is assigned to one Delaunay
 	region.  Do not use '<a href="qh-optq.htm#QJn">QJ</a>' with 'Fc'; the joggle will separate
 	coincident sites.</dd>
     <dt><a href="qh-optf.htm#FP">FP</a></dt>
     <dd>print coincident input sites with distance to
-        nearest site (i.e., vertex). The first line is the 
+        nearest site (i.e., vertex). The first line is the
 	number of coincident sites.  Each remaining line starts with the point ID of
 	an input site, followed by the point ID of a coincident point, its region, and distance.
         Includes deleted vertices which
-	indicate highly degenerate input (see'<A href="qh-optf.htm#Fs">Fs</a>').  
+	indicate highly degenerate input (see'<A href="qh-optf.htm#Fs">Fs</a>').
         Do not use '<a href="qh-optq.htm#QJn">QJ</a>' with 'FP'; the joggle will separate
 	coincident sites.</dd>
     <dt><a href="qh-optf.htm#Fx">Fx</a></dt>
@@ -394,7 +394,7 @@ for cocircular or cospherical input data.
 <p>A non-simplicial Delaunay region indicates nearly cocircular or
 cospherical input sites. To avoid non-simplicial regions either triangulate
 the output ('<a href="qh-optq.htm#Qt">Qt</a>') or joggle
-the input ('<a href="qh-optq.htm#QJn">QJ</a>').  Triangulated output 
+the input ('<a href="qh-optq.htm#QJn">QJ</a>').  Triangulated output
 is more accurate than joggled input.  Alternatively, use an <a
 href="qh-impre.htm#exact">exact arithmetic code</a>.</p>
 
@@ -414,12 +414,12 @@ the origin, the facet normals are the Voronoi vertices of the
 input. The points may be restricted to a hemisphere. [S. Fortune]
 </p>
 
-<p>The 3-d Delaunay triangulation of regular points on a half 
-spiral (e.g., 'rbox 100 l | qdelaunay') has quadratic size, while the Delaunay triangulation 
-of random 3-d points is 
+<p>The 3-d Delaunay triangulation of regular points on a half
+spiral (e.g., 'rbox 100 l | qdelaunay') has quadratic size, while the Delaunay triangulation
+of random 3-d points is
 approximately linear for reasonably sized point sets.
 
-<p>With the <a href="qh-in.htm#library">Qhull library</a>, you
+<p>With the <a href="qh-code.htm#library">Qhull library</a>, you
 can use <tt>qh_findbestfacet</tt> in <tt>poly2.c</tt> to locate the facet
 that contains a point. You should first lift the point to the
 paraboloid (i.e., the last coordinate is the sum of the squares
@@ -489,7 +489,7 @@ conventions</a>.</p>
 
 <pre>
 qdelaunay- compute the Delaunay triangulation
-    http://www.qhull.org 
+    http://www.qhull.org
 
 input (stdin):
     first lines: dimension and number of points (or vice-versa).
@@ -559,7 +559,7 @@ More formats:
                                 #coincident points, #non-simplicial regions
                     #real (2), max outer plane, min vertex
     FS   - sizes:   #int (0)
-                    #real(2) tot area, 0
+                    #real (2), tot area, 0
     Fv   - count plus vertices for each Delaunay region
     Fx   - extreme points of Delaunay triangulation (on convex hull)
 
@@ -597,18 +597,18 @@ Print options:
 <p><b>Up:</b> <a href="http://www.qhull.org">Home page</a> for Qhull<br>
 <b>Up:</b> <a href="index.htm#TOC">Qhull manual</a>: Table of Contents<br>
 <b>To:</b> <a href="qh-quick.htm#programs">Programs</a>
-&#149; <a href="qh-quick.htm#options">Options</a> 
-&#149; <a href="qh-opto.htm#output">Output</a> 
-&#149; <a href="qh-optf.htm#format">Formats</a> 
-&#149; <a href="qh-optg.htm#geomview">Geomview</a> 
+&#149; <a href="qh-quick.htm#options">Options</a>
+&#149; <a href="qh-opto.htm#output">Output</a>
+&#149; <a href="qh-optf.htm#format">Formats</a>
+&#149; <a href="qh-optg.htm#geomview">Geomview</a>
 &#149; <a href="qh-optp.htm#print">Print</a>
-&#149; <a href="qh-optq.htm#qhull">Qhull</a> 
-&#149; <a href="qh-optc.htm#prec">Precision</a> 
+&#149; <a href="qh-optq.htm#qhull">Qhull</a>
+&#149; <a href="qh-optc.htm#prec">Precision</a>
 &#149; <a href="qh-optt.htm#trace">Trace</a><br>
-<b>To:</b> <a href="#synopsis">sy</a>nopsis 
-&#149; <a href="#input">in</a>put &#149; <a href="#outputs">ou</a>tputs 
-&#149; <a href="#controls">co</a>ntrols &#149; <a href="#graphics">gr</a>aphics 
-&#149; <a href="#notes">no</a>tes &#149; <a href="#conventions">co</a>nventions 
+<b>To:</b> <a href="#synopsis">sy</a>nopsis
+&#149; <a href="#input">in</a>put &#149; <a href="#outputs">ou</a>tputs
+&#149; <a href="#controls">co</a>ntrols &#149; <a href="#graphics">gr</a>aphics
+&#149; <a href="#notes">no</a>tes &#149; <a href="#conventions">co</a>nventions
 &#149; <a href="#options">op</a>tions
 <!-- GC common information -->
 <hr>

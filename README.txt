@@ -9,7 +9,7 @@ Convex hull, Delaunay triangulation, Voronoi diagrams, Halfspace intersection
 
       Available from:
         <http://www.qhull.org>
-	<http://savannah.gnu.org/projects/qhull>
+	<http://savannah.nongnu.org/projects/qhull>
  
      Version 1 (simplicial only):
         <http://www.qhull.org/download/qhull-1.0.tar.gz>
@@ -44,9 +44,15 @@ Environment requirements
   Qhull is copyrighted software.  Please read COPYING.txt and REGISTER.txt
   before using or distributing Qhull.
 
+To cite Qhull, please use
+
+  Barber, C.B., Dobkin, D.P., and Huhdanpaa, H.T., "The Quickhull 
+  algorithm for convex hulls," ACM Trans. on Mathematical Software,
+  22(4):469-483, Dec 1996, http://www.qhull.org.
+
 To contribute to Qhull
 
-  Qhull is on Savannah at http://savannah.gnu.org/projects/qhull/
+  Qhull is on Savannah at http://savannah.nongnu.org/projects/qhull/
 
 Qhull on Windows 95, 98, ME, NT, 2000, XP
 
@@ -147,7 +153,7 @@ Compiling on Windows 95, 98, NT, 2000, XP
   Visual C++ quickstart for qhull.exe only:
     - create a "Win32 console application" called "qhull"
 	- add the following files:
-	    geom.c geom2.c global.c io.c mem.c merge.c poly.c poly2.c qhull.c
+	    geom.c geom2.c global.c io.c mem.c merge.c poly.c poly2.c qhulllib.c
 		qset.c stat.c unix.c user.c
     - create a "Win32 console application" called "rbox" 
 	- add rbox.c
@@ -167,7 +173,7 @@ Compiling on Windows 95, 98, NT, 2000, XP
 
     - create a "Win32 static library" called "library"
 	- move these files from "qhull source"
-	    geom.c geom2.c global.c io.c mem.c merge.c poly.c poly2.c qhull.c
+	    geom.c geom2.c global.c io.c mem.c merge.c poly.c poly2.c qhulllib.c
 		qset.c stat.c user.c
 	- set the library file (use the same for debug and release)
 	- build the project
@@ -265,8 +271,8 @@ src/
      qvoronoi.htm
      qvoron_f.htm
      qh-eg.htm
+     qh-code.htm
      qh-impre.htm
-     qh-in.htm
      index.htm
      qh-opt*.htm
      qh-quick.htm
@@ -281,9 +287,9 @@ src/
      src/index.htm     // index to source files 
      qh-...htm         //   specific files
      user.h            // header file of user definable constants 
-     qhull.h           // header file for qhull 
+     qhulllib.h           // header file for qhull 
      unix.c            // Unix front end to qhull 
-     qhull.c           // Quickhull algorithm with partitioning 
+     qhulllib.c           // Quickhull algorithm with partitioning 
      user.c            // user re-definable functions 
      user_eg.c         // example of incorporating qhull into a user program 
      user_eg2.c        // more complex example 
@@ -312,11 +318,11 @@ src/
 Authors:
 
   C. Bradford Barber                    Hannu Huhdanpaa
-  bradb@qhull.org                    hannu@qhull.org
+  bradb@qhull.org                       hannu@qhull.org
   
                     The Geometry Center
                     University of Minnesota
   
-  Qhull 1.0 was developed under NSF grants NSF/DMS-8920161 and
-  NSF-CCR-91-15793 750-7504 at the Geometry Center and Harvard 
+  Qhull 1.0 and 2.0 were developed under NSF grants NSF/DMS-8920161 
+  and NSF-CCR-91-15793 750-7504 at the Geometry Center and Harvard 
   University.  If you find Qhull useful, please let us know.

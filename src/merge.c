@@ -10,24 +10,26 @@
 
    the user may call qh_postmerge() to perform additional merges.
 
-   To remove deleted facets and vertices (qhull() in qhull.c):
-     qh_partitionvisible (!qh_ALL, &numoutside);  // visible_list, newfacet_list
-     qh_deletevisible ();         // qh.visible_list
-     qh_resetlists (False, qh_RESETvisible);       // qh.visible_list newvertex_list newfacet_list 
+   To remove deleted facets and vertices (qhull() in qhulllib.c):
+     qh_partitionvisible(!qh_ALL, &numoutside);  // visible_list, newfacet_list
+     qh_deletevisible();         // qh.visible_list
+     qh_resetlists(False, qh_RESETvisible);       // qh.visible_list newvertex_list newfacet_list 
 
    assumes qh.CENTERtype= centrum
 
    merges occur in qh_mergefacet and in qh_mergecycle
    vertex->neighbors not set until the first merge occurs
 
-   copyright (c) 1993-2003 The Geometry Center        
+   copyright (c) 1993-2009 The Geometry Center.
+   $Id: //product/qhull/main/rel/src/merge.c#21 $$Change: 1095 $
+   $DateTime: 2009/12/01 22:40:56 $$Author: bbarber $        
 */
 
 #include "qhull_a.h"
 
 #ifndef qh_NOmerge
 
-/*===== functions (alphabetical after premerge and postmerge) ======*/
+/*===== functions(alphabetical after premerge and postmerge) ======*/
 
 /*-<a                             href="qh-merge.htm#TOC"
   >-------------------------------</a><a name="premerge">-</a>
@@ -51,38 +53,38 @@
     collect coplanar and concave facets
     merge concave, coplanar, degenerate, and redundant facets
 */
-void qh_premerge (vertexT *apex, realT maxcentrum, realT maxangle) {
+void qh_premerge(vertexT *apex, realT maxcentrum, realT maxangle) {
   boolT othermerge= False;
   facetT *newfacet;
   
   if (qh ZEROcentrum && qh_checkzero(!qh_ALL))
     return;    
-  trace2((qh ferr, "qh_premerge: premerge centrum %2.2g angle %2.2g for apex v%d facetlist f%d\n",
+  trace2((qh ferr, 2008, "qh_premerge: premerge centrum %2.2g angle %2.2g for apex v%d facetlist f%d\n",
 	    maxcentrum, maxangle, apex->id, getid_(qh newfacet_list)));
   if (qh IStracing >= 4 && qh num_facets < 50)
     qh_printlists();
   qh centrum_radius= maxcentrum;
   qh cos_max= maxangle;
-  qh degen_mergeset= qh_settemp (qh TEMPsize);
-  qh facet_mergeset= qh_settemp (qh TEMPsize);
+  qh degen_mergeset= qh_settemp(qh TEMPsize);
+  qh facet_mergeset= qh_settemp(qh TEMPsize);
   if (qh hull_dim >=3) { 
-    qh_mark_dupridges (qh newfacet_list); /* facet_mergeset */
-    qh_mergecycle_all (qh newfacet_list, &othermerge);
-    qh_forcedmerges (&othermerge /* qh facet_mergeset */); 
+    qh_mark_dupridges(qh newfacet_list); /* facet_mergeset */
+    qh_mergecycle_all(qh newfacet_list, &othermerge);
+    qh_forcedmerges(&othermerge /* qh facet_mergeset */); 
     FORALLnew_facets {  /* test samecycle merges */
       if (!newfacet->simplicial && !newfacet->mergeridge)
-	qh_degen_redundant_neighbors (newfacet, NULL);
+	qh_degen_redundant_neighbors(newfacet, NULL);
     }
     if (qh_merge_degenredundant())
       othermerge= True;
   }else /* qh hull_dim == 2 */
-    qh_mergecycle_all (qh newfacet_list, &othermerge);
-  qh_flippedmerges (qh newfacet_list, &othermerge);
+    qh_mergecycle_all(qh newfacet_list, &othermerge);
+  qh_flippedmerges(qh newfacet_list, &othermerge);
   if (!qh MERGEexact || zzval_(Ztotmerge)) {
     zinc_(Zpremergetot);
     qh POSTmerging= False;
-    qh_getmergeset_initial (qh newfacet_list);
-    qh_all_merges (othermerge, False);
+    qh_getmergeset_initial(qh newfacet_list);
+    qh_all_merges(othermerge, False);
   }
   qh_settempfree(&qh facet_mergeset);
   qh_settempfree(&qh degen_mergeset);
@@ -124,27 +126,27 @@ void qh_premerge (vertexT *apex, realT maxcentrum, realT maxangle) {
     determine non-convex facets
     merge all non-convex facets
 */
-void qh_postmerge (char *reason, realT maxcentrum, realT maxangle, 
+void qh_postmerge(char *reason, realT maxcentrum, realT maxangle, 
                       boolT vneighbors) {
   facetT *newfacet;
   boolT othermerges= False;
   vertexT *vertex;
 
   if (qh REPORTfreq || qh IStracing) {
-    qh_buildtracing (NULL, NULL);
-    qh_printsummary (qh ferr);
+    qh_buildtracing(NULL, NULL);
+    qh_printsummary(qh ferr);
     if (qh PRINTstatistics) 
-      qh_printallstatistics (qh ferr, "reason");
-    fprintf (qh ferr, "\n%s with 'C%.2g' and 'A%.2g'\n", 
+      qh_printallstatistics(qh ferr, "reason");
+    qh_fprintf(qh ferr, 8062, "\n%s with 'C%.2g' and 'A%.2g'\n", 
         reason, maxcentrum, maxangle);
   }
-  trace2((qh ferr, "qh_postmerge: postmerge.  test vneighbors? %d\n",
+  trace2((qh ferr, 2009, "qh_postmerge: postmerge.  test vneighbors? %d\n",
 	    vneighbors));
   qh centrum_radius= maxcentrum;
   qh cos_max= maxangle;
   qh POSTmerging= True;
-  qh degen_mergeset= qh_settemp (qh TEMPsize);
-  qh facet_mergeset= qh_settemp (qh TEMPsize);
+  qh degen_mergeset= qh_settemp(qh TEMPsize);
+  qh facet_mergeset= qh_settemp(qh TEMPsize);
   if (qh visible_list != qh facet_list) {  /* first call */
     qh NEWfacets= True;
     qh visible_list= qh newfacet_list= qh facet_list;
@@ -166,10 +168,10 @@ void qh_postmerge (char *reason, realT maxcentrum, realT maxangle,
       }
     }
     if (!qh PREmerge && !qh MERGEexact) 
-      qh_flippedmerges (qh newfacet_list, &othermerges);
+      qh_flippedmerges(qh newfacet_list, &othermerges);
   }
-  qh_getmergeset_initial (qh newfacet_list);
-  qh_all_merges (False, vneighbors);
+  qh_getmergeset_initial(qh newfacet_list);
+  qh_all_merges(False, vneighbors);
   qh_settempfree(&qh facet_mergeset);
   qh_settempfree(&qh degen_mergeset);
 } /* post_merge */
@@ -210,7 +212,7 @@ void qh_postmerge (char *reason, realT maxcentrum, realT maxangle,
     if vneighbors ??
       tests vertex neighbors for convexity at end
 */
-void qh_all_merges (boolT othermerge, boolT vneighbors) {
+void qh_all_merges(boolT othermerge, boolT vneighbors) {
   facetT *facet1, *facet2;
   mergeT *merge;
   boolT wasmerge= True, isreduce;
@@ -219,11 +221,11 @@ void qh_all_merges (boolT othermerge, boolT vneighbors) {
   mergeType mergetype;
   int numcoplanar=0, numconcave=0, numdegenredun= 0, numnewmerges= 0;
   
-  trace2((qh ferr, "qh_all_merges: starting to merge facets beginning from f%d\n",
+  trace2((qh ferr, 2010, "qh_all_merges: starting to merge facets beginning from f%d\n",
 	    getid_(qh newfacet_list)));
   while (True) {
     wasmerge= False;
-    while (qh_setsize (qh facet_mergeset)) {
+    while (qh_setsize(qh facet_mergeset)) {
       while ((merge= (mergeT*)qh_setdellast(qh facet_mergeset))) {
 	facet1= merge->facet1;
 	facet2= merge->facet2;
@@ -236,7 +238,7 @@ void qh_all_merges (boolT othermerge, boolT vneighbors) {
 	  if (qh MERGEindependent && mergetype <= MRGanglecoplanar)
 	    continue;      /* perform independent sets of merges */
 	}
-	qh_merge_nonconvex (facet1, facet2, mergetype);
+	qh_merge_nonconvex(facet1, facet2, mergetype);
         numdegenredun += qh_merge_degenredundant();
         numnewmerges++;
         wasmerge= True;
@@ -250,7 +252,7 @@ void qh_all_merges (boolT othermerge, boolT vneighbors) {
 	numnewmerges= 0;
 	qh_reducevertices();  /* otherwise large post merges too slow */
       }
-      qh_getmergeset (qh newfacet_list); /* facet_mergeset */
+      qh_getmergeset(qh newfacet_list); /* facet_mergeset */
     } /* while mergeset */
     if (qh VERTEXneighbors) {
       isreduce= False;
@@ -266,7 +268,7 @@ void qh_all_merges (boolT othermerge, boolT vneighbors) {
       }
       if (isreduce) {
 	if (qh_reducevertices()) {
-	  qh_getmergeset (qh newfacet_list); /* facet_mergeset */
+	  qh_getmergeset(qh newfacet_list); /* facet_mergeset */
 	  continue;
 	}
       }
@@ -278,14 +280,14 @@ void qh_all_merges (boolT othermerge, boolT vneighbors) {
   if (qh CHECKfrequently && !qh MERGEexact) {
     qh old_randomdist= qh RANDOMdist;
     qh RANDOMdist= False;
-    qh_checkconvex (qh newfacet_list, qh_ALGORITHMfault);
-    /* qh_checkconnect (); [this is slow and it changes the facet order] */
+    qh_checkconvex(qh newfacet_list, qh_ALGORITHMfault);
+    /* qh_checkconnect(); [this is slow and it changes the facet order] */
     qh RANDOMdist= qh old_randomdist;
   }
-  trace1((qh ferr, "qh_all_merges: merged %d coplanar facets %d concave facets and %d degen or redundant facets.\n",
+  trace1((qh ferr, 1009, "qh_all_merges: merged %d coplanar facets %d concave facets and %d degen or redundant facets.\n",
     numcoplanar, numconcave, numdegenredun));
   if (qh IStracing >= 4 && qh num_facets < 50)
-    qh_printlists ();
+    qh_printlists();
 } /* all_merges */
 
 
@@ -330,31 +332,31 @@ void qh_appendmergeset(facetT *facet, facetT *neighbor, mergeType mergetype, rea
   if (angle && qh ANGLEmerge)
     merge->angle= *angle;
   if (mergetype < MRGdegen)
-    qh_setappend (&(qh facet_mergeset), merge);
+    qh_setappend(&(qh facet_mergeset), merge);
   else if (mergetype == MRGdegen) {
     facet->degenerate= True;
-    if (!(lastmerge= (mergeT*)qh_setlast (qh degen_mergeset)) 
+    if (!(lastmerge= (mergeT*)qh_setlast(qh degen_mergeset)) 
     || lastmerge->type == MRGdegen)
-      qh_setappend (&(qh degen_mergeset), merge);
+      qh_setappend(&(qh degen_mergeset), merge);
     else
-      qh_setaddnth (&(qh degen_mergeset), 0, merge);
+      qh_setaddnth(&(qh degen_mergeset), 0, merge);
   }else if (mergetype == MRGredundant) {
     facet->redundant= True;
-    qh_setappend (&(qh degen_mergeset), merge);
+    qh_setappend(&(qh degen_mergeset), merge);
   }else /* mergetype == MRGmirror */ {
     if (facet->redundant || neighbor->redundant) {
-      fprintf(qh ferr, "qhull error (qh_appendmergeset): facet f%d or f%d is already a mirrored facet\n",
+      qh_fprintf(qh ferr, 6092, "qhull error (qh_appendmergeset): facet f%d or f%d is already a mirrored facet\n",
 	   facet->id, neighbor->id);
       qh_errexit2 (qh_ERRqhull, facet, neighbor);
     }
-    if (!qh_setequal (facet->vertices, neighbor->vertices)) {
-      fprintf(qh ferr, "qhull error (qh_appendmergeset): mirrored facets f%d and f%d do not have the same vertices\n",
+    if (!qh_setequal(facet->vertices, neighbor->vertices)) {
+      qh_fprintf(qh ferr, 6093, "qhull error (qh_appendmergeset): mirrored facets f%d and f%d do not have the same vertices\n",
 	   facet->id, neighbor->id);
       qh_errexit2 (qh_ERRqhull, facet, neighbor);
     }
     facet->redundant= True;
     neighbor->redundant= True;
-    qh_setappend (&(qh degen_mergeset), merge);
+    qh_setappend(&(qh degen_mergeset), merge);
   }
 } /* appendmergeset */
 
@@ -368,7 +370,7 @@ void qh_appendmergeset(facetT *facet, facetT *neighbor, mergeType mergetype, rea
     assumes apex is SETfirst_( samecycle->vertices )
 
   returns:
-    vertices (settemp)
+    vertices(settemp)
     all ->seen are cleared
 
   notes:
@@ -379,10 +381,10 @@ void qh_appendmergeset(facetT *facet, facetT *neighbor, mergeType mergetype, rea
       for each unseen vertex in facet->vertices
         append to result  
 */
-setT *qh_basevertices (facetT *samecycle) {
+setT *qh_basevertices(facetT *samecycle) {
   facetT *same;
   vertexT *apex, *vertex, **vertexp;
-  setT *vertices= qh_settemp (qh TEMPsize);
+  setT *vertices= qh_settemp(qh TEMPsize);
   
   apex= SETfirstt_(samecycle->vertices, vertexT);
   apex->visitid= ++qh vertex_visit;
@@ -391,14 +393,14 @@ setT *qh_basevertices (facetT *samecycle) {
       continue;
     FOREACHvertex_(same->vertices) {
       if (vertex->visitid != qh vertex_visit) {
-        qh_setappend (&vertices, vertex);
+        qh_setappend(&vertices, vertex);
         vertex->visitid= qh vertex_visit;
         vertex->seen= False;
       }
     }
   }
-  trace4((qh ferr, "qh_basevertices: found %d vertices\n", 
-         qh_setsize (vertices)));
+  trace4((qh ferr, 4019, "qh_basevertices: found %d vertices\n", 
+         qh_setsize(vertices)));
   return vertices;
 } /* basevertices */
 
@@ -420,18 +422,18 @@ setT *qh_basevertices (facetT *samecycle) {
     for all new facets
       report error if unvisited
 */
-void qh_checkconnect (void /* qh newfacet_list */) {
+void qh_checkconnect(void /* qh newfacet_list */) {
   facetT *facet, *newfacet, *errfacet= NULL, *neighbor, **neighborp;
 
   facet= qh newfacet_list;
-  qh_removefacet (facet);
-  qh_appendfacet (facet);
+  qh_removefacet(facet);
+  qh_appendfacet(facet);
   facet->visitid= ++qh visit_id;
   FORALLfacet_(facet) {
     FOREACHneighbor_(facet) {
       if (neighbor->visitid != qh visit_id) {
-        qh_removefacet (neighbor);
-        qh_appendfacet (neighbor);
+        qh_removefacet(neighbor);
+        qh_appendfacet(neighbor);
         neighbor->visitid= qh visit_id;
       }
     }
@@ -439,12 +441,12 @@ void qh_checkconnect (void /* qh newfacet_list */) {
   FORALLnew_facets {
     if (newfacet->visitid == qh visit_id)
       break;
-    fprintf(qh ferr, "qhull error: f%d is not attached to the new facets\n",
+    qh_fprintf(qh ferr, 6094, "qhull error: f%d is not attached to the new facets\n",
          newfacet->id);
     errfacet= newfacet;
   }
   if (errfacet)
-    qh_errexit (qh_ERRqhull, errfacet, NULL);
+    qh_errexit(qh_ERRqhull, errfacet, NULL);
 } /* checkconnect */
 
 /*-<a                             href="qh-merge.htm#TOC"
@@ -483,7 +485,7 @@ void qh_checkconnect (void /* qh newfacet_list */) {
       if qh.newfacet_list
         test the other vertices in the facet's horizon facet
 */
-boolT qh_checkzero (boolT testall) {
+boolT qh_checkzero(boolT testall) {
   facetT *facet, *neighbor, **neighborp;
   facetT *horizon, *facetlist;
   int neighbor_i;
@@ -502,7 +504,7 @@ boolT qh_checkzero (boolT testall) {
         goto LABELproblem;
     }
     if (qh MERGEexact && qh ZEROall_ok) {
-      trace2((qh ferr, "qh_checkzero: skip convexity check until first pre-merge\n"));
+      trace2((qh ferr, 2011, "qh_checkzero: skip convexity check until first pre-merge\n"));
       return True;
     }
   }
@@ -519,7 +521,7 @@ boolT qh_checkzero (boolT testall) {
       vertex= SETelemt_(facet->vertices, neighbor_i++, vertexT);
       vertex->visitid= qh vertex_visit;
       zzinc_(Zdistzero);
-      qh_distplane (vertex->point, neighbor, &dist);
+      qh_distplane(vertex->point, neighbor, &dist);
       if (dist >= -qh DISTround) {
         qh ZEROall_ok= False;
         if (!qh MERGEexact || testall || dist > qh DISTround)
@@ -530,7 +532,7 @@ boolT qh_checkzero (boolT testall) {
       FOREACHvertex_(horizon->vertices) {
 	if (vertex->visitid != qh vertex_visit) {
 	  zzinc_(Zdistzero);
-	  qh_distplane (vertex->point, facet, &dist);
+	  qh_distplane(vertex->point, facet, &dist);
 	  if (dist >= -qh DISTround) {
 	    qh ZEROall_ok= False;
 	    if (!qh MERGEexact || dist > qh DISTround)
@@ -541,19 +543,19 @@ boolT qh_checkzero (boolT testall) {
       }
     }
   }
-  trace2((qh ferr, "qh_checkzero: testall %d, facets are %s\n", testall,
+  trace2((qh ferr, 2012, "qh_checkzero: testall %d, facets are %s\n", testall,
         (qh MERGEexact && !testall) ? 
            "not concave, flipped, or duplicate ridged" : "clearly convex"));
   return True;
 
  LABELproblem:
   qh ZEROall_ok= False;
-  trace2((qh ferr, "qh_checkzero: facet f%d needs pre-merging\n",
+  trace2((qh ferr, 2013, "qh_checkzero: facet f%d needs pre-merging\n",
        facet->id));
   return False;
 
  LABELnonconvex:
-  trace2((qh ferr, "qh_checkzero: facet f%d and f%d are not clearly convex.  v%d dist %.2g\n",
+  trace2((qh ferr, 2014, "qh_checkzero: facet f%d and f%d are not clearly convex.  v%d dist %.2g\n",
          facet->id, neighbor->id, vertex->id, dist));
   return False;
 } /* checkzero */
@@ -567,7 +569,7 @@ boolT qh_checkzero (boolT testall) {
 int qh_compareangle(const void *p1, const void *p2) {
   mergeT *a= *((mergeT **)p1), *b= *((mergeT **)p2);
  
-  return ((a->angle > b->angle) ? 1 : -1);
+  return((a->angle > b->angle) ? 1 : -1);
 } /* compareangle */
 
 /*-<a                             href="qh-merge.htm#TOC"
@@ -579,7 +581,7 @@ int qh_compareangle(const void *p1, const void *p2) {
 int qh_comparemerge(const void *p1, const void *p2) {
   mergeT *a= *((mergeT **)p1), *b= *((mergeT **)p2);
  
-  return (a->type - b->type);
+  return(a->type - b->type);
 } /* comparemerge */
 
 /*-<a                             href="qh-merge.htm#TOC"
@@ -588,10 +590,10 @@ int qh_comparemerge(const void *p1, const void *p2) {
   qh_comparevisit( vertex1, vertex2 )
     used by qsort() to order vertices by their visitid
 */
-int qh_comparevisit (const void *p1, const void *p2) {
+int qh_comparevisit(const void *p1, const void *p2) {
   vertexT *a= *((vertexT **)p1), *b= *((vertexT **)p2);
  
-  return (a->visitid - b->visitid);
+  return(a->visitid - b->visitid);
 } /* comparevisit */
 
 /*-<a                             href="qh-merge.htm#TOC"
@@ -608,7 +610,7 @@ int qh_comparevisit (const void *p1, const void *p2) {
       if ridge shares the same neighbor
         set nonconvex flag
 */
-void qh_copynonconvex (ridgeT *atridge) {
+void qh_copynonconvex(ridgeT *atridge) {
   facetT *facet, *otherfacet;
   ridgeT *ridge, **ridgep;
 
@@ -617,7 +619,7 @@ void qh_copynonconvex (ridgeT *atridge) {
   FOREACHridge_(facet->ridges) {
     if (otherfacet == otherfacet_(ridge, facet) && ridge != atridge) {
       ridge->nonconvex= True;
-      trace4((qh ferr, "qh_copynonconvex: moved nonconvex flag from r%d to r%d\n",
+      trace4((qh ferr, 4020, "qh_copynonconvex: moved nonconvex flag from r%d to r%d\n",
 	      atridge->id, ridge->id));
       break;
     }
@@ -642,11 +644,11 @@ void qh_copynonconvex (ridgeT *atridge) {
     test for redundant neighbor
     test for degenerate facet
 */
-void qh_degen_redundant_facet (facetT *facet) {
+void qh_degen_redundant_facet(facetT *facet) {
   vertexT *vertex, **vertexp;
   facetT *neighbor, **neighborp;
 
-  trace4((qh ferr, "qh_degen_redundant_facet: test facet f%d for degen/redundant\n",
+  trace4((qh ferr, 4021, "qh_degen_redundant_facet: test facet f%d for degen/redundant\n",
 	  facet->id));
   FOREACHneighbor_(facet) {
     qh vertex_visit++;
@@ -657,14 +659,14 @@ void qh_degen_redundant_facet (facetT *facet) {
 	break;
     }
     if (!vertex) {
-      qh_appendmergeset (facet, neighbor, MRGredundant, NULL);
-      trace2((qh ferr, "qh_degen_redundant_facet: f%d is contained in f%d.  merge\n", facet->id, neighbor->id)); 
+      qh_appendmergeset(facet, neighbor, MRGredundant, NULL);
+      trace2((qh ferr, 2015, "qh_degen_redundant_facet: f%d is contained in f%d.  merge\n", facet->id, neighbor->id)); 
       return;
     }
   }
-  if (qh_setsize (facet->neighbors) < qh hull_dim) {
-    qh_appendmergeset (facet, facet, MRGdegen, NULL);
-    trace2((qh ferr, "qh_degen_redundant_neighbors: f%d is degenerate.\n", facet->id));
+  if (qh_setsize(facet->neighbors) < qh hull_dim) {
+    qh_appendmergeset(facet, facet, MRGdegen, NULL);
+    trace2((qh ferr, 2016, "qh_degen_redundant_neighbors: f%d is degenerate.\n", facet->id));
   }
 } /* degen_redundant_facet */
 
@@ -698,16 +700,16 @@ void qh_degen_redundant_facet (facetT *facet) {
     test for redundant neighbor
     test for degenerate neighbor
 */
-void qh_degen_redundant_neighbors (facetT *facet, facetT *delfacet) {
+void qh_degen_redundant_neighbors(facetT *facet, facetT *delfacet) {
   vertexT *vertex, **vertexp;
   facetT *neighbor, **neighborp;
   int size;
 
-  trace4((qh ferr, "qh_degen_redundant_neighbors: test neighbors of f%d with delfacet f%d\n", 
+  trace4((qh ferr, 4022, "qh_degen_redundant_neighbors: test neighbors of f%d with delfacet f%d\n", 
 	  facet->id, getid_(delfacet)));
-  if ((size= qh_setsize (facet->neighbors)) < qh hull_dim) {
-    qh_appendmergeset (facet, facet, MRGdegen, NULL);
-    trace2((qh ferr, "qh_degen_redundant_neighbors: f%d is degenerate with %d neighbors.\n", facet->id, size));
+  if ((size= qh_setsize(facet->neighbors)) < qh hull_dim) {
+    qh_appendmergeset(facet, facet, MRGdegen, NULL);
+    trace2((qh ferr, 2017, "qh_degen_redundant_neighbors: f%d is degenerate with %d neighbors.\n", facet->id, size));
   }
   if (!delfacet)
     delfacet= facet;
@@ -723,16 +725,16 @@ void qh_degen_redundant_neighbors (facetT *facet, facetT *delfacet) {
         break;
     }
     if (!vertex) {
-      qh_appendmergeset (neighbor, facet, MRGredundant, NULL);
-      trace2((qh ferr, "qh_degen_redundant_neighbors: f%d is contained in f%d.  merge\n", neighbor->id, facet->id)); 
+      qh_appendmergeset(neighbor, facet, MRGredundant, NULL);
+      trace2((qh ferr, 2018, "qh_degen_redundant_neighbors: f%d is contained in f%d.  merge\n", neighbor->id, facet->id)); 
     }
   }
   FOREACHneighbor_(delfacet) {   /* redundant merges occur first */
     if (neighbor == facet)
       continue;
-    if ((size= qh_setsize (neighbor->neighbors)) < qh hull_dim) {
-      qh_appendmergeset (neighbor, neighbor, MRGdegen, NULL);
-      trace2((qh ferr, "qh_degen_redundant_neighbors: f%d is degenerate with %d neighbors.  Neighbor of f%d.\n", neighbor->id, size, facet->id)); 
+    if ((size= qh_setsize(neighbor->neighbors)) < qh hull_dim) {
+      qh_appendmergeset(neighbor, neighbor, MRGdegen, NULL);
+      trace2((qh ferr, 2019, "qh_degen_redundant_neighbors: f%d is degenerate with %d neighbors.  Neighbor of f%d.\n", neighbor->id, size, facet->id)); 
     }
   }
 } /* degen_redundant_neighbors */
@@ -768,7 +770,7 @@ void qh_degen_redundant_neighbors (facetT *facet, facetT *delfacet) {
     for each vertex in vertices
       look for a vertex that would not cause a duplicate ridge after a rename
 */
-vertexT *qh_find_newvertex (vertexT *oldvertex, setT *vertices, setT *ridges) {
+vertexT *qh_find_newvertex(vertexT *oldvertex, setT *vertices, setT *ridges) {
   vertexT *vertex, **vertexp;
   setT *newridges;
   ridgeT *ridge, **ridgep;
@@ -777,13 +779,13 @@ vertexT *qh_find_newvertex (vertexT *oldvertex, setT *vertices, setT *ridges) {
 
 #ifndef qh_NOtrace
   if (qh IStracing >= 4) {
-    fprintf (qh ferr, "qh_find_newvertex: find new vertex for v%d from ",
+    qh_fprintf(qh ferr, 8063, "qh_find_newvertex: find new vertex for v%d from ",
 	     oldvertex->id);
     FOREACHvertex_(vertices) 
-      fprintf (qh ferr, "v%d ", vertex->id);
+      qh_fprintf(qh ferr, 8064, "v%d ", vertex->id);
     FOREACHridge_(ridges)
-      fprintf (qh ferr, "r%d ", ridge->id);
-    fprintf (qh ferr, "\n");
+      qh_fprintf(qh ferr, 8065, "r%d ", ridge->id);
+    qh_fprintf(qh ferr, 8066, "\n");
   }
 #endif
   FOREACHvertex_(vertices) 
@@ -794,50 +796,50 @@ vertexT *qh_find_newvertex (vertexT *oldvertex, setT *vertices, setT *ridges) {
   }
   FOREACHvertex_(vertices) {
     if (!vertex->visitid) {
-      qh_setdelnth (vertices, SETindex_(vertices,vertex));
+      qh_setdelnth(vertices, SETindex_(vertices,vertex));
       vertexp--; /* repeat since deleted this vertex */
     }
   }
-  qh vertex_visit += qh_setsize (ridges);
-  if (!qh_setsize (vertices)) {
-    trace4((qh ferr, "qh_find_newvertex: vertices not in ridges for v%d\n",
+  qh vertex_visit += qh_setsize(ridges);
+  if (!qh_setsize(vertices)) {
+    trace4((qh ferr, 4023, "qh_find_newvertex: vertices not in ridges for v%d\n",
 	    oldvertex->id));
     return NULL;
   }
-  qsort (SETaddr_(vertices, vertexT), qh_setsize (vertices),
-	        sizeof (vertexT *), qh_comparevisit);
+  qsort(SETaddr_(vertices, vertexT), qh_setsize(vertices),
+	        sizeof(vertexT *), qh_comparevisit);
   /* can now use qh vertex_visit */
   if (qh PRINTstatistics) {
-    size= qh_setsize (vertices);
+    size= qh_setsize(vertices);
     zinc_(Zintersect);
     zadd_(Zintersecttot, size);
     zmax_(Zintersectmax, size);
   }
-  hashsize= qh_newhashtable (qh_setsize (ridges));
+  hashsize= qh_newhashtable(qh_setsize(ridges));
   FOREACHridge_(ridges)
-    qh_hashridge (qh hash_table, hashsize, ridge, oldvertex);
+    qh_hashridge(qh hash_table, hashsize, ridge, oldvertex);
   FOREACHvertex_(vertices) {
-    newridges= qh_vertexridges (vertex);
+    newridges= qh_vertexridges(vertex);
     FOREACHridge_(newridges) {
-      if (qh_hashridge_find (qh hash_table, hashsize, ridge, vertex, oldvertex, &hash)) {
+      if (qh_hashridge_find(qh hash_table, hashsize, ridge, vertex, oldvertex, &hash)) {
 	zinc_(Zdupridge);
 	break;
       }
     }
-    qh_settempfree (&newridges);
+    qh_settempfree(&newridges);
     if (!ridge)
       break;  /* found a rename */
   }
   if (vertex) {
     /* counted in qh_renamevertex */
-    trace2((qh ferr, "qh_find_newvertex: found v%d for old v%d from %d vertices and %d ridges.\n",
-      vertex->id, oldvertex->id, qh_setsize (vertices), qh_setsize (ridges)));
+    trace2((qh ferr, 2020, "qh_find_newvertex: found v%d for old v%d from %d vertices and %d ridges.\n",
+      vertex->id, oldvertex->id, qh_setsize(vertices), qh_setsize(ridges)));
   }else {
     zinc_(Zfindfail);
-    trace0((qh ferr, "qh_find_newvertex: no vertex for renaming v%d (all duplicated ridges) during p%d\n",
+    trace0((qh ferr, 14, "qh_find_newvertex: no vertex for renaming v%d(all duplicated ridges) during p%d\n",
       oldvertex->id, qh furthest_id));
   }
-  qh_setfree (&qh hash_table);
+  qh_setfree(&qh hash_table);
   return vertex;
 } /* find_newvertex */
 
@@ -855,7 +857,7 @@ vertexT *qh_find_newvertex (vertexT *oldvertex, setT *vertices, setT *ridges) {
     if a better facet (i.e., vertices/centrum of facet closer to neighbor)
       updates bestfacet, dist, mindist, and maxdist
 */
-void qh_findbest_test (boolT testcentrum, facetT *facet, facetT *neighbor,
+void qh_findbest_test(boolT testcentrum, facetT *facet, facetT *neighbor,
       facetT **bestfacet, realT *distp, realT *mindistp, realT *maxdistp) {
   realT dist, mindist, maxdist;
 
@@ -867,10 +869,12 @@ void qh_findbest_test (boolT testcentrum, facetT *facet, facetT *neighbor,
       maxdist= 0;
       mindist= dist;
       dist= -dist;
-    }else
+    }else {
+      mindist= 0;
       maxdist= dist;
+    }
   }else
-    dist= qh_getdistance (facet, neighbor, &mindist, &maxdist);
+    dist= qh_getdistance(facet, neighbor, &mindist, &maxdist);
   if (dist < *distp) {
     *bestfacet= neighbor;
     *mindistp= mindist;
@@ -909,20 +913,20 @@ facetT *qh_findbestneighbor(facetT *facet, realT *distp, realT *mindistp, realT 
   facetT *neighbor, **neighborp, *bestfacet= NULL;
   ridgeT *ridge, **ridgep;
   boolT nonconvex= True, testcentrum= False;
-  int size= qh_setsize (facet->vertices);
+  int size= qh_setsize(facet->vertices);
 
   *distp= REALmax;
   if (size > qh_BESTcentrum2 * qh hull_dim + qh_BESTcentrum) {
     testcentrum= True;
     zinc_(Zbestcentrum);
     if (!facet->center)
-       facet->center= qh_getcentrum (facet);
+       facet->center= qh_getcentrum(facet);
   }
   if (size > qh hull_dim + qh_BESTnonconvex) {
     FOREACHridge_(facet->ridges) {
       if (ridge->nonconvex) {
         neighbor= otherfacet_(ridge, facet);
-	qh_findbest_test (testcentrum, facet, neighbor,
+	qh_findbest_test(testcentrum, facet, neighbor,
 			  &bestfacet, distp, mindistp, maxdistp);
       }
     }
@@ -930,17 +934,17 @@ facetT *qh_findbestneighbor(facetT *facet, realT *distp, realT *mindistp, realT 
   if (!bestfacet) {     
     nonconvex= False;
     FOREACHneighbor_(facet)
-      qh_findbest_test (testcentrum, facet, neighbor,
+      qh_findbest_test(testcentrum, facet, neighbor,
 			&bestfacet, distp, mindistp, maxdistp);
   }
   if (!bestfacet) {
-    fprintf (qh ferr, "qhull internal error (qh_findbestneighbor): no neighbors for f%d\n", facet->id);
+    qh_fprintf(qh ferr, 6095, "qhull internal error (qh_findbestneighbor): no neighbors for f%d\n", facet->id);
     
-    qh_errexit (qh_ERRqhull, facet, NULL);
+    qh_errexit(qh_ERRqhull, facet, NULL);
   }
   if (testcentrum) 
-    qh_getdistance (facet, bestfacet, mindistp, maxdistp);
-  trace3((qh ferr, "qh_findbestneighbor: f%d is best neighbor for f%d testcentrum? %d nonconvex? %d dist %2.2g min %2.2g max %2.2g\n",
+    qh_getdistance(facet, bestfacet, mindistp, maxdistp);
+  trace3((qh ferr, 3002, "qh_findbestneighbor: f%d is best neighbor for f%d testcentrum? %d nonconvex? %d dist %2.2g min %2.2g max %2.2g\n",
      bestfacet->id, facet->id, testcentrum, nonconvex, *distp, *mindistp, *maxdistp));
   return(bestfacet);
 } /* findbestneighbor */
@@ -977,24 +981,24 @@ void qh_flippedmerges(facetT *facetlist, boolT *wasmerge) {
   setT *othermerges;
   int nummerge=0;
 
-  trace4((qh ferr, "qh_flippedmerges: begin\n"));
+  trace4((qh ferr, 4024, "qh_flippedmerges: begin\n"));
   FORALLfacet_(facetlist) {
     if (facet->flipped && !facet->visible) 
-      qh_appendmergeset (facet, facet, MRGflip, NULL);
+      qh_appendmergeset(facet, facet, MRGflip, NULL);
   }
   othermerges= qh_settemppop(); /* was facet_mergeset */
-  qh facet_mergeset= qh_settemp (qh TEMPsize);
-  qh_settemppush (othermerges);
+  qh facet_mergeset= qh_settemp(qh TEMPsize);
+  qh_settemppush(othermerges);
   FOREACHmerge_(othermerges) {
     facet1= merge->facet1;
     if (merge->type != MRGflip || facet1->visible) 
       continue;
     if (qh TRACEmerge-1 == zzval_(Ztotmerge))
       qhmem.IStracing= qh IStracing= qh TRACElevel;
-    neighbor= qh_findbestneighbor (facet1, &dist, &mindist, &maxdist);
-    trace0((qh ferr, "qh_flippedmerges: merge flipped f%d into f%d dist %2.2g during p%d\n",
+    neighbor= qh_findbestneighbor(facet1, &dist, &mindist, &maxdist);
+    trace0((qh ferr, 15, "qh_flippedmerges: merge flipped f%d into f%d dist %2.2g during p%d\n",
       facet1->id, neighbor->id, dist, qh furthest_id));
-    qh_mergefacet (facet1, neighbor, &mindist, &maxdist, !qh_MERGEapex);
+    qh_mergefacet(facet1, neighbor, &mindist, &maxdist, !qh_MERGEapex);
     nummerge++;
     if (qh PRINTstatistics) {
       zinc_(Zflipped);
@@ -1005,14 +1009,14 @@ void qh_flippedmerges(facetT *facetlist, boolT *wasmerge) {
   }
   FOREACHmerge_(othermerges) {
     if (merge->facet1->visible || merge->facet2->visible)
-      qh_memfree (merge, sizeof(mergeT));
+      qh_memfree(merge, sizeof(mergeT));
     else
-      qh_setappend (&qh facet_mergeset, merge);
+      qh_setappend(&qh facet_mergeset, merge);
   }
-  qh_settempfree (&othermerges);
+  qh_settempfree(&othermerges);
   if (nummerge)
     *wasmerge= True;
-  trace1((qh ferr, "qh_flippedmerges: merged %d flipped facets into a good neighbor\n", nummerge));
+  trace1((qh ferr, 1010, "qh_flippedmerges: merged %d flipped facets into a good neighbor\n", nummerge));
 } /* flippedmerges */
 
 
@@ -1025,7 +1029,7 @@ void qh_flippedmerges(facetT *facetlist, boolT *wasmerge) {
   returns:
     removes all duplicate ridges on facet_mergeset
     wasmerge set if merge
-    qh.facet_mergeset may include non-forced merges (none for now)
+    qh.facet_mergeset may include non-forced merges(none for now)
     qh.degen_mergeset includes degen/redun merges
 
   notes: 
@@ -1052,10 +1056,10 @@ void qh_forcedmerges(boolT *wasmerge) {
 
   if (qh TRACEmerge-1 == zzval_(Ztotmerge))
     qhmem.IStracing= qh IStracing= qh TRACElevel;
-  trace4((qh ferr, "qh_forcedmerges: begin\n"));  
+  trace4((qh ferr, 4025, "qh_forcedmerges: begin\n"));  
   othermerges= qh_settemppop(); /* was facet_mergeset */
-  qh facet_mergeset= qh_settemp (qh TEMPsize);
-  qh_settemppush (othermerges);
+  qh facet_mergeset= qh_settemp(qh TEMPsize);
+  qh_settemppush(othermerges);
   FOREACHmerge_(othermerges) {
     if (merge->type != MRGridge) 
     	continue;
@@ -1067,21 +1071,21 @@ void qh_forcedmerges(boolT *wasmerge) {
       facet2= facet2->f.replace; /* previously merged facet */
     if (facet1 == facet2)
       continue;
-    if (!qh_setin (facet2->neighbors, facet1)) {
-      fprintf (qh ferr, "qhull internal error (qh_forcedmerges): f%d and f%d had a duplicate ridge but as f%d and f%d they are no longer neighbors\n",
+    if (!qh_setin(facet2->neighbors, facet1)) {
+      qh_fprintf(qh ferr, 6096, "qhull internal error (qh_forcedmerges): f%d and f%d had a duplicate ridge but as f%d and f%d they are no longer neighbors\n",
 	       merge->facet1->id, merge->facet2->id, facet1->id, facet2->id);
       qh_errexit2 (qh_ERRqhull, facet1, facet2);
     }
     if (qh TRACEmerge-1 == zzval_(Ztotmerge))
       qhmem.IStracing= qh IStracing= qh TRACElevel;
-    dist1= qh_getdistance (facet1, facet2, &mindist1, &maxdist1);
-    dist2= qh_getdistance (facet2, facet1, &mindist2, &maxdist2);
-    trace0((qh ferr, "qh_forcedmerges: duplicate ridge between f%d and f%d, dist %2.2g and reverse dist %2.2g during p%d\n",
+    dist1= qh_getdistance(facet1, facet2, &mindist1, &maxdist1);
+    dist2= qh_getdistance(facet2, facet1, &mindist2, &maxdist2);
+    trace0((qh ferr, 16, "qh_forcedmerges: duplicate ridge between f%d and f%d, dist %2.2g and reverse dist %2.2g during p%d\n",
 	    facet1->id, facet2->id, dist1, dist2, qh furthest_id));
     if (dist1 < dist2) 
-      qh_mergefacet (facet1, facet2, &mindist1, &maxdist1, !qh_MERGEapex);
+      qh_mergefacet(facet1, facet2, &mindist1, &maxdist1, !qh_MERGEapex);
     else {
-      qh_mergefacet (facet2, facet1, &mindist2, &maxdist2, !qh_MERGEapex);
+      qh_mergefacet(facet2, facet1, &mindist2, &maxdist2, !qh_MERGEapex);
       dist1= dist2;
       facet1= facet2;
     }
@@ -1098,14 +1102,14 @@ void qh_forcedmerges(boolT *wasmerge) {
   }
   FOREACHmerge_(othermerges) {
     if (merge->type == MRGridge)
-      qh_memfree (merge, sizeof(mergeT));
+      qh_memfree(merge, sizeof(mergeT));
     else
-      qh_setappend (&qh facet_mergeset, merge);
+      qh_setappend(&qh facet_mergeset, merge);
   }
-  qh_settempfree (&othermerges);
+  qh_settempfree(&othermerges);
   if (nummerge)
     *wasmerge= True;
-  trace1((qh ferr, "qh_forcedmerges: merged %d facets and %d flipped facets across duplicated ridges\n", 
+  trace1((qh ferr, 1011, "qh_forcedmerges: merged %d facets and %d flipped facets across duplicated ridges\n", 
                 nummerge, numflip));
 } /* forcedmerges */
 
@@ -1144,8 +1148,8 @@ void qh_getmergeset(facetT *facetlist) {
   ridgeT *ridge, **ridgep;
   int nummerges;
   
-  nummerges= qh_setsize (qh facet_mergeset);
-  trace4((qh ferr, "qh_getmergeset: started.\n"));
+  nummerges= qh_setsize(qh facet_mergeset);
+  trace4((qh ferr, 4026, "qh_getmergeset: started.\n"));
   qh visit_id++;
   FORALLfacet_(facetlist) {
     if (facet->tested)
@@ -1166,12 +1170,12 @@ void qh_getmergeset(facetT *facetlist) {
         ridge->tested= True;
         ridge->nonconvex= False;
 	neighbor->seen= True;      /* only one ridge is marked nonconvex */
-	if (qh_test_appendmerge (facet, neighbor))
+	if (qh_test_appendmerge(facet, neighbor))
 	  ridge->nonconvex= True;
       }
     }
   }
-  nummerges= qh_setsize (qh facet_mergeset);
+  nummerges= qh_setsize(qh facet_mergeset);
   if (qh ANGLEmerge)
     qsort(SETaddr_(qh facet_mergeset, mergeT), nummerges,sizeof(mergeT *),qh_compareangle);
   else
@@ -1182,7 +1186,7 @@ void qh_getmergeset(facetT *facetlist) {
     zadd_(Zmergesettot, nummerges);
     zmax_(Zmergesetmax, nummerges);
   }
-  trace2((qh ferr, "qh_getmergeset: %d merges found\n", nummerges));
+  trace2((qh ferr, 2021, "qh_getmergeset: %d merges found\n", nummerges));
 } /* getmergeset */
 
 
@@ -1212,7 +1216,7 @@ void qh_getmergeset(facetT *facetlist) {
           mark one of the ridges as nonconvex
     sort qh.facet_mergeset by angle
 */
-void qh_getmergeset_initial (facetT *facetlist) {
+void qh_getmergeset_initial(facetT *facetlist) {
   facetT *facet, *neighbor, **neighborp;
   ridgeT *ridge, **ridgep;
   int nummerges;
@@ -1223,7 +1227,7 @@ void qh_getmergeset_initial (facetT *facetlist) {
     facet->tested= True;
     FOREACHneighbor_(facet) {
       if (neighbor->visitid != qh visit_id) {
-        if (qh_test_appendmerge (facet, neighbor)) {
+        if (qh_test_appendmerge(facet, neighbor)) {
           FOREACHridge_(neighbor->ridges) {
             if (facet == otherfacet_(ridge, neighbor)) {
               ridge->nonconvex= True;
@@ -1236,7 +1240,7 @@ void qh_getmergeset_initial (facetT *facetlist) {
     FOREACHridge_(facet->ridges)
       ridge->tested= True;
   }
-  nummerges= qh_setsize (qh facet_mergeset);
+  nummerges= qh_setsize(qh facet_mergeset);
   if (qh ANGLEmerge)
     qsort(SETaddr_(qh facet_mergeset, mergeT), nummerges,sizeof(mergeT *),qh_compareangle);
   else
@@ -1247,7 +1251,7 @@ void qh_getmergeset_initial (facetT *facetlist) {
     zadd_(Zmergeinittot, nummerges);
     zmax_(Zmergeinitmax, nummerges);
   }
-  trace2((qh ferr, "qh_getmergeset_initial: %d merges found\n", nummerges));
+  trace2((qh ferr, 2022, "qh_getmergeset_initial: %d merges found\n", nummerges));
 } /* getmergeset_initial */
 
 
@@ -1264,11 +1268,11 @@ void qh_getmergeset_initial (facetT *facetlist) {
     determine hash value for ridge without oldvertex
     find next empty slot for ridge
 */
-void qh_hashridge (setT *hashtable, int hashsize, ridgeT *ridge, vertexT *oldvertex) {
+void qh_hashridge(setT *hashtable, int hashsize, ridgeT *ridge, vertexT *oldvertex) {
   int hash;
   ridgeT *ridgeA;
 
-  hash= (int)qh_gethash (hashsize, ridge->vertices, qh hull_dim-1, 0, oldvertex);
+  hash= (int)qh_gethash(hashsize, ridge->vertices, qh hull_dim-1, 0, oldvertex);
   while (True) {
     if (!(ridgeA= SETelemt_(hashtable, hash, ridgeT))) {
       SETelem_(hashtable, hash)= ridge;
@@ -1307,20 +1311,20 @@ void qh_hashridge (setT *hashtable, int hashsize, ridgeT *ridge, vertexT *oldver
     for each hashslot
       return match if ridge matches ridgeA without oldvertex
 */
-ridgeT *qh_hashridge_find (setT *hashtable, int hashsize, ridgeT *ridge, 
+ridgeT *qh_hashridge_find(setT *hashtable, int hashsize, ridgeT *ridge, 
               vertexT *vertex, vertexT *oldvertex, int *hashslot) {
   int hash;
   ridgeT *ridgeA;
 
   *hashslot= 0;
   zinc_(Zhashridge);
-  hash= (int)qh_gethash (hashsize, ridge->vertices, qh hull_dim-1, 0, vertex);
+  hash= (int)qh_gethash(hashsize, ridge->vertices, qh hull_dim-1, 0, vertex);
   while ((ridgeA= SETelemt_(hashtable, hash, ridgeT))) {
     if (ridgeA == ridge)
       *hashslot= -1;      
     else {
       zinc_(Zhashridgetest);
-      if (qh_setequal_except (ridge->vertices, vertex, ridgeA->vertices, oldvertex))
+      if (qh_setequal_except(ridge->vertices, vertex, ridgeA->vertices, oldvertex))
         return ridgeA;
     }
     if (++hash == hashsize)
@@ -1366,7 +1370,7 @@ void qh_makeridges(facetT *facet) {
   
   if (!facet->simplicial)
     return;
-  trace4((qh ferr, "qh_makeridges: make ridges for f%d\n", facet->id));
+  trace4((qh ferr, 4027, "qh_makeridges: make ridges for f%d\n", facet->id));
   facet->simplicial= False;
   FOREACHneighbor_(facet) {
     if (neighbor == qh_MERGEridge)
@@ -1381,7 +1385,7 @@ void qh_makeridges(facetT *facet) {
       continue;  /* fixed by qh_mark_dupridges */
     else if (!neighbor->seen) {  /* no current ridges */
       ridge= qh_newridge();
-      ridge->vertices= qh_setnew_delnthsorted (facet->vertices, qh hull_dim,
+      ridge->vertices= qh_setnew_delnthsorted(facet->vertices, qh hull_dim,
 					                  neighbor_i, 0);
       toporient= facet->toporient ^ (neighbor_i & 0x1);
       if (toporient) {
@@ -1406,7 +1410,7 @@ void qh_makeridges(facetT *facet) {
     }
   }
   if (mergeridge) {
-    while (qh_setdel (facet->neighbors, qh_MERGEridge))
+    while (qh_setdel(facet->neighbors, qh_MERGEridge))
       ; /* delete each one */
   }
 } /* makeridges */
@@ -1454,7 +1458,7 @@ void qh_mark_dupridges(facetT *facetlist) {
   mergeT *merge, **mergep;
   
 
-  trace4((qh ferr, "qh_mark_dupridges: identify duplicate ridges\n"));  
+  trace4((qh ferr, 4028, "qh_mark_dupridges: identify duplicate ridges\n"));  
   FORALLfacet_(facetlist) {
     if (facet->dupridge) {
       FOREACHneighbor_(facet) {
@@ -1463,8 +1467,8 @@ void qh_mark_dupridges(facetT *facetlist) {
 	  continue;
 	}
         if (neighbor->dupridge
-	&& !qh_setin (neighbor->neighbors, facet)) { /* qh_MERGEridge */
-	  qh_appendmergeset (facet, neighbor, MRGridge, NULL);
+	&& !qh_setin(neighbor->neighbors, facet)) { /* qh_MERGEridge */
+	  qh_appendmergeset(facet, neighbor, MRGridge, NULL);
 	  facet->mergeridge2= True;
 	  facet->mergeridge= True;
 	  nummerge++;
@@ -1476,15 +1480,15 @@ void qh_mark_dupridges(facetT *facetlist) {
     return;
   FORALLfacet_(facetlist) {            /* gets rid of qh_MERGEridge */
     if (facet->mergeridge && !facet->mergeridge2)   
-      qh_makeridges (facet);
+      qh_makeridges(facet);
   }
   FOREACHmerge_(qh facet_mergeset) {   /* restore the missing neighbors */
     if (merge->type == MRGridge) {
-      qh_setappend (&merge->facet2->neighbors, merge->facet1);
-      qh_makeridges (merge->facet1);   /* and the missing ridges */
+      qh_setappend(&merge->facet2->neighbors, merge->facet1);
+      qh_makeridges(merge->facet1);   /* and the missing ridges */
     }
   }
-  trace1((qh ferr, "qh_mark_dupridges: found %d duplicated ridges\n", 
+  trace1((qh ferr, 1012, "qh_mark_dupridges: found %d duplicated ridges\n", 
                 nummerge));
 } /* mark_dupridges */
 
@@ -1512,13 +1516,13 @@ void qh_mark_dupridges(facetT *facetlist) {
     if facet is degenerate
       append facet to qh.degen_mergeset
 */
-void qh_maydropneighbor (facetT *facet) {
+void qh_maydropneighbor(facetT *facet) {
   ridgeT *ridge, **ridgep;
   realT angledegen= qh_ANGLEdegen;
   facetT *neighbor, **neighborp;
 
   qh visit_id++;
-  trace4((qh ferr, "qh_maydropneighbor: test f%d for no ridges to a neighbor\n",
+  trace4((qh ferr, 4029, "qh_maydropneighbor: test f%d for no ridges to a neighbor\n",
 	  facet->id));
   FOREACHridge_(facet->ridges) {
     ridge->top->visitid= qh visit_id;
@@ -1526,23 +1530,23 @@ void qh_maydropneighbor (facetT *facet) {
   }
   FOREACHneighbor_(facet) {
     if (neighbor->visitid != qh visit_id) {
-      trace0((qh ferr, "qh_maydropneighbor: facets f%d and f%d are no longer neighbors during p%d\n",
+      trace0((qh ferr, 17, "qh_maydropneighbor: facets f%d and f%d are no longer neighbors during p%d\n",
 	    facet->id, neighbor->id, qh furthest_id));
       zinc_(Zdropneighbor);
-      qh_setdel (facet->neighbors, neighbor);
+      qh_setdel(facet->neighbors, neighbor);
       neighborp--;  /* repeat, deleted a neighbor */
-      qh_setdel (neighbor->neighbors, facet);
-      if (qh_setsize (neighbor->neighbors) < qh hull_dim) {
+      qh_setdel(neighbor->neighbors, facet);
+      if (qh_setsize(neighbor->neighbors) < qh hull_dim) {
         zinc_(Zdropdegen);
-        qh_appendmergeset (neighbor, neighbor, MRGdegen, &angledegen);
-        trace2((qh ferr, "qh_maydropneighbors: f%d is degenerate.\n", neighbor->id));
+        qh_appendmergeset(neighbor, neighbor, MRGdegen, &angledegen);
+        trace2((qh ferr, 2023, "qh_maydropneighbors: f%d is degenerate.\n", neighbor->id));
       }
     }
   }
-  if (qh_setsize (facet->neighbors) < qh hull_dim) {
+  if (qh_setsize(facet->neighbors) < qh hull_dim) {
     zinc_(Zdropdegen);
-    qh_appendmergeset (facet, facet, MRGdegen, &angledegen);
-    trace2((qh ferr, "qh_maydropneighbors: f%d is degenerate.\n", facet->id));
+    qh_appendmergeset(facet, facet, MRGdegen, &angledegen);
+    trace2((qh ferr, 2024, "qh_maydropneighbors: f%d is degenerate.\n", facet->id));
   }
 } /* maydropneighbor */
 
@@ -1572,7 +1576,7 @@ void qh_maydropneighbor (facetT *facet) {
         else
           merge redundant facet into other facet
 */
-int qh_merge_degenredundant (void) {
+int qh_merge_degenredundant(void) {
   int size;
   mergeT *merge;
   facetT *bestneighbor, *facet1, *facet2;
@@ -1581,11 +1585,11 @@ int qh_merge_degenredundant (void) {
   int nummerges= 0;
   mergeType mergetype;
 
-  while ((merge= (mergeT*)qh_setdellast (qh degen_mergeset))) {
+  while ((merge= (mergeT*)qh_setdellast(qh degen_mergeset))) {
     facet1= merge->facet1;
     facet2= merge->facet2;
     mergetype= merge->type;
-    qh_memfree (merge, sizeof(mergeT));
+    qh_memfree(merge, sizeof(mergeT));
     if (facet1->visible)
       continue;
     facet1->degenerate= False; 
@@ -1596,40 +1600,40 @@ int qh_merge_degenredundant (void) {
       zinc_(Zneighbor);
       while (facet2->visible) {
         if (!facet2->f.replace) {
-          fprintf (qh ferr, "qhull internal error (qh_merge_degenredunant): f%d redundant but f%d has no replacement\n",
+          qh_fprintf(qh ferr, 6097, "qhull internal error (qh_merge_degenredunant): f%d redundant but f%d has no replacement\n",
 	       facet1->id, facet2->id);
           qh_errexit2 (qh_ERRqhull, facet1, facet2);
         }
         facet2= facet2->f.replace;
       }
       if (facet1 == facet2) {
-	qh_degen_redundant_facet (facet1); /* in case of others */
+	qh_degen_redundant_facet(facet1); /* in case of others */
 	continue;
       }
-      trace2((qh ferr, "qh_merge_degenredundant: facet f%d is contained in f%d, will merge\n",
+      trace2((qh ferr, 2025, "qh_merge_degenredundant: facet f%d is contained in f%d, will merge\n",
 	    facet1->id, facet2->id));
       qh_mergefacet(facet1, facet2, NULL, NULL, !qh_MERGEapex);
       /* merge distance is already accounted for */
       nummerges++;
     }else {  /* mergetype == MRGdegen, other merges may have fixed */
-      if (!(size= qh_setsize (facet1->neighbors))) {
+      if (!(size= qh_setsize(facet1->neighbors))) {
         zinc_(Zdelfacetdup);
-        trace2((qh ferr, "qh_merge_degenredundant: facet f%d has no neighbors.  Deleted\n", facet1->id));
-        qh_willdelete (facet1, NULL);
+        trace2((qh ferr, 2026, "qh_merge_degenredundant: facet f%d has no neighbors.  Deleted\n", facet1->id));
+        qh_willdelete(facet1, NULL);
         FOREACHvertex_(facet1->vertices) {
-  	  qh_setdel (vertex->neighbors, facet1);
+  	  qh_setdel(vertex->neighbors, facet1);
 	  if (!SETfirst_(vertex->neighbors)) {
 	    zinc_(Zdegenvertex);
-	    trace2((qh ferr, "qh_merge_degenredundant: deleted v%d because f%d has no neighbors\n",
+	    trace2((qh ferr, 2027, "qh_merge_degenredundant: deleted v%d because f%d has no neighbors\n",
          	 vertex->id, facet1->id));
 	    vertex->deleted= True;
-	    qh_setappend (&qh del_vertices, vertex);
+	    qh_setappend(&qh del_vertices, vertex);
 	  }
         }
         nummerges++;
       }else if (size < qh hull_dim) {
         bestneighbor= qh_findbestneighbor(facet1, &dist, &mindist, &maxdist);
-        trace2((qh ferr, "qh_merge_degenredundant: facet f%d has %d neighbors, merge into f%d dist %2.2g\n",
+        trace2((qh ferr, 2028, "qh_merge_degenredundant: facet f%d has %d neighbors, merge into f%d dist %2.2g\n",
 	      facet1->id, size, bestneighbor->id, dist));
         qh_mergefacet(facet1, bestneighbor, &mindist, &maxdist, !qh_MERGEapex);
         nummerges++;
@@ -1661,13 +1665,13 @@ int qh_merge_degenredundant (void) {
     merge the nearest facet into its best neighbor
     update the statistics
 */
-void qh_merge_nonconvex (facetT *facet1, facetT *facet2, mergeType mergetype) {
+void qh_merge_nonconvex(facetT *facet1, facetT *facet2, mergeType mergetype) {
   facetT *bestfacet, *bestneighbor, *neighbor;
   realT dist, dist2, mindist, mindist2, maxdist, maxdist2;
 
   if (qh TRACEmerge-1 == zzval_(Ztotmerge))
     qhmem.IStracing= qh IStracing= qh TRACElevel;
-  trace3((qh ferr, "qh_merge_nonconvex: merge #%d for f%d and f%d type %d\n",
+  trace3((qh ferr, 3003, "qh_merge_nonconvex: merge #%d for f%d and f%d type %d\n",
       zzval_(Ztotmerge) + 1, facet1->id, facet2->id, mergetype));
   /* concave or coplanar */
   if (!facet1->newfacet) {
@@ -1686,7 +1690,7 @@ void qh_merge_nonconvex (facetT *facet1, facetT *facet2, mergeType mergetype) {
     zinc_(Zavoidold);
     wadd_(Wavoidoldtot, dist);
     wmax_(Wavoidoldmax, dist);
-    trace2((qh ferr, "qh_merge_nonconvex: avoid merging old facet f%d dist %2.2g.  Use f%d dist %2.2g instead\n",
+    trace2((qh ferr, 2029, "qh_merge_nonconvex: avoid merging old facet f%d dist %2.2g.  Use f%d dist %2.2g instead\n",
            facet2->id, dist2, facet1->id, dist2));
     qh_mergefacet(bestfacet, bestneighbor, &mindist, &maxdist, !qh_MERGEapex);
   }else {
@@ -1739,7 +1743,7 @@ void qh_merge_nonconvex (facetT *facet1, facetT *facet2, mergeType mergetype) {
       add its vertices to qh.newvertex_list
     delete samecycle facets a make newfacet a newfacet
 */
-void qh_mergecycle (facetT *samecycle, facetT *newfacet) {
+void qh_mergecycle(facetT *samecycle, facetT *newfacet) {
   int traceonce= False, tracerestore= 0;
   vertexT *apex;
 #ifndef qh_NOtrace
@@ -1748,8 +1752,8 @@ void qh_mergecycle (facetT *samecycle, facetT *newfacet) {
 
   if (newfacet->tricoplanar) {
     if (!qh TRInormals) {
-      fprintf (qh ferr, "qh_mergecycle: does not work for tricoplanar facets.  Use option 'Q11'\n");
-      qh_errexit (qh_ERRqhull, newfacet, NULL);
+      qh_fprintf(qh ferr, 6224, "Qhull internal error (qh_mergecycle): does not work for tricoplanar facets.  Use option 'Q11'\n");
+      qh_errexit(qh_ERRqhull, newfacet, NULL);
     }
     newfacet->tricoplanar= False;
     newfacet->keepcentrum= False;
@@ -1764,38 +1768,38 @@ void qh_mergecycle (facetT *samecycle, facetT *newfacet) {
 #ifndef qh_NOtrace
   if (qh TRACEmerge == zzval_(Ztotmerge))
     qhmem.IStracing= qh IStracing= qh TRACElevel;
-  trace2((qh ferr, "qh_mergecycle: merge #%d for facets from cycle f%d into coplanar horizon f%d\n", 
+  trace2((qh ferr, 2030, "qh_mergecycle: merge #%d for facets from cycle f%d into coplanar horizon f%d\n", 
         zzval_(Ztotmerge), samecycle->id, newfacet->id));
   if (newfacet == qh tracefacet) {
     tracerestore= qh IStracing;
     qh IStracing= 4;
-    fprintf (qh ferr, "qh_mergecycle: ========= trace merge %d of samecycle %d into trace f%d, furthest is p%d\n",
+    qh_fprintf(qh ferr, 8068, "qh_mergecycle: ========= trace merge %d of samecycle %d into trace f%d, furthest is p%d\n",
 	       zzval_(Ztotmerge), samecycle->id, newfacet->id,  qh furthest_id);
     traceonce= True;
   }
   if (qh IStracing >=4) {
-    fprintf (qh ferr, "  same cycle:");
+    qh_fprintf(qh ferr, 8069, "  same cycle:");
     FORALLsame_cycle_(samecycle)
-      fprintf(qh ferr, " f%d", same->id);
-    fprintf (qh ferr, "\n");
+      qh_fprintf(qh ferr, 8070, " f%d", same->id);
+    qh_fprintf(qh ferr, 8071, "\n");
   }
   if (qh IStracing >=4)
-    qh_errprint ("MERGING CYCLE", samecycle, newfacet, NULL, NULL);
+    qh_errprint("MERGING CYCLE", samecycle, newfacet, NULL, NULL);
 #endif /* !qh_NOtrace */
   apex= SETfirstt_(samecycle->vertices, vertexT);
-  qh_makeridges (newfacet);
-  qh_mergecycle_neighbors (samecycle, newfacet);
-  qh_mergecycle_ridges (samecycle, newfacet);
-  qh_mergecycle_vneighbors (samecycle, newfacet);
+  qh_makeridges(newfacet);
+  qh_mergecycle_neighbors(samecycle, newfacet);
+  qh_mergecycle_ridges(samecycle, newfacet);
+  qh_mergecycle_vneighbors(samecycle, newfacet);
   if (SETfirstt_(newfacet->vertices, vertexT) != apex) 
-    qh_setaddnth (&newfacet->vertices, 0, apex);  /* apex has last id */
+    qh_setaddnth(&newfacet->vertices, 0, apex);  /* apex has last id */
   if (!newfacet->newfacet)
-    qh_newvertices (newfacet->vertices);
-  qh_mergecycle_facets (samecycle, newfacet);
-  qh_tracemerge (samecycle, newfacet);
+    qh_newvertices(newfacet->vertices);
+  qh_mergecycle_facets(samecycle, newfacet);
+  qh_tracemerge(samecycle, newfacet);
   /* check for degen_redundant_neighbors after qh_forcedmerges() */
   if (traceonce) {
-    fprintf (qh ferr, "qh_mergecycle: end of trace facet\n");
+    qh_fprintf(qh ferr, 8072, "qh_mergecycle: end of trace facet\n");
     qh IStracing= tracerestore;
   }
 } /* mergecycle */
@@ -1829,19 +1833,19 @@ void qh_mergecycle (facetT *samecycle, facetT *newfacet) {
         remove facets with duplicate ridges from samecycle
         merge samecycle into horizon (deletes facets from facetlist)
 */
-void qh_mergecycle_all (facetT *facetlist, boolT *wasmerge) {
+void qh_mergecycle_all(facetT *facetlist, boolT *wasmerge) {
   facetT *facet, *same, *prev, *horizon;
   facetT *samecycle= NULL, *nextfacet, *nextsame;
   vertexT *apex, *vertex, **vertexp;
   int cycles=0, total=0, facets, nummerge;
 
-  trace2((qh ferr, "qh_mergecycle_all: begin\n"));
+  trace2((qh ferr, 2031, "qh_mergecycle_all: begin\n"));
   for (facet= facetlist; facet && (nextfacet= facet->next); facet= nextfacet) {
     if (facet->normal)
       continue;
     if (!facet->mergehorizon) {
-      fprintf (qh ferr, "qh_mergecycle_all: f%d without normal\n", facet->id);
-      qh_errexit (qh_ERRqhull, facet, NULL);
+      qh_fprintf(qh ferr, 6225, "Qhull internal error (qh_mergecycle_all): f%d without normal\n", facet->id);
+      qh_errexit(qh_ERRqhull, facet, NULL);
     }
     horizon= SETfirstt_(facet->neighbors, facetT);
     if (facet->f.samecycle == facet) {
@@ -1853,7 +1857,7 @@ void qh_mergecycle_all (facetT *facetlist, boolT *wasmerge) {
           vertex->delridge= True;
       }
       horizon->f.newcycle= NULL;
-      qh_mergefacet (facet, horizon, NULL, NULL, qh_MERGEapex);
+      qh_mergefacet(facet, horizon, NULL, NULL, qh_MERGEapex);
     }else {
       samecycle= facet;
       facets= 0;
@@ -1862,7 +1866,7 @@ void qh_mergecycle_all (facetT *facetlist, boolT *wasmerge) {
 	   same= (same == facet ? NULL :nextsame)) { /* ends at facet */
 	nextsame= same->f.samecycle;
         if (same->cycledone || same->visible)
-          qh_infiniteloop (same);
+          qh_infiniteloop(same);
         same->cycledone= True;
         if (same->normal) { 
           prev->f.samecycle= same->f.samecycle; /* unlink ->mergeridge */
@@ -1875,7 +1879,7 @@ void qh_mergecycle_all (facetT *facetlist, boolT *wasmerge) {
       while (nextfacet && nextfacet->cycledone)  /* will delete samecycle */
 	nextfacet= nextfacet->next;
       horizon->f.newcycle= NULL;
-      qh_mergecycle (samecycle, horizon);
+      qh_mergecycle(samecycle, horizon);
       nummerge= horizon->nummerge + facets;
       if (nummerge > qh_MAXnummerge) 
       	horizon->nummerge= qh_MAXnummerge;
@@ -1890,7 +1894,7 @@ void qh_mergecycle_all (facetT *facetlist, boolT *wasmerge) {
   }
   if (cycles)
     *wasmerge= True;
-  trace1((qh ferr, "qh_mergecycle_all: merged %d same cycles or facets into coplanar horizons\n", cycles));
+  trace1((qh ferr, 1013, "qh_mergecycle_all: merged %d same cycles or facets into coplanar horizons\n", cycles));
 } /* mergecycle_all */
 
 /*-<a                             href="qh-merge.htm#TOC"
@@ -1917,10 +1921,10 @@ void qh_mergecycle_all (facetT *facetlist, boolT *wasmerge) {
     unless newfacet is large
       remove its centrum
 */
-void qh_mergecycle_facets (facetT *samecycle, facetT *newfacet) {
+void qh_mergecycle_facets(facetT *samecycle, facetT *newfacet) {
   facetT *same, *next;
   
-  trace4((qh ferr, "qh_mergecycle_facets: make newfacet new and samecycle deleted\n"));  
+  trace4((qh ferr, 4030, "qh_mergecycle_facets: make newfacet new and samecycle deleted\n"));  
   qh_removefacet(newfacet);  /* append as a newfacet to end of qh facet_list */
   qh_appendfacet(newfacet);
   newfacet->newfacet= True;
@@ -1929,14 +1933,14 @@ void qh_mergecycle_facets (facetT *samecycle, facetT *newfacet) {
   
   for (same= samecycle->f.samecycle; same; same= (same == samecycle ?  NULL : next)) {
     next= same->f.samecycle;  /* reused by willdelete */
-    qh_willdelete (same, newfacet);
+    qh_willdelete(same, newfacet);
   }
   if (newfacet->center 
-      && qh_setsize (newfacet->vertices) <= qh hull_dim + qh_MAXnewcentrum) {
-    qh_memfree (newfacet->center, qh normal_size);
+      && qh_setsize(newfacet->vertices) <= qh hull_dim + qh_MAXnewcentrum) {
+    qh_memfree(newfacet->center, qh normal_size);
     newfacet->center= NULL;
   }
-  trace3((qh ferr, "qh_mergecycle_facets: merged facets from cycle f%d into f%d\n", 
+  trace3((qh ferr, 3004, "qh_mergecycle_facets: merged facets from cycle f%d into f%d\n", 
              samecycle->id, newfacet->id));
 } /* mergecycle_facets */
 
@@ -1984,11 +1988,11 @@ void qh_mergecycle_neighbors(facetT *samecycle, facetT *newfacet) {
   samevisitid= ++qh visit_id;
   FORALLsame_cycle_(samecycle) {
     if (same->visitid == samevisitid || same->visible)
-      qh_infiniteloop (samecycle);
+      qh_infiniteloop(samecycle);
     same->visitid= samevisitid;
   }
   newfacet->visitid= ++qh visit_id;
-  trace4((qh ferr, "qh_mergecycle_neighbors: delete shared neighbors from newfacet\n"));  
+  trace4((qh ferr, 4031, "qh_mergecycle_neighbors: delete shared neighbors from newfacet\n"));  
   FOREACHneighbor_(newfacet) {
     if (neighbor->visitid == samevisitid) {
       SETref_(neighbor)= NULL;  /* samecycle neighbors deleted */
@@ -1996,17 +2000,17 @@ void qh_mergecycle_neighbors(facetT *samecycle, facetT *newfacet) {
     }else
       neighbor->visitid= qh visit_id;
   }
-  qh_setcompact (newfacet->neighbors);
+  qh_setcompact(newfacet->neighbors);
 
-  trace4((qh ferr, "qh_mergecycle_neighbors: update neighbors\n"));  
+  trace4((qh ferr, 4032, "qh_mergecycle_neighbors: update neighbors\n"));  
   FORALLsame_cycle_(samecycle) {
     FOREACHneighbor_(same) {
       if (neighbor->visitid == samevisitid)
 	continue;
       if (neighbor->simplicial) {
 	if (neighbor->visitid != qh visit_id) {
-	  qh_setappend (&newfacet->neighbors, neighbor);
-	  qh_setreplace (neighbor->neighbors, same, newfacet);
+	  qh_setappend(&newfacet->neighbors, neighbor);
+	  qh_setreplace(neighbor->neighbors, same, newfacet);
 	  newneighbors++;
 	  neighbor->visitid= qh visit_id;
 	  FOREACHridge_(neighbor->ridges) { /* update ridge in case of qh_makeridges */
@@ -2019,22 +2023,22 @@ void qh_mergecycle_neighbors(facetT *samecycle, facetT *newfacet) {
 	    }
 	  }
 	}else {
-	  qh_makeridges (neighbor);
-	  qh_setdel (neighbor->neighbors, same);
+	  qh_makeridges(neighbor);
+	  qh_setdel(neighbor->neighbors, same);
 	  /* same can't be horizon facet for neighbor */
 	}
       }else { /* non-simplicial neighbor */
-        qh_setdel (neighbor->neighbors, same);
+        qh_setdel(neighbor->neighbors, same);
         if (neighbor->visitid != qh visit_id) {
-          qh_setappend (&neighbor->neighbors, newfacet);
-          qh_setappend (&newfacet->neighbors, neighbor);
+          qh_setappend(&neighbor->neighbors, newfacet);
+          qh_setappend(&newfacet->neighbors, neighbor);
           neighbor->visitid= qh visit_id;
           newneighbors++;
         } 
       }
     }
   }
-  trace2((qh ferr, "qh_mergecycle_neighbors: deleted %d neighbors and added %d\n", 
+  trace2((qh ferr, 2032, "qh_mergecycle_neighbors: deleted %d neighbors and added %d\n", 
              delneighbors, newneighbors));
 } /* mergecycle_neighbors */
 
@@ -2081,16 +2085,16 @@ void qh_mergecycle_ridges(facetT *samecycle, facetT *newfacet) {
   boolT toporient;
   void **freelistp; /* used !qh_NOmem */
 
-  trace4((qh ferr, "qh_mergecycle_ridges: delete shared ridges from newfacet\n"));  
+  trace4((qh ferr, 4033, "qh_mergecycle_ridges: delete shared ridges from newfacet\n"));  
   samevisitid= qh visit_id -1;
   FOREACHridge_(newfacet->ridges) {
     neighbor= otherfacet_(ridge, newfacet);
     if (neighbor->visitid == samevisitid)
       SETref_(ridge)= NULL; /* ridge free'd below */  
   }
-  qh_setcompact (newfacet->ridges);
+  qh_setcompact(newfacet->ridges);
   
-  trace4((qh ferr, "qh_mergecycle_ridges: add ridges to newfacet\n"));  
+  trace4((qh ferr, 4034, "qh_mergecycle_ridges: add ridges to newfacet\n"));  
   FORALLsame_cycle_(samecycle) {
     FOREACHridge_(same->ridges) {
       if (ridge->top == same) {
@@ -2100,35 +2104,35 @@ void qh_mergecycle_ridges(facetT *samecycle, facetT *newfacet) {
 	ridge->bottom= newfacet;
 	neighbor= ridge->top;
       }else if (ridge->top == newfacet || ridge->bottom == newfacet) {
-        qh_setappend (&newfacet->ridges, ridge);
+        qh_setappend(&newfacet->ridges, ridge);
         numold++;  /* already set by qh_mergecycle_neighbors */
 	continue;  
       }else {
-	fprintf (qh ferr, "qhull internal error (qh_mergecycle_ridges): bad ridge r%d\n", ridge->id);
-	qh_errexit (qh_ERRqhull, NULL, ridge);
+	qh_fprintf(qh ferr, 6098, "qhull internal error (qh_mergecycle_ridges): bad ridge r%d\n", ridge->id);
+	qh_errexit(qh_ERRqhull, NULL, ridge);
       }
       if (neighbor == newfacet) {
         qh_setfree(&(ridge->vertices)); 
         qh_memfree_(ridge, sizeof(ridgeT), freelistp);
         numold++;
       }else if (neighbor->visitid == samevisitid) {
-	qh_setdel (neighbor->ridges, ridge);
+	qh_setdel(neighbor->ridges, ridge);
 	qh_setfree(&(ridge->vertices)); 
 	qh_memfree_(ridge, sizeof(ridgeT), freelistp);
 	numold++;
       }else {
-        qh_setappend (&newfacet->ridges, ridge);
+        qh_setappend(&newfacet->ridges, ridge);
         numold++;
       }
     }
     if (same->ridges)
-      qh_settruncate (same->ridges, 0);
+      qh_settruncate(same->ridges, 0);
     if (!same->simplicial)
       continue;
     FOREACHneighbor_i_(same) {       /* note: !newfact->simplicial */
       if (neighbor->visitid != samevisitid && neighbor->simplicial) {
         ridge= qh_newridge();
-        ridge->vertices= qh_setnew_delnthsorted (same->vertices, qh hull_dim,
+        ridge->vertices= qh_setnew_delnthsorted(same->vertices, qh hull_dim,
   					                  neighbor_i, 0);
         toporient= same->toporient ^ (neighbor_i & 0x1);
         if (toporient) {
@@ -2145,7 +2149,7 @@ void qh_mergecycle_ridges(facetT *samecycle, facetT *newfacet) {
     }
   }
 
-  trace2((qh ferr, "qh_mergecycle_ridges: found %d old ridges and %d new ones\n", 
+  trace2((qh ferr, 2033, "qh_mergecycle_ridges: found %d old ridges and %d new ones\n", 
              numold, numnew));
 } /* mergecycle_ridges */
 
@@ -2174,37 +2178,37 @@ void qh_mergecycle_ridges(facetT *samecycle, facetT *newfacet) {
         delete it from newfacet
         add it to qh.del_vertices for later deletion
 */
-void qh_mergecycle_vneighbors (facetT *samecycle, facetT *newfacet) {
+void qh_mergecycle_vneighbors(facetT *samecycle, facetT *newfacet) {
   facetT *neighbor, **neighborp;
   unsigned int mergeid;
   vertexT *vertex, **vertexp, *apex;
   setT *vertices;
   
-  trace4((qh ferr, "qh_mergecycle_vneighbors: update vertex neighbors for newfacet\n"));  
+  trace4((qh ferr, 4035, "qh_mergecycle_vneighbors: update vertex neighbors for newfacet\n"));  
   mergeid= qh visit_id - 1;
   newfacet->visitid= mergeid;
-  vertices= qh_basevertices (samecycle); /* temp */
+  vertices= qh_basevertices(samecycle); /* temp */
   apex= SETfirstt_(samecycle->vertices, vertexT);
-  qh_setappend (&vertices, apex);
+  qh_setappend(&vertices, apex);
   FOREACHvertex_(vertices) {
     vertex->delridge= True;
     FOREACHneighbor_(vertex) {
       if (neighbor->visitid == mergeid)
         SETref_(neighbor)= NULL;
     }
-    qh_setcompact (vertex->neighbors);
-    qh_setappend (&vertex->neighbors, newfacet);
+    qh_setcompact(vertex->neighbors);
+    qh_setappend(&vertex->neighbors, newfacet);
     if (!SETsecond_(vertex->neighbors)) {
       zinc_(Zcyclevertex);
-      trace2((qh ferr, "qh_mergecycle_vneighbors: deleted v%d when merging cycle f%d into f%d\n",
+      trace2((qh ferr, 2034, "qh_mergecycle_vneighbors: deleted v%d when merging cycle f%d into f%d\n",
         vertex->id, samecycle->id, newfacet->id));
-      qh_setdelsorted (newfacet->vertices, vertex);
+      qh_setdelsorted(newfacet->vertices, vertex);
       vertex->deleted= True;
-      qh_setappend (&qh del_vertices, vertex);
+      qh_setappend(&qh del_vertices, vertex);
     }
   }
-  qh_settempfree (&vertices);
-  trace3((qh ferr, "qh_mergecycle_vneighbors: merged vertices from cycle f%d into f%d\n", 
+  qh_settempfree(&vertices);
+  trace3((qh ferr, 3005, "qh_mergecycle_vneighbors: merged vertices from cycle f%d into f%d\n", 
              samecycle->id, newfacet->id));
 } /* mergecycle_vneighbors */
 
@@ -2233,7 +2237,7 @@ void qh_mergecycle_vneighbors (facetT *samecycle, facetT *newfacet) {
     adds neighboring facets to facet_mergeset if redundant or degenerate
 
   notes: 
-    mindist/maxdist may be NULL
+    mindist/maxdist may be NULL (only if both NULL)
     traces merge if fmax_(maxdist,-mindist) > TRACEdist
 
   see: 
@@ -2266,7 +2270,7 @@ void qh_mergefacet(facetT *facet1, facetT *facet2, realT *mindist, realT *maxdis
 
   if (facet1->tricoplanar || facet2->tricoplanar) {
     if (!qh TRInormals) {
-      fprintf (qh ferr, "qh_mergefacet: does not work for tricoplanar facets.  Use option 'Q11'\n");
+      qh_fprintf(qh ferr, 6226, "Qhull internal error (qh_mergefacet): does not work for tricoplanar facets.  Use option 'Q11'\n");
       qh_errexit2 (qh_ERRqhull, facet1, facet2);
     }
     if (facet2->tricoplanar) {
@@ -2285,13 +2289,13 @@ void qh_mergefacet(facetT *facet1, facetT *facet2, realT *mindist, realT *maxdis
       tracerestore= 0;
       qh IStracing= qh TRACElevel;
       traceonce= True;
-      fprintf (qh ferr, "qh_mergefacet: ========= trace wide merge #%d (%2.2g) for f%d into f%d, last point was p%d\n", zzval_(Ztotmerge),
+      qh_fprintf(qh ferr, 8075, "qh_mergefacet: ========= trace wide merge #%d(%2.2g) for f%d into f%d, last point was p%d\n", zzval_(Ztotmerge),
 	     fmax_(-*mindist, *maxdist), facet1->id, facet2->id, qh furthest_id);
     }else if (facet1 == qh tracefacet || facet2 == qh tracefacet) {
       tracerestore= qh IStracing;
       qh IStracing= 4;
       traceonce= True;
-      fprintf (qh ferr, "qh_mergefacet: ========= trace merge #%d involving f%d, furthest is p%d\n",
+      qh_fprintf(qh ferr, 8076, "qh_mergefacet: ========= trace merge #%d involving f%d, furthest is p%d\n",
 		 zzval_(Ztotmerge), qh tracefacet_id,  qh furthest_id);
     }
   }
@@ -2303,22 +2307,22 @@ void qh_mergefacet(facetT *facet1, facetT *facet2, realT *mindist, realT *maxdis
       mergemin= *mindist;
       mergemax= *maxdist;
     }
-    fprintf (qh ferr, "qh_mergefacet: #%d merge f%d into f%d, mindist= %2.2g, maxdist= %2.2g\n", 
+    qh_fprintf(qh ferr, 8077, "qh_mergefacet: #%d merge f%d into f%d, mindist= %2.2g, maxdist= %2.2g\n", 
     zzval_(Ztotmerge), facet1->id, facet2->id, mergemin, mergemax);
   }
 #endif /* !qh_NOtrace */
   if (facet1 == facet2 || facet1->visible || facet2->visible) {
-    fprintf (qh ferr, "qhull internal error (qh_mergefacet): either f%d and f%d are the same or one is a visible facet\n",
+    qh_fprintf(qh ferr, 6099, "qhull internal error (qh_mergefacet): either f%d and f%d are the same or one is a visible facet\n",
 	     facet1->id, facet2->id);
     qh_errexit2 (qh_ERRqhull, facet1, facet2);
   }
   if (qh num_facets - qh num_visible <= qh hull_dim + 1) {
-    fprintf(qh ferr, "\n\
+    qh_fprintf(qh ferr, 6227, "\n\
 qhull precision error: Only %d facets remain.  Can not merge another\n\
 pair.  The input is too degenerate or the convexity constraints are\n\
 too strong.\n", qh hull_dim+1);
     if (qh hull_dim >= 5 && !qh MERGEexact)
-      fprintf(qh ferr, "Option 'Qx' may avoid this problem.\n");
+      qh_fprintf(qh ferr, 8079, "Option 'Qx' may avoid this problem.\n");
     qh_errexit(qh_ERRinput, NULL, NULL);
   }
   if (!qh VERTEXneighbors)
@@ -2326,7 +2330,7 @@ too strong.\n", qh hull_dim+1);
   qh_makeridges(facet1);
   qh_makeridges(facet2);
   if (qh IStracing >=4)
-    qh_errprint ("MERGING", facet1, facet2, NULL, NULL);
+    qh_errprint("MERGING", facet1, facet2, NULL, NULL);
   if (mindist) {
     maximize_(qh max_outside, *maxdist);
     maximize_(qh max_vertex, *maxdist);
@@ -2348,8 +2352,8 @@ too strong.\n", qh hull_dim+1);
   facet2->newmerge= True;
   facet2->dupridge= False;
   qh_updatetested  (facet1, facet2);
-  if (qh hull_dim > 2 && qh_setsize (facet1->vertices) == qh hull_dim)
-    qh_mergesimplex (facet1, facet2, mergeapex);
+  if (qh hull_dim > 2 && qh_setsize(facet1->vertices) == qh hull_dim)
+    qh_mergesimplex(facet1, facet2, mergeapex);
   else {
     qh vertex_visit++;
     FOREACHvertex_(facet2->vertices)
@@ -2363,10 +2367,10 @@ too strong.\n", qh hull_dim+1);
     qh_mergeridges(facet1, facet2);
     qh_mergevertex_neighbors(facet1, facet2);
     if (!facet2->newfacet)
-      qh_newvertices (facet2->vertices);
+      qh_newvertices(facet2->vertices);
   }
   if (!mergeapex)
-    qh_degen_redundant_neighbors (facet2, facet1);
+    qh_degen_redundant_neighbors(facet2, facet1);
   if (facet2->coplanar || !facet2->newfacet) {
     zinc_(Zmergeintohorizon);
   }else if (!facet1->newfacet && facet2->newfacet) {
@@ -2374,14 +2378,14 @@ too strong.\n", qh hull_dim+1);
   }else {
     zinc_(Zmergenew);
   }
-  qh_willdelete (facet1, facet2);
+  qh_willdelete(facet1, facet2);
   qh_removefacet(facet2);  /* append as a newfacet to end of qh facet_list */
   qh_appendfacet(facet2);
   facet2->newfacet= True;
   facet2->tested= False;
-  qh_tracemerge (facet1, facet2);
+  qh_tracemerge(facet1, facet2);
   if (traceonce) {
-    fprintf (qh ferr, "qh_mergefacet: end of wide tracing\n");
+    qh_fprintf(qh ferr, 8080, "qh_mergefacet: end of wide tracing\n");
     qh IStracing= tracerestore;
   }
 } /* mergefacet */
@@ -2410,7 +2414,7 @@ too strong.\n", qh hull_dim+1);
     set new vertices and neighbors and adjust orientation
     make ridges for new neighbor if needed
 */
-void qh_mergefacet2d (facetT *facet1, facetT *facet2) {
+void qh_mergefacet2d(facetT *facet1, facetT *facet2) {
   vertexT *vertex1A, *vertex1B, *vertex2A, *vertex2B, *vertexA, *vertexB;
   facetT *neighbor1A, *neighbor1B, *neighbor2A, *neighbor2B, *neighborA, *neighborB;
 
@@ -2459,9 +2463,9 @@ void qh_mergefacet2d (facetT *facet1, facetT *facet2) {
     SETfirst_(facet2->neighbors)= neighborB;
     SETsecond_(facet2->neighbors)= neighborA;
   }
-  qh_makeridges (neighborB);
+  qh_makeridges(neighborB);
   qh_setreplace(neighborB->neighbors, facet1, facet2);
-  trace4((qh ferr, "qh_mergefacet2d: merged v%d and neighbor f%d of f%d into f%d\n",
+  trace4((qh ferr, 4036, "qh_mergefacet2d: merged v%d and neighbor f%d of f%d into f%d\n",
        vertexA->id, neighborB->id, facet1->id, facet2->id));
 } /* mergefacet2d */
 
@@ -2488,7 +2492,7 @@ void qh_mergefacet2d (facetT *facet1, facetT *facet2) {
 void qh_mergeneighbors(facetT *facet1, facetT *facet2) {
   facetT *neighbor, **neighborp;
 
-  trace4((qh ferr, "qh_mergeneighbors: merge neighbors of f%d and f%d\n",
+  trace4((qh ferr, 4037, "qh_mergeneighbors: merge neighbors of f%d and f%d\n",
 	  facet1->id, facet2->id));
   qh visit_id++;
   FOREACHneighbor_(facet2) {
@@ -2497,9 +2501,9 @@ void qh_mergeneighbors(facetT *facet1, facetT *facet2) {
   FOREACHneighbor_(facet1) {
     if (neighbor->visitid == qh visit_id) {
       if (neighbor->simplicial)    /* is degen, needs ridges */
-	qh_makeridges (neighbor);
+	qh_makeridges(neighbor);
       if (SETfirstt_(neighbor->neighbors, facetT) != facet1) /*keep newfacet->horizon*/
-	qh_setdel (neighbor->neighbors, facet1);
+	qh_setdel(neighbor->neighbors, facet1);
       else {
         qh_setdel(neighbor->neighbors, facet2);
         qh_setreplace(neighbor->neighbors, facet1, facet2);
@@ -2537,7 +2541,7 @@ void qh_mergeridges(facetT *facet1, facetT *facet2) {
   ridgeT *ridge, **ridgep;
   vertexT *vertex, **vertexp;
 
-  trace4((qh ferr, "qh_mergeridges: merge ridges of f%d and f%d\n",
+  trace4((qh ferr, 4038, "qh_mergeridges: merge ridges of f%d and f%d\n",
 	  facet1->id, facet2->id));
   FOREACHridge_(facet2->ridges) {
     if ((ridge->top == facet1) || (ridge->bottom == facet1)) {
@@ -2609,10 +2613,10 @@ void qh_mergesimplex(facetT *facet1, facetT *facet2, boolT mergeapex) {
 
   if (mergeapex) {
     if (!facet2->newfacet)
-      qh_newvertices (facet2->vertices);  /* apex is new */
+      qh_newvertices(facet2->vertices);  /* apex is new */
     apex= SETfirstt_(facet1->vertices, vertexT);
     if (SETfirstt_(facet2->vertices, vertexT) != apex) 
-      qh_setaddnth (&facet2->vertices, 0, apex);  /* apex has last id */
+      qh_setaddnth(&facet2->vertices, 0, apex);  /* apex has last id */
     else
       issubset= True;
   }else {
@@ -2633,7 +2637,7 @@ void qh_mergesimplex(facetT *facet1, facetT *facet2, boolT mergeapex) {
 	break;  /* must occur */
     }
     apex= vertex;
-    trace4((qh ferr, "qh_mergesimplex: merge apex v%d of f%d into facet f%d\n",
+    trace4((qh ferr, 4039, "qh_mergesimplex: merge apex v%d of f%d into facet f%d\n",
 	  apex->id, facet1->id, facet2->id));
     FOREACHvertex_i_(facet2->vertices) {
       if (vertex->id < apex->id) {
@@ -2644,26 +2648,26 @@ void qh_mergesimplex(facetT *facet1, facetT *facet2, boolT mergeapex) {
       }
     }
     if (!issubset)
-      qh_setaddnth (&facet2->vertices, vertex_i, apex);
+      qh_setaddnth(&facet2->vertices, vertex_i, apex);
     if (!facet2->newfacet)
-      qh_newvertices (facet2->vertices);
+      qh_newvertices(facet2->vertices);
     else if (!apex->newlist) {
-      qh_removevertex (apex);
-      qh_appendvertex (apex);
+      qh_removevertex(apex);
+      qh_appendvertex(apex);
     }
   }
-  trace4((qh ferr, "qh_mergesimplex: update vertex neighbors of f%d\n",
+  trace4((qh ferr, 4040, "qh_mergesimplex: update vertex neighbors of f%d\n",
 	  facet1->id));
   FOREACHvertex_(facet1->vertices) {
     if (vertex == apex && !issubset)
-      qh_setreplace (vertex->neighbors, facet1, facet2);
+      qh_setreplace(vertex->neighbors, facet1, facet2);
     else {
-      qh_setdel (vertex->neighbors, facet1);
+      qh_setdel(vertex->neighbors, facet1);
       if (!SETsecond_(vertex->neighbors))
-	qh_mergevertex_del (vertex, facet1, facet2);
+	qh_mergevertex_del(vertex, facet1, facet2);
     }
   }
-  trace4((qh ferr, "qh_mergesimplex: merge ridges and neighbors of f%d into f%d\n",
+  trace4((qh ferr, 4041, "qh_mergesimplex: merge ridges and neighbors of f%d into f%d\n",
 	  facet1->id, facet2->id));
   qh visit_id++;
   FOREACHneighbor_(facet2)
@@ -2671,21 +2675,21 @@ void qh_mergesimplex(facetT *facet1, facetT *facet2, boolT mergeapex) {
   FOREACHridge_(facet1->ridges) {
     otherfacet= otherfacet_(ridge, facet1);
     if (otherfacet == facet2) {
-      qh_setdel (facet2->ridges, ridge);
+      qh_setdel(facet2->ridges, ridge);
       qh_setfree(&(ridge->vertices)); 
-      qh_memfree (ridge, sizeof(ridgeT));
-      qh_setdel (facet2->neighbors, facet1);
+      qh_memfree(ridge, sizeof(ridgeT));
+      qh_setdel(facet2->neighbors, facet1);
     }else {
-      qh_setappend (&facet2->ridges, ridge);
+      qh_setappend(&facet2->ridges, ridge);
       if (otherfacet->visitid != qh visit_id) {
-	qh_setappend (&facet2->neighbors, otherfacet);
-	qh_setreplace (otherfacet->neighbors, facet1, facet2);
+	qh_setappend(&facet2->neighbors, otherfacet);
+	qh_setreplace(otherfacet->neighbors, facet1, facet2);
 	otherfacet->visitid= qh visit_id;
       }else {
 	if (otherfacet->simplicial)    /* is degen, needs ridges */
-	  qh_makeridges (otherfacet);
+	  qh_makeridges(otherfacet);
 	if (SETfirstt_(otherfacet->neighbors, facetT) != facet1)
-	  qh_setdel (otherfacet->neighbors, facet1);
+	  qh_setdel(otherfacet->neighbors, facet1);
 	else {   /*keep newfacet->neighbors->horizon*/
 	  qh_setdel(otherfacet->neighbors, facet2);
 	  qh_setreplace(otherfacet->neighbors, facet1, facet2);
@@ -2698,7 +2702,7 @@ void qh_mergesimplex(facetT *facet1, facetT *facet2, boolT mergeapex) {
     }
   }
   SETfirst_(facet1->ridges)= NULL; /* it will be deleted */
-  trace3((qh ferr, "qh_mergesimplex: merged simplex f%d apex v%d into facet f%d\n",
+  trace3((qh ferr, 3006, "qh_mergesimplex: merged simplex f%d apex v%d into facet f%d\n",
 	  facet1->id, getid_(apex), facet2->id));
 } /* mergesimplex */
 
@@ -2712,14 +2716,14 @@ void qh_mergesimplex(facetT *facet1, facetT *facet2, boolT mergeapex) {
     deletes vertex from facet2
     adds vertex to qh.del_vertices for later deletion 
 */
-void qh_mergevertex_del (vertexT *vertex, facetT *facet1, facetT *facet2) {
+void qh_mergevertex_del(vertexT *vertex, facetT *facet1, facetT *facet2) {
 
   zinc_(Zmergevertex);
-  trace2((qh ferr, "qh_mergevertex_del: deleted v%d when merging f%d into f%d\n",
+  trace2((qh ferr, 2035, "qh_mergevertex_del: deleted v%d when merging f%d into f%d\n",
           vertex->id, facet1->id, facet2->id));
-  qh_setdelsorted (facet2->vertices, vertex);
+  qh_setdelsorted(facet2->vertices, vertex);
   vertex->deleted= True;
-  qh_setappend (&qh del_vertices, vertex);
+  qh_setappend(&qh del_vertices, vertex);
 } /* mergevertex_del */
 
 /*-<a                             href="qh-merge.htm#TOC"
@@ -2741,12 +2745,12 @@ void qh_mergevertex_del (vertexT *vertex, facetT *facet1, facetT *facet2) {
 void qh_mergevertex_neighbors(facetT *facet1, facetT *facet2) {
   vertexT *vertex, **vertexp;
 
-  trace4((qh ferr, "qh_mergevertex_neighbors: merge vertex neighbors of f%d and f%d\n",
+  trace4((qh ferr, 4042, "qh_mergevertex_neighbors: merge vertex neighbors of f%d and f%d\n",
 	  facet1->id, facet2->id));
   if (qh tracevertex) {
-    fprintf (qh ferr, "qh_mergevertex_neighbors: of f%d and f%d at furthest p%d f0= %p\n",
+    qh_fprintf(qh ferr, 8081, "qh_mergevertex_neighbors: of f%d and f%d at furthest p%d f0= %p\n",
 	     facet1->id, facet2->id, qh furthest_id, qh tracevertex->neighbors->e[0].p);
-    qh_errprint ("TRACE", NULL, NULL, NULL, qh tracevertex);
+    qh_errprint("TRACE", NULL, NULL, NULL, qh tracevertex);
   }
   FOREACHvertex_(facet1->vertices) {
     if (vertex->visitid != qh vertex_visit) 
@@ -2754,11 +2758,11 @@ void qh_mergevertex_neighbors(facetT *facet1, facetT *facet2) {
     else {
       qh_setdel(vertex->neighbors, facet1);
       if (!SETsecond_(vertex->neighbors))
-	qh_mergevertex_del (vertex, facet1, facet2);
+	qh_mergevertex_del(vertex, facet1, facet2);
     }
   }
   if (qh tracevertex) 
-    qh_errprint ("TRACE", NULL, NULL, NULL, qh tracevertex);
+    qh_errprint("TRACE", NULL, NULL, NULL, qh tracevertex);
 } /* mergevertex_neighbors */
 
 
@@ -2781,28 +2785,28 @@ void qh_mergevertices(setT *vertices1, setT **vertices2) {
   setT *mergedvertices;
   vertexT *vertex, **vertexp, **vertex2= SETaddr_(*vertices2, vertexT);
 
-  mergedvertices= qh_settemp (newsize);
+  mergedvertices= qh_settemp(newsize);
   FOREACHvertex_(vertices1) {
     if (!*vertex2 || vertex->id > (*vertex2)->id)
-      qh_setappend (&mergedvertices, vertex);
+      qh_setappend(&mergedvertices, vertex);
     else {
       while (*vertex2 && (*vertex2)->id > vertex->id)
-	qh_setappend (&mergedvertices, *vertex2++);
+	qh_setappend(&mergedvertices, *vertex2++);
       if (!*vertex2 || (*vertex2)->id < vertex->id)
-	qh_setappend (&mergedvertices, vertex);
+	qh_setappend(&mergedvertices, vertex);
       else
-	qh_setappend (&mergedvertices, *vertex2++);
+	qh_setappend(&mergedvertices, *vertex2++);
     }
   }
   while (*vertex2)
-    qh_setappend (&mergedvertices, *vertex2++);
-  if (newsize < qh_setsize (mergedvertices)) {
-    fprintf (qh ferr, "qhull internal error (qh_mergevertices): facets did not share a ridge\n");
-    qh_errexit (qh_ERRqhull, NULL, NULL);
+    qh_setappend(&mergedvertices, *vertex2++);
+  if (newsize < qh_setsize(mergedvertices)) {
+    qh_fprintf(qh ferr, 6100, "qhull internal error (qh_mergevertices): facets did not share a ridge\n");
+    qh_errexit(qh_ERRqhull, NULL, NULL);
   }
   qh_setfree(vertices2);
   *vertices2= mergedvertices;
-  qh_settemppop ();
+  qh_settemppop();
 } /* mergevertices */
 
 
@@ -2829,7 +2833,7 @@ void qh_mergevertices(setT *vertices1, setT **vertices2) {
       return NULL if empty
     return the intersection set  
 */
-setT *qh_neighbor_intersections (vertexT *vertex) {
+setT *qh_neighbor_intersections(vertexT *vertex) {
   facetT *neighbor, **neighborp, *neighborA, *neighborB;
   setT *intersect;
   int neighbor_i, neighbor_n;
@@ -2844,24 +2848,24 @@ setT *qh_neighbor_intersections (vertexT *vertex) {
   if (!neighborA)
     return NULL;
   if (!neighborB)
-    intersect= qh_setcopy (neighborA->vertices, 0);
+    intersect= qh_setcopy(neighborA->vertices, 0);
   else
-    intersect= qh_vertexintersect_new (neighborA->vertices, neighborB->vertices);
-  qh_settemppush (intersect);
-  qh_setdelsorted (intersect, vertex);
+    intersect= qh_vertexintersect_new(neighborA->vertices, neighborB->vertices);
+  qh_settemppush(intersect);
+  qh_setdelsorted(intersect, vertex);
   FOREACHneighbor_i_(vertex) {
     if (neighbor_i >= 2) {
       zinc_(Zintersectnum);
-      qh_vertexintersect (&intersect, neighbor->vertices);
+      qh_vertexintersect(&intersect, neighbor->vertices);
       if (!SETfirst_(intersect)) {
         zinc_(Zintersectfail);
-        qh_settempfree (&intersect);
+        qh_settempfree(&intersect);
         return NULL;
       }
     }
   }
-  trace3((qh ferr, "qh_neighbor_intersections: %d vertices in neighbor intersection of v%d\n", 
-          qh_setsize (intersect), vertex->id));
+  trace3((qh ferr, 3007, "qh_neighbor_intersections: %d vertices in neighbor intersection of v%d\n", 
+          qh_setsize(intersect), vertex->id));
   return intersect;
 } /* neighbor_intersections */
 
@@ -2875,13 +2879,13 @@ setT *qh_neighbor_intersections (vertexT *vertex) {
     vertices on qh.newvertex_list
     vertex->newlist set
 */
-void qh_newvertices (setT *vertices) {
+void qh_newvertices(setT *vertices) {
   vertexT *vertex, **vertexp;
 
   FOREACHvertex_(vertices) {
     if (!vertex->newlist) {
-      qh_removevertex (vertex);
-      qh_appendvertex (vertex);
+      qh_removevertex(vertex);
+      qh_appendvertex(vertex);
     }
   }
 } /* newvertices */
@@ -2913,7 +2917,7 @@ void qh_newvertices (setT *vertices) {
             rename vertex if it is shared
       remove delridge flag from new vertices
 */
-boolT qh_reducevertices (void) {
+boolT qh_reducevertices(void) {
   int numshare=0, numrename= 0;
   boolT degenredun= False;
   facetT *newfacet;
@@ -2928,7 +2932,7 @@ boolT qh_reducevertices (void) {
     if (newfacet->newmerge) { 
       if (!qh MERGEvertices)
         newfacet->newmerge= False;
-      qh_remove_extravertices (newfacet);
+      qh_remove_extravertices(newfacet);
     }
   }
   if (!qh MERGEvertices)
@@ -2938,7 +2942,7 @@ boolT qh_reducevertices (void) {
       newfacet->newmerge= False;
       FOREACHvertex_(newfacet->vertices) {
 	if (vertex->delridge) {
-	  if (qh_rename_sharedvertex (vertex, newfacet)) {
+	  if (qh_rename_sharedvertex(vertex, newfacet)) {
 	    numshare++;
 	    vertexp--; /* repeat since deleted vertex */
 	  }
@@ -2949,7 +2953,7 @@ boolT qh_reducevertices (void) {
   FORALLvertex_(qh newvertex_list) {
     if (vertex->delridge && !vertex->deleted) {
       vertex->delridge= False;
-      if (qh hull_dim >= 4 && qh_redundant_vertex (vertex)) {
+      if (qh hull_dim >= 4 && qh_redundant_vertex(vertex)) {
 	numrename++;
 	if (qh_merge_degenredundant()) {
 	  degenredun= True;
@@ -2958,7 +2962,7 @@ boolT qh_reducevertices (void) {
       }
     }
   }
-  trace1((qh ferr, "qh_reducevertices: renamed %d shared vertices and %d redundant vertices. Degen? %d\n",
+  trace1((qh ferr, 1014, "qh_reducevertices: renamed %d shared vertices and %d redundant vertices. Degen? %d\n",
 	  numshare, numrename, degenredun));
   return degenredun;
 } /* reducevertices */
@@ -2972,7 +2976,7 @@ boolT qh_reducevertices (void) {
 
   returns:
     returns true if find a redundant vertex
-      deletes vertex (vertex->deleted)
+      deletes vertex(vertex->deleted)
   
   notes:
     only needed if vertex->delridge and hull_dim >= 4
@@ -2985,17 +2989,17 @@ boolT qh_reducevertices (void) {
     if find a new vertex for vertex amoung these ridges and vertices
       rename vertex to the new vertex
 */
-vertexT *qh_redundant_vertex (vertexT *vertex) {
+vertexT *qh_redundant_vertex(vertexT *vertex) {
   vertexT *newvertex= NULL;
   setT *vertices, *ridges;
 
-  trace3((qh ferr, "qh_redundant_vertex: check if v%d can be renamed\n", vertex->id));  
-  if ((vertices= qh_neighbor_intersections (vertex))) {
-    ridges= qh_vertexridges (vertex);
-    if ((newvertex= qh_find_newvertex (vertex, vertices, ridges)))
-      qh_renamevertex (vertex, newvertex, ridges, NULL, NULL);
-    qh_settempfree (&ridges);
-    qh_settempfree (&vertices);
+  trace3((qh ferr, 3008, "qh_redundant_vertex: check if v%d can be renamed\n", vertex->id));  
+  if ((vertices= qh_neighbor_intersections(vertex))) {
+    ridges= qh_vertexridges(vertex);
+    if ((newvertex= qh_find_newvertex(vertex, vertices, ridges)))
+      qh_renamevertex(vertex, newvertex, ridges, NULL, NULL);
+    qh_settempfree(&ridges);
+    qh_settempfree(&vertices);
   }
   return newvertex;
 } /* redundant_vertex */
@@ -3017,12 +3021,12 @@ vertexT *qh_redundant_vertex (vertexT *vertex) {
         unless vertex in another facet
           add vertex to qh.del_vertices for later deletion
 */
-boolT qh_remove_extravertices (facetT *facet) {
+boolT qh_remove_extravertices(facetT *facet) {
   ridgeT *ridge, **ridgep;
   vertexT *vertex, **vertexp;
   boolT foundrem= False;
 
-  trace4((qh ferr, "qh_remove_extravertices: test f%d for extra vertices\n",
+  trace4((qh ferr, 4043, "qh_remove_extravertices: test f%d for extra vertices\n",
 	  facet->id));
   FOREACHvertex_(facet->vertices)
     vertex->seen= False;
@@ -3034,15 +3038,15 @@ boolT qh_remove_extravertices (facetT *facet) {
     if (!vertex->seen) {
       foundrem= True;
       zinc_(Zremvertex);
-      qh_setdelsorted (facet->vertices, vertex);
-      qh_setdel (vertex->neighbors, facet);
-      if (!qh_setsize (vertex->neighbors)) {
+      qh_setdelsorted(facet->vertices, vertex);
+      qh_setdel(vertex->neighbors, facet);
+      if (!qh_setsize(vertex->neighbors)) {
 	vertex->deleted= True;
-	qh_setappend (&qh del_vertices, vertex);
+	qh_setappend(&qh del_vertices, vertex);
 	zinc_(Zremvertexdel);
-	trace2((qh ferr, "qh_remove_extravertices: v%d deleted because it's lost all ridges\n", vertex->id));
+	trace2((qh ferr, 2036, "qh_remove_extravertices: v%d deleted because it's lost all ridges\n", vertex->id));
       }else
-	trace3((qh ferr, "qh_remove_extravertices: v%d removed from f%d because it's lost all ridges\n", vertex->id, facet->id));
+	trace3((qh ferr, 3009, "qh_remove_extravertices: v%d removed from f%d because it's lost all ridges\n", vertex->id, facet->id));
       vertexp--; /*repeat*/
     }
   }
@@ -3076,12 +3080,12 @@ boolT qh_remove_extravertices (facetT *facet) {
       if can find a new vertex in this set
         rename the vertex to the new vertex
 */
-vertexT *qh_rename_sharedvertex (vertexT *vertex, facetT *facet) {
+vertexT *qh_rename_sharedvertex(vertexT *vertex, facetT *facet) {
   facetT *neighbor, **neighborp, *neighborA= NULL;
   setT *vertices, *ridges;
   vertexT *newvertex;
 
-  if (qh_setsize (vertex->neighbors) == 2) {
+  if (qh_setsize(vertex->neighbors) == 2) {
     neighborA= SETfirstt_(vertex->neighbors, facetT);
     if (neighborA == facet)
       neighborA= SETsecondt_(vertex->neighbors, facetT);
@@ -3099,26 +3103,26 @@ vertexT *qh_rename_sharedvertex (vertexT *vertex, facetT *facet) {
       }
     }
     if (!neighborA) {
-      fprintf (qh ferr, "qhull internal error (qh_rename_sharedvertex): v%d's neighbors not in f%d\n",
+      qh_fprintf(qh ferr, 6101, "qhull internal error (qh_rename_sharedvertex): v%d's neighbors not in f%d\n",
         vertex->id, facet->id);
-      qh_errprint ("ERRONEOUS", facet, NULL, NULL, vertex);
-      qh_errexit (qh_ERRqhull, NULL, NULL);
+      qh_errprint("ERRONEOUS", facet, NULL, NULL, vertex);
+      qh_errexit(qh_ERRqhull, NULL, NULL);
     }
   }
   /* the vertex is shared by facet and neighborA */
-  ridges= qh_settemp (qh TEMPsize);
+  ridges= qh_settemp(qh TEMPsize);
   neighborA->visitid= ++qh visit_id;
-  qh_vertexridges_facet (vertex, facet, &ridges);
-  trace2((qh ferr, "qh_rename_sharedvertex: p%d (v%d) is shared by f%d (%d ridges) and f%d\n",
-    qh_pointid(vertex->point), vertex->id, facet->id, qh_setsize (ridges), neighborA->id));
+  qh_vertexridges_facet(vertex, facet, &ridges);
+  trace2((qh ferr, 2037, "qh_rename_sharedvertex: p%d(v%d) is shared by f%d(%d ridges) and f%d\n",
+    qh_pointid(vertex->point), vertex->id, facet->id, qh_setsize(ridges), neighborA->id));
   zinc_(Zintersectnum);
-  vertices= qh_vertexintersect_new (facet->vertices, neighborA->vertices);
-  qh_setdel (vertices, vertex);
-  qh_settemppush (vertices);
-  if ((newvertex= qh_find_newvertex (vertex, vertices, ridges))) 
-    qh_renamevertex (vertex, newvertex, ridges, facet, neighborA);
-  qh_settempfree (&vertices);
-  qh_settempfree (&ridges);
+  vertices= qh_vertexintersect_new(facet->vertices, neighborA->vertices);
+  qh_setdel(vertices, vertex);
+  qh_settemppush(vertices);
+  if ((newvertex= qh_find_newvertex(vertex, vertices, ridges))) 
+    qh_renamevertex(vertex, newvertex, ridges, facet, neighborA);
+  qh_settempfree(&vertices);
+  qh_settempfree(&ridges);
   return newvertex;
 } /* rename_sharedvertex */
 
@@ -3144,15 +3148,15 @@ void qh_renameridgevertex(ridgeT *ridge, vertexT *oldvertex, vertexT *newvertex)
   facetT *temp;
   vertexT *vertex, **vertexp;
 
-  oldnth= qh_setindex (ridge->vertices, oldvertex);
-  qh_setdelnthsorted (ridge->vertices, oldnth);
+  oldnth= qh_setindex(ridge->vertices, oldvertex);
+  qh_setdelnthsorted(ridge->vertices, oldnth);
   FOREACHvertex_(ridge->vertices) {
     if (vertex == newvertex) {
       zinc_(Zdelridge);
       if (ridge->nonconvex) /* only one ridge has nonconvex set */
-	qh_copynonconvex (ridge);
-      qh_delridge (ridge);
-      trace2((qh ferr, "qh_renameridgevertex: ridge r%d deleted.  It contained both v%d and v%d\n",
+	qh_copynonconvex(ridge);
+      qh_delridge(ridge);
+      trace2((qh ferr, 2038, "qh_renameridgevertex: ridge r%d deleted.  It contained both v%d and v%d\n",
         ridge->id, oldvertex->id, newvertex->id));
       return;
     }
@@ -3162,7 +3166,7 @@ void qh_renameridgevertex(ridgeT *ridge, vertexT *oldvertex, vertexT *newvertex)
   }
   qh_setaddnth(&ridge->vertices, nth, newvertex);
   if (abs(oldnth - nth)%2) {
-    trace3((qh ferr, "qh_renameridgevertex: swapped the top and bottom of ridge r%d\n", 
+    trace3((qh ferr, 3010, "qh_renameridgevertex: swapped the top and bottom of ridge r%d\n", 
 	    ridge->id));
     temp= ridge->top;
     ridge->top= ridge->bottom;
@@ -3210,39 +3214,39 @@ void qh_renamevertex(vertexT *oldvertex, vertexT *newvertex, setT *ridges, facet
 	newvertex->id == qh tracevertex_id)
     istrace= True;
   FOREACHridge_(ridges) 
-    qh_renameridgevertex (ridge, oldvertex, newvertex);
+    qh_renameridgevertex(ridge, oldvertex, newvertex);
   if (!oldfacet) {
     zinc_(Zrenameall);
     if (istrace)
-      fprintf (qh ferr, "qh_renamevertex: renamed v%d to v%d in several facets\n",
+      qh_fprintf(qh ferr, 8082, "qh_renamevertex: renamed v%d to v%d in several facets\n",
                oldvertex->id, newvertex->id);
     FOREACHneighbor_(oldvertex) {
-      qh_maydropneighbor (neighbor);
-      qh_setdelsorted (neighbor->vertices, oldvertex);
-      if (qh_remove_extravertices (neighbor))
+      qh_maydropneighbor(neighbor);
+      qh_setdelsorted(neighbor->vertices, oldvertex);
+      if (qh_remove_extravertices(neighbor))
         neighborp--; /* neighbor may be deleted */
     }
     if (!oldvertex->deleted) {
       oldvertex->deleted= True;
-      qh_setappend (&qh del_vertices, oldvertex);
+      qh_setappend(&qh del_vertices, oldvertex);
     }
-  }else if (qh_setsize (oldvertex->neighbors) == 2) {
+  }else if (qh_setsize(oldvertex->neighbors) == 2) {
     zinc_(Zrenameshare);
     if (istrace)
-      fprintf (qh ferr, "qh_renamevertex: renamed v%d to v%d in oldfacet f%d\n", 
+      qh_fprintf(qh ferr, 8083, "qh_renamevertex: renamed v%d to v%d in oldfacet f%d\n", 
                oldvertex->id, newvertex->id, oldfacet->id);
     FOREACHneighbor_(oldvertex)
-      qh_setdelsorted (neighbor->vertices, oldvertex);
+      qh_setdelsorted(neighbor->vertices, oldvertex);
     oldvertex->deleted= True;
-    qh_setappend (&qh del_vertices, oldvertex);
+    qh_setappend(&qh del_vertices, oldvertex);
   }else {
     zinc_(Zrenamepinch);
     if (istrace || qh IStracing)
-      fprintf (qh ferr, "qh_renamevertex: renamed pinched v%d to v%d between f%d and f%d\n", 
+      qh_fprintf(qh ferr, 8084, "qh_renamevertex: renamed pinched v%d to v%d between f%d and f%d\n", 
                oldvertex->id, newvertex->id, oldfacet->id, neighborA->id);
-    qh_setdelsorted (oldfacet->vertices, oldvertex);
-    qh_setdel (oldvertex->neighbors, oldfacet);
-    qh_remove_extravertices (neighborA);
+    qh_setdelsorted(oldfacet->vertices, oldvertex);
+    qh_setdel(oldvertex->neighbors, oldfacet);
+    qh_remove_extravertices(neighborA);
   }
 } /* renamevertex */
 
@@ -3281,7 +3285,7 @@ void qh_renamevertex(vertexT *oldvertex, vertexT *newvertex, setT *ridges, facet
      get angle if needed
      append concave or coplanar merge to qh.mergeset
 */
-boolT qh_test_appendmerge (facetT *facet, facetT *neighbor) {
+boolT qh_test_appendmerge(facetT *facet, facetT *neighbor) {
   realT dist, dist2= -REALmax, angle= -REALmax;
   boolT isconcave= False, iscoplanar= False, okangle= False;
 
@@ -3293,14 +3297,14 @@ boolT qh_test_appendmerge (facetT *facet, facetT *neighbor) {
     if (angle > qh cos_max) {
       zinc_(Zcoplanarangle);
       qh_appendmergeset(facet, neighbor, MRGanglecoplanar, &angle);
-      trace2((qh ferr, "qh_test_appendmerge: coplanar angle %4.4g between f%d and f%d\n",
+      trace2((qh ferr, 2039, "qh_test_appendmerge: coplanar angle %4.4g between f%d and f%d\n",
          angle, facet->id, neighbor->id));
       return True;
     }else
       okangle= True;
   }
   if (!facet->center)
-    facet->center= qh_getcentrum (facet);
+    facet->center= qh_getcentrum(facet);
   zzinc_(Zcentrumtests);
   qh_distplane(facet->center, neighbor, &dist);
   if (dist > qh centrum_radius)
@@ -3309,7 +3313,7 @@ boolT qh_test_appendmerge (facetT *facet, facetT *neighbor) {
     if (dist > -qh centrum_radius)
       iscoplanar= True;
     if (!neighbor->center)
-      neighbor->center= qh_getcentrum (neighbor);
+      neighbor->center= qh_getcentrum(neighbor);
     zzinc_(Zcentrumtests);
     qh_distplane(neighbor->center, facet, &dist2);
     if (dist2 > qh centrum_radius)
@@ -3328,12 +3332,12 @@ boolT qh_test_appendmerge (facetT *facet, facetT *neighbor) {
     if (qh ANGLEmerge)
       angle += qh_ANGLEconcave + 0.5;
     qh_appendmergeset(facet, neighbor, MRGconcave, &angle);
-    trace0((qh ferr, "qh_test_appendmerge: concave f%d to f%d dist %4.4g and reverse dist %4.4g angle %4.4g during p%d\n",
+    trace0((qh ferr, 18, "qh_test_appendmerge: concave f%d to f%d dist %4.4g and reverse dist %4.4g angle %4.4g during p%d\n",
 	   facet->id, neighbor->id, dist, dist2, angle, qh furthest_id));
   }else /* iscoplanar */ {
     zinc_(Zcoplanarcentrum);
     qh_appendmergeset(facet, neighbor, MRGcoplanar, &angle);
-    trace2((qh ferr, "qh_test_appendmerge: coplanar f%d to f%d dist %4.4g, reverse dist %4.4g angle %4.4g\n",
+    trace2((qh ferr, 2040, "qh_test_appendmerge: coplanar f%d to f%d dist %4.4g, reverse dist %4.4g angle %4.4g\n",
 	      facet->id, neighbor->id, dist, dist2, angle));
   }
   return True;
@@ -3364,12 +3368,12 @@ boolT qh_test_appendmerge (facetT *facet, facetT *neighbor) {
         for each unvisited facet neighbor of the vertex
           test new facet and neighbor for convexity
 */
-boolT qh_test_vneighbors (void /* qh newfacet_list */) {
+boolT qh_test_vneighbors(void /* qh newfacet_list */) {
   facetT *newfacet, *neighbor, **neighborp;
   vertexT *vertex, **vertexp;
   int nummerges= 0;
 
-  trace1((qh ferr, "qh_test_vneighbors: testing vertex neighbors for convexity\n"));
+  trace1((qh ferr, 1015, "qh_test_vneighbors: testing vertex neighbors for convexity\n"));
   if (!qh VERTEXneighbors)
     qh_vertexneighbors();
   FORALLnew_facets 
@@ -3383,13 +3387,13 @@ boolT qh_test_vneighbors (void /* qh newfacet_list */) {
       FOREACHneighbor_(vertex) {
       	if (neighbor->seen || neighbor->visitid == qh visit_id)
       	  continue;
-      	if (qh_test_appendmerge (newfacet, neighbor))
+      	if (qh_test_appendmerge(newfacet, neighbor))
           nummerges++;
       }
     }
   }
   zadd_(Ztestvneighbor, nummerges);
-  trace1((qh ferr, "qh_test_vneighbors: found %d non-convex, vertex neighbors\n",
+  trace1((qh ferr, 1016, "qh_test_vneighbors: found %d non-convex, vertex neighbors\n",
            nummerges));
   return (nummerges > 0);    
 } /* test_vneighbors */
@@ -3400,35 +3404,35 @@ boolT qh_test_vneighbors (void /* qh newfacet_list */) {
   qh_tracemerge( facet1, facet2 )
     print trace message after merge
 */
-void qh_tracemerge (facetT *facet1, facetT *facet2) {
+void qh_tracemerge(facetT *facet1, facetT *facet2) {
   boolT waserror= False;
 
 #ifndef qh_NOtrace
   if (qh IStracing >= 4) 
-    qh_errprint ("MERGED", facet2, NULL, NULL, NULL);
+    qh_errprint("MERGED", facet2, NULL, NULL, NULL);
   if (facet2 == qh tracefacet || (qh tracevertex && qh tracevertex->newlist)) {
-    fprintf (qh ferr, "qh_tracemerge: trace facet and vertex after merge of f%d and f%d, furthest p%d\n", facet1->id, facet2->id, qh furthest_id);
+    qh_fprintf(qh ferr, 8085, "qh_tracemerge: trace facet and vertex after merge of f%d and f%d, furthest p%d\n", facet1->id, facet2->id, qh furthest_id);
     if (facet2 != qh tracefacet)
-      qh_errprint ("TRACE", qh tracefacet, 
+      qh_errprint("TRACE", qh tracefacet, 
         (qh tracevertex && qh tracevertex->neighbors) ? 
            SETfirstt_(qh tracevertex->neighbors, facetT) : NULL,
         NULL, qh tracevertex);      
   }
   if (qh tracevertex) {
     if (qh tracevertex->deleted)
-      fprintf (qh ferr, "qh_tracemerge: trace vertex deleted at furthest p%d\n",
+      qh_fprintf(qh ferr, 8086, "qh_tracemerge: trace vertex deleted at furthest p%d\n",
 	    qh furthest_id);
     else
-      qh_checkvertex (qh tracevertex);
+      qh_checkvertex(qh tracevertex);
   }
   if (qh tracefacet) {
-    qh_checkfacet (qh tracefacet, True, &waserror);
+    qh_checkfacet(qh tracefacet, True, &waserror);
     if (waserror)
-      qh_errexit (qh_ERRqhull, qh tracefacet, NULL);
+      qh_errexit(qh_ERRqhull, qh tracefacet, NULL);
   }
 #endif /* !qh_NOtrace */
   if (qh CHECKfrequently || qh IStracing >= 4) { /* can't check polygon here */
-    qh_checkfacet (facet2, True, &waserror);
+    qh_checkfacet(facet2, True, &waserror);
     if (waserror)
       qh_errexit(qh_ERRqhull, NULL, NULL);
   }
@@ -3449,24 +3453,24 @@ void qh_tracemerge (facetT *facet1, facetT *facet2) {
   see:
     qh_buildtracing()
 */
-void qh_tracemerging (void) {
+void qh_tracemerging(void) {
   realT cpu;
   int total;
   time_t timedata;
   struct tm *tp;
 
   qh mergereport= zzval_(Ztotmerge);
-  time (&timedata);
-  tp= localtime (&timedata);
+  time(&timedata);
+  tp= localtime(&timedata);
   cpu= qh_CPUclock;
   cpu /= qh_SECticks;
   total= zzval_(Ztotmerge) - zzval_(Zcyclehorizon) + zzval_(Zcyclefacettot);
-  fprintf (qh ferr, "\n\
+  qh_fprintf(qh ferr, 8087, "\n\
 At %d:%d:%d & %2.5g CPU secs, qhull has merged %d facets.  The hull\n\
   contains %d facets and %d vertices.\n",
       tp->tm_hour, tp->tm_min, tp->tm_sec, cpu,
       total, qh num_facets - qh num_visible,
-      qh num_vertices-qh_setsize (qh del_vertices));
+      qh num_vertices-qh_setsize(qh del_vertices));
 } /* tracemerging */
 
 /*-<a                             href="qh-merge.htm#TOC"
@@ -3491,7 +3495,7 @@ At %d:%d:%d & %2.5g CPU secs, qhull has merged %d facets.  The hull\n\
         clear facet2->center to recompute centrum later
         clear ridge->tested for facet2's ridges
 */
-void qh_updatetested (facetT *facet1, facetT *facet2) {
+void qh_updatetested(facetT *facet1, facetT *facet2) {
   ridgeT *ridge, **ridgep;
   int size;
   
@@ -3500,7 +3504,7 @@ void qh_updatetested (facetT *facet1, facetT *facet2) {
     ridge->tested= False;
   if (!facet2->center)
     return;
-  size= qh_setsize (facet2->vertices);
+  size= qh_setsize(facet2->vertices);
   if (!facet2->keepcentrum) {
     if (size > qh hull_dim + qh_MAXnewcentrum) {
       facet2->keepcentrum= True;
@@ -3512,7 +3516,7 @@ void qh_updatetested (facetT *facet1, facetT *facet2) {
       facet2->keepcentrum= False; /* if many merges need to recompute centrum */
   }
   if (!facet2->keepcentrum) {
-    qh_memfree (facet2->center, qh normal_size);
+    qh_memfree(facet2->center, qh normal_size);
     facet2->center= NULL;
     FOREACHridge_(facet2->ridges)
       ridge->tested= False;
@@ -3534,9 +3538,9 @@ void qh_updatetested (facetT *facet1, facetT *facet2) {
     for each neighbor of vertex
       add ridges that include the vertex to ridges  
 */
-setT *qh_vertexridges (vertexT *vertex) {
+setT *qh_vertexridges(vertexT *vertex) {
   facetT *neighbor, **neighborp;
-  setT *ridges= qh_settemp (qh TEMPsize);
+  setT *ridges= qh_settemp(qh TEMPsize);
   int size;
 
   qh visit_id++;
@@ -3544,14 +3548,14 @@ setT *qh_vertexridges (vertexT *vertex) {
     neighbor->visitid= qh visit_id;
   FOREACHneighbor_(vertex) {
     if (*neighborp)   /* no new ridges in last neighbor */
-      qh_vertexridges_facet (vertex, neighbor, &ridges);
+      qh_vertexridges_facet(vertex, neighbor, &ridges);
   }
   if (qh PRINTstatistics || qh IStracing) {
-    size= qh_setsize (ridges);
+    size= qh_setsize(ridges);
     zinc_(Zvertexridge);
     zadd_(Zvertexridgetot, size);
     zmax_(Zvertexridgemax, size);
-    trace3((qh ferr, "qh_vertexridges: found %d ridges for v%d\n",
+    trace3((qh ferr, 3011, "qh_vertexridges: found %d ridges for v%d\n",
              size, vertex->id));
   }
   return ridges;
@@ -3575,15 +3579,15 @@ setT *qh_vertexridges (vertexT *vertex) {
           append ridge to vertex
     mark facet processed
 */
-void qh_vertexridges_facet (vertexT *vertex, facetT *facet, setT **ridges) {
+void qh_vertexridges_facet(vertexT *vertex, facetT *facet, setT **ridges) {
   ridgeT *ridge, **ridgep;
   facetT *neighbor;
 
   FOREACHridge_(facet->ridges) {
     neighbor= otherfacet_(ridge, facet);
     if (neighbor->visitid == qh visit_id 
-    && qh_setin (ridge->vertices, vertex))
-      qh_setappend (ridges, ridge);
+    && qh_setin(ridge->vertices, vertex))
+      qh_setappend(ridges, ridge);
   }
   facet->visitid= qh visit_id-1;
 } /* vertexridges_facet */
@@ -3598,22 +3602,22 @@ void qh_vertexridges_facet (vertexT *vertex, facetT *facet, setT **ridges) {
   returns:
     bumps qh.num_visible
 */
-void qh_willdelete (facetT *facet, facetT *replace) {
+void qh_willdelete(facetT *facet, facetT *replace) {
 
   qh_removefacet(facet);
-  qh_prependfacet (facet, &qh visible_list);
+  qh_prependfacet(facet, &qh visible_list);
   qh num_visible++;
   facet->visible= True;
   facet->f.replace= replace;
 } /* willdelete */
 
 #else /* qh_NOmerge */
-void qh_premerge (vertexT *apex, realT maxcentrum, realT maxangle) {
+void qh_premerge(vertexT *apex, realT maxcentrum, realT maxangle) {
 }
-void qh_postmerge (char *reason, realT maxcentrum, realT maxangle, 
+void qh_postmerge(char *reason, realT maxcentrum, realT maxangle, 
                       boolT vneighbors) {
 }
-boolT qh_checkzero (boolT testall) {
+boolT qh_checkzero(boolT testall) {
    }
 #endif /* qh_NOmerge */
 

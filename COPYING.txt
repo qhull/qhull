@@ -1,4 +1,4 @@
-                    Qhull, Copyright (c) 1993-2003
+                    Qhull, Copyright (c) 1993-2008
 
        The National Science and Technology Research Center for
         Computation and Visualization of Geometric Structures

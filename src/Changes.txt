@@ -1,16 +1,185 @@
 
 .............This file lists all changes to qhull and rbox.....................
 
+Doc  
+- qhullcpplib must be before qhull.lib _qh_fprintf already defined in qhull.lib
+- Qhull::addPoint().  Problems with qh_findbestfacet and otherpoints see 
+   qh-code.htm#inc on-line construction with qh_addpoint()
+ - How to handle 64-bit possible loss of data.  WARN64
+- Show custom of qh_fprintf
+ - grep 'qh_mem ' x | sort | awk '{ print $2; }' | uniq -c | grep -vE ' (2|4|6|8|10|12|14|16|20|64|162)[^0-9]'
+
+Rules for use of qh_qh and multi processes
+    UsingQhull
+    errorIfAnotherUser
+    ~QhullPoints() needs ownership of qh_qh
+    Does !qh_pointer work?
+    When is qh_qh required?  Minimize the time. 
+   qhmem, qhstat.ferr
+   qhull_inuse==1 when qhull globals active [not useful?]
+   rbox_inuse==1 when rbox globals active
+ - Better documentation for qhmem totshort, freesize, etc.
+ - Clean up qhull-news.html XML
+ - how to change .h, .c, and .cpp to text/html.  OK in Opera
+ - need a page with all QHnnnn for web lookups
+ - Update citeseer reference in index.htm#ref
+ - QhullVertex.dimension() is not quite correct, epensive
+ - Check globalAngleEpsilon
+ - Deprecate save_qhull()
+
+Suggestions
+   C++ class for access to statistics, accumulate vs. add
+   Add dialog box to RoadError-- a virtual function?
+ - Gt does not make visible all facets of the mesh example, rbox 32 M1,0,1 | qhull d Gt
+ - Option to select bounded Voronoi regions [A. Uzunovic]
+ - Merge small volume boundary cells into unbounded regions [Dominik Szczerba]
+ - Postmerge with merge options
+ - Add const to C code
+
+Qhull cpp questions
+ - size() as size_t, size_type, or int
+ - Qhull.feasiblePoint interface
+ - Qhull and RboxPoints messaging
+ - change qh_printf() to a virtual function
+ - Figure out RoadError::global_log.  clearQhullMessage currently clearGlobalLog
+ - Should cout << !point.defined() be blank or 'undefined'
+ - Interface for UsingQhullLib::globalAngleEpsilon(), globalDistanceEpsilon, etc.
+ - Interface for UsingQhullLib::globalDimension
+ - Infinite point as !defined()
+ - qlist and qlinkedlist define pointer, reference, size_type, difference_type, const_pointer, const_reference for the class but not for iterator and const_iterator
+
+To do
+ ** Change to static link library before shipping, or define Qt for static linking.
+ - ignoreWarnings?  How to configure Qhull output.  Trace and results should go to stdout/stderr
+ - Fix Qt for conformant triangulations
+ - Add Qtest::toString() functions for QhullPoint and others.  QByteArray and qstrdup()
+ - rbox"10000" is 10x slower.  See Qhull_test -- debug mode?
+ - Fix gcc failure
+ - fix const problems
+ - Review Warn64
+ - Fix doc comments
+ - review all FIXUP.  Add dates?
+ - Qhull_test
+ - Clear out QhullQh -- it is just the POD type
+    void checkIfQhullRan();
+    void errorAnotherUser();
+    void startQhullAccess();
+    void stopQhullAccess();
+ - PointCoordinatesIterator
+ - PointCoordinates_test, RboxPoints
+ - Cleanup PointCoordinates with conversions, etc
+ - Redo Coordinates w/o vector<>
+ - Change #include to specific -> general
+ - Remove class-static code, check K_GLOBAL_STATIC
+
+qhull 2009.1  2008/03/20
+ - Added user_eg3 as an example of Qhull.cpp
+ - Renamed html/qh-in.htm to html/qh-code.htm
+ - Report not enough points if d points, Delaunay, and not Qz
+ - Multithreaded -- call largest dimension for infinityPoint() and origin()
+ - Oh... Ztotcheck, btw, I had to add to the statistics enum in the qh_KEEPstatistics=0 case in stat.h; otherwise stat.c gets an undefined symbol error. [R. Gardener]
+ - qh_restore_qhull() zeroes out qh.old_qhstat and qh.old_tempstack.  Ownership moved.
+ - Removed qh.old_stat -- never used
+ - Removed qhmem.curlong.  qa_memfreeshort computes curlong from cntlong and cntfree
+ - Rewrote save_qhull/restore_qhull
+ - Add message code to error messages and warnings (e.g., QH6012)
+ - Renamed qh.coplanarset to coplanarfacetset.  Avoids conflict with facetT.coplanarset
+ - Fixed double-free of facet->centrum for triangulated facets
+ - Removed qh_clearcenters from qh_freeqhull.  Duplicated by qh_delfacet
+ - Added full tracing for short memory allocations.
+ - Memory tracing (T5) redone for sort order by object
+ - Fixed qhmem.totshort (total short memory in use)
+ - Fixed parentheses around warning for missing 'Qc' [qh_initqhull_outputflags]
+ - Added qhmem.totfree (total short memory on freelists)
+ -    Increases size of qh_memalloc_ and qh_memfree_
+ - Added qhmem.totdropped (leftover freesize at end of each short buffer)
+ - Added qhmem.totunused (short size - request size)
+ - Added qhmem.totbuffer (total short memory buffer w/o links)
+ - Added memory statistics to qh_NOmem;
+ - Added qh_memtotal to track allocated memory
+ - Renamed qh_memfree parameter to 'insize' for consistency with qh_memalloc
+ - Added dim to vertexT for cpp interface. Reduced size of qh.vertex_visit
+ - Clear qh.ERREXITcalled at end of qh_errexit().
+ - Documented Qhull's C++ interface [http://../html/qh-code.htm#cpp]
+ - Renamed qh-in.htm to qh-code.htm
+ - Removed qhull_interface.cpp
+ - Documented <A href="qh-code.htm#cpp">C++ interface</a>
+ - qh_printfacet [io.c] Removed extra space for neighboring facets
+ - Allow 'd' and 'v' as the filename for 'TO ..' and 'TI ...' in qdelaunay [M. Jambon]
+ - Allow quoted filenames for 'TO ...' and 'TI ...'
+ - qh_printcenter [io.c] removed unreachable fprintf argument
+ - qh_product_output [io.c] may be called multiple times (C++ interface)
+ - qh_getarea() [geom2.c] checks facet->isarea. Set by QhullFacet.facetArea()
+ - qh_getarea() [geom2.c] ignored on multiple calls (qh.hasAreaVolume)
+ - qh_triangulate() [poly2.c] ignored on multiple calls (qh.hasTriangulation)
+ - Moved SETsizeaddr_() to qset.h for use by QhullSet.cpp
+ - Add statistics for vertex_visit and visit_id to buildtracing
+ - Add reference to 'Qt' to 'i'
+ - Add reference to 'FS' to 'FA'
+ - qh-impre.htm discusses precision issues for halfspace intersection
+ - Defined qh_OPTIONline [user.h] as max length of option line ('FO') 
+ - Option 'Tz' sets flag qh.USEstdout for QhullPoints.cpp
+ - Add cross references between options 'FA' and 'FS'
+ - Report all hidden options before exiting in qh_checkflags()
+ - Added option 'Ta' to annotate output with message codes
+ - Added support for multiple output runs from QhullPoints.outputQhull
+ -   qh_clear_outputflags() resets the output flags
+ -   qh_initqhull_outputflags split from qh_initqhull_globals
+ - Added qh.run_id, a random identifier for this instance of Qhull (QhullPoints)
+ -   For qh.run_id, initqhull_start initializes qh_RANDOMseed to time instead of 1
+ - Extracted qh_argv_to_command (random.c) from qh_init_qhull_command and fixed a buffer overflow
+ - Updated copyright to 2008
+ - Moved qh_strtod/qh_strtol from global.c to random.c for use in rboxlib.c
+ - Fixed option string for 'rbox t t999'.  Although seed was correctly set to 999, 
+   a random seed was appended to the rbox comment (e.g., 'rbox t t999 t32343')
+ - Fixed rbox ignoring flags that were not separated by spaces
+ - Fixed rbox buffer overflow of 'command' when appending seedbuf
+ - Fixed upper bound of sanity check for qh_RANDOMmax in qh_initqhull_globals()
+ - Report error if negative arguments to rbox 'G', 'L', 'Z'
+ - Unknown rbox flag changed from a warning to an error
+ - Split out random functions into random.c
+ - Defined scale and offset parameters for qh_randomfactor
+ - Set error status 4 qh_ERRmem if rbox runs out of memory
+ - In qh_printafacet(), changed error output to 'qh ferr'
+ - Added message codes to qh_fprintf().  See its definition in user.c
+ - In mem.h, changed ptr_intT to long.  qh_meminit() checks that it holds a 'void*'
+ - Fixed 64-bit warnings (marked with "WARN64")
+ - qhull.exe is ... faster/slower
+ - Add sln and vcproj files for building Qhull -- add to README notes
+ - Removed extra spaces at end of line
+ - Fixed warnings at VC8, level 4
+ - In qhulllib.c, added explicit casts from long to float,  Avoids warning
+ - In global.c, cast time() to int for QRandom-seed.  Avoids warning
+ - Replaced exit, malloc, free, fprintf, and fputs with qh_malloc,...[J.W. Ratcliff]
+ - Added qh_fprintf, qh_malloc, qh_free, ph_printhelp_narrowhull to user.c
+ - Moved qh_printhelp_degenerate and qh_printhelp_singular from io.c to user.c
+ - Fixed mindist initialization if !testcentrum in io.c findbest_test [Ratcliff]
+ - Added link to Wolfram Research's MathWorld site
+ - Updated Fukuda's links
+ - Updated Qhull citation with page numbers.
+ - Proposed project: constructing Voronoi diagram
+ - Proposed project: computing Voronoi volumes
+ - Fixed qh_findfacet_all(), "REALmin" should be "-REALmax" [L.A. Taylor].
+     Effects library users for convex hulls and halfspace intersections.
+
 qhull 2003.1  2003/12/30
 
 New Features:
  - Add Maple output ('FM') for 2-d and 3-d convex hulls [T. Abraham]
 
+Breaking Code Changes:
+ - Annotate C code with 'const'.  An ANSI compatible compiler is required.
+
 Bug Fixes and Code Changes:
  - Fixed qh_findbest() for upperdelaunay facets w/o better, lower neighbors
- -   For library users and some qhull users [A. Cutti, E. Milloti, K. Sun]
+     For library users and some qhull users [A. Cutti, E. Milloti, K. Sun]
  - Preserved qhmem.ferr in qh_memfreeshort() for library users
  - Removed 'static' from qh_compare... for io.h and merge.h [V. Brumberg]
+ - Split out qh_initqhull_start2() to avoid allocating qh_qh
+ - Split out qh_freeqhull2() to avoid freeing qh_qh
+ - Split out qh_produce_output2() and qh_prepare_output()
+ - qh_initstatistics() frees a previously existing qh_qhstat
+ - qh_initqhull_start2() checks that qh_initstatistics() called first
 
 Documentation:
  - Add warning to findDelaunay() and qh_in.htm about tricoplanar facets
@@ -22,9 +191,9 @@ qhull 2003.1  2003/12/19
 
 Bug Fixes:
  - Reversed coordinate order for qh.ATinfinity in qh_projectinput [V. Brumberg]
- - This effects:
- -   Qhull library 'd' or 'v' users with 'Qz' and unequal coordinate ranges.
- -   qdelaunay/qvoronoi users with 'Qbk:0Bk:0', 'Qz', and unequal coordinate ranges
+   This effects:
+     Qhull library 'd' or 'v' users with 'Qz' and unequal coordinate ranges.
+     qdelaunay/qvoronoi users with 'Qbk:0Bk:0', 'Qz', and unequal coordinate ranges
 
 Changes to code:
  - Replaced qh_VERSION with qh_version in global.c [B. Pearlmutter]
@@ -58,7 +227,7 @@ Changes to examples
 qhull 2002.1  2002/8/20
 
 Changes to distribution:
- - Set up savannah.gnu.org/projects/qhull/ [R. Laboissiere]
+ - Set up savannah.nongnu.org/projects/qhull/ [R. Laboissiere]
  - Set up www.thesa.com as a backup
  - Added qh-get.htm, a local copy of the download page
  - Added Visual C++ interface to Qhull, qhull_interface.cpp [K. Erleben]
@@ -69,7 +238,7 @@ Bug fixes:
  - Fixed sign of coefficients for cdd halfspaces ('FD','Fd')  [T. Abraham]
 
 Changes to code:
- - Replace qh_version with qh_VERSION in qhull.h.
+ - Replace qh_version with qh_VERSION in qhulllib.h.
    Allows shared libraries and single point of definition
  - Added qh.TESTpoints for future implementation of tsearch
 
@@ -122,7 +291,7 @@ Corrections to code
       qh_findbest is faster for many distributions
  - qh_findbestnew: redesigned to search horizon of coplanar best newfacets
       needed for distributions with a sharp edge, 
-	  e.g., rbox 1000 s Z1 G1e-13 | qhull Tv
+          e.g., rbox 1000 s Z1 G1e-13 | qhull Tv
  - qh_findbest/qh_findbestnew: search neighbors of better horizon facets
       was needed for RBOX 1000 s Z1 G1e-13 t996564279 | qhull Tv  
       and RBOX 1000 s W1e-13 P0 t996547055 | QHULL d Qbb Qc Tv
@@ -151,14 +320,14 @@ Changes to documentation
  - rbox: Added example of edge of narrow lens, rbox 1000 L100000 s G1e-6
  - Added cross references between options 'o' and 'p'.
  - qh-eg.html: added examples comparing 'Qt', 'QJ', and neither 'Qt' nor 'QJ' 
-	eg.15a.surface, eg.15b.triangle, eg.17a.delaunay.2, etc.
+        eg.15a.surface, eg.15b.triangle, eg.17a.delaunay.2, etc.
  - Reorganized and enhanced discussion of precision problems in qh_impre.htm
  - Fixed spelling errors [K. Briggs]
  - Fixed link errors, validated HTML, and spell checked [HomeSite]
  - Removed unnecessary #TOP links
  - Added source links to the qh-quick.htm's header and footer
  - qh-geom.htm, qh-poly.htm: add links to Voronoi functions in io.c
- - src/index.htm: Added how to search qhull.h for qhull options
+ - src/index.htm: Added how to search qhulllib.h for qhull options
  - qvoronoi.htm/qdelaun.htm: 'Fc' and 'FN' includes deleted vertices
 
 Changes to URLs
@@ -298,7 +467,7 @@ qhull 2.6 1998/12/30
  - added link to Owen's Meshing Research Corner
  - added note to 'd' about quadratic size of 'rbox 100 l | qhull d' [Kumar]
  - added 'about a point' to mentions of halfspace intersection
- - added request to qh-in.htm to compute largest empty circle [Hase]
+ - added request to qh-code.htm to compute largest empty circle [Hase]
  - the DOS window in Windows NT is better than the DOS window in Windows 95
  - removed obsolete qh_findfacet() from qh-c.htm [Sminchisescu]
 
@@ -372,7 +541,7 @@ qhull 2.5 1998/1/28
  - add unpacking instructions to README.txt
  - updated discussion of forced output, 'Po'
  - sorted the options alphabetically
- - removed __STDC__ check from qhull.h for VisualC++
+ - removed __STDC__ check from qhulllib.h for VisualC++
  - moved qh_markvoronoi from qh_printvoronoi and cleared facet->seen flags
  - added facet->seen2 flag for 'Fv'
 
@@ -413,7 +582,7 @@ Changes to documentation
  - added examples to rbox.htm
  - added examples to the synopsis
  - added a reference to Mucke, et al ['96], Fast randomized point location ...
- - added code for printing Delaunay triangles to qh-in.htm [A. Tsui]
+ - added code for printing Delaunay triangles to qh-code.htm [A. Tsui]
  - options 'Pdk' and 'PDk' do not drop on equality
 
 Improvements to the code 
@@ -434,7 +603,7 @@ Changes for the Qhull library
  - added header to user_eg.c to avoid its incorporation into qhull [C. Begnis]
  - added qh_nearcoplanar() calls to user_eg.c
      only needed if use 'QJ'
- - expanded __STDC__ warning message in qhull.h [C. Begnis]
+ - expanded __STDC__ warning message in qhulllib.h [C. Begnis]
  - renamed qh maxmaxcoord to qh MAXabs_coord
  - replaced qh MAXlowcoord with qh MAXabs_coord
  - random seed ('QR-n') is reset in qh_initqhull_globals after testing
@@ -486,7 +655,7 @@ Corrections
 Changes to documentation 
  - added example eg.17f.delaunay.3 to show a triangulation of cospherical sites
  - split up qh-opt.htm into multiple pieces
- - split off qh-in.htm for Qhull internals
+ - split off qh-code.htm for Qhull code
  - renamed .html files to .htm for Windows95
  - rewrote qh-optv.htm on Delaunay triangulation and Voronoi vertices
  - added 'man' pages qhull.txt and rbox.txt.  These list all the options
@@ -536,7 +705,7 @@ qhull V2.3 96/6/5
          Please set qh ATinfinity if you explicitly add the point "at-infinity"
          Please set qh ATinfinity if you explicitly call qh_projectinput.
          Please set qh UPPERdelaunay if you explicitly cleared qh ATinfinity.
-	 Other users do not need to change their code.         
+         Other users do not need to change their code.         
    Now you can build a Delaunay triangulation without creating a point 
    "at-infinity".  This removes a potential, hard-to-understand error.  
    qh_readpoints sets qh ATinfinity for options 'd' or 'v' without 'Qu'.
@@ -748,7 +917,7 @@ qhull V2.1 95/9/25
 
  other documentation changes:
  - new URLs for graphics images
- - fixed comment for facetT.neighbors in qhull.h [P. Soikkonen]
+ - fixed comment for facetT.neighbors in qhulllib.h [P. Soikkonen]
  - changed recommendations for precision errors in qh_printhelp_degenerate()
  -  added recommendation for 'V0' (facet is visible if distance >= 0)
  - added note about 'long double' to user.h [S. Grundmann]
@@ -797,7 +966,7 @@ qhull V2.1 6/3/95
 
 qhull V2.1 beta 5/15/95
 
-		======= main changes ========
+                ======= main changes ========
   - added halfspace intersection ('Hn,n,n')
   - facet merging is better, especially for high dimensions 
   -   added 'Qx' for exact merges of coplanar points and precision faults
@@ -842,14 +1011,14 @@ qhull V2.1 beta 5/15/95
   - added warning if mix Geomview output with other outputs ('Po' turns off)
   - options 'o v' for 3-d and higher sort the Voronoi vertices by index
 
-		======= documentation =======
+                ======= documentation =======
   - rewrote the introduction and precision sections 
   - added a section on performance
   - added an example on halfspace intersection
   - installed examples of Qhull in
     <http://www.geom.uiuc.edu/graphics/pix/Special_Topics/Computational_Geometry/>
 
-		======= Makefile, user.h, and messages =======
+                ======= Makefile, user.h, and messages =======
   - Makefile calls ./qhull, ./rbox, and prints short prompt for qhull
   - added new statistics, e.g., for buildhull
   - changed default qh_RANDOMtype to RAND_MAX with rand()
@@ -861,7 +1030,7 @@ qhull V2.1 beta 5/15/95
   -   use this instead of redefining qh_merge_nonconvex in user.c
   - simplified user_eg.c.  See qh_call_qhull() in user.c for the full version
   
-		======== bug fixes ============
+                ======== bug fixes ============
   - fixed error in number of points for 'rbox 100 r' (odd distribution)
   - fixed performance error in qh_degen_redundant_neighbors
   - qh_partitionpoint now sets facet->maxoutside for first outside point
@@ -871,8 +1040,8 @@ qhull V2.1 beta 5/15/95
   - forcing output on error ('Po') fixed for options 'n' 'o' 'i' 's'
   - fixed optimization error on HP machines [fprintf(... *p++)]
 
-                ======== changes to qhull.h for user code =======
-  - qh_collectstatistics and qh_printstatistics removed from qhull.h.
+                ======== changes to qhulllib.h for user code =======
+  - qh_collectstatistics and qh_printstatistics removed from qhulllib.h.
       should use qh_printallstatistics instead
   - qh_findbest uses boolT for newfacets
   - added qh_findbestnew for non-simplicial facets.  qh_findbest is
@@ -884,7 +1053,7 @@ qhull V2.1 beta 5/15/95
   - added dfacet/dvertex for printing facets/vertices while debugging
   - added qh_produce_output and qh_printsummary
    
-		======== changes to code ==========
+                ======== changes to code ==========
   - moved qh_setfacetplane from qh_makenewfacets to qh_makenewplanes
   - added qh_setfree2, qh_setcompact, and qh_setduplicate to set.c
   - qh_findgooddist returns list of visible facets instead of setting global
@@ -896,7 +1065,7 @@ qhull V2.1 beta 5/15/95
   - uses facet->dupridge to indicate duplicated ridges instead of ->seen
   - qh_buildtracing records CPU time relative to qh hulltime instead of 0
 
-		========== changes to merging =======
+                ========== changes to merging =======
   - many performance improvements, especially in high-d.
   - when merging, qh_findbest and qh_findbestnew stops search at qh_DISToutside
   - vertex neighbors delayed until first merge
@@ -962,12 +1131,12 @@ qhull V2.01 6/11/94
         be dropt by qh_findbest().  This slows down partitioning.
   - always use 'Qc' if merging and all facet->maxoutside's must be right.
         Otherwise distributions with many coplanar points may occassionally
-	miss a coplanar point for a facet.  This is because qh_findbest, when 
-	called by qh_check_maxout, can become stuck at a local maximum if 
-	the search is started at an arbitrary facet.  With 'Qc', the search 
-	is started from a coplanar facet.  For example,
-		rbox 1000 W8e-6 t | qhull C-0 Tv
-	will (rarely) report that a facet->minoutside is incorrect
+        miss a coplanar point for a facet.  This is because qh_findbest, when 
+        called by qh_check_maxout, can become stuck at a local maximum if 
+        the search is started at an arbitrary facet.  With 'Qc', the search 
+        is started from a coplanar facet.  For example,
+                rbox 1000 W8e-6 t | qhull C-0 Tv
+        will (rarely) report that a facet->minoutside is incorrect
   - option 'Pp' turns off "Verifying" message for 'Tv'
   - added qh_copynonconvex to qh_renameridgevertex (fixes rare error)
   - 'rbox tn' sets random seed to n
@@ -986,18 +1155,18 @@ qhull V2.01 6/2/94
   - 's' prints summary to stderr
   - multiple output formats printed in order to stdout
   - added statistic for worst-case distance for merging simplicial facets 
-       	can not hope for a better "max distance above/below facet"
+        can not hope for a better "max distance above/below facet"
         print factor for "max distance.."/"merge simplicial" in printsummary
   - fixed error in scaling input with min/max reversed ('Qb0:1B0:-1')
   - fixed error in scaling if project & Delaunay & scale ('d Qb0:0B1:0b2:0')
   - user_eg.c: qh_delpoint removed since it does not always work
   - user_eg.c now works for either convex hull or Delaunay triangulation
   - added PROJECTdelaunay for Delaunay triangulations and Voronoi diagrams
-	with libqhull.a and user_eg.c
+        with libqhull.a and user_eg.c
   - user_eg.c: if project or scale input, need to copy points
   - user_eg.c: default just defines main, added fprintf's for qh_errprint etc.
   - qh_gausselim: a 0 pivot no longer zeros the rest of the array,
-	  need the remaining elements for area computation
+          need the remaining elements for area computation
   - qh_qhull: restore cos_max, centrum_radius at end of POSTmerging
   - qh_checkflipped with !allerror is >=0.0 instead of >0.0
   - removed -Wall from gcc due to unnecesssary "warning: implicit declaration"
@@ -1008,15 +1177,15 @@ qhull V2.01 6/2/94
 
 Converting from qhull 1.01 to qhull 2.00
   - 'qhull An' is now 'qhull Wn'
-	option 'Wn Po' is faster but it doesn't check coplanars
+        option 'Wn Po' is faster but it doesn't check coplanars
   - 'qhull g' is now 'qhull G', and the output formats are different
   - 'qhull c' is now 'qhull Tc'
   - 'qhull f' is now 'qhull Qf'
   - 'qhull o' is now 'qhull Po'
   - 'qhull b' is now always done
-  - qhull and rbox now use floats, change REALfloat in qhull.h for doubles
+  - qhull and rbox now use floats, change REALfloat in qhulllib.h for doubles
   - qhull 2.00 fixes several initialization errors and performanace errors
-	e.g., "singular input" on data with lots of 0 coordinates
+        e.g., "singular input" on data with lots of 0 coordinates
   - 'rbox b' is now 'rbox c G0.48'
   - all rbox distributions are now scaled to a 0.5 box (use 'Bn' to change)
   - rbox now adds a comment line.  This may be removed by 'rbox n'

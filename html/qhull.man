@@ -57,7 +57,7 @@ example:
  - installation:   README.txt
  - see also:       COPYING.txt, REGISTER.txt, Changes.txt
  - WWW:  <http://www.qhull.org>
- - CVS:  <http://savannah.gnu.org/projects/qhull/>
+ - CVS:  <http://savannah.nongnu.org/projects/qhull/>
  - mirror: <http://www6.uniovi.es/ftp/pub/mirrors/geom.umn.edu/software/ghindex.html>
  - news: <http://www.qhull.org/news>
  - Geomview:  <http://www.geomview.org>
@@ -964,9 +964,9 @@ rbox(1)
 
 Barber, C. B., D.P. Dobkin, and H.T. Huhdanpaa,
 "The Quickhull Algorithm for Convex Hulls," ACM
-Trans. on Mathematical Software, Dec. 1996.
-http://www.acm.org/pubs/citations/journals/toms/1996-22-4/p469-barber/
-http://citeseer.nj.nec.com/83502.html
+Trans. on Mathematical Software, 22(4):469-483, Dec. 1996.
+http://portal.acm.org/citation.cfm?doid=235815.235821
+http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.54.6345
 
 Clarkson, K.L., K. Mehlhorn, and R. Seidel, "Four results on randomized 
 incremental construction," Computational Geometry: Theory and Applications,
@@ -994,9 +994,9 @@ Geometry, Springer-Verlag, New York, 1985.
 A special thanks to Albert Marden, Victor Milenkovic, the Geometry Center,
 Harvard University, and Endocardial Solutions, Inc. for supporting this work.
 
-The software was developed under National Science Foundation grants
-NSF/DMS-8920161 and NSF-CCR-91-15793 750-7504.  David Dobkin guided
-the original work at Princeton University.  
+Qhull 1.0 and 2.0 were developed under National Science Foundation 
+grants NSF/DMS-8920161 and NSF-CCR-91-15793 750-7504.  David Dobkin 
+guided the original work at Princeton University.  
 If you find it useful, please let us know.
 
 The Geometry Center is supported by grant DMS-8920161 from the National 

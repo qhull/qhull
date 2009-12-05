@@ -20,7 +20,7 @@ href="http://www.qhull.org">Home page</a> for Qhull<br>
 &#149; <a href="../html/qh-optq.htm#qhull">Qhull</a> 
 &#149; <a href="../html/qh-optc.htm#prec">Precision</a> 
 &#149; <a href="../html/qh-optt.htm#trace">Trace</a><br>
-<b>Up:</b> <a href="../html/qh-in.htm#TOC">Qhull internals: Table of Contents</a><br>
+<b>Up:</b> <a href="../html/qh-code.htm#TOC">Qhull code: Table of Contents</a><br>
 <b>To:</b> <a href="index.htm">Qhull functions</a>, macros, and data structures<br>
 <b>To:</b> <a href="qh-geom.htm">Geom</a> &#149; <a href="qh-globa.htm#TOC">Global</a>
 &#149; <a href="qh-io.htm">Io</a> &#149; <a href="qh-mem.htm">Mem</a>
@@ -42,7 +42,7 @@ dynamically allocated with malloc().  See
 <a href="user.h#QHpointer">QHpointer</a>.
 </p>
 </blockquote>
-<p><b>Copyright &copy; 1995-2003 The Geometry Center, Minneapolis MN</b></p>
+<p><b>Copyright &copy; 1995-2009 The Geometry Center, Minneapolis MN</b></p>
 <hr>
 <p><a href="#TOP">»</a> <a href="qh-geom.htm#TOC">Geom</a> 
 <a name="TOC">&#149;</a> <b>Global</b> &#149; 
@@ -52,7 +52,7 @@ dynamically allocated with malloc().  See
 <a href="qh-stat.htm#TOC">Stat</a> &#149; <a href="qh-user.htm#TOC">User</a> </p>
 
 <h3>Index to <a href="global.c">global.c</a> and 
-<a href="qhull.h">qhull.h</a></h3>
+<a href="qhulllib.h">qhulllib.h</a></h3>
 
 <ul>
 <li><a href="#ovar">Qhull's global variables</a> </li>
@@ -65,24 +65,24 @@ variables</a></h3>
 
 <ul>
 <li><a href=global.c#qh_version>qh_version</a> version string
-<li><a href="qhull.h#qh">qh</a> all global variables for
+<li><a href="qhulllib.h#qh">qh</a> all global variables for
 qhull are in <tt>qh,qhmem</tt>, and <tt>qhstat</tt></li>
-<li><a href="qhull.h#qh-const">qh constants</a> configuration
+<li><a href="qhulllib.h#qh-const">qh constants</a> configuration
 flags and constants for Qhull </li>
-<li><a href="qhull.h#qh-prec">qh precision constants</a>
+<li><a href="qhulllib.h#qh-prec">qh precision constants</a>
 precision constants for Qhull </li>
-<li><a href="qhull.h#qh-intern">qh internal constants</a>
+<li><a href="qhulllib.h#qh-codetern">qh internal constants</a>
 internal constants for Qhull </li>
-<li><a href="qhull.h#qh-lists">qh facet and vertex lists</a>
+<li><a href="qhulllib.h#qh-lists">qh facet and vertex lists</a>
 lists of facets and vertices </li>
-<li><a href="qhull.h#qh-var">qh global variables</a> minimum
+<li><a href="qhulllib.h#qh-var">qh global variables</a> minimum
 and maximum distances, next visit ids, several flags, and
 other global variables. </li>
-<li><a href="qhull.h#qh-set">qh global sets</a> global sets
+<li><a href="qhulllib.h#qh-set">qh global sets</a> global sets
 for merging, hashing, input, etc. </li>
-<li><a href="qhull.h#qh-buf">qh global buffers</a> buffers
+<li><a href="qhulllib.h#qh-buf">qh global buffers</a> buffers
 for matrix operations and input </li>
-<li><a href="qhull.h#qh-static">qh static variables</a>
+<li><a href="qhulllib.h#qh-static">qh static variables</a>
 static variables for individual functions </li>
 </ul>
 
@@ -111,6 +111,8 @@ initialize global variables </li>
 <li><a href="global.c#initqhull_mem">qh_initqhull_mem</a>
 initialize Qhull memory management </li>
 <li><a href="global.c#initqhull_start">qh_initqhull_start</a>
+allocate qh_qh and call qh_initqhull_start2()
+<li><a href="global.c#initqhull_start2">qh_initqhull_start2</a>
 initialize default values at Qhull startup </li>
 <li><a href="global.c#initthresholds">qh_initthresholds</a>
 initialize 'Pdn' and 'PDn' thresholds </li>
@@ -139,7 +141,7 @@ Qhull</a> <br>
 &#149; <a href="../html/qh-optq.htm#qhull">Qhull</a> 
 &#149; <a href="../html/qh-optc.htm#prec">Precision</a> 
 &#149; <a href="../html/qh-optt.htm#trace">Trace</a><br>
-<b>Up:</b> <a href="../html/qh-in.htm#TOC">Qhull internals: Table of Contents</a> <br>
+<b>Up:</b> <a href="../html/qh-code.htm#TOC">Qhull code: Table of Contents</a> <br>
 <b>To:</b> <a href="index.htm">Qhull functions</a>, macros, and data structures<br>
 <b>To:</b> <a href="qh-geom.htm">Geom</a> &#149; 
 <a href="qh-globa.htm">Global</a> &#149; <a href="qh-io.htm">Io</a>

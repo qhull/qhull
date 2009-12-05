@@ -12,13 +12,13 @@ page</a> for Qhull <br>
 <b>Up:</b> <a href="index.htm#TOC">Qhull manual</a>: Table of
 Contents<br>
 <b>To:</b> <a href="qh-quick.htm#programs">Programs</a>
-&#149; <a href="qh-quick.htm#options">Options</a> 
-&#149; <a href="qh-opto.htm#output">Output</a> 
-&#149; <a href="qh-optf.htm#format">Formats</a> 
-&#149; <a href="qh-optg.htm#geomview">Geomview</a> 
+&#149; <a href="qh-quick.htm#options">Options</a>
+&#149; <a href="qh-opto.htm#output">Output</a>
+&#149; <a href="qh-optf.htm#format">Formats</a>
+&#149; <a href="qh-optg.htm#geomview">Geomview</a>
 &#149; <a href="qh-optp.htm#print">Print</a>
-&#149; <a href="qh-optq.htm#qhull">Qhull</a> 
-&#149; <a href="qh-optc.htm#prec">Precision</a> 
+&#149; <a href="qh-optq.htm#qhull">Qhull</a>
+&#149; <a href="qh-optc.htm#prec">Precision</a>
 &#149; <a href="qh-optt.htm#trace">Trace</a><br>
 <b>To: </b><a href="#TOC">Qhull imprecision</a>: Table of Contents
 (please wait while loading)
@@ -46,7 +46,7 @@ convex. It verifies that all points are on or below all facets. </p>
 <p>Qhull automatically tests for convexity if it detects
 precision errors while constructing the hull. </p>
 
-<p><b>Copyright &copy; 1995-2003 The Geometry Center, Minneapolis MN</b></p>
+<p><b>Copyright &copy; 1995-2009 The Geometry Center, Minneapolis MN</b></p>
 
 <hr>
 
@@ -57,6 +57,7 @@ imprecision: Table of Contents </a></h2>
     <li><a href="#prec">Precision problems</a></li>
     <li><a href="#joggle">Merged facets or joggled input</a></li>
     <li><a href="#delaunay">Delaunay triangulations</a></li>
+    <li><a href="#halfspace">Halfspace intersection/a></li>
     <li><a href="#imprecise">Merged facets</a></li>
     <li><a href="#how">How Qhull merges facets</a></li>
     <li><a href="#limit">Limitations of merged facets</a></li>
@@ -70,7 +71,7 @@ imprecision: Table of Contents </a></h2>
 <h2><a href="#TOC">�</a><a name="prec">Precision problems</a></h2>
 
 <p>Since Qhull uses floating point arithmetic, roundoff error
-occurs with each calculation. This causes problems for 
+occurs with each calculation. This causes problems for
 geometric algorithms. Other floating point codes for convex
 hulls, Delaunay triangulations, and Voronoi diagrams also suffer
 from these problems.  Qhull handles most of them.</p>
@@ -119,8 +120,8 @@ modification is tried. When no precision errors occur, Qhull is
 done. </p>
 
 <p>Qhull 3.1 and later provides option '<a href="qh-optq.htm#Qt">Qt</a>'
-for triangulated output.  This removes the need for 
-joggled input ('<a href="qh-optq.htm#QJn">QJ</a>').  
+for triangulated output.  This removes the need for
+joggled input ('<a href="qh-optq.htm#QJn">QJ</a>').
 Non-simplicial facets are triangulated.
 The facets may have zero area.
 Triangulated output is particularly useful for Delaunay triangulations.</p>
@@ -143,41 +144,41 @@ extreme points (with roundoff):
     href="qh-opto.htm#n">n</a> | qhalf <a href="qh-optf.htm#Fp">Fp</a>
 </blockquote>
 
-<p>Bernd Gartner published his 
+<p>Bernd Gartner published his
 <a href=http://www.inf.ethz.ch/personal/gaertner/miniball.html>Miniball</a>
 algorithm ["Fast and robust smallest enclosing balls", <i>Algorithms - ESA '99</i>, LNCS 1643].
 It uses floating point arithmetic and a carefully designed primitive operation.
 It is practical to 20-D or higher, and identifies at least two points on the
 convex hull of the input set.  Like Qhull, it is an incremental algorithm that
-processes points furthest from the intermediate result and ignores 
+processes points furthest from the intermediate result and ignores
 points that are close to the intermediate result.
 
 <h2><a href="#TOC">�</a><a name="joggle">Merged facets or joggled input</a></h2>
 
-<p>This section discusses the choice between merged facets and joggled input. 
+<p>This section discusses the choice between merged facets and joggled input.
 By default, Qhull uses merged facets to handle
 precision problems. With option '<a href="qh-optq.htm#QJn">QJ</a>',
 the input is joggled. See <a href="qh-eg.htm#joggle">examples</a>
 of joggled input and triangulated output.
 <ul>
 <li>Use merged facets (the default)
-when you want non-simplicial output (e.g., the faces of a cube). 
+when you want non-simplicial output (e.g., the faces of a cube).
 <li>Use merged facets and triangulated output ('<a href="qh-optq.htm#Qt">Qt</a>') when
 you want simplicial output and coplanar facets (e.g., triangles for a Delaunay triangulation).
-<li>Use joggled input ('<a href="qh-optq.htm#QJn">QJ</a>') when you need clearly-convex, 
-simplicial output. 
+<li>Use joggled input ('<a href="qh-optq.htm#QJn">QJ</a>') when you need clearly-convex,
+simplicial output.
 </ul>
 
 <p>The choice between merged facets and joggled input depends on
 the application. Both run about the same speed. Joggled input may
 be faster if the initial joggle is sufficiently large to avoid
-precision errors. 
+precision errors.
 
 <p>Most applications should used merged facets
 with triangulated output. </p>
 
 <p>Use merged facets (the
-default, '<a href="qh-optc.htm#C0">C-0</a>') 
+default, '<a href="qh-optc.htm#C0">C-0</a>')
 or triangulated output ('<a href="qh-optq.htm#Qt">Qt</a>') if </p>
 
 <ul>
@@ -224,30 +225,48 @@ a triangulated input. By default, <a href=qdelaun.htm>qdelaunay</a>
 merges regions with cocircular or cospherical input sites.
 If you want a simplicial triangulation
 use triangulated output ('<a href="qh-optq.htm#Qt">Qt</a>') or joggled
-input ('<a href="qh-optq.htm#QJn">QJ</a>'). 
+input ('<a href="qh-optq.htm#QJn">QJ</a>').
 
 <p>For Delaunay triangulations, triangulated
 output should produce good results.  All points are within roundoff error of
 a paraboloid.  If two points are nearly incident, one will be a
-coplanar point.  So all points are clearly separated and convex.  
+coplanar point.  So all points are clearly separated and convex.
 If qhull reports deleted vertices, the triangulation
 may contain serious precision faults.  Deleted vertices are reported
 in the summary ('<a href="qh-opto.htm#s">s</a>', '<a href="qh-optf.htm#Fs">Fs</a>'</p>
 
 <p>You should use option '<a href="qh-optq.htm#Qbb">Qbb</a>' with Delaunay
 triangulations. It scales the last coordinate and may reduce
-roundoff error. It is automatically set for <a href=qdelaun.htm>qdelaunay</a>, 
+roundoff error. It is automatically set for <a href=qdelaun.htm>qdelaunay</a>,
 <a href=qvoronoi.htm>qvoronoi</a>, and option '<a
 href="qh-optq.htm#QJn">QJ</a>'.</p>
 
 <p>Edelsbrunner, H, <i>Geometry and Topology for Mesh Generation</i>, Cambridge University Press, 2001.
-Good mathematical treatise on Delaunay triangulation and mesh generation for 2-d 
-and 3-d surfaces.  The chapter on surface simplification is 
+Good mathematical treatise on Delaunay triangulation and mesh generation for 2-d
+and 3-d surfaces.  The chapter on surface simplification is
 particularly interesting.  It is similar to facet merging in Qhull.
 
 <p>Veron and Leon published an algorithm for shape preserving polyhedral
 simplification with bounded error [<i>Computers and Graphics</i>, 22.5:565-585, 1998].
 It remove nodes using front propagation and multiple remeshing.
+
+<h2><a href="#TOC">�</a><a name="halfspace">Halfspace intersection</a></h2>
+
+<p>
+The identity pipe for Qhull reveals some precision questions for
+halfspace intersections.  The identity pipe creates the convex hull of
+a set of points and intersects the facets' hyperplanes.  It should return the input
+points, but narrow distributions may drop points while offset distributions may add
+points.  It may be better to normalize the input set about the origin.
+For example, compare the first results with the later two results:  [T. Abraham]
+<blockquote>
+     rbox 100 s t | tee r | qconvex FV n | qhalf Fp | cat - r | /bin/sort -n | tail
+<br>
+     rbox 100 L1e5 t | tee r | qconvex FV n | qhalf Fp | cat - r | /bin/sort -n | tail
+<br>
+     rbox 100 s O10 t | tee r | qconvex FV n | qhalf Fp | cat - r | /bin/sort -n | tail
+</blockquote>
+
 
 <h2><a href="#TOC">�</a><a name="imprecise">Merged facets </a></h2>
 
@@ -403,7 +422,7 @@ a wide facet:</p>
 
 <p>
 <li><b>Narrow distribution</b> -- In 3-d, a narrow distribution may result in a poor
-approximation. For example, if you do not use qdelaunay nor option 
+approximation. For example, if you do not use qdelaunay nor option
 '<a href="qh-optq.htm#Qbb">Qbb</a>', the furthest-site
 Delaunay triangulation of nearly cocircular points may produce a poor
 approximation:
@@ -425,7 +444,7 @@ is automatically set for <a href=qdelaun.htm>qdelaunay</a> and <a href=qvoronoi.
 <p>Qhull generates a warning if the initial simplex is narrow.
 For narrow distributions, Qhull changes how it processes coplanar
 points -- it does not make a point coplanar until the hull is
-finished.  
+finished.
 Use option '<a href="qh-optq.htm#Q10">Q10</a>' to try Qhull without
 special processing for narrow distributions.
 For example, special processing is needed for:
@@ -434,11 +453,11 @@ For example, special processing is needed for:
 </pre>
 
 <p>You may turn off the warning message by reducing
-qh_WARNnarrow in <tt>user.h</tt> or by setting option 
+qh_WARNnarrow in <tt>user.h</tt> or by setting option
 '<a href="qh-optp.htm#Pp">Pp</a>'. </p>
 
 <p>Similar problems occur for distributions with a large flat facet surrounded
-with many small facet at a sharp angle to the large facet.  
+with many small facet at a sharp angle to the large facet.
 Qhull 3.1 fixes most of these problems, but a poor approximation can occur.
 A point may be left outside of the convex hull ('<a href="qh-optt.htm#Tv">Tv</a>').
 Examples include
@@ -452,10 +471,10 @@ the furthest-site Delaunay triangulation of nearly cocircular points plus the or
 <p>
 <li><b>Quadratic running time</b> -- If the output contains large, non-simplicial
 facets, the running time for Qhull may be quadratic in the size of the triangulated
-output.   For example, <tt>RBOX 1000 s W1e-13 c G2 | QHULL d</tt> is 4 times 
+output.   For example, <tt>RBOX 1000 s W1e-13 c G2 | QHULL d</tt> is 4 times
 faster for 500 points.  The convex hull contains two large nearly spherical facets and
 many nearly coplanar facets.  Each new point retriangulates the spherical facet and repartitions the remaining points into all of the nearly coplanar facets.
-In this case, quadratic running time is avoided if you use qdelaunay, 
+In this case, quadratic running time is avoided if you use qdelaunay,
 add option '<a href="qh-optq.htm#Qbb">Qbb</a>',
 or add the origin ('P0') to the input.
 <p>
@@ -482,7 +501,7 @@ only been seen while debugging the code.
 <p>
 <li><b>Triangulated output leads to precision problems</b> -- With sufficient
 merging, the ridges of a non-simplicial facet may have serious topological
-and geometric problems.  A ridge may be between more than two 
+and geometric problems.  A ridge may be between more than two
 neighboring facets.  If so, their triangulation ('<a href="qh-optq.htm#Qt">Qt</a>')
 will fail since two facets have the same vertex set.  Furthermore,
 a triangulated facet may have flipped orientation compared to its
@@ -513,7 +532,7 @@ each distance computation. This is expensive and it conflicts
 with option '<a href="qh-optc.htm#Cn">C-n</a>'.
 
 <p>
-<li><b>All flipped or upper Delaunay</b> -- When a lot of merging occurs for 
+<li><b>All flipped or upper Delaunay</b> -- When a lot of merging occurs for
 Delaunay triangulations, a new point may lead to no good facets.  For example,
 try a strong convexity constraint:
 <pre>
@@ -527,7 +546,7 @@ try a strong convexity constraint:
 <p>Joggled input is a simple work-around for precision problems
 in computational geometry [&quot;joggle: to shake or jar
 slightly,&quot; Amer. Heritage Dictionary].  Other names are
-<i>jostled input</i> or <i>random perturbation</i>.  
+<i>jostled input</i> or <i>random perturbation</i>.
 Qhull joggles the
 input by modifying each coordinate by a small random quantity. If
 a precision problem occurs, Qhull joggles the input with a larger
@@ -705,7 +724,7 @@ increases the time and space required. Some operations are
 difficult to do.</p>
 
 <p>Clarkson's <a
-href="http://netlib.bell-labs.com/netlib/voronoi/hull.html">hull
+href="http://www.netlib.org/voronoi/hull.html">hull
 program</a> and Shewchuk's <a
 href="http://www.cs.cmu.edu/~quake/triangle.html">triangle
 program</a> are practical implementations of exact arithmetic.</p>
@@ -754,13 +773,13 @@ page</a> for Qhull <br>
 <b>Up:</b> <a href="index.htm#TOC">Qhull manual</a>: Table of
 Contents<br>
 <b>To:</b> <a href="qh-quick.htm#programs">Programs</a>
-&#149; <a href="qh-quick.htm#options">Options</a> 
-&#149; <a href="qh-opto.htm#output">Output</a> 
-&#149; <a href="qh-optf.htm#format">Formats</a> 
-&#149; <a href="qh-optg.htm#geomview">Geomview</a> 
+&#149; <a href="qh-quick.htm#options">Options</a>
+&#149; <a href="qh-opto.htm#output">Output</a>
+&#149; <a href="qh-optf.htm#format">Formats</a>
+&#149; <a href="qh-optg.htm#geomview">Geomview</a>
 &#149; <a href="qh-optp.htm#print">Print</a>
-&#149; <a href="qh-optq.htm#qhull">Qhull</a> 
-&#149; <a href="qh-optc.htm#prec">Precision</a> 
+&#149; <a href="qh-optq.htm#qhull">Qhull</a>
+&#149; <a href="qh-optc.htm#prec">Precision</a>
 &#149; <a href="qh-optt.htm#trace">Trace</a><br>
 <b>To:</b> <a href="#TOC">Qhull imprecision: Table of Contents</a>
 

@@ -7,7 +7,7 @@
 
    see unix.c for full interface
 
-   copyright (c) 1993-2003, The Geometry Center
+   copyright (c) 1993-2008, The Geometry Center
 */
 
 #include <stdio.h>
@@ -15,7 +15,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <math.h>
-#include "qhull.h"
+#include "qhulllib.h"
 #include "mem.h"
 #include "qset.h"
 
@@ -27,7 +27,7 @@
 
 #elif __cplusplus
 extern "C" {
-  int isatty (int);
+  int isatty(int);
 }
 
 #elif _MSC_VER
@@ -35,7 +35,7 @@ extern "C" {
 #define isatty _isatty
 
 #else
-int isatty (int);  /* returns 1 if stdin is a tty
+int isatty(int);  /* returns 1 if stdin is a tty
 		   if "Undefined symbol" this can be deleted along with call in main() */
 #endif
 
@@ -46,7 +46,7 @@ int isatty (int);  /* returns 1 if stdin is a tty
     long prompt for qhull
     
   notes:
-    restricted version of qhull.c
+    restricted version of qhulllib.c
  
   see:
     concise prompt below
@@ -133,7 +133,7 @@ More formats:\n\
                                 #coincident points, #non-simplicial regions\n\
                     #real (2), max outer plane, min vertex\n\
     FS   - sizes:   #int (0)\n\
-                    #real(2) tot area, 0\n\
+                    #real (2), tot area, 0\n\
     Fv   - count plus vertices for each Delaunay region\n\
     Fx   - extreme points of Delaunay triangulation (on convex hull)\n\
 \n\
@@ -267,10 +267,10 @@ int main(int argc, char *argv[]) {
   SIOUXSettings.showstatusline= false;
   SIOUXSettings.tabspaces= 1;
   SIOUXSettings.rows= 40;
-  if (setvbuf (stdin, inBuf, _IOFBF, sizeof(inBuf)) < 0   /* w/o, SIOUX I/O is slow*/
-  || setvbuf (stdout, outBuf, _IOFBF, sizeof(outBuf)) < 0
-  || (stdout != stderr && setvbuf (stderr, errBuf, _IOFBF, sizeof(errBuf)) < 0)) 
-    fprintf (stderr, "qhull internal warning (main): could not change stdio to fully buffered.\n");
+  if (setvbuf(stdin, inBuf, _IOFBF, sizeof(inBuf)) < 0   /* w/o, SIOUX I/O is slow*/
+  || setvbuf(stdout, outBuf, _IOFBF, sizeof(outBuf)) < 0
+  || (stdout != stderr && setvbuf(stderr, errBuf, _IOFBF, sizeof(errBuf)) < 0)) 
+    fprintf(stderr, "qhull internal warning (main): could not change stdio to fully buffered.\n");
   argc= ccommand(&argv);
 #endif
 
@@ -287,21 +287,21 @@ int main(int argc, char *argv[]) {
     fprintf(stdout, qh_prompt3, qh_version);
     exit(qh_ERRnone);
   }
-  qh_init_A (stdin, stdout, stderr, argc, argv);  /* sets qh qhull_command */
-  exitcode= setjmp (qh errexit); /* simple statement for CRAY J916 */
+  qh_init_A(stdin, stdout, stderr, argc, argv);  /* sets qh qhull_command */
+  exitcode= setjmp(qh errexit); /* simple statement for CRAY J916 */
   if (!exitcode) {
-    qh_option ("delaunay  Qbbound-last", NULL, NULL);
+    qh_option("delaunay  Qbbound-last", NULL, NULL);
     qh DELAUNAY= True;     /* 'd'   */
     qh SCALElast= True;    /* 'Qbb' */
     qh KEEPcoplanar= True; /* 'Qc', to keep coplanars in 'p' */
-    qh_checkflags (qh qhull_command, hidden_options);
-    qh_initflags (qh qhull_command);
-    points= qh_readpoints (&numpoints, &dim, &ismalloc);
+    qh_checkflags(qh qhull_command, hidden_options);
+    qh_initflags(qh qhull_command);
+    points= qh_readpoints(&numpoints, &dim, &ismalloc);
     if (dim >= 5) {
-      qh_option ("Qxact_merge", NULL, NULL);
+      qh_option("Qxact_merge", NULL, NULL);
       qh MERGEexact= True; /* 'Qx' always */
     }
-    qh_init_B (points, numpoints, dim, ismalloc);
+    qh_init_B(points, numpoints, dim, ismalloc);
     qh_qhull();
     qh_check_output();
     qh_produce_output();
@@ -314,9 +314,9 @@ int main(int argc, char *argv[]) {
   qh_freeqhull( True);
 #else
   qh_freeqhull( False);
-  qh_memfreeshort (&curlong, &totlong);
+  qh_memfreeshort(&curlong, &totlong);
   if (curlong || totlong) 
-    fprintf (stderr, "qhull internal warning (main): did not free %d bytes of long memory (%d pieces)\n",
+    fprintf(stderr, "qhull internal warning (main): did not free %d bytes of long memory(%d pieces)\n",
        totlong, curlong);
 #endif
   return exitcode;

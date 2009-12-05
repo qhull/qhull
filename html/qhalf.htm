@@ -54,7 +54,7 @@ programming. </p>
         href="qh-optf.htm#Fp">Fp</a></dt>
     <dd>Print the intersection of the facets of a cube and a diamond.  There
 	are 24 facets and 14 intersection points.  Four facets define each diamond
-	vertext.  Six facets define each cube vertex.
+	vertex.  Six facets define each cube vertex.
 	</dd>
 
     <dt><p><b>Example:</b> rbox c d G0.55 | qconvex <a href="qh-optf.htm#FQ">FQ</a> <a href="qh-optf.htm#FV">FV</a>
@@ -103,7 +103,7 @@ in 5-d and higher.  It disables the following Qhull
 Qr QR Qv Qx Qz TR E V Fa FA FC FD FS Ft FV Gt Q0,etc</i>.
 
 
-<p><b>Copyright &copy; 1995-2003 The Geometry Center, Minneapolis MN</b></p>
+<p><b>Copyright &copy; 1995-2009 The Geometry Center, Minneapolis MN</b></p>
 <hr>
 
 <h3><a href="#TOP">»</a><a name="synopsis">qhalf synopsis</a></h3>
@@ -382,6 +382,8 @@ href="qh-eg.htm#half">Halfspace examples</a>.</p>
 <h3><a href="#TOP">»</a><a name="notes">qhalf notes</a></h3>
 <blockquote>
 
+<p>See <a href="qh-impre.htm#halfspace">halfspace intersection</a> for precision issues related to qhalf.</p>
+
 <p>If you do not know an interior point for the halfspaces, use
 linear programming to find one. Assume, <em>n</em> halfspaces
 defined by: <em>aj*x1+bj*x2+cj*x3+dj&gt;=0, j=1..n</em>. Perform
@@ -592,3 +594,4 @@ Home Page </i></p>
 Created: Sept. 25, 1995 --- <!-- hhmts start --> Last modified: see top <!-- hhmts end --> </p>
 </body>
 </html>
+

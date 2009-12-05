@@ -6,14 +6,75 @@
 
    see qh-user.htm.  see COPYING for copyright information.
 
-   before reading any code, review qhull.h for data structure definitions and 
+   before reading any code, review qhulllib.h for data structure definitions and 
    the "qh" macro.
+
+Sections:
+   ============= qhull library constants ======================
+   ============= data types and configuration macros ==========
+   ============= performance related constants ================
+   ============= memory constants =============================
+   ============= joggle constants =============================
+   ============= conditional compilation ======================
+   ============= -merge constants- ============================
+
+Code flags -- 
+  NOerrors -- the code does not call qh_errexit()
+  WARN64 -- the code maybe incompatible with 64-bit pointers
+
 */
 
 #ifndef qhDEFuser
 #define qhDEFuser 1
 
+/*============================================================*/
+/*============= qhull library constants ======================*/
+/*============================================================*/
+
+/*-<a                             href="qh-user.htm#TOC"
+  >--------------------------------</a><a name="filenamelen">-</a>
+
+  FILENAMElen -- max length for TI and TO filenames
+
+*/
+
+#define qh_FILENAMElen 500
+
+/*-<a                             href="qh-user.htm#TOC"
+  >--------------------------------</a><a name="msgcode">-</a>
+
+  msgcode -- Unique message codes for qh_fprintf
+
+  If add new messages, assign these values and increment.
+
+  def counters = [27, 1047, 2059, 3025, 4068, 5003, 6231, 7078, 8143, 9410] 
+
+  See: qh_ERR* [qhulllib.h]
+*/
+
+#define MSG_TRACE0 0
+#define MSG_TRACE1 1000
+#define MSG_TRACE2 2000
+#define MSG_TRACE3 3000
+#define MSG_TRACE4 4000
+#define MSG_TRACE5 5000
+#define MSG_ERROR  6000   /* errors written to qh.ferr */
+#define MSG_WARNING 7000
+#define MSG_STDERR  8000  /* log messages Written to qh.ferr */
+#define MSG_OUTPUT  9000
+#define MSG_MAXLEN  3000 /* qh_printhelp_degenerate() in user.c */
+
+
+/*-<a                             href="qh-user.htm#TOC"
+  >--------------------------------</a><a name="qh_OPTIONline">-</a>
+
+  qh_OPTIONline -- max length of an option line 'FO'
+*/
+#define qh_OPTIONline 80 
+
+/*============================================================*/
 /*============= data types and configuration macros ==========*/
+/*============================================================*/
 
 /*-<a                             href="qh-user.htm#TOC"
   >--------------------------------</a><a name="realT">-</a>
@@ -38,7 +99,7 @@
    or double precision (double).
    
    Use 'float' to save about 8% in time and 25% in space.  This is particularly
-   help if high-d where convex hulls are space limited.  Using 'float' also
+   helpful if high-d where convex hulls are space limited.  Using 'float' also
    reduces the printed size of Qhull's output since numbers have 8 digits of 
    precision.
    
@@ -105,8 +166,8 @@
 
     if your system does not use clock() to return CPU ticks, replace
     qh_CPUclock with the corresponding function.  It is converted
-    to unsigned long to prevent wrap-around during long runs.
-   
+    to 'unsigned long' to prevent wrap-around during long runs.  By default,
+    <time.h> defines clock_t as 'long'
 
    Set qh_CLOCKtype to
    
@@ -119,15 +180,15 @@
 
 #if (qh_CLOCKtype == 1)
 
-#if defined (CLOCKS_PER_SECOND)
+#if defined(CLOCKS_PER_SECOND)
 #define qh_CPUclock    ((unsigned long)clock())  /* return CPU clock */
 #define qh_SECticks CLOCKS_PER_SECOND
 
-#elif defined (CLOCKS_PER_SEC)
+#elif defined(CLOCKS_PER_SEC)
 #define qh_CPUclock    ((unsigned long)clock())  /* return CPU clock */
 #define qh_SECticks CLOCKS_PER_SEC
 
-#elif defined (CLK_TCK)
+#elif defined(CLK_TCK)
 #define qh_CPUclock    ((unsigned long)clock())  /* return CPU clock */
 #define qh_SECticks CLK_TCK
 
@@ -221,7 +282,85 @@
 #define qh_ORIENTclock 0 
 
 
-/*========= performance related constants =========*/
+/*============================================================*/
+/*============= joggle constants =============================*/
+/*============================================================*/
+
+/*-<a                             href="qh-user.htm#TOC"
+>--------------------------------</a><a name="JOGGLEdefault">-</a>
+
+qh_JOGGLEdefault
+default qh.JOGGLEmax is qh.DISTround * qh_JOGGLEdefault
+
+notes:
+rbox s r 100 | qhull QJ1e-15 QR0 generates 90% faults at distround 7e-16
+rbox s r 100 | qhull QJ1e-14 QR0 generates 70% faults
+rbox s r 100 | qhull QJ1e-13 QR0 generates 35% faults
+rbox s r 100 | qhull QJ1e-12 QR0 generates 8% faults
+rbox s r 100 | qhull QJ1e-11 QR0 generates 1% faults
+rbox s r 100 | qhull QJ1e-10 QR0 generates 0% faults
+rbox 1000 W0 | qhull QJ1e-12 QR0 generates 86% faults
+rbox 1000 W0 | qhull QJ1e-11 QR0 generates 20% faults
+rbox 1000 W0 | qhull QJ1e-10 QR0 generates 2% faults
+the later have about 20 points per facet, each of which may interfere
+
+pick a value large enough to avoid retries on most inputs
+*/
+#define qh_JOGGLEdefault 30000.0
+
+/*-<a                             href="qh-user.htm#TOC"
+>--------------------------------</a><a name="JOGGLEincrease">-</a>
+
+qh_JOGGLEincrease
+factor to increase qh.JOGGLEmax on qh_JOGGLEretry or qh_JOGGLEagain
+*/
+#define qh_JOGGLEincrease 10.0
+
+/*-<a                             href="qh-user.htm#TOC"
+>--------------------------------</a><a name="JOGGLEretry">-</a>
+
+qh_JOGGLEretry
+if ZZretry = qh_JOGGLEretry, increase qh.JOGGLEmax
+
+notes:
+try twice at the original value in case of bad luck the first time
+*/
+#define qh_JOGGLEretry 2
+
+/*-<a                             href="qh-user.htm#TOC"
+>--------------------------------</a><a name="JOGGLEagain">-</a>
+
+qh_JOGGLEagain
+every following qh_JOGGLEagain, increase qh.JOGGLEmax
+
+notes:
+1 is OK since it's already failed qh_JOGGLEretry times
+*/
+#define qh_JOGGLEagain 1
+
+/*-<a                             href="qh-user.htm#TOC"
+>--------------------------------</a><a name="JOGGLEmaxincrease">-</a>
+
+qh_JOGGLEmaxincrease
+maximum qh.JOGGLEmax due to qh_JOGGLEincrease
+relative to qh.MAXwidth
+
+notes:
+qh.joggleinput will retry at this value until qh_JOGGLEmaxretry
+*/
+#define qh_JOGGLEmaxincrease 1e-2
+
+/*-<a                             href="qh-user.htm#TOC"
+>--------------------------------</a><a name="JOGGLEmaxretry">-</a>
+
+qh_JOGGLEmaxretry
+stop after qh_JOGGLEmaxretry attempts
+*/
+#define qh_JOGGLEmaxretry 100
+
+/*============================================================*/
+/*============= performance related constants ================*/
+/*============================================================*/
 
 /*-<a                             href="qh-user.htm#TOC"
   >--------------------------------</a><a name="HASHfactor">-</a>
@@ -265,79 +404,9 @@
 */
 #define qh_INITIALmax 8
 
-/*-<a                             href="qh-user.htm#TOC"
-  >--------------------------------</a><a name="JOGGLEdefault">-</a>
-  
-  qh_JOGGLEdefault
-    default qh.JOGGLEmax is qh.DISTround * qh_JOGGLEdefault
-
-  notes:
-    rbox s r 100 | qhull QJ1e-15 QR0 generates 90% faults at distround 7e-16
-    rbox s r 100 | qhull QJ1e-14 QR0 generates 70% faults
-    rbox s r 100 | qhull QJ1e-13 QR0 generates 35% faults
-    rbox s r 100 | qhull QJ1e-12 QR0 generates 8% faults
-    rbox s r 100 | qhull QJ1e-11 QR0 generates 1% faults
-    rbox s r 100 | qhull QJ1e-10 QR0 generates 0% faults
-    rbox 1000 W0 | qhull QJ1e-12 QR0 generates 86% faults
-    rbox 1000 W0 | qhull QJ1e-11 QR0 generates 20% faults
-    rbox 1000 W0 | qhull QJ1e-10 QR0 generates 2% faults
-    the later have about 20 points per facet, each of which may interfere
-
-    pick a value large enough to avoid retries on most inputs
-*/
-#define qh_JOGGLEdefault 30000.0
-
-/*-<a                             href="qh-user.htm#TOC"
-  >--------------------------------</a><a name="JOGGLEincrease">-</a>
-  
-  qh_JOGGLEincrease
-    factor to increase qh.JOGGLEmax on qh_JOGGLEretry or qh_JOGGLEagain
-*/
-#define qh_JOGGLEincrease 10.0
-
-/*-<a                             href="qh-user.htm#TOC"
-  >--------------------------------</a><a name="JOGGLEretry">-</a>
-  
-  qh_JOGGLEretry
-    if ZZretry = qh_JOGGLEretry, increase qh.JOGGLEmax
-
-  notes:
-    try twice at the original value in case of bad luck the first time
-*/
-#define qh_JOGGLEretry 2
-
-/*-<a                             href="qh-user.htm#TOC"
-  >--------------------------------</a><a name="JOGGLEagain">-</a>
-  
-  qh_JOGGLEagain
-    every following qh_JOGGLEagain, increase qh.JOGGLEmax
-
-  notes:
-    1 is OK since it's already failed qh_JOGGLEretry times
-*/
-#define qh_JOGGLEagain 1
-
-/*-<a                             href="qh-user.htm#TOC"
-  >--------------------------------</a><a name="JOGGLEmaxincrease">-</a>
-  
-  qh_JOGGLEmaxincrease
-    maximum qh.JOGGLEmax due to qh_JOGGLEincrease
-    relative to qh.MAXwidth
-
-  notes:
-    qh.joggleinput will retry at this value until qh_JOGGLEmaxretry
-*/
-#define qh_JOGGLEmaxincrease 1e-2
-
-/*-<a                             href="qh-user.htm#TOC"
-  >--------------------------------</a><a name="JOGGLEmaxretry">-</a>
-  
-  qh_JOGGLEmaxretry
-    stop after qh_JOGGLEmaxretry attempts
-*/
-#define qh_JOGGLEmaxretry 100
-
-/*========= memory constants =========*/
+/*============================================================*/
+/*============= memory constants =============================*/
+/*============================================================*/
 
 /*-<a                             href="qh-user.htm#TOC"
   >--------------------------------</a><a name="MEMalign">-</a>
@@ -395,10 +464,16 @@
   
   qh_DEFAULTbox
     default box size (Geomview expects 0.5)
+
+  qh_DEFAULTbox
+    default box size for integer coorindate (rbox only)
 */
 #define qh_DEFAULTbox 0.5 
+#define qh_DEFAULTzbox 1e6 
 
-/*======= conditional compilation ============================*/
+/*============================================================*/
+/*============= conditional compilation ======================*/
+/*============================================================*/
 
 /*-<a                             href="qh-user.htm#TOC"
   >--------------------------------</a><a name="compiler">-</a>
@@ -502,32 +577,35 @@
 
   notes:
     all global variables for qhull are in qh, qhmem, and qhstat
-    qh is defined in qhull.h
+    qh is defined in qhulllib.h
     qhmem is defined in mem.h
     qhstat is defined in stat.h
 
   see:
     user_eg.c for an example
+  FIXUP need to override for C++ (-Dqh_QHpointer=1)
 */
-#define qh_QHpointer 0
+#ifndef qh_QHpointer
+#define qh_QHpointer 1
+#endif
 #if 0  /* sample code */
     qhT *oldqhA, *oldqhB;
 
-    exitcode= qh_new_qhull (dim, numpoints, points, ismalloc,
+    exitcode= qh_new_qhull(dim, numpoints, points, ismalloc,
                       flags, outfile, errfile); 
     /* use results from first call to qh_new_qhull */
     oldqhA= qh_save_qhull();
-    exitcode= qh_new_qhull (dimB, numpointsB, pointsB, ismalloc,
+    exitcode= qh_new_qhull(dimB, numpointsB, pointsB, ismalloc,
                       flags, outfile, errfile); 
     /* use results from second call to qh_new_qhull */
     oldqhB= qh_save_qhull();
-    qh_restore_qhull (&oldqhA);
+    qh_restore_qhull(&oldqhA);
     /* use results from first call to qh_new_qhull */
-    qh_freeqhull (qh_ALL);  /* frees all memory used by first call */
-    qh_restore_qhull (&oldqhB);
+    qh_freeqhull(qh_ALL);  /* frees all memory used by first call */
+    qh_restore_qhull(&oldqhB);
     /* use results from second call to qh_new_qhull */
-    qh_freeqhull (!qh_ALL); /* frees long memory used by second call */
-    qh_memfreeshort (&curlong, &totlong);  /* frees short memory and memory allocator */
+    qh_freeqhull(!qh_ALL); /* frees long memory used by second call */
+    qh_memfreeshort(&curlong, &totlong);  /* frees short memory and memory allocator */
 #endif
 
 /*-<a                             href="qh-user.htm#TOC"
@@ -538,10 +616,12 @@
 */
 #define qh_QUICKhelp    0  
 
-/* ============ -merge constants- ====================
-
+/*============================================================*/
+/*============= -merge constants- ============================*/
+/*============================================================*/
+/*
    These constants effect facet merging.  You probably will not need
-   to modify these.  They effect the performance of facet merging.
+   to modify them.  They effect the performance of facet merging.
 */
 
 /*-<a                             href="qh-user.htm#TOC"

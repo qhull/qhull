@@ -1,41 +1,38 @@
+
 /*<html><pre>  -<a                             href="qh-set.htm"
   >-------------------------------</a><a name="TOP">-</a>
 
-   qset.c 
-   implements set manipulations needed for quickhull 
+   qset.c
+   implements set manipulations needed for quickhull
 
    see qh-set.htm and qset.h
 
-   copyright (c) 1993-2003 The Geometry Center        
+   copyright (c) 1993-2009 The Geometry Center.
+   $Id: //product/qhull/main/rel/src/qset.c#23 $$Change: 1099 $
+   $DateTime: 2009/12/04 22:49:19 $$Author: bbarber $
 */
 
+#include "qset.h"
+#include "mem.h"
 #include <stdio.h>
 #include <string.h>
-/*** uncomment here and qhull_a.h 
+/*** uncomment here and qhull_a.h
      if string.h does not define memcpy()
 #include <memory.h>
 */
-#include "qset.h"
-#include "mem.h"
 
-#ifndef qhDEFqhull
+#ifndef qhDEFqhulllib
 typedef struct ridgeT ridgeT;
 typedef struct facetT facetT;
 void    qh_errexit(int exitcode, facetT *, ridgeT *);
+void	qh_fprintf(FILE *fp, int msgcode, char *fmt, ... );
+#  ifdef _MSC_VER  /* Microsoft Visual C++ -- warning level 4 */
+#  pragma warning( disable : 4127)  /* conditional expression is constant */
+#  pragma warning( disable : 4706)  /* assignment within conditional function */
+#  endif
 #endif
 
 /*=============== internal macros ===========================*/
-
-/*-<a                             href="qh-set.htm#TOC"
-  >-------------------------------<a name="SETsizeaddr_">-</a>
-   
-  SETsizeaddr_(set) 
-    return pointer to actual size+1 of set (set CANNOT be NULL!!)
-      
-  notes:
-    *SETsizeaddr==NULL or e[*SETsizeaddr-1].p==NULL
-*/
-#define SETsizeaddr_(set) (&((set)->e[(set)->maxsize].i))
 
 /*============ functions in alphabetical order ===================*/
   
@@ -50,7 +47,7 @@ void    qh_errexit(int exitcode, facetT *, ridgeT *);
     *setp may be a temp set
     nth=0 is first element
     errors if nth is out of bounds
-   
+
   design:
     expand *setp if empty or full
     move tail of *setp up one
@@ -66,14 +63,14 @@ void qh_setaddnth(setT **setp, int nth, void *newelem) {
   }
   oldsize= *sizep - 1;
   if (nth < 0 || nth > oldsize) {
-    fprintf (qhmem.ferr, "qhull internal error (qh_setaddnth): nth %d is out-of-bounds for set:\n", nth);
-    qh_setprint (qhmem.ferr, "", *setp);
-    qh_errexit (qhmem_ERRqhull, NULL, NULL);
+    qh_fprintf(qhmem.ferr, 6171, "qhull internal error (qh_setaddnth): nth %d is out-of-bounds for set:\n", nth);
+    qh_setprint(qhmem.ferr, "", *setp);
+    qh_errexit(qhmem_ERRqhull, NULL, NULL);
   }
   (*sizep)++;
   oldp= SETelemaddr_(*setp, oldsize, void);   /* NULL */
   newp= oldp+1;
-  for (i= oldsize-nth+1; i--; )  /* move at least NULL  */
+  for (i=oldsize-nth+1; i--; )  /* move at least NULL  */
     *(newp--)= *(oldp--);       /* may overwrite *sizep */
   *newp= newelem;
 } /* setaddnth */
@@ -162,7 +159,7 @@ void qh_setappend_set(setT **setp, setT *setA) {
     return;
   SETreturnsize_(setA, sizeA);
   if (!*setp)
-    *setp= qh_setnew (sizeA);
+    *setp= qh_setnew(sizeA);
   sizep= SETsizeaddr_(*setp);
   if (!(size= *sizep))
     size= (*setp)->maxsize;
@@ -170,8 +167,8 @@ void qh_setappend_set(setT **setp, setT *setA) {
     size--;
   if (size + sizeA > (*setp)->maxsize) {
     oldset= *setp;
-    *setp= qh_setcopy (oldset, sizeA);
-    qh_setfree (&oldset);
+    *setp= qh_setcopy(oldset, sizeA);
+    qh_setfree(&oldset);
     sizep= SETsizeaddr_(*setp);
   }
   *sizep= size+sizeA+1;   /* memcpy may overwrite */
@@ -231,17 +228,17 @@ void qh_setcheck(setT *set, char *tname, int id) {
   SETreturnsize_(set, size);
   maxsize= set->maxsize;
   if (size > maxsize || !maxsize) {
-    fprintf (qhmem.ferr, "qhull internal error (qh_setcheck): actual size %d of %s%d is greater than max size %d\n",
+    qh_fprintf(qhmem.ferr, 6172, "qhull internal error (qh_setcheck): actual size %d of %s%d is greater than max size %d\n",
 	     size, tname, id, maxsize);
     waserr= 1;
   }else if (set->e[size].p) {
-    fprintf (qhmem.ferr, "qhull internal error (qh_setcheck): %s%d (size %d max %d) is not null terminated.\n",
+    qh_fprintf(qhmem.ferr, 6173, "qhull internal error (qh_setcheck): %s%d(size %d max %d) is not null terminated.\n",
 	     tname, id, maxsize, size-1);
     waserr= 1;
   }
   if (waserr) {
-    qh_setprint (qhmem.ferr, "ERRONEOUS", set);
-    qh_errexit (qhmem_ERRqhull, NULL, NULL);
+    qh_setprint(qhmem.ferr, "ERRONEOUS", set);
+    qh_errexit(qhmem_ERRqhull, NULL, NULL);
   }
 } /* setcheck */
 
@@ -280,7 +277,7 @@ void qh_setcompact(setT *set) {
 	break;
     }
   }
-  qh_settruncate (set, destp-firstp);
+  qh_settruncate(set, (int)(destp-firstp));   /* WARN64 */
 } /* setcompact */
 
 
@@ -308,7 +305,7 @@ setT *qh_setcopy(setT *set, int extra) {
   newset= qh_setnew(size+extra);
   *SETsizeaddr_(newset)= size+1;    /* memcpy may overwrite */
   memcpy((char *)&(newset->e[0].p), (char *)&(set->e[0].p), SETelemsize *(size+1));
-  return (newset);
+  return(newset);
 } /* setcopy */
 
 
@@ -421,9 +418,9 @@ void *qh_setdelnth(setT *set, int nth) {
   if (!(*sizep)--)         /*  if was a full set */
     *sizep= set->maxsize;  /*     *sizep= (maxsize-1)+ 1 */
   if (nth < 0 || nth >= *sizep) {
-    fprintf (qhmem.ferr, "qhull internal error (qh_setaddnth): nth %d is out-of-bounds for set:\n", nth);
-    qh_setprint (qhmem.ferr, "", set);
-    qh_errexit (qhmem_ERRqhull, NULL, NULL);
+    qh_fprintf(qhmem.ferr, 6174, "qhull internal error (qh_setaddnth): nth %d is out-of-bounds for set:\n", nth);
+    qh_setprint(qhmem.ferr, "", set);
+    qh_errexit(qhmem_ERRqhull, NULL, NULL);
   }
   lastp= SETelemaddr_(set, *sizep-1, void);
   elem= *elemp;
@@ -458,9 +455,9 @@ void *qh_setdelnthsorted(setT *set, int nth) {
 
   sizep= SETsizeaddr_(set);
   if (nth < 0 || (*sizep && nth >= *sizep-1) || nth >= set->maxsize) {
-    fprintf (qhmem.ferr, "qhull internal error (qh_setaddnth): nth %d is out-of-bounds for set:\n", nth);
-    qh_setprint (qhmem.ferr, "", set);
-    qh_errexit (qhmem_ERRqhull, NULL, NULL);
+    qh_fprintf(qhmem.ferr, 6175, "qhull internal error (qh_setaddnth): nth %d is out-of-bounds for set:\n", nth);
+    qh_setprint(qhmem.ferr, "", set);
+    qh_errexit(qhmem_ERRqhull, NULL, NULL);
   }
   newp= SETelemaddr_(set, nth, void);
   elem= *newp;
@@ -497,7 +494,7 @@ void *qh_setdelsorted(setT *set, void *oldelem) {
   if (!set)
     return NULL;
   newp= SETaddr_(set, void);
-  while(*newp != oldelem && *newp)
+  while (*newp != oldelem && *newp)
     newp++;
   if (*newp) {
     oldp= newp+1;
@@ -527,18 +524,18 @@ void *qh_setdelsorted(setT *set, void *oldelem) {
       create a newelem
       append newelem to newset
 */
-setT *qh_setduplicate (setT *set, int elemsize) {
+setT *qh_setduplicate(setT *set, int elemsize) {
   void		*elem, **elemp, *newElem;
   setT		*newSet;
   int		size;
   
-  if (!(size= qh_setsize (set)))
+  if (!(size= qh_setsize(set)))
     return NULL;
-  newSet= qh_setnew (size);
+  newSet= qh_setnew(size);
   FOREACHelem_(set) {
-    newElem= qh_memalloc (elemsize);
-    memcpy (newElem, elem, elemsize);
-    qh_setappend (&newSet, newElem);
+    newElem= qh_memalloc(elemsize);
+    memcpy(newElem, elem, elemsize);
+    qh_setappend(&newSet, newElem);
   }
   return newSet;
 } /* setduplicate */
@@ -596,7 +593,7 @@ int qh_setequal(setT *setA, setT *setB) {
     search for skipelemA, skipelemB, and mismatches
     check results
 */
-int qh_setequal_except (setT *setA, void *skipelemA, setT *setB, void *skipelemB) {
+int qh_setequal_except(setT *setA, void *skipelemA, setT *setB, void *skipelemB) {
   void **elemA, **elemB;
   int skip=0;
 
@@ -644,7 +641,7 @@ int qh_setequal_except (setT *setA, void *skipelemA, setT *setB, void *skipelemB
     setup pointers
     search for mismatches while skipping skipA and skipB
 */
-int qh_setequal_skip (setT *setA, int skipA, setT *setB, int skipB) {
+int qh_setequal_skip(setT *setA, int skipA, setT *setB, int skipB) {
   void **elemA, **elemB, **skipAp, **skipBp;
 
   elemA= SETaddr_(setA, void);
@@ -692,7 +689,7 @@ void qh_setfree(setT **setp) {
     if (size <= qhmem.LASTsize) {
       qh_memfree_(*setp, size, freelistp);
     }else
-      qh_memfree (*setp, size);
+      qh_memfree(*setp, size);
     *setp= NULL;
   }
 } /* setfree */
@@ -715,8 +712,8 @@ void qh_setfree2 (setT **setp, int elemsize) {
   void		*elem, **elemp;
   
   FOREACHelem_(*setp)
-    qh_memfree (elem, elemsize);
-  qh_setfree (setp);
+    qh_memfree(elem, elemsize);
+  qh_setfree(setp);
 } /* setfree2 */
 
 
@@ -743,7 +740,7 @@ void qh_setfreelong(setT **setp) {
   if (*setp) {
     size= sizeof(setT) + ((*setp)->maxsize)*SETelemsize; 
     if (size > qhmem.LASTsize) {
-      qh_memfree (*setp, size);
+      qh_memfree(*setp, size);
       *setp= NULL;
     }
   }
@@ -782,6 +779,7 @@ int qh_setin(setT *set, void *setelem) {
 
   notes:
     set may be NULL and may contain nulls.
+    NOerrors returned (qh_pointid, QhullPoint::id)
 
   design:
     checks maxsize
@@ -879,7 +877,7 @@ void *qh_setlast(setT *set) {
     creates and allocates space for a set
 
   notes:
-    setsize means the number of elements (NOT including the NULL terminator)
+    setsize means the number of elements (!including the NULL terminator)
     use qh_settemp/qh_setfreetemp if set is temporary
 
   design:
@@ -904,11 +902,11 @@ setT *qh_setnew(int setsize) {
       setsize += (sizereceived - size)/SETelemsize;
 #endif
   }else
-    set= (setT*)qh_memalloc (size);
+    set= (setT*)qh_memalloc(size);
   set->maxsize= setsize;
   set->e[setsize].i= 1;
   set->e[0].p= NULL;
-  return (set);
+  return(set);
 } /* setnew */
 
 
@@ -936,9 +934,9 @@ setT *qh_setnew_delnthsorted(setT *set, int size, int nth, int prepend) {
   int tailsize= size - nth -1, newsize;
 
   if (tailsize < 0) {
-    fprintf (qhmem.ferr, "qhull internal error (qh_setaddnth): nth %d is out-of-bounds for set:\n", nth);
-    qh_setprint (qhmem.ferr, "", set);
-    qh_errexit (qhmem_ERRqhull, NULL, NULL);
+    qh_fprintf(qhmem.ferr, 6176, "qhull internal error (qh_setaddnth): nth %d is out-of-bounds for set:\n", nth);
+    qh_setprint(qhmem.ferr, "", set);
+    qh_errexit(qhmem_ERRqhull, NULL, NULL);
   }
   newsize= size-1 + prepend;
   newset= qh_setnew(newsize);
@@ -1016,16 +1014,16 @@ void qh_setprint(FILE *fp, char* string, setT *set) {
   int size, k;
 
   if (!set)
-    fprintf (fp, "%s set is null\n", string);
+    qh_fprintf(fp, 9346, "%s set is null\n", string);
   else {
     SETreturnsize_(set, size);
-    fprintf (fp, "%s set=%p maxsize=%d size=%d elems=",
+    qh_fprintf(fp, 9347, "%s set=%p maxsize=%d size=%d elems=",
 	     string, set, set->maxsize, size);
     if (size > set->maxsize)
       size= set->maxsize+1;
     for (k=0; k < size; k++)
-      fprintf(fp, " %p", set->e[k].p);
-    fprintf(fp, "\n");
+      qh_fprintf(fp, 9348, " %p", set->e[k].p);
+    qh_fprintf(fp, 9349, "\n");
   }
 } /* setprint */
 
@@ -1047,15 +1045,15 @@ void qh_setreplace(setT *set, void *oldelem, void *newelem) {
   void **elemp;
   
   elemp= SETaddr_(set, void);
-  while(*elemp != oldelem && *elemp)
+  while (*elemp != oldelem && *elemp)
     elemp++;
   if (*elemp)
     *elemp= newelem;
   else {
-    fprintf (qhmem.ferr, "qhull internal error (qh_setreplace): elem %p not found in set\n",
+    qh_fprintf(qhmem.ferr, 6177, "qhull internal error (qh_setreplace): elem %p not found in set\n",
        oldelem);
-    qh_setprint (qhmem.ferr, "", set);
-    qh_errexit (qhmem_ERRqhull, NULL, NULL);
+    qh_setprint(qhmem.ferr, "", set);
+    qh_errexit(qhmem_ERRqhull, NULL, NULL);
   }
 } /* setreplace */
 
@@ -1069,6 +1067,7 @@ void qh_setreplace(setT *set, void *oldelem, void *newelem) {
   notes:
     errors if set's maxsize is incorrect
     same as SETreturnsize_(set)
+    same code for qh_setsize [qset.c] and QhullSetBase::count
 
   design:
     determine actual size of set from maxsize
@@ -1077,15 +1076,15 @@ int qh_setsize(setT *set) {
   int size, *sizep;
   
   if (!set)
-    return (0);
+    return(0);
   sizep= SETsizeaddr_(set);
   if ((size= *sizep)) {
     size--;
     if (size > set->maxsize) {
-      fprintf (qhmem.ferr, "qhull internal error (qh_setsize): current set size %d is greater than maximum size %d\n",
+      qh_fprintf(qhmem.ferr, 6178, "qhull internal error (qh_setsize): current set size %d is greater than maximum size %d\n",
 	       size, set->maxsize);
-      qh_setprint (qhmem.ferr, "set: ", set);
-      qh_errexit (qhmem_ERRqhull, NULL, NULL);
+      qh_setprint(qhmem.ferr, "set: ", set);
+      qh_errexit(qhmem_ERRqhull, NULL, NULL);
     }
   }else
     size= set->maxsize;
@@ -1094,7 +1093,7 @@ int qh_setsize(setT *set) {
 
 /*-<a                             href="qh-set.htm#TOC"
   >-------------------------------<a name="settemp">-</a>
-  
+
   qh_settemp( setsize )
     return a stacked, temporary set of upto setsize elements
 
@@ -1110,11 +1109,11 @@ int qh_setsize(setT *set) {
 setT *qh_settemp(int setsize) {
   setT *newset;
   
-  newset= qh_setnew (setsize);
-  qh_setappend ((setT **)&qhmem.tempstack, newset);
+  newset= qh_setnew(setsize);
+  qh_setappend((setT **)&qhmem.tempstack, newset);
   if (qhmem.IStracing >= 5)
-    fprintf (qhmem.ferr, "qh_settemp: temp set %p of %d elements, depth %d\n",
-       newset, newset->maxsize, qh_setsize ((setT*)qhmem.tempstack));
+    qh_fprintf(qhmem.ferr, 8123, "qh_settemp: temp set %p of %d elements, depth %d\n",
+       newset, newset->maxsize, qh_setsize((setT*)qhmem.tempstack));
   return newset;
 } /* settemp */
 
@@ -1140,15 +1139,15 @@ void qh_settempfree(setT **set) {
 
   if (!*set)
     return;
-  stackedset= qh_settemppop ();
+  stackedset= qh_settemppop();
   if (stackedset != *set) {
     qh_settemppush(stackedset);
-    fprintf (qhmem.ferr, "qhull internal error (qh_settempfree): set %p (size %d) was not last temporary allocated (depth %d, set %p, size %d)\n",
+    qh_fprintf(qhmem.ferr, 6179, "qhull internal error (qh_settempfree): set %p(size %d) was not last temporary allocated(depth %d, set %p, size %d)\n",
 	     *set, qh_setsize(*set), qh_setsize((setT*)qhmem.tempstack)+1,
 	     stackedset, qh_setsize(stackedset));
-    qh_errexit (qhmem_ERRqhull, NULL, NULL);
+    qh_errexit(qhmem_ERRqhull, NULL, NULL);
   }
-  qh_setfree (set);
+  qh_setfree(set);
 } /* settempfree */
 
 /*-<a                             href="qh-set.htm#TOC"
@@ -1165,7 +1164,7 @@ void qh_settempfree(setT **set) {
 void qh_settempfree_all(void) {
   setT *set, **setp;
 
-  FOREACHset_((setT *)qhmem.tempstack) 
+  FOREACHset_((setT *)qhmem.tempstack)
     qh_setfree(&set);
   qh_setfree((setT **)&qhmem.tempstack);
 } /* settempfree_all */
@@ -1187,11 +1186,11 @@ setT *qh_settemppop(void) {
   
   stackedset= (setT*)qh_setdellast((setT *)qhmem.tempstack);
   if (!stackedset) {
-    fprintf (qhmem.ferr, "qhull internal error (qh_settemppop): pop from empty temporary stack\n");
-    qh_errexit (qhmem_ERRqhull, NULL, NULL);
+    qh_fprintf(qhmem.ferr, 6180, "qhull internal error (qh_settemppop): pop from empty temporary stack\n");
+    qh_errexit(qhmem_ERRqhull, NULL, NULL);
   }
   if (qhmem.IStracing >= 5)
-    fprintf (qhmem.ferr, "qh_settemppop: depth %d temp set %p of %d elements\n",
+    qh_fprintf(qhmem.ferr, 8124, "qh_settemppop: depth %d temp set %p of %d elements\n",
        qh_setsize((setT*)qhmem.tempstack)+1, stackedset, qh_setsize(stackedset));
   return stackedset;
 } /* settemppop */
@@ -1210,10 +1209,10 @@ setT *qh_settemppop(void) {
 */
 void qh_settemppush(setT *set) {
   
-  qh_setappend ((setT**)&qhmem.tempstack, set);
+  qh_setappend((setT**)&qhmem.tempstack, set);
   if (qhmem.IStracing >= 5)
-    fprintf (qhmem.ferr, "qh_settemppush: depth %d temp set %p of %d elements\n",
-    qh_setsize((setT*)qhmem.tempstack), set, qh_setsize(set));
+    qh_fprintf(qhmem.ferr, 8125, "qh_settemppush: depth %d temp set %p of %d elements\n",
+      qh_setsize((setT*)qhmem.tempstack), set, qh_setsize(set));
 } /* settemppush */
 
  
@@ -1233,12 +1232,12 @@ void qh_settemppush(setT *set) {
     check size
     update actual size of set
 */
-void qh_settruncate (setT *set, int size) {
+void qh_settruncate(setT *set, int size) {
 
   if (size < 0 || size > set->maxsize) {
-    fprintf (qhmem.ferr, "qhull internal error (qh_settruncate): size %d out of bounds for set:\n", size);
-    qh_setprint (qhmem.ferr, "", set);
-    qh_errexit (qhmem_ERRqhull, NULL, NULL);
+    qh_fprintf(qhmem.ferr, 6181, "qhull internal error (qh_settruncate): size %d out of bounds for set:\n", size);
+    qh_setprint(qhmem.ferr, "", set);
+    qh_errexit(qhmem_ERRqhull, NULL, NULL);
   }
   set->e[set->maxsize].i= size+1;   /* maybe overwritten */
   set->e[size].p= NULL;
@@ -1257,10 +1256,10 @@ void qh_settruncate (setT *set, int size) {
     if elem not in set
       append elem to set
 */
-int qh_setunique (setT **set, void *elem) {
+int qh_setunique(setT **set, void *elem) {
 
-  if (!qh_setin (*set, elem)) {
-    qh_setappend (set, elem);
+  if (!qh_setin(*set, elem)) {
+    qh_setappend(set, elem);
     return 1;
   }
   return 0;
@@ -1285,17 +1284,17 @@ int qh_setunique (setT **set, void *elem) {
     update actual size
     zero elements starting at e[index]   
 */
-void qh_setzero (setT *set, int index, int size) {
+void qh_setzero(setT *set, int index, int size) {
   int count;
 
   if (index < 0 || index >= size || size > set->maxsize) {
-    fprintf (qhmem.ferr, "qhull internal error (qh_setzero): index %d or size %d out of bounds for set:\n", index, size);
-    qh_setprint (qhmem.ferr, "", set);
-    qh_errexit (qhmem_ERRqhull, NULL, NULL);
+    qh_fprintf(qhmem.ferr, 6182, "qhull internal error (qh_setzero): index %d or size %d out of bounds for set:\n", index, size);
+    qh_setprint(qhmem.ferr, "", set);
+    qh_errexit(qhmem_ERRqhull, NULL, NULL);
   }
   set->e[set->maxsize].i=  size+1;  /* may be overwritten */
   count= size - index + 1;   /* +1 for NULL terminator */
-  memset ((char *)SETelemaddr_(set, index, void), 0, count * SETelemsize);
+  memset((char *)SETelemaddr_(set, index, void), 0, count * SETelemsize);
 } /* setzero */
 
-    
+

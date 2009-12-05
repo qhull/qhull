@@ -9,18 +9,22 @@
    only uses mem.c, malloc/free
 
    for error handling, writes message and calls
-      qh_errexit (qhmem_ERRqhull, NULL, NULL);
+      qh_errexit(qhmem_ERRqhull, NULL, NULL);
    
    set operations satisfy the following properties:
     - sets have a max size, the actual size (if different) is stored at the end
     - every set is NULL terminated
     - sets may be sorted or unsorted, the caller must distinguish this
    
-   copyright (c) 1993-2003, The Geometry Center
+   copyright (c) 1993-2009 The Geometry Center.
+   $Id: //product/qhull/main/rel/src/qset.h#16 $$Change: 1099 $
+   $DateTime: 2009/12/04 22:49:19 $$Author: bbarber $
 */
 
 #ifndef qhDEFset
 #define qhDEFset 1
+
+#include <stdio.h>
 
 /*================= -structures- ===============*/
 
@@ -129,7 +133,7 @@ struct setT {
      this includes intervening blocks, e.g. FOREACH...{ if () FOREACH...} )
 */
 #define FOREACHsetelement_(type, set, variable) \
-        if (((variable= NULL), set)) for(\
+        if (((variable= NULL), set)) for (\
           variable##p= (type **)&((set)->e[0].p); \
 	  (variable= *variable##p++);)
 
@@ -195,7 +199,7 @@ struct setT {
      WARNING: needs braces if nested inside another FOREACH
 */
 #define FOREACHsetelementreverse_(type, set, variable) \
-        if (((variable= NULL), set)) for(\
+        if (((variable= NULL), set)) for (\
 	   variable##temp= qh_setsize(set)-1, variable= qh_setlast(set);\
 	   variable; variable= \
 	   ((--variable##temp >= 0) ? SETelemt_(set, variable##temp, type) : NULL))
@@ -226,7 +230,7 @@ struct setT {
      WARNING: needs braces if nested inside another FOREACH
 */
 #define FOREACHsetelementreverse12_(type, set, variable) \
-        if (((variable= NULL), set)) for(\
+        if (((variable= NULL), set)) for (\
           variable##p= (type **)&((set)->e[1].p); \
 	  (variable= *variable##p); \
           variable##p == ((type **)&((set)->e[0].p))?variable##p += 2: \
@@ -294,11 +298,12 @@ struct setT {
 
    notes:   
      for use with FOREACH iteration
+     WARN64 -- Maximum set size is 2G
 
    example:
      i= SETindex_(ridges, ridge)
 */
-#define SETindex_(set, elem) ((void **)elem##p - (void **)&(set)->e[1].p)
+#define SETindex_(set, elem) ((int)((void **)elem##p - (void **)&(set)->e[1].p))
 
 /*-<a                                     href="qh-set.htm#TOC"
   >---------------------------------------</a><a name="SETref_">-</a>
@@ -404,12 +409,23 @@ struct setT {
   >---------------------------------------</a><a name="SETempty_">-</a>
 
    SETempty_(set) 
-     return true (1) if set is empty
+     return true(1) if set is empty
    
    notes:
       set may be NULL
 */
-#define SETempty_(set) 	          (!set || (SETfirst_(set) ? 0:1))
+#define SETempty_(set) 	          (!set || (SETfirst_(set) ? 0 : 1))
+
+/*-<a                             href="qh-set.htm#TOC"
+  >-------------------------------<a name="SETsizeaddr_">-</a>
+   
+  SETsizeaddr_(set) 
+    return pointer to 'actual size+1' of set (set CANNOT be NULL!!)
+      
+  notes:
+    *SETsizeaddr==NULL or e[*SETsizeaddr-1].p==NULL
+*/
+#define SETsizeaddr_(set) (&((set)->e[(set)->maxsize].i))
 
 /*-<a                                     href="qh-set.htm#TOC"
   >---------------------------------------</a><a name="SETtruncate_">-</a>
@@ -441,8 +457,8 @@ void *qh_setdelnthsorted(setT *set, int nth);
 void *qh_setdelsorted(setT *set, void *newelem);
 setT *qh_setduplicate( setT *set, int elemsize);
 int   qh_setequal(setT *setA, setT *setB);
-int   qh_setequal_except (setT *setA, void *skipelemA, setT *setB, void *skipelemB);
-int   qh_setequal_skip (setT *setA, int skipA, setT *setB, int skipB);
+int   qh_setequal_except(setT *setA, void *skipelemA, setT *setB, void *skipelemB);
+int   qh_setequal_skip(setT *setA, int skipA, setT *setB, int skipB);
 void  qh_setfree(setT **set);
 void  qh_setfree2( setT **setp, int elemsize);
 void  qh_setfreelong(setT **set);
@@ -460,9 +476,9 @@ void  qh_settempfree(setT **set);
 void  qh_settempfree_all(void);
 setT *qh_settemppop(void);
 void  qh_settemppush(setT *set);
-void  qh_settruncate (setT *set, int size);
-int   qh_setunique (setT **set, void *elem);
-void  qh_setzero (setT *set, int index, int size);
+void  qh_settruncate(setT *set, int size);
+int   qh_setunique(setT **set, void *elem);
+void  qh_setzero(setT *set, int index, int size);
 
 
 #endif /* qhDEFset */

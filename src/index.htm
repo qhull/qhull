@@ -20,7 +20,7 @@ href="http://www.qhull.org">Home page</a> for Qhull<br>
 &#149; <a href="../html/qh-optq.htm#qhull">Qhull</a> 
 &#149; <a href="../html/qh-optc.htm#prec">Precision</a> 
 &#149; <a href="../html/qh-optt.htm#trace">Trace</a><br>
-<b>Up:</b> <a href="../html/qh-in.htm#TOC">Qhull internals</a><br>
+<b>Up:</b> <a href="../html/qh-code.htm#TOC">Qhull code</a><br>
 <b>To:</b> <a href="#TOC">Qhull files</a><br>
 <b>To:</b> <a href="qh-geom.htm">Geom</a> &#149; <a href="qh-globa.htm">Global</a>
 &#149; <a href="qh-io.htm">Io</a> &#149; <a href="qh-mem.htm">Mem</a>
@@ -35,8 +35,8 @@ href="http://www.qhull.org">Home page</a> for Qhull<br>
 <blockquote>
 <p>The following sections provide an overview and index to
 Qhull's functions, macros, and data structures. Each 
-section starts with an introduction. Also see <a href=../html/qh-in.htm#library>Calling 
-Qhull from your program</a>.</p>
+section starts with an introduction. Also see <a href=../html/qh-code.htm#library>Calling 
+Qhull from C programs</a> and <a href="../html/qh-code.htm#cpp">Calling Qhull from C++ programs</a>.</p>
 
 <p>Qhull uses the following conventions:</p>
 <blockquote>
@@ -69,10 +69,10 @@ When reading code with an editor, a search for
 will locate the header of <i>qh_procedure</i>.  A search for <i>* procedure</i>
 will locate the tail of <i>qh_procedure</i>.
 
-<p>A useful starting point is <a href="qhull.h">qhull.h</a>.  It defines most
+<p>A useful starting point is <a href="qhulllib.h">qhulllib.h</a>.  It defines most
 of Qhull data structures and top-level functions.  Search for <i>'PFn'</i> to
 determine the corresponding constant in Qhull.  Search for <i>'Fp'</i> to
-determine the corresponding <a href="qhull.h#qh_PRINT">qh_PRINT...</a> constant.
+determine the corresponding <a href="qhulllib.h#qh_PRINT">qh_PRINT...</a> constant.
 Search <a href="io.c">io.c</a> to learn how the print function is implemented.</p>
 
 <p>If your web browser loads .c and .h files with an external application,
@@ -86,7 +86,7 @@ to <a href="mailto:qhull-bug@qhull.org">qhull-bug@qhull.org</a>.
 </p>
 </blockquote>
 
-<p><b>Copyright &copy; 1997-2003 The Geometry Center, Minneapolis MN</b></p>
+<p><b>Copyright &copy; 1997-2009 The Geometry Center, Minneapolis MN</b></p>
 
 <hr>
 
@@ -98,7 +98,7 @@ refer to these files for detailed information.</p>
 <blockquote>
 
 <dl>
-<dt><a href="qhull.h"><b>qhull.h</b></a> </dt>
+<dt><a href="qhulllib.h"><b>qhulllib.h</b></a> </dt>
 <dd>Include file for the Qhull library, <tt>qhull.a</tt>.
 Data structures are documented under <a href="qh-poly.htm">Poly</a>.
 Global variables are documented under <a href="qh-globa.htm">Global</a>.
@@ -109,7 +109,9 @@ Other data structures and variables are documented under
 <dt><a href="qh-geom.htm"><b>Geom</b></a><b>, </b>
 <a href="geom.h"><b>geom.h</b></a><b>, </b>
 <a href="geom.c"><b>geom.c</b></a><b>, </b>
-<a href="geom2.c"><b>geom2.c</b></a> </dt>
+<a href="geom2.c"><b>geom2.c</b></a><b>, </b>
+<a href="random.c"><b>random.c</b></a><b>, </b>
+<a href="random.h"><b>random.h</b></a></dt>
 <dd>Geometric routines. These routines implement mathematical
 functions such as Gaussian elimination and geometric
 routines needed for Qhull. Frequently used routines are
@@ -119,7 +121,7 @@ in <tt>geom.c</tt> while infrequent ones are in <tt>geom2.c</tt>.
 <dt>&nbsp;</dt>
 <dt><a href="qh-globa.htm"><b>Global</b></a><b>, </b>
 <a href="global.c"><b>global.c</b></a><b>, </b>
-<a href="qhull.h"><b>qhull.h</b></a> </dt>
+<a href="qhulllib.h"><b>qhulllib.h</b></a> </dt>
 <dd>Global routines. Qhull uses a global data structure, <tt>qh</tt>,
 to store globally defined constants, lists, sets, and
 variables.   
@@ -153,7 +155,7 @@ rename redundant vertices.</dd>
 <a href="poly.h"><b>poly.h</b></a><b>, </b>
 <a href="poly.c"><b>poly.c</b></a><b>, </b>
 <a href="poly2.c"><b>poly2.c</b></a><b>, </b>
-<a href="qhull.h"><b>qhull.h</b></a> </dt>
+<a href="qhulllib.h"><b>qhulllib.h</b></a> </dt>
 <dd>Polyhedral routines. Qhull produces a polyhedron as a
 list of facets with vertices, neighbors, ridges, and
 geometric information. <tt>Qhull.h</tt> defines the main
@@ -162,8 +164,8 @@ while infrequent ones are in <tt>poly2.c</tt>.</dd>
 
 <dt>&nbsp;</dt>
 <dt><a href="qh-qhull.htm#TOC"><b>Qhull</b></a><b>, </b>
-<a href="qhull.c"><b>qhull.c</b></a><b>, </b>
-<a href="qhull.h"><b>qhull.h</b></a><b>, </b>
+<a href="qhulllib.c"><b>qhulllib.c</b></a><b>, </b>
+<a href="qhulllib.h"><b>qhulllib.h</b></a><b>, </b>
 <a href="qhull_a.h"><b>qhull_a.h</b></a><b>, </b>
 <a href="unix.c"><b>unix.c</b></a> <b>, </b>
 <a href="qconvex.c"><b>qconvex.c</b></a> <b>, </b>
@@ -171,7 +173,7 @@ while infrequent ones are in <tt>poly2.c</tt>.</dd>
 <a href="qhalf.c"><b>qhalf.c</b></a> <b>, </b>
 <a href="qvoronoi.c"><b>qvoronoi.c</b></a> </dt>
 <dd>Top-level routines. The Quickhull algorithm is
-implemented by <tt>qhull.c</tt>. <tt>qhull_a.h</tt>
+implemented by <tt>qhulllib.c</tt>. <tt>qhull_a.h</tt>
 includes all header files. </dd>
 
 <dt>&nbsp;</dt>
@@ -218,7 +220,7 @@ Qhull</a> <br>
 &#149; <a href="../html/qh-optq.htm#qhull">Qhull</a> 
 &#149; <a href="../html/qh-optc.htm#prec">Precision</a> 
 &#149; <a href="../html/qh-optt.htm#trace">Trace</a><br>
-<b>Up:</b> <a href="../html/qh-in.htm#TOC">Qhull internals: Table of Contents</a> <br>
+<b>Up:</b> <a href="../html/qh-code.htm#TOC">Qhull code: Table of Contents</a> <br>
 <b>To:</b> <a href="#TOC">Qhull files</a><br>
 <b>To:</b> <a href="qh-geom.htm">Geom</a> &#149; 
 <a href="qh-globa.htm">Global</a> &#149; <a href="qh-io.htm">Io</a>

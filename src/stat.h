@@ -1,4 +1,4 @@
-  /*<html><pre>  -<a                             href="qh-stat.htm"
+/*<html><pre>  -<a                             href="qh-stat.htm"
   >-------------------------------</a><a name="TOP">-</a>
 
    stat.h 
@@ -6,7 +6,9 @@
 
    see qh-stat.htm and stat.c
 
-   copyright (c) 1993-2003, The Geometry Center
+   copyright (c) 1993-2009 The Geometry Center.
+   $Id: //product/qhull/main/rel/src/stat.h#21 $$Change: 1099 $
+   $DateTime: 2009/12/04 22:49:19 $$Author: bbarber $
 
    recompile qhull if you change this file
 
@@ -19,6 +21,7 @@
 #ifndef qhDEFstat
 #define qhDEFstat 1
 
+#include "qhulllib.h"
 
 /*-<a                             href="qh-stat.htm#TOC"
   >-------------------------------</a><a name="KEEPstatistics">-</a>
@@ -262,8 +265,12 @@ enum statistics {     /* alphabetical after Z/W */
     Zvertices,
     Zvisfacettot,
     Zvisfacetmax,
+    Zvisit,
+    Zvisit2max,
     Zvisvertextot,
     Zvisvertexmax,
+    Zvvisit,
+    Zvvisit2max,
     Zwidefacet,
     Zwidevertices,
     ZEND};
@@ -321,6 +328,7 @@ enum statistics {     /* for zzdef etc. macros */
   Wridgeok,
   Wridgeokmax,
   Zsetplane,
+  Ztotcheck,
   Ztotmerge,
     ZEND};
 #endif
@@ -458,7 +466,7 @@ union intrealT {
   >--------------------------------</a><a name="qhstat">-</a>
   
   qhstat
-    global data structure for statistics
+    global data structure for statistics, similar to qh and qhrbox
   
   notes:
    access to qh_qhstat is via the "qhstat" macro.  There are two choices
@@ -467,11 +475,15 @@ union intrealT {
 		= 0     qh_qhstat is a static data structure
 		        only one instance of qhull() can be active at a time
 			default value
-   qh_QHpointer is defined in qhull.h
+   qh_QHpointer is defined in qhulllib.h
 
-   allocated in stat.c
+   allocated in stat.c using qh_malloc()
 */
+#ifndef DEFqhstatT
+#define DEFqhstatT 1
 typedef struct qhstatT qhstatT; 
+#endif
+
 #if qh_QHpointer
 #define qhstat qh_qhstat->
 extern qhstatT *qh_qhstat;
@@ -507,16 +519,16 @@ void    qh_allstatF(void);
 void    qh_allstatG(void);
 void    qh_allstatH(void);
 void    qh_allstatI(void);
-void    qh_allstatistics (void);
-void    qh_collectstatistics (void);
-void	qh_freestatistics (void);
-void    qh_initstatistics (void);
-boolT 	qh_newstats (int index, int *nextindex);
-boolT 	qh_nostatistic (int i);
-void    qh_printallstatistics (FILE *fp, char *string);
-void    qh_printstatistics (FILE *fp, char *string);
-void  	qh_printstatlevel (FILE *fp, int id, int start);
-void  	qh_printstats (FILE *fp, int index, int *nextindex);
-realT   qh_stddev (int num, realT tot, realT tot2, realT *ave);
+void    qh_allstatistics(void);
+void    qh_collectstatistics(void);
+void	qh_freestatistics(void);
+void    qh_initstatistics(void);
+boolT 	qh_newstats(int index, int *nextindex);
+boolT 	qh_nostatistic(int i);
+void    qh_printallstatistics(FILE *fp, char *string);
+void    qh_printstatistics(FILE *fp, char *string);
+void  	qh_printstatlevel(FILE *fp, int id, int start);
+void  	qh_printstats(FILE *fp, int index, int *nextindex);
+realT   qh_stddev(int num, realT tot, realT tot2, realT *ave);
 
 #endif   /* qhDEFstat */

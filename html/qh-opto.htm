@@ -33,7 +33,7 @@ href="qh-optp.htm#print">Print</a>, and <a
 href="qh-optg.htm#geomview">Geomview</a> for other output
 options. </p>
 
-<p><b>Copyright &copy; 1995-2003 The Geometry Center, Minneapolis MN</b></p>
+<p><b>Copyright &copy; 1995-2009 The Geometry Center, Minneapolis MN</b></p>
 
 <hr>
 
@@ -87,7 +87,7 @@ Other outputs may be specified as follows. </p>
 <h3><a href="#output">»</a><a name="f">f - print all fields of
 all facets </a></h3>
 
-<p>Print <a href=../src/qhull.h#facetT>all fields</a> of all facets.
+<p>Print <a href=../src/qhulllib.h#facetT>all fields</a> of all facets.
 The facet is the primary <a href=index.htm#structure>data structure</a> for
 Qhull.  
 
@@ -95,7 +95,8 @@ Qhull.
 debugging. Most of the fields are available via the '<a
 href="qh-optf.htm#format">F</a>' options. If you need specialized
 information from Qhull, you can use the <a
-href="qh-in.htm#library">Qhull library</a>.</p>
+href="qh-code.htm#library">Qhull library</a> or <a
+href="qh-code.htm#cpp">C++ interface</a>.</p>
 
 <p>Use the '<a href="qh-optf.htm#FF">FF</a>' option to print the
 facets but not the ridges. </p>
@@ -114,7 +115,8 @@ vertex prior to the vertices for each facet. </p>
 
 <p>Simplicial facets (e.g., triangles in 3-d) consist of <i>d</i>
 vertices. Non-simplicial facets in 3-d consist of 4 or more
-vertices. For example, a facet of a cube consists of 4 vertices.</p>
+vertices. For example, a facet of a cube consists of 4 vertices.
+Use option '<a href="qh-optq.htm#Qt">Qt</a>' to triangulate non-simplicial facets.</p>
 
 <p>For 4-d and higher convex hulls and 3-d and higher Delaunay
 triangulations, <i>d</i> vertices are listed for all facets. A
@@ -299,7 +301,7 @@ simplicial. </p>
 <p>Qhull starts counting CPU seconds after it has read and
 projected the input points. It stops counting before producing
 output. In the code, CPU seconds measures the execution time of
-function qhull() in <tt>qhull.c</tt>. If the number of CPU
+function qhull() in <tt>qhulllib.c</tt>. If the number of CPU
 seconds is clearly wrong, check qh_SECticks in <tt>user.h</tt>. </p>
 
 <p>The last two figures measure the maximum distance from a point
