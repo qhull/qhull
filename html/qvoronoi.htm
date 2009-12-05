@@ -7,10 +7,11 @@
 
 <body>
 <!-- Navigation links -->
-<p><b>Up:</b> <a href="http://www.geom.umn.edu/locate/qhull">Home page</a> for Qhull<br>
+<a name="TOP"><b>Up</b></a><b>:</b> 
+<a href="http://www.geom.umn.edu/locate/qhull">Home page</a> for Qhull<br>
 <b>Up:</b> <a href="index.htm#TOC">Qhull manual</a>: Table of Contents<br>
 <b>To:</b> <a href="qh-quick.htm#programs">Programs</a>
-&#149;</a> <a href="qh-quick.htm#options">Options</a> 
+&#149; <a href="qh-quick.htm#options">Options</a> 
 &#149; <a href="qh-opto.htm#output">Output</a> 
 &#149; <a href="qh-optf.htm#format">Formats</a> 
 &#149; <a href="qh-optg.htm#geomview">Geomview</a> 
@@ -21,7 +22,7 @@
 <b>To:</b> <a href="#synopsis">sy</a>nopsis 
 &#149; <a href="#input">in</a>put &#149; <a href="#outputs">ou</a>tputs 
 &#149; <a href="#controls">co</a>ntrols &#149; <a href="#graphics">gr</a>aphics 
-&#149; <a href="#notes">no</a>tes &#149; <a href="#conventions" <a>co</a>nventions 
+&#149; <a href="#notes">no</a>tes &#149; <a href="#conventions">co</a>nventions 
 &#149; <a href="#options">op</a>tions
 
 <hr>
@@ -41,12 +42,10 @@ dual of the <a href=qdelaun.htm>Delaunay triangulation</a>. </p>
 
 <blockquote>
 <dl>
-    <dt><b>Example:</b> rbox 10 D3 | qvoronoi <a
-        href="qh-optq.htm#QJn">QJ</a> <a href="qh-opto.htm#s">s</a>
+    <dt><b>Example:</b> rbox 10 D3 | qvoronoi <a href="qh-opto.htm#s">s</a>
         <a href="qh-opto.htm#o">o</a> <a href="qh-optt.htm#TO">TO
         result</a></dt>
-    <dd>Compute the 3-d Voronoi diagram of 10 random points.
-        Joggle the input to guarantee triangular output. Write a
+    <dd>Compute the 3-d Voronoi diagram of 10 random points. Write a
         summary to the console and the Voronoi vertices and
         regions to 'result'. The first vertex of the result
         indicates unbounded regions.</dd>
@@ -103,27 +102,23 @@ for further processing [see <a href="#graphics">graphics</a>].</p>
 <p>See <a href="qh-faq.htm#TOC">Qhull FAQ</a> - Delaunay and
 Voronoi diagram questions.</p>
 
-<p>If you use option '<a href="qh-optq.htm#QJn">QJ</a>' (joggle),
-coincident points will create small triangles and cocircular or
-cospherical input sites create multiple Voronoi vertices. If you
-do not use 'QJ', <tt>qvoronoi</tt>
-reports one Voronoi vertex for cocircular or cospherical input
-sites.  This is more accurate
-than joggled input.  It can identify coincident input sites.
-See <a href="qh-impre.htm#joggle">Joggled input or merged
-facets</a>. </p>
+<p>Options '<a href="qh-optq.htm#Qt">Qt</a>' (triangulated output)
+and '<a href="qh-optq.htm#QJn">QJ</a>' (joggled input) may produce
+unexpected results.   Cocircular and cospherical input sites will
+produce duplicate or nearly duplicate Voronoi vertices.  See also <a
+href="qh-impre.htm#joggle">Joggled input or merged facets</a>. </p>
 
 <p>The 'qvonoroi' program is equivalent to 
 '<a href=qhull.htm#outputs>qhull v</a> <a href=qh-optq.htm#Qbb>Qbb</a>' in 2-d to 3-d, and
 '<a href=qhull.htm#outputs>qhull v</a> <a href=qh-optq.htm#Qbb>Qbb</a> <a href=qh-optq.htm#Qx>Qx</a>' 
 in 4-d and higher.  It disables the following Qhull
 <a href=qh-quick.htm#options>options</a>: <i>d n v Qbb QbB Qf Qg Qm 
-Qr QR Qv Qx Qz TR E V Fa FA FC FD FS Ft FV Gt Q0 Q1 Q2 Q3 Q4 Q5 Q6 Q7 Q8 Q9</i>.
+Qr QR Qv Qx Qz TR E V Fa FA FC FD FS Ft FV Gt Q0,etc</i>.
 
-<p><b>Copyright © 1995-2001 The Geometry Center, Minneapolis MN</b></p>
+<p><b>Copyright &copy; 1995-2001 The Geometry Center, Minneapolis MN</b></p>
 
 <hr>
-<h3><a href="#TOP">»</a><a name="synopsis">qvoronoi synopsis</h3>
+<h3><a href="#TOP">»</a><a name="synopsis">qvoronoi synopsis</a></h3>
 
 <pre>
 qvoronoi- compute the Voronoi diagram.
@@ -131,8 +126,9 @@ qvoronoi- compute the Voronoi diagram.
     comments start with a non-numeric character
 
 options (qh-voron.htm):
-    QJ   - joggle input instead of merging facets
     Qu   - compute furthest-site Voronoi diagram
+    Qt   - triangulated output
+    QJ   - joggle input instead of merging facets
     Tv   - verify result: structure, convexity, and in-circle test
     .    - concise list of all options
     -    - one-line description of all options
@@ -152,13 +148,14 @@ examples:
 rbox c P0 D2 | qvoronoi s o         rbox c P0 D2 | qvoronoi Fi
 rbox c P0 D2 | qvoronoi Fo          rbox c P0 D2 | qvoronoi Fv
 rbox c P0 D2 | qvoronoi s Qu Fv     rbox c P0 D2 | qvoronoi Qu Fo
-rbox c G1 d D2 | qvoronoi s p       rbox c G1 d D2 | qvoronoi QJ s p
+rbox c G1 d D2 | qvoronoi s p       rbox c G1 d D2 | qvoronoi Qt s p
 rbox c P0 D2 | qvoronoi s Fv QV0
+</pre>
 
 <h3><a href="#TOP">»</a><a name="input">qvoronoi input</a></h3>
 <blockquote>
 The input data on <tt>stdin</tt> consists of:
-<ul compact="COMPACT">
+<ul>
     <li>dimension 
     <li>number of points</li>
     <li>point coordinates</li>
@@ -300,7 +297,9 @@ statistics to stderr,</dd>
     <dt><a href="qh-optf.htm#Fc">Fc</a></dt>
     <dd>list coincident input sites for each Voronoi vertex.
 	The first line is the number of vertices.  The remaining lines start with 
-	the number of coincident sites.  A coincident site is assigned to one Voronoi
+	the number of coincident sites and deleted vertices.  Deleted vertices
+	indicate highly degenerate input (see'<A href="qh-optf.htm#Fs">Fs</a>').
+	A coincident site is assigned to one Voronoi
 	vertex.  Do not use '<a href="qh-optq.htm#QJn">QJ</a>' with 'Fc'; the joggle will separate
 	coincident sites.</dd>
     <dt><a href="qh-optf.htm#FP">FP</a></dt>
@@ -308,7 +307,9 @@ statistics to stderr,</dd>
         nearest site (i.e., vertex). The first line is the 
 	number of coincident sites.  Each remaining line starts with the point ID of
 	an input site, followed by the point ID of a coincident point, its vertex, and distance.
-		Do not use '<a href="qh-optq.htm#QJn">QJ</a>' with 'FP'; the joggle will separate
+        Includes deleted vertices which
+	indicate highly degenerate input (see'<A href="qh-optf.htm#Fs">Fs</a>').  
+	Do not use '<a href="qh-optq.htm#QJn">QJ</a>' with 'FP'; the joggle will separate
 	coincident sites.</dd>
     <dt>&nbsp;</dt>
     <dt>&nbsp;</dt>
@@ -336,6 +337,10 @@ controls</a></h3>
 <blockquote>
 
 <dl compact>
+    <dt><a href="qh-optq.htm#Qt">Qt</a></dt>
+    <dd>triangulated output.  If a Voronoi vertex is defined by cospherical data, Qhull
+    duplicates the vertex.  For example, if the data contains a square, the output
+    will contain two copies of the Voronoi vertex.</dd>
     <dt><a href="qh-optq.htm#QJn">QJ</a></dt>
     <dd>joggle the input to avoid Voronoi vertices defined by more
 	than <i>dim+1</i> points.
@@ -350,11 +355,16 @@ controls</a></h3>
         (e.g., 'rbox c | qvoronoi Qz').</dd>
     <dt><a href="qh-optt.htm#Tv">Tv</a></dt>
     <dd>verify result</dd>
+    <dt><a href="qh-optt.htm#TO">TI file</a></dt>
+    <dd>input data from file.  The filename may not use spaces or quotes.</dd>
+    <dt><a href="qh-optt.htm#TO">TO file</a></dt>
+    <dd>output results to file.  Use single quotes if the filename
+	contains spaces (e.g., <tt>TO 'file with spaces.txt'</tt></dd>
     <dt><a href="qh-optt.htm#TFn">TFn</a></dt>
     <dd>report progress after constructing <em>n</em> facets</dd>
     <dt><a href="qh-optp.htm#PDk">PDk:1</a></dt>
     <dd>include upper and lower facets in the output.  Set <em>k</em>
-        to the last dimension (e.g., 2 for 2-d inputs). </dd>
+        to the last dimension (e.g., 'PD2:1' for 2-d inputs). </dd>
     <dt><a href="qh-opto.htm#f">f </a></dt>
     <dd>facet dump.  Print the data structure for each facet (i.e., 
 	Voronoi vertex).</dd>
@@ -397,10 +407,16 @@ notes</a></h3>
 <blockquote>
 
 <p>You can simplify the Voronoi diagram by enclosing the input
-sites in a large square or cube. </p>
+sites in a large square or cube.  This is particularly recommended
+for cocircular or cospherical input data.</p>
 
 <p>See <a href="#graphics">Voronoi graphics</a> for computing
 the convex hull of a Voronoi region. </p>
+
+<p>Voronoi diagrams do not include facets that are
+coplanar with the convex hull of the input sites.  A facet is
+coplanar if the last coefficient of its normal is
+nearly zero (see <a href="../src/user.h#ZEROdelaunay">qh_ZEROdelaunay</a>).
 
 <p>Unbounded regions can be confusing. For example, '<tt>rbox c |
 qvoronoi Qz o</tt>' produces the Voronoi regions for the vertices
@@ -483,8 +499,9 @@ a convex hull in one higher dimension. Facets of the Delaunay
 triangulation correspond to vertices of the Voronoi diagram.
 Vertices of the Delaunay triangulation correspond to input sites.
 They also correspond to regions of the Voronoi diagram. See <a
-href="qconvex.htm#conventions">convex hull conventions</a> and <a
-href="qdelaun.htm#conventions">Delaunay conventions</a>.</p>
+href="qconvex.htm#conventions">convex hull conventions</a>, <a
+href="qdelaun.htm#conventions">Delaunay conventions</a>, and
+<a href="index.htm#structure">Qhull's data structures</a>.</p>
 <blockquote>
 
 <ul>
@@ -500,7 +517,8 @@ href="qdelaun.htm#conventions">Delaunay conventions</a>.</p>
     <li><em>point-at-infinity</em> - a point added above the
         paraboloid by option '<a href="qh-optq.htm#Qz">Qz</a>'</li>
     <li><em>Delaunay facet</em> - a lower facet of the
-        paraboloid. It is projected to the input sites</li>
+        paraboloid. The last coefficient of its normal is
+		clearly negative.</li>
     <li><em>Voronoi vertex</em> - the circumcenter of a Delaunay
         facet</li>
     <li><em>Voronoi region</em> - the Voronoi vertices for an
@@ -532,6 +550,7 @@ input (stdin):
 
 options:
     Qu   - compute furthest-site Voronoi diagram
+    Qt   - triangulated output
     QJ   - joggle input instead of merging facets
 
 Qhull control options:
@@ -548,6 +567,7 @@ Trace options:
     Tv   - verify result: structure, convexity, and in-circle test
     Tz   - send all output to stdout
     TFn  - report summary when n or more facets created
+    TI file - input data from file, no spaces or single quotes
     TO file - output results to file, may be enclosed in single quotes
     TPn  - turn on tracing when point n added to hull
      TMn - turn on tracing at merge n
@@ -604,7 +624,7 @@ Geomview options (2-d only)
 
 Print options:
     PAn  - keep n largest Voronoi vertices by 'area'
-    Pdk:n - drop facet if normal[k] <= n (default 0.0)
+    Pdk:n - drop facet if normal[k] &lt;= n (default 0.0)
     PDk:n - drop facet if normal[k] >= n
     Pg   - print good Voronoi vertices (needs 'QGn' or 'QVn')
     PFn  - keep Voronoi vertices whose 'area' is at least n
@@ -623,7 +643,7 @@ Print options:
 <p><b>Up:</b> <a href="http://www.geom.umn.edu/locate/qhull">Home page</a> for Qhull<br>
 <b>Up:</b> <a href="index.htm#TOC">Qhull manual</a>: Table of Contents<br>
 <b>To:</b> <a href="qh-quick.htm#programs">Programs</a>
-&#149;</a> <a href="qh-quick.htm#options">Options</a> 
+&#149; <a href="qh-quick.htm#options">Options</a> 
 &#149; <a href="qh-opto.htm#output">Output</a> 
 &#149; <a href="qh-optf.htm#format">Formats</a> 
 &#149; <a href="qh-optg.htm#geomview">Geomview</a> 
@@ -634,7 +654,7 @@ Print options:
 <b>To:</b> <a href="#synopsis">sy</a>nopsis 
 &#149; <a href="#input">in</a>put &#149; <a href="#outputs">ou</a>tputs 
 &#149; <a href="#controls">co</a>ntrols &#149; <a href="#graphics">gr</a>aphics 
-&#149; <a href="#notes">no</a>tes &#149; <a href="#conventions" <a>co</a>nventions 
+&#149; <a href="#notes">no</a>tes &#149; <a href="#conventions">co</a>nventions 
 &#149; <a href="#options">op</a>tions
 <!-- GC common information -->
 <hr>

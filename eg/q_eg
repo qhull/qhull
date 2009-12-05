@@ -18,12 +18,14 @@ rbox 100 s P0.5,0.5,0.5 | qconvex s Ga QG0 PG >eg/eg.10c.sphere.horizon
 rbox 100 s P0.5,0.5,0.5 | qconvex s Ga QV0 PgG >eg/eg.10d.sphere.cone
 rbox 100 s P0.5,0.5,0.5 | qconvex s Ga >eg/eg.10e.sphere.new
 rbox 100 s P0.5,0.5,0.5 | qhull s Ga QV0g Q0 >eg/eg.14.sphere.corner
-rbox 500 W0 | qconvex s QR0 QJ5e-2 Qc Gvp >eg/eg.15.joggle
+rbox 500 W0 | qconvex s QR0 Qc Gvp >eg/eg.15a.surface
+rbox 500 W0 | qconvex s QR0 Qt Qc Gvp >eg/eg.15b.triangle
+rbox 500 W0 | qconvex s QR0 QJ5e-2 Qc Gvp >eg/eg.15c.joggle
 echo 2 = rbox 6 r s D2, rbox 15 B0.3 W0.25, c G0.5 >eg/eg.data.17
 echo 25 >>eg/eg.data.17
 rbox 15 D2 B0.3 W0.25 c G0.5 | tail +3 >>eg/eg.data.17
 rbox 6 r s D2 B0.2 | tail +3 >>eg/eg.data.17
-qdelaunay s QJ <eg/eg.data.17 GnraD2 >eg/eg.17a.delaunay.2
+qdelaunay s Qt <eg/eg.data.17 GnraD2 >eg/eg.17a.delaunay.2
 qdelaunay s <eg/eg.data.17 GnraD2 >eg/eg.17b.delaunay.2i
 qdelaunay s <eg/eg.data.17 C-0 Ga >eg/eg.17c.delaunay.2-3
 qvoronoi s QJ <eg/eg.data.17 Gna >eg/eg.17d.voronoi.2

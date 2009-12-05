@@ -411,6 +411,19 @@ struct setT {
 */
 #define SETempty_(set) 	          (!set || (SETfirst_(set) ? 0:1))
 
+/*-<a                                     href="qh-set.htm#TOC"
+  >---------------------------------------</a><a name="SETtruncate_">-</a>
+
+   SETtruncate_(set)
+     return first element of set
+
+   see:
+     qh_settruncate()
+   
+*/
+#define SETtruncate_(set, size) {set->e[set->maxsize].i= size+1; /* maybe overwritten */ \
+      set->e[size].p= NULL;}
+
 /*======= prototypes in alphabetical order ============*/
 
 void  qh_setaddsorted(setT **setp, void *elem);

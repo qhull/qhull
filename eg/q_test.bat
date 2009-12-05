@@ -1,9 +1,9 @@
-echo q_test for Windows DOS box 2001/01/20 >q_test.x
+echo q_test for Windows DOS box 2001/10/04 >q_test.x
 echo === errors if 'user_eg' and 'user_eg2' not found ===
 echo === check user_eg === >>q_test.x
-echo "user_eg "QR1 p" "v p" Fp" >>q_test.x
-user_eg "QR1 p" "v p" Fp >>q_test.x
-echo "user_eg2 "QR1 p" "v p" Fp" >>q_test.x
+echo "user_eg 'QR1 p n Qt' 'v p' Fp" >>q_test.x
+user_eg "QR1 p n Qt" "v p" Fp >>q_test.x
+echo "user_eg2 'QR1 p' 'v p' Fp" >>q_test.x
 user_eg2 "QR1 p" "v p" Fp >>q_test.x
 echo === check front ends ========================================================== >>q_test.x
 echo "qconvex -" >>q_test.x
@@ -12,10 +12,10 @@ echo "qconvex ." >>q_test.x
 qconvex . >>q_test.x
 echo "qconvex" >>q_test.x
 qconvex >>q_test.x
-echo "rbox c D2 | qconvex s n " >>q_test.x
-rbox c D2 | qconvex s n  >>q_test.x
-echo "rbox c D2 | qconvex i  " >>q_test.x
-rbox c D2 | qconvex i   >>q_test.x
+echo "rbox c D3 | qconvex s n Qt" >>q_test.x
+rbox c D3 | qconvex s n Qt >>q_test.x
+echo "rbox c D2 | qconvex i Qt " >>q_test.x
+rbox c D2 | qconvex i Qt  >>q_test.x
 echo "rbox c D2 | qconvex o" >>q_test.x
 rbox c D2 | qconvex o >>q_test.x
 echo "rbox 1000 s | qconvex s Tv FA" >>q_test.x
@@ -50,8 +50,8 @@ echo "rbox c P0 D2 | qvoronoi Fo" >>q_test.x
 rbox c P0 D2 | qvoronoi Fo >>q_test.x
 echo "rbox c P0 D2 | qvoronoi Fv" >>q_test.x
 rbox c P0 D2 | qvoronoi Fv >>q_test.x
-echo "rbox c P0 D2 | qvoronoi s Qu Fv" >>q_test.x
-rbox c P0 D2 | qvoronoi s Qu Fv >>q_test.x
+echo "rbox c P0 D2 | qvoronoi s Qu Qt Fv" >>q_test.x
+rbox c P0 D2 | qvoronoi s Qu Qt Fv >>q_test.x
 echo "rbox c P0 D2 | qvoronoi Qu Fo" >>q_test.x
 rbox c P0 D2 | qvoronoi Qu Fo >>q_test.x
 echo "rbox c G1 d D2 | qvoronoi s p " >>q_test.x
@@ -74,8 +74,8 @@ echo "rbox c P0 D2 | qdelaunay i" >>q_test.x
 rbox c P0 D2 | qdelaunay i >>q_test.x
 echo "rbox c P0 D2 | qdelaunay Fv" >>q_test.x
 rbox c P0 D2 | qdelaunay Fv >>q_test.x
-echo "rbox c P0 D2 | qdelaunay s Qu Fv" >>q_test.x
-rbox c P0 D2 | qdelaunay s Qu Fv >>q_test.x
+echo "rbox c P0 D2 | qdelaunay s Qu Qt Fv" >>q_test.x
+rbox c P0 D2 | qdelaunay s Qu Qt Fv >>q_test.x
 echo "rbox c G1 d D2 | qdelaunay s i" >>q_test.x
 rbox c G1 d D2 | qdelaunay s i >>q_test.x
 echo "rbox c G1 d D2 | qdelaunay Ft" >>q_test.x
@@ -94,7 +94,7 @@ echo "qhalf ." >>q_test.x
 qhalf . >>q_test.x
 echo "qhalf" >>q_test.x
 qhalf >>q_test.x
-echo "rbox d | qhull FQ n | qhalf s H0,0,0 Fp" >>q_test.x
+echo "rbox d | qhull FQ n | qhalf s Qt H0,0,0 Fp" >>q_test.x
 rbox d | qhull FQ n | qhalf s H0,0,0 Fp >>q_test.x
 echo "rbox c | qhull FQ FV n | qhalf s i" >>q_test.x
 rbox c | qhull FQ FV n | qhalf s i >>q_test.x
@@ -102,6 +102,7 @@ echo "rbox c | qhull FQ FV n | qhalf o" >>q_test.x
 rbox c | qhull FQ FV n | qhalf o >>q_test.x
 echo "rbox d D2 | qhull FQ n | qhalf s H0 Fc FP Fn FN FQ Fv Fx" >>q_test.x
 rbox d D2 | qhull FQ n | qhalf s H0 Fc FP Fn FN FQ Fv Fx >>q_test.x
+
 echo === check quality of merges for ${d:-`hostname`} ${d:-`date`} >>q_test.x
 echo "rbox 1000 W0 t | qhull QR2 QJ s Fs Tv" >>q_test.x
 rbox 1000 W0 t | qhull QR2 QJ s Fs Tv >>q_test.x
@@ -127,11 +128,13 @@ echo "rbox 1000 W5e-4 D4 t | qhull C-1e-5 Qc Tv" >>q_test.x
 rbox 1000 W5e-4 D4 t | qhull C-1e-5 Qc Tv >>q_test.x
 echo "rbox 400 W1e-3 D5 t | qhull C-1e-5 Qx Qc Tv" >>q_test.x
 rbox 400 W1e-3 D5 t | qhull C-1e-5 Qx Qc Tv >>q_test.x
+
 echo === check input format etc. ${d:-`date`} >>q_test.x
 echo "rbox d h | qhull Fd FV n FD  Tcv | qhull Fd H Fp Tcv" >>q_test.x
 rbox d h | qhull Fd FV n FD Tcv | qhull Fd H Fp Tcv >>q_test.x
 echo "rbox 10 h | qhull Fd FD p Tcv | qhull Fd d Tcv " >>q_test.x
 rbox 10 h | qhull Fd FD p Tcv | qhull Fd d Tcv  >>q_test.x
+
 echo === check rbox ${d:-`date`} >>q_test.x
 echo "rbox 3 n D2" >>q_test.x
 rbox 3 n D2 >>q_test.x
@@ -339,6 +342,32 @@ rbox 10 D3 | qhull Fa PA5 >>q_test.x
 echo "rbox 10 D3 | qhull Fa PF0.4" >>q_test.x
 rbox 10 D3 | qhull Fa PF0.4 >>q_test.x
 
+echo === test Qt >>q_test.x
+echo "rbox c | qhull Qt s o Tcv" >>q_test.x
+rbox c | qhull Qt s o Tcv >>q_test.x
+echo "rbox c | qhull Qt f i" >>q_test.x
+rbox c | qhull Qt f i >>q_test.x
+echo "rbox c | qhull Qt m n" >>q_test.x
+rbox c | qhull Qt m n >>q_test.x
+echo "rbox c | qhull Qt p o" >>q_test.x
+rbox c | qhull Qt p o >>q_test.x
+echo "rbox c | qhull Qt Fx" >>q_test.x
+rbox c | qhull Qt Fx >>q_test.x
+echo "rbox c | qhull Qt FA s Fa" >>q_test.x
+rbox c | qhull Qt FA s Fa >>q_test.x
+echo "rbox 6 r s c G0.1 D2 | qhull Qt d FA Tcv" >>q_test.x
+rbox 6 r s c G0.1 D2 | qhull Qt d FA Tcv >>q_test.x
+echo "rbox 6 r s c G0.1 D2 | qhull d FA Tcv" >>q_test.x
+rbox 6 r s c G0.1 D2 | qhull d FA Tcv >>q_test.x
+echo "rbox 6 r s c G0.1 D2 | qhull Qt v p Tcv" >>q_test.x
+rbox 6 r s c G0.1 D2 | qhull Qt v p Tcv >>q_test.x
+echo "rbox c | qhull Qt C-0.1 Qc FF s FQ Fi n Fo FQ FI Fm Fn FN FO FO FQ Fs FS FV Fv Tcv" >>q_test.x
+rbox c | qhull Qt C-0.1 Qc FF s FQ Fi n Fo FQ FI Fm Fn FN FO FO FQ Fs FS FV Fv Tcv >>q_test.x
+echo "rbox 6 r s c G0.1 D2 P0.1,0.1 | qhull s FP d FO Qt" >>q_test.x
+rbox 6 r s c G0.1 D2 P0.1,0.1 | qhull s FP d FO Qt >>q_test.x
+echo "RBOX 100 W0 | QHULL Tv Q11 FO" >>q_test.x
+RBOX 100 W0 | QHULL Tv Q11 FO >>q_test.x
+
 echo === test unbounded intersection >>q_test.x
 echo "rbox c | qhull PD0:0.5 n | qhull H0 Fp Tcv" >>q_test.x
 rbox c | qhull PD0:0.5 n | qhull H0 Fp Tcv >>q_test.x
@@ -468,6 +497,7 @@ echo "rbox 10 D3 | qhull Qb1:0 d Tcv " >>q_test.x
 rbox 10 D3 | qhull Qb1:0 d Tcv  >>q_test.x
 echo "rbox 10 D3 | qhull Qb1:0B1:0  Tcv" >>q_test.x
 rbox 10 D3 | qhull Qb1:0B1:0  Tcv >>q_test.x
+echo "== next command will error ==" >>q_test.x
 echo "rbox 10 D2 | qhull Qb1:1B1:1 Tcv" >>q_test.x
 rbox 10 D2 | qhull Qb1:1B1:1 Tcv >>q_test.x
 echo "rbox 200 L20 D2 t | qhull FO Tcv C-0" >>q_test.x
@@ -578,6 +608,20 @@ echo "rbox 100 D6 t |qhull A-0.9999 Qc Tcv" >>q_test.x
 rbox 100 D6 t |qhull A-0.9999 Qc Tcv >>q_test.x
 echo "rbox 50 D7 t |qhull A-0.99999 Qc Tcv W0.1" >>q_test.x
 rbox 50 D7 t |qhull A-0.99999 Qc Tcv W0.1 >>q_test.x
+
+echo === check bad cases for Qhull.  May cause errors ${d:-`date`} >>q_test.x
+echo "RBOX 1000 L100000 s G1e-6 t | QHULL Tv" >>q_test.x
+RBOX 1000 L100000 s G1e-6 t | QHULL Tv >>q_test.x
+echo "RBOX 1000 L100000 s G1e-6 t | QHULL Tv Q10" >>q_test.x
+RBOX 1000 L100000 s G1e-6 t | QHULL Tv Q10 >>q_test.x
+echo "rbox 1000 s Z1 G1e-13 t | qhull Tv" >>q_test.x
+rbox 1000 s Z1 G1e-13 t | qhull Tv >>q_test.x
+echo "RBOX 1000 s W1e-13 P0 t | QHULL d Qbb Qc Tv" >>q_test.x
+RBOX 1000 s W1e-13 P0 t | QHULL d Qbb Qc Tv >>q_test.x
+echo "RBOX 1000 s W1e-13 t | QHULL d Tv" >>q_test.x
+RBOX 1000 s W1e-13 t | QHULL d Tv >>q_test.x
+echo "RBOX 1000 s W1e-13 t D2 | QHULL d Tv" >>q_test.x
+RBOX 1000 s W1e-13 t D2 | QHULL d Tv >>q_test.x
 
 echo ======================================================= >>q_test.x
 echo ======================================================= >>q_test.x

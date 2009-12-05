@@ -14,6 +14,8 @@
 
      user_eg "n" "o" "Fp"                # return normals, OFF, points
 
+     user_eg "n Qt" "o" "Fp"             # triangulated cube
+
      user_eg "QR0 p" "QR0 v p" "QR0 Fp"  # rotate input and return points
                                          # 'v' returns Voronoi
 					 # transform is rotated for halfspaces
@@ -45,7 +47,7 @@
 
 #include "qhull_a.h"
 
-char qh_version[] = "user_eg 2001/02/11";  /* used for error messages */
+char qh_version[] = "user_eg 3.1 2001/10/04";  /* used for error messages */
 
 /*-------------------------------------------------
 -internal function prototypes

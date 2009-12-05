@@ -23,11 +23,14 @@
     appends facet to end of qh.facet_list,
 
   returns:
-    updates qh.facet_list, facet_tail, newfacet_list, facet_next
+    updates qh.newfacet_list, facet_next, facet_list
     increments qh.numfacets
   
   notes:
     assumes qh.facet_list/facet_tail is defined (createsimplex)
+
+  see:
+    qh_removefacet()
 
 */
 void qh_appendfacet(facetT *facet) {
@@ -57,7 +60,7 @@ void qh_appendfacet(facetT *facet) {
 
   returns:
     sets vertex->newlist
-    updates qh.vertex_list, vertex_tail, newvertex_list
+    updates qh.vertex_list, newvertex_list
     increments qh.num_vertices
 
   notes:
@@ -242,17 +245,19 @@ boolT qh_checkflipped (facetT *facet, realT *distp, boolT allerror) {
 void qh_delfacet(facetT *facet) {
   void **freelistp; /* used !qh_NOmem */
 
-  trace5((qh ferr, "qh_delfacet: delete f%d\n", facet->id));
+  trace4((qh ferr, "qh_delfacet: delete f%d\n", facet->id));
   if (facet == qh tracefacet)
     qh tracefacet= NULL;
   if (facet == qh GOODclosest)
     qh GOODclosest= NULL;
   qh_removefacet(facet);
-  qh_memfree_(facet->normal, qh normal_size, freelistp);
-  if (qh CENTERtype == qh_ASvoronoi) {   /* uses macro calls */
-    qh_memfree_(facet->center, qh center_size, freelistp);
-  }else /* AScentrum */ {
-    qh_memfree_(facet->center, qh normal_size, freelistp);
+  if (!facet->tricoplanar || facet->keepcentrum) {
+    qh_memfree_(facet->normal, qh normal_size, freelistp);
+    if (qh CENTERtype == qh_ASvoronoi) {   /* uses macro calls */
+      qh_memfree_(facet->center, qh center_size, freelistp);
+    }else /* AScentrum */ {
+      qh_memfree_(facet->center, qh normal_size, freelistp);
+    }
   }
   qh_setfree(&(facet->neighbors));
   if (facet->ridges)
@@ -303,7 +308,7 @@ void qh_deletevisible (void /*qh visible_list*/) {
   qh num_visible= 0;
   zadd_(Zvisfacettot, numvisible);
   zmax_(Zvisfacetmax, numvisible);
-  zadd_(Zdelvertextot, numdel);
+  zzadd_(Zdelvertextot, numdel);
   zmax_(Zdelvertexmax, numdel);
   FOREACHvertex_(qh del_vertices) 
     qh_delvertex (vertex);
@@ -449,9 +454,10 @@ unsigned qh_gethash (int hashsize, setT *set, int size, int firstindex, void *sk
 
   returns:
     returns newfacet
-      adds newfacet to qh.facet_list 
-      newfacet->neighbor= horizon, but not vice versa
+      adds newfacet to qh.facet_list
       newfacet->vertices= vertices
+      if horizon
+        newfacet->neighbor= horizon, but not vice versa
     newvertex_list updated with vertices
 */
 facetT *qh_makenewfacet(setT *vertices, boolT toporient,facetT *horizon) {
@@ -467,7 +473,8 @@ facetT *qh_makenewfacet(setT *vertices, boolT toporient,facetT *horizon) {
   newfacet= qh_newfacet();
   newfacet->vertices= vertices;
   newfacet->toporient= toporient;
-  qh_setappend(&(newfacet->neighbors), horizon);
+  if (horizon)
+    qh_setappend(&(newfacet->neighbors), horizon);
   qh_appendfacet(newfacet);
   return(newfacet);
 } /* makenewfacet */
@@ -533,6 +540,7 @@ void qh_makenewplanes (void /* newfacet_list */) {
           (checks for non-simplicial facet with multiple ridges to visible facet)
         updates neighbor's ridge set
         (checks for simplicial neighbor to non-simplicial visible facet)
+	(deletes ridge if neighbor is simplicial)
           
 */
 #ifndef qh_NOmerge
@@ -788,10 +796,10 @@ void qh_matchneighbor (facetT *newfacet, int newskip, int hashsize, int *hashcou
     qh.newfacet_list with full neighbor sets
       get vertices with nth neighbor by deleting nth vertex
     if qh.PREmerge/MERGEexact or qh.FORCEoutput 
-      all facets check for flipped (also prevents point partitioning)
+      sets facet->flippped if flipped normal (also prevents point partitioning)
     if duplicate ridges and qh.PREmerge/MERGEexact
-      facet->dupridge set
-      missing neighbor links identifies extra ridges to be merging
+      sets facet->dupridge
+      missing neighbor links identifies extra ridges to be merging (qh_MERGEridge)
 
   notes:
     newfacets already have neighbor[0] (horizon facet)
@@ -809,7 +817,7 @@ void qh_matchneighbor (facetT *newfacet, int newskip, int hashsize, int *hashcou
         match it with a facet
     check for flipped facets
 */
-void qh_matchnewfacets (void) {
+void qh_matchnewfacets (void /* qh newfacet_list */) {
   int numnew=0, hashcount=0, newskip;
   facetT *newfacet, *neighbor;
   int dim= qh hull_dim, hashsize, neighbor_i, neighbor_n;
@@ -1044,6 +1052,9 @@ int qh_pointid (pointT *point) {
   returns:
     updates qh.facet_list .newfacet_list .facet_next visible_list
     decrements qh.num_facets
+
+  see:
+    qh_appendfacet
 */
 void qh_removefacet(facetT *facet) {
   facetT *next= facet->next, *previous= facet->previous;
@@ -1100,9 +1111,13 @@ void qh_removevertex(vertexT *vertex) {
     update vertex neighbors and delete interior vertices
 
   returns:
-    if qh.VERTEXneighbors
-      updates neighbors for each vertex
-    interior vertices added to qh.del_vertices for later partitioning
+    if qh.VERTEXneighbors, updates neighbors for each vertex
+      if qh.newvertex_list, 
+         removes visible neighbors  from vertex neighbors
+      if qh.newfacet_list
+         adds new facets to vertex neighbors
+    if qh.visible_list
+       interior vertices added to qh.del_vertices for later partitioning
 
   design:
     if qh.VERTEXneighbors
@@ -1112,7 +1127,7 @@ void qh_removevertex(vertexT *vertex) {
         removes visible facets from neighbor lists
         marks unused vertices for deletion
 */
-void qh_updatevertices (void) {
+void qh_updatevertices (void /*qh newvertex_list, newfacet_list, visible_list*/) {
   facetT *newfacet= NULL, *neighbor, **neighborp, *visible;
   vertexT *vertex, **vertexp;
 

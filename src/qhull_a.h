@@ -107,7 +107,6 @@ void    qh_appendprint (qh_PRINT format);
 void 	qh_freebuild (boolT allmem);
 void 	qh_freebuffers (void);
 void    qh_initbuffers (coordT *points, int numpoints, int dim, boolT ismalloc);
-void    qh_option (char *option, int *i, realT *r);
 int     qh_strtol (const char *s, char **endp);
 double  qh_strtod (const char *s, char **endp);
 
@@ -118,7 +117,10 @@ void	qh_allstatB (void);
 void	qh_allstatC (void);
 void	qh_allstatD (void);
 void	qh_allstatE (void);
+void	qh_allstatE2 (void);
 void	qh_allstatF (void);
+void	qh_allstatG (void);
+void	qh_allstatH (void);
 void 	qh_freebuffers (void);
 void    qh_initbuffers (coordT *points, int numpoints, int dim, boolT ismalloc);
 

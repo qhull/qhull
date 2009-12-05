@@ -46,9 +46,14 @@ void qh_produce_output(void) {
     qh_clearcenters (qh_ASvoronoi);
     qh_vertexneighbors();
   }
+  if (qh TRIangulate) {
+    qh_triangulate(); 
+    if (qh VERIFYoutput && !qh CHECKfrequently) 
+      qh_checkpolygon (qh facet_list);
+  }
+  qh_findgood_all (qh facet_list); 
   if (qh GETarea)
     qh_getarea(qh facet_list);
-  qh_findgood_all (qh facet_list); 
   if (qh KEEParea || qh KEEPmerge || qh KEEPminArea < REALmax/2)
     qh_markkeep (qh facet_list);
   if (qh PRINTsummary)
@@ -184,9 +189,12 @@ static int qh_compare_facetvisit(const void *p1, const void *p2) {
   >-------------------------------</a><a name="countfacets">-</a>
   
   qh_countfacets( facetlist, facets, printall, 
-          numfacets, numsimplicial, totneighbors, numridges, numcoplanar  )
+          numfacets, numsimplicial, totneighbors, numridges, numcoplanar, numtricoplanars  )
     count good facets for printing and set visitid
     if allfacets, ignores qh_skipfacet()
+
+  notes:
+    qh_printsummary and qh_countfacets must match counts
 
   returns:
     numfacets, numsimplicial, total neighbors, numridges, coplanars
@@ -205,9 +213,9 @@ static int qh_compare_facetvisit(const void *p1, const void *p2) {
         update counts
 */
 void qh_countfacets (facetT *facetlist, setT *facets, boolT printall,
-    int *numfacetsp, int *numsimplicialp, int *totneighborsp, int *numridgesp, int *numcoplanarsp) {
+    int *numfacetsp, int *numsimplicialp, int *totneighborsp, int *numridgesp, int *numcoplanarsp, int *numtricoplanarsp) {
   facetT *facet, **facetp;
-  int numfacets= 0, numsimplicial= 0, numridges= 0, totneighbors= 0, numcoplanars= 0;
+  int numfacets= 0, numsimplicial= 0, numridges= 0, totneighbors= 0, numcoplanars= 0, numtricoplanars= 0;
 
   FORALLfacet_(facetlist) {
     if ((facet->visible && qh NEWfacets)
@@ -216,9 +224,11 @@ void qh_countfacets (facetT *facetlist, setT *facets, boolT printall,
     else {
       facet->visitid= ++numfacets;
       totneighbors += qh_setsize (facet->neighbors);
-      if (facet->simplicial) 
+      if (facet->simplicial) {
         numsimplicial++;
-      else
+	if (facet->keepcentrum && facet->tricoplanar)
+	  numtricoplanars++;
+      }else
         numridges += qh_setsize (facet->ridges);
       if (facet->coplanarset)
         numcoplanars += qh_setsize (facet->coplanarset);
@@ -231,9 +241,11 @@ void qh_countfacets (facetT *facetlist, setT *facets, boolT printall,
     else {
       facet->visitid= ++numfacets;
       totneighbors += qh_setsize (facet->neighbors);
-      if (facet->simplicial)
+      if (facet->simplicial){
         numsimplicial++;
-      else
+	if (facet->keepcentrum && facet->tricoplanar)
+	  numtricoplanars++;
+      }else
         numridges += qh_setsize (facet->ridges);
       if (facet->coplanarset)
         numcoplanars += qh_setsize (facet->coplanarset);
@@ -245,6 +257,7 @@ void qh_countfacets (facetT *facetlist, setT *facets, boolT printall,
   *totneighborsp= totneighbors;
   *numridgesp= numridges;
   *numcoplanarsp= numcoplanars;
+  *numtricoplanarsp= numtricoplanars;
 } /* countfacets */
 
 /*-<a                             href="qh-io.htm#TOC"
@@ -433,14 +446,16 @@ pointT *qh_detvnorm (vertexT *vertex, vertexT *vertexA, setT *centers, realT *of
 */
 setT *qh_detvridge (vertexT *vertex) {
   setT *centers= qh_settemp (qh TEMPsize);
+  setT *tricenters= qh_settemp (qh TEMPsize);
   facetT *neighbor, **neighborp;
   boolT firstinf= True;
   
   FOREACHneighbor_(vertex) {
     if (neighbor->seen) {
-      if (neighbor->visitid)
-        qh_setappend (&centers, neighbor);
-      else if (firstinf) {
+      if (neighbor->visitid) {
+	if (!neighbor->tricoplanar || qh_setunique (&tricenters, neighbor->center)) 
+	  qh_setappend (&centers, neighbor);
+      }else if (firstinf) {
         firstinf= False;
         qh_setappend (&centers, neighbor);
       }
@@ -448,6 +463,7 @@ setT *qh_detvridge (vertexT *vertex) {
   }
   qsort (SETaddr_(centers, facetT), qh_setsize (centers),
              sizeof (facetT *), qh_compare_facetvisit);
+  qh_settempfree (&tricenters);
   return centers;
 } /* detvridge */      
 
@@ -472,6 +488,7 @@ setT *qh_detvridge (vertexT *vertex) {
 */
 setT *qh_detvridge3 (vertexT *atvertex, vertexT *vertex) {
   setT *centers= qh_settemp (qh TEMPsize);
+  setT *tricenters= qh_settemp (qh TEMPsize);
   facetT *neighbor, **neighborp, *facet= NULL;
   boolT firstinf= True;
   
@@ -486,9 +503,10 @@ setT *qh_detvridge3 (vertexT *atvertex, vertexT *vertex) {
   while (facet) { 
     facet->seen2= True;
     if (neighbor->seen) {
-      if (facet->visitid)
-        qh_setappend (&centers, facet);
-      else if (firstinf) {
+      if (facet->visitid) {
+	if (!facet->tricoplanar || qh_setunique (&tricenters, facet->center)) 
+	  qh_setappend (&centers, facet);
+      }else if (firstinf) {
         firstinf= False;
         qh_setappend (&centers, facet);
       }
@@ -514,6 +532,7 @@ setT *qh_detvridge3 (vertexT *atvertex, vertexT *vertex) {
   }
   FOREACHneighbor_(atvertex) 
     neighbor->seen2= True;
+  qh_settempfree (&tricenters);
   return centers;
 } /* detvridge3 */      
 
@@ -571,6 +590,8 @@ int qh_eachvoronoi (FILE *fp, printvridgeT printvridge, vertexT *atvertex, boolT
   int count;
   facetT *neighbor, **neighborp, *neighborA, **neighborAp;
   setT *centers;
+  setT *tricenters= qh_settemp (qh TEMPsize);
+
   vertexT *vertex, **vertexp;
   boolT firstinf;
   unsigned int numfacets= (unsigned int)qh num_facets;
@@ -593,11 +614,13 @@ int qh_eachvoronoi (FILE *fp, printvridgeT printvridge, vertexT *atvertex, boolT
 	  vertex->visitid= qh vertex_visit;
           count= 0;
           firstinf= True;
+	  qh_settruncate (tricenters, 0);
           FOREACHneighborA_(vertex) {
             if (neighborA->seen) {
-	      if (neighborA->visitid)
-                count++;
-              else if (firstinf) {
+	      if (neighborA->visitid) {
+		if (!neighborA->tricoplanar || qh_setunique (&tricenters, neighborA->center))
+		  count++;
+              }else if (firstinf) {
                 count++;
                 firstinf= False;
 	      }
@@ -631,6 +654,7 @@ int qh_eachvoronoi (FILE *fp, printvridgeT printvridge, vertexT *atvertex, boolT
   }
   FOREACHneighbor_(atvertex) 
     neighbor->seen= False;
+  qh_settempfree (&tricenters);
   return totridges;
 } /* eachvoronoi */
   
@@ -905,7 +929,7 @@ void qh_markkeep (facetT *facetlist) {
       facet->visitid >= qh num_facets
   
   notes:
-    ignores qh ATinfinity, if defined
+    ignores qh.ATinfinity, if defined
 */
 setT *qh_markvoronoi (facetT *facetlist, setT *facets, boolT printall, boolT *islowerp, int *numcentersp) {
   int numcenters=0;
@@ -921,7 +945,7 @@ setT *qh_markvoronoi (facetT *facetlist, setT *facets, boolT printall, boolT *is
     SETelem_(vertices, qh num_points-1)= NULL;
   qh visit_id++;
   maximize_(qh visit_id, (unsigned) qh num_facets);
-  FORALLfacet_(facetlist) {  /* FIXUP: could merge with below */
+  FORALLfacet_(facetlist) { 
     if (printall || !qh_skipfacet (facet)) {
       if (!facet->upperdelaunay) {
         islower= True;
@@ -1217,7 +1241,7 @@ void qh_printafacet(FILE *fp, int format, facetT *facet, boolT printall) {
     print header for format
 */
 void qh_printbegin (FILE *fp, int format, facetT *facetlist, setT *facets, boolT printall) {
-  int numfacets, numsimplicial, numridges, totneighbors, numcoplanars;
+  int numfacets, numsimplicial, numridges, totneighbors, numcoplanars, numtricoplanars;
   int i, num;
   facetT *facet, **facetp;
   vertexT *vertex, **vertexp;
@@ -1226,7 +1250,7 @@ void qh_printbegin (FILE *fp, int format, facetT *facetlist, setT *facets, boolT
 
   qh printoutnum= 0;
   qh_countfacets (facetlist, facets, printall, &numfacets, &numsimplicial, 
-      &totneighbors, &numridges, &numcoplanars);
+      &totneighbors, &numridges, &numcoplanars, &numtricoplanars);
   switch (format) {
   case qh_PRINTnone:
     break;
@@ -1740,13 +1764,13 @@ void qh_printextremes (FILE *fp, facetT *facetlist, setT *facets, int printall) 
     does not print coplanar points
 */
 void qh_printextremes_2d (FILE *fp, facetT *facetlist, setT *facets, int printall) {
-  int numfacets, numridges, totneighbors, numcoplanars, numsimplicial;
+  int numfacets, numridges, totneighbors, numcoplanars, numsimplicial, numtricoplanars;
   setT *vertices;
   facetT *facet, *startfacet, *nextfacet;
   vertexT *vertexA, *vertexB;
 
   qh_countfacets (facetlist, facets, printall, &numfacets, &numsimplicial, 
-      &totneighbors, &numridges, &numcoplanars); /* marks qh visit_id */
+      &totneighbors, &numridges, &numcoplanars, &numtricoplanars); /* marks qh visit_id */
   vertices= qh_facetvertices (facetlist, facets, printall);
   fprintf(fp, "%d\n", qh_setsize (vertices));
   qh_settempfree (&vertices);
@@ -2344,6 +2368,8 @@ void qh_printfacetheader(FILE *fp, facetT *facet) {
     fprintf(fp, " bottom");
   if (facet->simplicial)
     fprintf(fp, " simplicial");
+  if (facet->tricoplanar)
+    fprintf(fp, " tricoplanar");
   if (facet->upperdelaunay)
     fprintf(fp, " upperDelaunay");
   if (facet->visible)
@@ -2386,6 +2412,9 @@ void qh_printfacetheader(FILE *fp, facetT *facet) {
   else if (facet->newfacet) {
     if (facet->f.samecycle && facet->f.samecycle != facet)
       fprintf(fp, "    - shares same visible/horizon as f%d\n", facet->f.samecycle->id);
+  }else if (facet->tricoplanar /* !isarea */) {
+    if (facet->f.triowner)
+      fprintf(fp, "    - owner of normal & centrum is facet f%d\n", facet->f.triowner->id);
   }else if (facet->f.newcycle)
     fprintf(fp, "    - was horizon to f%d\n", facet->f.newcycle->id);
   if (facet->nummerge)
@@ -2514,7 +2543,7 @@ void qh_printfacetridges(FILE *fp, facetT *facet) {
     turns off 'Rn' option since want actual numbers
 */
 void qh_printfacets(FILE *fp, int format, facetT *facetlist, setT *facets, boolT printall) {
-  int numfacets, numsimplicial, numridges, totneighbors, numcoplanars;
+  int numfacets, numsimplicial, numridges, totneighbors, numcoplanars, numtricoplanars;
   facetT *facet, **facetp;
   setT *vertices;
   coordT *center;
@@ -2553,12 +2582,14 @@ void qh_printfacets(FILE *fp, int format, facetT *facetlist, setT *facets, boolT
     fprintf (fp, "\n");
   }else if (format == qh_PRINTsummary) {
     qh_countfacets (facetlist, facets, printall, &numfacets, &numsimplicial, 
-      &totneighbors, &numridges, &numcoplanars);
+      &totneighbors, &numridges, &numcoplanars, &numtricoplanars);
     vertices= qh_facetvertices (facetlist, facets, printall); 
-    fprintf (fp, "8 %d %d %d %d %d %d %d %d\n2 ", qh hull_dim, 
+    fprintf (fp, "10 %d %d %d %d %d %d %d %d %d %d\n2 ", qh hull_dim, 
                 qh num_points + qh_setsize (qh other_points),
                 qh num_vertices, qh num_facets - qh num_visible,
-                qh_setsize (vertices), numfacets, numcoplanars, numfacets - numsimplicial);
+                qh_setsize (vertices), numfacets, numcoplanars, 
+		numfacets - numsimplicial, zzval_(Zdelvertextot), 
+		numtricoplanars);
     qh_settempfree (&vertices);
     qh_outerinner (NULL, &outerplane, &innerplane);
     fprintf (fp, qh_REAL_2n, outerplane, innerplane);
@@ -2637,9 +2668,9 @@ When computing the Delaunay triangulation:\n\
     fprintf(fp, "\
 \n\
 If you need triangular output:\n\
+  - use option 'Qt' to triangulate the output\n\
   - use option 'QJ' to joggle the input points and remove precision errors\n\
-  - or use option 'Ft' instead of 'Q0'.  It triangulates non-simplicial\n\
-    facets with added points.\n\
+  - use option 'Ft'.  It triangulates non-simplicial facets with added points.\n\
 \n\
 If you must use 'Q0',\n\
 try one or more of the following options.  They can not guarantee an output.\n\
@@ -2652,6 +2683,7 @@ try one or more of the following options.  They can not guarantee an output.\n\
     fprintf(fp, "\
 \n\
 To guarantee simplicial output:\n\
+  - use option 'Qt' to triangulate the output\n\
   - use option 'QJ' to joggle the input points and remove precision errors\n\
   - use option 'Ft' to triangulate the output by adding points\n\
   - use exact arithmetic (see \"Imprecision in Qhull\", qh-impre.htm)\n\
@@ -3260,7 +3292,7 @@ int qh_printvdiagram2 (FILE *fp, printvridgeT printvridge, setT *vertices, qh_RI
 */
 void qh_printvertex(FILE *fp, vertexT *vertex) {
   pointT *point;
-  int k;
+  int k, count= 0;
   facetT *neighbor, **neighborp;
   realT r; /*bug fix*/
 
@@ -3283,8 +3315,11 @@ void qh_printvertex(FILE *fp, vertexT *vertex) {
   fprintf(fp, "\n");
   if (vertex->neighbors) {
     fprintf(fp, "  neighbors:");
-    FOREACHneighbor_(vertex)
+    FOREACHneighbor_(vertex) {
+      if (++count % 100 == 0)
+	fprintf (fp, "\n     ");
       fprintf(fp, " f%d", neighbor->id);
+    }
     fprintf(fp, "\n");
   }
 } /* printvertex */
@@ -3343,7 +3378,7 @@ void qh_printvertices(FILE *fp, char* string, setT *vertices) {
       list vertex neighbors or coplanar facet
 */
 void qh_printvneighbors (FILE *fp, facetT* facetlist, setT *facets, boolT printall) {
-  int numfacets, numsimplicial, numridges, totneighbors, numneighbors, numcoplanars;
+  int numfacets, numsimplicial, numridges, totneighbors, numneighbors, numcoplanars, numtricoplanars;
   setT *vertices, *vertex_points, *coplanar_points;
   int numpoints= qh num_points + qh_setsize (qh other_points);
   vertexT *vertex, **vertexp;
@@ -3352,7 +3387,7 @@ void qh_printvneighbors (FILE *fp, facetT* facetlist, setT *facets, boolT printa
   pointT *point, **pointp;
 
   qh_countfacets (facetlist, facets, printall, &numfacets, &numsimplicial, 
-      &totneighbors, &numridges, &numcoplanars);  /* sets facet->visitid */
+      &totneighbors, &numridges, &numcoplanars, &numtricoplanars);  /* sets facet->visitid */
   fprintf (fp, "%d\n", numpoints);
   qh_vertexneighbors();
   vertices= qh_facetvertices (facetlist, facets, printall);

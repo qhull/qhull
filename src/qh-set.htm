@@ -11,9 +11,8 @@ content="text/html; charset=iso-8859-1">
 <p><a name="TOP"><b>Up:</b></a> <a
 href="http://www.geom.umn.edu/locate/qhull">Home page</a> for Qhull<br>
 <b>Up:</b> <a href="../html/index.htm#TOC">Qhull manual</a>: Table of Contents <br>
-<b>Up:</b> <a href="../html/qh-in.htm#TOC">Qhull internals: Table of Contents</a><br>
 <b>Up:</b> <a href="../html/qh-quick.htm#programs">Programs</a>
-&#149;</a> <a href="../html/qh-quick.htm#options">Options</a> 
+&#149; <a href="../html/qh-quick.htm#options">Options</a> 
 &#149; <a href="../html/qh-opto.htm#output">Output</a> 
 &#149; <a href="../html/qh-optf.htm#format">Formats</a> 
 &#149; <a href="../html/qh-optg.htm#geomview">Geomview</a> 
@@ -21,6 +20,7 @@ href="http://www.geom.umn.edu/locate/qhull">Home page</a> for Qhull<br>
 &#149; <a href="../html/qh-optq.htm#qhull">Qhull</a> 
 &#149; <a href="../html/qh-optc.htm#prec">Precision</a> 
 &#149; <a href="../html/qh-optt.htm#trace">Trace</a><br>
+<b>Up:</b> <a href="../html/qh-in.htm#TOC">Qhull internals: Table of Contents</a><br>
 <b>To:</b> <a href="index.htm">Qhull functions</a>, macros, and data structures<br>
 <b>To:</b> <a href="qh-geom.htm">Geom</a> &#149; <a href="qh-globa.htm">Global</a>
 &#149; <a href="qh-io.htm">Io</a> &#149; <a href="qh-mem.htm">Mem</a>
@@ -60,7 +60,7 @@ If a set is full, appending an element copies the set to
 a larger array. </p>
 
 </blockquote>
-<p><b>Copyright © 1995-2001 The Geometry Center, Minneapolis MN</b></p>
+<p><b>Copyright &copy; 1995-2001 The Geometry Center, Minneapolis MN</b></p>
 <hr>
 <p><a href="#TOP">»</a> <a href="qh-geom.htm#TOC">Geom</a> 
 <a name="TOC">&#149;</a> <a href="qh-globa.htm#TOC">Global</a> &#149;
@@ -69,8 +69,8 @@ a larger array. </p>
 &#149; <a href="qh-qhull.htm#TOC">Qhull</a> &#149; <b>Set</b>
 &#149; <a href="qh-stat.htm#TOC">Stat</a> &#149; <a href="qh-user.htm#TOC">User</a>
 </p>
-<h3>Index to <a href="qset.c#TOP">qset.c</a> and 
-<a href="qset.h#TOP">qset.h</a></h3>
+<h3>Index to <a href="qset.c">qset.c</a> and 
+<a href="qset.h">qset.h</a></h3>
 <ul>
 <li><a href="#stype">Data types and constants</a> </li>
 <li><a href="#seach">FOREACH macros</a> </li>
@@ -134,10 +134,12 @@ return size of a set (normally use <a href="qset.c#setsize">qh_setsize</a>) </li
 second element of set </li>
 <li><a href="qset.h#SETsecondt_">SETsecondt_</a>
 return second element of set as a type</li>
+<li><a href="qset.h#SETtruncate_">SETtruncate_</a>
+truncate set to size, i.e., qh_settruncate()</li>
 </ul>
 <h3><a href="qh-set.htm#TOC">»</a><a name="sint">Internal macros</a></h3>
 <ul>
-<li><a href="qset.c#SETsizeaddr&quot;">SETsizeaddr_</a>
+<li><a href="qset.c#SETsizeaddr_">SETsizeaddr_</a>
 return pointer to end element of a set (indicates
 current size) </li>
 </ul>
@@ -272,9 +274,8 @@ temporary) </li>
 <a href="http://www.geom.umn.edu/locate/qhull">Home page for
 Qhull</a> <br>
 <b>Up:</b> <a href="../html/index.htm#TOC">Qhull manual: Table of Contents</a> <br>
-<b>Up:</b> <a href="../html/qh-in.htm#TOC">Qhull internals: Table of Contents</a> <br>
 <b>Up:</b> <a href="../html/qh-quick.htm#programs">Programs</a>
-&#149;</a> <a href="../html/qh-quick.htm#options">Options</a> 
+&#149; <a href="../html/qh-quick.htm#options">Options</a> 
 &#149; <a href="../html/qh-opto.htm#output">Output</a> 
 &#149; <a href="../html/qh-optf.htm#format">Formats</a> 
 &#149; <a href="../html/qh-optg.htm#geomview">Geomview</a> 
@@ -282,6 +283,7 @@ Qhull</a> <br>
 &#149; <a href="../html/qh-optq.htm#qhull">Qhull</a> 
 &#149; <a href="../html/qh-optc.htm#prec">Precision</a> 
 &#149; <a href="../html/qh-optt.htm#trace">Trace</a><br>
+<b>Up:</b> <a href="../html/qh-in.htm#TOC">Qhull internals: Table of Contents</a> <br>
 <b>To:</b> <a href="index.htm">Qhull functions</a>, macros, and data structures<br>
 <b>To:</b> <a href="qh-geom.htm">Geom</a> &#149; 
 <a href="qh-globa.htm">Global</a> &#149; <a href="qh-io.htm">Io</a>
@@ -299,7 +301,5 @@ Geometry Center Home Page </i></p>
 <a href="http://www.geom.umn.edu/software/qhull/qhull-mail.html">qhull@geom.umn.edu
 </a><br>
 Created: May 2, 1997 --- <!-- hhmts start --> Last modified: see top <!-- hhmts end --> </p>
-</li>
-</dir>
 </body>
 </html>

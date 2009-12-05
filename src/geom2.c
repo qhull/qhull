@@ -234,11 +234,10 @@ void qh_detroundoff (void) {
   }
   qh NEARinside= qh ONEmerge * qh_RATIOnearinside; /* only used if qh KEEPnearinside */
   if (qh JOGGLEmax < REALmax/2 && (qh KEEPcoplanar || qh KEEPinside)) {
-    realT maxdist;
-    
-    qh KEEPnearinside= True;
+    realT maxdist;	       /* adjust qh.NEARinside for joggle */
+    qh KEEPnearinside= True;   
     maxdist= sqrt (qh hull_dim) * qh JOGGLEmax + qh DISTround;
-    maxdist= 2*maxdist;  /* vertex and coplanar point can joggle in opposite directions */
+    maxdist= 2*maxdist;        /* vertex and coplanar point can joggle in opposite directions */
     maximize_(qh NEARinside, maxdist);  /* must agree with qh_nearcoplanar() */
   }
   if (qh KEEPnearinside)
@@ -442,6 +441,7 @@ realT qh_divzero (realT numer, realT denom, realT mindenom1, boolT *zerodiv) {
     if (qh DELAUNAY),
       computes projected area instead for last coordinate
     assumes facet->normal exists
+    projecting tricoplanar facets to the hyperplane does not appear to make a difference
   
   design:
     if simplicial
@@ -484,12 +484,13 @@ realT qh_facetarea (facetT *facet) {
   qh_facetarea_simplex( dim, apex, vertices, notvertex, toporient, normal, offset )
     return area for a simplex defined by 
       an apex, a base of vertices, an orientation, and a unit normal
-    if simplicial facet, 
+    if simplicial or tricoplanar facet, 
       notvertex is defined and it is skipped in vertices
   
   returns:
     computes area of simplex projected to plane [normal,offset]
     returns 0 if vertex too far below plane (qh WIDEfacet)
+      vertex can't be apex of tricoplanar facet
   
   notes:
     if (qh DELAUNAY),
@@ -596,64 +597,6 @@ pointT *qh_facetcenter (setT *vertices) {
   return center;
 } /* facetcenter */
 
-/*-<a                             href="qh-geom.htm#TOC"
-  >-------------------------------</a><a name="findbestsharp">-</a>
-  
-  qh_findbestsharp( point, bestfacet, bestdist, numpart )
-    find best facet on newfacet_list
-    skips already visited facets (qh.visit_id) on qh.newfacet_list
-    skips upperdelaunay facets unless point is outside
-
-  returns:
-    true if could be an acute angle (facets in different quadrants)
-    returns bestfacet and distance to facet
-    increments numpart by number of distance tests
- 
-  notes:
-    for qh_findbest
-
-  design:
-    for all facets on qh.newfacet_list
-      if two facets are in different quadrants
-        set issharp
-      compute distance from point to facet
-      update best facet
-*/
-boolT qh_findbestsharp (pointT *point, facetT **bestfacet, 
-           realT *bestdist, int *numpart) {
-  facetT *facet;
-  realT dist;
-  boolT issharp = False;
-  int *quadrant, k;
-  
-  quadrant= (int*)qh_memalloc (qh hull_dim * sizeof(int));
-  FORALLfacet_(qh newfacet_list) {
-    if (facet == qh newfacet_list) {
-      for (k= qh hull_dim; k--; )
-      	quadrant[ k]= (facet->normal[ k] > 0);
-    }else if (!issharp) {
-      for (k= qh hull_dim; k--; ) {
-        if (quadrant[ k] != (facet->normal[ k] > 0)) {
-          issharp= True;
-          break;
-        }
-      }
-    }
-    if (facet->visitid != qh visit_id) {
-      qh_distplane (point, facet, &dist);
-      (*numpart)++;
-      if (dist > *bestdist) {
-      	if (!facet->upperdelaunay || dist > qh MINoutside) {
- 	  *bestdist= dist;
-	  *bestfacet= facet;
-	}
-      }
-    }
-  }
-  qh_memfree( quadrant, qh hull_dim * sizeof(int));
-  return issharp;
-} /* findbestsharp */
-  
 /*-<a                             href="qh-geom.htm#TOC"
   >-------------------------------</a><a name="findgooddist">-</a>
   
@@ -847,6 +790,10 @@ boolT qh_gram_schmidt(int dim, realT **row) {
   notes:
     invalid if qh.SPLITthresholds
 
+  see:
+    qh.lower_threshold in qh_initbuild()
+    qh_initthresholds()
+
   design:
     for each dimension
       test threshold
@@ -950,6 +897,7 @@ void qh_joggleinput (void) {
 	        qh JOGGLEmax);
       qh_errexit (qh_ERRqhull, NULL, NULL);
   }
+  /* for some reason, using qh ROTATErandom and qh_RANDOMseed does not repeat the run. Use 'TRn' instead */
   seed= qh_RANDOMint;
   qh_option ("_joggle-seed", &seed, NULL);
   trace0((qh ferr, "qh_joggleinput: joggle input by %2.2g with seed %d\n", 
@@ -1146,7 +1094,6 @@ void qh_maxsimplex (int dim, setT *maxpoints, pointT *points, int numpoints, set
   if (sizinit < 2) {
     if (qh_setsize (maxpoints) >= 2) {
       FOREACHpoint_(maxpoints) {
-	
         if (maxcoord < point[0]) {
           maxcoord= point[0];
           maxx= point;
@@ -1301,9 +1248,8 @@ boolT qh_orientoutside (facetT *facet) {
   >-------------------------------</a><a name="outerinner">-</a>
   
   qh_outerinner( facet, outerplane, innerplane  )
-    if facet
+    if facet and qh.maxoutdone (i.e., qh_check_maxout)
       returns outer and inner plane for facet
-      requires qh.maxoutdone, i.e., qh_check_maxout()
     else
       returns maximum outer and inner plane
     accounts for qh.JOGGLEmax
@@ -1315,7 +1261,7 @@ boolT qh_orientoutside (facetT *facet) {
     outerplaner or innerplane may be NULL
     
     includes qh.DISTround for actual points
-    add another qh.DISTround if testing with floating point arithmetic
+    adds another qh.DISTround if testing with floating point arithmetic
 */
 void qh_outerinner (facetT *facet, realT *outerplane, realT *innerplane) {
   realT dist, mindist;
@@ -2065,6 +2011,48 @@ coordT *qh_sethalfspace_all (int dim, int count, coordT *halfspaces, pointT *fea
 } /* sethalfspace_all */
 
   
+/*-<a                             href="qh-geom.htm#TOC"
+  >-------------------------------</a><a name="sharpnewfacets">-</a>
+  
+  qh_sharpnewfacets()
+
+  returns:
+    true if could be an acute angle (facets in different quadrants)
+ 
+  notes:
+    for qh_findbest
+
+  design:
+    for all facets on qh.newfacet_list
+      if two facets are in different quadrants
+        set issharp
+*/
+boolT qh_sharpnewfacets () {
+  facetT *facet;
+  boolT issharp = False;
+  int *quadrant, k;
+  
+  quadrant= (int*)qh_memalloc (qh hull_dim * sizeof(int));
+  FORALLfacet_(qh newfacet_list) {
+    if (facet == qh newfacet_list) {
+      for (k= qh hull_dim; k--; )
+      	quadrant[ k]= (facet->normal[ k] > 0);
+    }else {
+      for (k= qh hull_dim; k--; ) {
+        if (quadrant[ k] != (facet->normal[ k] > 0)) {
+          issharp= True;
+          break;
+        }
+      }
+    }
+    if (issharp)
+      break;
+  }
+  qh_memfree( quadrant, qh hull_dim * sizeof(int));
+  trace3((qh ferr, "qh_sharpnewfacets: %d\n", issharp));
+  return issharp;
+} /* sharpnewfacets */
+
 /*-<a                             href="qh-geom.htm#TOC"
   >-------------------------------</a><a name="voronoi_center">-</a>
   

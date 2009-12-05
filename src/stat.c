@@ -43,7 +43,7 @@ void qh_allstatA (void) {
   zdef_(wmin, Wmindenom, "min. denominator in hyperplane computation", -1);
 
   qhstat precision= qhstat next;  /* call qh_precision for each of these */
-  zzdef_(zdoc, Zdoc3, "precision problems", -1);
+  zzdef_(zdoc, Zdoc3, "precision problems (corrected unless 'Q0' or an error)", -1);
   zzdef_(zinc, Zcoplanarridges, "coplanar half ridges in output", -1);
   zzdef_(zinc, Zconcaveridges, "concave half ridges in output", -1);
   zzdef_(zinc, Zflippedfacets, "flipped facets", -1);
@@ -97,8 +97,6 @@ void qh_allstatC (void) {
   zdef_(zmax, Zvisfacetmax,  "    maximum", -1);
   zdef_(zadd, Zvisvertextot, "ave. visible vertices per iteration", Zprocessed);
   zdef_(zmax, Zvisvertexmax, "    maximum", -1);
-  zdef_(zadd, Zdelvertextot, "  ave. vertices deleted per iteration", Zprocessed);
-  zdef_(zmax, Zdelvertexmax, "    maximum vertices deleted", -1);
   zdef_(zinc, Ztothorizon, "ave. horizon facets per iteration", Zprocessed);
   zdef_(zadd, Znewfacettot,  "ave. new or merged facets per iteration", Zprocessed);
   zdef_(zmax, Znewfacetmax,  "    maximum (includes initial simplex)", -1);
@@ -117,15 +115,34 @@ void qh_allstatC (void) {
   zzdef_(zinc, Znumvisibility, "distance tests for facet visibility", -1);
   zdef_(zinc, Zdistvertex, "distance tests to report minimum vertex", -1);
   zdef_(zinc, Ztotcheck, "points checked for facets' outer planes", -1);
-  zdef_(zinc, Zcheckpart, "  ave. distance tests per check", Ztotcheck);
+  zzdef_(zinc, Zcheckpart, "  ave. distance tests per check", Ztotcheck);
 }
 void qh_allstatD(void) {
-  zdef_(zdoc, Zdoc4, "partitioning statistics", -1);
+  zdef_(zdoc, Zdoc4, "partitioning statistics (see previous for outer planes)", -1);
+  zzdef_(zadd, Zdelvertextot, "total vertices deleted", -1);
+  zdef_(zmax, Zdelvertexmax, "    maximum vertices deleted per iteration", -1);
+  zdef_(zinc, Zfindbest, "calls to findbest", -1);
+  zdef_(zadd, Zfindbesttot, " ave. facets tested", Zfindbest);
+  zdef_(zmax, Zfindbestmax, " max. facets tested", -1);
+  zdef_(zadd, Zfindcoplanar, " ave. coplanar search", Zfindbest);
+  zdef_(zinc, Zfindnew, "calls to findbestnew", -1);
+  zdef_(zadd, Zfindnewtot, " ave. facets tested", Zfindnew);
+  zdef_(zmax, Zfindnewmax, " max. facets tested", -1);
+  zdef_(zinc, Zfindnewjump, " ave. clearly better", Zfindnew);
+  zdef_(zinc, Zfindnewsharp, " calls due to qh_sharpnewfacets", -1);
+  zdef_(zinc, Zfindhorizon, "calls to findhorizon", -1);
+  zdef_(zadd, Zfindhorizontot, " ave. facets tested", Zfindhorizon);
+  zdef_(zmax, Zfindhorizonmax, " max. facets tested", -1);
+  zdef_(zinc, Zfindjump,       " ave. clearly better", Zfindhorizon);
+  zdef_(zinc, Zparthorizon, " horizon facets better than bestfacet", -1);
+  zdef_(zinc, Zpartangle, "angle tests for repartitioned coplanar points", -1);
+  zdef_(zinc, Zpartflip, "  repartitioned coplanar points for flipped orientation", -1);
   zdef_(zinc, Zpartinside, "inside points", -1);
   zdef_(zinc, Zpartnear, "  inside points kept with a facet", -1);
   zdef_(zinc, Zcoplanarinside, "  inside points that were coplanar with a facet", -1);
   zdef_(wadd, Wmaxout, "difference in max_outside at final check", -1);
-  
+}
+void qh_allstatE(void) {
   zzdef_(zinc, Zpartitionall, "distance tests for initial partition", -1);
   zdef_(zinc, Ztotpartition, "partitions of a point", -1);
   zzdef_(zinc, Zpartition, "distance tests for partitioning", -1);
@@ -139,7 +156,7 @@ void qh_allstatD(void) {
   zzdef_(zinc, Zpartcoplanar, "   distance tests for these partitions", -1);
   zdef_(zinc, Zcomputefurthest, "distance tests for computing furthest", -1);
 }
-void qh_allstatE(void) {
+void qh_allstatE2(void) {
   zdef_(zdoc, Zdoc5, "statistics for matching ridges", -1);
   zdef_(zinc, Zhashlookup, "total lookups for matching ridges of new facets", -1);
   zdef_(zinc, Zhashtests, "average number of tests to match a ridge", Zhashlookup);
@@ -254,6 +271,14 @@ void qh_allstatI(void) {
   zzdef_(zinc, Zridge0, "bounded ridges with near-zero normal", -1);
   zzdef_(wadd, Wridge0, "  ave. angle to ridge", Zridge0);
   zzdef_(wmax, Wridge0max, "  max. angle to ridge", -1);
+
+  zdef_(zdoc, Zdoc12, "Triangulation statistics (Qt)", -1);
+  zdef_(zinc, Ztricoplanar, "non-simplicial facets triangulated", -1);
+  zdef_(zadd, Ztricoplanartot, "  ave. new facets created (may be deleted)", Ztricoplanar);
+  zdef_(zmax, Ztricoplanarmax, "  max. new facets created", -1);
+  zdef_(zinc, Ztrinull, "null new facets deleted (duplicated vertex)", -1);
+  zdef_(zinc, Ztrimirror, "mirrored pairs of new facets deleted (same vertices)", -1);
+  zdef_(zinc, Ztridegen, "degenerate new facets in output (same ridge)", -1);
 } /* allstat */
 
 /*-<a                             href="qh-stat.htm#TOC"
@@ -426,6 +451,7 @@ void qh_initstatistics (void) {
   qh_allstatC();
   qh_allstatD();
   qh_allstatE();
+  qh_allstatE2();
   qh_allstatF();
   qh_allstatG();
   qh_allstatH();

@@ -7,11 +7,11 @@
 
 <body>
 <!-- Navigation links -->
-<p><a name=TOP><b>Up:</b></a> <a href="http://www.geom.umn.edu/locate/qhull">Home
+<p><a name="TOP"><b>Up:</b></a> <a href="http://www.geom.umn.edu/locate/qhull">Home
 page</a> for Qhull <br>
 <b>Up:</b> <a href="index.htm#TOC">Qhull manual</a>: Table of Contents<br>
 <b>To:</b> <a href="qh-quick.htm#programs">Programs</a>
-&#149;</a> <a href="qh-quick.htm#options">Options</a> 
+&#149; <a href="qh-quick.htm#options">Options</a> 
 &#149; <a href="qh-opto.htm#output">Output</a> 
 &#149; <a href="qh-optf.htm#format">Formats</a> 
 &#149; <a href="qh-optg.htm#geomview">Geomview</a> 
@@ -48,7 +48,7 @@ test examples, and <tt>eg/q_test</tt> exercises the code. If you
 find yourself viewing the inside of a 3-d example, use Geomview's
 normalization option on the 'obscure' menu.</p>
 
-<p><b>Copyright © 1995-2001 The Geometry Center, Minneapolis MN</b></p>
+<p><b>Copyright &copy; 1995-2001 The Geometry Center, Minneapolis MN</b></p>
 
 <hr>
 
@@ -58,7 +58,7 @@ Contents </a></h2>
 <ul>
     <li><a href="#2d">2-d and 3-d examples</a></li>
     <li><a href="#how">How Qhull adds a point</a></li>
-    <li><a href="#joggle">Joggled input</a></li>
+    <li><a href="#joggle">Joggled input and triangulated output</a></li>
     <li><a href="#delaunay">Delaunay and Voronoi diagrams</a></li>
     <li><a href="#merge">Facet merging for imprecision</a></li>
     <li><a href="#4d">4-d objects</a></li>
@@ -89,9 +89,11 @@ Contents </a></h2>
             <li><a href="#14">eg.14.sphere.corner</a></li>
         </ul>
     </li>
-    <li><a href="#TOC">»</a> <a name="joggle">Joggled input</a></li>
+    <li><a href="#TOC">»</a> <a name="joggle">Joggled input and triangulated output</a>
     	<ul>
-            <li><a href="#15">eg.15.joggle</a></li>
+            <li><a href="#15a">eg.15a.surface</a></li>
+            <li><a href="#15b">eg.15b.triangle</a></li>
+            <li><a href="#15c">eg.15c.joggle</a></li>
         </ul>
     <li><a href="#TOC">»</a><a name="delaunay"> Delaunay and
         Voronoi diagrams</a><ul>
@@ -241,7 +243,7 @@ than a sphere centered at the test point. </p>
 <p>To prevent this problem, Qhull does not use directed search
 all the time. When Qhull processes a point on the edge of the
 lens, it partitions the remaining points with an exhaustive
-search instead of a directed search (see qh_findbest_sharp in <tt>geom2.c</tt>).
+search instead of a directed search (see qh_findbestnew in <tt>geom2.c</tt>).
 </p>
 
 <h2><a href="#TOC">»</a>How Qhull adds a point</h2>
@@ -297,9 +299,32 @@ tells Qhull to only build facets that might be part of a good
 facet. This technique reduces output size in low dimensions. It
 does not work with facet merging.</p>
 
-<h2><a href="#TOC">»</a>Joggled input</h2>
+<h2><a href="#TOC">»</a>Joggled input and triangulated output</h2>
 
-<h3><a href="#joggle">»</a><a name="15">rbox 500 W0 | qconvex QR0 QJ5e-2 Qc Gvp &gt;eg.15.joggle</a></h3>
+<h3><a href="#joggle">»</a><a name="15a">rbox 500 W0 | qconvex QR0 Qc Gvp &gt;eg.15a.surface</a></h3>
+
+<p>This is the convex hull of 500 points on the surface of
+a cube.  Note the large, non-simplicial facet for each face. 
+Qhull merges non-convex facets.
+
+<p>If the facets were not merged, Qhull
+would report precision problems.  For example, turn off facet merging
+with option '<a href="qh-optq.htm#Q0">Q0</a>'.  Qhull may report concave
+facets, flipped facets, or other precision errors:
+<blockquote>
+rbox 500 W0 | qhull QR0 Q0
+</blockquote>
+
+<p>
+<h3><a href="#joggle">»</a><a name="15b">rbox 500 W0 | qconvex QR0 Qt Qc Gvp &gt;eg.15b.triangle</a></h3>
+
+<p>Like the previous examples, this is the convex hull of 500 points on the 
+surface of a cube.  Option '<a href="qh-optq.htm#Qt">Qt</a>' triangulates the
+non-simplicial facets.  Triangulated output is  
+particularly helpful for Delaunay triangulations.
+
+<p>
+<h3><a href="#joggle">»</a><a name="15c">rbox 500 W0 | qconvex QR0 QJ5e-2 Qc Gvp &gt;eg.15c.joggle</a></h3>
 
 <p>This is the convex hull of 500 joggled points on the surface of
 a cube.  The option '<a href="qh-optq.htm#QJn">QJ5e-2</a>'
@@ -315,21 +340,12 @@ this process until no precision problems occur.
 <p>
 Joggled input is a simple solution to precision problems in
 computational geometry.  Qhull can also merge facets to handle
-precision problems.  See the <a href="#merge">examples</a> below
-or read <a href="qh-impre.htm#joggle">Joggled input
-or merged facets</a>.  Joggled input is particularly helpful for
-Delaunay triangulations.
-<p>
-If the points are not joggled and the facets are not merged, Qhull
-reports precision problems.  For example, turn off facet merging
-with option '<a href="qh-optq.htm#Q0">Q0</a>':
-<blockquote>
-rbox 500 W0 | qhull QR0 Q0
-</blockquote>
+precision problems.  See <a href="qh-impre.htm#joggle">Joggled input
+or merged facets</a>.  
 
 <h2><a href="#TOC">»</a>Delaunay and Voronoi diagrams</h2>
 
-<h3><a href="#delaunay">»</a><a name="17a">qdelaunay QJ
+<h3><a href="#delaunay">»</a><a name="17a">qdelaunay Qt
 &lt;eg.data.17 GnraD2 &gt;eg.17a.delaunay.2</a></h3>
 
 <p>
@@ -340,15 +356,13 @@ points centered on the square.
 <p>The Delaunay triangulation is the triangulation with empty
 circumcircles.  The input for this example is unusual because it
 includes six co-circular points.  Every triangular subset of these 
-points has the same circumcircle.  Option '<a href="qh-optq.htm#QJn">QJ</a>'
-joggles the input by a small amount.  This removes the points from
-the circle.  qdelaunay returns a triangulation.</p>
+points has the same circumcircle.  Option '<a href="qh-optq.htm#Qt">Qt</a>'
+triangulates the co-circular facet.</p>
 
 <h3><a href="#delaunay">»</a><a name="17b">qdelaunay &lt;eg.data.17
 GnraD2 &gt;eg.17b.delaunay.2i</a></h3>
 
-<p>This is the same example without joggle ('<a href="qh-optq.htm#QJn">QJ</a>').
-The co-circular points do not have a unique Delaunay triangle.  qdelaunay
+<p>This is the same example without triangulated output ('<a href="qh-optq.htm#Qt">Qt</a>').  qdelaunay
 merges the non-unique Delaunay triangles into a hexagon.</p>
 
 <h3><a href="#delaunay">»</a><a name="17c">qdelaunay &lt;eg.data.17
@@ -369,7 +383,8 @@ the Z-axis, you'll see that points and edges coincide.</p>
 &lt;eg.data.17 Gna &gt;eg.17d.voronoi.2</a></h3>
 
 <p>The Voronoi diagram is the dual of the Delaunay triangulation.
-Here you see the original sites and the Voronoi vertices. Each
+Here you see the original sites and the Voronoi vertices.   
+Notice the each
 vertex is equidistant from three sites. The edges indicate the
 Voronoi region for a site. Qhull does not draw the unbounded
 edges. Instead, it draws extra edges to close the unbounded
@@ -378,14 +393,29 @@ points in a square.  You can compute the unbounded
 rays from option '<a href="qh-optf.htm#Fo2">Fo</a>'.
 </p>
 
+<p>Instead
+of triangulated output ('<a href="qh-optq.htm#Qt">Qt</a>'), this 
+example uses joggled input ('<a href="qh-optq.htm#QJn">QJ</a>').  
+Normally, you should use neither 'QJ' nor 'Qt' for Voronoi diagrams.
+
 <h3><a href="#delaunay">»</a><a name="17e">qvoronoi &lt;eg.data.17
 Gna &gt;eg.17e.voronoi.2i </a></h3>
 
-<p>This looks the same as the previous diagram. But take a look
-at the output files. You'll see that the previous example (with '<a
-href="qh-optq.htm#QJ">QJ</a>') contains four Voronoi vertices
-that are almost the same. These vertices corresponding to the
-co-circular sites. They are merged in this example.</p>
+<p>This looks the same as the previous diagrams, but take a look
+at the data.  Run 'qvoronoi p &lt;eg/eg.data.17'.  This prints
+the Voronoi vertices.  
+
+<p>With 'QJ', there are four nearly identical Voronoi vertices
+within 10^-11 of the origin.  Option 'QJ' joggled the input.  After the joggle,
+the cocircular 
+input sites are no longer cocircular.  The corresponding Voronoi vertices are 
+similar but not identical.
+
+<p>This example does not use options 'Qt' or 'QJ'.  The cocircular
+input sites define one Voronoi vertex near the origin. </p>
+
+<p>Option 'Qt' would triangulate the corresponding Delaunay region into
+four triangles.  Each triangle is assigned the same Voronoi vertex.</p>
 
 <h3><a href="#delaunay">»</a><a name="17f"> rbox c G0.1 d |
 qdelaunay Gt Qz &lt;eg.17f.delaunay.3 </a></h3>
@@ -638,7 +668,7 @@ third picture is a duplicate of the first. </p>
 page for Qhull</a> <br>
 <b>Up:</b> <a href="index.htm#TOC">Qhull manual: Table of Contents</a><br>
 <b>To:</b> <a href="qh-quick.htm#programs">Programs</a>
-&#149;</a> <a href="qh-quick.htm#options">Options</a> 
+&#149; <a href="qh-quick.htm#options">Options</a> 
 &#149; <a href="qh-opto.htm#output">Output</a> 
 &#149; <a href="qh-optf.htm#format">Formats</a> 
 &#149; <a href="qh-optg.htm#geomview">Geomview</a> 

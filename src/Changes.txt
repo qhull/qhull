@@ -1,6 +1,116 @@
 
 .............This file lists all changes to qhull and rbox.....................
 
+qhull 3.1 2001/10/04
+
+New features
+ - Added option 'Qt' to triangulate non-simplicial facets
+ - Added option 'TI file' to input data from file
+ - Added option 'Q10' to prevent special processing for narrow distributions
+        e.g., RBOX 1000 L100000 s G1e-6 t1001803691 | QHULL Tv Q10
+ - Tried to compute Voronoi volumes ('Pv'). Requires dual face graph--not easy
+        See Clarkson's hull program for code.
+
+Changes to options
+ - Added numtricoplanars to 'Fs'. Number of good, triangulated facets for 'Qt'
+ - Added Zdelvertextot to 'Fs'.  If non-zero and Delaunay, input is degenerate
+ - Qhull command ('FQ') may be repeated.
+ - If 'TPn' and 'TWn' defined, trace the addition of point 'n'
+     otherwise continue tracing (previously it stopped in 4-d)
+ - Removed 'Ft' from qdelaunay.  Use 'Qt o' or 'qhull d QJ Qt' instead.
+     For non-simplicial regions, 'Ft' does not satisify the Delaunay property.
+ - If 'Po' or 'TVn', qhull checks outer planes.  Use 'Q5' to turn off.
+ - If 'T4', print facet lists and check polygon after adding each point
+ 
+Corrections to code
+ - rbox: allow 'c' and 'd' with 's r', meshes, etc.
+ - qh_findbest: redesigned as directed search plus qh_findbesthorizon for coplanarset
+      qh_findbest is faster for many distributions
+ - qh_findbestnew: redesigned to search horizon of coplanar best newfacets
+      needed for distributions with a sharp edge, 
+	  e.g., rbox 1000 s Z1 G1e-13 | qhull Tv
+ - qh_findbest/qh_findbestnew: search neighbors of better horizon facets
+      was needed for RBOX 1000 s Z1 G1e-13 t996564279 | qhull Tv  
+      and RBOX 1000 s W1e-13 P0 t996547055 | QHULL d Qbb Qc Tv
+ - qh_findbest with noupper: could return an upperdelaunay facet if dist>qh.MINoutside.
+ - qh_findbestnew: allow facet->upperdelaunay if dist > qh.MINoutside
+ - qh_partitioncoplanar: call qh_partitionpoint if outside and perpendicular
+      for distributions with a sharp edge
+ - qh_partitionvisible: report precision error if all newfacets degenerate.
+      was needed for RBOX 1000 s W1e-13 t995138628 | QHULL d
+ - qh_createsimplex: clears qh.num_visible, may be non-zero with 'TRn QJ'
+
+Changes to prompts, warnings, and statistics
+ - For Delaunay & Voronoi, 's' reports deleted vertices due to facet merging.
+   They were incorrectly reported as nearly incident points.
+ - Warn if recompute centrum after constructing hull
+ - Simplified narrow hull warning and print all digits of cosine.  
+     A narrow hull may lead to a point outside of the hull.
+ - Print total vertices deleted instead of ave. per iteration (Zdelvertextot)
+ - Improved tracing for qh_partitionpoint and qh_partitioncoplanar
+ - Added number of distance tests for checking outer planes (qh_check_maxout)
+ - Simplified "qhull precision error: Only n facets remain."
+ - Included 'TRn' in the causes of a premature exit
+
+Changes to documentation
+ - README.txt: Added quickstart instructions for Visual C++
+ - rbox: Added example of edge of narrow lens, rbox 1000 L100000 s G1e-6
+ - Added cross references between options 'o' and 'p'.
+ - qh-eg.html: added examples comparing 'Qt', 'QJ', and neither 'Qt' nor 'QJ' 
+	eg.15a.surface, eg.15b.triangle, eg.17a.delaunay.2, etc.
+ - Reorganized and enhanced discussion of precision problems in qh_impre.htm
+ - Fixed spelling errors [K. Briggs]
+ - Fixed link errors, validated HTML, and spell checked [HomeSite]
+ - Removed unnecessary #TOP links
+ - Added source links to the qh-quick.htm's header and footer
+ - qh-geom.htm, qh-poly.htm: add links to Voronoi functions in io.c
+ - src/index.htm: Added how to search qhull.h for qhull options
+ - qvoronoi.htm/qdelaun.htm: 'Fc' and 'FN' includes deleted vertices
+
+Changes to URLs
+ - Added http://www.voronoi.com and http://www.magic-software.com
+
+Changes to code
+ - qh_qhull: if 'TVn' or 'TCn' do not call qh_check_maxout and qh_nearcoplanar
+ - reviewed time profile.  Qhull is slower.  Optimized qh_findbestnew()
+ - qh_addpoint: Added warning note about avoiding a local minimum
+ - qh_checkpolygon: report qh.facet_next error if NARROWhull & dist>MINoutside
+ - qh_findbest: renamed "newfacets" parameter to "isnewfacets" since it is boolT
+ - qh_findbest/qh_findbestnew: testhorizon even if !MERGING
+        Otherwise qhull c D6 | qhull Q0 Tv assigns coplanar points 
+ - qh_resetlists: add qh_RESETvisible for qh_triangulate
+ - qh_findbest: search better facets first.  Rewritten.
+ - qh_findbest: increased minminsearch, always check coplanar facets.  
+        See: RBOX 1000 s Z1 G1e-13 t996564279 | QHULL Tv
+ - qh_findbestnew: report precision error for deleted cones [rare event]
+        e.g.:  RBOX 1000 s W1e-13 P0 t1001034076 | QHULL d Qbb Qc Tv
+ - qh_findbesthorizon: search horizon of qh.coplanarset.  New.
+ - qh_findbestsharp: replaced with qh_sharpnewfacets followed by qh_findbestnew
+ - qh_partitionpoint, Delaunay sites can not be inside.  Otherwise points may
+       be outside upperDelaunay facets yet not near-inside Delaunay facets
+       See: RBOX s 1000 t993602376 | QHULL C-1e-3 d  Qbb FA Tv
+ - qh_partitioncoplanar: call qh_findbest/qh_findbestnew with qh DELAUNAY 
+ - qh_printlists: format long lines 
+ - qh_printvertex: format long lines
+ - user.h: tightened qh_WARNnarrow and qh_MAXnarrow.  Do not see problems 
+       until they are -1.0.
+ - user.h: defined qh_DISToutside, qh_SEARCHdist, and qh_USEfindbestnew 
+ - qh_checkfacet: in 3-d, allow #ridges > #vertices.  Can get a vertex twice
+   in a ridge list, e.g,  RBOX 1000 s W1e-13 t995849315 D2 | QHULL d Tc Tv 
+
+Changes to FAQ
+ - Recommended use of triangulated output ('Qt')
+
+Changes to distribution
+ - Recompiled in Visual C++ 5.0 with optimization (as was version 2.6)
+ - q_test: Added bad cases for Qhull and tests for new features
+
+Changes to Qhull library
+ - Added qh_triangulate() to poly2.c.  It triangulates the output.
+ - Added option 'Q11' to copy normals and recompute centrums for tricoplanar facets 
+        'FP' may not print the nearest vertex for coplanar points
+        Use option 'Q11' when adding points after qh_triangulate()
+
 qhull 3.0 2001/02/11
 
 Changes to distribution
@@ -126,6 +236,8 @@ qhull 2.6 1998/8/12
  - added note that 'o' and 'FN' list Voronoi regions in site id order [Arvind]
  - added links to Fukuda's introduction to convex hulls, etc. [H. Hase]
  - added .c and .h source files to web distribution and qh-c.htm [J. Sands]
+ - documented qh_ZEROdelaunay.  Delaunay and Voronoi diagrams do not include
+   facets that are coplanar with the convex hull of the input sites.
   
  modified code
  - replaced computed minnorm in qh_sethyperplane_det with distance test
@@ -367,6 +479,7 @@ qhull V2.2 96/2/15
  - detect narrow initial hulls (cosine of min angle < qh_MAXnarrow in user.h).
    Write warning if cosine < qh_WARNnarrow in user.h.  If narrow (qh NARROWhull), 
    partition coplanar points as outside points and delay coplanar test to end.
+   Needed for  RBOX 1000 L100000 s G1e-6 t995127886 | QHULL Tv
    See 'limitations' in qh-impre.html for further discussion.
  - corrected some confusions between 'FV' and 'Fv' in qh-opt.html
  - fixed initialization error for small Voronoi diagrams (e.g., [0,0], [1,0], [0,1]) [J. Velez]

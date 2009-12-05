@@ -16,13 +16,13 @@ NOTE -- verify all links by 'grep href=' 'grep name=' add # 'sort /+7'
 
 <p><a name="TOP"><b>Up:</b></a> <a
 href="http://www.geom.umn.edu/locate/qhull">Home page</a> for Qhull<br>
-<b>Up:</b></a> <a
+<b>Up:</b><a
 href="http://www.geom.umn.edu/~bradb/qhull-news.html">News</a> about Qhull<br>
 <b>Up:</b> <a href="qh-faq.htm">FAQ</a> about Qhull<br>
 <b>To:</b> <a href="#TOC">Qhull manual: Table of Contents</a>
 (please wait while loading) <br>
 <b>To:</b> <a href="qh-quick.htm#programs">Programs</a>
-&#149;</a> <a href="qh-quick.htm#options">Options</a> 
+&#149; <a href="qh-quick.htm#options">Options</a> 
 &#149; <a href="qh-opto.htm#output">Output</a> 
 &#149; <a href="qh-optf.htm#format">Formats</a> 
 &#149; <a href="qh-optg.htm#geomview">Geomview</a> 
@@ -30,7 +30,6 @@ href="http://www.geom.umn.edu/~bradb/qhull-news.html">News</a> about Qhull<br>
 &#149; <a href="qh-optq.htm#qhull">Qhull</a> 
 &#149; <a href="qh-optc.htm#prec">Precision</a> 
 &#149; <a href="qh-optt.htm#trace">Trace</a><br>
-</p>
 
 <hr>
 <!-- Main text of document -->
@@ -77,14 +76,16 @@ A facet's outer plane is clearly above all of the points;
 its inner plane is clearly below the facet's vertices.  Any
 exact convex hull must lie between the inner and outer plane.
 
-<p>Qhull uses joggled input or merged facets.  Joggled input 
-guarantees a simplicial output, but it
+<p>Qhull uses merged facets, triangulated output, or joggled
+input.  Triangulated output triangulates non-simplicial, merged
+facets.  Joggled input also 
+guarantees simplicial output, but it
 is less accurate than merged facets.  For merged facets, Qhull
 reports the maximum outer and inner plane. 
 
-<p><i>Brad Barber, Cambridge MA, February 11, 2001</i></p>
+<p><i>Brad Barber, Cambridge MA, October 4, 2001</i></p>
 
-<p><b>Copyright © 1995-2001 The Geometry Center, Minneapolis MN</b></p>
+<p><b>Copyright &copy; 1995-2001 The Geometry Center, Minneapolis MN</b></p>
 
 <hr>
 
@@ -92,7 +93,7 @@ reports the maximum outer and inner plane.
 Contents </a></h2>
 
 <ul>
-    <li><a href="#when">When</a> to use Qhull</li>
+    <li><a href="#when">When</a> to use Qhull
 	     <ul>
         <li><a href="../README.txt">README.txt</a> - installation
         instructions<br>
@@ -102,7 +103,7 @@ Contents </a></h2>
 		<li><a href="qh-quick.htm#programs">Programs</a> - Program quick reference<br>
 		<li><a href="qh-quick.htm#options">Options</a> - Option quick reference<br>
         <li><a href="../src/Changes.txt">Changes.txt</a> - change history <br>
-        <li><a href="qhull.txt">qhull.txt</a> - Unix manual page</dd>
+        <li><a href="qhull.txt">qhull.txt</a> - Unix manual page
 	     </ul>
     <li><a href="#description">Description</a> of Qhull
 	     <ul>
@@ -117,7 +118,7 @@ Contents </a></h2>
 			viewer</li>
 		<li><a href="qh-eg.htm">Examples</a> of Qhull using Geomview</li>
         </ul>
-  <li><a href=qh-quick.htm#programs>Qhull programs</a></a>
+  <li><a href=qh-quick.htm#programs>Qhull programs</a>
 	<ul>
 	<li><a href="qconvex.htm">qconvex</a> -- convex hulls
 	<li><a href="qdelaun.htm">qdelaunay</a> -- Delaunay triangulations and
@@ -194,10 +195,23 @@ Contents </a></h2>
 halfspace intersections about a point, Voronoi diagrams, furthest-site Delaunay
 triangulations, and furthest-site Voronoi diagrams.</p>
 
-<p>Qhull may be used for 2-d, 3-d, 4-d, and higher dimensions.
-For example, a Pentium 166 computes the Delaunay triangulation of
-1000 points in 3-d in one CPU second. It computes the convex hull
-of the 7-d hypercube in two CPU seconds.</p>
+<p>For convex hulls and halfspace intersections, Qhull may be used 
+for 2-d upto 8-d.  For Voronoi diagrams and Delaunay triangulations, Qhull may be
+used for 2-d upto 7-d.  In higher dimensions, the size of the output
+grows rapidly and Qhull does not work well with virtual memory. 
+If <i>n</i> is the size of
+the input and <i>d</i> is the dimension (d>=3), the size of the output 
+and execution time
+grows by <i>n^(floor(d/2)</i> 
+[see <a href=qh-in.htm#performance>Performance</a>].  For example, do
+not try to build a 16-d convex hull of 1000 points.  It will
+have on the order of 1,000,000,000,000,000,000,000,000 facets.
+
+<!-- duplicated in qh-home.htm and html/index.htm -->
+<p>Qhull does <i>not</i> support constrained Delaunay
+triangulations, triangulation of non-convex surfaces, mesh
+generation of non-convex objects, or medium-sized inputs in 9-D
+and higher. </p>
 
 <p>This is a big package with many options. It is one of the
 fastest available. It is the only 3-d code that handles precision
@@ -215,8 +229,8 @@ constraints. Both programs use exact arithmetic. They are in <a
 href="ftp://netlib.bell-labs.com/netlib/voronoi">ftp://netlib.bell-labs.com/netlib/voronoi</a>.
 Qhull <a
 href="http://www.geom.umn.edu/software/download/qhull.html">version
-1.0</a> may also meet your needs. It is 1/5 the size of Version
-2.1.</p>
+1.0</a> may also meet your needs. It detects precision problems,
+but does not handle them.</p>
 
 <p><a href=http://www.mpi-sb.mpg.de/LEDA/leda.html>Leda</a> is a 
 library for writing computational
@@ -231,15 +245,10 @@ non-simplicial facets, try Fukuda's <a
 href="http://www.ifor.math.ethz.ch/ifor/staff/fukuda/cdd_home/cdd.html">cdd</a>.
 It is much faster than Qhull for these distributions. </p>
 
-<p>The size of the output
-grows by <i>n^(floor(d/2)</i> where <i>n</i> is the size of
-the input and <i>d</i> is the dimension (d>=3).  For example, do
-not try to build a 16-d convex hull of 1000 points.  It will
-have on the order of 1,000,000,000,000,000,000,000,000 facets.
-
 <p>Custom software for 2-d and 3-d convex hulls may be faster
-than Qhull. Qhull uses general-dimension data structures and
-code. </p>
+than Qhull.  Custom software should use less memory.  Qhull uses 
+general-dimension data structures and code.   The data structures
+support non-simplicial facets.</p>
 
 <p>Qhull is not suitable for mesh generation or triangulation of
 arbitrary surfaces. You may use Qhull if the surface is convex or
@@ -294,7 +303,7 @@ intersection of halfspaces. </p>
 
 <p>The input data on <tt>stdin</tt> consists of:</p>
 
-<ul compact="COMPACT">
+<ul>
     <li>first line contains the dimension</li>
     <li>second line contains the number of input points</li>
     <li>remaining lines contain point coordinates</li>
@@ -314,6 +323,10 @@ intersection of halfspaces. </p>
 
 <p>Input may be entered by hand. End the input with a control-D
 (^D) character. </p>
+
+<p>To input data from a file, use I/O redirection or '<a
+href="qh-optt.htm#TI">TI file</a>'.  The filename may not
+include spaces or quotes.</p>
 
 <p>A comment starts with a non-numeric character and continues to
 the end of line. The first comment is reported in summaries and
@@ -367,10 +380,18 @@ the last point is <i>n-1</i>.</p>
 
 <ul>
     <li>summary output ('<a href="qh-opto.htm#s">s</a>') </li>
-    <li>facet merging ('<a href="qh-optc.htm#C0">C-0</a>' in 2-d,
+    <li>merged facets ('<a href="qh-optc.htm#C0">C-0</a>' in 2-d,
         3-d, 4-d; '<a href="qh-optq.htm#Qx">Qx</a>' in 5-d and
         up)</li>
 </ul>
+
+<p>Except for bounding box
+('<a href="qh-optq.htm#Qbk">Qbk:n</a>', etc.), drop facets 
+('<a href="qh-optp.htm#Pdk">Pdk:n</a>', etc.), and
+Qhull command ('<a href="qh-opto.htm#FQ">FQ</a>'), only the last
+occurence of an option counts.  
+Bounding box and drop facets may be repeated for each dimension.
+Option 'FQ' may be repeated any number of times.
 
 <p>The Unix <tt>tcsh</tt> and <tt>ksh </tt>shells make it easy to
 try out different options. In Windows 95, use a DOS window with <tt>doskey</tt>
@@ -382,7 +403,9 @@ and a window scroller (e.g., <tt>peruse</tt>). </p>
 
 <p>To write the results to a file, use I/O redirection or '<a
 href="qh-optt.htm#TO">TO file</a>'. Windows 95 users should use
-'TO file' or the console. </p>
+'TO file' or the console.  If a filename is surrounded by single quotes, 
+it may include spaces.
+</p>
 
 <p>The default output option is a short summary ('<a
 href="qh-opto.htm#s">s</a>') to <tt>stdout</tt>. There are many
@@ -435,18 +458,18 @@ requirements, and floating-point error handling. </p>
         an offset. The length of the normal is one. The
         hyperplane defines a halfspace. If <i>V</i> is a normal, <i>b</i>
         is an offset, and <i>x</i> is a point inside the convex
-        hull, then <i>Vx+b <0</i>. </i></li>
-    <li><i>An </i><em><i>outer plane</i></em><i> is a positive
+        hull, then <i>Vx+b &lt;0</i>.</li>
+    <li>An <em>outer plane</em> is a positive
         offset from a hyperplane. When Qhull is done, all points
-        will be below all outer planes. </i></li>
-    <li><i>An </i><em><i>inner plane</i></em><i> is a negative
+        will be below all outer planes.</li>
+    <li>An <em>inner plane</em> is a negative
         offset from a hyperplane. When Qhull is done, all
-        vertices will be above the corresponding inner planes. </i></li>
-    <li><i>An orientation is either 'top' or 'bottom'. It is the
+        vertices will be above the corresponding inner planes.</li>
+    <li>An <em>orientation</em> is either 'top' or 'bottom'. It is the
         topological equivalent of a hyperplane's geometric
-        orientation. </i></li>
-    <li><i>A </i><em><i>simplicial facet</i></em><i> is a set of
-        d</i> neighboring facets, a set of <i>d</i> vertices, a
+        orientation. </li>
+    <li>A <em>simplicial facet</em> is a set of
+        <i>d</i> neighboring facets, a set of <i>d</i> vertices, a
         hyperplane equation, an inner plane, an outer plane, and
         an orientation. For example in 3-d, a simplicial facet is
         a triangle. </li>
@@ -550,7 +573,7 @@ facet is convex with its neighbors. It checks the topology of the
 convex hull.</p>
 
 <p>Qhull should work on all inputs. It may report precision
-errors if you turn off facet merging with option '<a
+errors if you turn off merged facets with option '<a
 href="qh-optq.htm#Q0">Q0</a>'. This can get as bad as facets with
 flipped orientation or two facets with the same vertices. You'll
 get a long help message if you run into such a case. They are
@@ -638,14 +661,14 @@ Huhdanpaa, &quot;The Quickhull Algorithm for Convex Hulls,&quot; <i>ACM
 Transactions on Mathematical Software</i>, Vol. 22, No. 4 (Dec.
 1996), p. 469-483 [<a
 href="http://www.acm.org/pubs/citations/journals/toms/1996-22-4/p469-barber/">http://www.acm.org</a>;
-<a href="ftp://geom.umn.edu/pub/software/qhull-96.ps.Z">ftp://geom.umn.edu</a>].
+<a href="ftp://geom.umn.edu/pub/software/qhull-96.ps">ftp://geom.umn.edu</a>].
 </p>
 
 <p><a name="cla-sho89">Clarkson</a>, K.L. and P.W. Shor,
 &quot;Applications of random sampling in computational geometry,
 II&quot;, <i>Discrete Computational Geometry</i>, 4:387-421, 1989</p>
 
-<p><a name="cla-meh92">Clarkson</a>, K.L., K. Mehlhorn, and R.
+<p><a name="cla-meh93">Clarkson</a>, K.L., K. Mehlhorn, and R.
 Seidel, &quot;Four results on randomized incremental
 construction,&quot; <em>Computational Geometry: Theory and
 Applications</em>, vol. 3, p. 185-211, 1993.</p>
@@ -695,12 +718,12 @@ xf qhull.tar, cd qhull, make </p>
 
 <p><b>Up:</b> <a
 href="http://www.geom.umn.edu/locate/qhull">Home page</a> for Qhull<br>
-<b>Up:</b></a> <a
+<b>Up:</b><a
 href="http://www.geom.umn.edu/~bradb/qhull-news.html">News</a> about Qhull<br>
 <b>Up:</b> <a href="qh-faq.htm">FAQ</a> about Qhull<br>
 <b>To:</b> <a href="#TOC">Qhull manual</a>: Table of Contents<br>
 <b>To:</b> <a href="qh-quick.htm#programs">Programs</a>
-&#149;</a> <a href="qh-quick.htm#options">Options</a> 
+&#149; <a href="qh-quick.htm#options">Options</a> 
 &#149; <a href="qh-opto.htm#output">Output</a> 
 &#149; <a href="qh-optf.htm#format">Formats</a> 
 &#149; <a href="qh-optg.htm#geomview">Geomview</a> 
@@ -712,8 +735,7 @@ href="http://www.geom.umn.edu/~bradb/qhull-news.html">News</a> about Qhull<br>
 <b>Dn:</b> <a href="qh-eg.htm">Description of Qhull examples</a><br>
 <b>Dn:</b> <a href="qh-in.htm">Qhull internals</a><br>
 <b>Dn:</b> <a href="../src/index.htm">Qhull functions, macros, and data
-structures</a> </p>
-</p>
+structures</a>
 <!-- GC common information -->
 <hr>
 

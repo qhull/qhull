@@ -10,7 +10,7 @@
 <p><b>Up:</b> <a href="http://www.geom.umn.edu/locate/qhull">Home page</a> for Qhull<br>
 <b>Up:</b> <a href="index.htm#TOC">Qhull manual</a>: Table of Contents<br>
 <b>To:</b> <a href="qh-quick.htm#programs">Programs</a>
-&#149;</a> <a href="qh-quick.htm#options">Options</a> 
+&#149; <a href="qh-quick.htm#options">Options</a> 
 &#149; <a href="qh-opto.htm#output">Output</a> 
 &#149; <a href="qh-optf.htm#format">Formats</a> 
 &#149; <a href="qh-optg.htm#geomview">Geomview</a> 
@@ -33,7 +33,7 @@ href="qh-optp.htm#print">Print</a>, and <a
 href="qh-optg.htm#geomview">Geomview</a> for other output
 options. </p>
 
-<p><b>Copyright © 1995-2001 The Geometry Center, Minneapolis MN</b></p>
+<p><b>Copyright &copy; 1995-2001 The Geometry Center, Minneapolis MN</b></p>
 
 <hr>
 
@@ -87,11 +87,15 @@ Other outputs may be specified as follows. </p>
 <h3><a href="#output">»</a><a name="f">f - print all fields of
 all facets </a></h3>
 
-<p>Print all fields of all facets. This is primarily for
+<p>Print <a href=../src/qhull.h#facetT>all fields</a> of all facets.
+The facet is the primary <a href=index.htm#structure>data structure</a> for
+Qhull.  
+
+<p>Option 'f' is for
 debugging. Most of the fields are available via the '<a
 href="qh-optf.htm#format">F</a>' options. If you need specialized
-information from Qhull, you can use the (<a
-href="qh-in.htm#library">Qhull library</a>).</p>
+information from Qhull, you can use the <a
+href="qh-in.htm#library">Qhull library</a>.</p>
 
 <p>Use the '<a href="qh-optf.htm#FF">FF</a>' option to print the
 facets but not the ridges. </p>
@@ -146,7 +150,7 @@ you can slowly rotate objects. </p>
 <p>For halfspace intersections, Qhull produces the dual
 convex hull.
 
-<p>See "<a href="qh-faq.htm#math">Is Qhull available for Mathematica?</a>
+<p>See <a href="qh-faq.htm#math">Is Qhull available for Mathematica?</a>
 for URLs.
  
 <h3><a href="#output">»</a><a name="n">n - print hyperplane
@@ -190,7 +194,8 @@ the output with the keyword &quot;end&quot;. </p>
 information with added points for non-simplicial facets.</p>
 
 <p>Option '<a href="qh-opto.htm#i">i</a>' displays vertices
-without the point coordinates. </p>
+without the point coordinates. Option '<a href="qh-opto.htm#p">p</a>'
+displays the point coordinates without vertex and facet information.</p>
 
 <p>In 3-d, Geomview can load the file directly if you delete the
 first line (e.g., by piping through '<tt>tail +2</tt>').</p>
@@ -223,6 +228,11 @@ coplanar and interior points respectively.</p>
 <p>For <a href=qvoronoi.htm>qvoronoi</a>, it prints the
 coordinates of each Voronoi vertex.</p>
 
+<p>For <a href=qdelaun.htm>qdelaunay</a>, it prints the
+input sites as lifted to a paraboloid.  For <a href=qhalf.htm>qhalf</a>
+it prints the dual points.  For both, option 'p' is the same as the first 
+section of option '<a href="qh-opto.htm#o">o</a>'.</p>
+
 <p>Use '<a href="qh-optf.htm#Fx">Fx</a>' to list the point ids of
 the extreme points (i.e., vertices). </p>
 
@@ -240,9 +250,11 @@ with &quot;end&quot;. </p>
 <h3><a href="#output">»</a><a name="s">s - print summary to
 stderr </a></h3>
 
-<p>The default output of Qhull is a summary to stdout. Options '<a
+<p>The default output of Qhull is a summary to stderr. Options '<a
 href="qh-optf.htm#FS">FS</a>' and '<a href="qh-optf.htm#Fs">Fs</a>'
-produce the same information for programs.</p>
+produce the same information for programs.  <b>Note</b>: Windows 95 and 98
+treats stderr the same as stdout.  Use option '<a href="qh-optt.htm#TO">TO file</a>' to separate
+stderr and stdout.</p>
 
 <p>The summary lists the number of input points, the dimension,
 the number of vertices in the convex hull, and the number of
@@ -309,7 +321,7 @@ than 0.05. </p>
 <p><b>Up:</b> <a href="http://www.geom.umn.edu/locate/qhull">Home page</a> for Qhull<br>
 <b>Up:</b> <a href="index.htm#TOC">Qhull manual</a>: Table of Contents<br>
 <b>To:</b> <a href="qh-quick.htm#programs">Programs</a>
-&#149;</a> <a href="qh-quick.htm#options">Options</a> 
+&#149; <a href="qh-quick.htm#options">Options</a> 
 &#149; <a href="qh-opto.htm#output">Output</a> 
 &#149; <a href="qh-optf.htm#format">Formats</a> 
 &#149; <a href="qh-optg.htm#geomview">Geomview</a> 

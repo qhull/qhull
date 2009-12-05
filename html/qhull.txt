@@ -60,7 +60,7 @@ SYNOPSIS
 
 
 
-Geometry Center		February 11, 2001			1
+Geometry Center		October 4, 2001			1
 
 
 
@@ -126,7 +126,7 @@ DESCRIPTION
 
 
 
-Geometry Center		February 11, 2001			2
+Geometry Center		October 4, 2001			2
 
 
 
@@ -192,7 +192,7 @@ OPTIONS
 
 
 
-Geometry Center		February 11, 2001			3
+Geometry Center		October 4, 2001			3
 
 
 
@@ -258,7 +258,7 @@ qhull(1)						 qhull(1)
 
 
 
-Geometry Center		February 11, 2001			4
+Geometry Center		October 4, 2001			4
 
 
 
@@ -273,6 +273,8 @@ qhull(1)						 qhull(1)
 	      Its  coordinates	are  qh_INFINITE  (-10.101).   It
 	      indicates	 unbounded Voronoi regions and degenerate
 	      Delaunay triangles.
+
+       Qt     Triangulated output.
 
 
        Input/Output options:
@@ -324,7 +326,7 @@ qhull(1)						 qhull(1)
 
 
 
-Geometry Center		February 11, 2001			5
+Geometry Center		October 4, 2001			5
 
 
 
@@ -390,7 +392,7 @@ qhull(1)						 qhull(1)
 
 
 
-Geometry Center		February 11, 2001			6
+Geometry Center		October 4, 2001			6
 
 
 
@@ -456,7 +458,7 @@ qhull(1)						 qhull(1)
 
 
 
-Geometry Center		February 11, 2001			7
+Geometry Center		October 4, 2001			7
 
 
 
@@ -522,7 +524,7 @@ qhull(1)						 qhull(1)
 
 
 
-Geometry Center		February 11, 2001			8
+Geometry Center		October 4, 2001			8
 
 
 
@@ -588,7 +590,7 @@ qhull(1)						 qhull(1)
 
 
 
-Geometry Center		February 11, 2001			9
+Geometry Center		October 4, 2001			9
 
 
 
@@ -654,7 +656,7 @@ qhull(1)						 qhull(1)
 
 
 
-Geometry Center		February 11, 2001		       10
+Geometry Center		October 4, 2001		       10
 
 
 
@@ -720,7 +722,7 @@ qhull(1)						 qhull(1)
 
 
 
-Geometry Center		February 11, 2001		       11
+Geometry Center		October 4, 2001		       11
 
 
 
@@ -786,7 +788,7 @@ qhull(1)						 qhull(1)
 
 
 
-Geometry Center		February 11, 2001		       12
+Geometry Center		October 4, 2001		       12
 
 
 
@@ -808,9 +810,7 @@ qhull(1)						 qhull(1)
 	      good for printing.  Unless 'PG'  is  set,	 'Pg'  is
 	      automatically set.
 
-       Po     Force output despite precision problems.	The maxi-
-	      mum   outside   distance	  is	not    determined
-	      (qh_check_maxout).   Verify  ('Tv')  does	not check
+       Po     Force output despite precision problems.	Verify  ('Tv')  does	not check
 	      coplanar points.	Flipped	facets are  reported  and
 	      concave  facets  are  counted.   If  'Po'	 is used,
 	      points are not partitioned into flipped facets  and
@@ -852,7 +852,7 @@ qhull(1)						 qhull(1)
 
 
 
-Geometry Center		February 11, 2001		       13
+Geometry Center		October 4, 2001		       13
 
 
 
@@ -897,7 +897,8 @@ qhull(1)						 qhull(1)
 	      Option 'QJ' selects a default  value  for	 n.   The
 	      output will be simplicial.  For Delaunay triangula-
 	      tions, 'QJn' sets	'Qbb' to scale the  last  coordi-
-	      nate (not	if 'Qbk:n' or 'QBk:n' is set).
+	      nate (not	if 'Qbk:n' or 'QBk:n' is set).  See also
+	      'Qt'.
 
        Qm     Only  process  points that would otherwise increase
 	      max_outside.  Other points are treated as	 coplanar
@@ -918,7 +919,7 @@ qhull(1)						 qhull(1)
 
 
 
-Geometry Center		February 11, 2001		       14
+Geometry Center		October 4, 2001		       14
 
 
 
@@ -928,6 +929,9 @@ qhull(1)						 qhull(1)
 
 
        Qs     Search all points	for the	initial	simplex.
+
+       Qt     Triangulated output.  Triangulate non-simplicial 
+              facets.
 
        Qv     Test  vertex  neighbors  for  convexity after post-
 	      merging.	To use the 'Qv'	option,	you also need  to
@@ -984,7 +988,7 @@ qhull(1)						 qhull(1)
 
 
 
-Geometry Center		February 11, 2001		       15
+Geometry Center		October 4, 2001		       15
 
 
 
@@ -1007,6 +1011,11 @@ qhull(1)						 qhull(1)
        Q9     With 'Q9', Qhull processes the furthest of all out-
 	      side sets	at each	iteration.
 
+       Q10    With 'Q10', Qhull does not use special processing 
+	      for narrow distributions.
+
+       Q11    With 'Q11', Qhull copies normals and recomputes 
+	      centrums for tricoplanar facets.
 
        Trace options
 
@@ -1029,11 +1038,17 @@ qhull(1)						 qhull(1)
 	      created During post-merging, 'TFn' reports progress
 	      after more than n/2 merges.
 
+       TI file
+	      Input data from 'file'.  The filename may not include 
+		  spaces or quotes.
+
        TO file
 	      Output results to	'file'.	 The name may be enclosed
 	      in single	quotes.
 
        TPn    Turn on tracing when point n is added to the  hull.
+          Trace partitions of point n. If used with TWn, turn off
+          tracing after adding point n to the hull.
 
        TRn    Rerun  qhull  n  times.  Usually used with 'QJn' to
 	      determine	the probability	that a given joggle  will
@@ -1050,7 +1065,7 @@ qhull(1)						 qhull(1)
 
 
 
-Geometry Center		February 11, 2001		       16
+Geometry Center		October 4, 2001		       16
 
 
 
@@ -1116,7 +1131,7 @@ BUGS
 
 
 
-Geometry Center		February 11, 2001		       17
+Geometry Center		October 4, 2001		       17
 
 
 
@@ -1182,7 +1197,7 @@ ACKNOWLEDGEMENTS
 
 
 
-Geometry Center		February 11, 2001		       18
+Geometry Center		October 4, 2001		       18
 
 
 
@@ -1248,6 +1263,6 @@ qhull(1)						 qhull(1)
 
 
 
-Geometry Center		February 11, 2001		       19
+Geometry Center		October 4, 2001		       19
 
 

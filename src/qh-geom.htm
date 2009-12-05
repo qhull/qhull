@@ -11,9 +11,8 @@ content="text/html; charset=iso-8859-1">
 <p><a name="TOP"><b>Up:</b></a> <a
 href="http://www.geom.umn.edu/locate/qhull">Home page</a> for Qhull<br>
 <b>Up:</b> <a href="../html/index.htm#TOC">Qhull manual</a>: Table of Contents <br>
-<b>Up:</b> <a href="../html/qh-in.htm#TOC">Qhull internals: Table of Contents</a><br>
 <b>Up:</b> <a href="../html/qh-quick.htm#programs">Programs</a>
-&#149;</a> <a href="../html/qh-quick.htm#options">Options</a> 
+&#149; <a href="../html/qh-quick.htm#options">Options</a> 
 &#149; <a href="../html/qh-opto.htm#output">Output</a> 
 &#149; <a href="../html/qh-optf.htm#format">Formats</a> 
 &#149; <a href="../html/qh-optg.htm#geomview">Geomview</a> 
@@ -21,6 +20,7 @@ href="http://www.geom.umn.edu/locate/qhull">Home page</a> for Qhull<br>
 &#149; <a href="../html/qh-optq.htm#qhull">Qhull</a> 
 &#149; <a href="../html/qh-optc.htm#prec">Precision</a> 
 &#149; <a href="../html/qh-optt.htm#trace">Trace</a><br>
+<b>Up:</b> <a href="../html/qh-in.htm#TOC">Qhull internals: Table of Contents</a><br>
 <b>To:</b> <a href="../src/index.htm">Qhull functions</a>, macros, and data structures<br>
 <b>To:</b> <a href="qh-geom.htm#TOC">Geom</a> &#149; <a href="qh-globa.htm">Global</a>
 &#149; <a href="qh-io.htm">Io</a> &#149; <a href="qh-mem.htm">Mem</a>
@@ -54,7 +54,7 @@ computations is determined at initialization. The roundoff error
 in halfspace computation is accounted for by computing the
 distance from vertices to the halfspace. </p>
 </blockquote>
-<p><b>Copyright © 1995-2001 The Geometry Center, Minneapolis MN</b></p>
+<p><b>Copyright &copy; 1995-2001 The Geometry Center, Minneapolis MN</b></p>
 <hr>
 <p><a href="#TOP">»</a> <b>Geom</b> 
 <a name="TOC">&#149;</a> <a href="qh-globa.htm#TOC">Global</a> &#149; 
@@ -63,8 +63,8 @@ distance from vertices to the halfspace. </p>
 <a href="qh-qhull.htm#TOC">Qhull</a> &#149; <a href="qh-set.htm#TOC">Set</a> &#149; 
 <a href="qh-stat.htm#TOC">Stat</a> &#149; <a href="qh-user.htm#TOC">User</a> </p>
 
-<h3>Index to <a href="geom.c#TOP">geom.c</a>, 
-<a href="geom2.c#TOP">geom2.c</a>, and <a href="geom.h#TOP">geom.h</a></h3>
+<h3>Index to <a href="geom.c">geom.c</a>, 
+<a href="geom2.c">geom2.c</a>, and <a href="geom.h">geom.h</a></h3>
 
 <ul>
 <li><a href="#gtype">geometric data types and constants</a> </li>
@@ -146,6 +146,7 @@ generate a random dimXdim matrix in range (-1,1) </li>
 <ul>
 <li><a href="geom2.c#detsimplex">qh_detsimplex</a> compute
 determinate of a simplex of points </li>
+<li><a href="io.c#detvnorm">qh_detvnorm</a> determine normal for Voronoi ridge </li>
 <li><a href="geom2.c#distnorm">qh_distnorm</a> compute
 distance from point to hyperplane as defined by normal and offset</li>
 <li><a href="geom2.c#facetarea_simplex">qh_facetarea_simplex</a>
@@ -158,7 +159,7 @@ arithmetic center for a set of vertices </li>
 distance between two points </li>
 <li><a href="geom2.c#rotatepoints">qh_rotatepoints</a> rotate
 numpoints points by a row matrix </li>
-<li><a href="geom.c#sethalfspace">qh_sethalfspace</a> set
+<li><a href="geom2.c#sethalfspace">qh_sethalfspace</a> set
 coords to dual of halfspace relative to an interior point </li>
 <li><a href="geom.c#sethyperplane_det">qh_sethyperplane_det</a>
 return hyperplane for oriented simplex using determinates
@@ -174,7 +175,7 @@ return Voronoi center for a set of points </li>
 <ul>
 <li><a href="geom2.c#copypoints">qh_copypoints</a> return
 malloc'd copy of points</li>
-<li><a href="geom.c#joggleinput">qh_joggleinput</a> joggle
+<li><a href="geom2.c#joggleinput">qh_joggleinput</a> joggle
 input points by qh.JOGGLEmax </li>
 <li><a href="geom2.c#maxmin">qh_maxmin</a> return max/min
 points for each dimension</li>
@@ -182,7 +183,7 @@ points for each dimension</li>
 maximum simplex for a set of points </li>
 <li><a href="geom2.c#printpoints">qh_printpoints</a> print ids for a 
 set of points </li>
-<li><a href="geom.c#projectinput">qh_projectinput</a> project
+<li><a href="geom2.c#projectinput">qh_projectinput</a> project
 input using qh DELAUNAY and qh low_bound/high_bound </li>
 <li><a href="geom2.c#projectpoints">qh_projectpoints</a>
 project points along one or more dimensions </li>
@@ -190,7 +191,7 @@ project points along one or more dimensions </li>
 input points using row matrix </li>
 <li><a href="geom2.c#scaleinput">qh_scaleinput</a> scale
 input points using qh low_bound/high_bound </li>
-<li><a href="geom.c#scalelast">qh_scalelast</a> scale last
+<li><a href="geom2.c#scalelast">qh_scalelast</a> scale last
 coordinate to [0,m] for Delaunay triangulations </li>
 <li><a href="geom2.c#scalepoints">qh_scalepoints</a> scale
 points to new lowbound and highbound </li>
@@ -207,14 +208,14 @@ point </li>
 distance from point to facet </li>
 <li><a href="geom2.c#facetarea">qh_facetarea</a> return area
 of a facet </li>
-<li><a href="geom.c#facetcenter">qh_facetcenter</a> return
+<li><a href="geom2.c#facetcenter">qh_facetcenter</a> return
 Voronoi center for a facet's vertices </li>
 <li><a href="geom.c#findbest">qh_findbest</a> find visible
 facet or best facet for a point </li>
+<li><a href="geom.c#findbesthorizon">qh_findbesthorizon</a> 
+update best new facet with horizon facets</li>
 <li><a href="geom.c#findbestnew">qh_findbestnew</a> find best
 new facet for point </li>
-<li><a href="geom.c#findbestsharp">qh_findbestsharp</a> find best
-new facet for point and detect sharp corners</li>
 <li><a href="geom2.c#getarea">qh_getarea</a> get area of all
 facets in facetlist, collect statistics </li>
 <li><a href="geom.c#getcentrum">qh_getcentrum</a> return
@@ -232,6 +233,8 @@ orient facet so that <tt>qh.interior_point</tt> is inside</li>
 point onto a facet </li>
 <li><a href="geom.c#setfacetplane">qh_setfacetplane</a> sets
 the hyperplane for a facet </li>
+<li><a href="geom.c#sharpnewfacets">qh_sharpnewfacets</a> true
+if new facets contains a sharp corner</li>
 </ul>
 
 <h3><a href="qh-geom.htm#TOC">»</a><a name="ground">geometric roundoff functions</a></h3>
@@ -245,7 +248,6 @@ maximum roundoff error due to a distance computation to a
 normalized hyperplane</li>
 <li><a href="geom2.c#divzero">qh_divzero</a> divide by a
 number that is nearly zero </li>
-constants</li>
 <li><a href="geom2.c#maxouter">qh_maxouter</a> return maximum outer
 plane</li>
 <li><a href="geom2.c#outerinner">qh_outerinner</a> return actual
@@ -258,9 +260,8 @@ outer and inner planes
 <a href="http://www.geom.umn.edu/locate/qhull">Home page for
 Qhull</a> <br>
 <b>Up:</b> <a href="index.htm#TOC">Qhull manual: Table of Contents</a> <br>
-<b>Up:</b> <a href="../html/qh-in.htm#TOC">Qhull internals: Table of Contents</a> <br>
 <b>Up:</b> <a href="../html/qh-quick.htm#programs">Programs</a>
-&#149;</a> <a href="../html/qh-quick.htm#options">Options</a> 
+&#149; <a href="../html/qh-quick.htm#options">Options</a> 
 &#149; <a href="../html/qh-opto.htm#output">Output</a> 
 &#149; <a href="../html/qh-optf.htm#format">Formats</a> 
 &#149; <a href="../html/qh-optg.htm#geomview">Geomview</a> 
@@ -268,6 +269,7 @@ Qhull</a> <br>
 &#149; <a href="../html/qh-optq.htm#qhull">Qhull</a> 
 &#149; <a href="../html/qh-optc.htm#prec">Precision</a> 
 &#149; <a href="../html/qh-optt.htm#trace">Trace</a><br>
+<b>Up:</b> <a href="../html/qh-in.htm#TOC">Qhull internals: Table of Contents</a> <br>
 <b>To:</b> <a href="index.htm">Qhull functions</a>, macros, and data structures<br>
 <b>To:</b> <a href="qh-geom.htm">Geom</a> &#149; 
 <a href="qh-globa.htm">Global</a> &#149; <a href="qh-io.htm">Io</a>
@@ -275,7 +277,7 @@ Qhull</a> <br>
 &#149; <a href="qh-poly.htm">Poly</a> &#149; <a href="qh-qhull.htm#TOC">Qhull</a>
 &#149; <a href="qh-set.htm">Set</a> &#149; <a href="qh-stat.htm">Stat</a>
 &#149; <a href="qh-user.htm">User</a><br>
-</p>
+
 
 <p><!-- GC common information --> </p>
 <hr>
@@ -286,7 +288,5 @@ Geometry Center Home Page </i></p>
 <a href="http://www.geom.umn.edu/software/qhull/qhull-mail.html">qhull@geom.umn.edu
 </a><br>
 Created: May 2, 1997 --- <!-- hhmts start --> Last modified: see top <!-- hhmts end --> </p>
-</li>
-</dir>
 </body>
 </html>

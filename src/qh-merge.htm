@@ -11,9 +11,8 @@ content="text/html; charset=iso-8859-1">
 <p><a name="TOP"><b>Up:</b></a> <a
 href="http://www.geom.umn.edu/locate/qhull">Home page</a> for Qhull<br>
 <b>Up:</b> <a href="../html/index.htm#TOC">Qhull manual</a>: Table of Contents <br>
-<b>Up:</b> <a href="../html/qh-in.htm#TOC">Qhull internals: Table of Contents</a><br>
 <b>Up:</b> <a href="../html/qh-quick.htm#programs">Programs</a>
-&#149;</a> <a href="../html/qh-quick.htm#options">Options</a> 
+&#149; <a href="../html/qh-quick.htm#options">Options</a> 
 &#149; <a href="../html/qh-opto.htm#output">Output</a> 
 &#149; <a href="../html/qh-optf.htm#format">Formats</a> 
 &#149; <a href="../html/qh-optg.htm#geomview">Geomview</a> 
@@ -21,6 +20,7 @@ href="http://www.geom.umn.edu/locate/qhull">Home page</a> for Qhull<br>
 &#149; <a href="../html/qh-optq.htm#qhull">Qhull</a> 
 &#149; <a href="../html/qh-optc.htm#prec">Precision</a> 
 &#149; <a href="../html/qh-optt.htm#trace">Trace</a><br>
+<b>Up:</b> <a href="../html/qh-in.htm#TOC">Qhull internals: Table of Contents</a><br>
 <b>To:</b> <a href="index.htm">Qhull functions</a>, macros, and data structures<br>
 <b>To:</b> <a href="qh-geom.htm">Geom</a> &#149; <a href="qh-globa.htm">Global</a>
 &#149; <a href="qh-io.htm">Io</a> &#149; <a href="qh-mem.htm">Mem</a>
@@ -32,12 +32,12 @@ href="http://www.geom.umn.edu/locate/qhull">Home page</a> for Qhull<br>
 
 <h2>merge.c -- facet merge operations</h2>
 <blockquote>
-<p>Qhull handles precision problems by merging facets.
+<p>Qhull handles precision problems by merged facets or joggled input.
 Except for redundant vertices, it corrects a problem by
 merging two facets. When done, all facets are clearly
-convex. See <a href="qh-impre.htm">Imprecision in Qhull</a>
+convex. See <a href="../html/qh-impre.htm">Imprecision in Qhull</a>
 for further information. </p>
-<p>Users may joggle the input ('<a href="qh-optq.htm#QJn">QJn</a>')
+<p>Users may joggle the input ('<a href="../html/qh-optq.htm#QJn">QJn</a>')
 instead of merging facets. </p>
 <p>Qhull detects and corrects the following problems: </p>
 <ul>
@@ -98,7 +98,7 @@ structure.This is called a <em>redundant vertex</em>.
 </li>
 </ul>
 </blockquote>
-<p><b>Copyright © 1995-2001 The Geometry Center, Minneapolis MN</b></p>
+<p><b>Copyright &copy; 1995-2001 The Geometry Center, Minneapolis MN</b></p>
 <hr>
 <p><a href="#TOP">»</a> <a href="qh-geom.htm#TOC">Geom</a> 
 <a name="TOC">&#149;</a> <a href="qh-globa.htm#TOC">Global</a>
@@ -107,8 +107,8 @@ structure.This is called a <em>redundant vertex</em>.
 &#149; <a href="qh-qhull.htm#TOC">Qhull</a> &#149; <a href="qh-set.htm#TOC">Set</a>
 &#149; <a href="qh-stat.htm#TOC">Stat</a> &#149; <a href="qh-user.htm#TOC">User</a>
 </p>
-<h3>Index to <a href="merge.c#TOP">merge.c</a> and 
-<a href="merge.h#TOP">merge.h</a></h3>
+<h3>Index to <a href="merge.c">merge.c</a> and 
+<a href="merge.h">merge.h</a></h3>
 <ul>
 <li><a href="#mtype">merge.h data types, macros, and
 global sets</a> </li>
@@ -146,7 +146,7 @@ constants</a></h3>
 <ul>
 <li><a href="qhull.h#qh-prec">qh precision constants</a>
 precision constants for Qhull </li>
-<li><a href="merge.h#MRG...">MRG...</a> indicates the
+<li><a href="merge.h#MRG">MRG...</a> indicates the
 type of a merge (mergeT-&gt;type)</li>
 <li><a href="merge.h#qh_ANGLEredundant">qh_ANGLEredundant</a>
 indicates redundant merge in mergeT-&gt;angle </li>
@@ -195,9 +195,6 @@ check for a degenerate and redundant facet</li>
 <li><a href="merge.c#degen_redundant_neighbors">qh_degen_redundant_neighbors</a>
 append degenerate and redundant neighbors to
 qh.degen_mergeset </li>
-<li><a href="merge.c#facetdegen">qh_facetdegen</a>
-true if facet already in mergeset as a degenerate
-</li>
 <li><a href="merge.c#getmergeset_initial">qh_getmergeset_initial</a>
 build initial qh.facet_mergeset </li>
 <li><a href="merge.c#getmergeset">qh_getmergeset</a>
@@ -251,8 +248,6 @@ merge the vertex neighbors of two facets </li>
 merge the vertex sets of two facets </li>
 <li><a href="merge.c#newvertices">qh_newvertices</a>
 register all vertices as new vertices </li>
-<li><a href="merge.c#mergevertices2d">qh_mergevertices2d</a>
-merges vertices1 into vertices2 in 2-d case </li>
 <li><a href="merge.c#updatetested">qh_updatetested</a>
 clear tested flags and centrums involved in a
 merge </li>
@@ -327,8 +322,6 @@ trace</a></h3>
 <ul>
 <li><a href="merge.c#checkconnect">qh_checkconnect</a>
 check that new facets are connected </li>
-<li><a href="merge.c#checkridge_boundary">qh_checkridge_boundary</a>
-checks that ridges of a facet are boundaryless </li>
 <li><a href="merge.c#tracemerge">qh_tracemerge</a>
 print trace message after merge </li>
 <li><a href="merge.c#tracemerging">qh_tracemerging</a>
@@ -341,9 +334,8 @@ print trace message during post-merging </li>
 <a href="http://www.geom.umn.edu/locate/qhull">Home page for
 Qhull</a> <br>
 <b>Up:</b> <a href="../html/index.htm#TOC">Qhull manual: Table of Contents</a> <br>
-<b>Up:</b> <a href="../html/qh-in.htm#TOC">Qhull internals: Table of Contents</a> <br>
 <b>Up:</b> <a href="../html/qh-quick.htm#programs">Programs</a>
-&#149;</a> <a href="../html/qh-quick.htm#options">Options</a> 
+&#149; <a href="../html/qh-quick.htm#options">Options</a> 
 &#149; <a href="../html/qh-opto.htm#output">Output</a> 
 &#149; <a href="../html/qh-optf.htm#format">Formats</a> 
 &#149; <a href="../html/qh-optg.htm#geomview">Geomview</a> 
@@ -351,6 +343,7 @@ Qhull</a> <br>
 &#149; <a href="../html/qh-optq.htm#qhull">Qhull</a> 
 &#149; <a href="../html/qh-optc.htm#prec">Precision</a> 
 &#149; <a href="../html/qh-optt.htm#trace">Trace</a><br>
+<b>Up:</b> <a href="../html/qh-in.htm#TOC">Qhull internals: Table of Contents</a> <br>
 <b>To:</b> <a href="index.htm">Qhull functions</a>, macros, and data structures<br>
 <b>To:</b> <a href="qh-geom.htm">Geom</a> &#149; 
 <a href="qh-globa.htm">Global</a> &#149; <a href="qh-io.htm">Io</a>
@@ -368,7 +361,5 @@ Geometry Center Home Page </i></p>
 <a href="http://www.geom.umn.edu/software/qhull/qhull-mail.html">qhull@geom.umn.edu
 </a><br>
 Created: May 2, 1997 --- <!-- hhmts start --> Last modified: see top <!-- hhmts end --> </p>
-</li>
-</dir>
 </body>
 </html>

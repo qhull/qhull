@@ -35,7 +35,7 @@ void qh_appendprint (qh_PRINT format) {
   int i;
 
   for (i=0; i < qh_PRINTEND; i++) {
-    if (qh PRINTout[i] == format)
+    if (qh PRINTout[i] == format && format != qh_PRINTqhull)
       break;
     if (!qh PRINTout[i]) {
       qh PRINTout[i]= format;
@@ -199,7 +199,7 @@ void qh_freebuffers (void) {
   qh gm_row= NULL;
   qh_setfree (&qh other_points);
   qh_setfree (&qh del_vertices);
-  qh_setfree (&qh searchset);
+  qh_setfree (&qh coplanarset);
   if (qh line)                /* allocated by qh_readinput, freed if no error */
     free (qh line);
   if (qh half_space)
@@ -1004,6 +1004,10 @@ void qh_initflags(char *command) {
 	  qh_option ("Qsearch-initial-simplex", NULL, NULL);
 	  qh ALLpoints= True;
 	  break;
+	case 't':
+	  qh_option ("Qtriangulate", NULL, NULL);
+	  qh TRIangulate= True;
+	  break;
 	case 'u':
 	  qh_option ("QupperDelaunay", NULL, NULL);
 	  qh UPPERdelaunay= True;
@@ -1025,10 +1029,28 @@ void qh_initflags(char *command) {
 	  qh NOpremerge= True;
 	  break; 
 	case '1':
-	  qh_option ("Q1-no-angle-sort", NULL, NULL);
-	  qh ANGLEmerge= False;
-	  goto LABELcheckdigit;
-	  break; /* no warnings */
+	  if (!isdigit(*s)) {
+	    qh_option ("Q1-no-angle-sort", NULL, NULL);
+	    qh ANGLEmerge= False;
+	    break; 
+	  }
+	  switch(*s++) {
+  	  case '0':
+	    qh_option ("Q10-no-narrow", NULL, NULL);
+	    qh NOnarrow= True;
+	    break; 
+  	  case '1':
+	    qh_option ("Q11-trinormals Qtriangulate", NULL, NULL);
+	    qh TRInormals= True;
+	    qh TRIangulate= True;
+	    break; 
+	  default:
+	    s--;
+	    fprintf (qh ferr, "qhull warning: unknown 'Q' qhull option 1%c, rest ignored\n", (int)s[0]);
+	    while (*++s && !isspace(*s));
+	    break;
+	  }
+	  break;
 	case '2':
 	  qh_option ("Q2-no-merge-independent", NULL, NULL);
 	  qh MERGEindependent= False;
@@ -1167,6 +1189,33 @@ void qh_initflags(char *command) {
 	    qh REPORTfreq2= qh REPORTfreq/2;  /* for tracemerging() */
 	  }
 	  break;
+	case 'I':
+	  if (s[0] != ' ' || s[1] == '\"' || s[1] == '\'' ||isspace (s[1])) {
+	    s++;
+	    fprintf (qh ferr, "qhull warning: option 'TI' mistyped.\nUse 'TI', one space, file name, and space or end-of-line.\nDo not use quotes.  Option 'FI' ignored.\n");
+	  }else {  /* not a procedure because of qh_option (filename, NULL, NULL); */
+	    char filename[500], *t= filename;
+
+	    s++;
+	    while (*s) {
+	      if (t - filename >= sizeof (filename)-2) {
+		fprintf (qh ferr, "qhull error: filename for 'TI' too long.\n");
+		qh_errexit (qh_ERRinput, NULL, NULL);
+	      }
+	      if (isspace (*s))
+		break;
+	      *(t++)= *s++;
+	    }
+	    *t= '\0';
+	    if (!freopen (filename, "r", stdin)) {
+	      fprintf (qh ferr, "qhull error: could not open file \"%s\".", filename);
+	      qh_errexit (qh_ERRinput, NULL, NULL);
+	    }else {
+	      qh_option ("TInput-file", NULL, NULL);
+	      qh_option (filename, NULL, NULL);
+	    }
+	  }
+	  break;
 	case 'O':
 	  if (s[0] != ' ' || s[1] == '\"' || isspace (s[1])) {
 	    s++;
@@ -1295,7 +1344,7 @@ void qh_initqhull_buffers (void) {
     qh TEMPsize= 8;  /* e.g., if qh_NOmem */
   qh other_points= qh_setnew (qh TEMPsize);
   qh del_vertices= qh_setnew (qh TEMPsize);
-  qh searchset= qh_setnew (qh TEMPsize);
+  qh coplanarset= qh_setnew (qh TEMPsize);
   qh NEARzero= (realT *)qh_memalloc(qh hull_dim * sizeof(realT));
   qh lower_threshold= (realT *)qh_memalloc((qh input_dim+1) * sizeof(realT));
   qh upper_threshold= (realT *)qh_memalloc((qh input_dim+1) * sizeof(realT));
@@ -1372,6 +1421,8 @@ void qh_initqhull_globals (coordT *points, int numpoints, int dim, boolT ismallo
     qh JOGGLEmax= 0.0;
 #endif
   }
+  if (qh TRIangulate && qh JOGGLEmax < REALmax/2 && qh PRINTprecision)
+    fprintf(qh ferr, "qhull warning: joggle ('QJ') always produces simplicial output.  Triangulated output ('Qt') does nothing.\n");
   if (qh JOGGLEmax < REALmax/2 && qh DELAUNAY && !qh SCALEinput && !qh SCALElast) {
     qh SCALElast= True;
     qh_option ("Qbbound-last-qj", NULL, NULL);
@@ -1416,7 +1467,7 @@ void qh_initqhull_globals (coordT *points, int numpoints, int dim, boolT ismallo
   }
   if (qh SCALElast && !qh DELAUNAY && qh PRINTprecision)
     fprintf (qh ferr, "qhull input warning: option 'Qbb' (scale-last-coordinate) is normally used with 'd' or 'v'\n");
-  qh DOcheckmax= (!qh FORCEoutput && !qh SKIPcheckmax && qh MERGING );
+  qh DOcheckmax= (!qh SKIPcheckmax && qh MERGING );
   qh KEEPnearinside= (qh DOcheckmax && !(qh KEEPinside && qh KEEPcoplanar) 
                           && !qh NOnearinside);
   if (qh MERGING)
@@ -1500,7 +1551,7 @@ qhull configuration error (qh_RANDOMmax in user.h):\n\
     fprintf (qh ferr, "\
 qhull configuration warning (qh_RANDOMmax in user.h):\n\
    average of 1000 random integers (%.2g) is much different than expected (%.2g).\n\
-   Is qh_RANDOMmax (%d) wrong?\n",
+   Is qh_RANDOMmax (%.2g) wrong?\n",
 	     randr, qh_RANDOMmax/2.0, qh_RANDOMmax);
   qh RANDOMa= 2.0 * qh RANDOMfactor/qh_RANDOMmax;
   qh RANDOMb= 1.0 - qh RANDOMfactor;
@@ -1543,7 +1594,7 @@ qhull configuration warning (qh_RANDOMmax in user.h):\n\
     }else if (qh PRINTout[i] == qh_PRINTvertices) {
       if (qh VORONOI)
         qh_option ("Fvoronoi", NULL, NULL);
-      else
+      else 
         qh_option ("Fvertices", NULL, NULL);
     }
   }
@@ -1694,7 +1745,7 @@ void qh_initqhull_start (FILE *infile, FILE *outfile, FILE *errfile) {
   qh totarea= 0.0;
   qh totvol= 0.0;
   qh TRACEdist= REALmax;
-  qh TRACEpoint= -1;  /* recompile to trace a point */
+  qh TRACEpoint= -1; /* recompile or use 'TPn' */
   qh tracefacet_id= UINT_MAX;  /* recompile to trace a facet */
   qh tracevertex_id= UINT_MAX; /* recompile to trace a vertex */
   qh_RANDOMseed_(1);
@@ -1711,7 +1762,7 @@ void qh_initqhull_start (FILE *infile, FILE *outfile, FILE *errfile) {
 
   see: 
     qh_initflags(), 'Qbk' 'QBk' 'Pdk' and 'PDk'
-    see 'prompt' in unix.c for documentation
+    qh_inthresholds()
 
   design:
     for each 'Pdn' or 'PDn' option

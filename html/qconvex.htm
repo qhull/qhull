@@ -11,7 +11,7 @@
 <a href="http://www.geom.umn.edu/locate/qhull">Home page</a> for Qhull<br>
 <b>Up:</b> <a href="index.htm#TOC">Qhull manual</a> -- Table of Contents<br>
 <b>To:</b> <a href="qh-quick.htm#programs">Programs</a>
-&#149;</a> <a href="qh-quick.htm#options">Options</a> 
+&#149; <a href="qh-quick.htm#options">Options</a> 
 &#149; <a href="qh-opto.htm#output">Output</a> 
 &#149; <a href="qh-optf.htm#format">Formats</a> 
 &#149; <a href="qh-optg.htm#geomview">Geomview</a> 
@@ -22,7 +22,7 @@
 <b>To:</b> <a href="#synopsis">sy</a>nopsis 
 &#149; <a href="#input">in</a>put &#149; <a href="#outputs">ou</a>tputs 
 &#149; <a href="#controls">co</a>ntrols &#149; <a href="#graphics">gr</a>aphics 
-&#149; <a href="#notes">no</a>tes &#149; <a href="#conventions" <a>co</a>nventions 
+&#149; <a href="#notes">no</a>tes &#149; <a href="#conventions">co</a>nventions 
 &#149; <a href="#options">op</a>tions
 <hr>
 <!-- Main text of document -->
@@ -51,12 +51,16 @@ href="qh-eg.htm#how">How Qhull adds a point</a>.</p>
                 href="qh-opto.htm#n">n</a></dt>
             <dd>Print the normals for each facet of a cube.</dd>
             <dt>&nbsp;</dt>
+            <dt><b>Example:</b> rbox c | qconvex <a
+                href="qh-opto.htm#i">i</a> <a href="qh-optq.htm#Qt">Qt</a></dt>
+            <dd>Print the triangulated facets of a cube.</dd>
+            <dt>&nbsp;</dt>
             <dt><b>Example:</b> rbox y 500 W0 | qconvex</dt>
             <dd>Compute the convex hull of a simplex with 500
                 points on its surface.</dd>
             <dt>&nbsp;</dt>
             <dt><b>Example:</b> rbox x W1e-12 1000 | qconvex
-            <a href="qh-optq.htm#QR">QR0</a>
+            <a href="qh-optq.htm#QR">QR0</a></dt>
         <dd>Compute the convex hull of 1000 points near the
 		    surface of a randomly rotated simplex.  Report
 			the maximum thickness of a facet.</dd>
@@ -97,11 +101,11 @@ href="qh-eg.htm#how">How Qhull adds a point</a>.</p>
 
 <p>Except for rbox, all of the qhull programs compute a convex hull. 
 
-<p>If you use '<a href="qh-optq.htm#QJn">QJ</a>' (joggle), all facets 
-will be simplicial (e.g., triangles in 3-d).  Duplicate points will 
-be joggled apart. If you do not use
+<p>If you use '<a href="qh-optq.htm#Qt">Qt</a>' (triangulated output) or '<a href="qh-optq.htm#QJn">QJ</a>' (joggled input), all facets 
+will be simplicial (e.g., triangles in 3-d).  If you do not use
 'QJ', <tt>qconvex</tt> merges coplanar facets.  This is more accurate
-than joggled input.  See <a
+than joggled input.  With 'QJ', duplicate points will 
+be joggled apart.  See <a
 href="qh-impre.htm#joggle">Joggled input or merged facets</a>. </p>
 
 <p>The output for 4-d convex hulls may be confusing if the convex
@@ -115,19 +119,20 @@ are there extra points in a 4-d or higher convex hull?</a><br>
 '<a href=qhull.htm#outputs>qhull</a> <a href=qh-optq.htm#Qx>Qx</a>' 
 in 5-d and higher.  It disables the following Qhull
 <a href=qh-quick.htm#options>options</a>: <i>d v H Qbb Qf Qg Qm 
-Qr Qu Qv Qx Qz TR E V Fp Gt Q0 Q1 Q2 Q3 Q4 Q5 Q6 Q7 Q8 Q9</i>.
+Qr Qu Qv Qx Qz TR E V Fp Gt Q0,etc</i>.
 
-<p><b>Copyright © 1995-2001 The Geometry Center, Minneapolis MN</b></p>
+<p><b>Copyright &copy; 1995-2001 The Geometry Center, Minneapolis MN</b></p>
 
 <hr>
 
-<h3><a href="#TOP">»</a><a name="synopsis">qconvex synopsis</h3>
+<h3><a href="#TOP">»</a><a name="synopsis">qconvex synopsis</a></h3>
 <pre>
 qconvex- compute the convex hull.  
     input (stdin): dimension, number of points, point coordinates
     comments start with a non-numeric character
 
 options (qconvex.htm):
+    Qt   - triangulated output
     QJ   - joggle input instead of merging facets
     Tv   - verify result: structure, convexity, and point inclusion
     .    - concise list of all options
@@ -159,7 +164,7 @@ input</a></h3>
 <blockquote>
 
 <p>The input data on <tt>stdin</tt> consists of:</p>
-<ul compact="COMPACT">
+<ul>
     <li>dimension
     <li>number of points</li>
     <li>point coordinates</li>
@@ -264,7 +269,7 @@ individually or together.</p>
     <dd>print coordinates of vertices and coplanar points.  The first line is the dimension.
 	The second line is the number of vertices and coplanar points.  The coordinates
 	are next, one line per point.  Use '<a href="qh-optq.htm#Qc">Qc</a> <a href="qh-optq.htm#Qi">Qi</a> p'
-	to print the coordinates of all points.
+	to print the coordinates of all points.</dd>
     <dt>&nbsp;</dt>
     <dt>&nbsp;</dt>
     <dd><b>Facets</b></dd>
@@ -282,8 +287,8 @@ individually or together.</p>
     <dd>print area for each facet.  The first line is the number of facets.
 	Facet area follows, one line per facet.  For the cube example, each facet has area one.</dd>
     <dt><a href="qh-optf.htm#FI">FI</a></dt>
-    <dd>list intersection IDs.  The first line is the number of 
-	intersections.  The IDs follow, one per line.</dd>
+    <dd>list facet IDs.  The first line is the number of 
+	facets.  The IDs follow, one per line.</dd>
 
     <dt>&nbsp;</dt>
     <dt>&nbsp;</dt>
@@ -301,7 +306,7 @@ individually or together.</p>
 	number of coplanar points.  Each remaining line starts with the point ID of
 	a vertex, followed by the point ID of a coplanar point, its facet, and distance.
 	Use '<a href="qh-optq.htm#Qc">Qc</a> <a href="qh-optq.htm#Qi">Qi</a>
-        <a href="qh-optf.htm#FP">FP</a>' for coplanar and interior points.
+        <a href="qh-optf.htm#FP">FP</a>' for coplanar and interior points.</dd>
 
     <dt>&nbsp;</dt>
     <dt>&nbsp;</dt>
@@ -310,7 +315,7 @@ individually or together.</p>
     <dd>print hyperplane for each facet.  The first line is the dimension.  The
 	second line is the number of facets.  Each remaining line is the hyperplane's
 	coefficients followed by its offset.</dd>
-    <dt><a href="qh-optf.htm#n">Fo</a></dt>
+    <dt><a href="qh-optf.htm#Fo">Fo</a></dt>
     <dd>print outer plane for each facet.  The output plane is above all points.
 	 The first line is the dimension.  The
 	second line is the number of facets.  Each remaining line is the outer plane's
@@ -364,6 +369,9 @@ individually or together.</p>
 
 <blockquote>
 <dl compact>
+    <dt><a href="qh-optq.htm#Qt">Qt</a></dt>
+    <dd>triangulated output.  Qhull triangulates non-simplicial facets.  It may produce
+     degenerate facets of zero area.</dd>
     <dt><a href="qh-optq.htm#QJn">QJ</a></dt>
     <dd>joggle the input instead of merging facets.  This guarantees simplicial facets 
 	(e.g., triangles in 3-d).</dd>
@@ -384,6 +392,8 @@ individually or together.</p>
     <dd>report progress after constructing <em>n</em> facets</dd>
     <dt><a href="qh-optt.htm#Tv">Tv</a></dt>
     <dd>verify result</dd>
+    <dt><a href="qh-optt.htm#TO">TI file</a></dt>
+    <dd>input data from file.  The filename may not use spaces or quotes.</dd>
     <dt><a href="qh-optt.htm#TO">TO file</a></dt>
     <dd>output results to file.  Use single quotes if the filename
 	contains spaces (e.g., <tt>TO 'file with spaces.txt'</tt></dd>
@@ -452,7 +462,6 @@ See <a href="index.htm#structure">Qhull's data structures</a>.</p>
         href="qh-optq.htm#QVn">QVn</a>', etc.</li>
 </ul>
 </blockquote>
-</blockquote>
 <h3><a href="#TOP">»</a><a name="options">qconvex options</a></h3>
 
 <pre>
@@ -465,6 +474,7 @@ input (stdin):
     comments:    start with a non-numeric character
 
 options:
+    Qt   - triangulated output
     QJ   - joggle input instead of merging facets
     Qc   - keep coplanar points with nearest facet
     Qi   - keep interior points with nearest facet
@@ -487,6 +497,7 @@ Trace options:
     Tv   - verify result: structure, convexity, and point inclusion
     Tz   - send all output to stdout
     TFn  - report summary when n or more facets created
+    TI file - input data from file, no spaces or single quotes
     TO file - output results to file, may be enclosed in single quotes
     TPn  - turn on tracing when point n added to hull
      TMn - turn on tracing at merge n
@@ -555,7 +566,7 @@ Geomview output (2-d, 3-d, and 4-d)
 
 Print options:
     PAn  - keep n largest facets by area
-    Pdk:n - drop facet if normal[k] <= n (default 0.0)
+    Pdk:n - drop facet if normal[k] &lt;= n (default 0.0)
     PDk:n - drop facet if normal[k] >= n
     Pg   - print good facets (needs 'QGn' or 'QVn')
     PFn  - keep facets whose area is at least n
@@ -575,7 +586,7 @@ Print options:
 <p><b>Up:</b> <a href="http://www.geom.umn.edu/locate/qhull">Home page</a> for Qhull<br>
 <b>Up:</b> <a href="index.htm#TOC">Qhull manual</a>: Table of Contents<br>
 <b>To:</b> <a href="qh-quick.htm#programs">Programs</a>
-&#149;</a> <a href="qh-quick.htm#options">Options</a> 
+&#149;<a href="qh-quick.htm#options">Options</a> 
 &#149; <a href="qh-opto.htm#output">Output</a> 
 &#149; <a href="qh-optf.htm#format">Formats</a> 
 &#149; <a href="qh-optg.htm#geomview">Geomview</a> 
@@ -586,7 +597,7 @@ Print options:
 <b>To:</b> <a href="#synopsis">sy</a>nopsis 
 &#149; <a href="#input">in</a>put &#149; <a href="#outputs">ou</a>tputs 
 &#149; <a href="#controls">co</a>ntrols &#149; <a href="#graphics">gr</a>aphics 
-&#149; <a href="#notes">no</a>tes &#149; <a href="#conventions" <a>co</a>nventions 
+&#149; <a href="#notes">no</a>tes &#149; <a href="#conventions">co</a>nventions 
 &#149; <a href="#options">op</a>tions
 <!-- GC common information -->
 <hr>

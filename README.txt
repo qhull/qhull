@@ -1,6 +1,6 @@
 Name
 
-      qhull, rbox         Version 3.0        February 11, 2001
+      qhull, rbox         Version 3.1        October 4, 2001
   
 Convex hull, Delaunay triangulation, Voronoi diagrams, Halfspace intersection
  
@@ -116,27 +116,48 @@ Compiling for Unix
       - type 'make install'
 
 
-Compiling for Windows 95 and Windows NT
+Compiling for Windows 95, 98, NT, 2000
 
   Qhull compiles as a console application in Visual C++ 5.0 at warning 
-  level 3.  
+  level 3.
+
+  Visual C++ quickstart for qhull.exe:  
+    - create a "Win32 console application" called "qhull"
+	- add the following files:
+	    geom.c geom2.c global.c io.c mem.c merge.c poly.c poly2.c qhull.c
+		qset.c stat.c unix.c user.c
+    - create a "Win32 console application" called "rbox" 
+	- add rbox.c
+
+  Visual C++ quickstart for qhull library, qconvex, etc.
+    - To simplify setting up lots of projects, 
+	    create a "Win32 console application" called "qhull source"
+		add all .c files from .../src/...
+		change Project:Settings... when done
+
+    - create a "Win32 console application" called "rbox"
+	- move rbox.c from "qhull source"
+	- build the project
+
+    - create a "Win32 static library" called "library"
+	- move these files from "qhull source"
+	    geom.c geom2.c global.c io.c mem.c merge.c poly.c poly2.c qhull.c
+		qset.c stat.c user.c
+	- build the project
+
+    - create a "Win32 console application" called "qhull"
+	- move unix.c from "qhull source"
+	- add "qhull library.lib" from Visual C++'s build directory
+
+    - create a "Win32 console application" called "qconvex"
+	- move qconvex.c from "qhull source"
+	- copy "qhull library.lib" from "qhull"
+
+    - do the same for qdelaun.c, qhalf, qvoronoi.c, user_eg.c, user_eg2.c
+	- delete "qhull sources" since it is no longer needed
+	- use Project:Settings to make any changes
+	- use batch build to rebuild everything
   
-  Define a project for the Qhull library or include these files in the
-  projects below.
-    - qhull.a         qhull.h qhull_a.h geom.c geom2.c geom.h global.c io.c
-                      io.h mem.c mem.h merge.c merge.h poly.c poly2.c poly.h 
-                      qset.c qset.h stat.c stat.h
-
-  Define projects for the following programs
-    - qconvex         qconvex.c plus the qhull.a files
-    - qdelaunay       qdelaun.c plus the qhull.a files
-    - qhalf           qhalf.c plus the qhull.a files
-    - qhull           unix.c plus the qhull.a files
-    - qvoronoi        qvoronoi.c plus the qhull.a files
-    - rbox:           rbox.c and user.h
-    - user_eg:        user_eg.c plus the qhull.a files
-    - user_eg2:       user_eg2.c plus the qhull.a files
-
   Qhull compiles with Borland C++ 5.0 bcc32.  A Makefile is included.
   Execute 'make -f MBorland'.  If you use the Borland IDE, set the ANSI
   option in Options:Project:Compiler:Source:Language-compliance.

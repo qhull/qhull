@@ -42,7 +42,7 @@
 char prompt[]= "\n\
 -rbox- generate various point distributions.  Default is random in cube.\n\
 \n\
-args (any order, space separated):                    Version: 2001/02/11\n\
+args (any order, space separated):                    Version: 2001/06/24\n\
   3000    number of random points in cube, lens, spiral, sphere or grid\n\
   D3      dimension 3-d\n\
   c       add a unit cube to the output ('c G2.0' sets size)\n\
@@ -451,13 +451,10 @@ int main(int argc, char **argv) {
 	  mult[k]= 0;
 	}
       }
-      if (iscdd)
-	fprintf (fp, "end\nhull\n");
-      return 0;
     }
 
     /* ============= regular points for 's' =============== */
-    if (isregular && !islens) {
+    else if (isregular && !islens) {
       if (dim != 2 && dim != 3) {
 	fprintf(stderr, "rbox error: regular points can be used only in 2-d and 3-d\n\n");
 	exit(1);
@@ -501,12 +498,9 @@ int main(int argc, char **argv) {
 	  }
 	}
       }
-      if (iscdd)
-	fprintf (fp, "end\nhull\n");
-      return 0;
     }
     /* ============= regular points for 'r Ln D2' =============== */
-    if (isregular && islens && dim == 2) {
+    else if (isregular && islens && dim == 2) {
       double cos_0;
       
       angle= lensangle;
@@ -524,12 +518,9 @@ int main(int argc, char **argv) {
 	  out2n( x*box, -y*box);
 	}
       }
-      if (iscdd)
-	fprintf (fp, "end\nhull\n");
-      return 0;
     }
     /* ============= regular points for 'r Ln D3' =============== */
-    if (isregular && islens && dim != 2) {
+    else if (isregular && islens && dim != 2) {
       if (dim != 3) {
 	fprintf(stderr, "rbox error: regular points can be used only in 2-d and 3-d\n\n");
 	exit(1);
@@ -556,130 +547,129 @@ int main(int argc, char **argv) {
           out1( 1.0);
 	out3n( box*x, box*y, -box * offset);
       }
-      if (iscdd)
-	fprintf (fp, "end\nhull\n");
-      return 0;
     }
     /* ============= apex of 'Zn' distribution + gendim =============== */
-    if (isaxis) {
-      gendim= dim-1;
-      if (iscdd)
-        out1( 1.0);
-      for (j=0; j < gendim; j++)
-	out1( 0.0);
-      out1( -box);
-      fprintf (fp, "\n");
-    }else if (islens) 
-      gendim= dim-1;
-    else
-      gendim= dim;
-    /* ============= generate random point in unit cube =============== */
-    for (i=0; i < numpoints; i++) {
-      norm= 0.0;
-      for (j=0; j < gendim; j++) {
-	randr= qh_RANDOMint;
-	coord[j]= 2.0 * randr/randmax - 1.0;
-	norm += coord[j] * coord[j];
-      }
-      norm= sqrt (norm);
-      /* ============= dim-1 point of 'Zn' distribution ========== */
+    else {
       if (isaxis) {
-	if (!isgap) {
-	  isgap= 1;
-	  gap= 1.0;
-	}
-	randr= qh_RANDOMint;
-	rangap= 1.0 - gap * randr/randmax;
-	factor= radius * rangap / norm;
-	for (j=0; j<gendim; j++)
-	  coord[j]= factor * coord[j];
-      /* ============= dim-1 point of 'Ln s' distribution =========== */
-      }else if (islens && issphere) {
-        if (!isgap) {
-	  isgap= 1;
-	  gap= 1.0;
-	}
-	randr= qh_RANDOMint;
-	rangap= 1.0 - gap * randr/randmax;
-	factor= rangap / norm;
-	for (j=0; j<gendim; j++)
-	  coord[j]= factor * coord[j];
-      /* ============= dim-1 point of 'Ln' distribution ========== */
-      }else if (islens && !issphere) {
-        if (!isgap) {
-	  isgap= 1;
-	  gap= 1.0;
-	}
-	j= qh_RANDOMint % gendim;
-	if (coord[j] < 0)
-	  coord[j]= -1.0 - coord[j] * gap;
-	else
-	  coord[j]= 1.0 - coord[j] * gap;
-      /* ============= point of 'l' distribution =============== */
-      }else if (isspiral) {
-	if (dim != 3) {
-	  fprintf(stderr, "rbox error: spiral distribution is available only in 3d\n\n");
-	  exit(1);
-	}
-	coord[0]= cos(2*PI*i/(numpoints - 1));
-	coord[1]= sin(2*PI*i/(numpoints - 1));
-	coord[2]= 2.0*(double)i/(double)(numpoints-1) - 1.0;
-      /* ============= point of 's' distribution =============== */
-      }else if (issphere) {
-	factor= 1.0/norm;
-	if (iswidth) {
-  	  randr= qh_RANDOMint;
-	  factor *= 1.0 - width * randr/randmax;
-	}
-	for (j=0; j<dim; j++)
-	  coord[j]= factor * coord[j];
-      }
-      /* ============= project 'Zn s' point in to sphere =============== */
-      if (isaxis && issphere) {
-	coord[dim-1]= 1.0;
-	norm= 1.0;
-	for (j=0; j<gendim; j++)
+	gendim= dim-1;
+	if (iscdd)
+	  out1( 1.0);
+	for (j=0; j < gendim; j++)
+	  out1( 0.0);
+	out1( -box);
+	fprintf (fp, "\n");
+      }else if (islens) 
+	gendim= dim-1;
+      else
+	gendim= dim;
+      /* ============= generate random point in unit cube =============== */
+      for (i=0; i < numpoints; i++) {
+	norm= 0.0;
+	for (j=0; j < gendim; j++) {
+	  randr= qh_RANDOMint;
+	  coord[j]= 2.0 * randr/randmax - 1.0;
 	  norm += coord[j] * coord[j];
-	norm= sqrt (norm);
-	for (j=0; j<dim; j++)
-	  coord[j]= coord[j] / norm;
-	if (iswidth) {
-  	  randr= qh_RANDOMint;
-	  coord[dim-1] *= 1 - width * randr/randmax;
 	}
-      /* ============= project 'Zn' point onto cube =============== */
-      }else if (isaxis && !issphere) {  /* not very interesting */
-        randr= qh_RANDOMint;
-	coord[dim-1]= 2.0 * randr/randmax - 1.0;
-      /* ============= project 'Ln' point out to sphere =============== */
-      }else if (islens) {
-	coord[dim-1]= lensbase;
-	for (j=0, norm= 0; j<dim; j++)
-	  norm += coord[j] * coord[j];
 	norm= sqrt (norm);
-	for (j=0; j<dim; j++)
-	  coord[j]= coord[j] * radius/ norm;
-	coord[dim-1] -= lensbase;
-	if (iswidth) {
-  	  randr= qh_RANDOMint;
-	  coord[dim-1] *= 1 - width * randr/randmax;
+	/* ============= dim-1 point of 'Zn' distribution ========== */
+	if (isaxis) {
+	  if (!isgap) {
+	    isgap= 1;
+	    gap= 1.0;
+	  }
+	  randr= qh_RANDOMint;
+	  rangap= 1.0 - gap * randr/randmax;
+	  factor= radius * rangap / norm;
+	  for (j=0; j<gendim; j++)
+	    coord[j]= factor * coord[j];
+	/* ============= dim-1 point of 'Ln s' distribution =========== */
+	}else if (islens && issphere) {
+	  if (!isgap) {
+	    isgap= 1;
+	    gap= 1.0;
+	  }
+	  randr= qh_RANDOMint;
+	  rangap= 1.0 - gap * randr/randmax;
+	  factor= rangap / norm;
+	  for (j=0; j<gendim; j++)
+	    coord[j]= factor * coord[j];
+	/* ============= dim-1 point of 'Ln' distribution ========== */
+	}else if (islens && !issphere) {
+	  if (!isgap) {
+	    isgap= 1;
+	    gap= 1.0;
+	  }
+	  j= qh_RANDOMint % gendim;
+	  if (coord[j] < 0)
+	    coord[j]= -1.0 - coord[j] * gap;
+	  else
+	    coord[j]= 1.0 - coord[j] * gap;
+	/* ============= point of 'l' distribution =============== */
+	}else if (isspiral) {
+	  if (dim != 3) {
+	    fprintf(stderr, "rbox error: spiral distribution is available only in 3d\n\n");
+	    exit(1);
+	  }
+	  coord[0]= cos(2*PI*i/(numpoints - 1));
+	  coord[1]= sin(2*PI*i/(numpoints - 1));
+	  coord[2]= 2.0*(double)i/(double)(numpoints-1) - 1.0;
+	/* ============= point of 's' distribution =============== */
+	}else if (issphere) {
+	  factor= 1.0/norm;
+	  if (iswidth) {
+  	    randr= qh_RANDOMint;
+	    factor *= 1.0 - width * randr/randmax;
+	  }
+	  for (j=0; j<dim; j++)
+	    coord[j]= factor * coord[j];
 	}
-	if (qh_RANDOMint > randmax/2)
-	  coord[dim-1]= -coord[dim-1];
-      /* ============= project 'Wn' point toward boundary =============== */
-      }else if (iswidth && !issphere) {
-	j= qh_RANDOMint % gendim;
-	if (coord[j] < 0)
-	  coord[j]= -1.0 - coord[j] * width;
-	else
-	  coord[j]= 1.0 - coord[j] * width;
+	/* ============= project 'Zn s' point in to sphere =============== */
+	if (isaxis && issphere) {
+	  coord[dim-1]= 1.0;
+	  norm= 1.0;
+	  for (j=0; j<gendim; j++)
+	    norm += coord[j] * coord[j];
+	  norm= sqrt (norm);
+	  for (j=0; j<dim; j++)
+	    coord[j]= coord[j] / norm;
+	  if (iswidth) {
+  	    randr= qh_RANDOMint;
+	    coord[dim-1] *= 1 - width * randr/randmax;
+	  }
+	/* ============= project 'Zn' point onto cube =============== */
+	}else if (isaxis && !issphere) {  /* not very interesting */
+	  randr= qh_RANDOMint;
+	  coord[dim-1]= 2.0 * randr/randmax - 1.0;
+	/* ============= project 'Ln' point out to sphere =============== */
+	}else if (islens) {
+	  coord[dim-1]= lensbase;
+	  for (j=0, norm= 0; j<dim; j++)
+	    norm += coord[j] * coord[j];
+	  norm= sqrt (norm);
+	  for (j=0; j<dim; j++)
+	    coord[j]= coord[j] * radius/ norm;
+	  coord[dim-1] -= lensbase;
+	  if (iswidth) {
+  	    randr= qh_RANDOMint;
+	    coord[dim-1] *= 1 - width * randr/randmax;
+	  }
+	  if (qh_RANDOMint > randmax/2)
+	    coord[dim-1]= -coord[dim-1];
+	/* ============= project 'Wn' point toward boundary =============== */
+	}else if (iswidth && !issphere) {
+	  j= qh_RANDOMint % gendim;
+	  if (coord[j] < 0)
+	    coord[j]= -1.0 - coord[j] * width;
+	  else
+	    coord[j]= 1.0 - coord[j] * width;
+	}
+	/* ============= write point =============== */
+	if (iscdd)
+	  out1( 1.0);
+	for (k=0; k < dim; k++) 
+	  out1( coord[k] * box);
+	fprintf (fp, "\n");
       }
-      /* ============= write point =============== */
-      if (iscdd)
-        out1( 1.0);
-      for (k=0; k < dim; k++) 
-	out1( coord[k] * box);
-      fprintf (fp, "\n");
     }
     /* ============= write cube vertices =============== */
     if (addcube) {

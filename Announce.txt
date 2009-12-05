@@ -1,5 +1,5 @@
 
-   Qhull       Version 3.0          February 11, 2001
+   Qhull       Version 3.1          October 4, 2001
 
         http://www.geom.umn.edu/locate/qhull
         http://www.geomview.org

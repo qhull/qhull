@@ -12,7 +12,7 @@
 ./"
 ./"  Warning: a leading quote "'" or dot "." will not format correctly
 ./"
-.TH qhull 1 "February 11, 2001" "Geometry Center"
+.TH qhull 1 "October 4, 2001" "Geometry Center"
 .SH NAME
 qhull \- convex hull, Delaunay triangulation, Voronoi diagram, 
 halfspace intersection about a point, hull volume, facet area
@@ -29,6 +29,7 @@ options (qh-quick.htm):
     H1,1   - Halfspace intersection about [1,1,0,...]
     d Qu   - Furthest-site Delaunay triangulation (upper convex hull)
     v Qu   - Furthest-site Voronoi diagram
+    Qt     - triangulated output
     QJ     - Joggle the input to avoid precision problems
     .      - concise list of all options
     -      - one-line description of all options
@@ -666,9 +667,7 @@ Only the n facets with the most merges are marked good for printing.
 Unless 'PG' is set, 'Pg' is automatically set. 
 .TP
 Po
-Force output despite precision problems.  The maximum outside distance
-is not determined (qh_check_maxout).
-Verify ('Tv') does not check
+Force output despite precision problems.  Verify ('Tv') does not check
 coplanar points.
 Flipped facets are reported and concave facets are counted.  
 If 'Po' is used, points are not 
@@ -744,7 +743,7 @@ not increase n beyond a certain value, and it stops after a certain number
 of attempts [see user.h].  Option 'QJ'
 selects a default value for n.  The output will be simplicial.  For
 Delaunay triangulations, 'QJn' sets 'Qbb' to scale the last coordinate
-(not if 'Qbk:n' or 'QBk:n' is set).
+(not if 'Qbk:n' or 'QBk:n' is set).  See also 'Qt'.
 .TP
 Qm
 Only process points that would otherwise increase max_outside.  Other
@@ -763,6 +762,9 @@ rotate about the last axis.
 .TP
 Qs
 Search all points for the initial simplex.
+.TP
+Qt
+Triangulated output.  Triangulate all non-simplicial facets.  See also 'QJ'.
 .TP
 Qv
 Test vertex neighbors for convexity after post-merging.
@@ -833,6 +835,12 @@ all points that adjust outer planes.
 .TP
 Q9
 With 'Q9', Qhull processes the furthest of all outside sets at each iteration.
+.TP
+Q10
+With 'Q10', Qhull does not use special processing for narrow distributions.
+.TP
+Q11
+With 'Q11', Qhull copies normals and recompute centrums for tricoplanar facets.
 .PP
 .TP
 Trace options
@@ -859,12 +867,18 @@ Report progress whenever more than n facets are created
 During post-merging, 'TFn' 
 reports progress after more than n/2 merges.
 .TP
+TI file
+Input data from 'file'.  The filename may not include spaces or
+quotes.
+.TP
 TO file
 Output results to 'file'.  The name may be enclosed in single
 quotes.
 .TP
 TPn
-Turn on tracing when point n is added to the hull. 
+Turn on tracing when point n is added to the hull.  Trace
+partitions of point n.  If used with TWn, turn off
+tracing after adding point n to the hull.
 .TP
 TRn
 Rerun qhull n times.  Usually used with 'QJn' to determine the

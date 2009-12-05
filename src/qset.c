@@ -146,8 +146,8 @@ void qh_setappend(setT **setp, void *newelem) {
     appends setA to *setp
 
   notes:
-    *setp and setA may be NULL
     *setp can not be a temp set
+    *setp and setA may be NULL
 
   design:
     setup for copy
@@ -1225,6 +1225,9 @@ void qh_settemppush(setT *set) {
 
   notes:
     set must be defined
+  
+  see:
+    SETtruncate_
 
   design:
     check size

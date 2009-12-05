@@ -623,14 +623,32 @@
   >--------------------------------</a><a name="DISToutside">-</a>
   
   qh_DISToutside
-    minimum distance when merging to stop search in qh_findbestnew 
-    or qh_partitionall
-   
+    When is a point clearly outside of a facet?  
+    Stops search in qh_findbestnew or qh_partitionall
+    qh_findbest uses qh.MINoutside since since it is only called if no merges.
+     
   notes:
-   if too big then O(n^2) behavior for partitioning in cone
-   if very small then important points not processed
+    'Qf' always searches for best facet
+    if !qh.MERGING, same as qh.MINoutside. 
+    if qh_USEfindbestnew, increase value since neighboring facets may be ill-behaved
+      [Note: Zdelvertextot occurs normally with interior points]
+            RBOX 1000 s Z1 G1e-13 t1001188774 | QHULL Tv
+    When there is a sharp edge, need to move points to a
+    clearly good facet; otherwise may be lost in another partitioning.
+    if too big then O(n^2) behavior for partitioning in cone
+    if very small then important points not processed
+    Needed in qh_partitionall for
+      RBOX 1000 s Z1 G1e-13 t1001032651 | QHULL Tv
+    Needed in qh_findbestnew for many instances of
+      RBOX 1000 s Z1 G1e-13 t | QHULL Tv
+
+  See:  
+    qh_DISToutside -- when is a point clearly outside of a facet
+    qh_SEARCHdist -- when is facet coplanar with the best facet?
+    qh_USEfindbestnew -- when to use qh_findbestnew for qh_partitionpoint()
 */
-#define qh_DISToutside fmax_(4*qh MINoutside, 2*qh max_outside)
+#define qh_DISToutside ((qh_USEfindbestnew ? 2 : 1) * \
+     fmax_((qh MERGING ? 2 : 1)*qh MINoutside, qh max_outside))
 
 /*-<a                             href="qh-user.htm#TOC"
   >--------------------------------</a><a name="RATIOnearinside">-</a>
@@ -642,16 +660,38 @@
   notes:
     This is overkill since do not know the correct value.
     It effects whether 'Qc' reports all coplanar points
+    Not used for 'd' since non-extreme points are coplanar
 */
 #define qh_RATIOnearinside 5
+
+/*-<a                             href="qh-user.htm#TOC"
+  >--------------------------------</a><a name="SEARCHdist">-</a>
+  
+  qh_SEARCHdist
+    When is a facet coplanar with the best facet?  
+    qh_findbesthorizon: all coplanar facets of the best facet need to be searched.
+
+  See:
+    qh_DISToutside -- when is a point clearly outside of a facet
+    qh_SEARCHdist -- when is facet coplanar with the best facet?
+    qh_USEfindbestnew -- when to use qh_findbestnew for qh_partitionpoint()
+*/
+#define qh_SEARCHdist ((qh_USEfindbestnew ? 2 : 1) * \
+      (qh max_outside + 2 * qh DISTround + fmax_( qh MINvisible, qh MAXcoplanar)));
 
 /*-<a                             href="qh-user.htm#TOC"
   >--------------------------------</a><a name="USEfindbestnew">-</a>
   
   qh_USEfindbestnew
-     cut-off between qh_findbest/qh_findbestnew in #merged facets.
+     Always use qh_findbestnew for qh_partitionpoint, otherwise use
+     qh_findbestnew if merged new facet or sharpnewfacets.
+  
+  See:
+    qh_DISToutside -- when is a point clearly outside of a facet
+    qh_SEARCHdist -- when is facet coplanar with the best facet?
+    qh_USEfindbestnew -- when to use qh_findbestnew for qh_partitionpoint()
 */
-#define qh_USEfindbestnew 50
+#define qh_USEfindbestnew (zzval_(Ztotmerge) > 50)
 
 /*-<a                             href="qh-user.htm#TOC"
   >--------------------------------</a><a name="WIDEcoplanar">-</a>
@@ -680,10 +720,10 @@
     coplanar points.  If narrow, a coplanar point can be 
     coplanar to two facets of opposite orientations and
     distant from the exact convex hull.
-    
-    set to -cos( 0.2 ) for about 1:10 ratio between coplanar point and distance to exact hull
+
+    Conservative estimate.  Don't actually see problems until it is -1.0
 */
-#define qh_MAXnarrow -0.98
+#define qh_MAXnarrow -0.99999999
 
 /*-<a                             href="qh-user.htm#TOC"
   >--------------------------------</a><a name="WARNnarrow">-</a>
@@ -693,9 +733,9 @@
       
   notes:
     this is a conservative estimate.  
-    Don't actually see problems until much narrower.  See qh-impre.htm
+    Don't actually see problems until it is -1.0.  See qh-impre.htm
 */
-#define qh_WARNnarrow -0.9999
+#define qh_WARNnarrow -0.999999999999999
 
 /*-<a                             href="qh-user.htm#TOC"
   >--------------------------------</a><a name="ZEROdelaunay">-</a>

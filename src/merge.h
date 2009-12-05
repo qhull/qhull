@@ -44,7 +44,7 @@
 #define qh_ANGLEconcave  1.5
 
 /*-<a                             href="qh-merge.htm#TOC"
-  >--------------------------------</a><a name="MRG...">-</a>
+  >--------------------------------</a><a name="MRG">-</a>
   
   MRG... (mergeType)
     indicates the type of a merge (mergeT->type)
@@ -61,6 +61,7 @@ typedef enum {	/* in sort order for facet_mergeset */
   MRGdegen,		/* degenerate facet (not enough neighbors) facet1 == facet2 */
   MRGredundant,		/* redundant facet (vertex subset) */
   			/* merge_degenredundant assumes degen < redundant */
+  MRGmirror,	        /* mirror facet from qh_triangulate */
   ENDmrg
 } mergeType;
 

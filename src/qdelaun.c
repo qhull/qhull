@@ -52,10 +52,10 @@ int isatty (int);  /* returns 1 if stdin is a tty
     concise prompt below
 */  
 
-char qh_version[]= "version 3.0 2001/02/11";   /* used for error messages */
+char qh_version[]= "version 3.1 2001/10/04";   /* used for error messages */
 
 /* duplicated in qdelau_f.htm and qdelaun.htm */
-char hidden_options[]=" d n v H U Qb QB Qc Qf Qg Qi Qm Qr QR Qv Qx TR E V FC Fi Fo Fp FV Q0 Q1 Q2 Q3 Q4 Q5 Q6 Q7 Q8 Q9 ";
+char hidden_options[]=" d n v H U Qb QB Qc Qf Qg Qi Qm Qr QR Qv Qx TR E V FC Fi Fo Ft Fp FV Q0 Q1 Q2 Q3 Q4 Q5 Q6 Q7 Q8 Q9 ";
 
 char qh_prompta[]= "\n\
 qdelaunay- compute the Delaunay triangulation\n\
@@ -68,7 +68,8 @@ input (stdin):\n\
 \n\
 options:\n\
     Qu   - compute furthest-site Delaunay triangulation\n\
-    QJ   - joggle input instead of merging facets\n\
+    Qt   - triangulated output\n\
+    QJ   - joggled input instead of merged facets\n\
 \n\
 Qhull control options:\n\
     QJn  - randomly joggle input in range [-n,n]\n\
@@ -88,6 +89,7 @@ Trace options:\n\
     Tv   - verify result: structure, convexity, and in-circle test\n\
     Tz   - send all output to stdout\n\
     TFn  - report summary when n or more facets created\n\
+    TI file - input data from file, no spaces or single quotes\n\
     TO file - output results to file, may be enclosed in single quotes\n\
     TPn  - turn on tracing when point n added to hull\n\
      TMn - turn on tracing at merge n\n\
@@ -133,7 +135,6 @@ More formats:\n\
                     #real (2), max outer plane, min vertex\n\
     FS   - sizes:   #int (0)\n\
                     #real(2) tot area, 0\n\
-    Ft   - Delaunay triangulation with centrums for non-simplicial (OFF)\n\
     Fv   - count plus vertices for each Delaunay region\n\
     Fx   - extreme points of Delaunay triangulation (on convex hull)\n\
 \n\
@@ -180,8 +181,9 @@ qdelaunay- compute the Delaunay triangulation. Qhull %s\n\
     comments start with a non-numeric character\n\
 \n\
 options (qdelaun.htm):\n\
-    QJ   - joggle input instead of merging facets\n\
     Qu   - furthest-site Delaunay triangulation\n\
+    Qt   - triangulated output\n\
+    QJ   - joggled input instead of merged facets\n\
     Tv   - verify result: structure, convexity, and in-circle test\n\
     .    - concise list of all options\n\
     -    - one-line description of all options\n\
@@ -189,7 +191,6 @@ options (qdelaun.htm):\n\
 output options (subset):\n\
     s    - summary of results (default)\n\
     i    - vertices incident to each Delaunay region\n\
-    Ft   - Delaunay triangulation with centrums for non-simplicial (OFF)\n\
     Fx   - extreme points (vertices of the convex hull)\n\
     o    - OFF format (shows the points lifted to a paraboloid)\n\
     G    - Geomview output (2-d and 3-d points lifted to a paraboloid)\n\
@@ -200,8 +201,8 @@ output options (subset):\n\
 examples:\n\
     rbox c P0 D2 | qdelaunay s o          rbox c P0 D2 | qdelaunay i\n\
     rbox c P0 D2 | qdelaunay Fv           rbox c P0 D2 | qdelaunay s Qu Fv\n\
-    rbox c G1 d D2 | qdelaunay s i        rbox c G1 d D2 | qdelaunay Ft\n\
-    rbox c G1 d D2 | qdelaunay QJ s Ft    rbox M3,4 z 100 D2 | qdelaunay s\n\
+    rbox c G1 d D2 | qdelaunay s i        rbox c G1 d D2 | qdelaunay Qt\n\
+    rbox M3,4 z 100 D2 | qdelaunay s      rbox M3,4 z 100 D2 | qdelaunay s Qt\n\
 \n\
 ";
 /* for opts, don't assign 'e' or 'E' to a flag (already used for exponent) */
@@ -222,7 +223,7 @@ Except for 'F.' and 'PG', upper-case options take an argument.\n\
  Farea          FArea_total    Fcoincident    Fd_cdd_in      FD_cdd_out\n\
  FF_dump_xridge FIDs           Fmerges        Fneighbors     FNeigh_vertex\n\
  FOptions       FPoint_near    FQdelaun       Fsummary       FSize\n\
- Ftriangles     Fvertices      Fxtremes\n\
+ Fvertices      Fxtremes\n\
 \n\
  Gvertices      Gpoints        Gall_points    Gno_planes     Ginner\n\
  Gcentrums      Ghyperplanes   Gridges        Gouter         GDrop_dim\n\
@@ -231,12 +232,12 @@ Except for 'F.' and 'PG', upper-case options take an argument.\n\
  PArea_keep     Pdrop d0:0D0   Pgood          PFacet_area_keep\n\
  PGood_neighbors PMerge_keep   Poutput_forced Pprecision_not\n\
 \n\
- QGood_point    QJoggle        Qsearch_1st    QupperDelaunay\n\
+ QGood_point    QJoggle        Qsearch_1st    Qtriangulate   QupperDelaunay\n\
  QVertex_good   Qzinfinite\n\
 \n\
  T4_trace       Tcheck_often   Tstatistics    Tverify        Tz_stdout\n\
- TFacet_log     TPoint_trace   TMerge_trace   TOutput_file   TWide_trace\n\
- TVertex_stop   TCone_stop\n\
+ TFacet_log     TInput_file    TPoint_trace   TMerge_trace   TOutput_file\n\
+ TWide_trace    TVertex_stop   TCone_stop\n\
 \n\
  Angle_max      Centrum_size   Random_dist    Wide_outside\n\
 ";

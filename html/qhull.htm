@@ -10,7 +10,7 @@
 <p><b><a name="TOP">Up</a></b><b>:</b> <a href="http://www.geom.umn.edu/locate/qhull">Home page</a> for Qhull<br>
 <b>Up:</b> <a href="index.htm#TOC">Qhull manual</a>: Table of Contents<br>
 <b>To:</b> <a href="qh-quick.htm#programs">Programs</a>
-&#149;</a> <a href="qh-quick.htm#options">Options</a> 
+&#149; <a href="qh-quick.htm#options">Options</a> 
 &#149; <a href="qh-opto.htm#output">Output</a> 
 &#149; <a href="qh-optf.htm#format">Formats</a> 
 &#149; <a href="qh-optg.htm#geomview">Geomview</a> 
@@ -39,7 +39,7 @@ structures and to experiment with the process.  Use the
 <a href=qconvex.htm>qconvex</a>,
 <a href=qdelaun.htm>qdelaunay</a>, <a href=qhalf.htm>qhalf</a>, 
 and <a href=qvoronoi.htm>qvoronoi</a> programs
-to build specific structures.  You can use <tt>qhull</tt> instead.
+to build specific structures.  You may use <tt>qhull</tt> instead.
 It takes the same options and uses the same code.  
 <blockquote>
 <dl>
@@ -95,12 +95,16 @@ Delaunay triangulation is a 5-d convex hull):
 </blockquote>
 
 
-<p>If you use '<a href="qh-optq.htm#QJn">QJ</a>' (joggle), all facets 
-will be simplicial (e.g., triangles in 3-d).  Duplicate points will 
-be joggled apart. If you do not use
-'QJ' or '<a href="qh-optq.htm#Q0">Q0</a>', 
-<tt>qhull</tt> merges coplanar facets.  This is more accurate
-than joggled input.  See <a
+<p>If you use '<a href="qh-optq.htm#Qt">Qt</a>' (triangulated output), 
+all furthest-site Delaunay regions 
+will be simplicial (e.g., triangles in 2-d).  Some regions may be
+degenerate and have zero area.  Qhull can identify coincident
+points.  With facet merging, cocircular and cospherical extreme points will lead
+to non-simplicial output (e.g., a square).
+
+<p>If you use '<a href="qh-optq.htm#QJn">QJ</a>' (joggle), all furthest-site 
+Delaunay regions will be simplicial (e.g., triangles in 2-d).  Duplicate points will 
+create small regions since the points are joggled apart.  See <a
 href="qh-impre.htm#joggle">Joggled input or merged facets</a>. </p>
 
 <p>The output for 4-d convex hulls may be confusing if the convex
@@ -109,11 +113,11 @@ hull contains non-simplicial facets (e.g., a hypercube). See
 are there extra points in a 4-d or higher convex hull?</a><br>
 </p>
 
-<p><b>Copyright © 1995-2001 The Geometry Center, Minneapolis MN</b></p>
+<p><b>Copyright &copy; 1995-2001 The Geometry Center, Minneapolis MN</b></p>
 
 <hr>
 
-<h3><a href="#TOP">»</a><a name="synopsis">qhull synopsis</h3>
+<h3><a href="#TOP">»</a><a name="synopsis">qhull synopsis</a></h3>
 <pre>
 qhull- compute convex hulls and related structures. 
     input (stdin): dimension, n, point coordinates
@@ -126,6 +130,7 @@ options (qh-quick.htm):
     v    - Voronoi diagram as the dual of the Delaunay triangulation
     v Qu - furthest-site Voronoi diagram
     H1,1 - Halfspace intersection about [1,1,0,...] via polar duality
+    Qt   - triangulated output
     QJ   - joggle input instead of merging facets
     Tv   - verify result: structure, convexity, and point inclusion
     .    - concise list of all options
@@ -148,7 +153,7 @@ Output options (subset):
 
 examples:
     rbox c d D2 | qhull Qc s f Fx | more      rbox 1000 s | qhull Tv s FA
-    rbox 10 D2 | qhull d QJ s i TO result     rbox 10 D2 | qhull v QJ p
+    rbox 10 D2 | qhull d QJ s i TO result     rbox 10 D2 | qhull v Qt p
     rbox 10 D2 | qhull d Qu QJ m              rbox 10 D2 | qhull v Qu QJ o
     rbox c | qhull n                          rbox c | qhull FV n | qhull H Fp
     rbox d D12 | qhull QR0 FA                 rbox c D7 | qhull FA TF1000
@@ -159,7 +164,7 @@ examples:
 <blockquote>
 
 <p>The input data on <tt>stdin</tt> consists of:</p>
-<ul compact="COMPACT">
+<ul>
     <li>dimension
     <li>number of points</li>
     <li>point coordinates</li>
@@ -277,7 +282,7 @@ input (stdin):
     other lines: point coordinates, best if one point per line
     comments:    start with a non-numeric character
     halfspaces:  use dim plus one and put offset after coefficients.
-                 May be preceeded by a single interior point ('H').
+                 May be preceded by a single interior point ('H').
 
 options:
     d    - Delaunay triangulation by lifting points to a paraboloid
@@ -285,6 +290,7 @@ options:
     v    - Voronoi diagram (dual of the Delaunay triangulation)
     v Qu - furthest-site Voronoi diagram
     Hn,n,... - halfspace intersection about point [n,n,0,...]
+    Qt   - triangulated output
     QJ   - joggle input instead of merging facets
     Qc   - keep coplanar points with nearest facet
     Qi   - keep interior points with nearest facet
@@ -305,28 +311,31 @@ Qhull control options:
     Qu   - for 'd' or 'v', compute upper hull without point at-infinity
               returns furthest-site Delaunay triangulation
     Qv   - test vertex neighbors for convexity
-    Qx   - exact pre-merges (skips coplanar and angle-coplanar facets)
+    Qx   - exact pre-merges (skips coplanar and anglomaniacs facets)
     Qz   - add point-at-infinity to Delaunay triangulation
     QGn  - good facet if visible from point n, -n for not visible
     QVn  - good facet if it includes point n, -n if not
-    Q0   - turn off default premerge with 'C-0'/'Qx'
+    Q0   - turn off default p remerge with 'C-0'/'Qx'
     Q1	   - sort merges by type instead of angle
     Q2   - merge all non-convex at once instead of independent sets
     Q3   - do not merge redundant vertices
-    Q4   - avoid old->new merges
+    Q4   - avoid old>new merges
     Q5   - do not correct outer planes at end of qhull
     Q6   - do not pre-merge concave or coplanar facets
     Q7   - depth-first processing instead of breadth-first
     Q8   - do not process near-inside points
     Q9   - process furthest of furthest points
+    Q10  - no special processing for narrow distributions
+	Q11  - copy normals and recompute centrums for tricoplanar facets
 
-Topts- Trace options:
+Towpaths Trace options:
     T4   - trace at level n, 4=all, 5=mem/gauss, -1= events
     Tc   - check frequently during execution
     Ts   - print statistics
     Tv   - verify result: structure, convexity, and point inclusion
     Tz   - send all output to stdout
     TFn  - report summary when n or more facets created
+    TI file - input data from file, no spaces or single quotes
     TO file - output results to file, may be enclosed in single quotes
     TPn  - turn on tracing when point n added to hull
      TMn - turn on tracing at merge n
@@ -402,7 +411,7 @@ Geomview options (2-d, 3-d, and 4-d; 2-d Voronoi)
 
 Print options:
     PAn  - keep n largest facets by area
-    Pdk:n - drop facet if normal[k] <= n (default 0.0)
+    Pdk:n - drop facet if normal[k] &lt;= n (default 0.0)
     PDk:n - drop facet if normal[k] >= n
     Pg   - print good facets (needs 'QGn' or 'QVn')
     PFn  - keep facets whose area is at least n
@@ -421,7 +430,7 @@ Print options:
 <p><b>Up:</b> <a href="http://www.geom.umn.edu/locate/qhull">Home page</a> for Qhull<br>
 <b>Up:</b> <a href="index.htm#TOC">Qhull manual</a>: Table of Contents<br>
 <b>To:</b> <a href="qh-quick.htm#programs">Programs</a>
-&#149;</a> <a href="qh-quick.htm#options">Options</a> 
+&#149; <a href="qh-quick.htm#options">Options</a> 
 &#149; <a href="qh-opto.htm#output">Output</a> 
 &#149; <a href="qh-optf.htm#format">Formats</a> 
 &#149; <a href="qh-optg.htm#geomview">Geomview</a> 

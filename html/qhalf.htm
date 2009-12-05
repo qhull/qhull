@@ -10,7 +10,7 @@
 <p><a name="TOP"><b>Up</b></a><b>:</b> <a href="http://www.geom.umn.edu/locate/qhull">Home page</a> for Qhull<br>
 <b>Up:</b> <a href="index.htm#TOC">Qhull manual</a>: Table of Contents<br>
 <b>To:</b> <a href="qh-quick.htm#programs">Programs</a>
-&#149;</a> <a href="qh-quick.htm#options">Options</a> 
+&#149; <a href="qh-quick.htm#options">Options</a> 
 &#149; <a href="qh-opto.htm#output">Output</a> 
 &#149; <a href="qh-optf.htm#format">Formats</a> 
 &#149; <a href="qh-optg.htm#geomview">Geomview</a> 
@@ -21,7 +21,7 @@
 <b>To:</b> <a href="#synopsis">sy</a>nopsis 
 &#149; <a href="#input">in</a>put &#149; <a href="#outputs">ou</a>tputs 
 &#149; <a href="#controls">co</a>ntrols &#149; <a href="#graphics">gr</a>aphics 
-&#149; <a href="#notes">no</a>tes &#149; <a href="#conventions" <a>co</a>nventions 
+&#149; <a href="#notes">no</a>tes &#149; <a href="#conventions">co</a>nventions 
 &#149; <a href="#options">op</a>tions
 
 <hr>
@@ -57,9 +57,14 @@ See <a href="qh-eg.htm#half">halfspace examples</a>,
 <a href="#notes">qhalf notes</a>, and
 option 'p' of <a href="#outputs">qhalf outputs</a>. </p>
 
-<p>If you use '<a href="qh-optq.htm#QJn">QJ</a>' (joggle), all halfspace 
-intersections are simplicial (e.g., three halfspaces per 
-intersection in 3-d).  Coincident intersections will be 
+<p>If you use '<a href="qh-optq.htm#Qt">Qt</a>' (triangulated output), all
+halfspace intersections are simplicial (e.g., three halfspaces per 
+intersection in 3-d).  In 3-d, if more than three halfspaces intersect
+at the same point, option '<a href="qh-optq.htm#Qt">Qt</a>' will produce 
+duplicate intersections, one for each additional halfspace.</p>
+
+<p>If you use '<a href="qh-optq.htm#QJn">QJ</a>' (joggled input), all halfspace 
+intersections are simplicial.  Coincident intersections will be 
 joggled apart. If you do not use
 'QJ', <tt>qhalf</tt> merges coincident intersections.  This is more accurate
 than joggled input.  See <a
@@ -70,13 +75,13 @@ href="qh-impre.htm#joggle">Joggled input or merged facets</a>. </p>
 '<a href=qhull.htm#outputs>qhull H</a> <a href=qh-optq.htm#Qx>Qx</a>' 
 in 5-d and higher.  It disables the following Qhull
 <a href=qh-quick.htm#options>options</a>: <i>d n v Qbb QbB Qf Qg Qm 
-Qr QR Qv Qx Qz TR E V Fa FA FC FD FS Ft FV Gt Q0 Q1 Q2 Q3 Q4 Q5 Q6 Q7 Q8 Q9</i>.
+Qr QR Qv Qx Qz TR E V Fa FA FC FD FS Ft FV Gt Q0,etc</i>.
 
 
-<p><b>Copyright © 1995-2001 The Geometry Center, Minneapolis MN</b></p>
+<p><b>Copyright &copy; 1995-2001 The Geometry Center, Minneapolis MN</b></p>
 <hr>
 
-<h3><a href="#TOP">»</a><a name="synopsis">qhalf synopsis</h3>
+<h3><a href="#TOP">»</a><a name="synopsis">qhalf synopsis</a></h3>
 <pre>
 qhalf- halfspace intersection about a point.
     input (stdin): [dim, 1, interior point]
@@ -86,6 +91,7 @@ qhalf- halfspace intersection about a point.
 
 options (qhalf.htm):
     Hn,n - specify coordinates of interior point
+    Qt   - triangulated output
     QJ   - joggle input instead of merging facets
     Tv   - verify result: structure, convexity, and redundancy
     .    - concise list of all options
@@ -112,7 +118,7 @@ examples:
 
 <blockquote>
 <p>The input data on <tt>stdin</tt> consists of:</p>
-<ul compact="COMPACT">
+<ul>
     <li>[optional] interior point
 	   <ul>
 	   <li>dimension
@@ -217,7 +223,7 @@ intersection.</p>
 		starts with the number of neighboring intersections.  For the cube
 		example, each intersection point has three neighboring intersections.
 		In 3-d, a non-simplicial intersection has more than three neighboring
-		intersections.  Use option '<a href="qh-optq.htm#QJ">QJ</a>' to 
+		intersections.  Use option '<a href="qh-optq.htm#QJn">QJ</a>' to 
 		avoid non-simplicial intersections.
 	     </dd>
     <dt><a href="qh-optf.htm#Fp">Fp</a></dt>
@@ -294,6 +300,10 @@ intersection.</p>
 
 <blockquote>
 <dl compact>
+    <dt><a href="qh-optq.htm#Qt">Qt</a></dt>
+    <dd>triangulated output.  If a 3-d intersection is defined by more than
+      three hyperplanes, Qhull produces duplicate intersections -- one for
+      each extra hyperplane.</dd>
     <dt><a href="qh-optq.htm#QJn">QJ</a></dt>
     <dd>joggle the input instead of merging facets.  In 3-d, this guarantees that
 	each intersection is defined by three hyperplanes.</dd>
@@ -312,11 +322,13 @@ intersection.</p>
 	<dt><a href="qh-optq.htm#Qb0">Qbk:0Bk:0</a></dt>
     <dd>remove the k-th coordinate from the input.  This computes the
 	halfspace intersection in one lower dimension.</dd>
+    <dt><a href="qh-optt.htm#Tv">Tv</a></dt>
+    <dd>verify result</dd>
+    <dt><a href="qh-optt.htm#TO">TI file</a></dt>
+    <dd>input data from file.  The filename may not use spaces or quotes.</dd>
     <dt><a href="qh-optt.htm#TO">TO file</a></dt>
     <dd>output results to file.  Use single quotes if the filename
 	contains spaces (e.g., <tt>TO 'file with spaces.txt'</tt></dd>
-    <dt><a href="qh-optt.htm#Tv">Tv</a></dt>
-    <dd>verify result</dd>
     <dt><a href="qh-optq.htm#Qs">Qs</a></dt>
     <dd>search all points for the initial simplex.  If Qhull can 
 	not construct an initial simplex, it reports a
@@ -384,7 +396,7 @@ conventions</a></h3>
 in Qhull. This is the hardest structure to understand. The
 underlying structure is a convex hull with one vertex per
 non-redundant halfspace. See <a href="#conventions">convex hull
-conventions</a>.</p>
+conventions</a> and <a href="index.htm#structure">Qhull's data structures</a>.</p>
 
 <ul>
     <li><em>interior point</em> - a point in the intersection of
@@ -427,6 +439,7 @@ input (stdin):
 
 options:
     Hn,n - specify coordinates of interior point
+    Qt   - triangulated ouput
     QJ   - joggle input instead of merging facets
     Qc   - keep coplanar halfspaces
     Qi   - keep other redundant halfspaces
@@ -445,6 +458,7 @@ Trace options:
     Tv   - verify result: structure, convexity, and redundancy
     Tz   - send all output to stdout
     TFn  - report summary when n or more facets created
+    TI file - input data from file, no spaces or single quotes
     TO file - output results to file, may be enclosed in single quotes
     TPn  - turn on tracing when halfspace n added to intersection
     TMn  - turn on tracing at merge n
@@ -503,7 +517,7 @@ Geomview output (2-d, 3-d and 4-d; dual convex hull)
 
 Print options:
     PAn  - keep n largest facets (i.e., intersections) by area
-    Pdk:n- drop facet if normal[k] <= n (default 0.0)
+    Pdk:n- drop facet if normal[k] &lt;= n (default 0.0)
     PDk:n- drop facet if normal[k] >= n
     Pg   - print good facets (needs 'QGn' or 'QVn')
     PFn  - keep facets whose area is at least n
@@ -522,7 +536,7 @@ Print options:
 <p><b>Up:</b> <a href="http://www.geom.umn.edu/locate/qhull">Home page</a> for Qhull<br>
 <b>Up:</b> <a href="index.htm#TOC">Qhull manual</a>: Table of Contents<br>
 <b>To:</b> <a href="qh-quick.htm#programs">Programs</a>
-&#149;</a> <a href="qh-quick.htm#options">Options</a> 
+&#149; <a href="qh-quick.htm#options">Options</a> 
 &#149; <a href="qh-opto.htm#output">Output</a> 
 &#149; <a href="qh-optf.htm#format">Formats</a> 
 &#149; <a href="qh-optg.htm#geomview">Geomview</a> 
@@ -533,7 +547,7 @@ Print options:
 <b>To:</b> <a href="#synopsis">sy</a>nopsis 
 &#149; <a href="#input">in</a>put &#149; <a href="#outputs">ou</a>tputs 
 &#149; <a href="#controls">co</a>ntrols &#149; <a href="#graphics">gr</a>aphics 
-&#149; <a href="#notes">no</a>tes &#149; <a href="#conventions" <a>co</a>nventions 
+&#149; <a href="#notes">no</a>tes &#149; <a href="#conventions">co</a>nventions 
 &#149; <a href="#options">op</a>tions
 <!-- GC common information -->
 <hr>

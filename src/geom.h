@@ -97,10 +97,12 @@
 void    qh_backnormal (realT **rows, int numrow, int numcol, boolT sign, coordT *normal, boolT *nearzero);
 void	qh_distplane (pointT *point, facetT *facet, realT *dist);
 facetT *qh_findbest (pointT *point, facetT *startfacet,
-		     boolT bestoutside, boolT newfacets, boolT noupper,
+		     boolT bestoutside, boolT isnewfacets, boolT noupper,
 		     realT *dist, boolT *isoutside, int *numpart);
-facetT *qh_findbestnew (pointT *point, facetT *startfacet,
-	   realT *dist, boolT *isoutside, int *numpart);
+facetT *qh_findbesthorizon (boolT ischeckmax, pointT *point, 
+	             facetT *startfacet, boolT noupper, realT *bestdist, int *numpart);
+facetT *qh_findbestnew (pointT *point, facetT *startfacet, realT *dist, 
+		     boolT bestoutside, boolT *isoutside, int *numpart);
 void 	qh_gausselim(realT **rows, int numrow, int numcol, boolT *sign, boolT *nearzero);
 realT   qh_getangle(pointT *vect1, pointT *vect2);
 pointT *qh_getcenter(setT *vertices);
@@ -116,6 +118,7 @@ void 	qh_sethyperplane_det (int dim, coordT **rows, coordT *point0,
               boolT toporient, coordT *normal, realT *offset, boolT *nearzero);
 void 	qh_sethyperplane_gauss (int dim, coordT **rows, pointT *point0, 
 	     boolT toporient, coordT *normal, coordT *offset, boolT *nearzero);
+boolT   qh_sharpnewfacets (void);
 
 /*========= infrequently used code in geom2.c =============*/
 
@@ -133,8 +136,6 @@ realT   qh_facetarea (facetT *facet);
 realT   qh_facetarea_simplex (int dim, coordT *apex, setT *vertices, 
           vertexT *notvertex,  boolT toporient, coordT *normal, realT *offset);
 pointT *qh_facetcenter (setT *vertices);
-boolT   qh_findbestsharp (pointT *point, facetT **bestfacet, 
-           realT *bestdist, int *numpart);
 facetT *qh_findgooddist (pointT *point, facetT *facetA, realT *distp, facetT **facetlist);
 void    qh_getarea (facetT *facetlist);
 boolT   qh_gram_schmidt(int dim, realT **rows);

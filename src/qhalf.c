@@ -51,7 +51,7 @@ int isatty (int);  /* returns 1 if stdin is a tty
     concise prompt below
 */  
 
-char qh_version[]= "version 3.0 2001/02/11";   /* used for error messages */
+char qh_version[]= "version 3.1 2001/10/04";   /* used for error messages */
 
 /* duplicated in qhalf.htm */
 char hidden_options[]=" d n v Qbb QbB Qf Qg Qm Qr QR Qv Qx Qz TR E V Fa FA FC FD FS Ft FV Gt Q0 Q1 Q2 Q3 Q4 Q5 Q6 Q7 Q8 Q9 ";
@@ -68,7 +68,8 @@ input (stdin):\n\
 \n\
 options:\n\
     Hn,n - specify coordinates of interior point\n\
-    QJ   - joggle input instead of merging facets\n\
+    Qt   - triangulated output\n\
+    QJ   - joggled input instead of merged facets\n\
     Qc   - keep coplanar halfspaces\n\
     Qi   - keep other redundant halfspaces\n\
 \n\
@@ -90,6 +91,7 @@ Trace options:\n\
     Tv   - verify result: structure, convexity, and redundancy\n\
     Tz   - send all output to stdout\n\
     TFn  - report summary when n or more facets created\n\
+    TI file - input data from file, no spaces or single quotes\n\
     TO file - output results to file, may be enclosed in single quotes\n\
     TPn  - turn on tracing when halfspace n added to intersection\n\
     TMn  - turn on tracing at merge n\n\
@@ -179,7 +181,8 @@ qhalf- halfspace intersection about a point. Qhull %s\n\
 \n\
 options (qhalf.htm):\n\
     Hn,n - specify coordinates of interior point\n\
-    QJ   - joggle input instead of merging facets\n\
+    Qt   - triangulated output\n\
+    QJ   - joggled input instead of merged facets\n\
     Tv   - verify result: structure, convexity, and redundancy\n\
     .    - concise list of all options\n\
     -    - one-line description of all options\n\
@@ -227,11 +230,11 @@ Except for 'F.' and 'PG', upper_case options take an argument.\n\
  PGood_neighbors PMerge_keep   Poutput_forced Pprecision_not\n\
 \n\
  Qbk:0Bk:0_drop Qcoplanar      QG_half_good   Qi_redundant   QJoggle\n\
- Qsearch_1st    QVertex_good\n\
+ Qsearch_1st    Qtriangulate   QVertex_good\n\
 \n\
  T4_trace       Tcheck_often   Tstatistics    Tverify        Tz_stdout\n\
- TFacet_log     TPoint_trace   TMerge_trace   TOutput_file   TWide_trace\n\
- TVertex_stop   TCone_stop\n\
+ TFacet_log     TInput_file    TPoint_trace   TMerge_trace   TOutput_file\n\
+ TWide_trace    TVertex_stop   TCone_stop\n\
 \n\
  Angle_max      Centrum_size   Random_dist    Ucoplanar_max  Wide_outside\n\
 ";

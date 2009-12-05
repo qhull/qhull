@@ -10,7 +10,7 @@
 <p><b>Up:</b> <a href="http://www.geom.umn.edu/locate/qhull">Home page</a> for Qhull<br>
 <b>Up:</b> <a href="index.htm#TOC">Qhull manual</a>: Table of Contents<br>
 <b>To:</b> <a href="qh-quick.htm#programs">Programs</a>
-&#149;</a> <a href="qh-quick.htm#options">Options</a> 
+&#149; <a href="qh-quick.htm#options">Options</a> 
 &#149; <a href="qh-opto.htm#output">Output</a> 
 &#149; <a href="qh-optf.htm#format">Formats</a> 
 &#149; <a href="qh-optg.htm#geomview">Geomview</a> 
@@ -29,7 +29,7 @@ height="100"></a> Qhull control options (Q)</h1>
 <p>This section lists the control options for Qhull. These
 options are indicated by 'Q' followed by a letter. </p>
 
-<p><b>Copyright © 1995-2001 The Geometry Center, Minneapolis MN</b></p>
+<p><b>Copyright &copy; 1995-2001 The Geometry Center, Minneapolis MN</b></p>
 
 <hr>
 
@@ -55,6 +55,10 @@ options are indicated by 'Q' followed by a letter. </p>
     <dd>keep coplanar points with nearest facet</dd>
     <dt><a href="#Qi">Qi</a></dt>
     <dd>keep interior points with nearest facet</dd>
+    <dt><a href="#QJn">QJ</a></dt>
+    <dd>joggled input to avoid precision problems</dd>
+    <dt><a href="#Qt">Qt</a></dt>
+    <dd>triangulated output</dd>
     <dt>&nbsp;</dt>
     <dt>&nbsp;</dt>
     <dd><b>Precision handling</b></dd>
@@ -62,8 +66,6 @@ options are indicated by 'Q' followed by a letter. </p>
     <dd>add a point-at-infinity for Delaunay triangulations</dd>
     <dt><a href="#Qx">Qx</a></dt>
     <dd>exact pre-merges (allows coplanar facets)</dd>
-    <dt><a href="#QJn">QJ</a></dt>
-    <dd>joggled input to avoid precision problems</dd>
     <dt><a href="#Qs">Qs</a></dt>
     <dd>search all points for the initial simplex</dd>
     <dt><a href="#Qbb">Qbb</a></dt>
@@ -102,7 +104,7 @@ options are indicated by 'Q' followed by a letter. </p>
     <dd>do not correct outer planes at end of qhull</dd>
     <dt><a href="#Q3">Q3</a></dt>
     <dd>do not merge redundant vertices</dd>
-    <dt><a href="#Q6" name="Q6">Q6</a></dt>
+    <dt><a href="#Q6">Q6</a></dt>
     <dd>do not pre-merge concave or coplanar facets</dd>
     <dt><a href="#Q0">Q0</a></dt>
     <dd>do not pre-merge facets with 'C-0' or 'Qx'</dd>
@@ -116,6 +118,10 @@ options are indicated by 'Q' followed by a letter. </p>
     <dd>process facets depth-first instead of breadth-first</dd>
     <dt><a href="#Q9">Q9</a></dt>
     <dd>process furthest of furthest points</dd>
+    <dt><a href="#Q10">Q10</a></dt>
+    <dd>no special processing for narrow distributions</dd>
+    <dt><a href="#Q11">Q11</a></dt>
+    <dd>copy normals and recompute centrums for tricoplanar facets</dd>
     <dt><a href="#Qm">Qm</a></dt>
     <dd>process points only if they would increase the max. outer
         plane </dd>
@@ -297,7 +303,7 @@ random number in the range [-n,n]. If a precision error occurs,
 It tries again. If precision errors still occur, Qhull increases <i>n</i>
 ten-fold and tries again. The maximum value for increasing <i>n</i>
 is 0.01 times the maximum width of the input. Option 'QJ' selects
-a default value for <i>n</i>. <a href="user.h#JOGGLEdefault">User.h</a>
+a default value for <i>n</i>. <a href="../src/user.h#JOGGLEdefault">User.h</a>
 defines these parameters and a maximum number of retries. See <a
 href="qh-impre.htm#joggle">Joggled input or merged facets</a>. </p>
 
@@ -308,8 +314,8 @@ href="qh-optq.htm#QBk">QBk:n</a>' are set. </p>
 
 <p>If 'QJn' is set, Qhull does not merge facets unless requested
 to. All facets are simplicial (triangular in 2-d). This may be
-important for your application. Option '<a href="qh-optf.htm#Ft">Ft</a>'
-also produces triangulated output. </p>
+important for your application.  You may also use triangulated output
+('<a href="qh-optq.htm#Qt">Qt</a>') or Option '<a href="qh-optf.htm#Ft">Ft</a>'.
 
 <p>Qhull adjusts the outer and inner planes for 'QJn' ('<a
 href="qh-optf.htm#Fs">Fs</a>'). They are increased by <i>sqrt(d)*n</i>
@@ -320,16 +326,15 @@ since vertices and coplanar points may be joggled in opposite
 directions. </p>
 
 <p>For Delaunay triangulations (<a href=qdelaun.htm>qdelaunay</a>)
-or Voronoi diagrams (<a href=qvoronoi.htm>qvoronoi</a>), option
-'QJ' may retain coplanar points on the convex hull of the input
-sites. The area of the corresponding Delaunay triangles will be
-small but non-zero. In other words, the joggled coplanar point
-will be inside the convex hull of the joggled input sites.</p>
+and Voronoi diagrams (<a href=qvoronoi.htm>qvoronoi</a>), joggle
+happens before lifting the input sites to a paraboloid.  Instead of
+'QJ', you may use triangulated output ('<a
+href="qh-optq.htm#Qt">Qt</a>')</p>
 
 <p>By default, 'QJn' uses a fixed random number seed. To use time
 as the random number seed, select '<a href="qh-optq.htm#QRn">QR-1</a>'.
 The summary ('<a href="qh-opto.htm#s">s</a>') will show the
-selected seed as 'QR-n'. </p>
+selected seed as 'QR-n'.  
 
 <p>With 'QJn', Qhull does not error on degenerate hyperplane
 computations. Except for Delaunay and Voronoi computations, Qhull
@@ -340,7 +345,7 @@ selected options. Option 'FO' displays the joggle and the joggle
 seed. If Qhull restarts, it will redisplay the options. </p>
 
 <p>Use option '<a href="qh-optt.htm#TRn">TRn</a>' to estimate the
-probability that Qhull will fail for a given 'QJn'. </p>
+probability that Qhull will fail for a given 'QJn'.  
 
 <h3><a href="#qhull">»</a><a name="Qm">Qm - only process points
 that increase the maximum outer plane </a></h3>
@@ -400,6 +405,25 @@ or more dimensions should be removed ('<a href="#Qb0">Qbk:0Bk:0</a>').
 If not, use option 'Qs'. It performs an exhaustive search for the
 best initial simplex. This is expensive is high dimensions. </p>
 
+<h3><a href="#qhull">»</a><a name="Qt">Qt - triangulated output</a></h3>
+
+<p>By default, qhull merges facets to handle precision errors.  This
+produces non-simplicial facets (e.g., the convex hull of a cube has 6 square
+facets.  Each facet is non-simplicial because it has four vertices.
+
+<p>Use option 'Qt' to triangulate all non-simplicial facets before generating
+results.  Alternatively, use joggled input ('<a href="#QJn">QJ</a>') to
+prevent non-simplical facets.  Unless '<a href="qh-optp.htm#Pp">Pp</a>' is set,
+qhull produces a warning if 'QJ' and 'Qt' are used together.
+
+<p>Option 'Qt' may produce degenerate facets with zero area.</p>
+
+<p>Facet area and hull volumes may differ with and without
+'Qt'.  The triangulations are different and different triangles
+may be ignored due to precision errors.
+
+<p>With sufficient merging, the ridges of a non-simplicial facet may share more than two neighboring facets. If so, their triangulation ('<a href="#Qt">Qt</a>') will fail since two facets have the same vertex set. </p>
+
 <h3><a href="#qhull">»</a><a name="Qu">Qu - compute upper hull
 for furthest-site Delaunay triangulation </a></h3>
 
@@ -445,11 +469,11 @@ is automatically set.
 </p>
 
 <p>Option 'QVn' behaves oddly with options '<a href="qh-optf.htm#Fx">Fx</a>'
-and '<a href=qvoronoi.htm>qvoronoi</a> <a href="qh-optp.htm#Fv2">Fv</a>'.
+and '<a href=qvoronoi.htm>qvoronoi</a> <a href="qh-optf.htm#Fv2">Fv</a>'.
 
 <p>If used with option '<a href="#Qg">Qg</a>' (only process good facets), point n is 
 either in the initial simplex or it is the first
-point added to the hull. Options 'QVn Qg' require either '<a href="#QJ">QJ</a>' or 
+point added to the hull. Options 'QVn Qg' require either '<a href="#QJn">QJ</a>' or 
 '<a href="#Q0">Q0</a>' (no merging).</p>
 
 <h3><a href="#qhull">»</a><a name="Qx">Qx - exact pre-merges
@@ -614,13 +638,43 @@ furthest points </a></h3>
 sets. This may reduce precision problems. The furthest point of
 all outside sets is not necessarily the furthest point from the
 convex hull.</p>
+
+<h3><a href="#qhull">»</a><a name="Q10">Q10 - no special processing
+for narrow distributions</a></h3>
+
+<p>With 'Q10', Qhull does not special-case narrow distributions.
+See <a href=qh-impre.htm#limit>Limitations of merged facets</a> for
+more information.
+
+<h3><a href="#qhull">»</a><a name="Q11">Q11 - copy normals and recompute
+centrums for
+tricoplanar facets</a></h3>
+
+Option '<a href="#Qt">Qt</a>' triangulates non-simplicial facets
+into "tricoplanar" facets.
+Normally tricoplanar facets share the same normal, centrum, and
+Voronoi vertex.  They can not be merged or replaced.  With
+option 'Q11', Qhull duplicates the normal and Voronoi vertex.  
+It recomputes the centrum.  
+
+<p>Use 'Q11' if you use the Qhull library to add points
+incrementally and call qh_triangulate() after each point.  
+Otherwise, Qhull will report an error when it tries to
+merge and replace a tricoplanar facet.
+
+<p>With sufficient merging and new points, option 'Q11' may 
+lead to precision problems such
+as duplicate ridges and concave facets.  For example, if qh_triangulate()
+is added to qh_addpoint(), RBOX 1000 s W1e-12 t1001813667 P0 | QHULL d Q11 Tv,
+reports an error due to a duplicate ridge.
+
 <!-- Navigation links -->
 <hr>
 
 <p><b>Up:</b> <a href="http://www.geom.umn.edu/locate/qhull">Home page</a> for Qhull<br>
 <b>Up:</b> <a href="index.htm#TOC">Qhull manual</a>: Table of Contents<br>
 <b>To:</b> <a href="qh-quick.htm#programs">Programs</a>
-&#149;</a> <a href="qh-quick.htm#options">Options</a> 
+&#149; <a href="qh-quick.htm#options">Options</a> 
 &#149; <a href="qh-opto.htm#output">Output</a> 
 &#149; <a href="qh-optf.htm#format">Formats</a> 
 &#149; <a href="qh-optg.htm#geomview">Geomview</a> 

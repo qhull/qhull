@@ -5,13 +5,13 @@
 
   sample code for calling qhull() from an application.
 
-  Everything here can be done more simply with qh_new_qhull() [see 
-  user_eg.c].  The format used here gives the caller more control 
-  over Qhull.  See unix.c for another example.
+  See user_eg.c for a simpler method using qh_new_qhull().
+  The method used here and in unix.c gives you additional
+  control over Qhull. 
   
   call with:
 
-     user_eg2 "cube/diamond options" "delaunay options" "halfspace options"
+     user_eg2 "triangulated cube/diamond options" "delaunay options" "halfspace options"
 
   for example:
 
@@ -51,7 +51,7 @@
 
 #include "qhull_a.h"
 
-char qh_version[] = "user_eg2 2001/02/11";  /* used for error messages */
+char qh_version[] = "user_eg2 3.1 2001/10/04";  /* used for error messages */
 
 /*-------------------------------------------------
 -internal function prototypes
@@ -352,13 +352,14 @@ your project.\n\n");
     coordT array[TOTpoints][DIM];
 
     strcat (qh rbox_command, "user_eg cube");
-    sprintf (options, "qhull s Tcv %s", argc >= 2 ? argv[1] : "");
+    sprintf (options, "qhull s Tcv Q11 %s ", argc >= 2 ? argv[1] : "");
     qh_initflags (options);
-    printf( "\ncompute convex hull of cube after rotating input\n");
+    printf( "\ncompute triangulated convex hull of cube after rotating input\n");
     makecube (array[0], SIZEcube, DIM);
     qh_init_B (array[0], SIZEcube, DIM, ismalloc);
     qh_qhull();
     qh_check_output();
+    qh_triangulate();  /* requires option 'Q11' if want to add points */ 
     print_summary ();
     if (qh VERIFYoutput && !qh STOPpoint && !qh STOPcone)
       qh_check_points ();

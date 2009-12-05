@@ -13,7 +13,7 @@
    To remove deleted facets and vertices (qhull() in qhull.c):
      qh_partitionvisible (!qh_ALL, &numoutside);  // visible_list, newfacet_list
      qh_deletevisible ();         // qh.visible_list
-     qh_resetlists (False);       // qh.visible_list newvertex_list newfacet_list 
+     qh_resetlists (False, qh_RESETvisible);       // qh.visible_list newvertex_list newfacet_list 
 
    assumes qh.CENTERtype= centrum
 
@@ -345,8 +345,22 @@ void qh_appendmergeset(facetT *facet, facetT *neighbor, mergeType mergetype, rea
       qh_setappend (&(qh degen_mergeset), merge);
     else
       qh_setaddnth (&(qh degen_mergeset), 0, merge);
-  }else { /* mergetype == MRGredundant */
+  }else if (mergetype == MRGredundant) {
     facet->redundant= True;
+    qh_setappend (&(qh degen_mergeset), merge);
+  }else /* mergetype == MRGmirror */ {
+    if (facet->redundant || neighbor->redundant) {
+      fprintf(qh ferr, "qhull error (qh_appendmergeset): facet f%d or f%d is already a mirrored facet\n",
+	   facet->id, neighbor->id);
+      qh_errexit2 (qh_ERRqhull, facet, neighbor);
+    }
+    if (!qh_setequal (facet->vertices, neighbor->vertices)) {
+      fprintf(qh ferr, "qhull error (qh_appendmergeset): mirrored facets f%d and f%d do not have the same vertices\n",
+	   facet->id, neighbor->id);
+      qh_errexit2 (qh_ERRqhull, facet, neighbor);
+    }
+    facet->redundant= True;
+    neighbor->redundant= True;
     qh_setappend (&(qh degen_mergeset), merge);
   }
 } /* appendmergeset */
@@ -1420,7 +1434,7 @@ void qh_makeridges(facetT *facet) {
     
   notes:
     duplicate ridges occur when the horizon is pinched,
-        i.e. a subridge occurs in more than two horizon   ridges.
+        i.e. a subridge occurs in more than two horizon ridges.
     could rename vertices that pinch the horizon
     uses qh.visit_id
 
@@ -1739,6 +1753,14 @@ void qh_mergecycle (facetT *samecycle, facetT *newfacet) {
   facetT *same;
 #endif
 
+  if (newfacet->tricoplanar) {
+    if (!qh TRInormals) {
+      fprintf (qh ferr, "qh_mergecycle: does not work for tricoplanar facets.  Use option 'Q11'\n");
+      qh_errexit (qh_ERRqhull, newfacet, NULL);
+    }
+    newfacet->tricoplanar= False;
+    newfacet->keepcentrum= False;
+  }
   if (!qh VERTEXneighbors)
     qh_vertexneighbors();
   zzinc_(Ztotmerge);
@@ -2249,6 +2271,16 @@ void qh_mergefacet(facetT *facet1, facetT *facet2, realT *mindist, realT *maxdis
   vertexT *vertex, **vertexp;
   int tracerestore=0, nummerge;
 
+  if (facet1->tricoplanar || facet2->tricoplanar) {
+    if (!qh TRInormals) {
+      fprintf (qh ferr, "qh_mergefacet: does not work for tricoplanar facets.  Use option 'Q11'\n");
+      qh_errexit2 (qh_ERRqhull, facet1, facet2);
+    }
+    if (facet2->tricoplanar) {
+      facet2->tricoplanar= False;
+      facet2->keepcentrum= False;
+    }
+  }
   zzinc_(Ztotmerge);
   if (qh REPORTfreq2 && qh POSTmerging) {
     if (zzval_(Ztotmerge) > qh mergereport + qh REPORTfreq2)
@@ -2290,10 +2322,8 @@ void qh_mergefacet(facetT *facet1, facetT *facet2, realT *mindist, realT *maxdis
   if (qh num_facets - qh num_visible <= qh hull_dim + 1) {
     fprintf(qh ferr, "\n\
 qhull precision error: Only %d facets remain.  Can not merge another\n\
-pair.  The convexity constraints may be too strong.  Reduce the\n\
-magnitude of 'Cn' or increase the magnitude of 'An'.  For example,\n\
-try 'C-0.001' instead of 'C-0.1' or 'A-0.999' instead of 'A-0.9'.\n", 
-                 qh hull_dim+1);
+pair.  The input is too degenerate or the convexity constraints are\n\
+too strong.\n", qh hull_dim+1);
     if (qh hull_dim >= 5 && !qh MERGEexact)
       fprintf(qh ferr, "Option 'Qx' may avoid this problem.\n");
     qh_errexit(qh_ERRinput, NULL, NULL);

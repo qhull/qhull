@@ -11,9 +11,8 @@ content="text/html; charset=iso-8859-1">
 <p><a name="TOP"><b>Up:</b></a> <a
 href="http://www.geom.umn.edu/locate/qhull">Home page</a> for Qhull<br>
 <b>Up:</b> <a href="../html/index.htm#TOC">Qhull manual</a>: Table of Contents <br>
-<b>Up:</b> <a href="../html/qh-in.htm#TOC">Qhull internals: Table of Contents</a><br>
 <b>Up:</b> <a href="../html/qh-quick.htm#programs">Programs</a>
-&#149;</a> <a href="../html/qh-quick.htm#options">Options</a> 
+&#149; <a href="../html/qh-quick.htm#options">Options</a> 
 &#149; <a href="../html/qh-opto.htm#output">Output</a> 
 &#149; <a href="../html/qh-optf.htm#format">Formats</a> 
 &#149; <a href="../html/qh-optg.htm#geomview">Geomview</a> 
@@ -21,6 +20,7 @@ href="http://www.geom.umn.edu/locate/qhull">Home page</a> for Qhull<br>
 &#149; <a href="../html/qh-optq.htm#qhull">Qhull</a> 
 &#149; <a href="../html/qh-optc.htm#prec">Precision</a> 
 &#149; <a href="../html/qh-optt.htm#trace">Trace</a><br>
+<b>Up:</b> <a href="../html/qh-in.htm#TOC">Qhull internals: Table of Contents</a><br>
 <b>To:</b> <a href="index.htm">Qhull functions</a>, macros, and data structures<br>
 <b>To:</b> <a href="qh-geom.htm">Geom</a> &#149; <a href="qh-globa.htm">Global</a>
 &#149; <a href="qh-io.htm">Io</a> &#149; <a href="qh-mem.htm">Mem</a>
@@ -41,11 +41,11 @@ a (<em>d-2</em>)-face is a <em>ridge</em>, and a <em>0</em>-face
 is a <em>vertex</em>. For example in 3-d, a facet is a polygon
 and a ridge is an edge. A facet is built from a ridge (the <em>base</em>)
 and a vertex (the <em>apex</em>). See 
-<a href="index.htm#structure">Qhull's data structures</a>.</p>
+<a href="../html/index.htm#structure">Qhull's data structures</a>.</p>
 
 <p>Qhull's primary data structure is a polyhedron. A
 polyhedron is a list of facets. Each facet has a set of
-neighoring facets and a set of vertices. Each facet has a
+neighboring facets and a set of vertices. Each facet has a
 hyperplane. For example, a tetrahedron has four facets.
 If its vertices are <em>a, b, c, d</em>, and its facets
 are <em>1, 2, 3, 4,</em> the tetrahedron is </p>
@@ -87,7 +87,7 @@ defines the orientation of the facet's vertices.  For example in 3-d,
 of the left-hand fingers when the thumb is pointing away from the center).
 Except for axis-parallel facets in 5-d and higher, topological orientation
 determines the geometric orientation of the facet's hyperplane.
-</b>
+
 <p>A nonsimplicial facet is due to merging two or more
 facets. The facet's ridge set determine a simplicial
 decomposition of the facet. Each ridge is a 1-face (i.e.,
@@ -109,8 +109,17 @@ passes between the inner and outer planes. The outer
 plane is defined by <tt>facet-&gt;maxoutside</tt> while
 the inner plane is computed from the facet's vertices.</p>
 
+<p>Qhull 3.1 includes triangulation of non-simplicial facets
+('<A href="/software/qhull/html/qh-optq.htm#Qt">Qt</A>').  
+These facets,
+called <i>tricoplanar</i>, share the same normal. centrum, and Voronoi center.
+One facet (keepcentrum) owns these data structures.
+While tricoplanar facets are more accurate than the simplicial facets from 
+joggled input, they
+may have zero area or flipped orientation.
+
 </blockquote>
-<p><b>Copyright © 1995-2001 The Geometry Center, Minneapolis MN</b></p>
+<p><b>Copyright &copy; 1995-2001 The Geometry Center, Minneapolis MN</b></p>
 <hr>
 <p><a href="#TOP">»</a> <a href="qh-geom.htm#TOC">Geom</a> 
 <a name="TOC">&#149;</a> <a href="qh-globa.htm#TOC">Global</a>
@@ -119,9 +128,9 @@ the inner plane is computed from the facet's vertices.</p>
 &#149; <a href="qh-qhull.htm#TOC">Qhull</a> &#149; <a href="qh-set.htm#TOC">Set</a>
 &#149; <a href="qh-stat.htm#TOC">Stat</a> &#149; <a href="qh-user.htm#TOC">User</a>
 </p>
-<h3>Index to <a href="poly.c#TOP">poly.c</a>, 
-<a href="poly2.c#TOP">poly2.c</a>, <a href="poly.h#TOP">poly.h</a>,
-and <a href="qhull.h#TOP">qhull.h</a></h3>
+<h3>Index to <a href="poly.c">poly.c</a>, 
+<a href="poly2.c">poly2.c</a>, <a href="poly.h">poly.h</a>,
+and <a href="qhull.h">qhull.h</a></h3>
 <ul>
 <li><a href="#ptype">Data types and global
 lists for polyhedrons</a> </li>
@@ -234,7 +243,7 @@ ridges set </li>
 <li><a href="qhull.h#FOREACHvertex_i_">FOREACHvertex_i_</a>
 assign 'vertex' and 'vertex_i' to each vertex in
 vertices set </li>
-<li><a href="poly.h#FOREACHsetelementreverse12_">FOREACHvertexreverse12_</a>
+<li><a href="poly.h#FOREACHvertexreverse12_">FOREACHvertexreverse12_</a>
 assign 'vertex' to each vertex in vertex set;
 reverse the order of first two vertices </li>
 </ul>
@@ -265,10 +274,12 @@ construct the initial hull as a simplex of
 vertices </li>
 <li><a href="poly2.c#nearcoplanar">qh_nearcoplanar</a> 
   remove near-inside points from coplanar sets</li>
-<li><a href="poly2.c#nonupper">qh_nonupper</a> return
-first non-flipped facet </li>
 <li><a href="poly2.c#prependfacet">qh_prependfacet</a>
 prepends facet to start of facetlist </li>
+<li><a href="user.c#printfacetlist">qh_printfacetlist</a>
+print facets in a facetlist</li>
+<li><a href="poly2.c#printlists">qh_printlists</a>
+print out facet list for debugging </li>
 <li><a href="poly.c#removefacet">qh_removefacet</a>
 unlinks facet from qh.facet_list</li>
 <li><a href="poly2.c#resetlists">qh_resetlists</a>
@@ -299,12 +310,26 @@ make new hyperplanes for facets </li>
 move points from outside set to coplanar set </li>
 <li><a href="poly2.c#setvoronoi_all">qh_setvoronoi_all</a>
 compute Voronoi centers for all facets </li>
+<li><a href="poly2.c#triangulate">qh_triangulate</a>
+triangulate non-simplicial facets</li>
+<li><a href="poly2.c#triangulate_facet">qh_triangulate_facet</a>
+triangulate a non-simplicial facet</li>
+<li><a href="poly2.c#triangulate_link">qh_triangulate_link</a>
+link facets together from qh_triangulate</li>
+<li><a href="poly2.c#triangulate_mirror">qh_triangulate_mirror</a>
+delete mirrored facets from qh_triangulate</li>
+<li><a href="poly2.c#triangulate_null">qh_triangulate_null</a>
+delete null facet from qh_triangulate</li>
 </ul>
 <h3><a href="qh-poly.htm#TOC">»</a><a name="pvertex">Vertex,
 ridge, and point functions</a></h3>
 <ul>
 <li><a href="poly.c#appendvertex">qh_appendvertex</a>
 append vertex to end of qh.vertex_list, </li>
+<li><a href="io.c#detvridge">qh_detvridge</a> determine Voronoi
+ridge for an input site
+<li><a href="io.c#detvridge3">qh_detvridge3</a> determine 3-d Voronoi
+ridge for an input site
 <li><a href="poly2.c#facet3vertex">qh_facet3vertex</a>
 return an oriented vertex set for a 3-d facet </li>
 <li><a href="poly.c#facetintersect">qh_facetintersect</a>
@@ -337,7 +362,7 @@ vertices </li>
 intersect two vertex sets </li>
 <li><a href="poly2.c#vertexintersect_new">qh_vertexintersect_new</a>
 return intersection of two vertex sets </li>
-<li><a href="poly2.c#vertexneighhbors">qh_vertexneighhbors</a>
+<li><a href="poly2.c#vertexneighbors">qh_vertexneighbors</a>
 for each vertex in hull, determine facet
 neighbors </li>
 <li><a href="poly2.c#vertexsubset">qh_vertexsubset</a>
@@ -424,9 +449,8 @@ print out facet list for debugging </li>
 <a href="http://www.geom.umn.edu/locate/qhull">Home page for
 Qhull</a> <br>
 <b>Up:</b> <a href="../html/index.htm#TOC">Qhull manual: Table of Contents</a> <br>
-<b>Up:</b> <a href="../html/qh-in.htm#TOC">Qhull internals: Table of Contents</a> <br>
 <b>Up:</b> <a href="../html/qh-quick.htm#programs">Programs</a>
-&#149;</a> <a href="../html/qh-quick.htm#options">Options</a> 
+&#149; <a href="../html/qh-quick.htm#options">Options</a> 
 &#149; <a href="../html/qh-opto.htm#output">Output</a> 
 &#149; <a href="../html/qh-optf.htm#format">Formats</a> 
 &#149; <a href="../html/qh-optg.htm#geomview">Geomview</a> 
@@ -434,6 +458,7 @@ Qhull</a> <br>
 &#149; <a href="../html/qh-optq.htm#qhull">Qhull</a> 
 &#149; <a href="../html/qh-optc.htm#prec">Precision</a> 
 &#149; <a href="../html/qh-optt.htm#trace">Trace</a><br>
+<b>Up:</b> <a href="../html/qh-in.htm#TOC">Qhull internals: Table of Contents</a> <br>
 <b>To:</b> <a href="index.htm">Qhull functions</a>, macros, and data structures<br>
 <b>To:</b> <a href="qh-geom.htm">Geom</a> &#149; 
 <a href="qh-globa.htm">Global</a> &#149; <a href="qh-io.htm">Io</a>
@@ -451,7 +476,5 @@ Geometry Center Home Page </i></p>
 <a href="http://www.geom.umn.edu/software/qhull/qhull-mail.html">qhull@geom.umn.edu
 </a><br>
 Created: May 2, 1997 --- <!-- hhmts start --> Last modified: see top <!-- hhmts end --> </p>
-</li>
-</dir>
 </body>
 </html>

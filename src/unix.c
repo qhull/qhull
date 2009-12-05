@@ -51,7 +51,7 @@ int isatty (int);  /* returns 1 if stdin is a tty
     recompile user_eg.c, rbox.c, qhull.c, qconvex.c, qdelaun.c qvoronoi.c, qhalf.c
 */
 
-char qh_version[]= "version 3.0 2001/02/11"; 
+char qh_version[]= "version 3.1 2001/10/04"; 
 
 /*-<a                             href="qh-qhull.htm#TOC"
   >-------------------------------</a><a name="prompt">-</a>
@@ -79,7 +79,8 @@ options:\n\
     v    - Voronoi diagram (dual of the Delaunay triangulation)\n\
     v Qu - furthest-site Voronoi diagram\n\
     Hn,n,... - halfspace intersection about point [n,n,0,...]\n\
-    QJ   - joggle input instead of merging facets\n\
+    Qt   - triangulated output\n\
+    QJ   - joggled input instead of merged facets\n\
     Qc   - keep coplanar points with nearest facet\n\
     Qi   - keep interior points with nearest facet\n\
 \n\
@@ -115,6 +116,8 @@ char qh_promptb[]= "\
     Q7   - depth-first processing instead of breadth-first\n\
     Q8   - do not process near-inside points\n\
     Q9   - process furthest of furthest points\n\
+    Q10  - no special processing for narrow distributions\n\
+    Q11  - copy normals and recompute centrums for tricoplanar facets\n\
 \n\
 ";
 char qh_promptc[]= "\
@@ -125,6 +128,7 @@ Topts- Trace options:\n\
     Tv   - verify result: structure, convexity, and point inclusion\n\
     Tz   - send all output to stdout\n\
     TFn  - report summary when n or more facets created\n\
+    TI file - input data from file, no spaces or single quotes\n\
     TO file - output results to file, may be enclosed in single quotes\n\
     TPn  - turn on tracing when point n added to hull\n\
      TMn - turn on tracing at merge n\n\
@@ -236,7 +240,8 @@ options (qh-quick.htm):\n\
     v    - Voronoi diagram as the dual of the Delaunay triangulation\n\
     v Qu - furthest-site Voronoi diagram\n\
     H1,1 - Halfspace intersection about [1,1,0,...] via polar duality\n\
-    QJ   - joggle input instead of merging facets\n\
+    Qt   - triangulated output\n\
+    QJ   - joggled input instead of merged facets\n\
     Tv   - verify result: structure, convexity, and point inclusion\n\
     .    - concise list of all options\n\
     -    - one-line description of all options\n\
@@ -296,15 +301,16 @@ Except for 'F.' and 'PG', upper-case options take an argument.\n\
 \n\
  QbBound 0:0.5  Qbk:0Bk:0_drop QbB-scale-box  Qbb-scale-last Qcoplanar\n\
  Qfurthest      Qgood_only     QGood_point    Qinterior      Qmax_out\n\
- QJoggle        Qrandom        QRotate        Qsearch_1st    QupperDelaunay\n\
- QVertex_good   Qvneighbors    Qxact_merge    Qzinfinite\n\
+ QJoggle        Qrandom        QRotate        Qsearch_1st    Qtriangulate\n\
+ QupperDelaunay QVertex_good   Qvneighbors    Qxact_merge    Qzinfinite\n\
 \n\
  Q0_no_premerge Q1_no_angle    Q2_no_independ Q3_no_redundant Q4_no_old\n\
  Q5_no_check_out Q6_no_concave Q7_depth_first Q8_no_near_in  Q9_pick_furthest\n\
+ Q10_no_narrow  Q11_trinormals\n\
 \n\
  T4_trace       Tcheck_often   Tstatistics    Tverify        Tz_stdout\n\
- TFacet_log     TPoint_trace   TMerge_trace   TOutput_file   TRerun\n\
- TWide_trace    TVertex_stop   TCone_stop\n\
+ TFacet_log     TInput_file    TPoint_trace   TMerge_trace   TOutput_file\n\
+ TRerun         TWide_trace    TVertex_stop   TCone_stop\n\
 \n\
  Angle_max      Centrum_size   Error_round    Random_dist    Visible_min\n\
  Ucoplanar_max  Wide_outside\n\

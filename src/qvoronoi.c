@@ -52,10 +52,10 @@ int isatty (int);  /* returns 1 if stdin is a tty
     concise prompt below
 */  
 
-char qh_version[]= "version 3.0 2001/02/11";   /* used for error messages */
+char qh_version[]= "version 3.1 2001/10/04";   /* used for error messages */
 
 /* duplicated in qvoron_f.htm and qvoronoi.htm */
-char hidden_options[]=" d n m v H U Qb QB Qc Qf Qg Qi Qm Qr QR Qv Qx TR E V Fa FA FC Fp FS Ft FV Gt Q0 Q1 Q2 Q3 Q4 Q5 Q6 Q7 Q8 Q9 ";
+char hidden_options[]=" d n m v H U Qb QB Qc Qf Qg Qi Qm Qr QR Qv Qx TR E V Fa FA FC Fp FS Ft FV Pv Gt Q0 Q1 Q2 Q3 Q4 Q5 Q6 Q7 Q8 Q9 ";
 
 char qh_prompta[]= "\n\
 qvoronoi- compute the Voronoi diagram\n\
@@ -68,14 +68,15 @@ input (stdin):\n\
 \n\
 options:\n\
     Qu   - compute furthest-site Voronoi diagram\n\
-    QJ   - joggle input instead of merging facets\n\
+    Qt   - triangulated output\n\
+    QJ   - joggled input instead of merged facets\n\
 \n\
 Qhull control options:\n\
+    Qz   - add point-at-infinity to Voronoi diagram\n\
     QJn  - randomly joggle input in range [-n,n]\n\
 %s%s%s%s";  /* split up qh_prompt for Visual C++ */
 char qh_promptb[]= "\
     Qs   - search all points for the initial simplex\n\
-    Qz   - add point-at-infinity to Voronoi diagram\n\
     QGn  - Voronoi vertices if visible from point n, -n if not\n\
     QVn  - Voronoi vertices for input point n, -n if not\n\
 \n\
@@ -88,6 +89,7 @@ Trace options:\n\
     Tv   - verify result: structure, convexity, and in-circle test\n\
     Tz   - send all output to stdout\n\
     TFn  - report summary when n or more facets created\n\
+    TI file - input data from file, no spaces or single quotes\n\
     TO file - output results to file, may be enclosed in single quotes\n\
     TPn  - turn on tracing when point n added to hull\n\
      TMn - turn on tracing at merge n\n\
@@ -174,8 +176,9 @@ qvoronoi- compute the Voronoi diagram. Qhull %s\n\
     comments start with a non-numeric character\n\
 \n\
 options (qvoronoi.htm):\n\
-    QJ   - joggle input instead of merging facets\n\
     Qu   - compute furthest-site Voronoi diagram\n\
+    Qt   - triangulated output\n\
+    QJ   - joggled input instead of merged facets\n\
     Tv   - verify result: structure, convexity, and in-circle test\n\
     .    - concise list of all options\n\
     -    - one-line description of all options\n\
@@ -224,12 +227,12 @@ Except for 'F.' and 'PG', upper-case options take an argument.\n\
  PArea_keep     Pdrop d0:0D0   Pgood          PFacet_area_keep\n\
  PGood_neighbors PMerge_keep   Poutput_forced Pprecision_not\n\
 \n\
- QG_vertex_good QJoggle        Qsearch_1st    Qupper_voronoi\n\
+ QG_vertex_good QJoggle        Qsearch_1st    Qtriangulate   Qupper_voronoi\n\
  QV_point_good  Qzinfinite\n\
 \n\
  T4_trace       Tcheck_often   Tstatistics    Tverify        Tz_stdout\n\
- TFacet_log     TPoint_trace   TMerge_trace   TOutput_file   TWide_trace\n\
- TVertex_stop   TCone_stop\n\
+ TFacet_log     TInput_file    TPoint_trace   TMerge_trace   TOutput_file\n\
+ TWide_trace    TVertex_stop   TCone_stop\n\
 \n\
  Angle_max      Centrum_size   Random_dist    Wide_outside\n\
 ";

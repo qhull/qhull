@@ -10,7 +10,7 @@
 <p><b>Up:</b> <a href="http://www.geom.umn.edu/locate/qhull">Home page</a> for Qhull<br>
 <b>Up:</b> <a href="index.htm#TOC">Qhull manual</a>: Table of Contents<br>
 <b>To:</b> <a href="qh-quick.htm#programs">Programs</a>
-&#149;</a> <a href="qh-quick.htm#options">Options</a> 
+&#149; <a href="qh-quick.htm#options">Options</a> 
 &#149; <a href="qh-opto.htm#output">Output</a> 
 &#149; <a href="qh-optf.htm#format">Formats</a> 
 &#149; <a href="qh-optg.htm#geomview">Geomview</a> 
@@ -29,7 +29,7 @@ height="100"></a> Qhull trace options (T)</h1>
 This section lists the trace options for Qhull. These options are
 indicated by 'T' followed by a letter.
 
-<p><b>Copyright © 1995-2001 The Geometry Center, Minneapolis MN</b></p>
+<p><b>Copyright &copy; 1995-2001 The Geometry Center, Minneapolis MN</b></p>
 
 <hr>
 
@@ -50,6 +50,8 @@ indicated by 'T' followed by a letter.
     <dd><b>General</b></dd>
     <dt><a href="#Tz">Tz</a></dt>
     <dd>output error information to stdout instead of stderr</dd>
+    <dt><a href="#TI">TI file</a></dt>
+    <dd>input data from a file</dd>
     <dt><a href="#TO">TO file</a></dt>
     <dd>output results to a file</dd>
     <dt><a href="#Ts">Ts</a></dt>
@@ -108,6 +110,13 @@ created. The test occurs just before adding a new point to the
 hull. During post-merging, 'TFn' reports progress after more than
 <i>n/2</i> merges. </p>
 
+<h3><a href="#trace">»</a><a name="TI">TI file - input data from file</a></h3>
+
+<p>Input data from 'file' instead of stdin.  The filename may not
+contain spaces or use single quotes.  
+You may use I/O redirection
+instead (e.g., 'rbox 10 | qdelaunay >results').</P>
+
 <h3><a href="#trace">»</a><a name="TMn">TMn - turn on tracing at
 merge n </a></h3>
 
@@ -123,7 +132,7 @@ allocation and Gaussian elimination. 'T1' is useful for logging
 progress of Qhull in high dimensions.</p>
 
 <p>Option 'Tn' can produce large amounts of output. Use options '<a
-href="#TPn">TPn</a>' and '<a href="#TMn">TMn</a>' to selectively
+href="#TPn">TPn</a>', '<a href="#TWn">TWn</a>', and '<a href="#TMn">TMn</a>' to selectively
 turn on tracing. Since all errors report the last processed
 point, option '<a href="#TPn">TPn</a>' is particularly useful.</p>
 
@@ -142,15 +151,26 @@ instead (e.g., 'rbox 10 | qdelaunay >results').</P>
 Windows95 users should always use 'TO file'.  If they use I/O redirection, 
 error output is not sent to the console.  Qhull uses single quotes instead
 of double quotes because a missing double quote can 
-freeze Windows95 (e.g., do not run, rbox 10 | qhull TO "x)</p>
+freeze Windows95 (e.g., do not run, rbox 10 | qhull TO &quot;x)</p>
 <p>
 
 <h3><a href="#trace">»</a><a name="TPn">TPn - turn on tracing
 when point n added to hull </a></h3>
 
-<p>This reduces the output size when tracing. It is the normal
+<p>Option 'TPn' turns on tracing when point n is added to
+the hull.  It also traces partitions of point n.  This option 
+reduces the output size when tracing.  It is the normal
 method to determine the cause of a Qhull error. All Qhull errors
-report the last point added. </p>
+report the last point added. 
+
+<p>Use options 'TPn <a href="qh-optt.htm#TVn">TVn</a>' to 
+trace the addition of point n to the convex hull and stop when done.</p>
+
+<p>If used with option '<a href="qh-optt.htm#TWn">TWn</a>', 
+'TPn' turns off tracing after adding point n to the hull.
+Use options 'TPn TWn' to 
+trace the addition of point n to the convex hull, partitions
+of point n, and wide merges.</p>
 
 <h3><a href="#trace">»</a><a name="TRn">TRn - rerun qhull n times</a></h3>
 
@@ -162,6 +182,10 @@ rate and the precision errors that occurred.
 Option '<a href="#Ts">Ts</a>' will report statistics for
 all of the runs.  Trace and output options only apply to the last
 run.  An event trace, '<a href="#Tn">T-1</a>' reports events for all runs.
+
+<p>Tracing applies to the last run of Qhull.  If an error
+is reported, the options list the run number as "_run".  
+To trace this run, set 'TRn' to the same value.</p>
 
 <h3><a href="#trace">»</a><a name="Ts">Ts - print statistics </a></h3>
 
@@ -229,7 +253,7 @@ stdout </a></h3>
 <p><b>Up:</b> <a href="http://www.geom.umn.edu/locate/qhull">Home page</a> for Qhull<br>
 <b>Up:</b> <a href="index.htm#TOC">Qhull manual</a>: Table of Contents<br>
 <b>To:</b> <a href="qh-quick.htm#programs">Programs</a>
-&#149;</a> <a href="qh-quick.htm#options">Options</a> 
+&#149; <a href="qh-quick.htm#options">Options</a> 
 &#149; <a href="qh-opto.htm#output">Output</a> 
 &#149; <a href="qh-optf.htm#format">Formats</a> 
 &#149; <a href="qh-optg.htm#geomview">Geomview</a> 

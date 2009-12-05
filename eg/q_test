@@ -3,15 +3,15 @@
 #  NOTE:  all tests duplicated in q_test.bat
 set -v
 echo === errors if 'user_eg' and 'user_eg2' not found ===
-echo === check user_eg =====================
-user_eg "QR1 p" "v p" Fp
+echo === check user_eg ${d:-`date`} =====================
+user_eg "QR1 p n Qt" "v p" Fp
 user_eg2 "QR1 p" "v p" Fp
-echo === check front ends ==========================================================
+echo === check front ends ${d:-`date`} ==================
 qconvex -
 qconvex .
 qconvex
-rbox c D2 | qconvex s n 
-rbox c D2 | qconvex i  
+rbox c D3 | qconvex s n Qt 
+rbox c D2 | qconvex s i 
 rbox c D2 | qconvex o
 rbox 1000 s | qconvex s Tv FA
 rbox c d D2 | qconvex s Qc Fx
@@ -19,17 +19,17 @@ rbox y 1000 W0 | qconvex s n
 rbox y 1000 W0 | qconvex s QJ
 rbox d G1 D12 | qconvex QR0 FA
 rbox c D6 | qconvex FA TF500
-rbox c P0 d D2 | qconvex p Fa Fc FP FI Fn FN FS Fv Fx
+rbox c P0 d D2 | qconvex p Fa Fc FP FI Fn FN FS Fv Fx 
 rbox c d D2 | qconvex s i QV0
 rbox c | qconvex Q0
 qvoronoi -
 qvoronoi .
 qvoronoi
 rbox c P0 D2 | qvoronoi s o
-rbox c P0 D2 | qvoronoi Fi
+rbox c P0 D2 | qvoronoi Fi Tv
 rbox c P0 D2 | qvoronoi Fo
 rbox c P0 D2 | qvoronoi Fv
-rbox c P0 D2 | qvoronoi s Qu Fv
+rbox c P0 D2 | qvoronoi s Qu Qt Fv
 rbox c P0 D2 | qvoronoi Qu Fo
 rbox c G1 d D2 | qvoronoi s p 
 rbox c G1 d D2 | qvoronoi QJ p 
@@ -41,17 +41,17 @@ qdelaunay
 rbox c P0 D2 | qdelaunay s o
 rbox c P0 D2 | qdelaunay i
 rbox c P0 D2 | qdelaunay Fv
-rbox c P0 D2 | qdelaunay s Qu Fv
+rbox c P0 D2 | qdelaunay s Qu Qt Fv
 rbox c G1 d D2 | qdelaunay s i
-rbox c G1 d D2 | qdelaunay Ft
-rbox c G1 d D2 | qdelaunay QJ s Ft
+rbox c G1 d D2 | qhull d Qbb Ft
+rbox c G1 d D2 | qhull d Qbb QJ s Ft
 rbox M3,4 z 100 D2 | qdelaunay s
 rbox c P-0.1 P+0.1 P+0.1 D2 | qdelaunay s Fx Fa Fc FP FQ Fn FN
 rbox P0 P0 c D2 | qdelaunay s FP QV0
 qhalf -
 qhalf .
 qhalf
-rbox d | qhull FQ n | qhalf s H0,0,0 Fp
+rbox d | qhull FQ n | qhalf s Qt H0,0,0 Fp
 rbox c | qhull FQ FV n | qhalf s i
 rbox c | qhull FQ FV n | qhalf o
 rbox d D2 | qhull FQ n | qhalf s H0 Fc FP Fn FN FQ Fv Fx
@@ -193,6 +193,7 @@ rbox 1000 s D2 | qhull FA Tcv
 rbox 1000 s | qhull FA Tcv
 rbox c D4 | qhull FA Tcv
 rbox c D5 | qhull FA Tcv
+rbox c D5 | qhull FA Qt Tcv
 rbox 10 D2 | qhull d FA Tcv
 rbox 10 D2 | qhull d Qu FA Tcv
 rbox 10 D2 | qhull FA Tcv
@@ -205,7 +206,21 @@ rbox P0.5,0.5 P0.5,0.5 W0 5 D2 | qhull d FN Qc
 rbox 10 D3 | qhull Fa PA5
 rbox 10 D3 | qhull Fa PF0.4
 
-echo === test unbounded intersection
+echo === test Qt ${d:-`date`}
+rbox c | qhull Qt s o Tcv
+rbox c | qhull Qt f i
+rbox c | qhull Qt m n
+rbox c | qhull Qt p o
+rbox c | qhull Qt Fx
+rbox c | qhull Qt FA s Fa
+rbox 6 r s c G0.1 D2 | qhull Qt d FA Tcv
+rbox 6 r s c G0.1 D2 | qhull d FA Tcv
+rbox 6 r s c G0.1 D2 | qhull Qt v p Tcv
+rbox c | qhull Qt C-0.1 Qc FF s FQ Fi n Fo FQ FI Fm Fn FN FO FO FQ Fs FS FV Fv Tcv
+rbox 6 r s c G0.1 D2 P0.1,0.1 | qhull s FP d FO Qt
+RBOX 100 W0 | QHULL Tv Q11 FO
+
+echo === test unbounded intersection ${d:-`date`}
 rbox c | qhull PD0:0.5 n | qhull H0 Fp Tcv
 rbox 1000 W1e-3 D3 | qhull PA8 Fa FS s n Tcv 
 rbox 1000 W1e-3 D3 | qhull C-0.01 PM10 Fm n Tcv Qc
@@ -275,6 +290,7 @@ rbox 10 D3 | qhull Qb1:0B1:0 d Tcv Q8
 rbox 10 D3 | qhull Qb1:0B1:0B2:0 d Tcv Q8
 rbox 10 D3 | qhull Qb1:0 d Tcv 
 rbox 10 D3 | qhull Qb1:0B1:0  Tcv
+echo "== next command will error ${d:-`date`} =="
 rbox 10 D2 | qhull Qb1:1B1:1 Tcv
 rbox 200 L20 D2 t | qhull FO Tcv C-0
 rbox 1000 L20 t | qhull FO Tcv C-0
@@ -333,6 +349,14 @@ rbox 1000 D2 t | qhull d QR0 Qc C-1e-8 Qu Tv
 rbox 300 D5 t |qhull A-0.999 Qx Qc Tcv
 rbox 100 D6 t |qhull A-0.9999 Qx Qc Tcv
 rbox 50 D7 t |qhull A-0.99999 Qx Qc Tcv W0.1
+
+echo === check bad cases for Qhull.  May cause errors ${d:-`date`}
+RBOX 1000 L100000 s G1e-6 t | QHULL Tv
+RBOX 1000 L100000 s G1e-6 t | QHULL Tv Q10
+rbox 1000 s Z1 G1e-13 t | qhull Tv
+RBOX 1000 s W1e-13 P0 t | QHULL d Qbb Qc Tv
+RBOX 1000 s W1e-13 t | QHULL d Tv
+RBOX 1000 s W1e-13 t D2 | QHULL d Tv
 
 echo =======================================================
 echo =======================================================

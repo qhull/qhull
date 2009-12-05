@@ -75,8 +75,8 @@
 /*-<a                             href="qh-poly.htm#TOC"
   >--------------------------------</a><a name="FORALLnew_facets">-</a>
   
-  FORALLnewfacets { ... } 
-    assign 'facet' to each facet in qh.newfacet_list
+  FORALLnew_facets { ... } 
+    assign 'newfacet' to each facet in qh.newfacet_list
     
   notes:
     uses 'facetT *newfacet;'
@@ -274,8 +274,13 @@ setT   *qh_pointvertex (void /*qh facet_list*/);
 void 	qh_prependfacet(facetT *facet, facetT **facetlist);
 void	qh_printhashtable(FILE *fp);
 void    qh_printlists (void);
-void    qh_resetlists (boolT stats /*qh newvertex_list newfacet_list visible_list*/);
+void    qh_resetlists (boolT stats, boolT resetVisible /*qh newvertex_list newfacet_list visible_list*/);
 void    qh_setvoronoi_all (void);
+void	qh_triangulate (void /*qh facet_list*/);
+void    qh_triangulate_facet (facetT *facetA, vertexT **first_vertex);
+void    qh_triangulate_link (facetT *oldfacetA, facetT *facetA, facetT *oldfacetB, facetT *facetB);
+void	qh_triangulate_mirror (facetT *facetA, facetT *facetB);
+void    qh_triangulate_null (facetT *facetA);
 void    qh_vertexintersect(setT **vertexsetA,setT *vertexsetB);
 setT   *qh_vertexintersect_new(setT *vertexsetA,setT *vertexsetB);
 void    qh_vertexneighbors (void /*qh facet_list*/);

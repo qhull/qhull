@@ -14,7 +14,7 @@ href="http://www.geom.umn.edu/locate/qhull">Home page for Qhull</a>
 <b>Up:</b> <a href="index.htm#TOC">Qhull manual: Table of
 Contents</a><br>
 <b>To:</b> <a href="qh-quick.htm#programs">Programs</a>
-&#149;</a> <a href="qh-quick.htm#options">Options</a> 
+&#149; <a href="qh-quick.htm#options">Options</a> 
 &#149; <a href="qh-opto.htm#output">Output</a> 
 &#149; <a href="qh-optf.htm#format">Formats</a> 
 &#149; <a href="qh-optg.htm#geomview">Geomview</a> 
@@ -22,10 +22,11 @@ Contents</a><br>
 &#149; <a href="qh-optq.htm#qhull">Qhull</a> 
 &#149; <a href="qh-optc.htm#prec">Precision</a> 
 &#149; <a href="qh-optt.htm#trace">Trace</a><br>
-<b>To:</b> <a href="#TOC">Qhull internals: Table of Contents</a>
+<b>To:</b> <a href="#TOC">Qhull internals</a>: Table of Contents
 (please wait while loading) <br>
-<b>Dn:</b> <a href="../src/index.htm">Qhull functions, macros, and data
-structures</a> </p>
+<b>Dn:</b> <a href="../src/index.htm">Qhull functions</a>, macros, and data
+structures
+</p>
 
 <hr>
 <!-- Main text of document -->
@@ -36,7 +37,7 @@ height="100"></a> Qhull internals</h1>
 
 <p>This section discusses the internals of Qhull. </p>
 
-<p><b>Copyright © 1995-2001 The Geometry Center, Minneapolis MN</b></p>
+<p><b>Copyright &copy; 1995-2001 The Geometry Center, Minneapolis MN</b></p>
 
 <hr>
 
@@ -44,26 +45,26 @@ height="100"></a> Qhull internals</h1>
 Contents </a></h2>
 
 <ul>
-    <li><a href="#performance">Performance of Qhull</a></li>
-    <li><a href="#library">Calling Qhull from your program</a></li>
+    <li><a href="#performance">Performance</a> of Qhull</li>
+    <li><a href="#library">Calling Qhull</a> from your program
     <ul>
-            <li><a href="#mem">sets and quick memory allocation</a></li>
-            <li><a href="#dids">print point indices for Delaunay
-                triangles</a></li>
-            <li><a href="#findfacet">locate a facet with
-                qh_findbestfacet()</a></li>
-            <li><a href="#inc">on-line construction with
-                qh_addpoint()</a></li>
-            <li><a href="#constrained">Constrained Delaunay
-                triangulation</a></li>
-            <li><a href="#vertices">Voronoi vertices of a region</a></li>
-            <li><a href="#ridge">Voronoi vertices of a ridge</a></li>
-            <li><a href="#vneighbor">vertex neighbors of a vertex</a></li>
+            <li><a href="#constrained">Constrained Delaunay</a>
+                triangulation</li>
+            <li><a href="#dids">Delaunay triangulations</a> and point indices</li>
+            <li><a href="#findfacet">Locate facet</a> with
+                qh_findbestfacet()</li>
+            <li><a href="#inc">On-line construction</a> with
+                qh_addpoint()</li>
+            <li><a href="#mem">Sets and quick memory</a> allocation</li>
+	<li><a href="#tricoplanar">Tricoplanar facets</a> and option 'Qt'</li>
+            <li><a href="#vneighbor">Vertex neighbors</a> of a vertex</li>
+            <li><a href="#vertices">Voronoi vertices</a> of a region</li>
+            <li><a href="#ridge">Voronoi vertices</a> of a ridge</li>
         </ul>
     </li>
-    <li><a href="#enhance">Enhancements to Qhull</a></li>
-    <li><a href="../src/index.htm">Qhull functions, macros, and data
-        structures</a> </li>
+    <li><a href="#enhance">Enhancements</a> to Qhull</li>
+    <li><a href="../src/index.htm">Qhull functions</a>, macros, and data
+        structures </li>
 </ul>
 
 <hr>
@@ -94,7 +95,7 @@ arithmetic. They are optimized for simplicial outputs. </p>
 performance with the '<a href="qh-optt.htm#TFn">TFn</a>' option.
 The time per facet is approximately constant. In high-d with many
 merged facets, the size of the ridge sets grows rapidly. For
-example the product of 8-d simplicies contains 18 facets and
+example the product of 8-d simplices contains 18 facets and
 500,000 ridges. This will increase the time needed per facet. </p>
 
 <p>As dimension increases, the number of facets and ridges in a
@@ -120,6 +121,10 @@ href="qh-optt.htm#Ts">Ts</a>'). If free list sizes do not match,
 you may be able to use a smaller qh_MEMalign. Setting
 qh_COMPUTEfurthest saves a small amount of memory, as does
 clearing qh_MAXoutside (both in <tt>user.h</tt>).</p>
+
+<p>Shewchuk is working on a 3-d version of his triangle
+program.  It is optimized for 3-d simplicial Delaunay triangulation
+and uses less memory than Qhull.</p>
 
 <p>To reduce the size of the Qhull executable, consider
 qh_NOtrace and qh_KEEPstatistics 0 in <tt>user.h</tt>. By
@@ -171,6 +176,13 @@ constants. Changes may improve Qhull performance on your data
 sets. To understand their effect on performance, you will need to
 read the corresponding code. </p>
 
+<p>GNU <tt>gprof</tt> reports that the dominate cost for 3-d
+convex hull of cosperical points is qh_distplane(), mainly called
+from qh_findbestnew().  The dominate cost for 3-d Delaunay triangulation
+is creating new facets in qh_addpoint(), while qh_distplane() remains
+the most expensive function.
+
+</p>
 <h2><a href="#TOC">»</a><a name="library">Calling Qhull from
 your program</a></h2>
 
@@ -203,7 +215,7 @@ an application template. You can use <tt>user_eg.c</tt>
 as an example. It also shows how to reduce memory requirements by
 not loading <tt>io.o</tt>. If you use joggled input ('<a
 href="qh-optq.htm#QJn">QJ</a>'), you may also remove <tt>merge.o</tt>
-with <a href="user.h#NOmerge">qh_NOmerge</a>'. </p>
+with <a href="../src/user.h#NOmerge">qh_NOmerge</a>'. </p>
 
 <p>The <a href=http://www.boost.org/libs/graph/doc/table_of_contents.html>BGL</a>
 Boost Graph Library [aka GGCL] provides C++ classes for graph data structures
@@ -240,8 +252,8 @@ the inner loop of Qhull, so speed is more important than
 abstraction. Set iteration is particularly fast. <tt>qset.c</tt>
 just includes the functions needed for Qhull. </p>
 
-<h3><a href="#TOC">»</a><a name="dids">print point indices for
-Delaunay triangles</a></h3>
+<h3><a href="#TOC">»</a><a name="dids">Delaunay triangulations
+and point indices</a></h3>
 
 <p>Here some unchecked code to print the point indices of each
 Delaunay triangle. Use option 'QJ' if you want to avoid
@@ -315,7 +327,7 @@ For the on-line construction of convex hulls and halfspace
 intersections, Qhull may use an exhaustive search
 (qh_findbestfacet). </p>
 
-<p>You may use qh_addpoint in <tt>qhull.c</tt> to add a point to
+<p>You may use qh_findbestfacet and qh_addpoint (<tt>qhull.c</tt>) to add a point to
 a convex hull. Do not modify the point's coordinates since
 qh_addpoint does not make a copy of the coordinates. For Delaunay
 triangulations, you need to lift the point to a paraboloid by
@@ -372,6 +384,27 @@ triangulation: subdivide the constraint into pieces shorter than
 the minimum feature separation. You will need an independent
 check of the constraint in the output since the minimum feature
 separation may be incorrect. [H. Geron] </p>
+
+<h3><A href="#TOC">»</A><a name="tricoplanar">Tricoplanar facets and option 'Qt'</h3>
+
+<p>Option '<a href=qh_optq.htm#Qt>Qt</a>' triangulates non-simplicial
+facets (e.g., a square facet in 3-d or a cubical facet in 4-d).  
+All facets share the same apex (i.e., the first vertex in facet->vertices).
+For each triangulated facet, Qhull
+sets facet->tricoplanar true and copies facet->center, facet->normal, facet->offset, and facet->maxoutside.  One of
+the facets owns facet->normal; its facet->keepcentrum is true.
+If facet->isarea is false, facet->triowner points to the owning
+facet.
+
+<p>Qhull sets facet->degenerate if the facet's vertices belong
+to the same ridge of the non-simplicial facet.
+
+<p>To visit each tricoplanar facet of a non-simplicial facet,
+either visit all neighbors of the apex or recursively visit
+all neighbors of a tricoplanar facet.  The tricoplanar facets
+will have the same facet->center.</p>
+
+<p>See <a href=../src/io.c#detvridge>qh_detvridge</a> for an example of ignoring tricoplanar facets.</p>
 
 <h3><a href="#TOC">»</a><a name="vertices">Voronoi vertices of a
 region</a></h3>
@@ -455,17 +488,13 @@ graph of the convex hull. </p>
 <p>There are many ways in which Qhull can be improved. </p>
 
 <pre>Here is a partial list:
- - write a BGL interface to Qhull 
+ - write a BGL, C++ interface to Qhull 
      http://www.boost.org/libs/graph/doc/table_of_contents.html
  - rewrite Qhull in C++ to make it easier to use Qhull in a program
  - change qh_save_qhull to swap the qhT structure instead of using pointers
  - change error handling and tracing to be independent of 'qh ferr'
- - produce a custom version and documentation for Delaunay triangulations
-     The convex hull code/documentation is confusing for Delaunay triangulations
  - determine the maximum width for a given set of parameters
  - prove that directed search locates all coplanar facets
- -   improve and speed up directed search (qh_findbest)
- -   for Delaunay triangulations, remove potential exhaustive search in qh_findbestfacet()
  - in high-d merging, can a loop of facets become disconnected?
  - find a way to improve inner hulls in 5-d and higher
  - determine the best policy for facet visibility ('<a
@@ -486,10 +515,11 @@ Precision improvements:
  - improve facet width for very narrow distributions
 
 New features:
+ - compute volume of Voronoi regions.  You need to determine the dual face
+   graph in all dimensions [see Clarkson's hull program]
  - implement deletion of Delaunay vertices 
       see Devillers, ACM Symposium on Computational Geometry, Minneapolis 1999.
  - compute largest empty circle [see O'Rourke, chapter 5.5.3] [Hase]
- - compute volume of Voronoi regions [see Clarkson's hull program]
  - list redundant (i.e., coincident) vertices [Spitz]
  - implement Mucke, et al, ['96] for point location in Delaunay triangulations
  - implement convex hull of moving points
@@ -533,7 +563,7 @@ page for Qhull</a> <br>
 <b>Up:</b> <a href="index.htm#TOC">Qhull manual: Table of
 Contents</a><br>
 <b>To:</b> <a href="qh-quick.htm#programs">Programs</a>
-&#149;</a> <a href="qh-quick.htm#options">Options</a> 
+&#149; <a href="qh-quick.htm#options">Options</a> 
 &#149; <a href="qh-opto.htm#output">Output</a> 
 &#149; <a href="qh-optf.htm#format">Formats</a> 
 &#149; <a href="qh-optg.htm#geomview">Geomview</a> 
@@ -541,9 +571,9 @@ Contents</a><br>
 &#149; <a href="qh-optq.htm#qhull">Qhull</a> 
 &#149; <a href="qh-optc.htm#prec">Precision</a> 
 &#149; <a href="qh-optt.htm#trace">Trace</a><br>
-<b>To:</b> <a href="#TOC">Qhull internals: Table of Contents</a> <br>
-<b>Dn:</b> <a href="../src/index.htm">Qhull functions, macros, and data
-structures</a> <!-- GC common information --> </p>
+<b>To:</b> <a href="#TOC">Qhull internals</a>: Table of Contents <br>
+<b>Dn:</b> <a href="../src/index.htm">Qhull functions</a>, macros, and data
+structures <!-- GC common information --> 
 
 <hr>
 

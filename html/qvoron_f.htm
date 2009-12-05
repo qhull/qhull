@@ -7,10 +7,11 @@
 
 <body>
 <!-- Navigation links -->
-<p><b>Up:</b> <a href="http://www.geom.umn.edu/locate/qhull">Home page</a> for Qhull<br>
+<a name="TOP"><b>Up</b></a><b>:</b> 
+<a href="http://www.geom.umn.edu/locate/qhull">Home page</a> for Qhull<br>
 <b>Up:</b> <a href="index.htm#TOC">Qhull manual</a>: Table of Contents<br>
 <b>To:</b> <a href="qh-quick.htm#programs">Programs</a>
-&#149;</a> <a href="qh-quick.htm#options">Options</a> 
+&#149; <a href="qh-quick.htm#options">Options</a> 
 &#149; <a href="qh-opto.htm#output">Output</a> 
 &#149; <a href="qh-optf.htm#format">Formats</a> 
 &#149; <a href="qh-optg.htm#geomview">Geomview</a> 
@@ -21,7 +22,7 @@
 <b>To:</b> <a href="#synopsis">sy</a>nopsis 
 &#149; <a href="#input">in</a>put &#149; <a href="#outputs">ou</a>tputs 
 &#149; <a href="#controls">co</a>ntrols &#149; <a href="#graphics">gr</a>aphics 
-&#149; <a href="#notes">no</a>tes &#149; <a href="#conventions" <a>co</a>nventions 
+&#149; <a href="#notes">no</a>tes &#149; <a href="#conventions">co</a>nventions 
 &#149; <a href="#options">op</a>tions
 
 <hr>
@@ -43,13 +44,11 @@ href="qdelau_f.htm">furthest-site Delaunay triangulation</a>.
 <blockquote>
 <dl>
     <dt><b>Example:</b> rbox 10 D2 | qvoronoi <a
-        href="qh-optq.htm#Qu">Qu</a> <a
-        href="qh-optq.htm#QJn">QJ</a> <a href="qh-opto.htm#s">s</a>
+        href="qh-optq.htm#Qu">Qu</a>  <a href="qh-opto.htm#s">s</a>
         <a href="qh-opto.htm#o">o</a> <a href="qh-optt.htm#TO">TO
         result</a></dt>
     <dd>Compute the 2-d, furthest-site Voronoi diagram of 10
-        random points. Joggle the input to guarantee triangular
-        output. Write a summary to the console and the Voronoi
+        random points. Write a summary to the console and the Voronoi
         regions and vertices to 'result'. The first vertex of the
         result indicates unbounded regions. Almost all regions
         are unbounded.</dd>
@@ -80,28 +79,24 @@ region corresponds to a vertex of the Delaunay triangulation
 <p>See <a href="qh-faq.htm#TOC">Qhull FAQ</a> - Delaunay and
 Voronoi diagram questions.</p>
 
-<p>If you use option '<a href="qh-optq.htm#QJn">QJ</a>' (joggle),
-coincident points will create small triangles and cocircular or
-cospherical input sites create multiple Voronoi vertices. If you
-do not use 'QJ', <tt>qvoronoi</tt>
-reports one Voronoi vertex for cocircular or cospherical input
-sites.  This is more accurate
-than joggled input. 
-See <a href="qh-impre.htm#joggle">Joggled input or merged
-facets</a>. </p>
+<p>Options '<a href="qh-optq.htm#Qt">Qt</a>' (triangulated output)
+and '<a href="qh-optq.htm#QJn">QJ</a>' (joggled input), may produce
+unexpected results.   Cocircular and cospherical input sites will
+produce duplicate or nearly duplicate furthest-site Voronoi vertices.  See also <a
+href="qh-impre.htm#joggle">Joggled input or merged facets</a>. </p>
 
 <p>The 'qvonoroi' program is equivalent to 
 '<a href=qhull.htm#outputs>qhull v</a> <a href=qh-optq.htm#Qbb>Qbb</a>' in 2-d to 3-d, and
 '<a href=qhull.htm#outputs>qhull v</a> <a href=qh-optq.htm#Qbb>Qbb</a> <a href=qh-optq.htm#Qx>Qx</a>' 
 in 4-d and higher.  It disables the following Qhull
 <a href=qh-quick.htm#options>options</a>: <i>d n m v H U Qb 
-QB Qc Qf Qg Qi Qm Qr QR Qv Qx TR E V Fa FA FC Fp FS Ft FV Gt Q0 Q1 Q2 Q3 Q4 Q5 Q6 Q7 Q8 Q9</i>.
+QB Qc Qf Qg Qi Qm Qr QR Qv Qx TR E V Fa FA FC Fp FS Ft FV Gt Q0,etc</i>.
 
 
-<p><b>Copyright © 1995-2001 The Geometry Center, Minneapolis MN</b></p>
+<p><b>Copyright &copy; 1995-2001 The Geometry Center, Minneapolis MN</b></p>
 
 <hr>
-<h3><a href="#TOP">»</a><a name="synopsis">furthest-site qvoronoi synopsis</h3>
+<h3><a href="#TOP">»</a><a name="synopsis">furthest-site qvoronoi synopsis</a></h3>
 <blockquote>
 
 See <a href="qvoronoi.htm#synopsis">qvoronoi synopsis</a>.  The same
@@ -114,7 +109,7 @@ for furthest-site Voronoi diagrams.
 input</a></h3>
 <blockquote>
 <p>The input data on <tt>stdin</tt> consists of:</p>
-<ul compact="COMPACT">
+<ul>
     <li>dimension 
     <li>number of points</li>
     <li>point coordinates</li>
@@ -272,6 +267,10 @@ controls</a></h3>
 <dl compact>
    <dt><a href="qh-optq.htm#Qu">Qu</a></dt>
     <dd>must be used.</dd>
+    <dt><a href="qh-optq.htm#Qt">Qt</a></dt>
+    <dd>triangulated output.  If a furthest-site Voronoi vertex is defined by cospherical data, Qhull
+    duplicates the vertex.  For example, if 2-d data is contained in a square, the output
+    will contain two, identical furthest-site Voronoi vertices.</dd>
     <dt><a href="qh-optq.htm#QJn">QJ</a></dt>
     <dd>joggle the input to avoid furthest-site Voronoi vertices defined by more
 	than <i>dim+1</i> points.
@@ -280,11 +279,16 @@ controls</a></h3>
     <dd>select furthest-site Voronoi vertices for input site <em>n</em> </dd>
     <dt><a href="qh-optt.htm#Tv">Tv</a></dt>
     <dd>verify result</dd>
+    <dt><a href="qh-optt.htm#TO">TI file</a></dt>
+    <dd>input data from file.  The filename may not use spaces or quotes.</dd>
+    <dt><a href="qh-optt.htm#TO">TO file</a></dt>
+    <dd>output results to file.  Use single quotes if the filename
+	contains spaces (e.g., <tt>TO 'file with spaces.txt'</tt></dd>
     <dt><a href="qh-optt.htm#TFn">TFn</a></dt>
     <dd>report progress after constructing <em>n</em> facets</dd>
     <dt><a href="qh-optp.htm#PDk">PDk:1</a></dt>
     <dd>include upper and lower facets in the output.  Set <em>k</em>
-        to the last dimension (e.g., 2 for 2-d inputs). </dd>
+        to the last dimension (e.g., 'PD2:1' for 2-d inputs). </dd>
     <dt><a href="qh-opto.htm#f">f </a></dt>
     <dd>facet dump.  Print the data structure for each facet (i.e., 
 	furthest-site Voronoi vertex).</dd>
@@ -326,9 +330,9 @@ to vertices of the furthest-site Voronoi diagram. Vertices of the
 furthest-site Delaunay triangulation correspond to input sites.
 They also define regions of the furthest-site Voronoi diagram.
 All vertices are extreme points of the input sites. See <a
-href="qconvex.htm#conventions">qconvex conventions</a> and <a
+href="qconvex.htm#conventions">qconvex conventions</a>, <a
 href="qdelau_f.htm#conventions">furthest-site delaunay
-conventions</a>.</p>
+conventions</a>, and <a href="index.htm#structure">Qhull's data structures</a>.</p>
 
 <ul>
     <li><em>input site</em> - a point in the input (one dimension
@@ -338,6 +342,9 @@ conventions</a>.</p>
         site's coordinates</li>
     <li><em>vertex</em> - a point on the upper facets of the
         paraboloid. It corresponds to a unique input site. </li>
+    <li><em>furthest-site Delaunay facet</em> - an upper facet of the
+        paraboloid. The last coefficient of its normal is
+		clearly positive.</li>
     <li><em>furthest-site Voronoi vertex</em> - the circumcenter
         of a furthest-site Delaunay facet</li>
     <li><em>furthest-site Voronoi region</em> - the region of
@@ -357,7 +364,6 @@ conventions</a>.</p>
 </ul>
 
 </blockquote>
-</blockquote>
 <h3><a href="#TOP">»</a><a name="options">furthest-site qvoronoi options</a></h3>
 <blockquote>
 
@@ -372,7 +378,7 @@ for furthest-site Voronoi diagrams.
 <p><b>Up:</b> <a href="http://www.geom.umn.edu/locate/qhull">Home page</a> for Qhull<br>
 <b>Up:</b> <a href="index.htm#TOC">Qhull manual</a>: Table of Contents<br>
 <b>To:</b> <a href="qh-quick.htm#programs">Programs</a>
-&#149;</a> <a href="qh-quick.htm#options">Options</a> 
+&#149; <a href="qh-quick.htm#options">Options</a> 
 &#149; <a href="qh-opto.htm#output">Output</a> 
 &#149; <a href="qh-optf.htm#format">Formats</a> 
 &#149; <a href="qh-optg.htm#geomview">Geomview</a> 
@@ -383,7 +389,7 @@ for furthest-site Voronoi diagrams.
 <b>To:</b> <a href="#synopsis">sy</a>nopsis 
 &#149; <a href="#input">in</a>put &#149; <a href="#outputs">ou</a>tputs 
 &#149; <a href="#controls">co</a>ntrols &#149; <a href="#graphics">gr</a>aphics 
-&#149; <a href="#notes">no</a>tes &#149; <a href="#conventions" <a>co</a>nventions 
+&#149; <a href="#notes">no</a>tes &#149; <a href="#conventions">co</a>nventions 
 &#149; <a href="#options">op</a>tions
 <!-- GC common information -->
 <hr>

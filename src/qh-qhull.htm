@@ -11,9 +11,8 @@ content="text/html; charset=iso-8859-1">
 <p><a name="TOP"><b>Up:</b></a> <a
 href="http://www.geom.umn.edu/locate/qhull">Home page</a> for Qhull<br>
 <b>Up:</b> <a href="../html/index.htm#TOC">Qhull manual</a>: Table of Contents <br>
-<b>Up:</b> <a href="../html/qh-in.htm#TOC">Qhull internals: Table of Contents</a><br>
 <b>Up:</b> <a href="../html/qh-quick.htm#programs">Programs</a>
-&#149;</a> <a href="../html/qh-quick.htm#options">Options</a> 
+&#149; <a href="../html/qh-quick.htm#options">Options</a> 
 &#149; <a href="../html/qh-opto.htm#output">Output</a> 
 &#149; <a href="../html/qh-optf.htm#format">Formats</a> 
 &#149; <a href="../html/qh-optg.htm#geomview">Geomview</a> 
@@ -21,6 +20,7 @@ href="http://www.geom.umn.edu/locate/qhull">Home page</a> for Qhull<br>
 &#149; <a href="../html/qh-optq.htm#qhull">Qhull</a> 
 &#149; <a href="../html/qh-optc.htm#prec">Precision</a> 
 &#149; <a href="../html/qh-optt.htm#trace">Trace</a><br>
+<b>Up:</b> <a href="../html/qh-in.htm#TOC">Qhull internals: Table of Contents</a><br>
 <b>To:</b> <a href="index.htm">Qhull functions</a>, macros, and data structures<br>
 <b>To:</b> <a href="qh-geom.htm">Geom</a> &#149; <a href="qh-globa.htm">Global</a>
 &#149; <a href="qh-io.htm">Io</a> &#149; <a href="qh-mem.htm">Mem</a>
@@ -36,12 +36,12 @@ href="http://www.geom.umn.edu/locate/qhull">Home page</a> for Qhull<br>
 the convex hull. The Quickhull algorithm combines two
 well-known algorithms: the 2-d quickhull algorithm and
 the n-d beneath-beyond algorithm. See 
-<a href="index.htm#description">Description of Qhull</a>. </p>
+<a href="../html/index.htm#description">Description of Qhull</a>. </p>
 <p>This section provides an index to the top-level
 functions and base data types.  The top-level header file, <tt>qhull.h</tt>,
 contains prototypes for these functions.</p>
 </blockquote>
-<p><b>Copyright © 1995-2001 The Geometry Center, Minneapolis MN</b></p>
+<p><b>Copyright &copy; 1995-2001 The Geometry Center, Minneapolis MN</b></p>
 <hr>
 <p><a href="#TOP">»</a> <a href="qh-geom.htm#TOC">Geom</a> 
 <a name="TOC">&#149;</a> <a href="qh-globa.htm#TOC">Global</a>
@@ -50,15 +50,15 @@ contains prototypes for these functions.</p>
 &#149; <b>Qhull</b> &#149; <a href="qh-set.htm#TOC">Set</a>
 &#149; <a href="qh-stat.htm#TOC">Stat</a> &#149; <a href="qh-user.htm#TOC">User</a>
 </p>
-<h3>Index to <a href="qhull.c#TOP">qhull.c</a>,
-<a href="qhull.h#TOP">qhull.h</a>, and 
-<a href="unix.c#TOP">unix.c</a></h3>
+<h3>Index to <a href="qhull.c">qhull.c</a>,
+<a href="qhull.h">qhull.h</a>, and 
+<a href="unix.c">unix.c</a></h3>
 <ul>
 <li><a href="#qtype">qhull.h and unix.c data types and
 constants</a> </li>
 <li><a href="#qmacro">qhull.h other macros</a> </li>
 <li><a href="#qfunc">Quickhull routines in call order</a> </li>
-<li><a href=="#qinit">Top-level routines for initializing and terminating Qhull</a></li>
+<li><a href="#qinit">Top-level routines for initializing and terminating Qhull</a></li>
 <li><a href="#qin">Top-level routines for reading and modifying the input</a></li>
 <li><a href="#qcall">Top-level routines for calling Qhull</a></li>
 <li><a href="#qout">Top-level routines for returning results</a></li>
@@ -88,7 +88,7 @@ codes for indicating errors </li>
 <h3><a href="qh-qhull.htm#TOC">»</a><a name="qmacro">qhull.h other
 macros</a></h3>
 <ul>
-<li><a href="qhull.h#traceN">traceN</a> print trace
+<li><a href="qhull_a.h#traceN">traceN</a> print trace
 message if <em>qh.IStracing &gt;= N</em>. </li>
 </ul>
 
@@ -143,11 +143,11 @@ before error handling initialized </li>
 after points are defined </li>
 <li><a href="global.c#initflags">qh_initflags</a> set
 flags and constants from command line </li>
-<li><a href="qhull.c#restore_qhull">qh_restore_qhull</a>
+<li><a href="global.c#restore_qhull">qh_restore_qhull</a>
 restores a saved qhull </li>
-<li><a href="qhull.c#save_qhull">qh_save_qhull</a>
+<li><a href="global.c#save_qhull">qh_save_qhull</a>
 saves qhull for later restoring </li>
-<li><a href="qhull.c#user_memsizes">qh_user_memsizes</a>
+<li><a href="user.c#user_memsizes">qh_user_memsizes</a>
 define additional quick allocation sizes
 </li>
 </ul>
@@ -156,7 +156,7 @@ define additional quick allocation sizes
 <ul>
 <li><a href="geom2.c#gram_schmidt">qh_gram_schmidt</a>
 implements Gram-Schmidt orthogonalization by rows </li>
-<li><a href="qhull.c#projectinput">qh_projectinput</a>
+<li><a href="geom2.c#projectinput">qh_projectinput</a>
 project input along one or more dimensions +
 Delaunay projection </li>
 <li><a href="geom2.c#randommatrix">qh_randommatrix</a>
@@ -190,7 +190,7 @@ the convex hull of a set of points </li>
 <ul>
 <li><a href="stat.c#collectstatistics">qh_collectstatistics</a>
 collect statistics for qh.facet_list </li>
-<li><a href="geom2.c#nearvertex">qh_nearvertex</a>
+<li><a href="poly2.c#nearvertex">qh_nearvertex</a>
 return nearest vertex to point </li>
 <li><a href="poly2.c#point">qh_point</a> return point
 for a point ID </li>
@@ -209,7 +209,7 @@ print neighborhood of one or two facets </li>
 print summary </li>
 <li><a href="io.c#produce_output">qh_produce_output</a>
 print the results of qh_qhull() </li>
-<li><a href="qhull.c#setvoronoi_all">qh_setvoronoi_all</a>
+<li><a href="poly2.c#setvoronoi_all">qh_setvoronoi_all</a>
 compute Voronoi centers for all facets </li>
 </ul>
 
@@ -240,9 +240,8 @@ print all fields for a list of facets </li>
 <a href="http://www.geom.umn.edu/locate/qhull">Home page for
 Qhull</a> <br>
 <b>Up:</b> <a href="../html/index.htm#TOC">Qhull manual: Table of Contents</a> <br>
-<b>Up:</b> <a href="../html/qh-in.htm#TOC">Qhull internals: Table of Contents</a> <br>
 <b>Up:</b> <a href="../html/qh-quick.htm#programs">Programs</a>
-&#149;</a> <a href="../html/qh-quick.htm#options">Options</a> 
+&#149; <a href="../html/qh-quick.htm#options">Options</a> 
 &#149; <a href="../html/qh-opto.htm#output">Output</a> 
 &#149; <a href="../html/qh-optf.htm#format">Formats</a> 
 &#149; <a href="../html/qh-optg.htm#geomview">Geomview</a> 
@@ -250,6 +249,7 @@ Qhull</a> <br>
 &#149; <a href="../html/qh-optq.htm#qhull">Qhull</a> 
 &#149; <a href="../html/qh-optc.htm#prec">Precision</a> 
 &#149; <a href="../html/qh-optt.htm#trace">Trace</a><br>
+<b>Up:</b> <a href="../html/qh-in.htm#TOC">Qhull internals: Table of Contents</a> <br>
 <b>To:</b> <a href="index.htm">Qhull functions</a>, macros, and data structures<br>
 <b>To:</b> <a href="qh-geom.htm">Geom</a> &#149; 
 <a href="qh-globa.htm">Global</a> &#149; <a href="qh-io.htm">Io</a>
@@ -267,7 +267,5 @@ Geometry Center Home Page </i></p>
 <a href="http://www.geom.umn.edu/software/qhull/qhull-mail.html">qhull@geom.umn.edu
 </a><br>
 Created: May 2, 1997 --- <!-- hhmts start --> Last modified: see top <!-- hhmts end --> </p>
-</li>
-</dir>
 </body>
 </html>

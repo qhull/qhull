@@ -77,7 +77,7 @@ void    dfacet( unsigned id);
 void    dvertex( unsigned id);
 void    qh_countfacets (facetT *facetlist, setT *facets, boolT printall, 
               int *numfacetsp, int *numsimplicialp, int *totneighborsp, 
-              int *numridgesp, int *numcoplanarsp);
+              int *numridgesp, int *numcoplanarsp, int *numnumtricoplanarsp);
 pointT *qh_detvnorm (vertexT *vertex, vertexT *vertexA, setT *centers, realT *offsetp);
 setT   *qh_detvridge (vertexT *vertex);
 setT   *qh_detvridge3 (vertexT *atvertex, vertexT *vertex);
