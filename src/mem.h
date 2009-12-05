@@ -11,7 +11,7 @@
        and
      qh_errexit (qhmem_ERRqhull, NULL, NULL) otherwise
 
-   copyright (c) 1993-2002, The Geometry Center
+   copyright (c) 1993-2003, The Geometry Center
 */
 
 #ifndef qhDEFmem
@@ -26,7 +26,7 @@
   notes:
     mem.c implements Quickfit memory allocation for about 20% time
     savings.  If it fails on your machine, try to locate the
-    problem, and send the answer to qhull@geom.umn.edu.  If this can
+    problem, and send the answer to qhull@qhull.org.  If this can
     not be done, define qh_NOmem to use malloc/free instead.
 
    #define qh_NOmem

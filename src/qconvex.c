@@ -6,7 +6,7 @@
 
    see unix.c for full interface
 
-   copyright (c) 1993-2002, The Geometry Center
+   copyright (c) 1993-2003, The Geometry Center
 */
 
 #include <stdio.h>
@@ -56,7 +56,7 @@ char hidden_options[]=" d v H Qbb Qf Qg Qm Qr Qu Qv Qx Qz TR E V Fp Gt Q0 Q1 Q2 
 	       
 char qh_prompta[]= "\n\
 qconvex- compute the convex hull\n\
-    http://www.geom.umn.edu/software/qhull  %s\n\
+    http://www.qhull.org  %s\n\
 \n\
 input (stdin):\n\
     first lines: dimension and number of points (or vice-versa).\n\
@@ -236,7 +236,7 @@ Except for 'F.' and 'PG', upper-case options take an argument.\n\
  FD_cdd_out     FFacet_xridge  Finner         FIDs           Fmerges\n\
  Fneighbors     FNeigh_vertex  Fouter         FOptions       FPoint_near\n\
  FQhull         Fsummary       FSize          Fvertices      FVertex_ave\n\
- Fxtremes\n\
+ Fxtremes       FMaple\n\
 \n\
  Gvertices      Gpoints        Gall_points    Gno_planes     Ginner\n\
  Gcentrums      Ghyperplanes   Gridges        Gouter         GDrop_dim\n\
@@ -289,16 +289,16 @@ int main(int argc, char *argv[]) {
 #endif
 
   if ((argc == 1) && isatty( 0 /*stdin*/)) {      
-    fprintf(stdout, qh_prompt2, qh_VERSION);
+    fprintf(stdout, qh_prompt2, qh_version);
     exit(qh_ERRnone);
   }
   if (argc > 1 && *argv[1] == '-' && !*(argv[1]+1)) {
-    fprintf(stdout, qh_prompta, qh_VERSION, qh_DEFAULTbox, 
+    fprintf(stdout, qh_prompta, qh_version, qh_DEFAULTbox, 
 		qh_promptb, qh_promptc, qh_promptd, qh_prompte);
     exit(qh_ERRnone);
   }
   if (argc >1 && *argv[1] == '.' && !*(argv[1]+1)) {
-    fprintf(stdout, qh_prompt3, qh_VERSION);
+    fprintf(stdout, qh_prompt3, qh_version);
     exit(qh_ERRnone);
   }
   qh_init_A (stdin, stdout, stderr, argc, argv);  /* sets qh qhull_command */

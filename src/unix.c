@@ -7,7 +7,7 @@
 
    see qh-qhull.htm
 
-   copyright (c) 1993-2002, The Geometry Center
+   copyright (c) 1993-2003, The Geometry Center
 */
 
 #include <stdio.h>
@@ -50,7 +50,7 @@ int isatty (int);  /* returns 1 if stdin is a tty
 */  
 char qh_prompta[]= "\n\
 qhull- compute convex hulls and related structures.\n\
-    http://www.geom.umn.edu/software/qhull  %s\n\
+    http://www.qhull.org  %s\n\
 \n\
 input (stdin):\n\
     first lines: dimension and number of points (or vice-versa).\n\
@@ -158,6 +158,7 @@ More formats:\n\
            for 'v', separating hyperplanes for bounded Voronoi regions\n\
     FI   - ID of each facet\n\
     Fm   - merge count for each facet (511 max)\n\
+    FM   - Maple output (2-d and 3-d)\n\
     Fn   - count plus neighboring facets for each facet\n\
     FN   - count plus neighboring facets for each point\n\
     Fo   - outer plane (or max_outside) for each facet\n\
@@ -215,7 +216,7 @@ Print options:\n\
     synopsis for qhull
 */
 char qh_prompt2[]= "\n\
-qhull- compute convex hulls and related structures.  %s\n\
+qhull- compute convex hulls and related structures.  Qhull %s\n\
     input (stdin): dimension, n, point coordinates\n\
     comments start with a non-numeric character\n\
     halfspace: use dim+1 and put offsets after coefficients\n\
@@ -249,7 +250,7 @@ Output options (subset):\n\
 \n\
 examples:\n\
     rbox c d D2 | qhull Qc s f Fx | more      rbox 1000 s | qhull Tv s FA\n\
-    rbox 10 D2 | qhull d QJ s i TO result     rbox 10 D2 | qhull v QJ p\n\
+    rbox 10 D2 | qhull d QJ s i TO result     rbox 10 D2 | qhull v Qbb Qt p\n\
     rbox 10 D2 | qhull d Qu QJ m              rbox 10 D2 | qhull v Qu QJ o\n\
     rbox c | qhull n                          rbox c | qhull FV n | qhull H Fp\n\
     rbox d D12 | qhull QR0 FA                 rbox c D7 | qhull FA TF1000\n\
@@ -276,7 +277,7 @@ Except for 'F.' and 'PG', upper-case options take an argument.\n\
  FD-cdd-out     FF-dump-xridge Finner         FIDs           Fmerges\n\
  Fneighbors     FNeigh-vertex  Fouter         FOptions       Fpoint-intersect\n\
  FPoint_near    FQhull         Fsummary       FSize          Ftriangles\n\
- Fvertices      Fvoronoi       FVertex-ave    Fxtremes\n\
+ Fvertices      Fvoronoi       FVertex-ave    Fxtremes       FMaple\n\
 \n\
  Gvertices      Gpoints        Gall_points    Gno_planes     Ginner\n\
  Gcentrums      Ghyperplanes   Gridges        Gouter         GDrop_dim\n\
@@ -336,16 +337,16 @@ int main(int argc, char *argv[]) {
 #endif
 
   if ((argc == 1) && isatty( 0 /*stdin*/)) {
-    fprintf(stdout, qh_prompt2, qh_VERSION);
+    fprintf(stdout, qh_prompt2, qh_version);
     exit(qh_ERRnone);
   }
   if (argc > 1 && *argv[1] == '-' && !*(argv[1]+1)) {
-    fprintf(stdout, qh_prompta, qh_VERSION, qh_DEFAULTbox,
+    fprintf(stdout, qh_prompta, qh_version, qh_DEFAULTbox,
 		qh_promptb, qh_promptc, qh_promptd, qh_prompte);
     exit(qh_ERRnone);
   }
   if (argc >1 && *argv[1] == '.' && !*(argv[1]+1)) {
-    fprintf(stdout, qh_prompt3, qh_VERSION);
+    fprintf(stdout, qh_prompt3, qh_version);
     exit(qh_ERRnone);
   }
   qh_init_A (stdin, stdout, stderr, argc, argv);  /* sets qh qhull_command */

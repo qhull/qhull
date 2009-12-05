@@ -195,6 +195,8 @@ rbox 500 s P1,1,1 | qhull QgG0 Pp Tcv >>q_test.x
 
 echo "rbox d | qhull m" >>q_test.x
 rbox d | qhull m >>q_test.x
+echo "rbox d | qhull FM" >>q_test.x
+rbox d | qhull FM >>q_test.x
 echo "rbox c D2 | qhull Q0 Tcv" >>q_test.x
 rbox c D2 | qhull Q0 Tcv >>q_test.x
 echo "rbox d D2 | qhull Tcv" >>q_test.x
@@ -271,6 +273,8 @@ echo "rbox 5 r s D2 | qhull i " >>q_test.x
 rbox 5 r s D2 | qhull i  >>q_test.x
 echo "rbox 5 r s D2 | qhull m " >>q_test.x
 rbox 5 r s D2 | qhull m  >>q_test.x
+echo "rbox 5 r s D2 | qhull FM " >>q_test.x
+rbox 5 r s D2 | qhull FM  >>q_test.x
 echo "rbox 5 r s D2 | qhull n " >>q_test.x
 rbox 5 r s D2 | qhull n  >>q_test.x
 echo "rbox 5 r s D2 | qhull p " >>q_test.x
@@ -347,8 +351,8 @@ echo "rbox c | qhull Qt s o Tcv" >>q_test.x
 rbox c | qhull Qt s o Tcv >>q_test.x
 echo "rbox c | qhull Qt f i" >>q_test.x
 rbox c | qhull Qt f i >>q_test.x
-echo "rbox c | qhull Qt m n" >>q_test.x
-rbox c | qhull Qt m n >>q_test.x
+echo "rbox c | qhull Qt m FM n" >>q_test.x
+rbox c | qhull Qt m FM n >>q_test.x
 echo "rbox c | qhull Qt p o" >>q_test.x
 rbox c | qhull Qt p o >>q_test.x
 echo "rbox c | qhull Qt Fx" >>q_test.x

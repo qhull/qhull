@@ -7,7 +7,7 @@
 
 <body>
 <!-- Navigation links -->
-<p><b><a name="TOP">Up</a></b><b>:</b> <a href="http://www.geom.umn.edu/software/qhull">Home page</a> for Qhull<br>
+<p><b><a name="TOP">Up</a></b><b>:</b> <a href="http://www.qhull.org">Home page</a> for Qhull<br>
 <b>Up:</b> <a href="index.htm#TOC">Qhull manual</a>: Table of Contents<br>
 <b>To:</b> <a href="qh-quick.htm#programs">Programs</a>
 &#149; <a href="qh-quick.htm#options">Options</a> 
@@ -24,7 +24,7 @@
 <hr>
 <!-- Main text of document -->
 <h1><a
-href="http://www.geom.umn.edu/graphics/pix/Special_Topics/Computational_Geometry/cone.html"><img
+href="http://www.geom.uiuc.edu/graphics/pix/Special_Topics/Computational_Geometry/cone.html"><img
 src="qh--cone.gif" alt="[cone]" align="middle" width="100"
 height="100"></a>qhull -- convex hull and related structures</h1>
 
@@ -56,6 +56,7 @@ It takes the same options and uses the same code.
 		 used with any of the Qhull programs.</dd>
     <dt>&nbsp;</dt>
     <dt><b>Example:</b> rbox 1000 D3 | qhull <a href=qhull.htm#outputs>d</a>
+	 <a href="qh-optq.htm#Qbb">Qbb</a>
 	 <a href="qh-optc.htm#Rn">R1e-4</a> 
 	 <a href="qh-optq.htm#Q0">Q0</a></dt>
     <dd>Compute the 3-d Delaunay triangulation of 1000 random
@@ -95,17 +96,19 @@ Delaunay triangulation is a 5-d convex hull):
 </blockquote>
 
 
-<p>If you use '<a href="qh-optq.htm#Qt">Qt</a>' (triangulated output), 
-all furthest-site Delaunay regions 
-will be simplicial (e.g., triangles in 2-d).  Some regions may be
-degenerate and have zero area.  Qhull can identify coincident
-points.  With facet merging, cocircular and cospherical extreme points will lead
-to non-simplicial output (e.g., a square).
+<p>By default, Qhull merges coplanar facets.  For example, the convex
+hull of a cube's vertices has six facets.
 
-<p>If you use '<a href="qh-optq.htm#QJn">QJ</a>' (joggle), all furthest-site 
-Delaunay regions will be simplicial (e.g., triangles in 2-d).  Duplicate points will 
-create small regions since the points are joggled apart.  See <a
-href="qh-impre.htm#joggle">Joggled input or merged facets</a>. </p>
+<p>If you use '<a href="qh-optq.htm#Qt">Qt</a>' (triangulated output), 
+all facets will be simplicial (e.g., triangles in 2-d).  For the cube 
+example, it will have 12 facets.  Some facets may be
+degenerate and have zero area. 
+
+<p>If you use '<a href="qh-optq.htm#QJn">QJ</a>' (joggled input), 
+all facets will be simplicial.  The corresponding vertices will be
+slightly perturbed.  Joggled input is less accurate that triangulated
+output.See <a
+href="qh-impre.htm#joggle">Merged facets or joggled input</a>. </p>
 
 <p>The output for 4-d convex hulls may be confusing if the convex
 hull contains non-simplicial facets (e.g., a hypercube). See
@@ -113,7 +116,7 @@ hull contains non-simplicial facets (e.g., a hypercube). See
 are there extra points in a 4-d or higher convex hull?</a><br>
 </p>
 
-<p><b>Copyright &copy; 1995-2002 The Geometry Center, Minneapolis MN</b></p>
+<p><b>Copyright &copy; 1995-2003 The Geometry Center, Minneapolis MN</b></p>
 
 <hr>
 
@@ -153,7 +156,7 @@ Output options (subset):
 
 examples:
     rbox c d D2 | qhull Qc s f Fx | more      rbox 1000 s | qhull Tv s FA
-    rbox 10 D2 | qhull d QJ s i TO result     rbox 10 D2 | qhull v Qt p
+    rbox 10 D2 | qhull d QJ s i TO result     rbox 10 D2 | qhull v Qbb Qt p
     rbox 10 D2 | qhull d Qu QJ m              rbox 10 D2 | qhull v Qu QJ o
     rbox c | qhull n                          rbox c | qhull FV n | qhull H Fp
     rbox d D12 | qhull QR0 FA                 rbox c D7 | qhull FA TF1000
@@ -236,11 +239,18 @@ individually or together.</p>
     <dt>&nbsp;</dt>
     <dd><b>General</b></dd>
     <dt><a name="d">qhull d</a></dt>
+    <dd>compute the convex hull of the input points.
+	See <a href=qconvex.htm>qconvex</a>.</dd>
+    <dt><a name="d">qhull d Qbb</a></dt>
     <dd>compute the Delaunay triangulation by lifting the points
-	to a paraboloid.  See <a href=qdelaun.htm>qdelaunay</a>.</dd>
-    <dt><a name="v">qhull v</a></dt>
+	to a paraboloid.  Use option '<a href="qh-optq.htm#Qbb">Qbb</a>'
+	to scale the paraboloid and improve numeric precision.
+	See <a href=qdelaun.htm>qdelaunay</a>.</dd>
+    <dt><a name="v">qhull v Qbb</a></dt>
     <dd>compute the Voronoi diagram by computing the Delaunay
-	triangulation.  See <a href=qvoronoi.htm>qvoronoi</a>.</dd>
+	triangulation.    Use option '<a href="qh-optq.htm#Qbb">Qbb</a>'
+	to scale the paraboloid and improve numeric precision.
+	See <a href=qvoronoi.htm>qvoronoi</a>.</dd>
     <dt><a name="H">qhull H</a></dt>
     <dd>compute the halfspace intersection about a point via polar
 	duality.  See <a href=qhalf.htm>qhalf</a>.</dd>
@@ -278,7 +288,7 @@ individually or together.</p>
 
 <pre>
 qhull- compute convex hulls and related structures.
-    http://www.geom.umn.edu/software/qhull 
+    http://www.qhull.org 
 
 input (stdin):
     first lines: dimension and number of points (or vice-versa).
@@ -380,6 +390,7 @@ More formats:
            for 'v', separating hyperplanes for bounded Voronoi regions
     FI   - ID of each facet
     Fm   - merge count for each facet (511 max)
+    FM   - Maple output (2-d and 3-d)
     Fn   - count plus neighboring facets for each facet
     FN   - count plus neighboring facets for each point
     Fo   - outer plane (or max_outside) for each facet
@@ -430,7 +441,7 @@ Print options:
 <!-- Navigation links -->
 <hr>
 
-<p><b>Up:</b> <a href="http://www.geom.umn.edu/software/qhull">Home page</a> for Qhull<br>
+<p><b>Up:</b> <a href="http://www.qhull.org">Home page</a> for Qhull<br>
 <b>Up:</b> <a href="index.htm#TOC">Qhull manual</a>: Table of Contents<br>
 <b>To:</b> <a href="qh-quick.htm#programs">Programs</a>
 &#149; <a href="qh-quick.htm#options">Options</a> 
@@ -447,11 +458,11 @@ Print options:
 <!-- GC common information -->
 <hr>
 
-<p><a href="http://www.geom.umn.edu/"><img src="qh--geom.gif"
+<p><a href="http://www.geom.uiuc.edu/"><img src="qh--geom.gif"
 align="middle" width="40" height="40"></a><i>The Geometry Center
 Home Page </i></p>
 
-<p>Comments to: <a href=mailto:qhull@geom.umn.edu>qhull@geom.umn.edu</a>
+<p>Comments to: <a href=mailto:qhull@qhull.org>qhull@qhull.org</a>
 </a><br>
 Created: Sept. 25, 1995 --- <!-- hhmts start --> Last modified: see top <!-- hhmts end --> </p>
 </body>

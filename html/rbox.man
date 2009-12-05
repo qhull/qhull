@@ -162,7 +162,7 @@ generate a regular cone
 .SH BUGS
 Some combinations of arguments generate odd results.
 
-Report bugs to qhull_bug@geom.umn.edu, other correspondence to qhull@geom.umn.edu 
+Report bugs to qhull_bug@qhull.org, other correspondence to qhull@qhull.org 
 .SH SEE ALSO
 qhull(1)
 .SH AUTHOR

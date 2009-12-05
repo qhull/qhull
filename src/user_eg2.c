@@ -218,6 +218,11 @@ void addDelaunay (coordT *points, int numpoints, int numnew, int dim) {
 /*--------------------------------------------------
 -findDelaunay- find Delaunay triangle for [0.5,0.5,...]
   assumes dim < 100
+notes:
+  calls qh_setdelaunay() to project the point to a parabaloid
+warning:
+  This is not implemented for tricoplanar facets ('Qt'),
+  See <a href="../html/qh-in.htm#findfacet">locate a facet with qh_findbestfacet()</a>
 */
 void findDelaunay (int dim) {
   int k;
@@ -231,6 +236,11 @@ void findDelaunay (int dim) {
     point[k]= 0.5;
   qh_setdelaunay (dim, 1, point);
   facet= qh_findbestfacet (point, qh_ALL, &bestdist, &isoutside);
+  if (facet->tricoplanar) {
+    fprintf(stderr, "findDelaunay: not implemented for triangulated, non-simplicial Delaunay regions (tricoplanar facet, f%d).\n",
+       facet->id);
+    qh_errexit (qh_ERRqhull, facet, NULL);
+  }
   FOREACHvertex_(facet->vertices) {
     for (k=0; k < dim-1; k++)
       printf ("%5.2f ", vertex->point[k]);
@@ -383,7 +393,7 @@ your project.\n\n");
     strcat (qh rbox_command, "user_eg Delaunay");
     sprintf (options, "qhull s d Tcv %s", argc >= 3 ? argv[2] : "");
     qh_initflags (options);
-    printf( "\ncompute 2-d Delaunay triangulation\n");
+    printf( "\ncompute %d-d Delaunay triangulation\n", DIM-1);
     makeDelaunay (array[0], SIZEcube, DIM);
     /* Instead of makeDelaunay with qh_setdelaunay, you may
        produce a 2-d array of points, set DIM to 2, and set 

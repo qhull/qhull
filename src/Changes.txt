@@ -1,12 +1,65 @@
 
 .............This file lists all changes to qhull and rbox.....................
 
+qhull 2003.1  2003/12/30
+
+New Features:
+ - Add Maple output ('FM') for 2-d and 3-d convex hulls [T. Abraham]
+
+Bug Fixes and Code Changes:
+ - Fixed qh_findbest() for upperdelaunay facets w/o better, lower neighbors
+ -   For library users and some qhull users [A. Cutti, E. Milloti, K. Sun]
+ - Preserved qhmem.ferr in qh_memfreeshort() for library users
+ - Removed 'static' from qh_compare... for io.h and merge.h [V. Brumberg]
+
+Documentation:
+ - Add warning to findDelaunay() and qh_in.htm about tricoplanar facets
+ - Noted Edelsbrunner's Geometry & Topology for Mesh Generation [qh-impre.htm]
+ - Noted Gartner's Miniball algorithm [qh_impre.htm]
+ - Noted Veron and Leon's shape preserving simplification [qh_impre.htm]
+
+qhull 2003.1  2003/12/19
+
+Bug Fixes:
+ - Reversed coordinate order for qh.ATinfinity in qh_projectinput [V. Brumberg]
+ - This effects:
+ -   Qhull library 'd' or 'v' users with 'Qz' and unequal coordinate ranges.
+ -   qdelaunay/qvoronoi users with 'Qbk:0Bk:0', 'Qz', and unequal coordinate ranges
+
+Changes to code:
+ - Replaced qh_VERSION with qh_version in global.c [B. Pearlmutter]
+    The previous techniques were either clumsy or caused compiler errors
+ - Removed unused variables from qh_findbest and qh_findbestnew [B. Pearlmutter]
+ - Note that qh.TESTpoints was added in 2002.1 for tsearch implementation
+
+Changes to distribution:
+ - Added Unix distribution including Debian files [R. Laboissiere]
+    The previous Unix distribution is now the source distribution
+ - Added rpm distribution [L. Mazet]
+ - Investigated generation of Win32 dll.  Need to define a C++ interface.
+
+Changes to documentation:
+ - Moved Qhull to www.qhull.org (geom.umn.edu is not available)
+ - The Geometry Center is archived at http://www.geom.uiuc.edu
+ - Reviewed introduction to each program
+    Triangulated output ('Qt') is more accurate than joggled input ('QJ')
+    qdelaunay is 'qhull d Qbb' [C. Ulbrich]
+    qvoronoi is 'qhull v Qbb'
+    Added example of non-simplicial intersection to halfspace intersections
+ - Added warning about using the Qhull library.
+ - Added qhull timings to When to use Qhull [C. Ulbrich]
+ - Reorganized the home page index and the manual index
+ - Moved qh-home.htm to index.htm
+
+Changes to examples
+ - Fixed options for eg/eg.t23.voronoi.imprecise [B. Pearlmutter]
+
 
 qhull 2002.1  2002/8/20
 
 Changes to distribution:
  - Set up savannah.gnu.org/projects/qhull/ [R. Laboissiere]
- - Set up www.thesa.com/software/qhull as a backup
+ - Set up www.thesa.com as a backup
  - Added qh-get.htm, a local copy of the download page
  - Added Visual C++ interface to Qhull, qhull_interface.cpp [K. Erleben]
  - Use HTTP instead of FTP for downloading Qhull
@@ -18,6 +71,7 @@ Bug fixes:
 Changes to code:
  - Replace qh_version with qh_VERSION in qhull.h.
    Allows shared libraries and single point of definition
+ - Added qh.TESTpoints for future implementation of tsearch
 
 Changes to build
  - Makefile.txt works under cygwin
@@ -736,7 +790,7 @@ qhull V2.1 6/7/95
 
 qhull V2.1 6/3/95
   - home page for Qhull and new descriptions for the Qhull examples
-      http://www.geom.umn.edu/software/qhull
+      http://www.qhull.org
   - changed SIOUX buffering for Power Macintosh.   It runs fast now.
       added a project file for Metrowerk's C
   - note in README about compiling qhull on the PC
@@ -793,7 +847,7 @@ qhull V2.1 beta 5/15/95
   - added a section on performance
   - added an example on halfspace intersection
   - installed examples of Qhull in
-    <http://www.geom.umn.edu/pix/archive/subjects/computational_geometry.html>
+    <http://www.geom.uiuc.edu/graphics/pix/Special_Topics/Computational_Geometry/>
 
 		======= Makefile, user.h, and messages =======
   - Makefile calls ./qhull, ./rbox, and prints short prompt for qhull

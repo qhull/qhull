@@ -6,7 +6,7 @@
 
    see qh-stat.htm and stat.c
 
-   copyright (c) 1993-2002, The Geometry Center
+   copyright (c) 1993-2003, The Geometry Center
 
    recompile qhull if you change this file
 
@@ -62,6 +62,8 @@ enum statistics {     /* alphabetical after Z/W */
     Zback0,
     Zbestcentrum,
     Zbestdist,
+    Zbestlower,
+    Zbestlowerv,
     Zcentrumtests,
     Zcheckpart,
     Zcomputefurthest,

@@ -6,7 +6,7 @@
 
    see qh-stat.htm and stat.h
 
-   copyright (c) 1993-2002, The Geometry Center
+   copyright (c) 1993-2003, The Geometry Center
 */
 
 #include "qhull_a.h"
@@ -137,12 +137,14 @@ void qh_allstatD(void) {
   zdef_(zinc, Zparthorizon, " horizon facets better than bestfacet", -1);
   zdef_(zinc, Zpartangle, "angle tests for repartitioned coplanar points", -1);
   zdef_(zinc, Zpartflip, "  repartitioned coplanar points for flipped orientation", -1);
+}
+void qh_allstatE(void) {
   zdef_(zinc, Zpartinside, "inside points", -1);
   zdef_(zinc, Zpartnear, "  inside points kept with a facet", -1);
   zdef_(zinc, Zcoplanarinside, "  inside points that were coplanar with a facet", -1);
+  zdef_(zinc, Zbestlower, "calls to findbestlower", -1);
+  zdef_(zinc, Zbestlowerv, "  with search of vertex neighbors", -1);
   zdef_(wadd, Wmaxout, "difference in max_outside at final check", -1);
-}
-void qh_allstatE(void) {
   zzdef_(zinc, Zpartitionall, "distance tests for initial partition", -1);
   zdef_(zinc, Ztotpartition, "partitions of a point", -1);
   zzdef_(zinc, Zpartition, "distance tests for partitioning", -1);
@@ -572,7 +574,7 @@ void qh_printstatistics (FILE *fp, char *string) {
   fprintf (fp, "\n\
 %s\n\
  qhull invoked by: %s | %s\n%s with options:\n%s\n", string, qh rbox_command, 
-     qh qhull_command, qh_VERSION, qh qhull_options);
+     qh qhull_command, qh_version, qh qhull_options);
   fprintf (fp, "\nprecision constants:\n\
  %6.2g max. abs. coordinate in the (transformed) input ('Qbd:n')\n\
  %6.2g max. roundoff error for distance computation ('En')\n\

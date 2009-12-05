@@ -1,6 +1,7 @@
 # Unix Makefile for qhull and rbox
 #
 #       see README.txt
+#       the Unix distribution contains a configure Makefile
 #
 #       make           to produce qhull qconvex qdelaunay qhalf qvoronoi rbox
 #       make qvoronoi  to produce qvoronoi (etc.)

@@ -7,7 +7,7 @@
 
 <body>
 <!-- Navigation links -->
-<p><a name="TOP"><b>Up:</b></a> <a href="http://www.geom.umn.edu/software/qhull">Home
+<p><a name="TOP"><b>Up:</b></a> <a href="http://www.qhull.org">Home
 page</a> for Qhull <br>
 <b>Up:</b> <a href="index.htm#TOC">Qhull manual</a>: Table of
 Contents<br>
@@ -26,7 +26,7 @@ Contents<br>
 <hr>
 <!-- Main text of document -->
 <h1><a
-href="http://www.geom.umn.edu/graphics/pix/Special_Topics/Computational_Geometry/4dcube.html"><img
+href="http://www.geom.uiuc.edu/graphics/pix/Special_Topics/Computational_Geometry/4dcube.html"><img
 src="qh--4d.gif" alt="[4-d cube]" align="middle" width="100"
 height="100"></a> Imprecision in Qhull</h1>
 
@@ -46,7 +46,7 @@ convex. It verifies that all points are on or below all facets. </p>
 <p>Qhull automatically tests for convexity if it detects
 precision errors while constructing the hull. </p>
 
-<p><b>Copyright &copy; 1995-2002 The Geometry Center, Minneapolis MN</b></p>
+<p><b>Copyright &copy; 1995-2003 The Geometry Center, Minneapolis MN</b></p>
 
 <hr>
 
@@ -55,7 +55,7 @@ imprecision: Table of Contents </a></h2>
 
 <ul>
     <li><a href="#prec">Precision problems</a></li>
-    <li><a href="#joggle">Joggled input or merged facets</a></li>
+    <li><a href="#joggle">Merged facets or joggled input</a></li>
     <li><a href="#delaunay">Delaunay triangulations</a></li>
     <li><a href="#imprecise">Merged facets</a></li>
     <li><a href="#how">How Qhull merges facets</a></li>
@@ -137,18 +137,25 @@ the original extreme points. Qhull may split or merge an extreme
 point, but this appears to be unlikely.</p>
 
 <p>The following pipe implements the identity function for
-extreme points (with roundoff):</p>
-
+extreme points (with roundoff):
 <blockquote>
-    <p>qconvex <a href="qh-optf.htm#FV">FV</a> <a
-    href="qh-opto.htm#n">n</a> | qhalf <a href="qh-optf.htm#Fp">Fp</a></p>
+    qconvex <a href="qh-optf.htm#FV">FV</a> <a
+    href="qh-opto.htm#n">n</a> | qhalf <a href="qh-optf.htm#Fp">Fp</a>
 </blockquote>
 
-<h2><a href="#TOC">»</a><a name="joggle">Joggled input or merged
-facets</a></h2>
+<p>Bernd Gartner published his 
+<a href=http://www.inf.ethz.ch/personal/gaertner/miniball.html>Miniball</a>
+algorithm ["Fast and robust smallest enclosing balls", <i>Algorithms - ESA '99</i>, LNCS 1643].
+It uses floating point arithmetic and a carefully designed primitive operation.
+It is practical to 20-D or higher, and identifies at least two points on the
+convex hull of the input set.  Like Qhull, it is an incremental algorithm that
+processes points furthest from the intermediate result and ignores 
+points that are close to the intermediate result.
 
-<p>This section discusses the choice between joggled input and
-merged facets. By default, Qhull uses merged facets to handle
+<h2><a href="#TOC">»</a><a name="joggle">Merged facets or joggled input</a></h2>
+
+<p>This section discusses the choice between merged facets and joggled input. 
+By default, Qhull uses merged facets to handle
 precision problems. With option '<a href="qh-optq.htm#QJn">QJ</a>',
 the input is joggled. See <a href="qh-eg.htm#joggle">examples</a>
 of joggled input and triangulated output.
@@ -158,15 +165,16 @@ when you want non-simplicial output (e.g., the faces of a cube).
 <li>Use merged facets and triangulated output ('<a href="qh-optq.htm#Qt">Qt</a>') when
 you want simplicial output and coplanar facets (e.g., triangles for a Delaunay triangulation).
 <li>Use joggled input ('<a href="qh-optq.htm#QJn">QJ</a>') when you need clearly-convex, 
-simplicial output
-(e.g., triangles for a Delaunay triangulation). 
+simplicial output. 
 </ul>
 
-<p>The choice between joggled input and merged facets depends on
+<p>The choice between merged facets and joggled input depends on
 the application. Both run about the same speed. Joggled input may
 be faster if the initial joggle is sufficiently large to avoid
-precision errors.  Most applications should used merged facets
-with triangulated output.</p>
+precision errors. 
+
+<p>Most applications should used merged facets
+with triangulated output. </p>
 
 <p>Use merged facets (the
 default, '<a href="qh-optc.htm#C0">C-0</a>') 
@@ -231,6 +239,15 @@ triangulations. It scales the last coordinate and may reduce
 roundoff error. It is automatically set for <a href=qdelaun.htm>qdelaunay</a>, 
 <a href=qvoronoi.htm>qvoronoi</a>, and option '<a
 href="qh-optq.htm#QJn">QJ</a>'.</p>
+
+<p>Edelsbrunner, H, <i>Geometry and Topology for Mesh Generation</i>, Cambridge University Press, 2001.
+Good mathematical treatise on Delaunay triangulation and mesh generation for 2-d 
+and 3-d surfaces.  The chapter on surface simplification is 
+particularly interesting.  It is similar to facet merging in Qhull.
+
+<p>Veron and Leon published an algorithm for shape preserving polyhedral
+simplification with bounded error [<i>Computers and Graphics</i>, 22.5:565-585, 1998].
+It remove nodes using front propagation and multiple remeshing.
 
 <h2><a href="#TOC">»</a><a name="imprecise">Merged facets </a></h2>
 
@@ -728,10 +745,11 @@ quickly and <a href="index.htm#geomview">Geomview</a> to view
 the results. You will probably want to write your own driver for
 Qhull using the Qhull library. For example, you could select the
 largest facet in each quadrant.</p>
+
 <!-- Navigation links -->
 <hr>
 
-<p><b>Up:</b> <a href="http://www.geom.umn.edu/software/qhull">Home
+<p><b>Up:</b> <a href="http://www.qhull.org">Home
 page</a> for Qhull <br>
 <b>Up:</b> <a href="index.htm#TOC">Qhull manual</a>: Table of
 Contents<br>
@@ -749,11 +767,11 @@ Contents<br>
 <!-- GC common information -->
 <hr>
 
-<p><a href="http://www.geom.umn.edu/"><img src="qh--geom.gif"
+<p><a href="http://www.geom.uiuc.edu/"><img src="qh--geom.gif"
 align="middle" width="40" height="40"></a><i>The Geometry Center
 Home Page </i></p>
 
-<p>Comments to: <a href=mailto:qhull@geom.umn.edu>qhull@geom.umn.edu</a>
+<p>Comments to: <a href=mailto:qhull@qhull.org>qhull@qhull.org</a>
 </a><br>
 Created: Sept. 25, 1995 --- <!-- hhmts start --> Last modified: see top <!-- hhmts end --> </p>
 </body>

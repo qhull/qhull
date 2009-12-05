@@ -6,7 +6,7 @@
 
    see qh-geom.htm and geom.h
 
-   copyright (c) 1993-2002 The Geometry Center        
+   copyright (c) 1993-2003 The Geometry Center        
 
    infrequent code goes into geom2.c
 */
@@ -138,8 +138,8 @@ facetT *qh_findbest (pointT *point, facetT *startfacet,
 		     boolT bestoutside, boolT isnewfacets, boolT noupper,
 		     realT *dist, boolT *isoutside, int *numpart) {
   realT bestdist= -REALmax/2 /* avoid underflow */;
-  facetT *facet, *neighbor, **neighborp, *bestfacet= NULL;
-  facetT *bestfacet_all= startfacet;
+  facetT *facet, *neighbor, **neighborp;
+  facetT *bestfacet= NULL, *lastfacet= NULL;
   int oldtrace= qh IStracing;
   unsigned int visitid= ++qh visit_id;
   int numpartnew=0;
@@ -176,6 +176,7 @@ facetT *qh_findbest (pointT *point, facetT *startfacet,
   while (facet) {
     trace4((qh ferr, "qh_findbest: neighbors of f%d, bestdist %2.2g f%d\n", 
                 facet->id, bestdist, getid_(bestfacet)));
+    lastfacet= facet;
     FOREACHneighbor_(facet) {
       if (!neighbor->newfacet && isnewfacets)
         continue;
@@ -194,8 +195,11 @@ facetT *qh_findbest (pointT *point, facetT *startfacet,
 	  if (!neighbor->upperdelaunay) {
 	    bestfacet= neighbor;
 	    bestdist= *dist;
+	    break; /* switch to neighbor */
+	  }else if (!bestfacet) { 
+	    bestdist= *dist;
+	    break; /* switch to neighbor */
 	  }
-	  break; /* switch to neighor */
 	} /* end of *dist>bestdist */
       } /* end of !flipped */
     } /* end of FOREACHneighbor */
@@ -217,13 +221,8 @@ facetT *qh_findbest (pointT *point, facetT *startfacet,
 	qh findbest_notsharp= True;
     }
   }
-  if (!bestfacet) {
-    fprintf(qh ferr, "\n\
-qh_findbest: all neighbors of facet %d are flipped or upper Delaunay.\n\
-Please report this error to qhull_bug@geom.umn.edu with the input and all of the output.\n",
-       startfacet->id);
-    qh_errexit (qh_ERRqhull, startfacet, NULL);
-  }
+  if (!bestfacet) 
+    bestfacet= qh_findbestlower (lastfacet, point, &bestdist, numpart);
   if (testhorizon) 
     bestfacet= qh_findbesthorizon (!qh_IScheckmax, point, bestfacet, noupper, &bestdist, &numpartnew);
   *dist= bestdist;
@@ -409,7 +408,7 @@ facetT *qh_findbesthorizon (boolT ischeckmax, pointT* point, facetT *startfacet,
 */
 facetT *qh_findbestnew (pointT *point, facetT *startfacet,
 	   realT *dist, boolT bestoutside, boolT *isoutside, int *numpart) {
-  realT bestdist= -REALmax/2, minsearch= -REALmax/2;
+  realT bestdist= -REALmax/2;
   facetT *bestfacet= NULL, *facet;
   int oldtrace= qh IStracing, i;
   unsigned int visitid= ++qh visit_id;

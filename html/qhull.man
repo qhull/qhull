@@ -12,7 +12,7 @@
 ./"
 ./"  Warning: a leading quote "'" or dot "." will not format correctly
 ./"
-.TH qhull 1 "August 20, 2002" "Geometry Center"
+.TH qhull 1 "2003/12/30" "Geometry Center"
 .SH NAME
 qhull \- convex hull, Delaunay triangulation, Voronoi diagram, 
 halfspace intersection about a point, hull volume, facet area
@@ -56,16 +56,15 @@ example:
  - html manual:    index.htm
  - installation:   README.txt
  - see also:       COPYING.txt, REGISTER.txt, Changes.txt
- - WWW:  <http://www.geom.umn.edu/software/qhull>
+ - WWW:  <http://www.qhull.org>
  - CVS:  <http://savannah.gnu.org/projects/qhull/>
  - mirror: <http://www6.uniovi.es/ftp/pub/mirrors/geom.umn.edu/software/ghindex.html>
- - backup: <http://www.thesa.com/software/qhull>
- - news: <http://www.geom.umn.edu/~bradb/qhull-news.html>
+ - news: <http://www.qhull.org/news>
  - Geomview:  <http://www.geomview.org>
  - news group:     <news:comp.graphics.algorithms>
  - FAQ:       <http://exaflop.org/docs/cgafaq/cga6.html>
- - email:          qhull@geom.umn.edu
- - bug reports:    qhull_bug@geom.umn.edu
+ - email:          qhull@qhull.org
+ - bug reports:    qhull_bug@qhull.org
  
 The sections are:
  - INTRODUCTION
@@ -447,6 +446,12 @@ Print facet identifiers.
 Fm
 Print number of merges for each facet.  At most 511 merges are reported for
 a facet.  See 'PMn' for printing the facets with the most merges.
+.TP
+FM
+Output the hull in Maple format.  Qhull writes a Maple
+file for 2-d and 3-d
+convex hulls and for 2-d Delaunay triangulations.   Qhull produces a '.mpl'
+file for displaying with display3d().
 .TP
 Fn
 Print neighbors for each facet.  The output starts with the number of facets.  
@@ -918,7 +923,7 @@ Tz
 Redirect stderr to stdout.
 .PP
 .SH BUGS
-Please report bugs to Brad Barber at qhull_bug@geom.umn.edu.  
+Please report bugs to Brad Barber at qhull_bug@qhull.org.  
 
 If Qhull does not compile, it is due to an incompatibility between your
 system and ours.  The first thing to check is that your compiler is
@@ -943,8 +948,8 @@ end of your message.  This allows us to see the error for ourselves.
 Qhull is maintained part-time.
 .PP
 .SH E-MAIL
-Please send correspondence to qhull@geom.umn.edu and report bugs to
-qhull_bug@geom.umn.edu.  Let us know how you use Qhull.  If you
+Please send correspondence to qhull@qhull.org and report bugs to
+qhull_bug@qhull.org.  Let us know how you use Qhull.  If you
 mention it in a paper, please send the reference and an abstract.
 
 If you would like to get Qhull announcements (e.g., a new version)
@@ -961,7 +966,7 @@ Barber, C. B., D.P. Dobkin, and H.T. Huhdanpaa,
 "The Quickhull Algorithm for Convex Hulls," ACM
 Trans. on Mathematical Software, Dec. 1996.
 http://www.acm.org/pubs/citations/journals/toms/1996-22-4/p469-barber/
-http://www.geom.umn.edu/software/qhull/qhull-96.ps
+http://citeseer.nj.nec.com/83502.html
 
 Clarkson, K.L., K. Mehlhorn, and R. Seidel, "Four results on randomized 
 incremental construction," Computational Geometry: Theory and Applications,
@@ -974,7 +979,7 @@ Geometry, Springer-Verlag, New York, 1985.
 .SH AUTHORS
 .nf
   C. Bradford Barber                    Hannu Huhdanpaa
-  bradb@geom.umn.edu                    hannu@geom.umn.edu
+  bradb@qhull.org                    hannu@qhull.org
   
                     c/o The Geometry Center
                     University of Minnesota
@@ -998,4 +1003,4 @@ The Geometry Center is supported by grant DMS-8920161 from the National
 Science Foundation, by grant DOE/DE-FG02-92ER25137 from the Department 
 of Energy, by the University of Minnesota, and by Minnesota Technology, Inc.
 
-Qhull is available from http://www.geom.umn.edu/software/qhull
+Qhull is available from http://www.qhull.org

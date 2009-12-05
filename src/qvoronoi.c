@@ -7,7 +7,7 @@
 
    see unix.c for full interface
 
-   copyright (c) 1993-2002, The Geometry Center
+   copyright (c) 1993-2003, The Geometry Center
 */
 
 #include <stdio.h>
@@ -39,7 +39,7 @@ int isatty (int);  /* returns 1 if stdin is a tty
 		   if "Undefined symbol" this can be deleted along with call in main() */
 #endif
 
-/*-<a                             href="qh-qhull.c#TOC"
+/*-<a                             href="qh-qhull.htm#TOC"
   >-------------------------------</a><a name="prompt">-</a>
 
   qh_prompt 
@@ -57,7 +57,7 @@ char hidden_options[]=" d n m v H U Qb QB Qc Qf Qg Qi Qm Qr QR Qv Qx TR E V Fa F
 
 char qh_prompta[]= "\n\
 qvoronoi- compute the Voronoi diagram\n\
-    http://www.geom.umn.edu/software/qhull  %s\n\
+    http://www.qhull.org  %s\n\
 \n\
 input (stdin):\n\
     first lines: dimension and number of points (or vice-versa).\n\
@@ -169,7 +169,7 @@ Print options:\n\
     synopsis for qhull 
 */  
 char qh_prompt2[]= "\n\
-qvoronoi- compute the Voronoi diagram. Qhull %s\n\
+qvoronoi- compute the Voronoi diagram.  Qhull %s\n\
     input (stdin): dimension, number of points, point coordinates\n\
     comments start with a non-numeric character\n\
 \n\
@@ -269,16 +269,16 @@ int main(int argc, char *argv[]) {
 #endif
 
   if ((argc == 1) && isatty( 0 /*stdin*/)) {      
-    fprintf(stdout, qh_prompt2, qh_VERSION);
+    fprintf(stdout, qh_prompt2, qh_version);
     exit(qh_ERRnone);
   }
   if (argc > 1 && *argv[1] == '-' && !*(argv[1]+1)) {
-    fprintf(stdout, qh_prompta, qh_VERSION,  
+    fprintf(stdout, qh_prompta, qh_version,
 		qh_promptb, qh_promptc, qh_promptd, qh_prompte);
     exit(qh_ERRnone);
   }
   if (argc >1 && *argv[1] == '.' && !*(argv[1]+1)) {
-    fprintf(stdout, qh_prompt3, qh_VERSION);
+    fprintf(stdout, qh_prompt3, qh_version);
     exit(qh_ERRnone);
   }
   qh_init_A (stdin, stdout, stderr, argc, argv);  /* sets qh qhull_command */

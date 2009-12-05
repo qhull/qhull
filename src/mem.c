@@ -29,7 +29,7 @@
     qh-mem.htm and mem.h
     global.c (qh_initbuffers) for an example of using mem.c 
    
-  copyright (c) 1993-2002 The Geometry Center
+  copyright (c) 1993-2003 The Geometry Center
 */
 
 #include <stdio.h>
@@ -205,6 +205,7 @@ void qh_memfree(void *object, int size) {
 */
 void qh_memfreeshort (int *curlong, int *totlong) {
   void *buffer, *nextbuffer;
+  FILE *ferr;
 
   *curlong= qhmem .cntlong - qhmem .freelong;
   *totlong= qhmem .totlong;
@@ -218,7 +219,9 @@ void qh_memfreeshort (int *curlong, int *totlong) {
     free (qhmem .freelists);
     free (qhmem .sizetable);
   }
+  ferr= qhmem.ferr;
   memset((char *)&qhmem, 0, sizeof qhmem);  /* every field is 0, FALSE, NULL */
+  qhmem.ferr= ferr;
 } /* memfreeshort */
 
 

@@ -9,7 +9,7 @@
    infrequent code is in poly2.c 
    (all but top 50 and their callers 12/3/95)
 
-   copyright (c) 1993-2002, The Geometry Center
+   copyright (c) 1993-2003, The Geometry Center
 */
 
 #include "qhull_a.h"

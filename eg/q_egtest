@@ -23,7 +23,7 @@ rbox 30 s D4 | qconvex s GhD0 Pd0d1d2D3 Tc >eg/eg.t19.intersect.precise.4-3
 rbox 100 s P1,1,1 | qconvex s QG-0 Pgp Tc G >eg/eg.t20.notvisible
 rbox 100 s | qconvex s QV-10 Pgp Tc G  >eg/eg.t21.notvertex
 rbox 100 r D2 P1,1 | qhull s Pd0:0.7 PD0:0.8 QgG0 G Tv >eg/eg.t22.split
-rbox 100 D2 c G1.0 | qvoronoi s A-0.95 v Gna Tv >eg/eg.t23.voronoi.imprecise
+rbox 100 D2 c G1.0 | qvoronoi s A-0.95 Gna Tv >eg/eg.t23.voronoi.imprecise
 rbox 30 s D4 | qconvex s Gh Pd0d1d2D3 Tc >eg/eg.t24.intersect.precise.4d
 
 echo ==the following generates an error== >/dev/null

@@ -1,18 +1,15 @@
-                    Qhull, Copyright (c) 1993-2002
+                    Qhull, Copyright (c) 1993-2003
 
        The National Science and Technology Research Center for
         Computation and Visualization of Geometric Structures
                         (The Geometry Center)
                        University of Minnesota
-                            400 Lind Hall
-                        207 Church Street S.E.
-                      Minneapolis, MN 55455  USA
 
-                       email: qhull@geom.umn.edu
+                       email: qhull@qhull.org
 
 This software includes Qhull from The Geometry Center.  Qhull is 
 copyrighted as noted above.  Qhull is free software and may be obtained 
-via http from www.geom.umn.edu.  It may be freely copied, modified, 
+via http from www.qhull.org.  It may be freely copied, modified, 
 and redistributed under the following conditions:
 
 1. All copyright notices must remain intact in all files.
@@ -32,6 +29,6 @@ and redistributed under the following conditions:
 
 5. There is no warranty or other guarantee of fitness for Qhull, it is 
    provided solely "as is".  Bug reports or fixes may be sent to 
-   qhull_bug@geom.umn.edu; the authors may or may not act on them as 
+   qhull_bug@qhull.org; the authors may or may not act on them as 
    they desire.
 

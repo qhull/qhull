@@ -1,6 +1,6 @@
 Name
 
-      qhull, rbox         2002.1           August 20, 2002
+      qhull, rbox         2003.1           2003/12/30
   
 Convex hull, Delaunay triangulation, Voronoi diagrams, Halfspace intersection
  
@@ -8,17 +8,16 @@ Convex hull, Delaunay triangulation, Voronoi diagrams, Halfspace intersection
         html/index.htm
 
       Available from:
-        <http://www.geom.umn.edu/software/qhull>
+        <http://www.qhull.org>
 	<http://savannah.gnu.org/projects/qhull>
-	<http://www.thesa.com/software/qhull>
-
-      Version 1 (simplicial only):
-        <http://www.geom.umn.edu/software/qhull/qhull-1.0.tar.gz>
-        <http://www.geom.umn.edu/software/qhull/qhull.sit.hqx>
+ 
+     Version 1 (simplicial only):
+        <http://www.qhull.org/download/qhull-1.0.tar.gz>
+        <http://www.qhull.org/download/qhull.sit.hqx>
        
       News and a paper:
-        <http://www.geom.umn.edu/~bradb/qhull-news.html>
-        <http://www.geom.umn.edu/software/qhull/qhull-96.ps>
+        <http://www.qhull.org/news>
+        <http://citeseer.nj.nec.com/83502.html>
 
 Purpose
 
@@ -47,7 +46,7 @@ Environment requirements
 
 To contribute to Qhull
 
-  Qhull is on Savannah, http://savannah.gnu.org/projects/qhull/
+  Qhull is on Savannah at http://savannah.gnu.org/projects/qhull/
 
 Qhull on Windows 95, 98, ME, NT, 2000, XP
 
@@ -56,13 +55,14 @@ Qhull on Windows 95, 98, ME, NT, 2000, XP
   
   To install Qhull:
   - Unzip the files into a directory.  You may use WinZip32 <www.hotfiles.com>
-  - Open a DOS window for the directory.  
+  - Click on QHULL-GO
+    
   - In Windows 95, the DOS window needs improvement.
-      - Double-click on qhull\eg\qhull-go.bat to call doskey (arrow keys).
       - Increase the size of the screen font to 8x12.
       - If the text is too dim, fix the screen colors with shareware (e.g., crt.exe)
-  - If you use qhull a lot, consider using the Cygwin Unix shell,
-        Cygwin tools (http://sources.redhat.com/cygwin/)
+  - If you use qhull a lot, consider using the Cygwin Unix shell (www.cygwin.com),
+
+  To learn about Qhull:
   - Execute 'qconvex' for a synopsis and examples.
   - Execute 'rbox 10 | qconvex' to compute the convex hull of 10 random points.
   - Execute 'rbox 10 | qconvex i TO file' to write results to 'file'. 
@@ -70,22 +70,34 @@ Qhull on Windows 95, 98, ME, NT, 2000, XP
       - use 'TO xxx' to send normal output to xxx and error output to stdout
   - Browse the documentation: qhull\html\index.htm
 
-Compiling for Unix
+Compiling with cygwin on Windows NT, 2000, XP
+  - install cygwin [www.cygwin.com] with gcc, make, ar, and ln
+  - cd qhull/src
+  - make -f Makefile.txt
 
-  The gzip file, qhull.tgz, contains documentation and source files for
+Qhull on Unix (Debian)
+
+  The gzip file, qhull.tar.gz, contains documentation and source files for
+  qhull and rbox.  It should compile on all Unix systems, including Debian.
+  You may also use the source instructions below.
+  
+  To unpack the gzip file
+  - tar zxf qhull.tar.gz
+  - cd qhull
+  
+  Compile with the configure Makefile [R. Laboissiere]:
+  - ./configure
+  - make
+
+Compiling the source distribution
+
+  The gzip file, qhull-src.tgz, contains documentation and source files for
   qhull and rbox.  
   
   To unpack the gzip file
-  - tar zxf qhull.tgz
+  - tar zxf qhull-src.tgz
   - cd qhull
   
-  Compiling with the Debian Make:[R. Laboissiere]
-  - cd src
-  - ./Make-config.sh
-  - cd ..
-  - configure
-  - make
-
   Compiling with Makefile (i.e., Makefile.txt)   
   - cd src
   - in Makefile, check the CC, CCOPTS1, PRINTMAN, and PRINTC defines
@@ -127,18 +139,12 @@ Compiling for Unix
       - define MANDIR and BINDIR
       - type 'make install'
 
-Compiling for Windows NT, 2000, XP with cygwin (www.cygwin.com)
-
-    - install cygwin with gcc, make, ar, and ln
-    - cd qhull/src
-    - make -f Makefile.txt
-
-Compiling for Windows 95, 98, NT, 2000, XP
+Compiling on Windows 95, 98, NT, 2000, XP
 
   Qhull compiles as a console application in Visual C++ 5.0 at warning 
   level 3.
 
-  Visual C++ quickstart for qhull.exe:  
+  Visual C++ quickstart for qhull.exe only:
     - create a "Win32 console application" called "qhull"
 	- add the following files:
 	    geom.c geom2.c global.c io.c mem.c merge.c poly.c poly2.c qhull.c
@@ -146,7 +152,7 @@ Compiling for Windows 95, 98, NT, 2000, XP
     - create a "Win32 console application" called "rbox" 
 	- add rbox.c
 
-  Visual C++ quickstart for qhull library, qconvex.exe, etc.
+  Visual C++ quickstart for qhull library, qhull.exe, qconvex.exe, etc.
     - To simplify setting up lots of projects, 
 	- create a temporary "Win32 console application" called "source"
 	- add all .c files from .../src/...
@@ -167,26 +173,25 @@ Compiling for Windows 95, 98, NT, 2000, XP
 	- build the project
 
     - create a "Win32 console application" called "qhull"
-	- move unix.c from "qhull source"
-	- Set the library file in Project:Settings..., Link
+	- Move unix.c from "qhull source"
+	- Add the library file created by "library"
 	- Qhull does not use other libraries
 
     - create a "Win32 console application" called "qconvex"
-	- move qconvex.c from "qhull source"
-	- Set the library file in Project:Settings..., Link
+	- Move qconvex.c from "qhull source"
+	- Copy the library file from "qhull"
 
     - do the same for qdelaun.c, qhalf, qvoronoi.c, user_eg.c, user_eg2.c
 	- delete "qhull sources" since it is no longer needed
-	- Set the library file in Project:Settings..., Link
 	- use Project:Settings to make any changes
 	- use batch build to rebuild everything
   
   Qhull compiles with Borland C++ 5.0 bcc32.  A Makefile is included.
-  Execute 'make -f MBorland'.  If you use the Borland IDE, set the ANSI
+  Execute 'make -f Mborland'.  If you use the Borland IDE, set the ANSI
   option in Options:Project:Compiler:Source:Language-compliance.
   
   Qhull compiles with Borland C++ 4.02 for Win32 and DOS Power Pack.  
-  Use 'make -f MBorland -D_DPMI'.  Qhull 1.0 compiles with Borland 
+  Use 'make -f Mborland -D_DPMI'.  Qhull 1.0 compiles with Borland 
   C++ 4.02.  For rbox 1.0, use "bcc32 -WX -w- -O2-e -erbox -lc rbox.c".  
   Use the same options for Qhull 1.0. [D. Zwick]
   
@@ -197,9 +202,9 @@ Compiling for Windows 95, 98, NT, 2000, XP
   intentional.  For example, variables may be initialized (unnecessarily)
   to prevent warnings about possible use of uninitialized variables.  
 
-Compiling for the Power Macintosh
+Compiling on the Power Macintosh
 
-  Qhull compiles for the Power Macintosh with Metrowerk's C compiler.
+  Qhull compiles on the Power Macintosh with Metrowerk's C compiler.
   It uses the SIOUX interface to read point coordinates and return output.
   There is no graphical output.  For project files, see 'Compiling for
   Windows 95'.  Instead of using SIOUX, Qhull may be embedded within an 
@@ -210,7 +215,7 @@ Compiling for the Power Macintosh
   to a standard file.  There is no graphical output.
 
 
-Compiling for other machines
+Compiling on other machines
  
   Some users have reported problems with compiling Qhull under Irix 5.1.  It
   compiles under other versions of Irix. 
@@ -226,15 +231,17 @@ Distributed files
   README.txt           // instructions for installing Qhull 
   REGISTER.txt         // Qhull registration 
   COPYING.txt          // copyright notice 
+  QHULL-GO.pif	       // Windows icon for qhull-go.bat
   Announce.txt         // announcement 
   Changes.txt          // change history for Qhull and rbox 
-  qh-faq.htm           // Frequently asked questions
-  qh-home.htm          // Home page 
-  qh-get.htm	       // Download page
+  File_id.diz	       // package descriptor
+  index.htm            // Home page 
+  html/qh-faq.htm      // Frequently asked questions
+  html/qh-get.htm      // Download page
   html/index.htm       // Manual
-  Makefile.txt         // Makefile for Unix or cygwin 'make' 
-  MBorland             // Makefile for Borland C++/Win32
-  Make-config.sh       // Create Debian configure and automake
+  src/Makefile.txt     // Makefile for Unix or cygwin 'make' 
+  src/Mborland         // Makefile for Borland C++/Win32
+  src/Make-config.sh   // Create Debian configure and automake
  
 src/      
   rbox consists of:
@@ -272,7 +279,7 @@ src/
   
   top-level source files:
      src/index.htm     // index to source files 
-	 qh-...htm         //   specific files
+     qh-...htm         //   specific files
      user.h            // header file of user definable constants 
      qhull.h           // header file for qhull 
      unix.c            // Unix front end to qhull 
@@ -305,14 +312,11 @@ src/
 Authors:
 
   C. Bradford Barber                    Hannu Huhdanpaa
-  bradb@geom.umn.edu                    hannu@geom.umn.edu
+  bradb@qhull.org                    hannu@qhull.org
   
-                    c/o The Geometry Center
+                    The Geometry Center
                     University of Minnesota
-                    400 Lind Hall
-                    207 Church Street S.E.
-                    Minneapolis, MN 55455
   
-  This software was developed under NSF grants NSF/DMS-8920161 and
+  Qhull 1.0 was developed under NSF grants NSF/DMS-8920161 and
   NSF-CCR-91-15793 750-7504 at the Geometry Center and Harvard 
   University.  If you find Qhull useful, please let us know.

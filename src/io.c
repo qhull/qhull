@@ -13,17 +13,10 @@
    unix.c and user.c are the only callers of io.c functions
    This allows the user to avoid loading io.o from qhull.a
 
-   copyright (c) 1993-2002 The Geometry Center        
+   copyright (c) 1993-2003 The Geometry Center        
 */
 
 #include "qhull_a.h"
-
-/*========= -prototypes for internal functions ========= */
-
-static int qh_compare_facetarea(const void *p1, const void *p2);
-static int qh_compare_facetmerge(const void *p1, const void *p2);
-static int qh_compare_facetvisit(const void *p1, const void *p2);
-int qh_compare_vertexpoint(const void *p1, const void *p2); /* not used */
 
 /*========= -functions in alphabetical order after qh_produce_output()  =====*/
 
@@ -142,7 +135,7 @@ int qh_compare_vertexpoint(const void *p1, const void *p2) {
   qh_compare_facetarea( p1, p2 )
     used by qsort() to order facets by area
 */
-static int qh_compare_facetarea(const void *p1, const void *p2) {
+int qh_compare_facetarea(const void *p1, const void *p2) {
   facetT *a= *((facetT **)p1), *b= *((facetT **)p2);
 
   if (!a->isarea)
@@ -162,7 +155,7 @@ static int qh_compare_facetarea(const void *p1, const void *p2) {
   qh_compare_facetmerge( p1, p2 )
     used by qsort() to order facets by number of merges
 */
-static int qh_compare_facetmerge(const void *p1, const void *p2) {
+int qh_compare_facetmerge(const void *p1, const void *p2) {
   facetT *a= *((facetT **)p1), *b= *((facetT **)p2);
  
   return (a->nummerge - b->nummerge);
@@ -174,7 +167,7 @@ static int qh_compare_facetmerge(const void *p1, const void *p2) {
   qh_compare_facetvisit( p1, p2 )
     used by qsort() to order facets by visit id or id
 */
-static int qh_compare_facetvisit(const void *p1, const void *p2) {
+int qh_compare_facetvisit(const void *p1, const void *p2) {
   facetT *a= *((facetT **)p1), *b= *((facetT **)p2);
   int i,j;
 
@@ -1156,10 +1149,11 @@ void qh_printafacet(FILE *fp, int format, facetT *facet, boolT printall) {
     fprintf (fp, "\n");
     break;
   case qh_PRINTmathematica:  /* either 2 or 3-d by qh_printbegin */
+  case qh_PRINTmaple:
     if (qh hull_dim == 2)
-      qh_printfacet2math (fp, facet, qh printoutvar++);
+      qh_printfacet2math (fp, facet, format, qh printoutvar++);
     else 
-      qh_printfacet3math (fp, facet, qh printoutvar++);
+      qh_printfacet3math (fp, facet, format, qh printoutvar++);
     break;
   case qh_PRINTneighbors:
     fprintf (fp, "%d", qh_setsize (facet->neighbors));
@@ -1427,11 +1421,18 @@ void qh_printbegin (FILE *fp, int format, facetT *facetlist, setT *facets, boolT
       fprintf (fp, "%d\n%d\n", qh hull_dim+1, numfacets);
     break;
   case qh_PRINTmathematica:  
+  case qh_PRINTmaple:
     if (qh hull_dim > 3)  /* qh_initbuffers also checks */
       goto LABELnoformat;
     if (qh VORONOI)
       fprintf (qh ferr, "qhull warning: output is the Delaunay triangulation\n");
-    fprintf(fp, "{\n");
+    if (format == qh_PRINTmaple) {
+      if (qh hull_dim == 2)
+	fprintf(fp, "PLOT(CURVES(\n");
+      else
+	fprintf(fp, "PLOT3D(POLYGONS(\n");
+    }else
+      fprintf(fp, "{\n");
     qh printoutvar= 0;   /* counts number of facets for notfirst */
     break;
   case qh_PRINTmerges:
@@ -1641,6 +1642,9 @@ void qh_printend (FILE *fp, int format, facetT *facetlist, setT *facets, boolT p
   case qh_PRINTouter:
     if (qh CDDoutput) 
       fprintf (fp, "end\n");
+    break;
+  case qh_PRINTmaple:
+    fprintf(fp, "));\n");
     break;
   case qh_PRINTmathematica:
     fprintf(fp, "}\n");
@@ -1930,22 +1934,27 @@ void qh_printfacet2geom_points(FILE *fp, pointT *point1, pointT *point2,
 /*-<a                             href="qh-io.htm#TOC"
   >-------------------------------</a><a name="printfacet2math">-</a>
   
-  qh_printfacet2math( fp, facet, notfirst )
-    print 2-d Mathematica output for a facet
+  qh_printfacet2math( fp, facet, format, notfirst )
+    print 2-d Maple or Mathematica output for a facet
     may be non-simplicial
 
   notes:
     use %16.8f since Mathematica 2.2 does not handle exponential format
+    see qh_printfacet3math
 */
-void qh_printfacet2math(FILE *fp, facetT *facet, int notfirst) {
+void qh_printfacet2math(FILE *fp, facetT *facet, int format, int notfirst) {
   pointT *point0, *point1;
   realT mindist;
+  char *pointfmt;
   
   qh_facet2point (facet, &point0, &point1, &mindist);
   if (notfirst)
     fprintf(fp, ",");
-  fprintf(fp, "Line[{{%16.8f, %16.8f}, {%16.8f, %16.8f}}]\n",
-	  point0[0], point0[1], point1[0], point1[1]);
+  if (format == qh_PRINTmaple)
+    pointfmt= "[[%16.8f, %16.8f], [%16.8f, %16.8f]]\n";
+  else
+    pointfmt= "Line[{{%16.8f, %16.8f}, {%16.8f, %16.8f}}]\n";
+  fprintf(fp, pointfmt, point0[0], point0[1], point1[0], point1[1]);
   qh_memfree (point1, qh normal_size);
   qh_memfree (point0, qh normal_size);
 } /* printfacet2math */
@@ -2112,18 +2121,20 @@ void qh_printfacet3geom_simplicial(FILE *fp, facetT *facet, realT color[3]) {
   >-------------------------------</a><a name="printfacet3math">-</a>
   
   qh_printfacet3math( fp, facet, notfirst )
-    print 3-d Mathematica output for a facet
+    print 3-d Maple or Mathematica output for a facet
 
   notes:
     may be non-simplicial
     use %16.8f since Mathematica 2.2 does not handle exponential format
+    see qh_printfacet2math
 */
-void qh_printfacet3math (FILE *fp, facetT *facet, int notfirst) {
+void qh_printfacet3math (FILE *fp, facetT *facet, int format, int notfirst) {
   vertexT *vertex, **vertexp;
   setT *points, *vertices;
   pointT *point, **pointp;
   boolT firstpoint= True;
   realT dist;
+  char *pointfmt, *endfmt;
   
   if (notfirst)
     fprintf(fp, ",\n");
@@ -2135,19 +2146,27 @@ void qh_printfacet3math (FILE *fp, facetT *facet, int notfirst) {
     point= qh_projectpoint(vertex->point, facet, dist);
     qh_setappend (&points, point);
   }
-  fprintf(fp, "Polygon[{");
+  if (format == qh_PRINTmaple) {
+    fprintf(fp, "[");
+    pointfmt= "[%16.8f, %16.8f, %16.8f]";
+    endfmt= "]";
+  }else {
+    fprintf(fp, "Polygon[{");
+    pointfmt= "{%16.8f, %16.8f, %16.8f}";
+    endfmt= "}]";
+  }
   FOREACHpoint_(points) {
     if (firstpoint)
       firstpoint= False;
     else
       fprintf(fp, ",\n");
-    fprintf(fp, "{%16.8f, %16.8f, %16.8f}", point[0], point[1], point[2]);
+    fprintf(fp, pointfmt, point[0], point[1], point[2]);
   }
   FOREACHpoint_(points)
     qh_memfree (point, qh normal_size);
   qh_settempfree(&points);
   qh_settempfree(&vertices);
-  fprintf(fp, "}]");
+  fprintf(fp, endfmt);
 } /* printfacet3math */
 
 
@@ -2573,7 +2592,7 @@ void qh_printfacets(FILE *fp, int format, facetT *facetlist, setT *facets, boolT
     else 
       qh_printextremes (fp, facetlist, facets, printall);
   }else if (format == qh_PRINToptions)
-    fprintf(fp, "Options selected for Qhull %s:\n%s\n", qh_VERSION, qh qhull_options);
+    fprintf(fp, "Options selected for Qhull %s:\n%s\n", qh_version, qh qhull_options);
   else if (format == qh_PRINTpoints && !qh VORONOI)
     qh_printpoints_out (fp, facetlist, facets, printall);
   else if (format == qh_PRINTqhull)
@@ -2634,7 +2653,7 @@ void qh_printhelp_degenerate(FILE *fp) {
     fprintf(fp, "\n\
 A Qhull error has occurred.  Qhull should have corrected the above\n\
 precision error.  Please send the input and all of the output to\n\
-qhull_bug@geom.umn.edu\n");
+qhull_bug@qhull.org\n");
   else if (!qh_QUICKhelp) {
     fprintf(fp, "\n\
 Precision problems were detected during construction of the convex hull.\n\
@@ -4002,7 +4021,7 @@ This is the qhull test case.  If any errors or core dumps occur,\n\
 recompile qhull with 'make new'.  If errors still occur, there is\n\
 an incompatibility.  You should try a different compiler.  You can also\n\
 change the choices in user.h.  If you discover the source of the problem,\n\
-please send mail to qhull_bug@geom.umn.edu.\n\
+please send mail to qhull_bug@qhull.org.\n\
 \n\
 Type 'qhull' for a short list of options.\n");
   }

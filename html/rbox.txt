@@ -174,8 +174,8 @@ rbox(1) 						  rbox(1)
 BUGS
        Some combinations of arguments generate odd results.
 
-       Report bugs to  qhull_bug@geom.umn.edu,	other  correspon-
-       dence to qhull@geom.umn.edu
+       Report bugs to  qhull_bug@qhull.org,	other  correspon-
+       dence to qhull@qhull.org
 
 SEE ALSO
        qhull(1)

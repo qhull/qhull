@@ -7,7 +7,7 @@
 
 <body>
 <!-- Navigation links -->
-<p><a name="TOP"><b>Up:</b></a> <a href="http://www.geom.umn.edu/software/qhull">Home
+<p><a name="TOP"><b>Up:</b></a> <a href="http://www.qhull.org">Home
 page</a> for Qhull <br>
 <b>Up:</b> <a href="index.htm#TOC">Qhull manual</a>: Table of Contents<br>
 <b>To:</b> <a href="qh-quick.htm#programs">Programs</a>
@@ -25,7 +25,7 @@ while loading)<br>
 <hr>
 <!-- Main text of document -->
 <h1><a
-href="http://www.geom.umn.edu/graphics/pix/Special_Topics/Computational_Geometry/half.html"><img
+href="http://www.geom.uiuc.edu/graphics/pix/Special_Topics/Computational_Geometry/half.html"><img
 src="qh--half.gif" alt="[halfspace]" align="middle" width="100"
 height="100"></a> Examples of Qhull</h1>
 
@@ -35,7 +35,7 @@ href="index.htm#geomview">Geomview</a>.  You will need to
 use a Unix computer with a copy of Geomview.
 <p>
 If you are not running Unix, you can view <a
-href="http://www.geom.umn.edu/graphics/pix/Special_Topics/Computational_Geometry/welcome.html">pictures</a> 
+href="http://www.geom.uiuc.edu/graphics/pix/Special_Topics/Computational_Geometry/welcome.html">pictures</a> 
 for some of the examples.  To understand Qhull without Geomview, try the
 examples in <a href="qh-quick.htm#programs">Programs</a> and
 <a href="qh-quick.htm#programs">Programs/input</a>.  You can also try small
@@ -48,7 +48,7 @@ test examples, and <tt>eg/q_test</tt> exercises the code. If you
 find yourself viewing the inside of a 3-d example, use Geomview's
 normalization option on the 'obscure' menu.</p>
 
-<p><b>Copyright &copy; 1995-2002 The Geometry Center, Minneapolis MN</b></p>
+<p><b>Copyright &copy; 1995-2003 The Geometry Center, Minneapolis MN</b></p>
 
 <hr>
 
@@ -58,7 +58,7 @@ Contents </a></h2>
 <ul>
     <li><a href="#2d">2-d and 3-d examples</a></li>
     <li><a href="#how">How Qhull adds a point</a></li>
-    <li><a href="#joggle">Joggled input and triangulated output</a></li>
+    <li><a href="#joggle">Triangulated output or joggled input</a></li>
     <li><a href="#delaunay">Delaunay and Voronoi diagrams</a></li>
     <li><a href="#merge">Facet merging for imprecision</a></li>
     <li><a href="#4d">4-d objects</a></li>
@@ -89,7 +89,7 @@ Contents </a></h2>
             <li><a href="#14">eg.14.sphere.corner</a></li>
         </ul>
     </li>
-    <li><a href="#TOC">»</a> <a name="joggle">Joggled input and triangulated output</a>
+    <li><a href="#TOC">»</a> <a name="joggle">Triangulated output or joggled input</a>
     	<ul>
             <li><a href="#15a">eg.15a.surface</a></li>
             <li><a href="#15b">eg.15b.triangle</a></li>
@@ -299,7 +299,7 @@ tells Qhull to only build facets that might be part of a good
 facet. This technique reduces output size in low dimensions. It
 does not work with facet merging.</p>
 
-<h2><a href="#TOC">»</a>Joggled input and triangulated output</h2>
+<h2><a href="#TOC">»</a>Triangulated output or joggled input</h2>
 
 <h3><a href="#joggle">»</a><a name="15a">rbox 500 W0 | qconvex QR0 Qc Gvp &gt;eg.15a.surface</a></h3>
 
@@ -340,8 +340,7 @@ this process until no precision problems occur.
 <p>
 Joggled input is a simple solution to precision problems in
 computational geometry.  Qhull can also merge facets to handle
-precision problems.  See <a href="qh-impre.htm#joggle">Joggled input
-or merged facets</a>.  
+precision problems.  See <a href="qh-impre.htm#joggle">Merged facets or joggled input</a>.  
 
 <h2><a href="#TOC">»</a>Delaunay and Voronoi diagrams</h2>
 
@@ -371,7 +370,7 @@ Ga &gt;eg.17c.delaunay.2-3 </a></h3>
 <p>This is how Qhull generated both diagrams. Use Geomview's
 'obscure' menu to turn off normalization, and Geomview's
 'cameras' menu to turn off perspective. Then load this <a
-href="http://www.geom.umn.edu/graphics/pix/Special_Topics/Computational_Geometry/delaunay.html">object</a>
+href="http://www.geom.uiuc.edu/graphics/pix/Special_Topics/Computational_Geometry/delaunay.html">object</a>
 with one of the previous diagrams.</p>
 
 <p>The points are lifted to a paraboloid by summing the squares
@@ -473,7 +472,7 @@ Voronoi diagram.</p>
 qconvex G &gt;eg.20.cone </a></h3>
 
 <p>There are two things unusual about this <a
-href="http://www.geom.umn.edu/graphics/pix/Special_Topics/Computational_Geometry/cone.html">cone</a>.
+href="http://www.geom.uiuc.edu/graphics/pix/Special_Topics/Computational_Geometry/cone.html">cone</a>.
 One is the large flat disk at one end and the other is the
 rectangles about the middle. That's how the points were
 generated, and if those points were exact, this is the correct
@@ -509,7 +508,7 @@ R0.01 Gpav &gt;eg.21b.roundoff.fixed </a></h3>
 
 <p>Qhull handles the random perturbations and returns an
 imprecise <a
-href="http://www.geom.umn.edu/graphics/pix/Special_Topics/Computational_Geometry/fixed.html">sphere</a>.
+href="http://www.geom.uiuc.edu/graphics/pix/Special_Topics/Computational_Geometry/fixed.html">sphere</a>.
 In this case, the output is a weak approximation to the points.
 This is because a random perturbation of '<a
 href="qh-optc.htm#Rn">R0.01 </a>' is equivalent to losing all but
@@ -584,7 +583,7 @@ vertices. That is why the cube looks lopsided.</p>
 C-0.02 C0.1 Gh &gt;eg.30.4d.merge.cube </a></h3>
 
 <p><a
-href="http://www.geom.umn.edu/graphics/pix/Special_Topics/Computational_Geometry/4dcube.html">Here</a>
+href="http://www.geom.uiuc.edu/graphics/pix/Special_Topics/Computational_Geometry/4dcube.html">Here</a>
 is the equivalent in 4-d of the imprecise <a href="#06">square</a>
 and imprecise <a href="#23">cube</a>. It's the imprecise convex
 hull of 5000 random points in a hypercube. It's a full 4-d object
@@ -648,7 +647,7 @@ qconvex FV n | qhalf Fp | qconvex G &gt;eg.33c.cone.halfspace</a></h3>
 <p>These examples illustrate halfspace intersection. The first
 picture is the convex hull of two 20-gons plus an apex. The
 second picture is the dual of the first. Try loading <a
-href="http://www.geom.umn.edu/graphics/pix/Special_Topics/Computational_Geometry/half.html">both</a>
+href="http://www.geom.uiuc.edu/graphics/pix/Special_Topics/Computational_Geometry/half.html">both</a>
 at once. Each vertex of the second picture corresponds to a facet
 or halfspace of the first. The vertices with four edges
 correspond to a facet with four neighbors. Similarly the facets
@@ -664,7 +663,7 @@ third picture is a duplicate of the first. </p>
 <!-- Navigation links -->
 <hr>
 
-<p><b>Up:</b> <a href="http://www.geom.umn.edu/software/qhull">Home
+<p><b>Up:</b> <a href="http://www.qhull.org">Home
 page for Qhull</a> <br>
 <b>Up:</b> <a href="index.htm#TOC">Qhull manual: Table of Contents</a><br>
 <b>To:</b> <a href="qh-quick.htm#programs">Programs</a>
@@ -681,11 +680,11 @@ while loading)<br>
 <!-- GC common information -->
 <hr>
 
-<p><a href="http://www.geom.umn.edu/"><img src="qh--geom.gif"
+<p><a href="http://www.geom.uiuc.edu/"><img src="qh--geom.gif"
 align="middle" width="40" height="40"></a><i>The Geometry Center
 Home Page </i></p>
 
-<p>Comments to: <a href=mailto:qhull@geom.umn.edu>qhull@geom.umn.edu</a>
+<p>Comments to: <a href=mailto:qhull@qhull.org>qhull@qhull.org</a>
 </a><br>
 Created: Sept. 25, 1995 --- <!-- hhmts start --> Last modified: see top <!-- hhmts end --> </p>
 </body>

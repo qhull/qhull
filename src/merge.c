@@ -20,20 +20,13 @@
    merges occur in qh_mergefacet and in qh_mergecycle
    vertex->neighbors not set until the first merge occurs
 
-   copyright (c) 1993-2002 The Geometry Center        
+   copyright (c) 1993-2003 The Geometry Center        
 */
 
 #include "qhull_a.h"
 
 #ifndef qh_NOmerge
 
-/*=========== internal prototypes =========*/
-
-static int qh_compareangle(const void *p1, const void *p2);
-static int qh_comparemerge(const void *p1, const void *p2);
-static int qh_comparevisit (const void *p1, const void *p2);
-
-																														
 /*===== functions (alphabetical after premerge and postmerge) ======*/
 
 /*-<a                             href="qh-merge.htm#TOC"
@@ -571,7 +564,7 @@ boolT qh_checkzero (boolT testall) {
   qh_compareangle( angle1, angle2 )
     used by qsort() to order merges by angle
 */
-static int qh_compareangle(const void *p1, const void *p2) {
+int qh_compareangle(const void *p1, const void *p2) {
   mergeT *a= *((mergeT **)p1), *b= *((mergeT **)p2);
  
   return ((a->angle > b->angle) ? 1 : -1);
@@ -583,7 +576,7 @@ static int qh_compareangle(const void *p1, const void *p2) {
   qh_comparemerge( merge1, merge2 )
     used by qsort() to order merges
 */
-static int qh_comparemerge(const void *p1, const void *p2) {
+int qh_comparemerge(const void *p1, const void *p2) {
   mergeT *a= *((mergeT **)p1), *b= *((mergeT **)p2);
  
   return (a->type - b->type);
@@ -595,7 +588,7 @@ static int qh_comparemerge(const void *p1, const void *p2) {
   qh_comparevisit( vertex1, vertex2 )
     used by qsort() to order vertices by their visitid
 */
-static int qh_comparevisit (const void *p1, const void *p2) {
+int qh_comparevisit (const void *p1, const void *p2) {
   vertexT *a= *((vertexT **)p1), *b= *((vertexT **)p2);
  
   return (a->visitid - b->visitid);

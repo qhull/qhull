@@ -9,7 +9,7 @@
 <body>
 
 <p><a name="TOP"><b>Up:</b></a> <a
-href="http://www.geom.umn.edu/software/qhull">Home page for Qhull</a>
+href="http://www.qhull.org">Home page for Qhull</a>
 <br>
 <b>Up:</b> <a href="index.htm#TOC">Qhull manual: Table of
 Contents</a><br>
@@ -31,13 +31,13 @@ structures
 <hr>
 <!-- Main text of document -->
 <h1><a
-href="http://www.geom.umn.edu/graphics/pix/Special_Topics/Computational_Geometry/4dcube.html"><img
+href="http://www.geom.uiuc.edu/graphics/pix/Special_Topics/Computational_Geometry/4dcube.html"><img
 src="qh--4d.gif" alt="[4-d cube]" align="middle" width="100"
 height="100"></a> Qhull internals</h1>
 
 <p>This section discusses the internals of Qhull. </p>
 
-<p><b>Copyright &copy; 1995-2002 The Geometry Center, Minneapolis MN</b></p>
+<p><b>Copyright &copy; 1995-2003 The Geometry Center, Minneapolis MN</b></p>
 
 <hr>
 
@@ -186,16 +186,33 @@ the most expensive function.
 <h2><a href="#TOC">»</a><a name="library">Calling Qhull from
 your program</a></h2>
 
-<p>The <tt>Makefile</tt> produces a library, <tt>libqhull.a</tt>,
-for inclusion in your programs. First review <tt>qhull.h</tt>.
-This defines the data structures used by Qhull and provides
-prototypes for the top-level functions. </p>
+<p><b>Warning:</b>  Qhull was not designed for calling from other
+programs.  There is neither API nor Qhull classes.  
+It can be done, but it takes work and head scratching.
+You will need to understand the data structures and read the code.
+Most users will find it easier to call Qhull as an external
+command.
 
-<p>Most users will only need qhull.h in their programs. For
-example, the Qhull program is defined with <tt>qhull.h</tt> and <tt>unix.c</tt>.
-To access all functions, use <tt>qhull_a.h</tt>. Include the file
-with &quot;<tt>#include &lt;qhull/qhull_a.h&gt;&quot;.</tt> This
-avoids potential name conflicts.</p>
+<p>For examples of calling Qhull, see GNU Octave's 
+<a href=http://octave.sourceforge.net/index/analysis.html#Geometry>computational geometry code</a>,
+and Qhull's
+<a href=../src/user_eg.c>user_eg.c</a>,
+<a href=../src/user_eg2.c>user_eg2.c</a>,
+<a href=../src/user.c>user.c</a>, and
+<a href=../src/qhull_interface.cpp>qhull_interface.cpp</a>.  
+Qhull's programs use the same library:
+<a href=../src/unix.c>unix.c</a>,
+<a href=../src/qconvex.c>qconvex.c</a>,
+<a href=../src/qdelaun.c>qdelaun.c</a>,
+<a href=../src/qhalf.c>qhalf.c</a>, and
+<a href=../src/qvoronoi.c>qvoronoi.c</a>.
+
+<p>The <a href=http://www.boost.org/libs/graph/doc/table_of_contents.html>BGL</a>
+Boost Graph Library [aka GGCL] provides C++ classes for graph data structures
+and algorithms [Dr. Dobb's 9/00 p. 29-38; OOPSLA '99 p. 399-414].  It is modelled after the
+Standard Template Library.  It would provide a good interface to Qhull.
+If you are interested in adapting BGL to Qhull, please contact 
+<a href="mailto:bradb@qhull.org">bradb@qhull.org</a>.
 
 <p>See <a href="../src/index.htm">Qhull functions, macros, and data
 structures</a> for internal documentation of Qhull. The
@@ -210,19 +227,15 @@ defined in <tt>qhull.h</tt>. They allow the global data
 structures to be pre-allocated (faster access) or dynamically
 allocated (allows multiple copies). </p>
 
-<p><tt>User.c</tt> and <tt>qhull_interface.cpp</tt> include
-an application template. You can use <tt>user_eg.c</tt>
-as an example. It also shows how to reduce memory requirements by
-not loading <tt>io.o</tt>. If you use joggled input ('<a
-href="qh-optq.htm#QJn">QJ</a>'), you may also remove <tt>merge.o</tt>
-with <a href="../src/user.h#NOmerge">qh_NOmerge</a>'. </p>
-
-<p>The <a href=http://www.boost.org/libs/graph/doc/table_of_contents.html>BGL</a>
-Boost Graph Library [aka GGCL] provides C++ classes for graph data structures
-and algorithms [Dr. Dobb's 9/00 p. 29-38; OOPSLA '99 p. 399-414].  It is modelled after the
-Standard Template Library.  It would provide a good interface to Qhull.
-If you are interested in adapting BGL to Qhull, please contact 
-<a href="mailto:bradb@geom.umn.edu">bradb@geom.umn.edu</a>.
+<p>Qhull's <tt>Makefile</tt> produces a library, <tt>libqhull.a</tt>,
+for inclusion in your programs. First review <tt>qhull.h</tt>.
+This defines the data structures used by Qhull and provides
+prototypes for the top-level functions. 
+Most users will only need qhull.h in their programs. For
+example, the Qhull program is defined with <tt>qhull.h</tt> and <tt>unix.c</tt>.
+To access all functions, use <tt>qhull_a.h</tt>. Include the file
+with &quot;<tt>#include &lt;qhull/qhull_a.h&gt;&quot;.</tt> This
+avoids potential name conflicts.</p>
 
 <p>If you use the Qhull library, you are on your own as far as
 bugs go. Start with small examples for which you know the output.
@@ -288,6 +301,20 @@ triangulations, this facet is the Delaunay triangle that contains
 the lifted point. For convex hulls, the distance of a point to
 the convex hull is either the distance to this facet or the
 distance to a subface of the facet.</p>
+
+<blockquote>
+<p><b>Warning:</b> If triangulated output ('<a href=qh-optq.htm#Qt>Qt</a>') and
+the best facet is triangulated, qh_findbestfacet() returns one of 
+the corresponding 'tricoplanar' facets.  The actual best facet may be a different
+tricoplanar facet.
+<p>
+See qh_nearvertex() in poly2.c for sample code to visit each 
+tricoplanar facet.  To identify the correct tricoplanar facet,
+see Devillers, et. al., [<a href="index.htm#devi01">'01</a>]
+and Mucke, et al [<a href="index.htm#muck96">'96</a>].  If you 
+implement this test in general dimension, please notify 
+<a href="mailto:qhull@qhull.org">qhull@qhull.org</a>.
+</blockquote>
 
 <p>qh_findbestfacet performs an exhaustive search if its directed
 search returns a facet that is above the point. This occurs when
@@ -387,7 +414,7 @@ separation may be incorrect. [H. Geron] </p>
 
 <h3><A href="#TOC">»</A><a name="tricoplanar">Tricoplanar facets and option 'Qt'</h3>
 
-<p>Option '<a href=qh_optq.htm#Qt>Qt</a>' triangulates non-simplicial
+<p>Option '<a href=qh-optq.htm#Qt>Qt</a>' triangulates non-simplicial
 facets (e.g., a square facet in 3-d or a cubical facet in 4-d).  
 All facets share the same apex (i.e., the first vertex in facet->vertices).
 For each triangulated facet, Qhull
@@ -488,9 +515,9 @@ graph of the convex hull. </p>
 <p>There are many ways in which Qhull can be improved. </p>
 
 <pre>Here is a partial list:
+ - fix finddelaunay() in user_eg.c for tricoplanar facets
  - write a BGL, C++ interface to Qhull 
      http://www.boost.org/libs/graph/doc/table_of_contents.html
- - rewrite Qhull in C++ to make it easier to use Qhull in a program
  - change qh_save_qhull to swap the qhT structure instead of using pointers
  - change error handling and tracing to be independent of 'qh ferr'
  - determine the maximum width for a given set of parameters
@@ -517,6 +544,7 @@ Precision improvements:
  - improve facet width for very narrow distributions
 
 New features:
+ - implement Matlab's tsearch() using Qhull
  - compute volume of Voronoi regions.  You need to determine the dual face
    graph in all dimensions [see Clarkson's hull program]
  - compute alpha shapes [see Clarkson's hull program]
@@ -562,7 +590,7 @@ Performance improvements:
 <!-- Navigation links -->
 <hr>
 
-<p><b>Up:</b> <a href="http://www.geom.umn.edu/software/qhull">Home
+<p><b>Up:</b> <a href="http://www.qhull.org">Home
 page for Qhull</a> <br>
 <b>Up:</b> <a href="index.htm#TOC">Qhull manual: Table of
 Contents</a><br>
@@ -581,11 +609,11 @@ structures <!-- GC common information -->
 
 <hr>
 
-<p><a href="http://www.geom.umn.edu/"><img src="qh--geom.gif"
+<p><a href="http://www.geom.uiuc.edu/"><img src="qh--geom.gif"
 align="middle" width="40" height="40"></a><i>The Geometry Center
 Home Page </i></p>
 
-<p>Comments to: <a href=mailto:qhull@geom.umn.edu>qhull@geom.umn.edu</a>
+<p>Comments to: <a href=mailto:qhull@qhull.org>qhull@qhull.org</a>
 </a><br>
 Created: Sept. 25, 1995 --- <!-- hhmts start --> Last modified: see changes.txt <!-- hhmts end --> </p>
 </body>

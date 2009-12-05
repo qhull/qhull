@@ -8,7 +8,7 @@
 
    frequently used code is in poly.c
 
-   copyright (c) 1993-2002, The Geometry Center
+   copyright (c) 1993-2003, The Geometry Center
 */
 
 #include "qhull_a.h"
@@ -1173,9 +1173,13 @@ setT *qh_facet3vertex (facetT *facet) {
     isoutside set if outside of facet
     
   notes:
-    this works for all distributions
-    if inside, qh_findbestfacet performs an exhaustive search
+    For tricoplanar facets, this finds one of the tricoplanar facets closest 
+    to the point.  For Delaunay triangulations, the point may be inside a 
+    different tricoplanar facet. See <a href="../html/qh-in.htm#findfacet">locate a facet with qh_findbestfacet()</a>
+    
+    If inside, qh_findbestfacet performs an exhaustive search
        this may be too conservative.  Sometimes it is clearly required.
+
     qh_findbestfacet is not used by qhull.
     uses qh.visit_id and qh.coplanarset
     
@@ -1205,7 +1209,68 @@ facetT *qh_findbestfacet (pointT *point, boolT bestoutside,
 	  bestfacet->id, *bestdist, *isoutside, totpart));
   return bestfacet;
 } /* findbestfacet */ 
- 
+
+/*-<a                             href="qh-poly.htm#TOC"
+  >-------------------------------</a><a name="findbestlower">-</a>
+  
+  qh_findbestlower( facet, point, bestdist, numpart )
+    returns best non-upper, non-flipped neighbor of facet for point
+    if needed, searches vertex neighbors 
+
+  returns:
+    returns bestdist and updates numpart
+
+  notes:
+    if Delaunay and inside, point is outside of circumsphere of bestfacet
+    called by qh_findbest() for points above an upperdelaunay facet
+
+*/
+facetT *qh_findbestlower (facetT *upperfacet, pointT *point, realT *bestdistp, int *numpart) {
+  facetT *neighbor, **neighborp, *bestfacet= NULL;
+  realT bestdist= -REALmax/2 /* avoid underflow */;
+  realT dist;
+  vertexT *vertex;
+
+  zinc_(Zbestlower);
+  FOREACHneighbor_(upperfacet) {
+    if (neighbor->upperdelaunay || neighbor->flipped)
+      continue;
+    (*numpart)++;
+    qh_distplane (point, neighbor, &dist);
+    if (dist > bestdist) {
+      bestfacet= neighbor;
+      bestdist= dist;
+    }
+  }
+  if (!bestfacet) {
+    zinc_(Zbestlowerv);
+    /* rarely called, numpart does not count nearvertex computations */
+    vertex= qh_nearvertex (upperfacet, point, &dist);
+    qh_vertexneighbors();
+    FOREACHneighbor_(vertex) {
+      if (neighbor->upperdelaunay || neighbor->flipped)
+	continue;
+      (*numpart)++;
+      qh_distplane (point, neighbor, &dist);
+      if (dist > bestdist) {
+	bestfacet= neighbor;
+	bestdist= dist;
+      }
+    }
+  }
+  if (!bestfacet) {
+    fprintf(qh ferr, "\n\
+qh_findbestlower: all neighbors of facet %d are flipped or upper Delaunay.\n\
+Please report this error to qhull_bug@qhull.org with the input and all of the output.\n",
+       upperfacet->id);
+    qh_errexit (qh_ERRqhull, upperfacet, NULL);
+  }
+  *bestdistp= bestdist;
+  trace3((qh ferr, "qh_findbestlower: f%d dist %2.2g for f%d p%d\n",
+	  bestfacet->id, bestdist, upperfacet->id, qh_pointid(point)));
+  return bestfacet;
+} /* findbestlower */
+
 /*-<a                             href="qh-poly.htm#TOC"
   >-------------------------------</a><a name="findfacet_all">-</a>
   
@@ -1621,7 +1686,7 @@ void qh_initbuild( void) {
     if (qh TRACElevel || qh IStracing)
       fprintf (qh ferr, "\nTrace level %d for %s | %s\n", 
          qh IStracing ? qh IStracing : qh TRACElevel, qh rbox_command, qh qhull_command);
-    fprintf (qh ferr, "Options selected for Qhull %s:\n%s\n", qh_VERSION, qh qhull_options);
+    fprintf (qh ferr, "Options selected for Qhull %s:\n%s\n", qh_version, qh qhull_options);
   }
   qh_resetlists (False, qh_RESETvisible /*qh visible_list newvertex_list newfacet_list */);
   qh facet_next= qh facet_list;
@@ -2135,7 +2200,7 @@ vertexT *qh_nearvertex (facetT *facet, pointT *point, realT *bestdistp) {
   if (facet->tricoplanar) {
     if (!qh VERTEXneighbors || !facet->center) {
       fprintf(qh ferr, "qhull internal error (qh_nearvertex): qh.VERTEXneighbors and facet->center required for tricoplanar facets\n");
-      qh_errexit(qh_ERRqhull, NULL, NULL);
+      qh_errexit(qh_ERRqhull, facet, NULL);
     }
     vertices= qh_settemp (qh TEMPsize);
     apex= SETfirst_(facet->vertices);
@@ -2158,6 +2223,8 @@ vertexT *qh_nearvertex (facetT *facet, pointT *point, realT *bestdistp) {
   if (facet->tricoplanar)
     qh_settempfree (&vertices);
   *bestdistp= sqrt (bestdist);
+  trace3((qh ferr, "qh_nearvertex: v%d dist %2.2g for f%d p%d\n", 
+        bestvertex->id, *bestdistp, facet->id, qh_pointid(point)));
   return bestvertex;
 } /* nearvertex */
 

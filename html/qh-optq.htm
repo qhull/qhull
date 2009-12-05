@@ -7,7 +7,7 @@
 
 <body>
 <!-- Navigation links -->
-<p><b>Up:</b> <a href="http://www.geom.umn.edu/software/qhull">Home page</a> for Qhull<br>
+<p><b>Up:</b> <a href="http://www.qhull.org">Home page</a> for Qhull<br>
 <b>Up:</b> <a href="index.htm#TOC">Qhull manual</a>: Table of Contents<br>
 <b>To:</b> <a href="qh-quick.htm#programs">Programs</a>
 &#149; <a href="qh-quick.htm#options">Options</a> 
@@ -22,14 +22,14 @@
 <hr>
 <!-- Main text of document -->
 <h1><a
-href="http://www.geom.umn.edu/graphics/pix/Special_Topics/Computational_Geometry/delaunay.html"><img
+href="http://www.geom.uiuc.edu/graphics/pix/Special_Topics/Computational_Geometry/delaunay.html"><img
 src="qh--dt.gif" alt="[delaunay]" align="middle" width="100"
 height="100"></a> Qhull control options (Q)</h1>
 
 <p>This section lists the control options for Qhull. These
 options are indicated by 'Q' followed by a letter. </p>
 
-<p><b>Copyright &copy; 1995-2002 The Geometry Center, Minneapolis MN</b></p>
+<p><b>Copyright &copy; 1995-2003 The Geometry Center, Minneapolis MN</b></p>
 
 <hr>
 
@@ -249,7 +249,7 @@ build those facets that it needs to determine the good facets in
 the output. This may speed up Qhull in 2-d and 3-d. It is
 useful for furthest-site Delaunay 
 triangulations (<a href=qdelau_f.htm>qdelaunay Qu</a>, 
-invoke with 'qhull d <a href="#Qu">Qu</a> Qg'). 
+invoke with 'qhull d Qbb <a href="#Qu">Qu</a> Qg'). 
 It is not effective in higher
 dimensions because many facets see a given point and contain a
 given vertex. It is not guaranteed to work for all combinations.</p>
@@ -305,7 +305,7 @@ ten-fold and tries again. The maximum value for increasing <i>n</i>
 is 0.01 times the maximum width of the input. Option 'QJ' selects
 a default value for <i>n</i>. <a href="../src/user.h#JOGGLEdefault">User.h</a>
 defines these parameters and a maximum number of retries. See <a
-href="qh-impre.htm#joggle">Joggled input or merged facets</a>. </p>
+href="qh-impre.htm#joggle">Merged facets or joggled input</a>. </p>
 
 <p>Option 'QJ' also sets '<a href="qh-optq.htm#Qbb">Qbb</a>' for
 Delaunay triangulations and Voronoi diagrams. It does not set
@@ -436,13 +436,13 @@ prints facets of the upper hull. These correspond to the <a
 href="qdelau_f.htm">furthest-site Delaunay triangulation</a>
 and the <a href="qvoron_f.htm">furthest-site Voronoi diagram</a>.</p>
 
-<p>Option 'qhull d Qu <a href="#Qg">Qg</a>' may improve the speed of option
+<p>Option 'qhull d Qbb Qu <a href="#Qg">Qg</a>' may improve the speed of option
 'Qu'. If you use the Qhull library, a faster method is 1) use
 Qhull to compute the convex hull of the input sites; 2) take the
 extreme points (vertices) of the convex hull; 3) add one interior
 point (e.g., 
 '<a href="qh-optf.htm#FV">FV</a>', the average of <em>d</em> extreme points); 4) run 
-'qhull d Qu' or 'qhull v Qu' on these points.</p>
+'qhull d Qbb Qu' or 'qhull v Qbb Qu' on these points.</p>
 
 <h3><a href="#qhull">»</a><a name="Qv">Qv - test vertex
 neighbors for convexity </a></h3>
@@ -671,7 +671,7 @@ reports an error due to a duplicate ridge.
 <!-- Navigation links -->
 <hr>
 
-<p><b>Up:</b> <a href="http://www.geom.umn.edu/software/qhull">Home page</a> for Qhull<br>
+<p><b>Up:</b> <a href="http://www.qhull.org">Home page</a> for Qhull<br>
 <b>Up:</b> <a href="index.htm#TOC">Qhull manual</a>: Table of Contents<br>
 <b>To:</b> <a href="qh-quick.htm#programs">Programs</a>
 &#149; <a href="qh-quick.htm#options">Options</a> 
@@ -685,11 +685,11 @@ reports an error due to a duplicate ridge.
 <!-- GC common information -->
 <hr>
 
-<p><a href="http://www.geom.umn.edu/"><img src="qh--geom.gif"
+<p><a href="http://www.geom.uiuc.edu/"><img src="qh--geom.gif"
 align="middle" width="40" height="40"></a><i>The Geometry Center
 Home Page </i></p>
 
-<p>Comments to: <a href=mailto:qhull@geom.umn.edu>qhull@geom.umn.edu</a>
+<p>Comments to: <a href=mailto:qhull@qhull.org>qhull@qhull.org</a>
 </a><br>
 Created: Sept. 25, 1995 --- <!-- hhmts start --> Last modified: see top <!-- hhmts end --> </p>
 </body>

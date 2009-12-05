@@ -10,12 +10,12 @@
 
    see qhull_a.h for internal functions
 
-   copyright (c) 1993-2002, The Geometry Center
+   copyright (c) 1993-2003, The Geometry Center
  */
 
 #include "qhull_a.h"
 
-/*========= qh definition =======================*/
+/*========= qh definition (see qhull.h) =======================*/
 
 #if qh_QHpointer
 qhT *qh_qh= NULL;	/* pointer to all global variables */
@@ -24,6 +24,25 @@ qhT qh_qh;     		/* all global variables.
 			   Add "= {0}" if this causes a compiler error.
 			   Also qh_qhstat in stat.c and qhmem in mem.c.  */
 #endif
+
+/*-<a                             href	="qh-globa.htm#TOC"
+  >--------------------------------</a><a name="qh_version">-</a>
+
+  qh_version
+    version string by year and date
+
+    the revision increases on code changes only
+
+  notes:
+    change date:    Changes.txt, Announce.txt, README.txt, 
+                    qhull.man, qhull.txt, qhull-news.html, Eudora signatures, 
+    change version: README.txt, qh-get.htm, File_id.diz, Makefile.txt
+    change year:    Copying.txt
+    check download size
+    recompile user_eg.c, rbox.c, qhull.c, qconvex.c, qdelaun.c qvoronoi.c, qhalf.c
+*/
+
+char *qh_version = "2003.1 2003/12/30";
 
 /*-<a                             href="qh-globa.htm#TOC"
   >-------------------------------</a><a name="appendprint">-</a>
@@ -724,6 +743,10 @@ void qh_initflags(char *command) {
         case 'm':
           qh_option ("Fmerges", NULL, NULL);
           qh_appendprint (qh_PRINTmerges);
+          break;
+        case 'M':
+          qh_option ("FMaple", NULL, NULL);
+          qh_appendprint (qh_PRINTmaple);
           break;
         case 'n':
           qh_option ("Fneighbors", NULL, NULL);
@@ -1585,7 +1608,7 @@ qhull configuration warning (qh_RANDOMmax in user.h):\n\
   for (i= qh_PRINTEND; i--; ) {
     if (qh PRINTout[i] == qh_PRINTgeom)
       printgeom= True;
-    else if (qh PRINTout[i] == qh_PRINTmathematica)
+    else if (qh PRINTout[i] == qh_PRINTmathematica || qh PRINTout[i] == qh_PRINTmaple)
       printmath= True;
     else if (qh PRINTout[i] == qh_PRINTcoplanars)
       printcoplanar= True;
@@ -1618,7 +1641,7 @@ qhull configuration warning (qh_RANDOMmax in user.h):\n\
     }
   }
   if (printmath && (qh hull_dim > 3 || qh VORONOI)) {
-    fprintf (qh ferr, "qhull input error: Mathematica output is only available for 2-d and 3-d convex hulls and 2-d Delaunay triangulations\n");
+    fprintf (qh ferr, "qhull input error: Mathematica and Maple output is only available for 2-d and 3-d convex hulls and 2-d Delaunay triangulations\n");
     qh_errexit (qh_ERRinput, NULL, NULL);
   }
   if (printgeom) {

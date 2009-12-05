@@ -15,10 +15,10 @@ NOTE -- verify all links by 'grep href=' 'grep name=' add # 'sort /+7'
 <body>
 
 <p><a name="TOP"><b>Up:</b></a> <a
-href="http://www.geom.umn.edu/software/qhull">Home page</a> for Qhull<br>
+href="http://www.qhull.org">Home page</a> for Qhull<br>
 <b>Up:</b><a
-href="http://www.geom.umn.edu/~bradb/qhull-news.html">News</a> about Qhull<br>
-<b>Up:</b> <a href="qh-faq.htm">FAQ</a> about Qhull<br>
+href="http://www.qhull.org/news">News</a> about Qhull<br>
+<b>Up:</b> <a href="http://www.qhull.org/html/qh-faq.htm">FAQ</a> about Qhull<br>
 <b>To:</b> <a href="#TOC">Qhull manual: Table of Contents</a>
 (please wait while loading) <br>
 <b>To:</b> <a href="qh-quick.htm#programs">Programs</a>
@@ -34,7 +34,7 @@ href="http://www.geom.umn.edu/~bradb/qhull-news.html">News</a> about Qhull<br>
 <hr>
 <!-- Main text of document -->
 <h1><a
-href="http://www.geom.umn.edu/graphics/pix/Special_Topics/Computational_Geometry/fixed.html"><img
+href="http://www.geom.uiuc.edu/graphics/pix/Special_Topics/Computational_Geometry/fixed.html"><img
 src="qh--rand.gif" alt="[random-fixed]" align="middle"
 width="100" height="100"></a> Qhull manual </h1>
 
@@ -44,11 +44,12 @@ diagrams, furthest-site Delaunay triangulations, and
 furthest-site Voronoi diagrams.  These structures have
 applications in science, engineering, statistics, and
 mathematics. See <a
-href="http://www.ifor.math.ethz.ch/ifor/staff/fukuda/polyfaq/polyfaq.html">Fukuda's
+href="http://www.ifor.math.ethz.ch/staff/fukuda/polyfaq/polyfaq.html">Fukuda's
 introduction</a> to convex hulls, Delaunay triangulations,
 Voronoi diagrams, and linear programming. For a detailed
 introduction, see O'Rourke [<a href="#orou94">'94</a>], <i>Computational
-Geometry in C</i>.</p>
+Geometry in C</i>.  
+</p>
 
 <p>There are six programs.  Except for rbox, they use
 the same code.
@@ -83,9 +84,9 @@ guarantees simplicial output, but it
 is less accurate than merged facets.  For merged facets, Qhull
 reports the maximum outer and inner plane. 
 
-<p><i>Brad Barber, Cambridge MA, June 1, 2002</i></p>
+<p><i>Brad Barber, Cambridge MA, 2003/12/30</i></p>
 
-<p><b>Copyright &copy; 1995-2002 The Geometry Center, Minneapolis MN</b></p>
+<p><b>Copyright &copy; 1995-2003 The Geometry Center, Minneapolis MN</b></p>
 
 <hr>
 
@@ -95,17 +96,22 @@ Contents </a></h2>
 <ul>
     <li><a href="#when">When</a> to use Qhull
 	     <ul>
-        <li><a href="../README.txt">README.txt</a> - installation
-        instructions<br>
+	 <li><a href="http://www.qhull.org/news">News</a> for Qhull
+	 with new features and reported bugs.
+        <li><a href="http://www.qhull.org">Home</a> for Qhull with additional URLs
+		(<a href=index.htm>local copy</a>)
+		<li><a href="http://www.qhull.org/html/qh-faq.htm">FAQ</a> for Qhull (<a href="qh-faq.htm">local copy</a>)
+		<li><a href="http://www.qhull.org/download">Download</a> Qhull (<a href=qh-get.htm>local copy</a>)
+		<li><a href="qh-quick.htm#programs">Quick</a> reference for Qhull and its <a href="qh-quick.htm#options">options</a>
+      <p>
         <li><a href="../COPYING.txt">COPYING.txt</a> - copyright notice<br>
         <li><a href="../REGISTER.txt">REGISTER.txt</a> - registration<br>
-		<li><a href="qh-get.htm">Download</a> Qhull
-		<li><a href="qh-faq.htm">FAQ</a> - Frequently Asked Questions about Qhull<br>
-		<li><a href="qh-quick.htm#programs">Programs</a> - Program quick reference<br>
-		<li><a href="qh-quick.htm#options">Options</a> - Option quick reference<br>
+        <li><a href="../README.txt">README.txt</a> - installation
+        instructions<br>
         <li><a href="../src/Changes.txt">Changes.txt</a> - change history <br>
         <li><a href="qhull.txt">qhull.txt</a> - Unix manual page
 	     </ul>
+	<p>
     <li><a href="#description">Description</a> of Qhull
 	     <ul>
             <li><a href="#definition">de</a>finition &#149; <a
@@ -113,12 +119,12 @@ Contents </a></h2>
                 &#149; <a href="#algorithm">al</a>gorithm &#149; <a
                 href="#structure">da</a>ta structure </li>
     <li><a href="qh-impre.htm">Imprecision</a> in Qhull</li>
-    <LI><a href="qh-impre.htm#joggle">Joggled input or merged
-        facets</a>
+    <LI><a href="qh-impre.htm#joggle">Merged facets</a> or joggled input
 		<li><a href="#geomview">Geomview</a>, Qhull's graphical
 			viewer</li>
 		<li><a href="qh-eg.htm">Examples</a> of Qhull using Geomview</li>
         </ul>
+	<p>
   <li><a href=qh-quick.htm#programs>Qhull programs</a>
 	<ul>
 	<li><a href="qconvex.htm">qconvex</a> -- convex hulls
@@ -130,36 +136,29 @@ Contents </a></h2>
 	  furthest-site Voronoi diagrams
 	<li><a href="rbox.htm">rbox</a> -- generate point distributions for qhull
 	</ul>
+	<p>
     <li>Related URLs
 	 <ul>
-	 <li><a href="http://www.geom.umn.edu/~bradb/qhull-news.html">News page</a> for Qhull
-	 with new features and reported bugs.
-	 <li><a href="http://www.geom.umn.edu/~bradb/qhull-news.html#use">How</a> is Qhull used?
 	 
-	 <li><a href="http://www.geom.umn.edu/software/qhull/html/qh-faq.htm">Current FAQ</a> for Qhull
-        <li><a href="http://www.geom.umn.edu/software/qhull">Home page</a> for Qhull with additional URLs
-		(<a href=qh-home.htm>local copy</a>)
 	<li><a href="news:comp.graphics.algorithms">Newsgroup</a>:
         comp.graphics.algorithms
 	<li><a 
         href="http://exaflop.org/docs/cgafaq/">FAQ</a> for computer graphics algorithms and
 		<a href="http://exaflop.org/docs/cgafaq/cga6.html">geometric</a> structures.
-    <li>Amenta's <a href="http://www.geom.umn.edu/software/cglist">Directory
+    <li>Amenta's <a href="http://www.geom.uiuc.edu/software/cglist">Directory
         of Computational Geometry Software </a></li>
-    <li>Bronnimann's <a
-        href="http://www.inria.fr/prisme/personnel/bronnimann/cgt/WWW.html">Computational
-        Geometry Tribune, WWW sites</a> </li>
     <li>Erickson's <a
         href="http://compgeom.cs.uiuc.edu/~jeffe/compgeom/code.html">Computational
         Geometry Software</a> </li>
 	<li>Fukuda's <a 
-		href="http://www.ifor.math.ethz.ch/ifor/staff/fukuda/polyfaq/polyfaq.html">
+		href="http://www.ifor.math.ethz.ch/staff/fukuda/polyfaq/polyfaq.html">
 		introduction</a> to convex hulls, Delaunay triangulations,
 		Voronoi diagrams, and linear programming. 
     <li>Stony Brook's <a
         href="http://www.cs.sunysb.edu/~algorith/major_section/1.6.shtml">Algorithm Repository</a> on computational geometry.
     </li>
      </ul>
+	<p>
     <li><a href="qh-quick.htm#options">Qhull options</a><ul>
             <li><a href="qh-opto.htm#output">Output</a> formats</li>
             <li><a href="qh-optf.htm#format">Additional</a> I/O
@@ -173,6 +172,7 @@ Contents </a></h2>
             <li><a href="qh-optt.htm#trace">Trace</a> options</li>
         </ul>
     </li>
+	<p>
     <li><a href="qh-in.htm">Qhull internals</a><ul>
             <li><a href="qh-in.htm#performance">Performance</a>
                 of Qhull</li>
@@ -184,6 +184,7 @@ Contents </a></h2>
                 data structures</a> </li>
         </ul>
     </li>
+	<p>
     <li><a href="#bugs">What to do</a> if something goes wrong</li>
     <li><a href="#email">Email</a></li>
     <li><a href="#authors">Authors</a></li>
@@ -209,7 +210,26 @@ grows by <i>n^(floor(d/2)</i>
 not try to build a 16-d convex hull of 1000 points.  It will
 have on the order of 1,000,000,000,000,000,000,000,000 facets.
 
-<!-- duplicated in qh-home.htm and html/index.htm -->
+<p>On a 600 MHz Pentium 3, Qhull computes the 2-d convex hull of
+300,000 cocircular points in 11 seconds.  It computes the
+2-d Delaunay triangulation and 3-d convex hull of 120,000 points
+in 12 seconds.  It computes the
+3-d Delaunay triangulation and 4-d convex hull of 40,000 points
+in 18 seconds.  It computes the
+4-d Delaunay triangulation and 5-d convex hull of 6,000 points
+in 12 seconds.  It computes the
+5-d Delaunay triangulation and 6-d convex hull of 1,000 points
+in 12 seconds.  It computes the
+6-d Delaunay triangulation and 7-d convex hull of 300 points
+in 15 seconds.  It computes the
+7-d Delaunay triangulation and 8-d convex hull of 120 points
+in 15 seconds.  It computes the
+8-d Delaunay triangulation and 9-d convex hull of 70 points
+in 15 seconds.  It computes the
+9-d Delaunay triangulation and 10-d convex hull of 50 points
+in 17 seconds.  The 10-d convex hull of 50 points has about 90,000 facets.
+
+<!-- duplicated in index.htm and html/index.htm -->
 <p>Qhull does <i>not</i> support constrained Delaunay
 triangulations, triangulation of non-convex surfaces, mesh
 generation of non-convex objects, or medium-sized inputs in 9-D
@@ -230,11 +250,11 @@ program</a>. It is much faster than Qhull and it allows
 constraints. Both programs use exact arithmetic. They are in <a
 href="ftp://netlib.bell-labs.com/netlib/voronoi">ftp://netlib.bell-labs.com/netlib/voronoi</a>.
 Qhull <a
-href="http://www.geom.umn.edu/software/download/qhull.html">version
+href="http://www.qhull.org/download">version
 1.0</a> may also meet your needs. It detects precision problems,
 but does not handle them.</p>
 
-<p><a href=http://www.mpi-sb.mpg.de/LEDA/leda.html>Leda</a> is a 
+<p><a href=http://www.algorithmic-solutions.com/enleda.htm>Leda</a> is a 
 library for writing computational
 geometry programs and other combinatorial algorithms.  It 
 includes routines for computing 3-d convex
@@ -244,7 +264,7 @@ platforms.
 
 <p>If your problem is in high dimensions with a few,
 non-simplicial facets, try Fukuda's <a
-href="http://www.ifor.math.ethz.ch/ifor/staff/fukuda/cdd_home/cdd.html">cdd</a>.
+href="http://www.cs.mcgill.ca/~fukuda/soft/cdd_home/cdd.html">cdd</a>.
 It is much faster than Qhull for these distributions. </p>
 
 <p>Custom software for 2-d and 3-d convex hulls may be faster
@@ -390,7 +410,7 @@ the last point is <i>n-1</i>.</p>
 <p>Except for bounding box
 ('<a href="qh-optq.htm#Qbk">Qbk:n</a>', etc.), drop facets 
 ('<a href="qh-optp.htm#Pdk">Pdk:n</a>', etc.), and
-Qhull command ('<a href="qh-opto.htm#FQ">FQ</a>'), only the last
+Qhull command ('<a href="qh-optf.htm#FQ">FQ</a>'), only the last
 occurence of an option counts.  
 Bounding box and drop facets may be repeated for each dimension.
 Option 'FQ' may be repeated any number of times.
@@ -414,7 +434,7 @@ href="qh-opto.htm#s">s</a>') to <tt>stdout</tt>. There are many
 others (see <a href="qh-opto.htm">output</a> and <a
 href="qh-optf.htm">formats</a>). You can list vertex incidences,
 vertices and facets, vertex coordinates, or facet normals. You
-can view Qhull objects with Geomview or Mathematica. You can
+can view Qhull objects with Geomview, Mathematica, or Maple. You can
 print the internal data structures. You can call Qhull from your
 application (see <a href="qh-in.htm#library">Qhull library</a>).</p>
 
@@ -522,7 +542,7 @@ ftp <tt>ndview</tt> from the <tt>newpieces</tt> directory. </p>
 
 <p>See <a href="qh-eg.htm">Examples</a>. Some of the examples
 have <a
-href="http://www.geom.umn.edu/graphics/pix/Special_Topics/Computational_Geometry/welcome.html">pictures
+href="http://www.geom.uiuc.edu/graphics/pix/Special_Topics/Computational_Geometry/welcome.html">pictures
 </a>.</p>
 
 </blockquote>
@@ -543,7 +563,7 @@ href="http://www.geom.umn.edu/graphics/pix/Special_Topics/Computational_Geometry
 goes wrong</a></h2>
 <blockquote>
 
-<p>Please report bugs to <a href=mailto:qhull_bug@geom.umn.edu>qhull_bug@geom.umn.edu</a>
+<p>Please report bugs to <a href=mailto:qhull_bug@qhull.org>qhull_bug@qhull.org</a>
 </a>. Please report if Qhull crashes. Please report if Qhull
 generates an &quot;internal error&quot;. Please report if Qhull
 produces a poor approximate hull in 2-d, 3-d or 4-d. Please
@@ -597,8 +617,8 @@ myself. Qhull is maintained part-time. </p>
 <h2><a href="#TOC">»</a><a name="email">Email</a></h2>
 <blockquote>
 
-<p>Please send correspondence to Brad Barber at <a href=mailto:qhull@geom.umn.edu>qhull@geom.umn.edu</a>
-and report bugs to <a href=mailto:qhull_bug@geom.umn.edu>qhull_bug@geom.umn.edu</a>
+<p>Please send correspondence to Brad Barber at <a href=mailto:qhull@qhull.org>qhull@qhull.org</a>
+and report bugs to <a href=mailto:qhull_bug@qhull.org>qhull_bug@qhull.org</a>
 </a>. Let me know how you use Qhull. If you mention it in a
 paper, please send a reference and abstract.</p>
 
@@ -609,14 +629,14 @@ communicate with other Qhull users, I will add you to the
 qhull_users alias. For Internet news about geometric algorithms
 and convex hulls, look at comp.graphics.algorithms and
 sci.math.num-analysis. For Qhull news look at <a
-href="http://www.geom.umn.edu/~bradb/qhull-news.html">qhull-news.html</a>.</p>
+href="http://www.qhull.org/news">qhull-news.html</a>.</p>
 
 </blockquote>
 <h2><a href="#TOC">»</a><a name="authors">Authors</a></h2>
 <blockquote>
 
 <pre>  C. Bradford Barber                    Hannu Huhdanpaa
-  bradb@geom.umn.edu                    hannu@geom.umn.edu
+  bradb@qhull.org                    hannu@qhull.org
   
                     c/o The Geometry Center
                     University of Minnesota
@@ -633,16 +653,22 @@ href="http://www.geom.umn.edu/~bradb/qhull-news.html">qhull-news.html</a>.</p>
 thanks to Albert Marden, Victor Milenkovic, the Geometry Center,
 and Harvard University for supporting this work.</p>
 
+<p>A special thanks to Mark Phillips, Robert Miner, and Stuart Levy for running the Geometry
+ Center web site long after the Geometry Center closed.  
+ Stuart moved the web site to the University of Illinois at Champaign-Urbana.
+Mark and Robert are founders of <a href=http://www.geomtech.com>Geometry Technologies</a>.
+Mark, Stuart, and Tamara Munzner are the original authors of <a href=http://www.geomview.org>Geomview</a>.
+
 <p>A special thanks to <a href="http://www.endocardial.com/">Endocardial
 Solutions, Inc.</a> of St. Paul, Minnesota for their support of the
 internal documentation (<a href=../src/index.htm>src/index.htm</a>). They use Qhull to build 3-d models of
 heart chambers.</p>
 
-<p>The software was developed under National Science Foundation
+<p>Qhull 1.0 was developed under National Science Foundation
 grants NSF/DMS-8920161 and NSF-CCR-91-15793 750-7504. If you find
 it useful, please let us know.</p>
 
-<p>The Geometry Center is supported by grant DMS-8920161 from the
+<p>The Geometry Center was supported by grant DMS-8920161 from the
 National Science Foundation, by grant DOE/DE-FG02-92ER25137 from
 the Department of Energy, by the University of Minnesota, and by
 Minnesota Technology, Inc.</p>
@@ -660,7 +686,7 @@ Huhdanpaa, &quot;The Quickhull Algorithm for Convex Hulls,&quot; <i>ACM
 Transactions on Mathematical Software</i>, Vol. 22, No. 4 (Dec.
 1996), p. 469-483 [<a
 href="http://www.acm.org/pubs/citations/journals/toms/1996-22-4/p469-barber/">http://www.acm.org</a>;
-<a href="http://www.geom.umn.edu/software/qhull/qhull-96.ps">http://www.geom.umn.edu/software/qhull/qhull-96.ps</a>].
+<a href="http://citeseer.nj.nec.com/83502.html">http://citeseer.nj.nec.com</a>].
 </p>
 
 <p><a name="cla-sho89">Clarkson</a>, K.L. and P.W. Shor,
@@ -672,11 +698,20 @@ Seidel, &quot;Four results on randomized incremental
 construction,&quot; <em>Computational Geometry: Theory and
 Applications</em>, vol. 3, p. 185-211, 1993.</p>
 
+<p><a name="devi01">Devillers</a>, et. al., 
+"Walking in a triangulation," <i>ACM Symposium on
+Computational Geometry</i>, June 3-5,2001, Medford MA.
+
 <p><a name="dob-kir90">Dobkin</a>, D.P. and D.G. Kirkpatrick,
 &quot;Determining the separation of preprocessed polyhedra--a
 unified approach,&quot; in <i>Proc. 17th Inter. Colloq. Automata
 Lang. Program.</i>, in <i>Lecture Notes in Computer Science</i>,
 Springer-Verlag, 443:400-413, 1990. </p>
+
+<p><a name="edel01">Edelsbrunner</a>, H, <i>Geometry and Topology for Mesh Generation</i>, 
+Cambridge University Press, 2001.
+
+<p><a name=gart99>Gartner, B.</a>, "Fast and robust smallest enclosing balls", <i>Algorithms - ESA '99</i>, LNCS 1643.
 
 <p><a name="fort93">Fortune, S.</a>, &quot;Computational
 geometry,&quot; in R. Martin, editor, <i>Directions in Geometric
@@ -691,7 +726,7 @@ September 1993. </p>
 randomized point location without preprocessing in Two- and
 Three-dimensional Delaunay Triangulations</i>, ACM Symposium on
 Computational Geometry, p. 274-283, 1996 [<a
-href="http://www.geom.umn.edu/software/cglist/GeomDir/">GeomDir</a>].
+href="http://www.geom.uiuc.edu/software/cglist/GeomDir/">GeomDir</a>].
 </p>
 
 <p><a name="mulm94">Mulmuley</a>, K., <i>Computational Geometry,
@@ -709,10 +744,10 @@ Geometry</i>, Springer-Verlag, New York, 1985.</p>
 <hr>
 
 <p><b>Up:</b> <a
-href="http://www.geom.umn.edu/software/qhull">Home page</a> for Qhull<br>
+href="http://www.qhull.org">Home page</a> for Qhull<br>
 <b>Up:</b><a
-href="http://www.geom.umn.edu/~bradb/qhull-news.html">News</a> about Qhull<br>
-<b>Up:</b> <a href="qh-faq.htm">FAQ</a> about Qhull<br>
+href="http://www.qhull.org/news">News</a> about Qhull<br>
+<b>Up:</b> <a href="http://www.qhull.org/html/qh-faq.htm">FAQ</a> about Qhull<br>
 <b>To:</b> <a href="#TOC">Qhull manual</a>: Table of Contents<br>
 <b>To:</b> <a href="qh-quick.htm#programs">Programs</a>
 &#149; <a href="qh-quick.htm#options">Options</a> 
@@ -731,11 +766,11 @@ structures</a>
 <!-- GC common information -->
 <hr>
 
-<p><a href="http://www.geom.umn.edu/"><img src="qh--geom.gif"
+<p><a href="http://www.geom.uiuc.edu/"><img src="qh--geom.gif"
 align="middle" width="40" height="40"></a><i>The Geometry Center
 Home Page </i></p>
 
-<p>Comments to: <a href=mailto:qhull@geom.umn.edu>qhull@geom.umn.edu</a>
+<p>Comments to: <a href=mailto:qhull@qhull.org>qhull@qhull.org</a>
 </a><br>
 Created: Sept. 25, 1995 --- <!-- hhmts start --> Last modified: see top <!-- hhmts end --> </p>
 </body>

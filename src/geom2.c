@@ -7,7 +7,7 @@
 
    see qh-geom.htm and geom.h
 
-   copyright (c) 1993-2002 The Geometry Center        
+   copyright (c) 1993-2003 The Geometry Center        
 
    frequently used code goes into geom.c
 */
@@ -1466,7 +1466,7 @@ void qh_projectinput (void) {
       infinity[k]= 0.0;
     for (i=qh num_points; i--; ) {
       paraboloid= 0.0;
-      for (k=qh hull_dim-1; k--; ) {
+      for (k=0; k < qh hull_dim-1; k++) {
         paraboloid += *coord * *coord;
 	infinity[k] += *coord;
         coord++;

@@ -8,7 +8,7 @@
 <body>
 <!-- Navigation links -->
 <a name="TOP"><b>Up</b></a><b>:</b> 
-<a href="http://www.geom.umn.edu/software/qhull">Home page</a> for Qhull<br>
+<a href="http://www.qhull.org">Home page</a> for Qhull<br>
 <b>Up:</b> <a href="index.htm#TOC">Qhull manual</a>: Table of Contents<br>
 <b>To:</b> <a href="qh-quick.htm#programs">Programs</a>
 &#149; <a href="qh-quick.htm#options">Options</a> 
@@ -28,7 +28,7 @@
 <hr>
 <!-- Main text of document -->
 <h1><a
-href="http://www.geom.umn.edu/graphics/pix/Special_Topics/Computational_Geometry/delaunay.html"><img
+href="http://www.geom.uiuc.edu/graphics/pix/Special_Topics/Computational_Geometry/delaunay.html"><img
 src="qh--dt.gif" alt="[delaunay]" align="middle" width="100"
 height="100"></a>qdelaunay -- Delaunay triangulation</h1>
 
@@ -68,29 +68,38 @@ by O'Rourke [<a href="index.htm#orou94">'94</a>]. </p>
 
 <p>Qhull computes the Delaunay triangulation by computing a
 convex hull. It lifts the input sites to a paraboloid by adding
-the sum of the squares of the coordinates. It computes the convex
+the sum of the squares of the coordinates. It scales the height
+of the paraboloid to improve numeric precision ('<a href=qh-optq.htm#Qbb>Qbb</a>').
+It computes the convex
 hull of the lifted sites, and projects the lower convex hull to
-the input. Each region of the Delaunay triangulation
+the input. 
+
+<p>Each region of the Delaunay triangulation
 corresponds to a facet of the lower half of the convex hull.
 Facets of the upper half of the convex hull correspond to the <a
 href="qdelau_f.htm">furthest-site Delaunay triangulation</a>.
 See the examples, <a href="qh-eg.htm#delaunay">Delaunay and
 Voronoi diagrams</a>.</p>
 
-<p>See <a href="qh-faq.htm#TOC">Qhull FAQ</a> - Delaunay and
+<p>See <a href="http://www.qhull.org/html/qh-faq.htm#TOC">Qhull FAQ</a> - Delaunay and
 Voronoi diagram questions.</p>
 
-<p>If you use '<a href="qh-optq.htm#Qt">Qt</a>' (triangulated output), 
-all Delaunay regions 
-will be simplicial (e.g., triangles in 2-d).  Some regions may be
-degenerate and have zero area.  Qhull can identify coincident
-points.  If you do not use 'Qt', cocircular and cospherical data will lead
-to non-simplicial output (e.g., a square).
+<p>By default, qdelaunay merges cocircular and cospherical regions.
+For example, the Delaunay triangulation of a square inside a diamond
+('rbox D2 c d G4 | qdelaunay') contains one region for the square.
+It identifies coincident points.
 
-<p>If you use '<a href="qh-optq.htm#QJn">QJ</a>' (joggle), all Delaunay regions 
-will be simplicial (e.g., triangles in 2-d).  Duplicate points will 
-create small regions since the points are joggled apart.  See <a
-href="qh-impre.htm#joggle">Joggled input or merged facets</a>. </p>
+<p>If you use '<a href="qh-optq.htm#Qt">Qt</a>' (triangulated output), 
+all Delaunay regions will be simplicial (e.g., triangles in 2-d).  
+Some regions may be
+degenerate and have zero area.  Triangulated output identifies coincident
+points.
+
+<p>If you use '<a href="qh-optq.htm#QJn">QJ</a>' (joggled input), all Delaunay regions 
+will be simplicial (e.g., triangles in 2-d).  Coincident points will 
+create small regions since the points are joggled apart.  Joggled input
+is less accurate than triangulated output ('Qt').  See <a
+href="qh-impre.htm#joggle">Merged facets or joggled input</a>. </p>
 
 <p>The output for 3-d Delaunay triangulations may be confusing if the 
 input contains cospherical data.  See the FAQ item
@@ -108,7 +117,7 @@ in 4-d and higher.  It disables the following Qhull
 Qm Qr QR Qv Qx TR E V FC Fi Fo Fp Ft FV Q0,etc</i>.
 
 
-<p><b>Copyright &copy; 1995-2002 The Geometry Center, Minneapolis MN</b></p>
+<p><b>Copyright &copy; 1995-2003 The Geometry Center, Minneapolis MN</b></p>
 
 <hr>
 
@@ -287,6 +296,8 @@ outputs</a></h3>
         paraboloid)</dd>
     <dt><a href="qh-opto.htm#m">m</a></dt>
     <dd>Mathematica output for the lower facets of the paraboloid (2-d triangulations).</dd>
+    <dt><a href="qh-optf.htm#FM">FM</a></dt>
+    <dd>Maple output for the lower facets of the paraboloid (2-d triangulations).</dd>
     <dt><a href="qh-optg.htm#G">G</a></dt>
     <dd>Geomview output for the paraboloid (2-d or 3-d triangulations).</dd>
     <dt><a href="qh-opto.htm#s">s</a></dt>
@@ -310,7 +321,7 @@ controls</a></h3>
 degenerate facets of zero area.</dd>
    <dt><a href="qh-optq.htm#QJn">QJ</a></dt>
     <dd>joggle the input to avoid cospherical and coincident
-        sites.</dd>
+        sites.    It is less accurate than triangulated output ('Qt').</dd>
    <dt><a href="qh-optq.htm#Qu">Qu</a></dt>
     <dd>compute the <a href="qdelau_f.htm">furthest-site Delaunay triangulation</a>.</dd>
      <dt><a href="qh-optq.htm#Qz">Qz</a></dt>
@@ -361,11 +372,12 @@ options). Use option '<a href="qh-optg.htm#Gt">Gt</a>' to make
 the outer ridges transparent in 3-d. See <a
 href="qh-eg.htm#delaunay">Delaunay and Voronoi examples</a>.</p>
 
-<p>For 2-d Delaunay triangulations, Mathematica output ('<a
-href="qh-opto.htm#m">m</a>') displays the lower facets of the corresponding convex
+<p>For 2-d Delaunay triangulations, Mathematica ('<a
+href="qh-opto.htm#m">m</a>') and Maple ('<a
+href="qh-optf.htm#FM">FM</a>') output displays the lower facets of the corresponding convex
 hull (a paraboloid). </p>
 
-<p>For 2-d, furthest-site Delaunay triangulations, Mathematica output ('<a
+<p>For 2-d, furthest-site Delaunay triangulations, Maple and Mathematica output ('<a
 href="qh-optq.htm#Qu">Qu</a> <a
 href="qh-opto.htm#m">m</a>') displays the upper facets of the corresponding convex
 hull (a paraboloid). </p>
@@ -381,8 +393,9 @@ for cocircular or cospherical input data.
 
 <p>A non-simplicial Delaunay region indicates nearly cocircular or
 cospherical input sites. To avoid non-simplicial regions either triangulate
-the output ('<a href="qh-optq.htm#Qt">Qt</a>')or joggle
-the input ('<a href="qh-optq.htm#QJn">QJ</a>').  Alternatively, use an <a
+the output ('<a href="qh-optq.htm#Qt">Qt</a>') or joggle
+the input ('<a href="qh-optq.htm#QJn">QJ</a>').  Triangulated output 
+is more accurate than joggled input.  Alternatively, use an <a
 href="qh-impre.htm#exact">exact arithmetic code</a>.</p>
 
 <p>Delaunay triangulations do not include facets that are
@@ -402,7 +415,7 @@ input. The points may be restricted to a hemisphere. [S. Fortune]
 </p>
 
 <p>The 3-d Delaunay triangulation of regular points on a half 
-spiral (e.g., 'rbox 100 l | qhull d') has quadratic size, while the Delaunay triangulation 
+spiral (e.g., 'rbox 100 l | qdelaunay') has quadratic size, while the Delaunay triangulation 
 of random 3-d points is 
 approximately linear for reasonably sized point sets.
 
@@ -476,7 +489,7 @@ conventions</a>.</p>
 
 <pre>
 qdelaunay- compute the Delaunay triangulation
-    http://www.geom.umn.edu/software/qhull 
+    http://www.qhull.org 
 
 input (stdin):
     first lines: dimension and number of points (or vice-versa).
@@ -535,6 +548,7 @@ More formats:
     FF   - facet dump without ridges
     FI   - ID of each Delaunay region
     Fm   - merge count for each Delaunay region (511 max)
+    FM   - Maple output (2-d only, lifted to a paraboloid)
     Fn   - count plus neighboring region for each Delaunay region
     FN   - count plus neighboring region for each point
     FO   - options and precision constants
@@ -580,7 +594,7 @@ Print options:
 <!-- Navigation links -->
 <hr>
 
-<p><b>Up:</b> <a href="http://www.geom.umn.edu/software/qhull">Home page</a> for Qhull<br>
+<p><b>Up:</b> <a href="http://www.qhull.org">Home page</a> for Qhull<br>
 <b>Up:</b> <a href="index.htm#TOC">Qhull manual</a>: Table of Contents<br>
 <b>To:</b> <a href="qh-quick.htm#programs">Programs</a>
 &#149; <a href="qh-quick.htm#options">Options</a> 
@@ -599,11 +613,11 @@ Print options:
 <!-- GC common information -->
 <hr>
 
-<p><a href="http://www.geom.umn.edu/"><img src="qh--geom.gif"
+<p><a href="http://www.geom.uiuc.edu/"><img src="qh--geom.gif"
 align="middle" width="40" height="40"></a><i>The Geometry Center
 Home Page </i></p>
 
-<p>Comments to: <a href=mailto:qhull@geom.umn.edu>qhull@geom.umn.edu</a>
+<p>Comments to: <a href=mailto:qhull@qhull.org>qhull@qhull.org</a>
 </a><br>
 Created: Sept. 25, 1995 --- <!-- hhmts start --> Last modified: see top <!-- hhmts end --> </p>
 </body>

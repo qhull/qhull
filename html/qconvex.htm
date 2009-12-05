@@ -8,7 +8,7 @@
 <body>
 <!-- Navigation links -->
 <a name="TOP"><b>Up</b></a><b>:</b> 
-<a href="http://www.geom.umn.edu/software/qhull">Home page</a> for Qhull<br>
+<a href="http://www.qhull.org">Home page</a> for Qhull<br>
 <b>Up:</b> <a href="index.htm#TOC">Qhull manual</a> -- Table of Contents<br>
 <b>To:</b> <a href="qh-quick.htm#programs">Programs</a>
 &#149; <a href="qh-quick.htm#options">Options</a> 
@@ -27,7 +27,7 @@
 <hr>
 <!-- Main text of document -->
 <h1><a
-href="http://www.geom.umn.edu/graphics/pix/Special_Topics/Computational_Geometry/cone.html"><img
+href="http://www.geom.uiuc.edu/graphics/pix/Special_Topics/Computational_Geometry/cone.html"><img
 src="qh--cone.gif" alt="[cone]" align="middle" width="100"
 height="100"></a>qconvex -- convex hull</h1>
 
@@ -101,17 +101,26 @@ href="qh-eg.htm#how">How Qhull adds a point</a>.</p>
 
 <p>Except for rbox, all of the qhull programs compute a convex hull. 
 
-<p>If you use '<a href="qh-optq.htm#Qt">Qt</a>' (triangulated output) or '<a href="qh-optq.htm#QJn">QJ</a>' (joggled input), all facets 
-will be simplicial (e.g., triangles in 3-d).  If you do not use
-'QJ', <tt>qconvex</tt> merges coplanar facets.  This is more accurate
-than joggled input.  With 'QJ', duplicate points will 
-be joggled apart.  See <a
-href="qh-impre.htm#joggle">Joggled input or merged facets</a>. </p>
+<p>By default, Qhull merges coplanar facets.  For example, the convex
+hull of a cube's vertices has six facets.
+
+<p>If you use '<a href="qh-optq.htm#Qt">Qt</a>' (triangulated output), 
+all facets will be simplicial (e.g., triangles in 2-d).  For the cube 
+example, it will have 12 facets.  Some facets may be
+degenerate and have zero area. 
+
+<p>If you use '<a href="qh-optq.htm#QJn">QJ</a>' (joggled input), 
+all facets will be simplicial.  The corresponding vertices will be
+slightly perturbed and identical points will be joggled apart.  
+Joggled input is less accurate that triangulated
+output.See <a
+href="qh-impre.htm#joggle">Merged facets or joggled input</a>. </p>
 
 <p>The output for 4-d convex hulls may be confusing if the convex
 hull contains non-simplicial facets (e.g., a hypercube). See
 <a href=qh-faq.htm#extra>Why
 are there extra points in a 4-d or higher convex hull?</a><br>
+</p>
 </p>
 
 <p>The 'qconvex' program is equivalent to 
@@ -121,7 +130,7 @@ in 5-d and higher.  It disables the following Qhull
 <a href=qh-quick.htm#options>options</a>: <i>d v H Qbb Qf Qg Qm 
 Qr Qu Qv Qx Qz TR E V Fp Gt Q0,etc</i>.
 
-<p><b>Copyright &copy; 1995-2002 The Geometry Center, Minneapolis MN</b></p>
+<p><b>Copyright &copy; 1995-2003 The Geometry Center, Minneapolis MN</b></p>
 
 <hr>
 
@@ -323,7 +332,7 @@ individually or together.</p>
 	 The first line is the dimension.  The
 	second line is the number of facets.  Each remaining line is the outer plane's
 	coefficients followed by its offset.</dd>
-    <dt><a href="qh-optf.htm#n">Fi</a></dt>
+    <dt><a href="qh-optf.htm#Fi">Fi</a></dt>
     <dd>print inner plane for each facet.  The inner plane of a facet is
 	below its vertices.
 	 The first line is the dimension.  The
@@ -342,6 +351,8 @@ individually or together.</p>
         href="qh-opto.htm#s">s</a>' and '<a href="qh-optf.htm#FS">FS</a>'</dd>
     <dt><a href="qh-opto.htm#m">m</a></dt>
     <dd>Mathematica output for the convex hull in 2-d or 3-d.</dd>
+    <dt><a href="qh-optf.htm#FM">FM</a></dt>
+    <dd>Maple output for the convex hull in 2-d or 3-d.</dd>
     <dt><a href="qh-optg.htm#G">G</a></dt>
     <dd>Geomview output for the convex hull in 2-d, 3-d, or 4-d.</dd>
 
@@ -377,7 +388,7 @@ individually or together.</p>
      degenerate facets of zero area.</dd>
     <dt><a href="qh-optq.htm#QJn">QJ</a></dt>
     <dd>joggle the input instead of merging facets.  This guarantees simplicial facets 
-	(e.g., triangles in 3-d).</dd>
+	(e.g., triangles in 3-d).  It is less accurate than triangulated output ('Qt').</dd>
     <dt><a href="qh-optq.htm#Qc">Qc</a></dt>
     <dd>keep coplanar points</dd>
     <dt><a href="qh-optq.htm#Qi">Qi</a></dt>
@@ -469,7 +480,7 @@ See <a href="index.htm#structure">Qhull's data structures</a>.</p>
 
 <pre>
 qconvex- compute the convex hull
-    http://www.geom.umn.edu/software/qhull
+    http://www.qhull.org
 
 input (stdin):
     first lines: dimension and number of points (or vice-versa).
@@ -538,6 +549,7 @@ More formats:
     Fi   - inner plane for each facet
     FI   - ID for each facet
     Fm   - merge count for each facet (511 max)
+    FM   - Maple output (2-d and 3-d)
     Fn   - count plus neighboring facets for each facet
     FN   - count plus neighboring facets for each point
     Fo   - outer plane (or max_outside) for each facet
@@ -586,7 +598,7 @@ Print options:
 <!-- Navigation links -->
 <hr>
 
-<p><b>Up:</b> <a href="http://www.geom.umn.edu/software/qhull">Home page</a> for Qhull<br>
+<p><b>Up:</b> <a href="http://www.qhull.org">Home page</a> for Qhull<br>
 <b>Up:</b> <a href="index.htm#TOC">Qhull manual</a>: Table of Contents<br>
 <b>To:</b> <a href="qh-quick.htm#programs">Programs</a>
 &#149;<a href="qh-quick.htm#options">Options</a> 
@@ -605,11 +617,11 @@ Print options:
 <!-- GC common information -->
 <hr>
 
-<p><a href="http://www.geom.umn.edu/"><img src="qh--geom.gif"
+<p><a href="http://www.geom.uiuc.edu/"><img src="qh--geom.gif"
 align="middle" width="40" height="40"></a><i>The Geometry Center
 Home Page </i></p>
 
-<p>Comments to: <a href=mailto:qhull@geom.umn.edu>qhull@geom.umn.edu</a>
+<p>Comments to: <a href=mailto:qhull@qhull.org>qhull@qhull.org</a>
 </a><br>
 Created: Sept. 25, 1995 --- <!-- hhmts start --> Last modified: see top <!-- hhmts end --> </p>
 </body>

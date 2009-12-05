@@ -6,7 +6,7 @@
 
    see qh-poly.htm, qhull.h and poly.c
 
-   copyright (c) 1993-2002, The Geometry Center
+   copyright (c) 1993-2003, The Geometry Center
 */
 
 #ifndef qhDEFpoly
@@ -248,6 +248,7 @@ void    qh_delvertex (vertexT *vertex);
 setT   *qh_facet3vertex (facetT *facet);
 facetT *qh_findbestfacet (pointT *point, boolT bestoutside,
            realT *bestdist, boolT *isoutside);
+facetT *qh_findbestlower (facetT *upperfacet, pointT *point, realT *bestdistp, int *numpart);
 facetT *qh_findfacet_all (pointT *point, realT *bestdist, boolT *isoutside,
 			  int *numpart);
 int 	qh_findgood (facetT *facetlist, int goodhorizon);

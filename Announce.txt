@@ -1,11 +1,11 @@
 
- Qhull 2002.1 2002/8/20
+ Qhull 2003.1 2003/12/30
 
-        http://www.geom.umn.edu/software/qhull
-	http://www.geom.umn.edu/software/download/qhull.html
+        http://www.qhull.org
         http://savannah.gnu.org/projects/qhull/
         http://www6.uniovi.es/ftp/pub/mirrors/geom.umn.edu/software/ghindex.html
         http://www.geomview.org
+        http://www.geom.uiuc.edu
 
 Qhull computes convex hulls, Delaunay triangulations, Voronoi diagrams, 
 furthest-site Voronoi diagrams, and halfspace intersections about a point. 
@@ -19,8 +19,8 @@ execution statistics.  The program can be called from within your application.
 You can view the results in 2-d, 3-d and 4-d with Geomview.
 
 To download Qhull:
-
-        http://www.geom.umn.edu/software/download/qhull.html
+        http://www.qhull.org/download
+        http://savannah.nongnu.org/files/?group=qhull
 
 Download qhull-96.ps for:
 
@@ -28,7 +28,7 @@ Download qhull-96.ps for:
         "The Quickhull Algorithm for Convex Hulls," ACM
         Trans. on Mathematical Software, Dec. 1996.
         http://www.acm.org/pubs/citations/journals/toms/1996-22-4/p469-barber/
-	http://www.geom.umn.edu/software/qhull/qhull-96.ps
+        http://citeseer.nj.nec.com/83502.html
 
 Abstract:
 

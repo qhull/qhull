@@ -6,7 +6,7 @@
 
    see README, qhull.h and io.c
 
-   copyright (c) 1993-2002, The Geometry Center
+   copyright (c) 1993-2003, The Geometry Center
 */
 
 #ifndef qhDEFio
@@ -75,6 +75,11 @@ typedef void (*printvridgeT)(FILE *fp, vertexT *vertex, vertexT *vertexA, setT *
 
 void    dfacet( unsigned id);
 void    dvertex( unsigned id);
+int	qh_compare_facetarea(const void *p1, const void *p2);
+int	qh_compare_facetmerge(const void *p1, const void *p2);
+int	qh_compare_facetvisit(const void *p1, const void *p2);
+int	qh_compare_vertexpoint(const void *p1, const void *p2); /* not used */
+
 void    qh_countfacets (facetT *facetlist, setT *facets, boolT printall, 
               int *numfacetsp, int *numsimplicialp, int *totneighborsp, 
               int *numridgesp, int *numcoplanarsp, int *numnumtricoplanarsp);
@@ -99,11 +104,11 @@ void    qh_printextremes (FILE *fp, facetT *facetlist, setT *facets, int printal
 void    qh_printextremes_2d (FILE *fp, facetT *facetlist, setT *facets, int printall);
 void    qh_printextremes_d (FILE *fp, facetT *facetlist, setT *facets, int printall);
 void	qh_printfacet(FILE *fp, facetT *facet);
-void	qh_printfacet2math(FILE *fp, facetT *facet, int notfirst);
+void	qh_printfacet2math(FILE *fp, facetT *facet, int format, int notfirst);
 void	qh_printfacet2geom(FILE *fp, facetT *facet, realT color[3]);
 void    qh_printfacet2geom_points(FILE *fp, pointT *point1, pointT *point2,
 			       facetT *facet, realT offset, realT color[3]);
-void	qh_printfacet3math (FILE *fp, facetT *facet, int notfirst);
+void	qh_printfacet3math (FILE *fp, facetT *facet, int format, int notfirst);
 void	qh_printfacet3geom_nonsimplicial(FILE *fp, facetT *facet, realT color[3]);
 void	qh_printfacet3geom_points(FILE *fp, setT *points, facetT *facet, realT offset, realT color[3]);
 void	qh_printfacet3geom_simplicial(FILE *fp, facetT *facet, realT color[3]);

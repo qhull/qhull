@@ -6,7 +6,7 @@
 
    see unix.c for full interface
 
-   copyright (c) 1993-2002, The Geometry Center
+   copyright (c) 1993-2003, The Geometry Center
 */
 
 #include <stdio.h>
@@ -56,7 +56,7 @@ char hidden_options[]=" d n v Qbb QbB Qf Qg Qm Qr QR Qv Qx Qz TR E V Fa FA FC FD
 
 char qh_prompta[]= "\n\
 qhalf- compute the intersection of halfspaces about a point\n\
-    http://www.geom.umn.edu/software/qhull  %s\n\
+    http://www.qhull.org  %s\n\
 \n\
 input (stdin):\n\
     optional interior point: dimension, 1, coordinates\n\
@@ -123,6 +123,7 @@ More formats:\n\
     FF   - facet dump without ridges\n\
     FI   - ID of each intersection\n\
     Fm   - merge count for each intersection (511 max)\n\
+    FM   - Maple output (dual convex hull)\n\
     Fn   - count plus neighboring intersections for each intersection\n\
     FN   - count plus intersections for each non-redundant halfspace\n\
     FO   - options and precision constants\n\
@@ -173,7 +174,7 @@ Print options:\n\
     synopsis for qhull 
 */  
 char qh_prompt2[]= "\n\
-qhalf- halfspace intersection about a point. Qhull %s\n\
+qhalf- halfspace intersection about a point.  Qhull %s\n\
     input (stdin): [dim, 1, interior point], dim+1, n, coefficients+offset\n\
     comments start with a non-numeric character\n\
 \n\
@@ -219,7 +220,7 @@ Except for 'F.' and 'PG', upper_case options take an argument.\n\
 \n\
  Fc_redundant   Fd_cdd_in      FF_dump_xridge FIDs           Fmerges\n\
  Fneighbors     FN_intersect   FOptions       Fp_coordinates FP_nearest\n\
- FQhalf         Fsummary       Fv_halfspace   Fx_non_redundant\n\
+ FQhalf         Fsummary       Fv_halfspace   FMaple         Fx_non_redundant\n\
 \n\
  Gvertices      Gpoints        Gall_points    Gno_planes     Ginner\n\
  Gcentrums      Ghyperplanes   Gridges        Gouter         GDrop_dim\n\
@@ -271,16 +272,16 @@ int main(int argc, char *argv[]) {
 #endif
 
   if ((argc == 1) && isatty( 0 /*stdin*/)) {      
-    fprintf(stdout, qh_prompt2, qh_VERSION);
+    fprintf(stdout, qh_prompt2, qh_version);
     exit(qh_ERRnone);
   }
   if (argc > 1 && *argv[1] == '-' && !*(argv[1]+1)) {
-    fprintf(stdout, qh_prompta, qh_VERSION, 
+    fprintf(stdout, qh_prompta, qh_version, 
         qh_promptb, qh_promptc, qh_promptd, qh_prompte);
     exit(qh_ERRnone);
   }
   if (argc >1 && *argv[1] == '.' && !*(argv[1]+1)) {
-    fprintf(stdout, qh_prompt3, qh_VERSION);
+    fprintf(stdout, qh_prompt3, qh_version);
     exit(qh_ERRnone);
   }
   qh_init_A (stdin, stdout, stderr, argc, argv);  /* sets qh qhull_command */

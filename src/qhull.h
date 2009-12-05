@@ -6,7 +6,7 @@
 
    see qh-qhull.htm, qhull_a.h
 
-   copyright (c) 1993-2002, The Geometry Center
+   copyright (c) 1993-2003, The Geometry Center
 
    NOTE: access to qh_qh is via the 'qh' macro.  This allows
    qh_qh to be either a pointer or a structure.  An example
@@ -53,25 +53,7 @@
 
 /*============ constants and basic types ====================*/
 
-/*-<a                             href="qh-qhull.htm#TOC"
-  >--------------------------------</a><a name="qh_VERSION">-</a>
-
-  qh_VERSION
-    version string by year and date
-
-    the revision increases on code changes only
-
-  notes:
-    change date:    Changes.txt, Announce.txt, README.txt, qhull.man
-                    qhull-news.html, Eudora signatures, 
-    change version: README.txt, qhull.html, file_id.diz, Makefile
-    change year:    Copying.txt
-    check download size
-    recompile user_eg.c, rbox.c, qhull.c, qconvex.c, qdelaun.c qvoronoi.c, qhalf.c
-    make copy of qhull-news.html as qh-news.htm
-*/
-
-#define qh_VERSION "2002.1 2002/8/20"
+extern char *qh_version; /* defined in global.c */
 
 /*-<a                             href="qh-geom.htm#TOC"
   >--------------------------------</a><a name="coordT">-</a>
@@ -150,7 +132,7 @@ typedef enum {qh_PRINTnone= 0,
   qh_PRINTcoplanars, qh_PRINTcentrums, 
   qh_PRINTfacets, qh_PRINTfacets_xridge,   /* 'f' 'FF' 'G' 'FI' 'Fi' 'Fn' */
   qh_PRINTgeom, qh_PRINTids, qh_PRINTinner, qh_PRINTneighbors, 
-  qh_PRINTnormals, qh_PRINTouter,          /* 'n' 'Fo' 'i' 'm' 'Fm' 'o' */
+  qh_PRINTnormals, qh_PRINTouter, qh_PRINTmaple, /* 'n' 'Fo' 'i' 'm' 'Fm' 'FM', 'o' */
   qh_PRINTincidences, qh_PRINTmathematica, qh_PRINTmerges, qh_PRINToff, 
   qh_PRINToptions, qh_PRINTpointintersect, /* 'FO' 'Fp' 'FP' 'p' 'FQ' 'FS' */
   qh_PRINTpointnearest, qh_PRINTpoints, qh_PRINTqhull, qh_PRINTsize, 
@@ -389,7 +371,7 @@ struct vertexT {
 
   notes:
    qhmem is defined in mem.h and qhstat is defined in stat.h
-   access to qh_qh is via the "qh" macro.  See qh_QHpointer in user.h
+   Access to qh_qh is via the "qh" macro.  See qh_QHpointer in user.h
 */
 typedef struct qhT qhT;
 #if qh_QHpointer

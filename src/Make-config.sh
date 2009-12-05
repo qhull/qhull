@@ -52,6 +52,7 @@ docdir = $(prefix)/share/doc/$(PACKAGE)
 
 # which:
 doc_DATA = \
+  index.htm \
   Announce.txt \
   COPYING.txt \
   README.txt \
@@ -138,7 +139,6 @@ html_DATA = \
   qh-eg.htm \
   qh-faq.htm \
   qh-get.htm \
-  qh-home.htm \
   qh-impre.htm \
   qh-in.htm \
   qh-optc.htm \

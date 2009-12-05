@@ -101,7 +101,6 @@ void makeDelaunay (coordT *points, int numpoints, int dim, int seed) {
   int j,k;
   coordT *point, realr;
 
-
   printf ("seed: %d\n", seed);
   qh_RANDOMseed_( seed);
   for (j=0; j<numpoints; j++) {
@@ -118,6 +117,9 @@ void makeDelaunay (coordT *points, int numpoints, int dim, int seed) {
   assumes dim < 100
 notes:
   calls qh_setdelaunay() to project the point to a parabaloid
+warning:
+  This is not implemented for tricoplanar facets ('Qt'),
+  See <a href="../html/qh-in.htm#findfacet">locate a facet with qh_findbestfacet()</a>
 */
 void findDelaunay (int dim) {
   int k;
@@ -131,6 +133,11 @@ void findDelaunay (int dim) {
     point[k]= 0.5;
   qh_setdelaunay (dim+1, 1, point);
   facet= qh_findbestfacet (point, qh_ALL, &bestdist, &isoutside);
+  if (facet->tricoplanar) {
+    fprintf(stderr, "findDelaunay: not implemented for triangulated, non-simplicial Delaunay regions (tricoplanar facet, f%d).\n",
+       facet->id);
+    qh_errexit (qh_ERRqhull, facet, NULL);
+  }
   FOREACHvertex_(facet->vertices) {
     for (k=0; k < dim; k++)
       printf ("%5.2f ", vertex->point[k]);
@@ -222,7 +229,7 @@ your project.\n\n");
     Run 2: Delaunay triangulation
   */
 
-  printf( "\ncompute 3-d Delaunay triangulation\n");
+  printf( "\ncompute %d-d Delaunay triangulation\n", dim);
   sprintf (flags, "qhull s d Tcv %s", argc >= 3 ? argv[2] : "");
   numpoints= SIZEcube;
   makeDelaunay (points, numpoints, dim, time(NULL));
@@ -239,7 +246,7 @@ your project.\n\n");
     FORALLfacets {
        /* ... your code ... */
     }
-    printf( "\nfind 3-d Delaunay triangle closest to [0.5, 0.5, ...]\n");
+    printf( "\nfind %d-d Delaunay triangle closest to [0.5, 0.5, ...]\n", dim);
     exitcode= setjmp (qh errexit);  
     if (!exitcode) {
       /* Trap Qhull errors in findDelaunay().  Without the setjmp(), Qhull

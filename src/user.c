@@ -23,7 +23,7 @@
    the last point added to the hull, e.g., 102.  You can then trace
    the execution of qhull with "T4P102".  
 
-   Please report any errors that you fix to qhull@geom.umn.edu
+   Please report any errors that you fix to qhull@qhull.org
 
    call_qhull is a template for calling qhull from within your application
 
@@ -197,7 +197,7 @@ void qh_errexit(int exitcode, facetT *facet, ridgeT *ridge) {
     qh hulltime= qh_CPUclock - qh hulltime;
   qh_errprint("ERRONEOUS", facet, NULL, ridge, NULL);
   fprintf (qh ferr, "\nWhile executing: %s | %s\n", qh rbox_command, qh qhull_command);
-  fprintf(qh ferr, "Options selected for Qhull %s:\n%s\n", qh_VERSION, qh qhull_options);
+  fprintf(qh ferr, "Options selected for Qhull %s:\n%s\n", qh_version, qh qhull_options);
   if (qh furthest_id >= 0) {
     fprintf(qh ferr, "Last point added to hull was p%d.", qh furthest_id);
     if (zzval_(Ztotmerge))

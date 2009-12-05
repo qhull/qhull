@@ -129,6 +129,7 @@ rbox 500 D2 | qhull n A-0.95 C0.1 Tcv
 rbox 500 s P1,1,1 | qhull QgG0 Pp Tcv
 
 rbox d | qhull m
+rbox d | qhull FM
 rbox c D2 | qhull Tcv Q0
 rbox d D2 | qhull Tcv
 rbox c D3 | qhull Tcv Q0
@@ -168,6 +169,7 @@ rbox 5 r s D2 | qhull s o
 rbox 5 r s D2 | qhull f
 rbox 5 r s D2 | qhull i 
 rbox 5 r s D2 | qhull m 
+rbox 5 r s D2 | qhull FM 
 rbox 5 r s D2 | qhull n 
 rbox 5 r s D2 | qhull p 
 rbox 5 r s D2 | qhull o 
@@ -209,7 +211,7 @@ rbox 10 D3 | qhull Fa PF0.4
 echo === test Qt ${d:-`date`}
 rbox c | qhull Qt s o Tcv
 rbox c | qhull Qt f i
-rbox c | qhull Qt m n
+rbox c | qhull Qt m FM n
 rbox c | qhull Qt p o
 rbox c | qhull Qt Fx
 rbox c | qhull Qt FA s Fa

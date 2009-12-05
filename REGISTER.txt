@@ -26,12 +26,12 @@ have used in your publications.
 
 To cite Qhull, use
 
-    Barber, C.B., Dobkin, D.P., and Huhdanpaa, H.T., "The Quickhull 
+        Barber, C.B., Dobkin, D.P., and Huhdanpaa, H.T., "The Quickhull 
 	algorithm for convex hulls," ACM Trans. on Mathematical Software,
-	Dec 1996.  http://www.geom.umn.edu/software/qhull
+	Dec 1996.  http://www.qhull.org
 
 Please send e-mail to
 
-    qhull@geom.umn.edu
+    qhull@qhull.org
 
 Thank you!

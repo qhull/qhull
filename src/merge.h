@@ -6,7 +6,7 @@
 
    see qh-merge.htm and merge.c
 
-   copyright (c) 1993-2002, The Geometry Center
+   copyright (c) 1993-2003, The Geometry Center
 */
 
 #ifndef qhDEFmerge
@@ -117,6 +117,9 @@ void    qh_appendmergeset(facetT *facet, facetT *neighbor, mergeType mergetype, 
 setT   *qh_basevertices( facetT *samecycle);
 void    qh_checkconnect (void /* qh new_facets */);
 boolT   qh_checkzero (boolT testall);
+int     qh_compareangle(const void *p1, const void *p2);
+int     qh_comparemerge(const void *p1, const void *p2);
+int     qh_comparevisit (const void *p1, const void *p2);
 void    qh_copynonconvex (ridgeT *atridge);
 void    qh_degen_redundant_facet (facetT *facet);
 void   	qh_degen_redundant_neighbors (facetT *facet, facetT *delfacet);
