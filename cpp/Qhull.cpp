@@ -426,7 +426,7 @@ maybeThrowQhullMessage(int exitCode, int noThrow)  throw()
  >-------------------------------</a><a name="qh_fprintf">-</a>
 
   qh_fprintf(fp, msgcode, format, list of args )
-    fp is ignored.
+    fp is ignored (replaces qh_fprintf() in userprintf.c)
     s_qhull_output == Qhull
 
 notes:

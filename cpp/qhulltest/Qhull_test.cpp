@@ -135,11 +135,11 @@ t_message()
         }catch (const std::exception &e) {
             const char *s= e.what();
             cout<< "INFO   : Caught " << s; 
-            QVERIFY(q.hasQhullMessage()); 
-            QCOMPARE(QString::fromStdString(q.qhullMessage()), QString::fromStdString(s).remove(0, 7));
-            QCOMPARE(QString::fromStdString(q.qhullMessage()).left(9), QString("qhull err"));
+            QVERIFY(!q.hasQhullMessage()); // Removed when copied to QhullError
+            // QCOMPARE(q.qhullMessage(), QString::fromStdString(s).remove(0, 7));
+            QCOMPARE(QString::fromStdString(s).left(6), QString("QH6029"));
             QCOMPARE(q.qhullStatus(), 6029);
-            q.clearQhullMessage();
+            q.clearQhullMessage();  // FIXUP -- review decision to clearQhullMessage at QhullError()
             QVERIFY(!q.hasQhullMessage());
         }
         q.appendQhullMessage("Append 1");

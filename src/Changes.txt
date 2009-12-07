@@ -71,8 +71,12 @@ To do
  - Redo Coordinates w/o vector<>
  - Change #include to specific -> general
  - Remove class-static code, check K_GLOBAL_STATIC
+ - Rename rboxlib and qhulllib to librbox and libqhull
+   user_eg3 rbox 10 qhull does nothing
 
 qhull 2009.1  2008/03/20
+ - Use gcc 4.4.0 or later.  gcc 4.2.1, 4.2.2, and 4.3.2 -O2 segfaults in qset.c .  gcc 4.1.1 was OK
+ -    Bug report    http://gcc.gnu.org/ml/gcc-bugs/2007-09/msg00474.html
  - Added user_eg3 as an example of Qhull.cpp
  - Renamed html/qh-in.htm to html/qh-code.htm
  - Report not enough points if d points, Delaunay, and not Qz

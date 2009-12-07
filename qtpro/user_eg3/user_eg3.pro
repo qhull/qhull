@@ -1,18 +1,18 @@
 # -------------------------------------------------
-# qhull-qt.pro -- Qt project file
+# user_eg3.pro -- Qt project file for cpp demonstration program
 # -------------------------------------------------
 QT -= gui
-TARGET = qhull-qt
-CONFIG += console qtestlib
+TARGET = user_eg3
+CONFIG += console
 CONFIG -= app_bundle
 TEMPLATE = app
-LIBS = ../../libqhull.a
 DESTDIR = ../..
 OBJECTS_DIR = ../../tmp/obj
 MOC_DIR = ../../tmp/moc
 RCC_DIR = ../../tmp/rcc
 INCLUDEPATH = ../../cpp;../../cpp/road;../../tmp
 VPATH = ../..
+SOURCES += cpp/user_eg3.cpp
 SOURCES += cpp/Coordinates.cpp
 SOURCES += cpp/QhullVertexSet.cpp
 SOURCES += cpp/QhullHyperplane.cpp
@@ -35,24 +35,7 @@ SOURCES += cpp/RboxPoints.cpp
 SOURCES += cpp/UsingQhullLib.cpp
 SOURCES += cpp/road/RoadError.cpp
 SOURCES += cpp/road/RoadLogEvent.cpp
-SOURCES += cpp/road/RoadTest.cpp
-SOURCES += cpp/qhulltest/Coordinates_test.cpp
-SOURCES += cpp/qhulltest/PointCoordinates_test.cpp
-SOURCES += cpp/qhulltest/Qhull_test.cpp
-SOURCES += cpp/qhulltest/QhullFacet_test.cpp
-SOURCES += cpp/qhulltest/QhullFacetList_test.cpp
-SOURCES += cpp/qhulltest/QhullFacetSet_test.cpp
-SOURCES += cpp/qhulltest/QhullHyperplane_test.cpp
-SOURCES += cpp/qhulltest/QhullLinkedList_test.cpp
-SOURCES += cpp/qhulltest/QhullPoint_test.cpp
-SOURCES += cpp/qhulltest/QhullPoints_test.cpp
-SOURCES += cpp/qhulltest/QhullPointSet_test.cpp
-SOURCES += cpp/qhulltest/QhullRidge_test.cpp
-SOURCES += cpp/qhulltest/QhullSet_test.cpp
-SOURCES += cpp/qhulltest/qhulltest.cpp
-SOURCES += cpp/qhulltest/QhullVertex_test.cpp
-SOURCES += cpp/qhulltest/UsingQhullLib_test.cpp
-SOURCES += cpp/qhulltest/RboxPoints_test.cpp
+
 HEADERS += cpp/Coordinates.h
 HEADERS += cpp/QhullHyperplane.h
 HEADERS += cpp/functionObjects.h
@@ -78,4 +61,40 @@ HEADERS += cpp/RboxPoints.h
 HEADERS += cpp/UsingQhullLib.h
 HEADERS += cpp/road/RoadError.h
 HEADERS += cpp/road/RoadLogEvent.h
-HEADERS += cpp/road/RoadTest.h
+
+# Add all files explicitly.  The library did not work
+# -------------------------------------------------
+# qhulllib.pro -- Qt project file
+# -------------------------------------------------
+# configure -commercial -no-qt3support -no-opengl -no-rtti -qt-style-plastique
+
+SOURCES += src/geom.c
+SOURCES += src/geom2.c
+SOURCES += src/global.c
+SOURCES += src/io.c
+SOURCES += src/mem.c
+SOURCES += src/merge.c
+SOURCES += src/poly2.c
+SOURCES += src/poly.c
+SOURCES += src/qhulllib.c
+SOURCES += src/qset.c
+SOURCES += src/random.c
+SOURCES += src/rboxlib.c
+SOURCES += src/stat.c
+SOURCES += src/user.c
+SOURCES += src/usermem.c
+# SOURCES += src/userprintf.c
+
+HEADERS += src/geom.h
+HEADERS += src/io.h
+HEADERS += src/mem.h
+HEADERS += src/merge.h
+HEADERS += src/poly.h
+
+# qhull.h is for backwards compatibility
+HEADERS += src/qhulllib.h
+HEADERS += src/qhull_a.h
+HEADERS += src/qset.h
+HEADERS += src/random.h
+HEADERS += src/stat.h
+HEADERS += src/user.h

@@ -148,7 +148,7 @@ appendPoints(const char *rboxCommand)
 >-------------------------------</a><a name="qh_fprintf_rbox">-</a>
 
   qh_fprintf_rbox(fp, msgcode, format, list of args )
-    fp is ignored.
+    fp is ignored (replaces qh_fprintf_rbox() in userprintf.c)
     rbox_output == RboxPoints
 
 notes:

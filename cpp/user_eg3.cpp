@@ -37,6 +37,9 @@ user_eg3 -- demonstrate calling rbox and qhull from C++.\n\
   qhull \"d p\" ...            Run qhull and produce output\n\
   qhull-cout \"o\" ...         Run qhull and produce output to cout\n\
 \n\
+For example\n\
+  user_eg3 rbox \"10 D2\"  \"2 D2\" qhull  \"s p\"\n\
+\n\
 ";
 
 

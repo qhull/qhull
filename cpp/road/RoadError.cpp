@@ -49,7 +49,6 @@ RoadError(const RoadError &e)
 , log_event(e.log_event)
 , error_message(e.error_message)
 { 
-    cerr << "FIXUP RoadError copy construct\n";
 }//copy construct
 
 RoadError::

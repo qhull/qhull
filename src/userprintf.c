@@ -42,6 +42,10 @@
 void qh_fprintf(FILE *fp, int msgcode, const char *fmt, ... ) {
     va_list args;
 
+    if (!fp) {
+        fprintf(stderr, "QH6232 Qhull internal error (userprintf.c): fp is 0.  Wrong qh_fprintf called.\n");
+        qh_errexit(6232, NULL, NULL);
+    }
     va_start(args, fmt);
     if (qh ANNOTATEoutput) {
       fprintf(fp, "[QH%.4d]", msgcode);
@@ -55,6 +59,10 @@ void qh_fprintf(FILE *fp, int msgcode, const char *fmt, ... ) {
 void qh_fprintf_rbox(FILE *fp, int msgcode, const char *fmt, ... ) {
     va_list args;
     
+    if (!fp) {
+        fprintf(stderr, "QH6231 Qhull internal error (userprintf.c): fp is 0.  Wrong qh_fprintf_rbox called.\n");
+        qh_errexit_rbox(6231);
+    }
     if (msgcode >= MSG_ERROR && msgcode < MSG_STDERR)
       fprintf(fp, "QH%.4d ", msgcode);
     va_start(args, fmt);

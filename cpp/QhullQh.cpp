@@ -116,7 +116,7 @@ void QhullQh::
 checkIfQhullRan() // FIXUP -- use successful runQhull instead of TEMPsize?  Many calls OK even if runQhull error'd
 {
     if(qh TEMPsize==0){ // qh_initqhull_buffers() not called
-        throw QhullError(10023, "Qhull error: output does not exist.  Call runQhull() first.");
+        throw QhullError(10023, "Qhull error: checkIfQhullRan failed.  Call runQhull() first.");
     }
 }//checkIfQhullRan
 
