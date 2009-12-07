@@ -4,7 +4,8 @@
 # configure -commercial -no-qt3support -no-opengl -no-rtti -qt-style-plastique
 QT -= gui
 TARGET = ../../qhull
-CONFIG -= app_bundle
+CONFIG += staticlib
+CONFIG -= app_bundle qt
 TEMPLATE = lib
 DESTDIR = ../../tmp/lib
 OBJECTS_DIR = ../../tmp/obj

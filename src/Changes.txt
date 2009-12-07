@@ -73,6 +73,7 @@ To do
  - Remove class-static code, check K_GLOBAL_STATIC
  - Rename rboxlib and qhulllib to librbox and libqhull
    user_eg3 rbox 10 qhull does nothing
+   ConvexHull is a submodule to git.  How to get rid of?
 
 qhull 2009.1  2008/03/20
  - Use gcc 4.4.0 or later.  gcc 4.2.1, 4.2.2, and 4.3.2 -O2 segfaults in qset.c .  gcc 4.1.1 was OK
