@@ -259,7 +259,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\cpp\UsingQhullLib.cpp"
+				RelativePath="..\cpp\UsingLibQhull.cpp"
 				>
 			</File>
 		</Filter>
@@ -320,7 +320,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\src\qhulllib.h"
+				RelativePath="..\src\libqhull.h"
 				>
 			</File>
 			<File
@@ -408,7 +408,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\cpp\UsingQhullLib.h"
+				RelativePath="..\cpp\UsingLibQhull.h"
 				>
 			</File>
 		</Filter>

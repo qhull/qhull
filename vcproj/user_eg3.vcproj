@@ -75,7 +75,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="&quot;..\tmp\qhulllib\Release\qhull.lib&quot; &quot;..\tmp\qhullcpp\Release\qhullcpp.lib&quot; "
+				AdditionalOptions="&quot;..\tmp\libqhull\Release\qhull.lib&quot; &quot;..\tmp\qhullcpp\Release\qhullcpp.lib&quot; "
 				OutputFile="..\user_eg3.exe"
 				LinkIncremental="0"
 			/>
@@ -162,7 +162,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="&quot;..\tmp\qhulllib\Debug\qhull.lib&quot; &quot;..\tmp\qhullcpp\Debug\qhullcpp.lib&quot; "
+				AdditionalOptions="&quot;..\tmp\libqhull\Debug\qhull.lib&quot; &quot;..\tmp\qhullcpp\Debug\qhullcpp.lib&quot; "
 				OutputFile="../user_eg3.exe"
 				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"

@@ -75,7 +75,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="&quot;..\tmp\qhulllib\Release\qhull.lib&quot;"
+				AdditionalOptions="&quot;..\tmp\libqhull\Release\qhull.lib&quot;"
 				OutputFile="..\rbox.exe"
 				LinkIncremental="0"
 			/>
@@ -161,7 +161,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="&quot;..\tmp\qhulllib\Debug\qhull.lib&quot;"
+				AdditionalOptions="&quot;..\tmp\libqhull\Debug\qhull.lib&quot;"
 				OutputFile="..\rbox.exe"
 				LinkIncremental="0"
 				GenerateDebugInformation="true"
@@ -213,7 +213,7 @@
 			Filter="h;hpp;hxx;hm;inl"
 			>
 			<File
-				RelativePath="..\src\qhulllib.h"
+				RelativePath="..\src\libqhull.h"
 				>
 			</File>
 			<File

@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="8.00"
-	Name="qhulllib"
+	Name="libqhull"
 	ProjectGUID="{D1377F6B-7868-460C-9FC5-489C32A3D08F}"
 	RootNamespace="qhull"
 	>
@@ -16,8 +16,8 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="..\tmp\qhulllib\Release"
-			IntermediateDirectory="..\tmp\qhulllib\Release"
+			OutputDirectory="..\tmp\libqhull\Release"
+			IntermediateDirectory="..\tmp\libqhull\Release"
 			ConfigurationType="4"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			UseOfMFC="0"
@@ -48,10 +48,10 @@
 				StringPooling="true"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
-				PrecompiledHeaderFile="..\tmp\qhulllib\Release/qhulllib.pch"
-				AssemblerListingLocation="..\tmp\qhulllib\Release/"
-				ObjectFile="..\tmp\qhulllib\Release/"
-				ProgramDataBaseFileName="..\tmp\qhulllib\Release/"
+				PrecompiledHeaderFile="..\tmp\libqhull\Release/libqhull.pch"
+				AssemblerListingLocation="..\tmp\libqhull\Release/"
+				ObjectFile="..\tmp\libqhull\Release/"
+				ProgramDataBaseFileName="..\tmp\libqhull\Release/"
 				WarningLevel="4"
 				WarnAsError="true"
 				SuppressStartupBanner="true"
@@ -72,7 +72,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\tmp\qhulllib\Release\qhull.lib"
+				OutputFile="..\tmp\libqhull\Release\qhull.lib"
 				SuppressStartupBanner="true"
 			/>
 			<Tool
@@ -93,8 +93,8 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="..\tmp\qhulllib\Debug"
-			IntermediateDirectory="..\tmp\qhulllib\Debug"
+			OutputDirectory="..\tmp\libqhull\Debug"
+			IntermediateDirectory="..\tmp\libqhull\Debug"
 			ConfigurationType="4"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			UseOfMFC="0"
@@ -125,10 +125,10 @@
 				RuntimeLibrary="3"
 				DisableLanguageExtensions="true"
 				RuntimeTypeInfo="false"
-				PrecompiledHeaderFile="..\tmp\qhulllib\Debug/qhulllib.pch"
-				AssemblerListingLocation="..\tmp\qhulllib\Debug/"
-				ObjectFile="..\tmp\qhulllib\Debug/"
-				ProgramDataBaseFileName="..\tmp\qhulllib\Debug/"
+				PrecompiledHeaderFile="..\tmp\libqhull\Debug/libqhull.pch"
+				AssemblerListingLocation="..\tmp\libqhull\Debug/"
+				ObjectFile="..\tmp\libqhull\Debug/"
+				ProgramDataBaseFileName="..\tmp\libqhull\Debug/"
 				WarningLevel="4"
 				WarnAsError="true"
 				SuppressStartupBanner="true"
@@ -149,7 +149,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\tmp\qhulllib\Debug\qhull.lib"
+				OutputFile="..\tmp\libqhull\Debug\qhull.lib"
 				SuppressStartupBanner="true"
 			/>
 			<Tool
@@ -369,7 +369,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\src\qhulllib.c"
+				RelativePath="..\src\libqhull.c"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -510,7 +510,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\src\qhulllib.h"
+				RelativePath="..\src\libqhull.h"
 				>
 			</File>
 			<File
@@ -564,7 +564,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\html\qh-code.htm"
+				RelativePath="..\html\qh-in.htm"
 				DeploymentContent="true"
 				>
 			</File>

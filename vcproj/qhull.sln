@@ -9,7 +9,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "qhull", "qhull.vcproj", "{D
 		Release.AspNetCompiler.Debug = "False"
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "qhulllib", "qhulllib.vcproj", "{D1377F6B-7868-460C-9FC5-489C32A3D08F}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libqhull", "libqhull.vcproj", "{D1377F6B-7868-460C-9FC5-489C32A3D08F}"
 	ProjectSection(WebsiteProperties) = preProject
 		Debug.AspNetCompiler.Debug = "True"
 		Release.AspNetCompiler.Debug = "False"
@@ -44,6 +44,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "user_eg3", "user_eg3.vcproj
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "qhulltest", "qhulltest.vcproj", "{AFDCA33D-3D74-3866-BAE1-97033FE213AA}"
+	GlobalSection(Qt) = preSolution
+		Integration = True
+	EndGlobalSection
 	ProjectSection(ProjectDependencies) = postProject
 		{83B9A40B-EA6E-4DD8-A9D5-D51FFA0B5F49} = {83B9A40B-EA6E-4DD8-A9D5-D51FFA0B5F49}
 		{D1377F6B-7868-460C-9FC5-489C32A3D08F} = {D1377F6B-7868-460C-9FC5-489C32A3D08F}
@@ -67,6 +70,7 @@ Global
 		{DEB5D824-712C-47C7-BE7E-E0A866373C26}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
 		{DEB5D824-712C-47C7-BE7E-E0A866373C26}.Debug|Mixed Platforms.Build.0 = Debug|Win32
 		{DEB5D824-712C-47C7-BE7E-E0A866373C26}.Debug|Win32.ActiveCfg = Debug|Win32
+		{DEB5D824-712C-47C7-BE7E-E0A866373C26}.Debug|Win32.Build.0 = Debug|Win32
 		{DEB5D824-712C-47C7-BE7E-E0A866373C26}.Release|Any CPU.ActiveCfg = Release|Win32
 		{DEB5D824-712C-47C7-BE7E-E0A866373C26}.Release|Mixed Platforms.ActiveCfg = Release|Win32
 		{DEB5D824-712C-47C7-BE7E-E0A866373C26}.Release|Mixed Platforms.Build.0 = Release|Win32
@@ -106,6 +110,7 @@ Global
 		{B94D6587-1030-4EA0-8322-E9B2902A9AC4}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
 		{B94D6587-1030-4EA0-8322-E9B2902A9AC4}.Debug|Mixed Platforms.Build.0 = Debug|Win32
 		{B94D6587-1030-4EA0-8322-E9B2902A9AC4}.Debug|Win32.ActiveCfg = Debug|Win32
+		{B94D6587-1030-4EA0-8322-E9B2902A9AC4}.Debug|Win32.Build.0 = Debug|Win32
 		{B94D6587-1030-4EA0-8322-E9B2902A9AC4}.Release|Any CPU.ActiveCfg = Release|Win32
 		{B94D6587-1030-4EA0-8322-E9B2902A9AC4}.Release|Mixed Platforms.ActiveCfg = Release|Win32
 		{B94D6587-1030-4EA0-8322-E9B2902A9AC4}.Release|Mixed Platforms.Build.0 = Release|Win32
@@ -124,11 +129,5 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		QtVersion = 4.5.3
-	EndGlobalSection
-	GlobalSection(Qt) = preSolution
-		Integration = True
 	EndGlobalSection
 EndGlobal

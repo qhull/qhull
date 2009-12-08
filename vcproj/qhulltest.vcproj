@@ -78,7 +78,7 @@
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="true"
 				AdditionalOptions="/NODEFAULTLIB:LIBCMTD "
-				AdditionalDependencies="../tmp/qhullcpp/Debug/qhullcpp.lib ../tmp/qhulllib/Debug/qhull.lib $(QTDIR)\lib\QtTestd4.lib $(QTDIR)\lib\QtGuid4.lib $(QTDIR)\lib\QtCored4.lib"
+				AdditionalDependencies="../tmp/qhullcpp/Debug/qhullcpp.lib ../tmp/libqhull/Debug/qhull.lib $(QTDIR)\lib\QtTestd4.lib $(QTDIR)\lib\QtGuid4.lib $(QTDIR)\lib\QtCored4.lib"
 				OutputFile="..\qhulltest.exe"
 				SuppressStartupBanner="true"
 				AdditionalLibraryDirectories="c:\Qt\4.5.2\lib"
@@ -283,7 +283,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\cpp\qhulltest\UsingQhullLib_test.cpp"
+				RelativePath="..\cpp\qhulltest\UsingLibQhull_test.cpp"
 				>
 			</File>
 		</Filter>
@@ -663,17 +663,17 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\tmp\moc\UsingQhullLib_test.moc"
+				RelativePath="..\tmp\moc\UsingLibQhull_test.moc"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						Description="Moc&apos;ing UsingQhullLib_test.cpp..."
-						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_GUI_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT  -I&quot;.\.&quot; -I&quot;.\..\cpp\.&quot; -I&quot;.\..\..\cpp\.&quot; -I&quot;.\..\src\.&quot; -I&quot;.\..\..\src\.&quot; -I&quot;.\..\tmp\.&quot; -I&quot;.\..\..\tmp\.&quot; -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtGui\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\QtTest\.&quot; -I&quot;$(QTDIR)\include\ActiveQt\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2005\.&quot; &quot;..\cpp\qhulltest\UsingQhullLib_test.cpp&quot; -o &quot;.\..\tmp\moc\UsingQhullLib_test.moc&quot;&#x0D;&#x0A;"
-						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;..\cpp\qhulltest\UsingQhullLib_test.cpp"
-						Outputs="&quot;.\..\tmp\moc\UsingQhullLib_test.moc&quot;"
+						Description="Moc&apos;ing UsingLibQhull_test.cpp..."
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_GUI_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT  -I&quot;.\.&quot; -I&quot;.\..\cpp\.&quot; -I&quot;.\..\..\cpp\.&quot; -I&quot;.\..\src\.&quot; -I&quot;.\..\..\src\.&quot; -I&quot;.\..\tmp\.&quot; -I&quot;.\..\..\tmp\.&quot; -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtGui\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\QtTest\.&quot; -I&quot;$(QTDIR)\include\ActiveQt\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2005\.&quot; &quot;..\cpp\qhulltest\UsingLibQhull_test.cpp&quot; -o &quot;.\..\tmp\moc\UsingLibQhull_test.moc&quot;&#x0D;&#x0A;"
+						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;..\cpp\qhulltest\UsingLibQhull_test.cpp"
+						Outputs="&quot;.\..\tmp\moc\UsingLibQhull_test.moc&quot;"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
