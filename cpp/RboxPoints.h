@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/RboxPoints.h#23 $$Change: 1095 $
-** $DateTime: 2009/12/01 22:40:56 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/RboxPoints.h#24 $$Change: 1102 $
+** $DateTime: 2009/12/07 20:26:04 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -20,7 +20,7 @@
 #include "QhullPoint.h"
 
 extern "C" {
-#include "../src/qhulllib.h"
+#include "../src/libqhull.h"
 };
 
 namespace orgQhull {

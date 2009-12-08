@@ -7,14 +7,14 @@
    see qh-geom.htm and random.c
 
    copyright (c) 1993-2009 The Geometry Center.
-   $Id: //product/qhull/main/rel/src/random.h#8 $$Change: 1099 $
-   $DateTime: 2009/12/04 22:49:19 $$Author: bbarber $        
+   $Id: //product/qhull/main/rel/src/random.h#9 $$Change: 1102 $
+   $DateTime: 2009/12/07 20:26:04 $$Author: bbarber $        
 */
 
 #ifndef qhDEFrandom
 #define qhDEFrandom 1
 
-#include "qhulllib.h"
+#include "libqhull.h"
 
 /*============= prototypes in alphabetical order ======= */
 

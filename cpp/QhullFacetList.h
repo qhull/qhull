@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullFacetList.h#16 $$Change: 1098 $
-** $DateTime: 2009/12/04 22:47:59 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullFacetList.h#17 $$Change: 1102 $
+** $DateTime: 2009/12/07 20:26:04 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -100,6 +100,6 @@ std::ostream &operator<<(std::ostream &os, const orgQhull::QhullFacetList::Print
 // FIXUP -- why did <<facetList work and the others did not?
 // print() not available since printVertices() requires qhRunId.
 // [9/09] added const
-inline std::ostream &operator<<(std::ostream &os, const orgQhull::QhullFacetList &fs) { os<< fs.printFacets(orgQhull::UsingQhullLib::NOqhRunId); return os; } 
+inline std::ostream &operator<<(std::ostream &os, const orgQhull::QhullFacetList &fs) { os<< fs.printFacets(orgQhull::UsingLibQhull::NOqhRunId); return os; } 
 
 #endif // QHULLFACETLIST_H

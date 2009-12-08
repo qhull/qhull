@@ -1,14 +1,14 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullVertex.cpp#18 $$Change: 1049 $
-** $DateTime: 2009/09/27 09:56:18 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullVertex.cpp#19 $$Change: 1102 $
+** $DateTime: 2009/12/07 20:26:04 $$Author: bbarber $
 **
 ****************************************************************************/
 
 #//! QhullVertex -- Qhull's vertex structure, vertexT, as a C++ class
 
-#include "UsingQhullLib.h"
+#include "UsingLibQhull.h"
 #include "QhullPoint.h"
 #include "QhullFacetSet.h"
 #include "QhullVertex.h"
@@ -49,7 +49,7 @@ using orgQhull::QhullFacet;
 using orgQhull::QhullFacetSet;
 using orgQhull::QhullFacetSetIterator;
 using orgQhull::QhullVertex;
-using orgQhull::UsingQhullLib;
+using orgQhull::UsingLibQhull;
 
 //! Duplicate of qh_printvertex [io.c]
 ostream &

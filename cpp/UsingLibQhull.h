@@ -1,35 +1,35 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/UsingQhullLib.h#16 $$Change: 1061 $
-** $DateTime: 2009/11/07 17:14:02 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/UsingLibQhull.h#1 $$Change: 1107 $
+** $DateTime: 2009/12/07 21:05:37 $$Author: bbarber $
 **
 ****************************************************************************/
 
-#ifndef USINGQHULLLIB_H
-#define USINGQHULLLIB_H
+#ifndef USINGlibqhull_H
+#define USINGlibqhull_H
 
 #include "QhullError.h"
 
 extern "C" {
-#include "../src/qhulllib.h"
+#include "../src/libqhull.h"
 };
 
 namespace orgQhull {
 
 #//Types
-    //! UsingQhullLib -- Interface into qhulllib and its 'qh' and 'qhstat' macros
-    //! Always use with setjmp() for qhulllib error handling.
+    //! UsingLibQhull -- Interface into libqhull and its 'qh' and 'qhstat' macros
+    //! Always use with setjmp() for libqhull error handling.
 
 /*******************************
 
-UsingQhullLIb is stack based, but as a call
+UsingLibQhull is stack based, but as a call
 Qhull declarations are stack-based.  But can't define a 
-setjmp environment, since the target goes away.  So must be UsingQhullLib, but can only have one 
+setjmp environment, since the target goes away.  So must be UsingLibQhull, but can only have one 
 setjmp at a time? Can embedded another Using as long as save/restore 
 longjmp on exit.
 */
-    class UsingQhullLib;
+    class UsingLibQhull;
 
     // Defined elsewhere
     class Qhull;
@@ -37,7 +37,7 @@ longjmp on exit.
 #// Global variables
 extern Qhull           *s_qhull_output; //! Provide qh_fprintf (Qhull.cpp) access to Qhull
 
-class UsingQhullLib {
+class UsingLibQhull {
 
 private:
 #//Fields
@@ -46,7 +46,7 @@ private:
 
 #//Class globals
     //! Global flags
-    static bool         s_using_qhulllib; //! True if UsingQhullLib is in scope
+    static bool         s_using_libqhull; //! True if UsingLibQhull is in scope
 
     //! Use global values if s_has_... is set
     static bool         s_has_angle_epsilon; //! True if s_angle_epsilon defined
@@ -71,10 +71,10 @@ public:
     static const double DEFAULTangleEpsilon;    //! ~ANGLEround*FACTORepsilon for unit cube
 
 #//Constructors
-                        UsingQhullLib(Qhull *p);
-                        UsingQhullLib(Qhull *p, int noThrow);
-                        UsingQhullLib(int qhRunId);
-                       ~UsingQhullLib();
+                        UsingLibQhull(Qhull *p);
+                        UsingLibQhull(Qhull *p, int noThrow);
+                        UsingLibQhull(int qhRunId);
+                       ~UsingLibQhull();
 
 public:
 #//Class members
@@ -110,30 +110,30 @@ public:
 #//Helpers
 private:
    QhullError           checkRunId() const;
-   void                 checkUsingQhullLib() const;
+   void                 checkUsingLibQhull() const;
 
 /***********************************
-You may use global variables in 'qh' after declaring UsingQhullLib.  For example
+You may use global variables in 'qh' after declaring UsingLibQhull.  For example
 
-  UsingQhullLib q(qhRunId);
-  // NOerrors -- no calls that throw qhulllib errors
+  UsingLibQhull q(qhRunId);
+  // NOerrors -- no calls that throw libqhull errors
   cout << "Delaunay Mode: " << qh DELAUNAY;
 
-To trap errors from qhulllib, UsingQhullLib must be followed by
+To trap errors from libqhull, UsingLibQhull must be followed by
 
-UsingQhullLib q(qhRunId); 
+UsingLibQhull q(qhRunId); 
 int exitCode = setjmp(qh errexit);
 if(!exitCode){ // no object creation -- destructors skipped on longjmp()
-    calls to qhulllib
+    calls to libqhull
 }
 q.maybeThrowQhullMessage(exitCode);
 
-The call to setjmp() can not be moved to a method.  The stack must be preserved for error exits from qhulllib.
+The call to setjmp() can not be moved to a method.  The stack must be preserved for error exits from libqhull.
 
 */
 
-};//UsingQhullLib
+};//UsingLibQhull
 
 }//namespace orgQhull
 
-#endif // USINGQHULLLIB_H
+#endif // USINGlibqhull_H

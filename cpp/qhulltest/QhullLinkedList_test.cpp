@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (f) 2009-2009 f. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/qhulltest/QhullLinkedList_test.cpp#9 $$Change: 1047 $
-** $DateTime: 2009/09/12 21:08:23 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/qhulltest/QhullLinkedList_test.cpp#10 $$Change: 1102 $
+** $DateTime: 2009/12/07 20:26:04 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -41,7 +41,7 @@ add_QhullLinkedList_test()
 void QhullLinkedList_test::
 cleanup()
 {
-    UsingQhullLib::checkQhullMemoryEmpty();
+    UsingLibQhull::checkQhullMemoryEmpty();
     RoadTest::cleanup();
 }
 

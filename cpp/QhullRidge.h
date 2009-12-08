@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullRidge.h#17 $$Change: 1098 $
-** $DateTime: 2009/12/04 22:47:59 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullRidge.h#18 $$Change: 1102 $
+** $DateTime: 2009/12/07 20:26:04 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -27,7 +27,7 @@ namespace orgQhull {
     class QhullFacet;
 
 #//Types
-    //! QhullRidge -- Qhull's ridge structure, ridgeT [qhulllib.h], as a C++ class
+    //! QhullRidge -- Qhull's ridge structure, ridgeT [libqhull.h], as a C++ class
     class QhullRidge;
     typedef QhullSet<QhullRidge>  QhullRidgeSet;
     typedef QhullSetIterator<QhullRidge>  QhullRidgeSetIterator;
@@ -102,7 +102,7 @@ public:
 
 }//namespace orgQhull
 
-std::ostream &operator<<(std::ostream &os, const orgQhull::QhullRidge &r); //FIXUP no conversion.  OK in .cpp  { os<< r.print(orgQhull::UsingQhullLib::NOqhRunId); return os; }
+std::ostream &operator<<(std::ostream &os, const orgQhull::QhullRidge &r); //FIXUP no conversion.  OK in .cpp  { os<< r.print(orgQhull::UsingLibQhull::NOqhRunId); return os; }
 std::ostream &operator<<(std::ostream &os, const orgQhull::QhullRidge::PrintRidge &pr);
 
 #endif // QHULLRIDGE_H

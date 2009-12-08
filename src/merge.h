@@ -7,14 +7,14 @@
    see qh-merge.htm and merge.c
 
    copyright (c) 1993-2009 The Geometry Center.
-   $Id: //product/qhull/main/rel/src/merge.h#16 $$Change: 1099 $
-   $DateTime: 2009/12/04 22:49:19 $$Author: bbarber $
+   $Id: //product/qhull/main/rel/src/merge.h#17 $$Change: 1102 $
+   $DateTime: 2009/12/07 20:26:04 $$Author: bbarber $
 */
 
 #ifndef qhDEFmerge
 #define qhDEFmerge 1
 
-#include "qhulllib.h"
+#include "libqhull.h"
 
 
 /*============ -constants- ==============*/

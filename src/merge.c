@@ -10,7 +10,7 @@
 
    the user may call qh_postmerge() to perform additional merges.
 
-   To remove deleted facets and vertices (qhull() in qhulllib.c):
+   To remove deleted facets and vertices (qhull() in libqhull.c):
      qh_partitionvisible(!qh_ALL, &numoutside);  // visible_list, newfacet_list
      qh_deletevisible();         // qh.visible_list
      qh_resetlists(False, qh_RESETvisible);       // qh.visible_list newvertex_list newfacet_list 
@@ -21,8 +21,8 @@
    vertex->neighbors not set until the first merge occurs
 
    copyright (c) 1993-2009 The Geometry Center.
-   $Id: //product/qhull/main/rel/src/merge.c#21 $$Change: 1095 $
-   $DateTime: 2009/12/01 22:40:56 $$Author: bbarber $        
+   $Id: //product/qhull/main/rel/src/merge.c#22 $$Change: 1102 $
+   $DateTime: 2009/12/07 20:26:04 $$Author: bbarber $        
 */
 
 #include "qhull_a.h"

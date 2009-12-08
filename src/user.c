@@ -8,7 +8,7 @@
 
    see README.txt  see COPYING.txt for copyright information.
 
-   see qhulllib.h for data structures, macros, and user-callable functions.
+   see libqhull.h for data structures, macros, and user-callable functions.
 
    see user_eg.c, unix.c, and qhull_interface.cpp for examples.
 
@@ -52,7 +52,7 @@
     remove #if 0, #endif to compile
 
   returns: 
-    exit code(see qh_ERR... in qhulllib.h)
+    exit code(see qh_ERR... in libqhull.h)
     all memory freed
 
   notes:
@@ -178,7 +178,7 @@ int qh_new_qhull(int dim, int numpoints, coordT *points, boolT ismalloc,
     set qh.FORCEoutput to print neighborhood of facet
 
   see: 
-    qh_errexit2() in qhulllib.c for printing 2 facets
+    qh_errexit2() in libqhull.c for printing 2 facets
 
   design:
     check for error within error processing
@@ -482,7 +482,7 @@ may determine an initial simplex:\n\
                      qh DISTround);
 #if REALfloat
     qh_fprintf(fp, 9388, "\
-  - recompile qhull for realT precision(#define REALfloat 0 in qhulllib.h).\n");
+  - recompile qhull for realT precision(#define REALfloat 0 in libqhull.h).\n");
 #endif
     qh_fprintf(fp, 9389, "\n\
 If the input is lower dimensional:\n\

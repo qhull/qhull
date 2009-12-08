@@ -32,7 +32,7 @@ SOURCES += cpp/QhullSet.cpp
 SOURCES += cpp/QhullStat.cpp
 SOURCES += cpp/QhullVertex.cpp
 SOURCES += cpp/RboxPoints.cpp
-SOURCES += cpp/UsingQhullLib.cpp
+SOURCES += cpp/UsingLibQhull.cpp
 SOURCES += cpp/road/RoadError.cpp
 SOURCES += cpp/road/RoadLogEvent.cpp
 
@@ -58,7 +58,7 @@ HEADERS += cpp/QhullSets.h
 HEADERS += cpp/QhullStat.h
 HEADERS += cpp/QhullVertex.h
 HEADERS += cpp/RboxPoints.h
-HEADERS += cpp/UsingQhullLib.h
+HEADERS += cpp/UsingLibQhull.h
 HEADERS += cpp/road/RoadError.h
 HEADERS += cpp/road/RoadLogEvent.h
 
@@ -76,7 +76,7 @@ SOURCES += src/mem.c
 SOURCES += src/merge.c
 SOURCES += src/poly2.c
 SOURCES += src/poly.c
-SOURCES += src/qhulllib.c
+SOURCES += src/libqhull.c
 SOURCES += src/qset.c
 SOURCES += src/random.c
 SOURCES += src/rboxlib.c
@@ -92,7 +92,7 @@ HEADERS += src/merge.h
 HEADERS += src/poly.h
 
 # qhull.h is for backwards compatibility
-HEADERS += src/qhulllib.h
+HEADERS += src/libqhull.h
 HEADERS += src/qhull_a.h
 HEADERS += src/qset.h
 HEADERS += src/random.h

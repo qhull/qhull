@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/qhulltest/QhullFacetSet_test.cpp#7 $$Change: 1047 $
-** $DateTime: 2009/09/12 21:08:23 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/qhulltest/QhullFacetSet_test.cpp#8 $$Change: 1102 $
+** $DateTime: 2009/12/07 20:26:04 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -47,7 +47,7 @@ void QhullFacetSet_test::
 cleanup()
 {
     RoadTest::cleanup();
-    UsingQhullLib::checkQhullMemoryEmpty();
+    UsingLibQhull::checkQhullMemoryEmpty();
 }
 
 void QhullFacetSet_test::

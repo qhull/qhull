@@ -14,4 +14,4 @@ RCC_DIR = ../../tmp/rcc
 INCLUDEPATH = ../../cpp;../../cpp/road;../../tmp
 VPATH = ../..
 SOURCES += src/rbox.c
-HEADERS += src/qhulllib.h
+HEADERS += src/libqhull.h

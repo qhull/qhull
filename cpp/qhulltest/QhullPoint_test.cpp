@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/qhulltest/QhullPoint_test.cpp#9 $$Change: 1058 $
-** $DateTime: 2009/10/29 22:11:06 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/qhulltest/QhullPoint_test.cpp#10 $$Change: 1102 $
+** $DateTime: 2009/12/07 20:26:04 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -55,7 +55,7 @@ add_QhullPoint_test()
 void QhullPoint_test::
 cleanup()
 {
-    UsingQhullLib::checkQhullMemoryEmpty();
+    UsingLibQhull::checkQhullMemoryEmpty();
     RoadTest::cleanup();
 }
 

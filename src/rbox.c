@@ -10,7 +10,7 @@
 */
 
 #include "random.h"
-#include "qhulllib.h"
+#include "libqhull.h"
 
 #include <stdarg.h>
 #include <stdio.h>

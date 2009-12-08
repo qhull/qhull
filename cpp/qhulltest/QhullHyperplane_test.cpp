@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2009-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/qhulltest/QhullHyperplane_test.cpp#5 $$Change: 1057 $
-** $DateTime: 2009/10/22 20:38:42 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/qhulltest/QhullHyperplane_test.cpp#6 $$Change: 1102 $
+** $DateTime: 2009/12/07 20:26:04 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -58,7 +58,7 @@ add_QhullHyperplane_test()
 void QhullHyperplane_test::
 cleanup()
 {
-    UsingQhullLib::checkQhullMemoryEmpty();
+    UsingLibQhull::checkQhullMemoryEmpty();
     RoadTest::cleanup();
 }
 

@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type"
 content="text/html; charset=iso-8859-1">
-<title>qhulllib.c -- top-level functions and basic data types</title>
+<title>libqhull.c -- top-level functions and basic data types</title>
 </head>
 
 <body>
@@ -30,7 +30,7 @@ href="http://www.qhull.org">Home page</a> for Qhull<br>
 </p>
 <hr>
 
-<h2>qhulllib.c -- top-level functions and basic data types</h2>
+<h2>libqhull.c -- top-level functions and basic data types</h2>
 <blockquote>
 <p>Qhull implements the Quickhull algorithm for computing
 the convex hull. The Quickhull algorithm combines two
@@ -38,7 +38,7 @@ well-known algorithms: the 2-d quickhull algorithm and
 the n-d beneath-beyond algorithm. See 
 <a href="../html/index.htm#description">Description of Qhull</a>. </p>
 <p>This section provides an index to the top-level
-functions and base data types.  The top-level header file, <tt>qhulllib.h</tt>,
+functions and base data types.  The top-level header file, <tt>libqhull.h</tt>,
 contains prototypes for these functions.</p>
 </blockquote>
 <p><b>Copyright &copy; 1995-2009 The Geometry Center, Minneapolis MN</b></p>
@@ -50,13 +50,13 @@ contains prototypes for these functions.</p>
 &#149; <b>Qhull</b> &#149; <a href="qh-set.htm#TOC">Set</a>
 &#149; <a href="qh-stat.htm#TOC">Stat</a> &#149; <a href="qh-user.htm#TOC">User</a>
 </p>
-<h3>Index to <a href="qhulllib.c">qhulllib.c</a>,
-<a href="qhulllib.h">qhulllib.h</a>, and 
+<h3>Index to <a href="libqhull.c">libqhull.c</a>,
+<a href="libqhull.h">libqhull.h</a>, and 
 <a href="unix.c">unix.c</a></h3>
 <ul>
-<li><a href="#qtype">qhulllib.h and unix.c data types and
+<li><a href="#qtype">libqhull.h and unix.c data types and
 constants</a> </li>
-<li><a href="#qmacro">qhulllib.h other macros</a> </li>
+<li><a href="#qmacro">libqhull.h other macros</a> </li>
 <li><a href="#qfunc">Quickhull routines in call order</a> </li>
 <li><a href="#qinit">Top-level routines for initializing and terminating Qhull</a></li>
 <li><a href="#qin">Top-level routines for reading and modifying the input</a></li>
@@ -65,22 +65,22 @@ constants</a> </li>
 <li><a href="#qtest">Top-level routines for testing and debugging</a></li>
 </ul>
 
-<h3><a href="qh-qhull.htm#TOC">»</a><a name="qtype">qhulllib.h and unix.c
+<h3><a href="qh-qhull.htm#TOC">»</a><a name="qtype">libqhull.h and unix.c
 data types and constants</a></h3>
 <ul>
-<li><a href="qhulllib.h#flagT">flagT</a> Boolean flag as
+<li><a href="libqhull.h#flagT">flagT</a> Boolean flag as
 a bit </li>
-<li><a href="qhulllib.h#boolT">boolT</a> boolean value,
+<li><a href="libqhull.h#boolT">boolT</a> boolean value,
 either True or False </li>
-<li><a href="qhulllib.h#CENTERtype">CENTERtype</a> to
+<li><a href="libqhull.h#CENTERtype">CENTERtype</a> to
 distinguish facet-&gt;center </li>
-<li><a href="qhulllib.h#qh_PRINT">qh_PRINT</a> output
+<li><a href="libqhull.h#qh_PRINT">qh_PRINT</a> output
 formats for printing (qh.PRINTout) </li>
-<li><a href="qhulllib.h#qh_ALL">qh_ALL</a> argument flag
+<li><a href="libqhull.h#qh_ALL">qh_ALL</a> argument flag
 for selecting everything </li>
-<li><a href="qhulllib.h#qh_ERR">qh_ERR</a> Qhull exit
+<li><a href="libqhull.h#qh_ERR">qh_ERR</a> Qhull exit
 codes for indicating errors </li>
-<li><a href="qhulllib.h#qh_FILEstderr">qh_FILEstderr</a> Fake stderr 
+<li><a href="libqhull.h#qh_FILEstderr">qh_FILEstderr</a> Fake stderr 
 to distinguish error output from normal output [C++ only]</li>
 <li><a href="unix.c#prompt">qh_prompt</a> version and long prompt for Qhull</li>
 <li><a href="unix.c#prompt2">qh_prompt2</a> synopsis for Qhull</li>
@@ -88,7 +88,7 @@ to distinguish error output from normal output [C++ only]</li>
 <li><a href="global.c#qh_version">qh_version</a> version stamp</li>
 </ul>
 
-<h3><a href="qh-qhull.htm#TOC">»</a><a name="qmacro">qhulllib.h other
+<h3><a href="qh-qhull.htm#TOC">»</a><a name="qmacro">libqhull.h other
 macros</a></h3>
 <ul>
 <li><a href="qhull_a.h#traceN">traceN</a> print trace
@@ -101,34 +101,34 @@ routines in call order</a></h3>
 <li><a href="unix.c#main">main</a> processes the
 command line, calls qhull() to do the work, and
 exits </li>
-<li><a href="qhulllib.c#qhull">qh_qhull</a> construct
+<li><a href="libqhull.c#qhull">qh_qhull</a> construct
 the convex hull of a set of points </li>
-<li><a href="qhulllib.c#build_withrestart">qh_build_withrestart</a>
+<li><a href="libqhull.c#build_withrestart">qh_build_withrestart</a>
 allow restarts while calling qh_buildhull</li>
 <li><a href="poly2.c#initbuild">qh_initbuild</a>
 initialize hull and outside sets with point array</li>
-<li><a href="qhulllib.c#partitionall">qh_partitionall</a>
+<li><a href="libqhull.c#partitionall">qh_partitionall</a>
 partition all points into outside sets </li>
-<li><a href="qhulllib.c#buildhull">qh_buildhull</a>
+<li><a href="libqhull.c#buildhull">qh_buildhull</a>
 construct a convex hull by adding points one at a
 time </li>
-<li><a href="qhulllib.c#nextfurthest">qh_nextfurthest</a>
+<li><a href="libqhull.c#nextfurthest">qh_nextfurthest</a>
 return next furthest point for processing </li>
-<li><a href="qhulllib.c#buildtracing">qh_buildtracing</a>
+<li><a href="libqhull.c#buildtracing">qh_buildtracing</a>
 trace an iteration of buildhull </li>
-<li><a href="qhulllib.c#addpoint">qh_addpoint</a> add a
+<li><a href="libqhull.c#addpoint">qh_addpoint</a> add a
 point to the convex hull </li>
-<li><a href="qhulllib.c#findhorizon">qh_findhorizon</a>
+<li><a href="libqhull.c#findhorizon">qh_findhorizon</a>
 find the horizon and visible facets for a point </li>
-<li><a href="qhulllib.c#partitionvisible">qh_partitionvisible</a>
+<li><a href="libqhull.c#partitionvisible">qh_partitionvisible</a>
 partition points from facets in qh.visible_list
 to facets in qh.newfacet_list </li>
-<li><a href="qhulllib.c#partitionpoint">qh_partitionpoint</a>
+<li><a href="libqhull.c#partitionpoint">qh_partitionpoint</a>
 partition a point as inside, coplanar with, or
 outside a facet </li>
-<li><a href="qhulllib.c#partitioncoplanar">qh_partitioncoplanar</a>
+<li><a href="libqhull.c#partitioncoplanar">qh_partitioncoplanar</a>
 partition coplanar point into a facet </li>
-<li><a href="qhulllib.c#precision">qh_precision</a> restart on precision errors if not merging and if 'QJn'</li>
+<li><a href="libqhull.c#precision">qh_precision</a> restart on precision errors if not merging and if 'QJn'</li>
 </ul>
 
 <h3><a href="qh-qhull.htm#TOC">»</a><a name="qinit">Top-level routines for initializing and terminating Qhull (in other modules)</a></h3>
@@ -181,13 +181,13 @@ point </li>
 
 <h3><a href="qh-qhull.htm#TOC">»</a><a name="qcall">Top-level routines for calling Qhull (in other modules)</a></h3>
 <ul>
-<li><a href="qhulllib.c#addpoint">qh_addpoint</a> add
+<li><a href="libqhull.c#addpoint">qh_addpoint</a> add
 point to convex hull </li>
 <li><a href="poly2.c#findbestfacet">qh_findbestfacet</a>
 find facet that is furthest below a point </li>
 <li><a href="poly2.c#findfacet_all">qh_findfacet_all</a>
 exhaustive search for facet below a point </li>
-<li><a href="qhulllib.c#qhull">qh_qhull</a> construct
+<li><a href="libqhull.c#qhull">qh_qhull</a> construct
 the convex hull of a set of points </li>
 </ul>
 
@@ -210,7 +210,7 @@ return vertices (if any) for all points</li>
 print all statistics </li>
 <li><a href="io.c#printneighborhood">qh_printneighborhood</a>
 print neighborhood of one or two facets </li>
-<li><a href="qhulllib.c#printsummary">qh_printsummary</a>
+<li><a href="libqhull.c#printsummary">qh_printsummary</a>
 print summary </li>
 <li><a href="io.c#produce_output">qh_produce_output</a>
 print the results of qh_qhull() </li>
@@ -231,7 +231,7 @@ verify that all points are inside the convex hull
 </li>
 <li><a href="user.c#errexit">qh_errexit</a> report
 error with a facet and a ridge</li>
-<li><a href="qhulllib.c#errexit2">qh_errexit2</a> report
+<li><a href="libqhull.c#errexit2">qh_errexit2</a> report
 error with two facets </li>
 <li><a href="user.c#errprint">qh_errprint</a> print
 erroneous facets, ridge, and vertex </li>

@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2009-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullVertexSet.cpp#4 $$Change: 1087 $
-** $DateTime: 2009/11/22 23:02:55 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullVertexSet.cpp#5 $$Change: 1102 $
+** $DateTime: 2009/12/07 20:26:04 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -30,7 +30,7 @@ QhullVertexSet(int qhRunId, facetT *facetlist, setT *facetset, bool allfacets)
 , qhsettemp_qhull(0)
 , qhsettemp_defined(false)
 {
-    UsingQhullLib q(qhRunId);
+    UsingLibQhull q(qhRunId);
     int exitCode = setjmp(qh errexit);
     if(!exitCode){ // no object creation -- destructors skipped on longjmp()
         setT *vertices= qh_facetvertices(facetlist, facetset, allfacets);
@@ -45,7 +45,7 @@ void QhullVertexSet::
 freeQhSetTemp()
 {
     if(qhsettemp_defined){
-        UsingQhullLib q(qhsettemp_qhull, QhullError::NOthrow);
+        UsingLibQhull q(qhsettemp_qhull, QhullError::NOthrow);
         if(q.defined()){
             int exitCode = setjmp(qh errexit);
             if(!exitCode){ // no object creation -- destructors skipped on longjmp()
@@ -72,7 +72,7 @@ using orgQhull::QhullPoint;
 using orgQhull::QhullVertex;
 using orgQhull::QhullVertexSet;
 using orgQhull::QhullVertexSetIterator;
-using orgQhull::UsingQhullLib;
+using orgQhull::UsingLibQhull;
 
 //! Print Vertex identifiers to stream.  Space prefix.  From qh_printVertexheader [io.c]
 ostream &
@@ -90,7 +90,7 @@ operator<<(ostream &os, const QhullVertexSet::PrintIdentifiers &pr)
 }//<<QhullVertexSet::PrintIdentifiers
 
 //! Duplicate of printvertices [io.c]
-//! If pr.run_id==UsingQhullLib::NOqhRunId, no access to qh [needed for QhullPoint]
+//! If pr.run_id==UsingLibQhull::NOqhRunId, no access to qh [needed for QhullPoint]
 ostream &
 operator<<(ostream &os, const QhullVertexSet::PrintVertexSet &pr){
 

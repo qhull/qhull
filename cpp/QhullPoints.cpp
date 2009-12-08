@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2009-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullPoints.cpp#13 $$Change: 1094 $
-** $DateTime: 2009/11/24 20:04:16 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullPoints.cpp#14 $$Change: 1107 $
+** $DateTime: 2009/12/07 21:05:37 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -134,7 +134,7 @@ indexOf(const QhullPoint &t) const
 {
     int j=0;
     const_iterator i= begin();
-    while(i != end()){
+    while(i!=end()){
         if(*i==t){
             return j;
         }

@@ -8,13 +8,13 @@
    see qh-qhull.htm
 
    copyright (c) 1993-2009 The Geometry Center.
-   $Id: //product/qhull/main/rel/src/unix.c#23 $$Change: 1096 $
-   $DateTime: 2009/12/04 21:52:01 $$Author: bbarber $
+   $Id: //product/qhull/main/rel/src/unix.c#24 $$Change: 1102 $
+   $DateTime: 2009/12/07 20:26:04 $$Author: bbarber $
 */
 
 #include "mem.h"
 #include "qset.h"
-#include "qhulllib.h"
+#include "libqhull.h"
 
 #include <ctype.h>
 #include <math.h>

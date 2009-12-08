@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullFacetSet.h#14 $$Change: 1098 $
-** $DateTime: 2009/12/04 22:47:59 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullFacetSet.h#15 $$Change: 1102 $
+** $DateTime: 2009/12/07 20:26:04 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -87,7 +87,7 @@ public:
 
 #//== Global namespace =========================================
 
-std::ostream &operator<<(std::ostream &os, const orgQhull::QhullFacetSet &fs); // FIXUP no 'const ...PrintFacetSet as below! { os<< fs.print(orgQhull::UsingQhullLib::NOqhRunId, ""); }
+std::ostream &operator<<(std::ostream &os, const orgQhull::QhullFacetSet &fs); // FIXUP no 'const ...PrintFacetSet as below! { os<< fs.print(orgQhull::UsingLibQhull::NOqhRunId, ""); }
 std::ostream &operator<<(std::ostream &os, const orgQhull::QhullFacetSet::PrintFacetSet &pr);
 std::ostream &operator<<(std::ostream &os, const orgQhull::QhullFacetSet::PrintIdentifiers &p);
 

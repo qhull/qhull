@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/qhulltest/qhulltest.cpp#45 $$Change: 1095 $
-** $DateTime: 2009/12/01 22:40:56 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/qhulltest/qhulltest.cpp#47 $$Change: 1107 $
+** $DateTime: 2009/12/07 21:05:37 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -21,7 +21,7 @@ namespace orgQhull {
 
 void addQhullTests(QStringList &args)
 {
-    TESTadd_(add_Qhull_test); //copy
+    TESTadd_(add_QhullPoints_test); //copy
 
     if(args.contains("--all")){
         args.removeAll("--all");
@@ -40,7 +40,7 @@ void addQhullTests(QStringList &args)
         TESTadd_(add_QhullSet_test);
         TESTadd_(add_QhullVertex_test);
         TESTadd_(add_RboxPoints_test);
-        TESTadd_(add_UsingQhullLib_test);
+        TESTadd_(add_UsingLibQhull_test);
         // needs review
         // qhullStat
         TESTadd_(add_Qhull_test);

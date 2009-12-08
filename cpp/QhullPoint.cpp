@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2009-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullPoint.cpp#21 $$Change: 1087 $
-** $DateTime: 2009/11/22 23:02:55 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullPoint.cpp#22 $$Change: 1102 $
+** $DateTime: 2009/12/07 20:26:04 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -10,7 +10,7 @@
 #include <iostream>
 
 #include "QhullPoint.h"
-#include "UsingQhullLib.h"
+#include "UsingLibQhull.h"
 
 #ifdef _MSC_VER  // Microsoft Visual C++ -- warning level 4
 #endif
@@ -23,17 +23,17 @@ namespace orgQhull {
 int QhullPoint::
 id(int qhRunId, int dimension, const coordT *c)
 {
-    if(UsingQhullLib::hasPoints()){
-        if(qhRunId==UsingQhullLib::NOqhRunId){
+    if(UsingLibQhull::hasPoints()){
+        if(qhRunId==UsingLibQhull::NOqhRunId){
             const coordT *pointsEnd;
             int dimension;
-            const coordT *points= UsingQhullLib::globalPoints(&dimension, &pointsEnd);
+            const coordT *points= UsingLibQhull::globalPoints(&dimension, &pointsEnd);
             if(c>=points && c<pointsEnd){
                 int offset= (int)(c-points); // WARN64
                 return offset/dimension;
             }
         }else{
-            UsingQhullLib q(qhRunId);
+            UsingLibQhull q(qhRunId);
             // NOerrors from qh_pointid or qh_setindex
             return qh_pointid(const_cast<coordT *>(c));
         }
@@ -60,7 +60,7 @@ operator==(const QhullPoint &other) const
         double diff= *c++ - *c2++;
         dist2 += diff*diff;
     }
-    double epsilon= UsingQhullLib::globalDistanceEpsilon();
+    double epsilon= UsingLibQhull::globalDistanceEpsilon();
     // std::cout<< "FIXUP dist2 " << dist2 << " epsilon^2 " << epsilon*epsilon << std::endl;
     return (dist2<=(epsilon*epsilon));
 }//operator==
@@ -118,14 +118,14 @@ distance(const QhullPoint &p) const
 
 using std::ostream;
 using orgQhull::QhullPoint;
-using orgQhull::UsingQhullLib;
+using orgQhull::UsingLibQhull;
 
 #//operator<<
 
 ostream &
 operator<<(ostream &os, const QhullPoint &p)
 {
-    os<< p.printWithIdentifier(UsingQhullLib::NOqhRunId, "");
+    os<< p.printWithIdentifier(UsingLibQhull::NOqhRunId, "");
     return os;
 }
 

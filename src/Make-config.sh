@@ -25,7 +25,7 @@ dnl configure.in for the qhull package
 dnl Author: Rafael Laboissiere <rafael@debian.org>
 dnl Created: Mon Dec  3 21:36:21 CET 2001
 
-AC_INIT(src/qhulllib.c)
+AC_INIT(src/libqhull.c)
 AM_INIT_AUTOMAKE(qhull, 2002.1)
 
 AC_PROG_CC
@@ -191,7 +191,7 @@ libqhull_la_SOURCES = \
   geom2.c \
   poly2.c \
   merge.c \
-  qhulllib.c \
+  libqhull.c \
   geom.c \
   poly.c \
   qset.c \
@@ -231,7 +231,7 @@ pkginclude_HEADERS = \
   stat.h \
   io.h \
   merge.h \
-  qhulllib.h  \
+  libqhull.h  \
   qset.h \
   user.h
 

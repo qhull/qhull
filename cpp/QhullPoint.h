@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2009-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullPoint.h#24 $$Change: 1098 $
-** $DateTime: 2009/12/04 22:47:59 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullPoint.h#25 $$Change: 1102 $
+** $DateTime: 2009/12/07 20:26:04 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -11,7 +11,7 @@
 
 #include "QhullError.h"
 #include "QhullIterator.h"
-#include "UsingQhullLib.h"
+#include "UsingLibQhull.h"
 #include "Coordinates.h"
 
 #include <ostream>
@@ -31,11 +31,11 @@ namespace orgQhull {
 class QhullPoint {
 
 #//Class objects
-    //! QhullPoint and UsingQhullLib store QhullQh fields
+    //! QhullPoint and UsingLibQhull store QhullQh fields
 
 #//Class methods -- Convert point to id w/o QhullQh data structure
 public:
-    static int          id(const coordT *c) { return QhullPoint::id(UsingQhullLib::NOqhRunId, 0, c); }
+    static int          id(const coordT *c) { return QhullPoint::id(UsingLibQhull::NOqhRunId, 0, c); }
     static int          id(int qhRunId, const coordT *c) { return QhullPoint::id(qhRunId, 0, c); }
     static int          id(int qhRunId, int dimension, const coordT *c);
 
@@ -81,7 +81,7 @@ public:
     coordT             *coordinates() { return point_coordinates; }
     int		        dimension() const { return point_dimension; }
     int                 id(int qhRunId) const { return id(qhRunId, dimension(), coordinates()); }
-    int                 id() const { return id(UsingQhullLib::NOqhRunId, dimension(), coordinates()); }
+    int                 id() const { return id(UsingLibQhull::NOqhRunId, dimension(), coordinates()); }
     bool                isDefined() const { return point_coordinates!=0 && point_dimension>0; }
 
 #//Define
@@ -118,7 +118,7 @@ public:
         bool            with_identifier;
                         PrintPoint(int qhRunId, const char *message, bool withIdentifier, const QhullPoint &p) : point(&p), point_message(message), run_id(qhRunId), with_identifier(withIdentifier) {} 
     };//PrintPoint
-    PrintPoint          print() const { return  PrintPoint(UsingQhullLib::NOqhRunId, "", false, *this); }
+    PrintPoint          print() const { return  PrintPoint(UsingLibQhull::NOqhRunId, "", false, *this); }
     PrintPoint          print(int qhRunId) const { return PrintPoint(qhRunId, "", true, *this); }
     PrintPoint          print(int qhRunId, const char *message) const { return PrintPoint(qhRunId, message, false, *this); }
     PrintPoint          printWithIdentifier(int qhRunId, const char *message) const { return PrintPoint(qhRunId, message, true, *this); }
@@ -132,7 +132,7 @@ QHULL_DECLARE_SEQUENTIAL_ITERATOR(QhullPoint, coordT)
 #//Global functions
 
 std::ostream &operator<<(std::ostream &os, const orgQhull::QhullPoint::PrintPoint &pr);
-std::ostream &operator<<(std::ostream &os, const orgQhull::QhullPoint &p); // FIXUP OK in c program but not inline { os<< p.print(orgQhull::UsingQhullLib::NOqhRunId, ""); return os; }
+std::ostream &operator<<(std::ostream &os, const orgQhull::QhullPoint &p); // FIXUP OK in c program but not inline { os<< p.print(orgQhull::UsingLibQhull::NOqhRunId, ""); return os; }
 
 #endif // QHPOINT_H
 

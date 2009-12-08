@@ -4,17 +4,17 @@
    io.h 
    declarations of Input/Output functions
 
-   see README, qhulllib.h and io.c
+   see README, libqhull.h and io.c
 
    copyright (c) 1993-2009 The Geometry Center.
-   $Id: //product/qhull/main/rel/src/io.h#21 $$Change: 1099 $
-   $DateTime: 2009/12/04 22:49:19 $$Author: bbarber $
+   $Id: //product/qhull/main/rel/src/io.h#22 $$Change: 1102 $
+   $DateTime: 2009/12/07 20:26:04 $$Author: bbarber $
 */
 
 #ifndef qhDEFio
 #define qhDEFio 1
 
-#include "qhulllib.h"
+#include "libqhull.h"
 
 /*============ constants and flags ==================*/
 

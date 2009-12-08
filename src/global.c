@@ -7,18 +7,18 @@
 
    see README
 
-   see qhulllib.h for qh.globals and function prototypes
+   see libqhull.h for qh.globals and function prototypes
 
    see qhull_a.h for internal functions
 
    copyright (c) 1993-2009 The Geometry Center.
-   $Id: //product/qhull/main/rel/src/global.c#45 $$Change: 1096 $
-   $DateTime: 2009/12/04 21:52:01 $$Author: bbarber $
+   $Id: //product/qhull/main/rel/src/global.c#46 $$Change: 1102 $
+   $DateTime: 2009/12/07 20:26:04 $$Author: bbarber $
  */
 
 #include "qhull_a.h"
 
-/*========= qh definition -- globals defined in qhulllib.h =======================*/
+/*========= qh definition -- globals defined in libqhull.h =======================*/
 
 int qhull_inuse= 0; /* not used */
 
@@ -44,7 +44,7 @@ qhT qh_qh;     		/* all global variables.
     change version: README.txt, qh-get.htm, File_id.diz, Makefile.txt
     change year:    Copying.txt
     check download size
-    recompile user_eg.c, rbox.c, qhulllib.c, qconvex.c, qdelaun.c qvoronoi.c, qhalf.c
+    recompile user_eg.c, rbox.c, libqhull.c, qconvex.c, qdelaun.c qvoronoi.c, qhalf.c
 */
 
 char *qh_version = "2003.1 2003/12/30";
@@ -1881,7 +1881,7 @@ void qh_initqhull_start2(FILE *infile, FILE *outfile, FILE *errfile) {
   qh tracevertex_id= UINT_MAX; /* recompile to trace a vertex */
   seed= (int)time(&timedata);
   qh_RANDOMseed_(seed);
-  qh run_id= qh_RANDOMint+1; /* disallow 0 [UsingQhullLib::NOqhRunId] */
+  qh run_id= qh_RANDOMint+1; /* disallow 0 [UsingLibQhull::NOqhRunId] */
   qh_option("run-id", &qh run_id, NULL);
   strcat(qh qhull, "qhull");
 } /* initqhull_start2 */
@@ -2053,7 +2053,7 @@ void qh_option(char *option, int *i, realT *r) {
     is complicated.  The procedures will be redesigned.
 
   see:
-    qh_save_qhull(), UsingQhullLib
+    qh_save_qhull(), UsingLibQhull
 */
 void qh_restore_qhull(qhT **oldqh) {
 

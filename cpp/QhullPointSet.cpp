@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2009-2009 c-> Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullPointSet.cpp#3 $$Change: 1087 $
-** $DateTime: 2009/11/22 23:02:55 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullPointSet.cpp#4 $$Change: 1102 $
+** $DateTime: 2009/12/07 20:26:04 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -153,14 +153,14 @@ using std::endl;
 using std::ostream;
 using orgQhull::QhullPoint;
 using orgQhull::QhullPointSet;
-using orgQhull::UsingQhullLib;
+using orgQhull::UsingLibQhull;
 
 #//operator<<
 
 ostream & 
 operator<<(ostream &os, const QhullPointSet &ps)
 {
-    os<< ps.print(UsingQhullLib::NOqhRunId); 
+    os<< ps.print(UsingLibQhull::NOqhRunId); 
     return os; 
 }//<<QhullPointSet
 

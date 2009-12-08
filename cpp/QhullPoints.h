@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2009-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullPoints.h#19 $$Change: 1098 $
-** $DateTime: 2009/12/04 22:47:59 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullPoints.h#20 $$Change: 1102 $
+** $DateTime: 2009/12/07 20:26:04 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -201,7 +201,7 @@ public:
         bool            with_identifier;
         PrintPoints(int qhRunId, const char *message, bool withIdentifier, const QhullPoints &ps) : points(&ps), point_message(message), run_id(qhRunId), with_identifier(withIdentifier) {} 
     };//PrintPoints
-    PrintPoints          print() const { return  PrintPoints(UsingQhullLib::NOqhRunId, "", false, *this); }
+    PrintPoints          print() const { return  PrintPoints(UsingLibQhull::NOqhRunId, "", false, *this); }
     PrintPoints          print(int qhRunId) const { return PrintPoints(qhRunId, "", true, *this); }
     PrintPoints          print(int qhRunId, const char *message) const { return PrintPoints(qhRunId, message, false, *this); }
     PrintPoints          printWithIdentifier(int qhRunId, const char *message) const { return PrintPoints(qhRunId, message, true, *this); }

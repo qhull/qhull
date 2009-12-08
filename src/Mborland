@@ -45,7 +45,7 @@ TMPFILE = BCC32tmp.cfg
 OBJS1 =   global.obj random.obj stat.obj geom2.obj poly2.obj io.obj
 OBJS2 =   merge.obj qhull.obj mem.obj qset.obj poly.obj geom.obj
 
-HFILES1 = qhulllib.h stat.h qhull_a.h user.h
+HFILES1 = libqhull.h stat.h qhull_a.h user.h
 
 
 # General rules
@@ -172,16 +172,16 @@ new:      cleanall all
 # Header file dependencies
 
 qhull.obj stat.obj user.obj global.obj: $(HFILES1)
-random.obj:  qhulllib.h random.h
+random.obj:  libqhull.h random.h
 geom.obj geom2.obj:  $(HFILES1) geom.h
 poly.obj poly2.obj:  $(HFILES1) poly.h
 io.obj:     $(HFILES1) io.h
 merge.obj:  $(HFILES1) merge.h
 mem.obj:    mem.h
 qset.obj:   qset.h mem.h
-unix.obj:   qhulllib.h user.h
-qconvex.obj:   qhulllib.h user.h
-qdelaun.obj:   qhulllib.h user.h
-qhalf.obj:   qhulllib.h user.h
-qvoronoi.obj:   qhulllib.h user.h
+unix.obj:   libqhull.h user.h
+qconvex.obj:   libqhull.h user.h
+qdelaun.obj:   libqhull.h user.h
+qhalf.obj:   libqhull.h user.h
+qvoronoi.obj:   libqhull.h user.h
 rbox.obj:   user.h

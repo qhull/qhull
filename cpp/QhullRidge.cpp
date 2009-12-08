@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullRidge.cpp#11 $$Change: 1052 $
-** $DateTime: 2009/09/27 23:20:48 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullRidge.cpp#12 $$Change: 1102 $
+** $DateTime: 2009/12/07 20:26:04 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -52,17 +52,17 @@ using std::endl;
 using std::ostream;
 using orgQhull::QhullRidge;
 using orgQhull::QhullVertex;
-using orgQhull::UsingQhullLib;
+using orgQhull::UsingLibQhull;
 
 ostream &
 operator<<(ostream &os, const QhullRidge &r)
 {      
-    os<< r.print(UsingQhullLib::NOqhRunId); 
+    os<< r.print(UsingLibQhull::NOqhRunId); 
     return os; 
 }//<< QhullRidge
 
 //! Duplicate of qh_printridge [io.c]
-//!  if pr.run_id==UsingQhullLib::NOqhRunId, no access to qh [needed for QhullVertex/QhullPoint]
+//!  if pr.run_id==UsingLibQhull::NOqhRunId, no access to qh [needed for QhullVertex/QhullPoint]
 ostream &
 operator<<(ostream &os, const QhullRidge::PrintRidge &pr)
 { 

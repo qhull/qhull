@@ -13,7 +13,7 @@
 */
 
 #include "random.h"
-#include "qhulllib.h"
+#include "libqhull.h"
 
 #include <ctype.h>
 #include <limits.h>

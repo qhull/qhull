@@ -1,13 +1,13 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/Qhull.cpp#35 $$Change: 1096 $
-** $DateTime: 2009/12/04 21:52:01 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/Qhull.cpp#37 $$Change: 1102 $
+** $DateTime: 2009/12/07 20:26:04 $$Author: bbarber $
 **
 ****************************************************************************/
 
 #//! Qhull -- invoke qhull from C++
-#//! Compile qhulllib and Qhull together due to use of setjmp/longjmp()
+#//! Compile libqhull and Qhull together due to use of setjmp/longjmp()
 
 #include <iostream>
 
@@ -17,7 +17,7 @@
 #include "QhullFacetList.h"
 #include "QhullQh.h"
 #include "RboxPoints.h"
-#include "UsingQhullLib.h"
+#include "UsingLibQhull.h"
 
 extern "C" {
     #include "../src/qhull_a.h"
@@ -44,7 +44,7 @@ char s_not_output_options[]= " Fd TI A C d E H P Qb QbB Qbb Qc Qf Qg Qi Qm QJ Qr
 Qhull::
 Qhull()
 : qhull_qh(0)
-, qhull_run_id(UsingQhullLib::NOqhRunId)
+, qhull_run_id(UsingLibQhull::NOqhRunId)
 , origin_point()
 , qhull_status(qh_ERRnone)
 , qhull_dimension(0)
@@ -62,7 +62,7 @@ Qhull()
 Qhull::
 Qhull(const RboxPoints &points, const char *qhullCommand)
 : qhull_qh(0)
-, qhull_run_id(UsingQhullLib::NOqhRunId)
+, qhull_run_id(UsingLibQhull::NOqhRunId)
 , origin_point()
 , qhull_status(qh_ERRnone)
 , qhull_dimension(0)
@@ -81,7 +81,7 @@ Qhull(const RboxPoints &points, const char *qhullCommand)
 Qhull::
 Qhull(const char *rboxCommand, int pointDimension, int pointCount, const realT *points, const char *qhullCommand)
 : qhull_qh(0)
-, qhull_run_id(UsingQhullLib::NOqhRunId)
+, qhull_run_id(UsingLibQhull::NOqhRunId)
 , origin_point()
 , qhull_status(qh_ERRnone)
 , qhull_dimension(0)
@@ -119,8 +119,8 @@ initializeQhull()
 Qhull::
 ~Qhull() throw()
 {
-    //! UsingQhullLib is required by ~QhullQh
-    UsingQhullLib q(this, QhullError::NOthrow);
+    //! UsingLibQhull is required by ~QhullQh
+    UsingLibQhull q(this, QhullError::NOthrow);
     if(q.defined()){
         int exitCode = setjmp(qh errexit);
         if(!exitCode){ // no object creation -- destructors skipped on longjmp()
@@ -132,16 +132,17 @@ Qhull::
             qhull_qh->~QhullQh();
             qhull_qh= 0;
 #endif        
-            qhull_run_id= UsingQhullLib::NOqhRunId;
+            qhull_run_id= UsingLibQhull::NOqhRunId;
             // Except for cerr, does not throw errors
             if(hasQhullMessage()){
+                cerr<< "\nQhull output at end\n";
                 cerr<<qhullMessage();  //FIXUP: where should error and log messages go on ~Qhull?  
                 clearQhullMessage();
             }
         }
         maybeThrowQhullMessage(exitCode, QhullError::NOthrow);
     }
-    s_qhull_output= 0; // Set by UsingQhullLib
+    s_qhull_output= 0; // Set by UsingLibQhull
 }//~Qhull
 
 #//Messaging
@@ -212,7 +213,7 @@ setOutputStream(ostream *os)
 int Qhull::
 runId()
 { 
-    UsingQhullLib u(this);
+    UsingLibQhull u(this);
     QHULL_UNUSED(u);
 
     return qhull_run_id; 
@@ -223,7 +224,7 @@ runId()
 
 double Qhull::
 area(){
-    UsingQhullLib q(this);
+    UsingLibQhull q(this);
     qhull_qh->checkIfQhullRan();
     if(!qh hasAreaVolume){
         int exitCode = setjmp(qh errexit);
@@ -237,7 +238,7 @@ area(){
 
 double Qhull::
 volume(){
-    UsingQhullLib q(this);
+    UsingLibQhull q(this);
     qhull_qh->checkIfQhullRan();
     if(!qh hasAreaVolume){
         int exitCode = setjmp(qh errexit);
@@ -271,7 +272,7 @@ vertexList() const{
 void Qhull::
 outputQhull()
 {
-    UsingQhullLib q(this);
+    UsingLibQhull q(this);
     qhull_qh->checkIfQhullRan();
     int exitCode = setjmp(qh errexit);
     if(!exitCode){ // no object creation -- destructors skipped on longjmp()
@@ -283,7 +284,7 @@ outputQhull()
 void Qhull::
 outputQhull(const char *outputflags)
 {
-    UsingQhullLib q(this);
+    UsingLibQhull q(this);
     qhull_qh->checkIfQhullRan();
     string cmd(" "); // qh_checkflags skips first word
     cmd += outputflags;
@@ -332,7 +333,7 @@ runQhull(const char *rboxCommand, int pointDimension, int pointCount, const real
     string s("qhull ");	
     s += qhullCommand;
     char *command= const_cast<char*>(s.c_str());
-    UsingQhullLib q(this);
+    UsingLibQhull q(this);
     int exitCode = setjmp(qh errexit);
     if(!exitCode){ // no object creation -- destructors skipped on longjmp()
         qh_checkflags(command, s_unsupported_options);
@@ -430,7 +431,7 @@ maybeThrowQhullMessage(int exitCode, int noThrow)  throw()
     s_qhull_output == Qhull
 
 notes:
-    only called from qhulllib
+    only called from libqhull
     same as fprintf() and RboxPoints::qh_fprintf_rbox()
     fgets() is not trapped like fprintf()
     Do not throw errors from here.  Use qh_errexit;
@@ -442,7 +443,7 @@ void qh_fprintf(FILE *fp, int msgcode, const char *fmt, ... ) {
     using namespace orgQhull;
 
     if(!s_qhull_output){
-        fprintf(stderr, "QH10025 Qhull error: UsingQhullLib not declared prior to calling qh_...().  s_qhull_output==NULL.\n"); 
+        fprintf(stderr, "QH10025 Qhull error: UsingLibQhull not declared prior to calling qh_...().  s_qhull_output==NULL.\n"); 
         qh_exit(10025);
     }
     Qhull *out= s_qhull_output;

@@ -43,8 +43,8 @@ Qhull cpp questions
  - change qh_printf() to a virtual function
  - Figure out RoadError::global_log.  clearQhullMessage currently clearGlobalLog
  - Should cout << !point.defined() be blank or 'undefined'
- - Interface for UsingQhullLib::globalAngleEpsilon(), globalDistanceEpsilon, etc.
- - Interface for UsingQhullLib::globalDimension
+ - Interface for UsingLibQhull::globalAngleEpsilon(), globalDistanceEpsilon, etc.
+ - Interface for UsingLibQhull::globalDimension
  - Infinite point as !defined()
  - qlist and qlinkedlist define pointer, reference, size_type, difference_type, const_pointer, const_reference for the class but not for iterator and const_iterator
 
@@ -71,8 +71,7 @@ To do
  - Redo Coordinates w/o vector<>
  - Change #include to specific -> general
  - Remove class-static code, check K_GLOBAL_STATIC
- - Rename rboxlib and qhulllib to librbox and libqhull
-   user_eg3 rbox 10 qhull does nothing
+ - Rename libqhull to libqhull  libqhull.h UsingLibQhull etc.
    ConvexHull is a submodule to git.  How to get rid of?
 
 qhull 2009.1  2008/03/20
@@ -153,7 +152,7 @@ qhull 2009.1  2008/03/20
  - Add sln and vcproj files for building Qhull -- add to README notes
  - Removed extra spaces at end of line
  - Fixed warnings at VC8, level 4
- - In qhulllib.c, added explicit casts from long to float,  Avoids warning
+ - In libqhull.c, added explicit casts from long to float,  Avoids warning
  - In global.c, cast time() to int for QRandom-seed.  Avoids warning
  - Replaced exit, malloc, free, fprintf, and fputs with qh_malloc,...[J.W. Ratcliff]
  - Added qh_fprintf, qh_malloc, qh_free, ph_printhelp_narrowhull to user.c
@@ -243,7 +242,7 @@ Bug fixes:
  - Fixed sign of coefficients for cdd halfspaces ('FD','Fd')  [T. Abraham]
 
 Changes to code:
- - Replace qh_version with qh_VERSION in qhulllib.h.
+ - Replace qh_version with qh_VERSION in libqhull.h.
    Allows shared libraries and single point of definition
  - Added qh.TESTpoints for future implementation of tsearch
 
@@ -332,7 +331,7 @@ Changes to documentation
  - Removed unnecessary #TOP links
  - Added source links to the qh-quick.htm's header and footer
  - qh-geom.htm, qh-poly.htm: add links to Voronoi functions in io.c
- - src/index.htm: Added how to search qhulllib.h for qhull options
+ - src/index.htm: Added how to search libqhull.h for qhull options
  - qvoronoi.htm/qdelaun.htm: 'Fc' and 'FN' includes deleted vertices
 
 Changes to URLs
@@ -546,7 +545,7 @@ qhull 2.5 1998/1/28
  - add unpacking instructions to README.txt
  - updated discussion of forced output, 'Po'
  - sorted the options alphabetically
- - removed __STDC__ check from qhulllib.h for VisualC++
+ - removed __STDC__ check from libqhull.h for VisualC++
  - moved qh_markvoronoi from qh_printvoronoi and cleared facet->seen flags
  - added facet->seen2 flag for 'Fv'
 
@@ -608,7 +607,7 @@ Changes for the Qhull library
  - added header to user_eg.c to avoid its incorporation into qhull [C. Begnis]
  - added qh_nearcoplanar() calls to user_eg.c
      only needed if use 'QJ'
- - expanded __STDC__ warning message in qhulllib.h [C. Begnis]
+ - expanded __STDC__ warning message in libqhull.h [C. Begnis]
  - renamed qh maxmaxcoord to qh MAXabs_coord
  - replaced qh MAXlowcoord with qh MAXabs_coord
  - random seed ('QR-n') is reset in qh_initqhull_globals after testing
@@ -922,7 +921,7 @@ qhull V2.1 95/9/25
 
  other documentation changes:
  - new URLs for graphics images
- - fixed comment for facetT.neighbors in qhulllib.h [P. Soikkonen]
+ - fixed comment for facetT.neighbors in libqhull.h [P. Soikkonen]
  - changed recommendations for precision errors in qh_printhelp_degenerate()
  -  added recommendation for 'V0' (facet is visible if distance >= 0)
  - added note about 'long double' to user.h [S. Grundmann]
@@ -1045,8 +1044,8 @@ qhull V2.1 beta 5/15/95
   - forcing output on error ('Po') fixed for options 'n' 'o' 'i' 's'
   - fixed optimization error on HP machines [fprintf(... *p++)]
 
-                ======== changes to qhulllib.h for user code =======
-  - qh_collectstatistics and qh_printstatistics removed from qhulllib.h.
+                ======== changes to libqhull.h for user code =======
+  - qh_collectstatistics and qh_printstatistics removed from libqhull.h.
       should use qh_printallstatistics instead
   - qh_findbest uses boolT for newfacets
   - added qh_findbestnew for non-simplicial facets.  qh_findbest is
@@ -1188,7 +1187,7 @@ Converting from qhull 1.01 to qhull 2.00
   - 'qhull f' is now 'qhull Qf'
   - 'qhull o' is now 'qhull Po'
   - 'qhull b' is now always done
-  - qhull and rbox now use floats, change REALfloat in qhulllib.h for doubles
+  - qhull and rbox now use floats, change REALfloat in libqhull.h for doubles
   - qhull 2.00 fixes several initialization errors and performanace errors
         e.g., "singular input" on data with lots of 0 coordinates
   - 'rbox b' is now 'rbox c G0.48'

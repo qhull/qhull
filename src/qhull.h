@@ -3,16 +3,16 @@
 
    qhull.h
 
-   Proxy for qhulllib.h for backwards compatability
+   Proxy for libqhull.h for backwards compatability
 
    copyright (c) 1993-2009 The Geometry Center.
-   $Id: //product/qhull/main/rel/src/qhull.h#48 $$Change: 1087 $
-   $DateTime: 2009/11/22 23:02:55 $$Author: bbarber $
+   $Id: //product/qhull/main/rel/src/qhull.h#49 $$Change: 1102 $
+   $DateTime: 2009/12/07 20:26:04 $$Author: bbarber $
 */
 
 #ifndef qhDEFqhull
 #define qhDEFqhull 1
 
-#include "qhulllib.h
+#include "libqhull.h
 
 #endif /* qhDEFqhull */

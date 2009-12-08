@@ -1,14 +1,14 @@
 /*<html><pre>  -<a                             href="qh-qhull.htm"
   >-------------------------------</a><a name="TOP">-</a>
 
-   qhulllib.h
+   libqhull.h
    user-level header file for using qhull.a library
 
    see qh-qhull.htm, qhull_a.h
 
    copyright (c) 1993-2009 The Geometry Center.
-   $Id: //product/qhull/main/rel/src/qhulllib.h#8 $$Change: 1096 $
-   $DateTime: 2009/12/04 21:52:01 $$Author: bbarber $
+   $Id: //product/qhull/main/rel/src/libqhull.h#1 $$Change: 1107 $
+   $DateTime: 2009/12/07 21:05:37 $$Author: bbarber $
 
    NOTE: access to qh_qh is via the 'qh' macro.  This allows
    qh_qh to be either a pointer or a structure.  An example
@@ -16,18 +16,18 @@
    field of qh_qh.  Similarly, access to qh_qhstat is via
    the 'qhstat' macro.
 
-   includes function prototypes for qhulllib.c, geom.c, global.c, io.c, user.c
+   includes function prototypes for libqhull.c, geom.c, global.c, io.c, user.c
 
    use mem.h for mem.c
    use qset.h for qset.c
 
-   see unix.c for an example of using qhulllib.h
+   see unix.c for an example of using libqhull.h
 
    recompile qhull if you change this file
 */
 
-#ifndef qhDEFqhulllib
-#define qhDEFqhulllib 1
+#ifndef qhDEFlibqhull
+#define qhDEFlibqhull 1
 
 /*=========================== -included files ==============*/
 
@@ -49,7 +49,7 @@
 #if     !_MSC_VER
 #error  Neither __STDC__ nor __cplusplus is defined.  Please use strict ANSI C or C++ to compile
 #error  Qhull.  You may need to turn off compiler extensions in your project configuration.  If
-#error  your compiler is a standard C compiler, you can delete this warning from qhulllib.h
+#error  your compiler is a standard C compiler, you can delete this warning from libqhull.h
 #endif
 #endif
 #endif
@@ -755,7 +755,7 @@ struct qhT {
   realT last_newhigh;
   unsigned lastreport;    /* for qh_buildtracing */
   int mergereport;        /* for qh_tracemerging */
-  void *old_qhstat;       /* for saving qh_qhstat in save_qhull() and UsingQhullLib.  Free with qh_free() */
+  void *old_qhstat;       /* for saving qh_qhstat in save_qhull() and UsingLibQhull.  Free with qh_free() */
   setT *old_tempstack;    /* for saving qhmem.tempstack in save_qhull */
   int   ridgeoutnum;      /* number of ridges for 4OFF output (qh_printbegin,etc) */
 };
@@ -985,7 +985,7 @@ struct qhT {
  */
 #define FOREACHvertex_i_(vertices) FOREACHsetelement_i_(vertexT, vertices,vertex)
 
-/********* -qhulllib.c prototypes (duplicated from qhull_a.h) **********************/
+/********* -libqhull.c prototypes (duplicated from qhull_a.h) **********************/
 
 void    qh_qhull(void);
 boolT   qh_addpoint(pointT *furthest, facetT *facet, boolT checkdist);
@@ -1091,4 +1091,4 @@ void    qh_errexit_rbox(int exitcode);
 void    qh_collectstatistics(void);
 void    qh_printallstatistics(FILE *fp, char *string);
 
-#endif /* qhDEFqhulllib */
+#endif /* qhDEFlibqhull */

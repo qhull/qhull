@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/qhulltest/QhullFacet_test.cpp#25 $$Change: 1061 $
-** $DateTime: 2009/11/07 17:14:02 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/qhulltest/QhullFacet_test.cpp#26 $$Change: 1102 $
+** $DateTime: 2009/12/07 20:26:04 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -52,7 +52,7 @@ add_QhullFacet_test()
 void QhullFacet_test::
 cleanup()
 {
-    UsingQhullLib::checkQhullMemoryEmpty();
+    UsingLibQhull::checkQhullMemoryEmpty();
     RoadTest::cleanup();
 }
 
@@ -166,7 +166,7 @@ t_getSet()
             if(f.isGood()){
                 QhullPoint p= f.voronoiVertex(q3.runId());
                 cout << p.print(q3.runId(), "Voronoi vertex: ")
-                    << " DistanceEpsilon " << UsingQhullLib::globalDistanceEpsilon() << endl;
+                    << " DistanceEpsilon " << UsingLibQhull::globalDistanceEpsilon() << endl;
                 QCOMPARE(p, q3.origin());
             }
         }

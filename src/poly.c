@@ -4,14 +4,14 @@
    poly.c 
    implements polygons and simplices
 
-   see qh-poly.htm, poly.h and qhulllib.h
+   see qh-poly.htm, poly.h and libqhull.h
 
    infrequent code is in poly2.c 
    (all but top 50 and their callers 12/3/95)
 
    copyright (c) 1993-2009 The Geometry Center.
-   $Id: //product/qhull/main/rel/src/poly.c#20 $$Change: 1095 $
-   $DateTime: 2009/12/01 22:40:56 $$Author: bbarber $
+   $Id: //product/qhull/main/rel/src/poly.c#21 $$Change: 1102 $
+   $DateTime: 2009/12/07 20:26:04 $$Author: bbarber $
 */
 
 #include "qhull_a.h"

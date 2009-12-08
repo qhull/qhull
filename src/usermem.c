@@ -10,7 +10,7 @@
    If you recompile and load this file, then usermem.o will not be loaded
    from qhull.a or qhull.lib
 
-   See qhulllib.h for data structures, macros, and user-callable functions.
+   See libqhull.h for data structures, macros, and user-callable functions.
    See user.c for qhull-related, redefinable functions
    see user.h for user-definable constants
    See userprintf.c for qh_fprintf and qh_fprintf_rbox
@@ -18,7 +18,7 @@
    Please report any errors that you fix to qhull@qhull.org
 */
 
-#include "qhulllib.h" 
+#include "libqhull.h" 
 
 #include <stdlib.h>
 

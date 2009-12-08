@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/qhulltest/Qhull_test.cpp#30 $$Change: 1095 $
-** $DateTime: 2009/12/01 22:40:56 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/qhulltest/Qhull_test.cpp#32 $$Change: 1102 $
+** $DateTime: 2009/12/07 20:26:04 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -49,7 +49,7 @@ add_Qhull_test()
 void Qhull_test::
 cleanup()
 {
-    UsingQhullLib::checkQhullMemoryEmpty();
+    UsingLibQhull::checkQhullMemoryEmpty();
     RoadTest::cleanup();
 }
 
@@ -135,10 +135,11 @@ t_message()
         }catch (const std::exception &e) {
             const char *s= e.what();
             cout<< "INFO   : Caught " << s; 
-            QVERIFY(!q.hasQhullMessage()); // Removed when copied to QhullError
-            // QCOMPARE(q.qhullMessage(), QString::fromStdString(s).remove(0, 7));
             QCOMPARE(QString::fromStdString(s).left(6), QString("QH6029"));
-            QCOMPARE(q.qhullStatus(), 6029);
+            // Cleared when copied to QhullError
+            QVERIFY(!q.hasQhullMessage()); 
+            // QCOMPARE(q.qhullMessage(), QString::fromStdString(s).remove(0, 7));
+            // QCOMPARE(q.qhullStatus(), 6029);
             q.clearQhullMessage();  // FIXUP -- review decision to clearQhullMessage at QhullError()
             QVERIFY(!q.hasQhullMessage());
         }
@@ -161,10 +162,11 @@ t_message()
             QFAIL("runQhull Fd did not fail.");
         }catch (const QhullError &e) {
             cout<< "INFO   : Caught " << e; 
+            QCOMPARE(e.errorCode(), 6029);
         }
-        QVERIFY(q.hasQhullMessage()); 
-        QCOMPARE(QString::fromStdString(q.qhullMessage()).left(17), QString("qhull: no message"));
-        QCOMPARE(q.qhullStatus(), 6029);
+        //FIXUP Qhullmessage cleared when QhullError thrown.  Switched to e
+        //QVERIFY(q.hasQhullMessage()); 
+        //QCOMPARE(QString::fromStdString(q.qhullMessage()).left(6), QString("QH6029"));
         q.clearQhullMessage();
         QVERIFY(!q.hasQhullMessage());
     }
@@ -179,10 +181,12 @@ t_message()
         }catch (const std::exception &e) {
             const char *s= e.what();
             cout<< "INFO   : Caught " << s; 
+            QCOMPARE(QString::fromAscii(s).left(6), QString("QH6023"));
         }
-        QVERIFY(q.hasQhullMessage()); 
-        QCOMPARE(QString::fromStdString(q.qhullMessage()).left(17), QString("qhull: no message"));
-        QCOMPARE(q.qhullStatus(), 6023);
+        //FIXUP Qhullmessage cleared when QhullError thrown.  Switched to e
+        //QVERIFY(q.hasQhullMessage()); 
+        //QCOMPARE(QString::fromStdString(q.qhullMessage()).left(17), QString("qhull: no message"));
+        //QCOMPARE(q.qhullStatus(), 6023);
         q.clearQhullMessage();
         QVERIFY(!q.hasQhullMessage());
     }
@@ -197,10 +201,12 @@ t_message()
         }catch (const std::exception &e) {
             const char *s= e.what();
             cout<< "INFO   : Caught " << s; 
+            QCOMPARE(QString::fromAscii(s).left(6), QString("QH6029"));
         }
-        QVERIFY(q.hasQhullMessage()); 
-        QCOMPARE(QString::fromStdString(q.qhullMessage()).left(9), QString("qhull err"));
-        QCOMPARE(q.qhullStatus(), 6029);
+        //FIXUP Qhullmessage cleared when QhullError thrown.  Switched to e
+        //QVERIFY(q.hasQhullMessage()); 
+        //QCOMPARE(QString::fromStdString(q.qhullMessage()).left(9), QString("qhull err"));
+        //QCOMPARE(q.qhullStatus(), 6029);
         q.clearQhullMessage();
         QVERIFY(!q.hasQhullMessage());
     }
@@ -229,8 +235,8 @@ t_getSet()
         q.setOutputStream(&cout);
         q.outputQhull();
     }
-    // qhullQh -- UsingQhullLib [Qhull.cpp]
-    // runId -- UsingQhullLib [Qhull.cpp]
+    // qhullQh -- UsingLibQhull [Qhull.cpp]
+    // runId -- UsingLibQhull [Qhull.cpp]
 }//t_getSet
 
 void Qhull_test::
@@ -244,7 +250,7 @@ t_getQh()
         QCOMPARE(QString(q.rboxCommand()), QString("rbox \"c\""));
         QCOMPARE(q.facetCount(), 6);
         QCOMPARE(q.vertexCount(), 8);
-        // Sample fields from Qhull's qhT [qhulllib.h]
+        // Sample fields from Qhull's qhT [libqhull.h]
         QCOMPARE(q.qhullQh()->ALLpoints, 0u);
         QCOMPARE(q.qhullQh()->GOODpoint, 0);
         QCOMPARE(q.qhullQh()->IStracing, 0);

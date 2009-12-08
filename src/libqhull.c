@@ -1,18 +1,18 @@
 /*<html><pre>  -<a                             href="qh-qhull.htm"
   >-------------------------------</a><a name="TOP">-</a>
 
-   qhulllib.c
+   libqhull.c
    Quickhull algorithm for convex hulls
 
    qhull() and top-level routines
 
-   see qh-qhull.htm, qhulllib.h, unix.c
+   see qh-qhull.htm, libqhull.h, unix.c
 
    see qhull_a.h for internal functions
 
    copyright (c) 1993-2009 The Geometry Center.
-   $Id: //product/qhull/main/rel/src/qhulllib.c#3 $$Change: 1095 $
-   $DateTime: 2009/12/01 22:40:56 $$Author: bbarber $        
+   $Id: //product/qhull/main/rel/src/libqhull.c#1 $$Change: 1107 $
+   $DateTime: 2009/12/07 21:05:37 $$Author: bbarber $        
 */
 
 #include "qhull_a.h" 

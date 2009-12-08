@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (p) 2009-2009 p. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/qhulltest/QhullPoints_test.cpp#11 $$Change: 1095 $
-** $DateTime: 2009/12/01 22:40:56 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/qhulltest/QhullPoints_test.cpp#13 $$Change: 1107 $
+** $DateTime: 2009/12/07 21:05:37 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -48,7 +48,7 @@ add_QhullPoints_test()
 void QhullPoints_test::
 cleanup()
 {
-    UsingQhullLib::checkQhullMemoryEmpty();
+    UsingLibQhull::checkQhullMemoryEmpty();
     RoadTest::cleanup();
 }
 
@@ -377,7 +377,7 @@ t_search()
     QCOMPARE(ps.count(p4), 0);
     QCOMPARE(ps.count(p6), 1);
     QCOMPARE(ps.indexOf(&ps[0][0]), 0);
-    QCOMPARE(ps.indexOf(ps.end()), -1);
+    //QCOMPARE(ps.indexOf(ps.end()), -1); //ps.end() is a QhullPoint which may match
     QCOMPARE(ps.indexOf(0), -1);
     QCOMPARE(ps.indexOf(&ps[3][0]), 3);
     QCOMPARE(ps.indexOf(&ps[3][1], QhullError::NOthrow), 3);

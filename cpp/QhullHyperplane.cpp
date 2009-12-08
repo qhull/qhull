@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2009-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullHyperplane.cpp#4 $$Change: 1087 $
-** $DateTime: 2009/11/22 23:02:55 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullHyperplane.cpp#5 $$Change: 1102 $
+** $DateTime: 2009/12/07 20:26:04 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -82,7 +82,7 @@ operator==(const QhullHyperplane &other) const
         return false;
     }
     double d= abs(hyperplane_offset-other.hyperplane_offset);
-    if(d>UsingQhullLib::globalDistanceEpsilon()){
+    if(d>UsingLibQhull::globalDistanceEpsilon()){
         return false;
     }
     const coordT *c= hyperplane_coordinates;
@@ -95,7 +95,7 @@ operator==(const QhullHyperplane &other) const
         double diff= *c++ - *c2++;
         dist2 += diff*diff;
     }
-    if(dist2 > UsingQhullLib::globalAngleEpsilon()){
+    if(dist2 > UsingLibQhull::globalAngleEpsilon()){
         return false;
     }
     return true;
@@ -109,7 +109,7 @@ operator==(const QhullHyperplane &other) const
 
 using std::ostream;
 using orgQhull::QhullHyperplane;
-using orgQhull::UsingQhullLib;
+using orgQhull::UsingLibQhull;
 
 #//operator<<
 

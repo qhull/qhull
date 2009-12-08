@@ -6,7 +6,7 @@
      argc/argv conversion
 */
 
-#include "qhulllib.h"
+#include "libqhull.h"
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>

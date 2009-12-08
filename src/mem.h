@@ -12,8 +12,8 @@
      qh_errexit(qhmem_ERRqhull, NULL, NULL) otherwise
 
    copyright (c) 1993-2009 The Geometry Center.
-   $Id: //product/qhull/main/rel/src/mem.h#21 $$Change: 1099 $
-   $DateTime: 2009/12/04 22:49:19 $$Author: bbarber $
+   $Id: //product/qhull/main/rel/src/mem.h#22 $$Change: 1102 $
+   $DateTime: 2009/12/07 20:26:04 $$Author: bbarber $
 */
 
 #ifndef qhDEFmem
@@ -59,8 +59,8 @@ Trace short and quick memory allocations at T5
    see <a href="user.h#MEMalign">qh_MEMalign</a> in user.h for qhull's alignment
 */
 
-#define qhmem_ERRmem 4    /* matches qh_ERRmem in qhulllib.h */
-#define qhmem_ERRqhull 5  /* matches qh_ERRqhull in qhulllib.h */
+#define qhmem_ERRmem 4    /* matches qh_ERRmem in libqhull.h */
+#define qhmem_ERRqhull 5  /* matches qh_ERRqhull in libqhull.h */
 
 /*-<a                             href="qh-mem.htm#TOC"
   >--------------------------------</a><a name="ptr_intT">-</a>

@@ -69,10 +69,10 @@ When reading code with an editor, a search for
 will locate the header of <i>qh_procedure</i>.  A search for <i>* procedure</i>
 will locate the tail of <i>qh_procedure</i>.
 
-<p>A useful starting point is <a href="qhulllib.h">qhulllib.h</a>.  It defines most
+<p>A useful starting point is <a href="libqhull.h">libqhull.h</a>.  It defines most
 of Qhull data structures and top-level functions.  Search for <i>'PFn'</i> to
 determine the corresponding constant in Qhull.  Search for <i>'Fp'</i> to
-determine the corresponding <a href="qhulllib.h#qh_PRINT">qh_PRINT...</a> constant.
+determine the corresponding <a href="libqhull.h#qh_PRINT">qh_PRINT...</a> constant.
 Search <a href="io.c">io.c</a> to learn how the print function is implemented.</p>
 
 <p>If your web browser loads .c and .h files with an external application,
@@ -98,7 +98,7 @@ refer to these files for detailed information.</p>
 <blockquote>
 
 <dl>
-<dt><a href="qhulllib.h"><b>qhulllib.h</b></a> </dt>
+<dt><a href="libqhull.h"><b>libqhull.h</b></a> </dt>
 <dd>Include file for the Qhull library, <tt>qhull.a</tt>.
 Data structures are documented under <a href="qh-poly.htm">Poly</a>.
 Global variables are documented under <a href="qh-globa.htm">Global</a>.
@@ -121,7 +121,7 @@ in <tt>geom.c</tt> while infrequent ones are in <tt>geom2.c</tt>.
 <dt>&nbsp;</dt>
 <dt><a href="qh-globa.htm"><b>Global</b></a><b>, </b>
 <a href="global.c"><b>global.c</b></a><b>, </b>
-<a href="qhulllib.h"><b>qhulllib.h</b></a> </dt>
+<a href="libqhull.h"><b>libqhull.h</b></a> </dt>
 <dd>Global routines. Qhull uses a global data structure, <tt>qh</tt>,
 to store globally defined constants, lists, sets, and
 variables.   
@@ -155,7 +155,7 @@ rename redundant vertices.</dd>
 <a href="poly.h"><b>poly.h</b></a><b>, </b>
 <a href="poly.c"><b>poly.c</b></a><b>, </b>
 <a href="poly2.c"><b>poly2.c</b></a><b>, </b>
-<a href="qhulllib.h"><b>qhulllib.h</b></a> </dt>
+<a href="libqhull.h"><b>libqhull.h</b></a> </dt>
 <dd>Polyhedral routines. Qhull produces a polyhedron as a
 list of facets with vertices, neighbors, ridges, and
 geometric information. <tt>Qhull.h</tt> defines the main
@@ -164,8 +164,8 @@ while infrequent ones are in <tt>poly2.c</tt>.</dd>
 
 <dt>&nbsp;</dt>
 <dt><a href="qh-qhull.htm#TOC"><b>Qhull</b></a><b>, </b>
-<a href="qhulllib.c"><b>qhulllib.c</b></a><b>, </b>
-<a href="qhulllib.h"><b>qhulllib.h</b></a><b>, </b>
+<a href="libqhull.c"><b>libqhull.c</b></a><b>, </b>
+<a href="libqhull.h"><b>libqhull.h</b></a><b>, </b>
 <a href="qhull_a.h"><b>qhull_a.h</b></a><b>, </b>
 <a href="unix.c"><b>unix.c</b></a> <b>, </b>
 <a href="qconvex.c"><b>qconvex.c</b></a> <b>, </b>
@@ -173,7 +173,7 @@ while infrequent ones are in <tt>poly2.c</tt>.</dd>
 <a href="qhalf.c"><b>qhalf.c</b></a> <b>, </b>
 <a href="qvoronoi.c"><b>qvoronoi.c</b></a> </dt>
 <dd>Top-level routines. The Quickhull algorithm is
-implemented by <tt>qhulllib.c</tt>. <tt>qhull_a.h</tt>
+implemented by <tt>libqhull.c</tt>. <tt>qhull_a.h</tt>
 includes all header files. </dd>
 
 <dt>&nbsp;</dt>

@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullFacetSet.cpp#15 $$Change: 1087 $
-** $DateTime: 2009/11/22 23:02:55 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullFacetSet.cpp#16 $$Change: 1102 $
+** $DateTime: 2009/12/07 20:26:04 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -81,12 +81,12 @@ using std::endl;
 using std::ostream;
 using orgQhull::QhullFacet;
 using orgQhull::QhullFacetSet;
-using orgQhull::UsingQhullLib;
+using orgQhull::UsingLibQhull;
 
 ostream &
 operator<<(ostream &os, const QhullFacetSet &fs)
 {
-    os<< fs.print(UsingQhullLib::NOqhRunId, "");
+    os<< fs.print(UsingLibQhull::NOqhRunId, "");
     return os;
 }//<<QhullFacetSet
 

@@ -38,6 +38,8 @@ user_eg3 -- demonstrate calling rbox and qhull from C++.\n\
   qhull-cout \"o\" ...         Run qhull and produce output to cout\n\
 \n\
 For example\n\
+  user_eg3 rbox qhull\n\
+  user_eg3 rbox qhull d\n\
   user_eg3 rbox \"10 D2\"  \"2 D2\" qhull  \"s p\"\n\
 \n\
 ";
@@ -125,13 +127,23 @@ int user_eg3(int argc, char **argv)
     if(readingRbox){
         cout<< rbox;
         return 0;
-    }else if(qhull.useOutputStream){
-        return 0;
-    }else{
-        QhullFacetList facets= qhull.facetList();
-        cout<< "\nFacets created by Qhull::runQhull()\n" << facets;
     }
+    if(readingQhull==1){ // e.g., rbox 10 qhull
+        if(rbox.isEmpty()){
+            rbox.appendPoints("10 D2");
+        }
+        qhull.runQhull(rbox, "");
+        qhull.outputQhull();
+        if(qhull.hasQhullMessage()){
+            cerr << "\nResults of qhull\n" << qhull.qhullMessage();
+            qhull.clearQhullMessage();
+        }
+    }
+    if(qhull.useOutputStream){
+        return 0;
+    }
+    QhullFacetList facets= qhull.facetList();
+    cout<< "\nFacets created by Qhull::runQhull()\n" << facets;
     return 0;
 }//user_eg3
-
 

@@ -30,8 +30,8 @@
     global.c (qh_initbuffers) for an example of using mem.c 
    
   copyright (c) 1993-2009 The Geometry Center.
-  $Id: //product/qhull/main/rel/src/mem.c#26 $$Change: 1099 $
-  $DateTime: 2009/12/04 22:49:19 $$Author: bbarber $
+  $Id: //product/qhull/main/rel/src/mem.c#27 $$Change: 1102 $
+  $DateTime: 2009/12/07 20:26:04 $$Author: bbarber $
 */
 
 #include "mem.h"
@@ -39,7 +39,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#ifndef qhDEFqhulllib
+#ifndef qhDEFlibqhull
 typedef struct ridgeT ridgeT;
 typedef struct facetT facetT;
 #ifdef _MSC_VER  /* Microsoft Visual C++ -- warning level 4 */
@@ -525,7 +525,7 @@ void qh_memstatistics(FILE *fp) {
     Returns the total current bytes of long and short allocations
     Returns the current count of long and short allocations
     Returns the maximum long memory and total short buffer (minus one link per buffer)
-    Does not error (UsingQhullLib.cpp)
+    Does not error (UsingLibQhull.cpp)
 */
 void qh_memtotal(int *totlong, int *curlong, int *totshort, int *curshort, int *maxlong, int *totbuffer) {
     *totlong= qhmem .totlong;

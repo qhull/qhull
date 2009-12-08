@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullFacet.h#30 $$Change: 1098 $
-** $DateTime: 2009/12/04 22:47:59 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullFacet.h#31 $$Change: 1102 $
+** $DateTime: 2009/12/07 20:26:04 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -33,7 +33,7 @@ namespace orgQhull {
     class QhullVertexSet;
 
 #//Types
-    //! QhullFacet -- Qhull's facet structure, facetT [qhulllib.h], as a C++ class
+    //! QhullFacet -- Qhull's facet structure, facetT [libqhull.h], as a C++ class
     class QhullFacet;
 
 //! A QhullFacet is the C++ equivalent to Qhull's facetT*
@@ -146,6 +146,6 @@ std::ostream &operator<<(std::ostream &os, const orgQhull::QhullFacet::PrintFlag
 std::ostream &operator<<(std::ostream &os, const orgQhull::QhullFacet::PrintHeader &pr);
 std::ostream &operator<<(std::ostream &os, const orgQhull::QhullFacet::PrintRidges &pr);
 std::ostream &operator<<(std::ostream &os, const orgQhull::QhullFacet::PrintFacet &pr);
-std::ostream &operator<<(std::ostream &os, orgQhull::QhullFacet &f); //FIXUP.  No conversion! { os<< f.print(orgQhull::UsingQhullLib::NOqhRunId); return os; } // FIXUP non-const due to center.  Make it mutable?
+std::ostream &operator<<(std::ostream &os, orgQhull::QhullFacet &f); //FIXUP.  No conversion! { os<< f.print(orgQhull::UsingLibQhull::NOqhRunId); return os; } // FIXUP non-const due to center.  Make it mutable?
 
 #endif // QHULLFACET_H

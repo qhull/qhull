@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullError.h#29 $$Change: 1098 $
-** $DateTime: 2009/12/04 22:47:59 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullError.h#30 $$Change: 1102 $
+** $DateTime: 2009/12/07 20:26:04 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -28,7 +28,7 @@ public:
     enum {
         QHULLfirstError= 10000, //Larger than msgcode in Qhull's user.h
         QHULLlastError= 10067,
-        NOthrow= 1 //! For flag to UsingQhullLIb()
+        NOthrow= 1 //! For flag to UsingLibQhull()
     };
 
 #//Constructors

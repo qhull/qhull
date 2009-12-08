@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullQh.h#14 $$Change: 1053 $
-** $DateTime: 2009/10/02 22:00:28 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullQh.h#15 $$Change: 1102 $
+** $DateTime: 2009/12/07 20:26:04 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -20,7 +20,7 @@ namespace orgQhull {
 
 #//defined here
     //! QhullQh -- Qhull's global data structure, qhT, as a C++ class
-    //! See UsingQhullLib.h for C++/C interface to qhT
+    //! See UsingLibQhull.h for C++/C interface to qhT
     class QhullQh;
 
 class QhullQh : public qhT {

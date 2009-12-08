@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullQh.cpp#19 $$Change: 1053 $
-** $DateTime: 2009/10/02 22:00:28 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullQh.cpp#21 $$Change: 1102 $
+** $DateTime: 2009/12/07 20:26:04 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -33,7 +33,7 @@ namespace orgQhull {
 #//Constructor, destructor, etc.
 
 //! If qh_QHpointer==0, invoke with placement new on qh_qh;
-//! Sets qh_qh and qh_qhstat.  Need to reset before UsingQhullLib.  
+//! Sets qh_qh and qh_qhstat.  Need to reset before UsingLibQhull.  
 //! Derived from qh_new_qhull[user.c]
 QhullQh::
 QhullQh()
@@ -47,7 +47,7 @@ QhullQh()
         qh_meminit(NULL);
         firstcall= False;
     }
-    // QhullQh() and UsingQhullLib() are the same
+    // QhullQh() and UsingLibQhull() are the same
 #if qh_QHpointer
     if(qh_qh){
         if(qh old_qhstat){
@@ -70,26 +70,26 @@ QhullQh()
     qh_initqhull_start2(NULL, NULL, qh_FILEstderr);
 }//QhullQh
 
-//! UsingQhullLib must be declared along with QhullQh
+//! UsingLibQhull must be declared along with QhullQh
 QhullQh::
 ~QhullQh()
 {
 #if qh_QHpointer
     if(!qh_qh){
-        QhullError e(10042, "Qhull internal error: qh_qh undefined.  Was ~QhullQh() invoked independent of UsingQhullLib?", qh run_id, 0, 0, qh_qh); 
+        QhullError e(10042, "Qhull internal error: qh_qh undefined.  Was ~QhullQh() invoked independent of UsingLibQhull?", qh run_id, 0, 0, qh_qh); 
         e.logError();
     }else if(!qh_qhstat){
         QhullError e(10043, "Qhull internal error: qh_qhstat null.  Is another thread running?"); 
         e.logError();
     }else if(qh_qh!=this){
-        QhullError e(10044, "Qhull error: ~QhullQh() invoked independent of UsingQhullLib. qh_qh %x (runId %d) vs. QhullQh.runId %d.", qh run_id, run_id, 0.0, qh_qh); 
+        QhullError e(10044, "Qhull error: ~QhullQh() invoked independent of UsingLibQhull. qh_qh %x (runId %d) vs. QhullQh.runId %d.", qh run_id, run_id, 0.0, qh_qh); 
         e.logError();
     }else{
         qh_freeqhull2(qh_ALL); // sets qh.NOerrexit.  Clears struct *qh_qh including run_id, but not qh_qh itself
     }
 #else
     if(&qh_qh!=this){
-        QhullError e(10045, "Qhull error: ~QhullQh() invoked independent of UsingQhullLib. qh_qh %x (runId %d) vs. QhullQh.runId %d.", qh run_id, run_id, 0.0, qh_qh); 
+        QhullError e(10045, "Qhull error: ~QhullQh() invoked independent of UsingLibQhull. qh_qh %x (runId %d) vs. QhullQh.runId %d.", qh run_id, run_id, 0.0, qh_qh); 
         e.logError();
     }else{
         qh_freeqhull2(qh_ALL); // sets qh.NOerrexit.  Clears struct *qh_qh including run_id, but not qh_qh itself

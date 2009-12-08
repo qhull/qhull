@@ -6,7 +6,7 @@
 
    see qh-user.htm.  see COPYING for copyright information.
 
-   before reading any code, review qhulllib.h for data structure definitions and 
+   before reading any code, review libqhull.h for data structure definitions and 
    the "qh" macro.
 
 Sections:
@@ -49,7 +49,7 @@ Code flags --
 
   def counters = [27, 1047, 2059, 3025, 4068, 5003, 6232, 7078, 8143, 9410]
 
-  See: qh_ERR* [qhulllib.h]
+  See: qh_ERR* [libqhull.h]
 */
 
 #define MSG_TRACE0 0
@@ -577,7 +577,7 @@ stop after qh_JOGGLEmaxretry attempts
 
   notes:
     all global variables for qhull are in qh, qhmem, and qhstat
-    qh is defined in qhulllib.h
+    qh is defined in libqhull.h
     qhmem is defined in mem.h
     qhstat is defined in stat.h
 

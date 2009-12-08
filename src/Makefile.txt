@@ -61,13 +61,13 @@ CCOPTS1 = -O2 -ansi
 # for loader, ld
 CCOPTS2 = $(CCOPTS1)
 
-# OBJS in execution frequency order.  CFILES after qhulllib.c are alphabetical
+# OBJS in execution frequency order.  CFILES after libqhull.c are alphabetical
 OBJS = user.o global.o random.o stat.o io.o geom2.o poly2.o \
        merge.o qhull.o geom.o poly.o qset.o mem.o
 
-CFILES= unix.c qhulllib.c geom.c geom2.c global.c io.c mem.c merge.c poly.c \
+CFILES= unix.c libqhull.c geom.c geom2.c global.c io.c mem.c merge.c poly.c \
         poly2.c random.c qset.c stat.c user.c qconvex.c qdelaun.c qhalf.c qvoronoi.c
-HFILES= user.h qhulllib.h qhull_a.h geom.h io.h mem.h merge.h poly.h random.h qset.h stat.h
+HFILES= user.h libqhull.h qhull_a.h geom.h io.h mem.h merge.h poly.h random.h qset.h stat.h
 TXTFILES= ../Announce.txt ../REGISTER.txt ../COPYING.txt ../README.txt Changes.txt
 DOCFILES= ../html/rbox.txt ../html/qhull.txt
 FILES=  Makefile rbox.c user_eg.c ../eg/q_test ../eg/q_egtest ../eg/q_eg
@@ -81,11 +81,11 @@ HTMFILES= qhull.man rbox.man qh-code.htm qh-optg.htm qh-optt.htm qh-optp.htm \
 
 all: rbox qconvex qdelaunay qhalf qvoronoi qhull
 
-unix.o:   qhulllib.h user.h mem.h
-qconvex.o:   qhulllib.h user.h mem.h
-qdelaun.o:   qhulllib.h user.h mem.h
-qhalf.o:   qhulllib.h user.h mem.h
-qvoronoi.o:   qhulllib.h user.h mem.h
+unix.o:   libqhull.h user.h mem.h
+qconvex.o:   libqhull.h user.h mem.h
+qdelaun.o:   libqhull.h user.h mem.h
+qhalf.o:   libqhull.h user.h mem.h
+qvoronoi.o:   libqhull.h user.h mem.h
 qhull.o:  $(HFILES)
 geom.o:   $(HFILES)
 geom2.o:  $(HFILES)
@@ -95,7 +95,7 @@ mem.o:    mem.h
 merge.o:  $(HFILES)
 poly.o:   $(HFILES)
 poly2.o:  $(HFILES)
-random.o: qhulllib.h random.h
+random.o: libqhull.h random.h
 qset.o:   qset.h mem.h 
 stat.o:   $(HFILES)
 user.o:   $(HFILES)

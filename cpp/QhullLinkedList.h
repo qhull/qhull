@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullLinkedList.h#24 $$Change: 1098 $
-** $DateTime: 2009/12/04 22:47:59 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullLinkedList.h#25 $$Change: 1102 $
+** $DateTime: 2009/12/07 20:26:04 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -26,9 +26,9 @@ namespace orgQhull {
 #//Type
     //! QhullLinkedList<T> -- A linked list modeled on QLinkedList.
     //!   T is an opaque type with T(B *b), b=t.getBaseT(), t=t.next(), and t=t.prev().  The end node is a sentinel.
-    //!   qhulllib owns the contents.  
+    //!   libqhull owns the contents.  
     //!   QhullLinkedList does not define erase(), clear(), removeFirst(), removeLast(), pop_back(), pop_front(), fromStdList()
-    //!   Derived from Qt/core/tools/qlinkedlist.h and qhulllib.h/FORALLfacets_()
+    //!   Derived from Qt/core/tools/qlinkedlist.h and libqhull.h/FORALLfacets_()
     //! QhullLinkedList<T>::const_iterator -- STL-style iterator
     //! QhullLinkedList<T>::iterator -- STL-style iterator
     //! QhullLinkedListIterator<T> -- Java-style iterator

@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullFacet.cpp#28 $$Change: 1087 $
-** $DateTime: 2009/11/22 23:02:55 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullFacet.cpp#29 $$Change: 1102 $
+** $DateTime: 2009/12/07 20:26:04 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -57,7 +57,7 @@ dimension() const
 QhullPoint QhullFacet::
 getCenter(int qhRunId, qh_PRINT printFormat)
 {
-    UsingQhullLib q(qhRunId);
+    UsingLibQhull q(qhRunId);
 
     if(qh CENTERtype==qh_ASvoronoi){
         if(!qh_facet->normal || !qh_facet->upperdelaunay || !qh ATinfinity){
@@ -91,7 +91,7 @@ getCenter(int qhRunId, qh_PRINT printFormat)
 //! from io.c[qh_PRINTinner]
 QhullHyperplane QhullFacet::
 innerplane(int qhRunId) const{
-    UsingQhullLib q(qhRunId);
+    UsingLibQhull q(qhRunId);
     realT inner;
     // Does not error
     qh_outerinner(const_cast<facetT *>(getFacetT()), NULL, &inner);
@@ -104,7 +104,7 @@ innerplane(int qhRunId) const{
 //! from io.c[qh_PRINTouter]
 QhullHyperplane QhullFacet::
 outerplane(int qhRunId) const{
-    UsingQhullLib q(qhRunId);
+    UsingLibQhull q(qhRunId);
     realT outer;
     // Does not error
     qh_outerinner(const_cast<facetT *>(getFacetT()), &outer, NULL);
@@ -147,7 +147,7 @@ double QhullFacet::
 facetArea(int qhRunId)
 {
     if(!qh_facet->isarea){
-        UsingQhullLib q(qhRunId);
+        UsingLibQhull q(qhRunId);
         int exitCode = setjmp(qh errexit);
         if(!exitCode){ // no object creation -- destructors skipped on longjmp()
             qh_facet->f.area= qh_facetarea(qh_facet);
@@ -205,7 +205,7 @@ using orgQhull::QhullRidge;
 using orgQhull::QhullRidgeSet;
 using orgQhull::QhullSetBase;
 using orgQhull::QhullVertexSet;
-using orgQhull::UsingQhullLib;
+using orgQhull::UsingLibQhull;
 
 ostream &
 operator<<(ostream &os, const QhullFacet::PrintFacet &pr) // FIXUP make const (center)
@@ -435,16 +435,16 @@ operator<<(ostream &os, const QhullFacet::PrintHeader &pr)
 
 
 //! Print ridges of facet to stream.  Same as qh_printfacetridges [io.c]
-//! If qhRunId==UsingQhullLib::NOqhRunId, does not use qh
+//! If qhRunId==UsingLibQhull::NOqhRunId, does not use qh
 ostream &
 operator<<(ostream &os, const QhullFacet::PrintRidges &pr)
 {
     const QhullFacet facet= *pr.facet;
     facetT *f= facet.getFacetT();
     QhullRidgeSet rs= facet.ridges();
-    if(pr.run_id!=UsingQhullLib::NOqhRunId){
-        UsingQhullLib q(pr.run_id);
-        // No calls to qhulllib
+    if(pr.run_id!=UsingLibQhull::NOqhRunId){
+        UsingLibQhull q(pr.run_id);
+        // No calls to libqhull
         if(f->visible && qh NEWfacets){
             os<< "    - ridges(ids may be garbage):";
             for(QhullRidgeSet::iterator i=rs.begin(); i!=rs.end(); ++i){
@@ -507,6 +507,6 @@ operator<<(ostream &os, const QhullFacet::PrintRidges &pr)
 ostream &
 operator<<(ostream &os, QhullFacet &f)
 {
-    os<< f.print(UsingQhullLib::NOqhRunId);
+    os<< f.print(UsingLibQhull::NOqhRunId);
     return os;
 }//<< QhullFacet

@@ -14,8 +14,8 @@
    This allows the user to avoid loading io.o from qhull.a
 
    copyright (c) 1993-2009 The Geometry Center.
-   $Id: //product/qhull/main/rel/src/io.c#29 $$Change: 1095 $
-   $DateTime: 2009/12/01 22:40:56 $$Author: bbarber $
+   $Id: //product/qhull/main/rel/src/io.c#30 $$Change: 1102 $
+   $DateTime: 2009/12/07 20:26:04 $$Author: bbarber $
 */
 
 #include "qhull_a.h"
@@ -3106,7 +3106,7 @@ INST geom {define vsphere OFF\n\
 
 /*----------------------------------------------
 -printsummary-
-                see qhulllib.c
+                see libqhull.c
 */
 
 /*-<a                             href="qh-io.htm#TOC"

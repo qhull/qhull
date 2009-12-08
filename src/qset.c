@@ -8,8 +8,8 @@
    see qh-set.htm and qset.h
 
    copyright (c) 1993-2009 The Geometry Center.
-   $Id: //product/qhull/main/rel/src/qset.c#23 $$Change: 1099 $
-   $DateTime: 2009/12/04 22:49:19 $$Author: bbarber $
+   $Id: //product/qhull/main/rel/src/qset.c#24 $$Change: 1102 $
+   $DateTime: 2009/12/07 20:26:04 $$Author: bbarber $
 */
 
 #include "qset.h"
@@ -21,7 +21,7 @@
 #include <memory.h>
 */
 
-#ifndef qhDEFqhulllib
+#ifndef qhDEFlibqhull
 typedef struct ridgeT ridgeT;
 typedef struct facetT facetT;
 void    qh_errexit(int exitcode, facetT *, ridgeT *);

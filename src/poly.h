@@ -4,17 +4,17 @@
    poly.h 
    header file for poly.c and poly2.c
 
-   see qh-poly.htm, qhulllib.h and poly.c
+   see qh-poly.htm, libqhull.h and poly.c
 
    copyright (c) 1993-2009 The Geometry Center.
-   $Id: //product/qhull/main/rel/src/poly.h#18 $$Change: 1099 $
-   $DateTime: 2009/12/04 22:49:19 $$Author: bbarber $
+   $Id: //product/qhull/main/rel/src/poly.h#19 $$Change: 1102 $
+   $DateTime: 2009/12/07 20:26:04 $$Author: bbarber $
 */
 
 #ifndef qhDEFpoly
 #define qhDEFpoly 1
 
-#include "qhulllib.h"
+#include "libqhull.h"
 
 /*===============   constants ========================== */
 

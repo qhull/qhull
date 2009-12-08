@@ -6,15 +6,15 @@
 
    see qh-qhull.htm
 
-   see qhulllib.h for user-level definitions
+   see libqhull.h for user-level definitions
 
    see user.h for user-defineable constants
 
-   defines internal functions for qhulllib.c global.c
+   defines internal functions for libqhull.c global.c
 
    copyright (c) 1993-2009 The Geometry Center.
-   $Id: //product/qhull/main/rel/src/qhull_a.h#22 $$Change: 1099 $
-   $DateTime: 2009/12/04 22:49:19 $$Author: bbarber $
+   $Id: //product/qhull/main/rel/src/qhull_a.h#23 $$Change: 1102 $
+   $DateTime: 2009/12/07 20:26:04 $$Author: bbarber $
 
    Notes:  grep for ((" and (" to catch fprintf("lkasdjf");
            full parens around (x?y:z)
@@ -24,7 +24,7 @@
 #ifndef qhDEFqhulla
 #define qhDEFqhulla 1
 
-#include "qhulllib.h"  /* Defines data types */
+#include "libqhull.h"  /* Defines data types */
 
 #include "stat.h"
 #include "random.h"
@@ -49,7 +49,7 @@
 #include <memory.h>
 */
 
-#if qh_CLOCKtype == 2  /* defined in user.h from qhulllib.h */
+#if qh_CLOCKtype == 2  /* defined in user.h from libqhull.h */
 #include <sys/types.h>
 #include <sys/times.h>
 #include <unistd.h>
@@ -89,7 +89,7 @@
 #define trace5(args) {}
 #endif /* qh_NOtrace */
 
-/***** -qhulllib.c prototypes (alphabetical after qhull) ********************/
+/***** -libqhull.c prototypes (alphabetical after qhull) ********************/
 
 void 	qh_qhull(void);
 boolT   qh_addpoint(pointT *furthest, facetT *facet, boolT checkdist);

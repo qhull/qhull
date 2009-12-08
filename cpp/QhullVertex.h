@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullVertex.h#20 $$Change: 1057 $
-** $DateTime: 2009/10/22 20:38:42 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullVertex.h#21 $$Change: 1102 $
+** $DateTime: 2009/12/07 20:26:04 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -11,7 +11,7 @@
 
 #include <ostream>
 
-#include "UsingQhullLib.h"
+#include "UsingLibQhull.h"
 #include "QhullPoint.h"
 #include "QhullLinkedList.h"
 #include "QhullSet.h"
@@ -26,7 +26,7 @@ namespace orgQhull {
     class QhullFacetSet;
 
 #//Types
-    //! QhullVertex -- Qhull's vertex structure, vertexT [qhulllib.h], as a C++ class
+    //! QhullVertex -- Qhull's vertex structure, vertexT [libqhull.h], as a C++ class
     class QhullVertex;
     typedef QhullLinkedList<QhullVertex> QhullVertexList;
     typedef QhullLinkedListIterator<QhullVertex> QhullVertexListIterator;
@@ -68,7 +68,7 @@ public:
     vertexT            *getBaseT() const { return getVertexT(); }
 
 #//getSet
-    int                 dimension() const { return (qh_vertex->dim || !isDefined()) ? qh_vertex->dim : UsingQhullLib::globalVertexDimension(); }
+    int                 dimension() const { return (qh_vertex->dim || !isDefined()) ? qh_vertex->dim : UsingLibQhull::globalVertexDimension(); }
     int                 id() const { return qh_vertex->id; }
     bool                isDefined() const { return qh_vertex != &s_empty_vertex; }
     QhullVertex         next() const { return qh_vertex->next; }
@@ -95,6 +95,6 @@ public:
 #//GLobal
 
 std::ostream &operator<<(std::ostream &os, const orgQhull::QhullVertex::PrintVertex &pr);
-inline std::ostream &operator<<(std::ostream &os, const orgQhull::QhullVertex &v) { os<< v.print(orgQhull::UsingQhullLib::NOqhRunId); return os; }
+inline std::ostream &operator<<(std::ostream &os, const orgQhull::QhullVertex &v) { os<< v.print(orgQhull::UsingLibQhull::NOqhRunId); return os; }
 
 #endif // QHULLVERTEX_H

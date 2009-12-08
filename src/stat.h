@@ -7,8 +7,8 @@
    see qh-stat.htm and stat.c
 
    copyright (c) 1993-2009 The Geometry Center.
-   $Id: //product/qhull/main/rel/src/stat.h#21 $$Change: 1099 $
-   $DateTime: 2009/12/04 22:49:19 $$Author: bbarber $
+   $Id: //product/qhull/main/rel/src/stat.h#22 $$Change: 1102 $
+   $DateTime: 2009/12/07 20:26:04 $$Author: bbarber $
 
    recompile qhull if you change this file
 
@@ -21,7 +21,7 @@
 #ifndef qhDEFstat
 #define qhDEFstat 1
 
-#include "qhulllib.h"
+#include "libqhull.h"
 
 /*-<a                             href="qh-stat.htm#TOC"
   >-------------------------------</a><a name="KEEPstatistics">-</a>
@@ -475,7 +475,7 @@ union intrealT {
 		= 0     qh_qhstat is a static data structure
 		        only one instance of qhull() can be active at a time
 			default value
-   qh_QHpointer is defined in qhulllib.h
+   qh_QHpointer is defined in libqhull.h
 
    allocated in stat.c using qh_malloc()
 */

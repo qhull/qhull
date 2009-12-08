@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/Qhull.h#31 $$Change: 1096 $
-** $DateTime: 2009/12/04 21:52:01 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/Qhull.h#32 $$Change: 1102 $
+** $DateTime: 2009/12/07 20:26:04 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -26,7 +26,7 @@
 namespace orgQhull {
 
 /***
-   Compile qhullcpp and qhulllib with the same compiler.  setjmp() and longjmp() must be the same.
+   Compile qhullcpp and libqhull with the same compiler.  setjmp() and longjmp() must be the same.
 */
 
 #//Types
@@ -53,7 +53,7 @@ private:
     std::ostream       *output_stream;  //! send output to stream
 
     friend void       ::qh_fprintf(FILE *fp, int msgcode, const char *fmt, ... );
-    friend class        UsingQhullLib;
+    friend class        UsingLibQhull;
 
 #//Attribute
 public:
