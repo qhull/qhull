@@ -1,13 +1,19 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullSet.h#29 $$Change: 1087 $
-** $DateTime: 2009/11/22 23:02:55 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullSet.h#32 $$Change: 1114 $
+** $DateTime: 2009/12/12 13:49:07 $$Author: bbarber $
 **
 ****************************************************************************/
 
 #ifndef QhullSet_H
 #define QhullSet_H
+
+#include "QhullError.h"
+extern "C" {
+    #include "../src/qhull_a.h"
+};
+
 
 #ifndef QHULL_NO_STL
 #include <vector>
@@ -16,12 +22,6 @@
 #ifdef QHULL_USES_QT
  #include <QtCore/QList>
 #endif
-
-#include "QhullError.h"
-
-extern "C" {
-    #include "../src/qhull_a.h"
-};
 
 namespace orgQhull {
 
@@ -40,24 +40,26 @@ namespace orgQhull {
     //See: QhullPointSet, QhullLinkedList<T>
 
 class QhullSetBase {
-#//Class objects and functions
+
 private:
+#//Fields -- 
+    setT               *qh_set;
+
+#//Class objects
     static setT         s_empty_set;  //! Workaround for no setT allocator.  Used if setT* is NULL
 
 public:
+#//Class methods
     static int          count(const setT *set);
-                        //s may be null
+    //s may be null
     static bool         isEmpty(const setT *s) { return SETempty_(s); }
 
-#//Fields -- 
-private:
-    setT               *qh_set;
-public:
 
 #//Constructors
                         //! Copy constructor copies the pointer but not the set.  Needed for return by value.
                         QhullSetBase(const QhullSetBase &o) : qh_set(o.qh_set) {}
     explicit            QhullSetBase(setT *s) : qh_set(s ? s : &s_empty_set) {}
+                       ~QhullSetBase() {}
 
 private:
                         //!disabled since memory allocation for QhullSet not defined
@@ -91,14 +93,23 @@ protected:
 template <typename T>
 class QhullSet : public QhullSetBase {
 
+private:
+#//Fields -- see QhullSetBase
+
+#//Class objects
+    static setT         s_empty_set;  //! Workaround for no setT allocator.  Used if setT* is NULL
+
 public:
-#//Types
+#//Subtypes
     typedef T         *iterator;
     typedef const T   *const_iterator;
     typedef typename QhullSet<T>::iterator Iterator;
     typedef typename QhullSet<T>::const_iterator ConstIterator;
 
-#//Fields -- see QhullSetBase
+#//Class methods
+    static int          count(const setT *set);
+                        //s may be null
+    static bool         isEmpty(const setT *s) { return SETempty_(s); }
 
 #//Constructors
                         //Copy constructor copies pointer but not contents.  Needed for return by value.
@@ -124,6 +135,7 @@ public:
 
 #//Read-only -- see QhullSetBase for count(), empty(), isEmpty(), size()
     using QhullSetBase::count;
+    using QhullSetBase::isEmpty;
     // operator== defined for QhullSets of the same type
     bool                operator==(const QhullSet<T> &other) const { return qh_setequal(getSetT(), other.getSetT()); }
     bool                operator!=(const QhullSet<T> &other) const { return !operator==(other); }
@@ -172,8 +184,12 @@ public:
 
 template <typename T> 
 class QhullSetIterator { 
-#//Fields
+
+#//Subtypes
     typedef typename QhullSet<T>::const_iterator const_iterator; 
+
+private:
+#//Fields
     const_iterator      i; 
     const_iterator      begin_i; 
     const_iterator      end_i; 

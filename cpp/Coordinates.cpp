@@ -1,17 +1,18 @@
 /****************************************************************************
 **
 ** Copyright (C) 2009-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/Coordinates.cpp#13 $$Change: 1087 $
-** $DateTime: 2009/11/22 23:02:55 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/Coordinates.cpp#15 $$Change: 1114 $
+** $DateTime: 2009/12/12 13:49:07 $$Author: bbarber $
 **
 ****************************************************************************/
 
-#include <algorithm>
-#include <iostream>
-
-#include "Coordinates.h"
 #include "functionObjects.h"
 #include "QhullError.h"
+#include "Coordinates.h"
+
+#include <iostream>
+#include <iterator>
+#include <algorithm>
 
 #ifdef _MSC_VER  // Microsoft Visual C++ -- warning level 4
 #endif
@@ -32,7 +33,7 @@ mid(int index, int length) const
     }
     Coordinates result;
     if(newLength>0){
-        copy(begin()+index, begin()+(index+newLength), back_inserter(result));
+        std::copy(begin()+index, begin()+(index+newLength), std::back_inserter(result));
     }
     return result;
 }//mid
@@ -49,7 +50,7 @@ Coordinates Coordinates::
 operator+(const Coordinates &other) const
 {
     Coordinates result(*this);
-    copy(other.begin(), other.end(), back_inserter(result));
+    std::copy(other.begin(), other.end(), std::back_inserter(result));
     return result;
 }//operator+
 
@@ -58,9 +59,9 @@ operator+=(const Coordinates &other)
 {
     if(&other==this){
         Coordinates clone(other);
-        copy(clone.begin(), clone.end(), back_inserter(*this));
+        std::copy(clone.begin(), clone.end(), std::back_inserter(*this));
     }else{
-        copy(other.begin(), other.end(), back_inserter(*this));
+        std::copy(other.begin(), other.end(), std::back_inserter(*this));
     }
     return *this;
 }//operator+=

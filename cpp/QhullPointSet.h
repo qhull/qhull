@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2009-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullPointSet.h#11 $$Change: 1098 $
-** $DateTime: 2009/12/04 22:47:59 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullPointSet.h#14 $$Change: 1114 $
+** $DateTime: 2009/12/12 13:49:07 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -11,11 +11,11 @@
 
 #include "QhullSet.h"
 #include "QhullPoint.h"
-#include <ostream>
-
 extern "C" {
     #include "../src/qhull_a.h"
 };
+
+#include <ostream>
 
 namespace orgQhull {
 
@@ -31,31 +31,31 @@ namespace orgQhull {
 
 class QhullPointSet : public QhullSet<coordT *> {
 
-#//Types
+private:
+#//Field
+    int                 point_dimension; 
+
 public:
+#//Subtypes and types
     class               const_iterator;
     class               iterator;
     typedef QhullPointSet::const_iterator ConstIterator;
     typedef QhullPointSet::iterator Iterator;
 
+    typedef QhullPoint  value_type;
     typedef ptrdiff_t   difference_type;
     typedef int         size_type;
-    typedef QhullPoint  value_type;
     //typedef const value_type *const_pointer;    // FIXUP: Pointers and reference types not available due to missing dimension
     //typedef const value_type &const_reference;
     //typedef value_type *pointer;
     //typedef value_type &reference;
-  
-#//Field
-private:
-    int                 point_dimension; 
 
 #//Construct
-public:
                         //Conversion from setT* is not type-safe.  Implicit conversion for void* to T
                         QhullPointSet(int dimension, setT *s) : QhullSet<coordT *>(s), point_dimension(dimension) {}
                         //Copy constructor copies pointer but not contents.  Needed for return by value.
                         QhullPointSet(const QhullPointSet &o) : QhullSet<coordT *>(o), point_dimension(o.point_dimension) {}
+                       ~QhullPointSet() {}
 
 //disabled since p= p2 is ambiguous (coord* vs coord)
 private:
@@ -167,11 +167,11 @@ public:
         int             point_dimension;
 
     public:
-        typedef ptrdiff_t  difference_type;
         typedef std::random_access_iterator_tag  iterator_category;
-        typedef QhullPoint *pointer;
-        typedef QhullPoint &reference;
         typedef QhullPoint value_type;
+        typedef value_type *pointer;
+        typedef value_type &reference;
+        typedef ptrdiff_t  difference_type;
 
                         const_iterator() : i(0), point_dimension(0) {}
                         const_iterator(int dimension, coordT **c) : i(c), point_dimension(dimension) {}

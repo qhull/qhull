@@ -1,16 +1,16 @@
 #//! user_eg3.cpp -- Invoke rbox and qhull from C++
 
-#include <cstdio>   /* for printf() of help message */
-#include <ostream>
-
 #include "RboxPoints.h"
-#include "Qhull.h"
 #include "QhullError.h"
+#include "QhullQh.h"
 #include "QhullFacet.h"
 #include "QhullFacetList.h"
 #include "QhullLinkedList.h"
-#include "QhullQh.h"
 #include "QhullVertex.h"
+#include "Qhull.h"
+
+#include <cstdio>   /* for printf() of help message */
+#include <ostream>
 
 using std::cerr;
 using std::cin;

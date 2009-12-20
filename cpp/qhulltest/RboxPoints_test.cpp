@@ -1,16 +1,16 @@
 /****************************************************************************
 **
 ** Copyright (C) 2006-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/qhulltest/RboxPoints_test.cpp#14 $$Change: 1096 $
-** $DateTime: 2009/12/04 21:52:01 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/qhulltest/RboxPoints_test.cpp#16 $$Change: 1114 $
+** $DateTime: 2009/12/12 13:49:07 $$Author: bbarber $
 **
 ****************************************************************************/
-
+//pre-compiled headers
 #include <iostream>
 #include "../road/RoadTest.h" // QT_VERSION
 
-#include "QhullError.h"
 #include "RboxPoints.h"
+#include "QhullError.h"
 
 using std::cout;
 using std::endl;
@@ -153,10 +153,11 @@ t_foreach()
     }
     QVERIFY(++ci==rp.endCoordinates());
     QCOMPARE(i, 8*3);
-    orgQhull::Coordinates::ConstIterator cci4= rp.beginCoordinates(4);
     orgQhull::Coordinates::Iterator ci4= rp.beginCoordinates(4);
-    QCOMPARE(rp.endCoordinates()-cci4, 4*3);
     QCOMPARE(rp.endCoordinates()-ci4, 4*3);
+    orgQhull::Coordinates::ConstIterator cci4= rp.beginCoordinates(4);
+    orgQhull::Coordinates::ConstIterator cci5= rp.endCoordinates();
+    QCOMPARE(cci5-cci4, 4*3);
 }//t_foreach
 
 void RboxPoints_test::

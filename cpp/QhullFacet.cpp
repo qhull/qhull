@@ -1,23 +1,23 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullFacet.cpp#29 $$Change: 1102 $
-** $DateTime: 2009/12/07 20:26:04 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullFacet.cpp#30 $$Change: 1111 $
+** $DateTime: 2009/12/10 22:15:38 $$Author: bbarber $
 **
 ****************************************************************************/
 
 #//! QhullFacet -- Qhull's facet structure, facetT, as a C++ class
 
-#include <ostream>
-
 #include "QhullError.h"
 #include "QhullSet.h"
+#include "QhullPoint.h"
+#include "QhullPointSet.h"
 #include "QhullRidge.h"
 #include "QhullFacet.h"
 #include "QhullFacetSet.h"
-#include "QhullPoint.h"
-#include "QhullPointSet.h"
 #include "QhullVertex.h"
+
+#include <ostream>
 
 using std::endl;
 using std::string;

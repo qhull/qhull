@@ -8,6 +8,7 @@ Doc
  - How to handle 64-bit possible loss of data.  WARN64
 - Show custom of qh_fprintf
  - grep 'qh_mem ' x | sort | awk '{ print $2; }' | uniq -c | grep -vE ' (2|4|6|8|10|12|14|16|20|64|162)[^0-9]'
+- qtpro/qhulltest contains .pro and Makefile.  Remove Makefiles by setting shadow directory to ../../tmp/projectname
 
 Rules for use of qh_qh and multi processes
     UsingQhull
@@ -35,9 +36,14 @@ Suggestions
  - Merge small volume boundary cells into unbounded regions [Dominik Szczerba]
  - Postmerge with merge options
  - Add const to C code
+ - Add modify operators and MutablePointCoordinateIterator to PointCoordinates
+ - Add Qtest::toString() functions for QhullPoint and others.  QByteArray and qstrdup()
+ - Fix option Qt for conformant triangulations
+ - Fix doc comments
 
 Qhull cpp questions
  - size() as size_t, size_type, or int
+ - Should all containers have a reserve()?
  - Qhull.feasiblePoint interface
  - Qhull and RboxPoints messaging
  - change qh_printf() to a virtual function
@@ -47,34 +53,42 @@ Qhull cpp questions
  - Interface for UsingLibQhull::globalDimension
  - Infinite point as !defined()
  - qlist and qlinkedlist define pointer, reference, size_type, difference_type, const_pointer, const_reference for the class but not for iterator and const_iterator
+      vector.h -- reference operator[](difference_type _Off) const
+ - Is Q_GLOBAL_STATIC non-threaded/threaded, needed for Qhull?
+ - When forwarding an implementation is base() an approriate name (e.g., Coordinates::iterator::base() as std::vector<coordT>::iterator).
+ - When forwarding an implementation, does not work "returning address of temporary"
+ - Alsoo --, +=, and -=
+        iterator       &operator++() { return iterator(i++); }
+ - if vector<coordT> inheritance is bad, is QhullVertexSet OK?
 
 To do
+ - ConvexHull is a submodule to git.  How to get rid of?
  ** Change to static link library before shipping, or define Qt for static linking.
- - ignoreWarnings?  How to configure Qhull output.  Trace and results should go to stdout/stderr
- - Fix Qt for conformant triangulations
- - Add Qtest::toString() functions for QhullPoint and others.  QByteArray and qstrdup()
- - rbox"10000" is 10x slower.  See Qhull_test -- debug mode?
- - Fix gcc failure
- - fix const problems
+ - Configure qhull-qt.dll
+ - ignore Warnings?  How to configure Qhull output.  Trace and results should go to stdout/stderr
  - Review Warn64
- - Fix doc comments
  - review all FIXUP.  Add dates?
- - Qhull_test
  - Clear out QhullQh -- it is just the POD type
     void checkIfQhullRan();
     void errorAnotherUser();
     void startQhullAccess();
     void stopQhullAccess();
- - PointCoordinatesIterator
- - PointCoordinates_test, RboxPoints
- - Cleanup PointCoordinates with conversions, etc
- - Redo Coordinates w/o vector<>
- - Change #include to specific -> general
- - Remove class-static code, check K_GLOBAL_STATIC
- - Rename libqhull to libqhull  libqhull.h UsingLibQhull etc.
-   ConvexHull is a submodule to git.  How to get rid of?
+ - Redo .pro files for shared cpp library and static qhull library
+ - Add dependencies between the .pro files, or define in the .pro files
+   If you want to specify it in the pro file then you can follow the following steps to get the dependencies to be generated automatically:
+   1a) there is a Lib/DLL project with the target name (the .lib is used, not the .dll of course) being that of what is used on link line of an other project in your solution
+   1b) there is a Exe project with the target name being that of what is used in a custom build-step of an other project in your solution
+   2) you don't use paths in the TARGET variable (use DESTDIR/DLLDESTDIR for that), like TARGET=$(SOME_VARIABLE)/myLib, won't work
+   3) if you have a special location for your libs, you specify the -Lmy/library/path and LIBS += mylib, instead of just using LIBS += my/library/path/mylib
+   4) the leaf projects are created before you generate the solution file. (You can use the recursive flag for qmake to do this, like "qmake -tp vc -r [yourproject.pro]"
 
-qhull 2009.1  2008/03/20
+This is achievable by utilizing the MAKEFILE variable to indicate what you want to call the makefile, as for the location of it then you just need to call qmake from where you want it to be generated in.  To get the pro file how you want it something like:
+
+
+Pick up changes from Kent Williams
+
+qhull 2009.0.1  2009/12/08
+ - Reordered #include from specific to general.  Move up .h for module.  
  - Use gcc 4.4.0 or later.  gcc 4.2.1, 4.2.2, and 4.3.2 -O2 segfaults in qset.c .  gcc 4.1.1 was OK
  -    Bug report    http://gcc.gnu.org/ml/gcc-bugs/2007-09/msg00474.html
  - Added user_eg3 as an example of Qhull.cpp

@@ -1,20 +1,20 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullStat.h#7 $$Change: 1053 $
-** $DateTime: 2009/10/02 22:00:28 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullStat.h#8 $$Change: 1111 $
+** $DateTime: 2009/12/10 22:15:38 $$Author: bbarber $
 **
 ****************************************************************************/
 
 #ifndef QHULLSTAT_H
 #define QHULLSTAT_H
 
-#include <string>
-#include <vector>
-
 extern "C" {
     #include "../src/qhull_a.h"
 };
+
+#include <string>
+#include <vector>
 
 namespace orgQhull {
 
@@ -25,15 +25,15 @@ namespace orgQhull {
 
 class QhullStat : public qhstatT {
 
-public:
-#//class methods
-    static void         clearStatistics();
-                    
-#//Constants
-
+private:
 #//Fields (empty) -- POD type equivalent to qhstatT.  No data or virtual members
 
 public:
+#//Constants
+
+#//class methods
+    static void         clearStatistics();
+
 #//constructor, assignment, destructor, invariant
                         QhullStat();
                        ~QhullStat();
@@ -42,8 +42,8 @@ private:
     //!disable copy constructor and assignment
                         QhullStat(const QhullStat &);
     QhullStat          &operator=(const QhullStat &);
-
 public:
+
 #//Access
 };//class QhullStat
 

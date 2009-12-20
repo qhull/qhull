@@ -1,25 +1,23 @@
 /****************************************************************************
 **
 ** Copyright (C) 2009-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/qhulltest/QhullHyperplane_test.cpp#6 $$Change: 1102 $
-** $DateTime: 2009/12/07 20:26:04 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/qhulltest/QhullHyperplane_test.cpp#7 $$Change: 1111 $
+** $DateTime: 2009/12/10 22:15:38 $$Author: bbarber $
 **
 ****************************************************************************/
 
+//pre-compiled headers
 #include <iostream>
 #include <vector>
-
 #include "../road/RoadTest.h"
 
-#include <numeric> // After RoadTest.h for precompiled headers
-
 #include "QhullHyperplane.h"
-
-#include "Qhull.h"
 #include "QhullError.h"
+#include "RboxPoints.h"
 #include "QhullFacet.h"
 #include "QhullFacetList.h"
-#include "RboxPoints.h"
+#include "Qhull.h"
+#include <numeric>
 
 using std::cout;
 using std::endl;
@@ -94,6 +92,7 @@ t_convert()
     double offset= fs.back();
     fs.pop_back();
     QCOMPARE(offset, -0.5);
+
     double squareNorm= inner_product(fs.begin(), fs.end(), fs.begin(), 0.0);
     QCOMPARE(squareNorm, 1.0);
     QList<double> qs= h.toQList();

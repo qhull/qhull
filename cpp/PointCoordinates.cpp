@@ -1,16 +1,16 @@
 /****************************************************************************
 **
 ** Copyright (C) 2009-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/PointCoordinates.cpp#14 $$Change: 1095 $
-** $DateTime: 2009/12/01 22:40:56 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/PointCoordinates.cpp#19 $$Change: 1118 $
+** $DateTime: 2009/12/20 16:19:59 $$Author: bbarber $
 **
 ****************************************************************************/
 
-#include <iostream>
-
+#include "QhullError.h"
 #include "QhullPoint.h"
 #include "PointCoordinates.h"
-#include "QhullError.h"
+
+#include <iostream>
 
 using std::istream;
 using std::string;
@@ -30,7 +30,9 @@ PointCoordinates()
 : QhullPoints()
 , point_coordinates()
 , point_comment()
-{ }
+{
+    makeValid();
+}
 
 #//Construct
 PointCoordinates::
@@ -38,7 +40,9 @@ PointCoordinates(int dimension)
 : QhullPoints(dimension)
 , point_coordinates()
 , point_comment()
-{ }
+{
+    makeValid();
+}
 
 PointCoordinates::
 PointCoordinates(const std::string &comment)
@@ -47,6 +51,7 @@ PointCoordinates(const std::string &comment)
 , point_comment()
 { 
     appendComment(comment);
+    makeValid();
 }
 
 PointCoordinates::
@@ -56,6 +61,7 @@ PointCoordinates(int dimension, const std::string &comment)
 , point_comment()
 { 
     appendComment(comment);
+    makeValid();
 }
 
 PointCoordinates::
@@ -94,9 +100,9 @@ PointCoordinates::
 void PointCoordinates::
 checkValid() const
 {
-    if(getCoordinates().data()!=QhullPoints::point_first 
+    if(getCoordinates().data()!=data()
     || getCoordinates().count()!=coordinateCount()){
-        throw QhullError(10060, "Qhull error: first point (%x) is not PointCoordinates.data() or count (%d) is not PointCoordinates.count (%d)", coordinateCount(), getCoordinates().count(), 0.0, point_first);
+        throw QhullError(10060, "Qhull error: first point (%x) is not PointCoordinates.data() or count (%d) is not PointCoordinates.count (%d)", coordinateCount(), getCoordinates().count(), 0.0, data());
     }
 }//checkValid
 
@@ -240,7 +246,7 @@ void PointCoordinates::
 reserveCoordinates(int newCoordinates)
 { 
     // vector::reserve is not const
-    point_coordinates.reserve(point_coordinates.size()+newCoordinates); 
+    point_coordinates.reserve((int)point_coordinates.size()+newCoordinates); // WARN64
     makeValid();
 }//reserveCoordinates
 

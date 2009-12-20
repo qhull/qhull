@@ -1,18 +1,19 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/qhulltest/qhulltest.cpp#47 $$Change: 1107 $
-** $DateTime: 2009/12/07 21:05:37 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/qhulltest/qhulltest.cpp#50 $$Change: 1118 $
+** $DateTime: 2009/12/20 16:19:59 $$Author: bbarber $
 **
 ****************************************************************************/
 
-#include "../road/RoadTest.h" // Before RoadError.h for precompiled headers
-#include "../road/RoadError.h"
-
+//pre-compiled headers
 #include <iostream>
 #include <sstream>
 #include <string>
 #include <stdexcept>
+#include "../road/RoadTest.h" 
+
+#include "../road/RoadError.h"
 
 using std::cout;
 using std::endl;
@@ -21,7 +22,7 @@ namespace orgQhull {
 
 void addQhullTests(QStringList &args)
 {
-    TESTadd_(add_QhullPoints_test); //copy
+    TESTadd_(add_PointCoordinates_test); //copy
 
     if(args.contains("--all")){
         args.removeAll("--all");

@@ -1,27 +1,26 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/RboxPoints.h#24 $$Change: 1102 $
-** $DateTime: 2009/12/07 20:26:04 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/RboxPoints.h#25 $$Change: 1111 $
+** $DateTime: 2009/12/10 22:15:38 $$Author: bbarber $
 **
 ****************************************************************************/
 
 #ifndef RBOXPOINTS_H
 #define RBOXPOINTS_H
 
-#include <istream>
-#include <ostream>
-#include <sstream>
-#include <stdarg.h>
-#include <string>
-#include <vector>
-
-#include "PointCoordinates.h"
 #include "QhullPoint.h"
-
+#include "PointCoordinates.h"
 extern "C" {
 #include "../src/libqhull.h"
 };
+
+#include <stdarg.h>
+#include <string>
+#include <vector>
+#include <istream>
+#include <ostream>
+#include <sstream>
 
 namespace orgQhull {
 

@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullFacetSet.h#15 $$Change: 1102 $
-** $DateTime: 2009/12/07 20:26:04 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullFacetSet.h#16 $$Change: 1111 $
+** $DateTime: 2009/12/10 22:15:38 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -26,12 +26,12 @@ namespace orgQhull {
 
 class QhullFacetSet : public QhullSet<QhullFacet> {
 
-#//Fields
 private:
+#//Fields
     bool                select_all;   //! True if include bad facets.  Default is false.
 
-#//Constructor
 public:
+#//Constructor
                         //Conversion from setT* is not type-safe.  Implicit conversion for void* to T
    explicit             QhullFacetSet(setT *s) : QhullSet<QhullFacet>(s), select_all(false) {}
                         //Copy constructor copies pointer but not contents.  Needed for return by value.

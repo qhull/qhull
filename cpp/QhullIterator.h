@@ -1,23 +1,23 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullIterator.h#16 $$Change: 1059 $
-** $DateTime: 2009/10/30 18:26:26 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullIterator.h#17 $$Change: 1111 $
+** $DateTime: 2009/12/10 22:15:38 $$Author: bbarber $
 **
 ****************************************************************************/
 
 #ifndef QHULLITERATOR_H
 #define QHULLITERATOR_H
 
+extern "C" {
+    #include "../src/qhull_a.h"
+};
+
 #include <assert.h>
 #include <string>
 #include <vector>
 //! Avoid dependence on <iterator>
 namespace std { struct bidirectional_iterator_tag; struct random_access_iterator_tag; }
-
-extern "C" {
-#include "../src/qhull_a.h"
-};
 
 namespace orgQhull {
 

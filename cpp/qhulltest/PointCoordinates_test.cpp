@@ -1,18 +1,19 @@
 /****************************************************************************
 **
 ** Copyright (C) 2009-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/qhulltest/PointCoordinates_test.cpp#7 $$Change: 1094 $
-** $DateTime: 2009/11/24 20:04:16 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/qhulltest/PointCoordinates_test.cpp#11 $$Change: 1118 $
+** $DateTime: 2009/12/20 16:19:59 $$Author: bbarber $
 **
 ****************************************************************************/
 
+//pre-compiled headers
 #include <iostream>
 #include "../road/RoadTest.h" // QT_VERSION
 
-#include "Qhull.h"
-#include "QhullError.h"
 #include "PointCoordinates.h"
+#include "QhullError.h"
 #include "RboxPoints.h"
+#include "Qhull.h"
 
 using std::cout;
 using std::endl;
@@ -37,6 +38,7 @@ private slots:
     void t_search();
     void t_modify();
     void t_append_points();
+    void t_coord_iterator();
     void t_io();
 };//PointCoordinates_test
 
@@ -201,12 +203,11 @@ t_foreach()
     i= pc.end();
     QCOMPARE(i[-1], p3);
     const PointCoordinates pc2(2, "2-d points", 6, c);
-    // QhullPoints::ConstIterator i2= pc.begin(); // g++ error, begin() returns iterator
-    QhullPoints::ConstIterator i2= pc2.begin();
+    QhullPoints::ConstIterator i2= pc.begin();
     const QhullPoint p0= pc2[0];
     QCOMPARE(*i2, p0);
     QCOMPARE((*i2)[0], 0.0);
-    QhullPoints::ConstIterator i3= pc2.constBegin();
+    QhullPoints::ConstIterator i3= i2;
     QCOMPARE(i3, i2);
     QCOMPARE((*i3)[0], 0.0);
     i3= pc.constEnd();
@@ -318,6 +319,63 @@ t_append_points()
     pc.appendPoints(s);
     QCOMPARE(pc.count(), 3); 
 }//t_append_points
+
+void PointCoordinates_test::
+t_coord_iterator()
+{
+    PointCoordinates c(2);
+    c << 0.0 << 1.0 << 2.0 << 3.0 << 4.0 << 5.0;
+    PointCoordinatesIterator i(c);
+    QhullPoint p0(c[0]);
+    QhullPoint p1(c[1]);
+    QhullPoint p2(c[2]);
+    coordT c2[] = {-1.0, -2.0};
+    QhullPoint p3(2, c2);
+    PointCoordinatesIterator i2= c;
+    QVERIFY(i.findNext(p1));
+    QVERIFY(!i.findNext(p1));
+    QVERIFY(!i.findNext(p2));
+    QVERIFY(!i.findNext(p3));
+    QVERIFY(i.findPrevious(p2));
+    QVERIFY(!i.findPrevious(p2));
+    QVERIFY(!i.findPrevious(p0));
+    QVERIFY(!i.findPrevious(p3));
+    QVERIFY(i2.findNext(p2));
+    QVERIFY(i2.findPrevious(p0));
+    QVERIFY(i2.findNext(p1));
+    QVERIFY(i2.findPrevious(p0));
+    QVERIFY(i2.hasNext());
+    QVERIFY(!i2.hasPrevious());
+    QVERIFY(i.hasNext());
+    QVERIFY(!i.hasPrevious());
+    i.toBack();
+    i2.toFront();
+    QVERIFY(!i.hasNext());
+    QVERIFY(i.hasPrevious());
+    QVERIFY(i2.hasNext());
+    QVERIFY(!i2.hasPrevious());
+    PointCoordinates c3;
+    PointCoordinatesIterator i3= c3;
+    QVERIFY(!i3.hasNext());
+    QVERIFY(!i3.hasPrevious());
+    i3.toBack();
+    QVERIFY(!i3.hasNext());
+    QVERIFY(!i3.hasPrevious());
+    QCOMPARE(i.peekPrevious(), p2);
+    QCOMPARE(i.previous(), p2);
+    QCOMPARE(i.previous(), p1);
+    QCOMPARE(i.previous(), p0);
+    QVERIFY(!i.hasPrevious());
+    QCOMPARE(i.peekNext(), p0);
+    // i.peekNext()= 1.0; // compiler error
+    QCOMPARE(i.next(), p0);
+    QCOMPARE(i.peekNext(), p1);
+    QCOMPARE(i.next(), p1);
+    QCOMPARE(i.next(), p2);
+    QVERIFY(!i.hasNext());
+    i.toFront();
+    QCOMPARE(i.next(), p0);
+}//t_coord_iterator
 
 void PointCoordinates_test::
 t_io()

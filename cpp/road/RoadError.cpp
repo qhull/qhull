@@ -1,19 +1,19 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/road/RoadError.cpp#12 $$Change: 1100 $
-** $DateTime: 2009/12/06 22:53:01 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/road/RoadError.cpp#13 $$Change: 1111 $
+** $DateTime: 2009/12/10 22:15:38 $$Author: bbarber $
 **
 ****************************************************************************/
 
 #//! RoadError -- All exceptions thrown by Qhull are RoadErrors
 #//! Do not throw RoadError's from destructors.  Use e.logError() instead.
 
-#include <iostream>
-#include <sstream>
-#include <string>
-
 #include "RoadError.h"
+
+#include <string>
+#include <sstream>
+#include <iostream>
 
 using std::cerr;
 using std::cout;

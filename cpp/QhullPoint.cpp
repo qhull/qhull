@@ -1,16 +1,16 @@
 /****************************************************************************
 **
 ** Copyright (C) 2009-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullPoint.cpp#22 $$Change: 1102 $
-** $DateTime: 2009/12/07 20:26:04 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullPoint.cpp#23 $$Change: 1111 $
+** $DateTime: 2009/12/10 22:15:38 $$Author: bbarber $
 **
 ****************************************************************************/
 
-#include <algorithm>
-#include <iostream>
-
-#include "QhullPoint.h"
 #include "UsingLibQhull.h"
+#include "QhullPoint.h"
+
+#include <iostream>
+#include <algorithm>
 
 #ifdef _MSC_VER  // Microsoft Visual C++ -- warning level 4
 #endif

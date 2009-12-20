@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2009-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullPoint.h#25 $$Change: 1102 $
-** $DateTime: 2009/12/07 20:26:04 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullPoint.h#27 $$Change: 1112 $
+** $DateTime: 2009/12/11 19:53:07 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -13,12 +13,11 @@
 #include "QhullIterator.h"
 #include "UsingLibQhull.h"
 #include "Coordinates.h"
-
-#include <ostream>
-
 extern "C" {
     #include "../src/qhull_a.h"
 };
+
+#include <ostream>
 
 namespace orgQhull {
 
@@ -30,14 +29,7 @@ namespace orgQhull {
 
 class QhullPoint {
 
-#//Class objects
-    //! QhullPoint and UsingLibQhull store QhullQh fields
-
-#//Class methods -- Convert point to id w/o QhullQh data structure
-public:
-    static int          id(const coordT *c) { return QhullPoint::id(UsingLibQhull::NOqhRunId, 0, c); }
-    static int          id(int qhRunId, const coordT *c) { return QhullPoint::id(qhRunId, 0, c); }
-    static int          id(int qhRunId, int dimension, const coordT *c);
+    //! A point is a pointer into an array of coordinates.
 
 private:
 #//Fields
@@ -49,12 +41,16 @@ private:
     //friend std::ostream &operator<<(std::ostream &os, QhullPoint &p);
 
 public:
-#//Types
-    // A point is a pointer into an array of coordinates.
-    typedef const coordT * iterator;
-    typedef const coordT * const_iterator;
-    typedef QhullPoint::iterator Iterator;
-    typedef QhullPoint::const_iterator ConstIterator;
+#//Subtypes
+    typedef const coordT *              iterator;
+    typedef const coordT *              const_iterator;
+    typedef QhullPoint::iterator        Iterator;
+    typedef QhullPoint::const_iterator  ConstIterator;
+
+#//Class methods -- Convert point to id w/o QhullQh data structure
+    static int          id(const coordT *c) { return QhullPoint::id(UsingLibQhull::NOqhRunId, 0, c); }
+    static int          id(int qhRunId, const coordT *c) { return QhullPoint::id(qhRunId, 0, c); }
+    static int          id(int qhRunId, int dimension, const coordT *c);
 
 #//Construct
                         QhullPoint() : point_coordinates(0), point_dimension(0) {};

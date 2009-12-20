@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullFacetList.h#17 $$Change: 1102 $
-** $DateTime: 2009/12/07 20:26:04 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullFacetList.h#18 $$Change: 1111 $
+** $DateTime: 2009/12/10 22:15:38 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -10,6 +10,7 @@
 #define QHULLFACETLIST_H
 
 #include "QhullLinkedList.h"
+#include "QhullFacet.h"
 
 #include <ostream>
 

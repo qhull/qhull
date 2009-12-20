@@ -1,18 +1,19 @@
 /****************************************************************************
 **
 ** Copyright (C) 2009-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/qhulltest/Coordinates_test.cpp#11 $$Change: 1095 $
-** $DateTime: 2009/12/01 22:40:56 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/qhulltest/Coordinates_test.cpp#13 $$Change: 1116 $
+** $DateTime: 2009/12/13 22:31:48 $$Author: bbarber $
 **
 ****************************************************************************/
 
+//pre-compiled headers
 #include <iostream>
 #include "../road/RoadTest.h" // QT_VERSION
 
-#include "Qhull.h"
-#include "QhullError.h"
 #include "Coordinates.h"
+#include "QhullError.h"
 #include "RboxPoints.h"
+#include "Qhull.h"
 
 using std::cout;
 using std::endl;
@@ -210,6 +211,10 @@ t_const_iterator()
     QVERIFY(i>=c.begin());
     QVERIFY(i+1<=c.end());
     QVERIFY(i+1>c.begin());
+    Coordinates::iterator i2= c.begin();
+    Coordinates::const_iterator i3(i2);
+    QCOMPARE(*i3, 1.0);
+    QCOMPARE(i3[1], 3.0);
 }//t_const_iterator
 
 void Coordinates_test::

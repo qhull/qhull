@@ -6,12 +6,12 @@
 
 #//! QhullError -- All exceptions thrown by Qhull are QhullErrors
 
-#include <iostream>
-#include <memory>
-#include <sstream>
-#include <string>
-
 #include "QhullError.h"
+
+#include <memory>
+#include <string>
+#include <sstream>
+#include <iostream>
 
 using std::cout;
 using std::ostringstream;

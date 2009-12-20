@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullRidge.h#18 $$Change: 1102 $
-** $DateTime: 2009/12/07 20:26:04 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullRidge.h#19 $$Change: 1111 $
+** $DateTime: 2009/12/10 22:15:38 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -13,11 +13,11 @@
 #include "QhullVertex.h"
 #include "QhullVertexSet.h"
 #include "QhullFacet.h"
-#include <ostream>
-
 extern "C" {
     #include "../src/qhull_a.h"
 };
+
+#include <ostream>
 
 namespace orgQhull {
 

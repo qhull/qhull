@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/UsingLibQhull.h#1 $$Change: 1107 $
-** $DateTime: 2009/12/07 21:05:37 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/UsingLibQhull.h#2 $$Change: 1111 $
+** $DateTime: 2009/12/10 22:15:38 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -10,7 +10,6 @@
 #define USINGlibqhull_H
 
 #include "QhullError.h"
-
 extern "C" {
 #include "../src/libqhull.h"
 };
@@ -62,21 +61,14 @@ private:
     static int          s_points_dimension; 
     static int          s_vertex_dimension; //! Default dimension (e.g., if Vertex::dimension() >= 16)
 
-#//Class constants
 public:
+#//Class constants
     static const int    NOqhRunId= 0;   //! qh_qh is not available
     static const int    NOthrow= 1;     //! Do not throw from maybeThrowQhullMessage
     static const int    FACTORepsilon= 10;  //!
     static const double DEFAULTdistanceEpsilon; //! ~DISTround*FACTORepsilon for unit cube
     static const double DEFAULTangleEpsilon;    //! ~ANGLEround*FACTORepsilon for unit cube
 
-#//Constructors
-                        UsingLibQhull(Qhull *p);
-                        UsingLibQhull(Qhull *p, int noThrow);
-                        UsingLibQhull(int qhRunId);
-                       ~UsingLibQhull();
-
-public:
 #//Class members
     static void         checkQhullMemoryEmpty();
     static double       currentAngleEpsilon();
@@ -101,6 +93,12 @@ public:
     static void         unsetGlobalPoints() { s_has_points= false; }
     static void         unsetGlobalVertexDimension() { s_has_vertex_dimension= false; }
     static void         unsetGlobals();
+
+#//Constructors
+                        UsingLibQhull(Qhull *p);
+                        UsingLibQhull(Qhull *p, int noThrow);
+                        UsingLibQhull(int qhRunId);
+                       ~UsingLibQhull();
 
 #//Methods
     bool                defined() const { return my_qhull!=0; }

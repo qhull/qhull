@@ -1,16 +1,16 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullLog.cpp#6 $$Change: 1053 $
-** $DateTime: 2009/10/02 22:00:28 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullLog.cpp#7 $$Change: 1111 $
+** $DateTime: 2009/12/10 22:15:38 $$Author: bbarber $
 **
 ****************************************************************************/
 
 #//! QhullLog -- A recorded event in a circular buffer
 
-#include <time.h>
-
 #include "QhullLog.h"
+
+#include <time.h>
 
 #ifdef _MSC_VER  // Microsoft Visual C++ -- warning level 4 
 #endif

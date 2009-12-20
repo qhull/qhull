@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/road/RoadError.h#15 $$Change: 1096 $
-** $DateTime: 2009/12/04 21:52:01 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/road/RoadError.h#16 $$Change: 1111 $
+** $DateTime: 2009/12/10 22:15:38 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -29,14 +29,14 @@ namespace orgQhull {
 class RoadError : public std::exception {
 
 private:
-#//Class fields
-    static const char  *  ROADtag;
-    static std::ostringstream  global_log; //! May be replaced with any ostream object
-
 #//Fields
     int                 error_code;  //! Non-zero code (not logged), maybe returned as program status
     RoadLogEvent        log_event;   //! Format string w/ arguments
     mutable std::string error_message;  //! Formated error message.  Must be after log_event.
+
+#//Class fields
+    static const char  *  ROADtag;
+    static std::ostringstream  global_log; //! May be replaced with any ostream object
 
 public:
 #//Constants

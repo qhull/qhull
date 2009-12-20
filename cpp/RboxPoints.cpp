@@ -1,15 +1,15 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/RboxPoints.cpp#28 $$Change: 1100 $
-** $DateTime: 2009/12/06 22:53:01 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/RboxPoints.cpp#29 $$Change: 1111 $
+** $DateTime: 2009/12/10 22:15:38 $$Author: bbarber $
 **
 ****************************************************************************/
 
-#include <iostream>
-
 #include "QhullError.h"
 #include "RboxPoints.h"
+
+#include <iostream>
 
 using std::cerr;
 using std::endl;

@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullLinkedList.h#25 $$Change: 1102 $
-** $DateTime: 2009/12/07 20:26:04 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullLinkedList.h#27 $$Change: 1114 $
+** $DateTime: 2009/12/12 13:49:07 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -44,7 +44,7 @@ private:
     T                   end_node;     //! Sentinel node at end of list
 
 public:
-#//Types
+#//Subtypes and types
     class               const_iterator;
     class               iterator;
     typedef const_iterator  ConstIterator;
@@ -108,12 +108,17 @@ public:
     const_iterator      end() const { return end_node; }
 
     class iterator {
-    public:
-        typedef ptrdiff_t  difference_type;
-        typedef std::bidirectional_iterator_tag  iterator_category;
-        typedef T       value_type;
 
+    private:
         T               i;
+        friend class    const_iterator;
+
+    public:
+        typedef std::bidirectional_iterator_tag  iterator_category;
+        typedef T           value_type;
+        typedef value_type *pointer;
+        typedef value_type &reference;
+        typedef ptrdiff_t   difference_type;
 
                         iterator() : i() {}
                         iterator(T t) : i(t) {}
@@ -137,14 +142,16 @@ public:
     };//QhullLinkedList::iterator
 
     class const_iterator {
-    public:
-        typedef ptrdiff_t  difference_type;
-        typedef std::bidirectional_iterator_tag  iterator_category;
-        typedef const T *pointer;
-        typedef const T &reference;
-        typedef T       value_type;
 
+    private:
         T               i;
+
+    public:
+        typedef std::bidirectional_iterator_tag  iterator_category;
+        typedef T                 value_type;
+        typedef const value_type *pointer;
+        typedef const value_type &reference;
+        typedef ptrdiff_t         difference_type;
 
                         const_iterator() : i() {}
                         const_iterator(T t) : i(t) {}
@@ -201,7 +208,7 @@ std::vector<T> QhullLinkedList<T>::
 toStdVector() const
 { 
     std::vector<T> tmp; 
-    copy(constBegin(), constEnd(), std::back_inserter(tmp)); 
+    std::copy(constBegin(), constEnd(), std::back_inserter(tmp));
     return tmp; 
 }//toStdVector
 #endif

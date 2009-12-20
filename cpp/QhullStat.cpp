@@ -1,19 +1,19 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullStat.cpp#5 $$Change: 1045 $
-** $DateTime: 2009/08/22 21:30:33 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullStat.cpp#6 $$Change: 1111 $
+** $DateTime: 2009/12/10 22:15:38 $$Author: bbarber $
 **
 ****************************************************************************/
 
 #//! QhullStat -- Qhull's global data structure, statT, as a C++ class
 
 
-#include <iostream>
-#include <sstream>
-
 #include "QhullError.h"
 #include "QhullStat.h"
+
+#include <sstream>
+#include <iostream>
 
 using std::cerr;
 using std::string;

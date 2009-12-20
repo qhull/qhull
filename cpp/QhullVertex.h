@@ -1,24 +1,23 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullVertex.h#21 $$Change: 1102 $
-** $DateTime: 2009/12/07 20:26:04 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullVertex.h#22 $$Change: 1111 $
+** $DateTime: 2009/12/10 22:15:38 $$Author: bbarber $
 **
 ****************************************************************************/
 
 #ifndef QHULLVERTEX_H
 #define QHULLVERTEX_H
 
-#include <ostream>
-
 #include "UsingLibQhull.h"
 #include "QhullPoint.h"
 #include "QhullLinkedList.h"
 #include "QhullSet.h"
-
 extern "C" {
     #include "../src/qhull_a.h"
 };
+
+#include <ostream>
 
 namespace orgQhull {
 
@@ -43,6 +42,7 @@ namespace orgQhull {
 
 class QhullVertex {
 
+private:
 #//Fields
     vertexT            *qh_vertex;
 

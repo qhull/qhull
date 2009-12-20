@@ -1,19 +1,19 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullEvent.h#6 $$Change: 1053 $
-** $DateTime: 2009/10/02 22:00:28 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullEvent.h#7 $$Change: 1111 $
+** $DateTime: 2009/12/10 22:15:38 $$Author: bbarber $
 **
 ****************************************************************************/
 
 #ifndef QHULLEVENT_H
 #define QHULLEVENT_H
 
-#include <string>
-
 extern "C" {
     #include "../src/qhull_a.h"
 };
+
+#include <string>
 
 namespace orgQhull {
 
@@ -34,8 +34,8 @@ public:
         ReturnEvent= 0x2
     };
 
-#//Fields
 private:
+#//Fields
     unsigned int    time_s:24;
     unsigned int    event_type:2;
     unsigned int    trace_level:3;

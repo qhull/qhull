@@ -1,27 +1,26 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/Qhull.cpp#37 $$Change: 1102 $
-** $DateTime: 2009/12/07 20:26:04 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/Qhull.cpp#38 $$Change: 1111 $
+** $DateTime: 2009/12/10 22:15:38 $$Author: bbarber $
 **
 ****************************************************************************/
 
 #//! Qhull -- invoke qhull from C++
 #//! Compile libqhull and Qhull together due to use of setjmp/longjmp()
 
-#include <iostream>
-
-#include "Qhull.h"
 #include "QhullError.h"
+#include "UsingLibQhull.h"
+#include "RboxPoints.h"
+#include "QhullQh.h"
 #include "QhullFacet.h"
 #include "QhullFacetList.h"
-#include "QhullQh.h"
-#include "RboxPoints.h"
-#include "UsingLibQhull.h"
-
+#include "Qhull.h"
 extern "C" {
     #include "../src/qhull_a.h"
 };
+
+#include <iostream>
 
 using std::cerr;
 using std::string;

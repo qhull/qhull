@@ -1,17 +1,17 @@
 /****************************************************************************
 **
 ** Copyright (C) 2009-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullVertexSet.h#4 $$Change: 1102 $
-** $DateTime: 2009/12/07 20:26:04 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullVertexSet.h#5 $$Change: 1111 $
+** $DateTime: 2009/12/10 22:15:38 $$Author: bbarber $
 **
 ****************************************************************************/
 
 #ifndef QHULLVERTEXSET_H
 #define QHULLVERTEXSET_H
 
-#include <ostream>
-
 #include "QhullSet.h"
+
+#include <ostream>
 
 namespace orgQhull {
 
@@ -27,13 +27,13 @@ namespace orgQhull {
 
 class QhullVertexSet : public QhullSet<QhullVertex> {
 
-#//Fields
 private:
+#//Fields
     Qhull              *qhsettemp_qhull; //! For sets allocated with qh_settemp()
     bool                qhsettemp_defined;  //! Set was allocated with q_memalloc() 
 
-#//Constructor
 public:
+#//Constructor
                         //Conversion from setT* is not type-safe.  Implicit conversion for void* to T
    explicit             QhullVertexSet(setT *s) : QhullSet<QhullVertex>(s), qhsettemp_qhull(0), qhsettemp_defined(false) {}
                         QhullVertexSet(int qhRunId, facetT *facetlist, setT *facetset, bool allfacets);

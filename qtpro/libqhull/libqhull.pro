@@ -1,17 +1,21 @@
 # -------------------------------------------------
-# qhulllib.pro -- Qt project file
+# libqhull.pro -- Qt project for Qhull static library
 # -------------------------------------------------
-# configure -commercial -no-qt3support -no-opengl -no-rtti -qt-style-plastique
-QT -= gui
-TARGET = ../../qhull
+
 CONFIG += staticlib
-CONFIG -= app_bundle qt
 TEMPLATE = lib
-DESTDIR = ../../tmp/lib
-OBJECTS_DIR = ../../tmp/obj
+DESTDIR = ../..
+build_pass:CONFIG(debug, debug|release):{
+    TARGET = qhulld
+    OBJECTS_DIR = ../../tmp/libqhull/Debug
+}else:build_pass:CONFIG(release, debug|release):{
+    TARGET = qhull
+    OBJECTS_DIR = ../../tmp/libqhull/Release
+}
+CONFIG -= app_bundle qt
 MOC_DIR = ../../tmp/moc
 RCC_DIR = ../../tmp/rcc
-# INCLUDEPATH = ../src
+
 VPATH= ../..
 SOURCES += src/geom.c
 SOURCES += src/geom2.c
@@ -49,7 +53,6 @@ HEADERS += src/io.h
 HEADERS += src/mem.h
 HEADERS += src/merge.h
 HEADERS += src/poly.h
-
 # qhull.h is for backwards compatibility
 HEADERS += src/libqhull.h
 HEADERS += src/qhull_a.h

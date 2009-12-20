@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2009-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullHyperplane.h#5 $$Change: 1102 $
-** $DateTime: 2009/12/07 20:26:04 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullHyperplane.h#7 $$Change: 1112 $
+** $DateTime: 2009/12/11 19:53:07 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -12,12 +12,11 @@
 #include "QhullError.h"
 #include "QhullIterator.h"
 #include "UsingLibQhull.h"
-
-#include <ostream>
-
 extern "C" {
     #include "../src/qhull_a.h"
 };
+
+#include <ostream>
 
 namespace orgQhull {
 #//ClassRef
@@ -38,10 +37,10 @@ private:
     coordT              hyperplane_offset;
 
 public:
-#//Types
-    typedef const coordT * iterator;
-    typedef const coordT * const_iterator;
-    typedef QhullHyperplane::iterator Iterator;
+#//Subtypes
+    typedef const coordT *                  iterator;
+    typedef const coordT *                  const_iterator;
+    typedef QhullHyperplane::iterator       Iterator;
     typedef QhullHyperplane::const_iterator ConstIterator;
 
 #//Construct

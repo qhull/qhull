@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullFacet.h#31 $$Change: 1102 $
-** $DateTime: 2009/12/07 20:26:04 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullFacet.h#32 $$Change: 1111 $
+** $DateTime: 2009/12/10 22:15:38 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -14,14 +14,13 @@
 #include "QhullPoint.h"
 #include "QhullSet.h"
 #include "QhullPointSet.h"
+extern "C" {
+    #include "../src/qhull_a.h"
+};
 
 #include <string>
 #include <vector>
 #include <ostream>
-
-extern "C" {
-    #include "../src/qhull_a.h"
-};
 
 namespace orgQhull {
 
@@ -39,6 +38,7 @@ namespace orgQhull {
 //! A QhullFacet is the C++ equivalent to Qhull's facetT*
 class QhullFacet {
 
+private:
 #//Fields -- no additions (QhullFacetSet of facetT*)
     facetT             *qh_facet;  //! May be 0 (!isDefined) for corner cases (e.g., *facetSet.end()==0)
 

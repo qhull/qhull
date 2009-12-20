@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullLog.h#8 $$Change: 1098 $
-** $DateTime: 2009/12/04 22:47:59 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullLog.h#9 $$Change: 1111 $
+** $DateTime: 2009/12/10 22:15:38 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -10,13 +10,12 @@
 #define QHULLLOG_H
 
 #include "QhullEvent.h"
-
-#include <string>
-#include <vector>
-
 extern "C" {
     #include "../src/qhull_a.h"
 };
+
+#include <string>
+#include <vector>
 
 namespace orgQhull {
 
@@ -26,6 +25,7 @@ namespace orgQhull {
 
 class QhullLog {
 
+private:
 #//Fields
 
 public:

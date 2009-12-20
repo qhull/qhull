@@ -1,17 +1,25 @@
 # -------------------------------------------------
-# qhull-qt.pro -- Qt project file
+# libqhullcpp.pro -- Qt project for Qhull cpp shared library
 # -------------------------------------------------
-QT -= gui
-TARGET = qhull-qt
-CONFIG += console qtestlib
-CONFIG -= app_bundle
-TEMPLATE = app
-LIBS = ../../libqhull.a
+
 DESTDIR = ../..
-OBJECTS_DIR = ../../tmp/obj
+CONFIG += shared
+TEMPLATE = lib
+build_pass:CONFIG(debug, debug|release):{
+   TARGET = qhullcppd
+   LIBS += ../../libqhulld.a
+   OBJECTS_DIR = ../../tmp/libqhullcpp/Debug
+}else:build_pass:CONFIG(release, debug|release):{
+   TARGET = qhullcpp
+   LIBS += ../../libqhull.a
+   OBJECTS_DIR = ../../tmp/libqhullcpp/Release
+}
+QT -= gui
+CONFIG -= app_bundle
 MOC_DIR = ../../tmp/moc
 RCC_DIR = ../../tmp/rcc
 INCLUDEPATH = ../../cpp;../../cpp/road;../../tmp
+
 VPATH = ../..
 SOURCES += cpp/Coordinates.cpp
 SOURCES += cpp/QhullVertexSet.cpp
@@ -35,24 +43,6 @@ SOURCES += cpp/RboxPoints.cpp
 SOURCES += cpp/UsingLibQhull.cpp
 SOURCES += cpp/road/RoadError.cpp
 SOURCES += cpp/road/RoadLogEvent.cpp
-SOURCES += cpp/road/RoadTest.cpp
-SOURCES += cpp/qhulltest/Coordinates_test.cpp
-SOURCES += cpp/qhulltest/PointCoordinates_test.cpp
-SOURCES += cpp/qhulltest/Qhull_test.cpp
-SOURCES += cpp/qhulltest/QhullFacet_test.cpp
-SOURCES += cpp/qhulltest/QhullFacetList_test.cpp
-SOURCES += cpp/qhulltest/QhullFacetSet_test.cpp
-SOURCES += cpp/qhulltest/QhullHyperplane_test.cpp
-SOURCES += cpp/qhulltest/QhullLinkedList_test.cpp
-SOURCES += cpp/qhulltest/QhullPoint_test.cpp
-SOURCES += cpp/qhulltest/QhullPoints_test.cpp
-SOURCES += cpp/qhulltest/QhullPointSet_test.cpp
-SOURCES += cpp/qhulltest/QhullRidge_test.cpp
-SOURCES += cpp/qhulltest/QhullSet_test.cpp
-SOURCES += cpp/qhulltest/qhulltest.cpp
-SOURCES += cpp/qhulltest/QhullVertex_test.cpp
-SOURCES += cpp/qhulltest/UsingLibQhull_test.cpp
-SOURCES += cpp/qhulltest/RboxPoints_test.cpp
 HEADERS += cpp/Coordinates.h
 HEADERS += cpp/QhullHyperplane.h
 HEADERS += cpp/functionObjects.h
@@ -78,4 +68,4 @@ HEADERS += cpp/RboxPoints.h
 HEADERS += cpp/UsingLibQhull.h
 HEADERS += cpp/road/RoadError.h
 HEADERS += cpp/road/RoadLogEvent.h
-HEADERS += cpp/road/RoadTest.h
+

@@ -1,14 +1,20 @@
 # -------------------------------------------------
 # qhull.pro -- Qt project file for qhull.exe
 # -------------------------------------------------
-QT -= gui
+
 TARGET = qhull
-CONFIG += console
-CONFIG -= app_bundle
-TEMPLATE = app
-LIBS = ../../libqhull.a
 DESTDIR = ../..
-OBJECTS_DIR = ../../tmp/obj
+TEMPLATE = app
+CONFIG += console
+build_pass:CONFIG(debug, debug|release):{
+   LIBS += ../../libqhulld.a
+   OBJECTS_DIR = ../../tmp/qhull/Debug
+}else:build_pass:CONFIG(release, debug|release):{
+   LIBS += ../../libqhull.a
+   OBJECTS_DIR = ../../tmp/qhull/Release
+}
+QT -= gui
+CONFIG -= app_bundle
 MOC_DIR = ../../tmp/moc
 RCC_DIR = ../../tmp/rcc
 INCLUDEPATH = ../../cpp;../../cpp/road;../../tmp
