@@ -348,7 +348,7 @@ facetT *qh_findbesthorizon (boolT ischeckmax, pointT* point, facetT *startfacet,
     else if (!coplanarset_size)
       break; 
     else if (!--coplanarset_size) {
-      facet= SETfirst_(qh coplanarset);
+      facet= (facetT*) SETfirst_(qh coplanarset);
       SETtruncate_(qh coplanarset, 0);
     }else
       facet= (facetT*)qh_setdellast (qh coplanarset);

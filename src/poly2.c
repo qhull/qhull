@@ -2203,7 +2203,7 @@ vertexT *qh_nearvertex (facetT *facet, pointT *point, realT *bestdistp) {
       qh_errexit(qh_ERRqhull, facet, NULL);
     }
     vertices= qh_settemp (qh TEMPsize);
-    apex= SETfirst_(facet->vertices);
+    apex= (vertexT*)SETfirst_(facet->vertices);
     center= facet->center;
     FOREACHneighbor_(apex) {
       if (neighbor->center == center) {
@@ -2893,7 +2893,7 @@ void qh_triangulate_facet (facetT *facetA, vertexT **first_vertex) {
   qh_willdelete (facetA, NULL);
   qh newfacet_list= qh facet_tail;
   facetA->visitid= qh visit_id;
-  apex= SETfirst_(facetA->vertices);
+  apex= (vertexT*)SETfirst_(facetA->vertices);
   qh_makenew_nonsimplicial (facetA, apex, &numnew);
   SETfirst_(facetA->neighbors)= NULL;
   FORALLnew_facets {
@@ -3005,8 +3005,8 @@ void qh_triangulate_null (facetT *facetA) {
   facetT *neighbor, *otherfacet;
 
   trace3((qh ferr, "qh_triangulate_null: delete null facet f%d\n", facetA->id));
-  neighbor= SETfirst_(facetA->neighbors);
-  otherfacet= SETsecond_(facetA->neighbors);
+  neighbor= (facetT*)SETfirst_(facetA->neighbors);
+  otherfacet= (facetT*)SETsecond_(facetA->neighbors);
   qh_triangulate_link (facetA, neighbor, facetA, otherfacet);
   qh_willdelete (facetA, NULL);
 } /* triangulate_null */
