@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (C) 2008-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/qhulltest/QhullVertexSet_test.cpp#1 $$Change: 1048 $
-** $DateTime: 2009/09/24 21:34:06 $$Author: bbarber $
+** Copyright (C) 2008-2010 C. Bradford Barber. All rights reserved.
+** $Id: //product/qhull/main/rel/cpp/qhulltest/QhullVertexSet_test.cpp#2 $$Change: 1137 $
+** $DateTime: 2010/01/02 21:58:11 $$Author: bbarber $
 **
 ****************************************************************************/
 

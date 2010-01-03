@@ -2,6 +2,7 @@
  Qhull 2003.1 2003/12/30
 
         http://www.qhull.org
+        git@gitorious.org:qhull/qhull.git
         http://savannah.nongnu.org/projects/qhull/
         http://www6.uniovi.es/ftp/pub/mirrors/geom.umn.edu/software/ghindex.html
         http://www.geomview.org
@@ -20,6 +21,7 @@ You can view the results in 2-d, 3-d and 4-d with Geomview.
 
 To download Qhull:
         http://www.qhull.org/download
+        git@gitorious.org:qhull/qhull.git
         http://savannah.nongnu.org/files/?group=qhull
 
 Download qhull-96.ps for:
@@ -28,7 +30,7 @@ Download qhull-96.ps for:
         Quickhull Algorithm for Convex Hulls," ACM Trans. on
         Mathematical Software, 22(4):469-483, Dec. 1996.
         http://www.acm.org/pubs/citations/journals/toms/1996-22-4/p469-barber/
-        http://citeseer.nj.nec.com/83502.html
+        http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.54.6345
 
 Abstract:
 

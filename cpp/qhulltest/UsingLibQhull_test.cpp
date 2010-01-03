@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (C) 2008-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/qhulltest/UsingLibQhull_test.cpp#2 $$Change: 1111 $
-** $DateTime: 2009/12/10 22:15:38 $$Author: bbarber $
+** Copyright (C) 2008-2010 C. Bradford Barber. All rights reserved.
+** $Id: //product/qhull/main/rel/cpp/qhulltest/UsingLibQhull_test.cpp#4 $$Change: 1137 $
+** $DateTime: 2010/01/02 21:58:11 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -98,10 +98,10 @@ t_classMembers()
     QCOMPARE(UsingLibQhull::globalDistanceEpsilon()+1.0, 1.0);
     UsingLibQhull::unsetGlobals();
     try{
-        cout<< UsingLibQhull::globalVertexDimension();
+        cout << UsingLibQhull::globalVertexDimension();
         QFAIL("Did not throw error for undefined dimension.");
     }catch(const std::exception &e){
-        cout<< "INFO     Caught error -- " << e.what() << endl;
+        cout << "INFO     Caught error -- " << e.what() << endl;
     }
 }//t_classMembers
 
@@ -151,7 +151,7 @@ t_globalPoints()
         pointsBegin3= UsingLibQhull::globalPoints(&dimension3, &pointsEnd3);
         QFAIL("Did not throw error for undefined global points.");
     }catch(const std::exception &e){
-        cout<< "INFO     Caught error -- " << e.what() << endl;
+        cout << "INFO     Caught error -- " << e.what() << endl;
     }
 }//t_globalPoints
 
@@ -167,7 +167,7 @@ t_UsingLibQhull()
             UsingLibQhull uq2(&q2);
             QFAIL("UsingLibQhull did not fail.");
         }catch (const std::exception &e) {
-            cout<< "INFO   : Caught " << e.what();
+            cout << "INFO   : Caught " << e.what();
         }
     }
     Qhull q3;
@@ -185,14 +185,14 @@ t_methods()
         u.maybeThrowQhullMessage(1);
         QFAIL("maybeThrowQhullMessage(1) did not fail.");
     }catch (const std::exception &e) {
-        cout<< "INFO   : Caught " << e.what();
+        cout << "INFO   : Caught " << e.what();
     }
     // Can not check checkRunId() in maybeThrowQhullMessage().  Requires another thread.
     u.maybeThrowQhullMessage(2, UsingLibQhull::NOthrow);
     try{
         throw QhullError(10054, "Report previous NOthrow error");
     }catch (const std::exception &e) {
-        cout<< "INFO   : " << e.what();
+        cout << "INFO   : " << e.what();
     }
 }//t_methods
 

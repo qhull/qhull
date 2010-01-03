@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (C) 2009-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/qhulltest/QhullHyperplane_test.cpp#7 $$Change: 1111 $
-** $DateTime: 2009/12/10 22:15:38 $$Author: bbarber $
+** Copyright (C) 2009-2010 C. Bradford Barber. All rights reserved.
+** $Id: //product/qhull/main/rel/cpp/qhulltest/QhullHyperplane_test.cpp#9 $$Change: 1137 $
+** $DateTime: 2010/01/02 21:58:11 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -115,7 +115,7 @@ t_readonly()
             QhullFacet f= i.next();
             QhullHyperplane h= f.hyperplane();
             int id= f.id();
-            cout<< "h" << id << endl;
+            cout << "h" << id << endl;
             QVERIFY(h.isDefined());
             QCOMPARE(h.dimension(),3);
             const coordT *c= h.coordinates();
@@ -399,7 +399,7 @@ t_io()
         os << "Hyperplane w/ runId:\n";
         os << h.print();
         os << h.print(" and a message ", " offset ");
-        cout<< os.str();
+        cout << os.str();
         QString s= QString::fromStdString(os.str());
         QCOMPARE(s.count("1"), 3);
         // QCOMPARE(s.count(QRegExp("f\\d")), 3*7 + 13*3*2);

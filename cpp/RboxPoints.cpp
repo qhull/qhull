@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (C) 2008-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/RboxPoints.cpp#29 $$Change: 1111 $
-** $DateTime: 2009/12/10 22:15:38 $$Author: bbarber $
+** Copyright (C) 2008-2010 C. Bradford Barber. All rights reserved.
+** $Id: //product/qhull/main/rel/cpp/RboxPoints.cpp#31 $$Change: 1137 $
+** $DateTime: 2010/01/02 21:58:11 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -196,22 +196,22 @@ void qh_fprintf_rbox(FILE*, int msgcode, const char *fmt, ... ) {
 	}
 	break;
     case 9407:
-        *out<< va_arg(args, int);
+        *out << va_arg(args, int);
         // fall through
     case 9405:
-        *out<< va_arg(args, int);
+        *out << va_arg(args, int);
         // fall through
     case 9403:
-        *out<< va_arg(args, int);
+        *out << va_arg(args, int);
         break;
     case 9408:
-	*out<< va_arg(args, double);
+	*out << va_arg(args, double);
 	// fall through
     case 9406:
-        *out<< va_arg(args, double);
+        *out << va_arg(args, double);
 	// fall through
     case 9404:
-        *out<< va_arg(args, double);
+        *out << va_arg(args, double);
 	break;
     }
     va_end(args);

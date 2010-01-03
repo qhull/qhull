@@ -6,9 +6,9 @@
 
    see qh-stat.htm and stat.c
 
-   copyright (c) 1993-2009 The Geometry Center.
-   $Id: //product/qhull/main/rel/src/stat.h#22 $$Change: 1102 $
-   $DateTime: 2009/12/07 20:26:04 $$Author: bbarber $
+   copyright (c) 1993-2010 The Geometry Center.
+   $Id: //product/qhull/main/rel/src/stat.h#25 $$Change: 1137 $
+   $DateTime: 2010/01/02 21:58:11 $$Author: bbarber $
 
    recompile qhull if you change this file
 
@@ -494,7 +494,7 @@ extern qhstatT qh_qhstat;
 struct qhstatT {  
   intrealT   stats[ZEND];     /* integer and real statistics */
   unsigned   char id[ZEND+10]; /* id's in print order */
-  char      *doc[ZEND];       /* array of documentation strings */
+  const char *doc[ZEND];       /* array of documentation strings */
   short int  count[ZEND];     /* -1 if none, else index of count to use */
   char       type[ZEND];      /* type, see ztypes above */
   char       printed[ZEND];   /* true, if statistic has been printed */
@@ -525,8 +525,8 @@ void	qh_freestatistics(void);
 void    qh_initstatistics(void);
 boolT 	qh_newstats(int index, int *nextindex);
 boolT 	qh_nostatistic(int i);
-void    qh_printallstatistics(FILE *fp, char *string);
-void    qh_printstatistics(FILE *fp, char *string);
+void    qh_printallstatistics(FILE *fp, const char *string);
+void    qh_printstatistics(FILE *fp, const char *string);
 void  	qh_printstatlevel(FILE *fp, int id, int start);
 void  	qh_printstats(FILE *fp, int index, int *nextindex);
 realT   qh_stddev(int num, realT tot, realT tot2, realT *ave);

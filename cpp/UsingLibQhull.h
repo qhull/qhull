@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (C) 2008-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/UsingLibQhull.h#2 $$Change: 1111 $
-** $DateTime: 2009/12/10 22:15:38 $$Author: bbarber $
+** Copyright (C) 2008-2010 C. Bradford Barber. All rights reserved.
+** $Id: //product/qhull/main/rel/cpp/UsingLibQhull.h#4 $$Change: 1137 $
+** $DateTime: 2010/01/02 21:58:11 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -101,6 +101,7 @@ public:
                        ~UsingLibQhull();
 
 #//Methods
+#//Access
     bool                defined() const { return my_qhull!=0; }
     void                maybeThrowQhullMessage(int exitCode) const;
     void                maybeThrowQhullMessage(int exitCode, int noThrow) const;

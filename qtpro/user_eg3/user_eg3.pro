@@ -5,11 +5,12 @@ TARGET = user_eg3
 DESTDIR = ../..
 TEMPLATE = app
 CONFIG += console
+LIBS += -L../..
 build_pass:CONFIG(debug, debug|release):{
-   LIBS += ../../qhullcppd.dll
+   LIBS += libqhullcppd
    OBJECTS_DIR = ../../tmp/user_eg3/Debug
 }else:build_pass:CONFIG(release, debug|release):{
-   LIBS += ../../qhullcpp.dll
+   LIBS += libqhullcpp
    OBJECTS_DIR = ../../tmp/user_eg3/Release
 }
 QT -= gui

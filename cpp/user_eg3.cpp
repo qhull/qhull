@@ -51,7 +51,7 @@ For example\n\
 int main(int argc, char **argv) {
       
     if(argc==1){
-	cout<< prompt;
+	cout << prompt;
 	return 1;
     }
     try{
@@ -70,7 +70,7 @@ int user_eg3(int argc, char **argv)
         Qhull qhull;
         qhull.runQhull(rbox, "");
         QhullFacetList facets= qhull.facetList();
-        cout<< facets;
+        cout << facets;
         return 0;
     }
     RboxPoints rbox;
@@ -125,7 +125,7 @@ int user_eg3(int argc, char **argv)
         }
     }//foreach argv
     if(readingRbox){
-        cout<< rbox;
+        cout << rbox;
         return 0;
     }
     if(readingQhull==1){ // e.g., rbox 10 qhull
@@ -143,7 +143,7 @@ int user_eg3(int argc, char **argv)
         return 0;
     }
     QhullFacetList facets= qhull.facetList();
-    cout<< "\nFacets created by Qhull::runQhull()\n" << facets;
+    cout << "\nFacets created by Qhull::runQhull()\n" << facets;
     return 0;
 }//user_eg3
 

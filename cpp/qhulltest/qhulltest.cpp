@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (C) 2008-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/qhulltest/qhulltest.cpp#50 $$Change: 1118 $
-** $DateTime: 2009/12/20 16:19:59 $$Author: bbarber $
+** Copyright (C) 2008-2010 C. Bradford Barber. All rights reserved.
+** $Id: //product/qhull/main/rel/cpp/qhulltest/qhulltest.cpp#52 $$Change: 1137 $
+** $DateTime: 2010/01/02 21:58:11 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -57,15 +57,15 @@ int main(int argc, char *argv[])
     try{
         status= RoadTest::runTests(args);
     }catch(const std::exception &e){
-        cout<< "FAIL!  : runTests() did not catch error\n";
-        cout<< e.what() << endl;
+        cout << "FAIL!  : runTests() did not catch error\n";
+        cout << e.what() << endl;
         if(!RoadError::emptyGlobalLog()){
-            cout<< RoadError::stringGlobalLog() << endl;
+            cout << RoadError::stringGlobalLog() << endl;
             RoadError::clearGlobalLog();
         }
     }
     if(!RoadError::emptyGlobalLog()){
-        cout<< RoadError::stringGlobalLog() << endl;
+        cout << RoadError::stringGlobalLog() << endl;
         RoadError::clearGlobalLog();
     }
     return status;

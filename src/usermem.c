@@ -25,14 +25,14 @@
 /*-<a                             href="qh-user.htm#TOC"
   >-------------------------------</a><a name="qh_exit">-</a>
 
-  qh_exit( errstatus )
+  qh_exit( exitcode )
     exit program
 
   notes:
     same as exit()
 */
-void qh_exit(int errstatus) {
-    exit(errstatus);
+void qh_exit(int exitcode) {
+    exit(exitcode);
 } /* exit */
 
 /*-<a                             href="qh-user.htm#TOC"
@@ -57,7 +57,7 @@ void qh_free(void *mem) {
     notes:
       same as malloc()
 */
-void *qh_malloc(unsigned int size) {
+void *qh_malloc(size_t size) {
     return malloc(size);
 } /* malloc */
 

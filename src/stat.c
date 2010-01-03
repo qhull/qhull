@@ -6,9 +6,9 @@
 
    see qh-stat.htm and stat.h
 
-   copyright (c) 1993-2009 The Geometry Center.
-   $Id: //product/qhull/main/rel/src/stat.c#22 $$Change: 1059 $
-   $DateTime: 2009/10/30 18:26:26 $$Author: bbarber $
+   copyright (c) 1993-2010 The Geometry Center.
+   $Id: //product/qhull/main/rel/src/stat.c#25 $$Change: 1137 $
+   $DateTime: 2010/01/02 21:58:11 $$Author: bbarber $
 */
 
 #include "qhull_a.h"
@@ -470,9 +470,9 @@ void qh_initstatistics(void) {
   qh_allstatG();
   qh_allstatH();
   qh_allstatI();
-  if (qhstat next > sizeof(qhstat id)) {
+  if (qhstat next > (int)sizeof(qhstat id)) {
     qh_fprintf(qhmem.ferr, 6184, "qhull error (qh_initstatistics): increase size of qhstat.id[].\n\
-      qhstat.next %d should be <= sizeof(qhstat id) %d\n", qhstat next, sizeof(qhstat id));
+      qhstat.next %d should be <= sizeof(qhstat id) %d\n", qhstat next, (int)sizeof(qhstat id));
 #if 0 /* for locating error, Znumridges should be duplicated */
     for(i=0; i < ZEND; i++) {
       int j;
@@ -552,7 +552,7 @@ boolT qh_nostatistic(int i) {
   qh_printallstatistics( fp, string )
     print all statistics with header 'string'
 */
-void qh_printallstatistics(FILE *fp, char *string) {
+void qh_printallstatistics(FILE *fp, const char *string) {
 
   qh_allstatistics();
   qh_collectstatistics();
@@ -571,7 +571,7 @@ void qh_printallstatistics(FILE *fp, char *string) {
   see: 
     qh_printallstatistics()
 */
-void qh_printstatistics(FILE *fp, char *string) {
+void qh_printstatistics(FILE *fp, const char *string) {
   int i, k;
   realT ave;
   

@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (C) 2006-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/qhulltest/RboxPoints_test.cpp#16 $$Change: 1114 $
-** $DateTime: 2009/12/12 13:49:07 $$Author: bbarber $
+** Copyright (C) 2006-2010 C. Bradford Barber. All rights reserved.
+** $Id: //product/qhull/main/rel/cpp/qhulltest/RboxPoints_test.cpp#18 $$Change: 1137 $
+** $DateTime: 2010/01/02 21:58:11 $$Author: bbarber $
 **
 ****************************************************************************/
 //pre-compiled headers
@@ -74,7 +74,7 @@ t_error()
         QFAIL("'D0 c' did not fail.");
     }catch (const std::exception &e) {
         const char *s= e.what();
-        cout<< "INFO   : Caught " << s; 
+        cout << "INFO   : Caught " << s; 
         QCOMPARE(QString(s).left(6), QString("QH6189"));
         QVERIFY(rp.hasRboxMessage()); 
         QCOMPARE(QString::fromStdString(rp.rboxMessage()).left(8), QString("rbox err"));
@@ -88,7 +88,7 @@ t_error()
         QFAIL("setDimension(-1) did not fail.");
     }catch (const RoadError &e) {
         const char *s= e.what();
-        cout<< "INFO   : Caught " << s; 
+        cout << "INFO   : Caught " << s; 
         QCOMPARE(QString(s).left(7), QString("QH10062"));
         QCOMPARE(e.errorCode(), 10062);
         QCOMPARE(QString::fromStdString(e.what()), QString(s));
@@ -120,7 +120,7 @@ t_getSet()
         rp.setDimension(102);
         QFAIL("setDimension(102) did not fail.");
     }catch (const std::exception &e) {
-        cout<< "INFO   : Caught " << e.what(); 
+        cout << "INFO   : Caught " << e.what(); 
     }
     QCOMPARE(rp.newCount(), 0);
     rp.appendPoints("D2 P1 P2");
@@ -180,7 +180,7 @@ t_change()
         rp.appendPoints(s2);
         QFAIL("incomplete appendPoints() did not fail.");
     }catch (const std::exception &e) {
-        cout<< "INFO   : Caught " << e.what(); 
+        cout << "INFO   : Caught " << e.what(); 
     }
     RboxPoints rp2;
     rp2.append(rp);

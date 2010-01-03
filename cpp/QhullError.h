@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (C) 2008-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullError.h#30 $$Change: 1102 $
-** $DateTime: 2009/12/07 20:26:04 $$Author: bbarber $
+** Copyright (C) 2008-2010 C. Bradford Barber. All rights reserved.
+** $Id: //product/qhull/main/rel/cpp/QhullError.h#32 $$Change: 1137 $
+** $DateTime: 2010/01/02 21:58:11 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -50,20 +50,12 @@ public:
 #ifndef QHULL_1
     #define QHULL_ASSERT assert
 
-    //! See Qt's qglobal.h
-    #if defined(Q_CC_INTEL) && !defined(Q_OS_WIN) // FIXUP
-    template <typename T>
-    inline void qUnused(T &x) { (void)x; }
-    #  define QHULL_UNUSED(x) qUnused(x);
-    #else
-    #  define QHULL_UNUSED(x) (void)x;
-    #endif
 #endif
 
 }//namespace orgQhull
 
 #//Global functions
 
-inline std::ostream &operator<<(std::ostream &os, const orgQhull::QhullError &e) { return os<< e.what(); }
+inline std::ostream &operator<<(std::ostream &os, const orgQhull::QhullError &e) { return os << e.what(); }
 
 #endif // QHULLERROR_H

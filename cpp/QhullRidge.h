@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (C) 2008-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullRidge.h#19 $$Change: 1111 $
-** $DateTime: 2009/12/10 22:15:38 $$Author: bbarber $
+** Copyright (C) 2008-2010 C. Bradford Barber. All rights reserved.
+** $Id: //product/qhull/main/rel/cpp/QhullRidge.h#21 $$Change: 1137 $
+** $DateTime: 2010/01/02 21:58:11 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -102,7 +102,7 @@ public:
 
 }//namespace orgQhull
 
-std::ostream &operator<<(std::ostream &os, const orgQhull::QhullRidge &r); //FIXUP no conversion.  OK in .cpp  { os<< r.print(orgQhull::UsingLibQhull::NOqhRunId); return os; }
+std::ostream &operator<<(std::ostream &os, const orgQhull::QhullRidge &r); //FIXUP no conversion.  OK in .cpp  { os << r.print(orgQhull::UsingLibQhull::NOqhRunId); return os; }
 std::ostream &operator<<(std::ostream &os, const orgQhull::QhullRidge::PrintRidge &pr);
 
 #endif // QHULLRIDGE_H

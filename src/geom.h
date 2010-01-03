@@ -6,9 +6,9 @@
 
    see qh-geom.htm and geom.c
 
-   copyright (c) 1993-2009 The Geometry Center.
-   $Id: //product/qhull/main/rel/src/geom.h#15 $$Change: 1102 $
-   $DateTime: 2009/12/07 20:26:04 $$Author: bbarber $        
+   copyright (c) 1993-2010 The Geometry Center.
+   $Id: //product/qhull/main/rel/src/geom.h#17 $$Change: 1137 $
+   $DateTime: 2010/01/02 21:58:11 $$Author: bbarber $        
 */
 
 #ifndef qhDEFgeom
@@ -153,8 +153,8 @@ int     qh_mindiff(realT *vecA, realT *vecB, int dim);
 boolT   qh_orientoutside(facetT *facet);
 void    qh_outerinner(facetT *facet, realT *outerplane, realT *innerplane);
 coordT  qh_pointdist(pointT *point1, pointT *point2, int dim);
-void    qh_printmatrix(FILE *fp, char *string, realT **rows, int numrow, int numcol);
-void    qh_printpoints(FILE *fp, char *string, setT *points);
+void    qh_printmatrix(FILE *fp, const char *string, realT **rows, int numrow, int numcol);
+void    qh_printpoints(FILE *fp, const char *string, setT *points);
 void    qh_projectinput(void);
 void 	qh_projectpoints(signed char *project, int n, realT *points, 
              int numpoints, int dim, realT *newpoints, int newdim);

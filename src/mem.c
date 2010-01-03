@@ -10,8 +10,8 @@
 
     qh_meminit(stderr);  
     qh_meminitbuffers(qh IStracing, qh_MEMalign, 7, qh_MEMbufsize,qh_MEMinitbuf);
-    qh_memsize(sizeof(facetT));
-    qh_memsize(sizeof(facetT));
+    qh_memsize((int)sizeof(facetT));
+    qh_memsize((int)sizeof(facetT));
     ...
     qh_memsetup();
     
@@ -29,9 +29,9 @@
     qh-mem.htm and mem.h
     global.c (qh_initbuffers) for an example of using mem.c 
    
-  copyright (c) 1993-2009 The Geometry Center.
-  $Id: //product/qhull/main/rel/src/mem.c#27 $$Change: 1102 $
-  $DateTime: 2009/12/07 20:26:04 $$Author: bbarber $
+  copyright (c) 1993-2010 The Geometry Center.
+  $Id: //product/qhull/main/rel/src/mem.c#30 $$Change: 1137 $
+  $DateTime: 2010/01/02 21:58:11 $$Author: bbarber $
 */
 
 #include "mem.h"
@@ -44,21 +44,22 @@ typedef struct ridgeT ridgeT;
 typedef struct facetT facetT;
 #ifdef _MSC_VER  /* Microsoft Visual C++ -- warning level 4 */
 #pragma warning( disable : 4127)  /* conditional expression is constant */
-#pragma warning( disable : 4224)  /* nonstandard extension used : formal parameter 'errcode' was previously defined as a type. [errcode was replaced by errno_t] */
 #pragma warning( disable : 4706)  /* assignment within conditional function */
 #endif
 void    qh_errexit(int exitcode, facetT *, ridgeT *);
-void    qh_exit(int errcode);
-void	qh_fprintf(FILE *fp, int msgcode, char *fmt, ... );
+void    qh_exit(int exitcode);
+void	qh_fprintf(FILE *fp, int msgcode, const char *fmt, ... );
 void    qh_free(void *mem);
-void   *qh_malloc(unsigned int size);
+void   *qh_malloc(size_t size);
 #endif
 
 /*============ -global data structure ==============
     see mem.h for definition
 */
 
-qhmemT qhmem= {0};     /* remove "= {0}" if this causes a compiler error */
+qhmemT qhmem= {0,0,0,0,0,0,0,0,0,0,0,
+               0,0,0,0,0,0,0,0,0,0,0,
+               0,0,0,0,0,0,0};     /* remove "= {0}" if this causes a compiler error */
 
 #ifndef qh_NOmem
 
@@ -75,7 +76,7 @@ static int qh_intcompare(const void *i, const void *j);
     used by qsort and bsearch to compare two integers
 */
 static int qh_intcompare(const void *i, const void *j) {
-  return(*((int *)i) - *((int *)j));
+  return(*((const int *)i) - *((const int *)j));
 } /* intcompare */
 
 
@@ -113,7 +114,7 @@ void *qh_memalloc(int insize) {
   int outsize, bufsize;
   void *object;
 
-  if ((unsigned) insize <= (unsigned) qhmem.LASTsize) {
+  if (insize <= qhmem.LASTsize) {
     index= qhmem.indextable[insize];
     outsize= qhmem.sizetable[index];
     qhmem.totshort += outsize;
@@ -136,7 +137,7 @@ void *qh_memalloc(int insize) {
 	  bufsize= qhmem.BUFinit;
         else
 	  bufsize= qhmem.BUFsize;
-      	if (!(newbuffer= qh_malloc(bufsize))) {
+        if (!(newbuffer= qh_malloc((size_t)bufsize))) {
 	  qh_fprintf(qhmem.ferr, 6080, "qhull error (qh_memalloc): insufficient memory to allocate short memory buffer (%d bytes)\n", bufsize);
 	  qh_errexit(qhmem_ERRmem, NULL, NULL);
 	} 
@@ -175,7 +176,7 @@ void *qh_memalloc(int insize) {
     qhmem .totlong += outsize;
     if (qhmem.maxlong < qhmem.totlong)
       qhmem.maxlong= qhmem.totlong;
-    if (!(object= qh_malloc(outsize))) {
+    if (!(object= qh_malloc((size_t)outsize))) {
       qh_fprintf(qhmem.ferr, 6082, "qhull error (qh_memalloc): insufficient memory to allocate %d bytes\n", outsize);
       qh_errexit(qhmem_ERRmem, NULL, NULL);
     }
@@ -264,7 +265,7 @@ void qh_memfreeshort(int *curlong, int *totlong) {
     qh_free(qhmem .sizetable);
   }
   ferr= qhmem.ferr;
-  memset((char *)&qhmem, 0, sizeof qhmem);  /* every field is 0, FALSE, NULL */
+  memset((char *)&qhmem, 0, sizeof(qhmem));  /* every field is 0, FALSE, NULL */
   qhmem.ferr= ferr;
 } /* memfreeshort */
 
@@ -277,14 +278,14 @@ void qh_memfreeshort(int *curlong, int *totlong) {
 */
 void qh_meminit(FILE *ferr) {
   
-  memset((char *)&qhmem, 0, sizeof qhmem);  /* every field is 0, FALSE, NULL */
+  memset((char *)&qhmem, 0, sizeof(qhmem));  /* every field is 0, FALSE, NULL */
   qhmem.ferr= ferr;
   if (sizeof(void*) < sizeof(int)) {
-    qh_fprintf(ferr, 6083, "qhull internal error (qh_meminit): sizeof(void*) < sizeof(int).  qset.c will not work\n");
+    qh_fprintf(ferr, 6083, "qhull internal error (qh_meminit): sizeof(void*) %d < sizeof(int) %d.  qset.c will not work\n", (int)sizeof(void*), (int)sizeof(int));
     qh_exit(qhmem_ERRqhull);  /* can not use qh_errexit() */
   }
   if (sizeof(void*) > sizeof(ptr_intT)) {
-      qh_fprintf(ferr, 6084, "qhull internal error (qh_meminit): sizeof(void*) > sizeof(ptr_intT). Change ptr_intT in mem.h to 'long long'\n");
+      qh_fprintf(ferr, 6084, "qhull internal error (qh_meminit): sizeof(void*) %d > sizeof(ptr_intT) %d. Change ptr_intT in mem.h to 'long long'\n", (int)sizeof(void*), (int)sizeof(ptr_intT));
       qh_exit(qhmem_ERRqhull);  /* can not use qh_errexit() */
   }
 } /* meminit */
@@ -311,8 +312,8 @@ void qh_meminitbuffers(int tracelevel, int alignment, int numsizes, int bufsize,
     qh_fprintf(qhmem.ferr, 6085, "qhull internal error (qh_meminit): memory alignment %d is not a power of 2\n", alignment);
     qh_errexit(qhmem_ERRqhull, NULL, NULL);
   }
-  qhmem.sizetable= (int *) calloc(numsizes, sizeof(int));
-  qhmem.freelists= (void **) calloc(numsizes, sizeof(void *));
+  qhmem.sizetable= (int *) calloc((size_t)numsizes, sizeof(int));
+  qhmem.freelists= (void **) calloc((size_t)numsizes, sizeof(void *));
   if (!qhmem.sizetable || !qhmem.freelists) {
     qh_fprintf(qhmem.ferr, 6086, "qhull error (qh_meminit): insufficient memory\n");
     qh_errexit(qhmem_ERRmem, NULL, NULL);
@@ -330,7 +331,7 @@ void qh_meminitbuffers(int tracelevel, int alignment, int numsizes, int bufsize,
 void qh_memsetup(void) {
   int k,i;
 
-  qsort(qhmem.sizetable, qhmem.TABLEsize, sizeof(int), qh_intcompare);
+  qsort(qhmem.sizetable, (size_t)qhmem.TABLEsize, sizeof(int), qh_intcompare);
   qhmem.LASTsize= qhmem.sizetable[qhmem.TABLEsize-1];
   if (qhmem .LASTsize >= qhmem .BUFsize || qhmem.LASTsize >= qhmem .BUFinit) {
     qh_fprintf(qhmem.ferr, 6087, "qhull error (qh_memsetup): largest mem size %d is >= buffer size %d or initial buffer size %d\n",
@@ -421,7 +422,7 @@ void qh_memstatistics(FILE *fp) {
 	   qhmem .totbuffer, qhmem .BUFsize, qhmem .BUFinit);
   if (qhmem.cntlarger) {
     qh_fprintf(fp, 9279, "%7d calls to qh_setlarger\n%7.2g     average copy size\n",
-	   qhmem.cntlarger, ((float) qhmem.totlarger)/ qhmem.cntlarger);
+           qhmem.cntlarger, ((float)qhmem.totlarger)/(float)qhmem.cntlarger);
     qh_fprintf(fp, 9280, "  freelists(bytes->count):");
   }
   for (i=0; i < qhmem.TABLEsize; i++) {
@@ -448,7 +449,7 @@ void qh_memstatistics(FILE *fp) {
 void *qh_memalloc(int insize) {
   void *object;
 
-  if (!(object= qh_malloc(insize))) {
+  if (!(object= qh_malloc((size_t)insize))) {
     qh_fprintf(qhmem.ferr, 6090, "qhull error (qh_memalloc): insufficient memory\n");
     qh_errexit(qhmem_ERRmem, NULL, NULL);
   }
@@ -475,15 +476,15 @@ void qh_memfree(void *object, int insize) {
 void qh_memfreeshort(int *curlong, int *totlong) {
   *totlong= qhmem .totlong;
   *curlong= qhmem .cntlong - qhmem .freelong;
-  memset((char *)&qhmem, 0, sizeof qhmem);  /* every field is 0, FALSE, NULL */
+  memset((char *)&qhmem, 0, sizeof(qhmem));  /* every field is 0, FALSE, NULL */
 }
 
 void qh_meminit(FILE *ferr) {
 
-  memset((char *)&qhmem, 0, sizeof qhmem);  /* every field is 0, FALSE, NULL */
+  memset((char *)&qhmem, 0, sizeof(qhmem));  /* every field is 0, FALSE, NULL */
   qhmem.ferr= ferr;
   if (sizeof(void*) < sizeof(int)) {
-    qh_fprintf(ferr, 6091, "qhull internal error (qh_meminit): sizeof(void*) < sizeof(int).  qset.c will not work\n");
+    qh_fprintf(ferr, 6091, "qhull internal error (qh_meminit): sizeof(void*) %d < sizeof(int) %d.  qset.c will not work\n", (int)sizeof(void*), (int)sizeof(int));
     qh_errexit(qhmem_ERRqhull, NULL, NULL);
   }
 }

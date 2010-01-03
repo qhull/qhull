@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (C) 2008-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/UsingLibQhull.cpp#1 $$Change: 1107 $
-** $DateTime: 2009/12/07 21:05:37 $$Author: bbarber $
+** Copyright (C) 2008-2010 C. Bradford Barber. All rights reserved.
+** $Id: //product/qhull/main/rel/cpp/UsingLibQhull.cpp#3 $$Change: 1137 $
+** $DateTime: 2010/01/02 21:58:11 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -202,7 +202,7 @@ checkQhullMemoryEmpty()
 double UsingLibQhull::
 currentAngleEpsilon() 
 { 
-    if(s_qhull_output && s_qhull_output->defined()){
+    if(s_qhull_output && s_qhull_output->initialized()){
         return s_qhull_output->qhullQh()->ANGLEround*FACTORepsilon;
     }else if(s_has_angle_epsilon){
         return s_angle_epsilon;
@@ -213,7 +213,7 @@ currentAngleEpsilon()
 double UsingLibQhull::
 currentDistanceEpsilon() 
 { 
-    if(s_qhull_output && s_qhull_output->defined()){
+    if(s_qhull_output && s_qhull_output->initialized()){
         return s_qhull_output->qhullQh()->DISTround*FACTORepsilon;
     }else if(s_has_distance_epsilon){
         return s_distance_epsilon;
@@ -224,7 +224,7 @@ currentDistanceEpsilon()
 const coordT *UsingLibQhull::
 currentPoints(int *dimension, const coordT **pointsEnd)
 {
-    if(s_qhull_output && s_qhull_output->defined()){
+    if(s_qhull_output && s_qhull_output->initialized()){
         *dimension= qh hull_dim;
         *pointsEnd= qh first_point+qh num_points*qh hull_dim;
         return qh first_point;
@@ -234,7 +234,7 @@ currentPoints(int *dimension, const coordT **pointsEnd)
         return s_points_begin; 
     }
     throw QhullError(10059, "Qhull error: missing definition for currentPoints().  Need currentQhull() or setGlobalDistanceEpsilon()");
-}//globalPoints
+}//currentPoints
 
 Qhull &UsingLibQhull::
 currentQhull()
@@ -245,10 +245,11 @@ currentQhull()
     return *s_qhull_output;
 }//currentQhull
 
+// for QhullVertex::dimension() when >= 16
 int UsingLibQhull::
 currentVertexDimension() 
 { 
-    if(s_qhull_output && s_qhull_output->defined()){
+    if(s_qhull_output && s_qhull_output->initialized()){
         return s_qhull_output->dimension();
     }else if(s_has_vertex_dimension){
         return s_vertex_dimension;
@@ -271,19 +272,19 @@ globalPoints(int *dimension, const coordT **pointsEnd)
 bool UsingLibQhull::
 hasPoints() 
 { 
-    return s_has_points || (s_qhull_output && s_qhull_output->defined());
+    return s_has_points || (s_qhull_output && s_qhull_output->initialized());
 }
 
 bool UsingLibQhull::
 hasVertexDimension() 
 { 
-    return s_has_vertex_dimension || (s_qhull_output && s_qhull_output->defined());
+    return s_has_vertex_dimension || (s_qhull_output && s_qhull_output->initialized());
 }
 
 void UsingLibQhull::
 setGlobals() 
 { 
-    if(s_qhull_output && s_qhull_output->defined()){
+    if(s_qhull_output && s_qhull_output->initialized()){
         QhullQh *qqh= s_qhull_output->qhullQh();
         s_angle_epsilon= qqh->ANGLEround*FACTORepsilon;
         s_distance_epsilon= qqh->DISTround*FACTORepsilon;
@@ -321,7 +322,6 @@ maybeThrowQhullMessage(int exitCode) const
     }
 }//maybeThrowQhullMessage
 
-
 void UsingLibQhull::
 maybeThrowQhullMessage(int exitCode, int noThrow) const
 {
@@ -331,7 +331,6 @@ maybeThrowQhullMessage(int exitCode, int noThrow) const
         e.logError();
     }
 }//maybeThrowQhullMessage
-
 
 #//Helpers
 

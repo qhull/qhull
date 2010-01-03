@@ -11,9 +11,9 @@
 
    see qhull_a.h for internal functions
 
-   copyright (c) 1993-2009 The Geometry Center.
-   $Id: //product/qhull/main/rel/src/global.c#47 $$Change: 1111 $
-   $DateTime: 2009/12/10 22:15:38 $$Author: bbarber $
+   copyright (c) 1993-2010 The Geometry Center.
+   $Id: //product/qhull/main/rel/src/global.c#50 $$Change: 1137 $
+   $DateTime: 2010/01/02 21:58:11 $$Author: bbarber $
  */
 
 #include "qhull_a.h"
@@ -47,7 +47,7 @@ qhT qh_qh;     		/* all global variables.
     recompile user_eg.c, rbox.c, libqhull.c, qconvex.c, qdelaun.c qvoronoi.c, qhalf.c
 */
 
-char *qh_version = "2009.0.1 2009/12/08";
+const char *qh_version = "2010.0.1 2010/01/02";
 
 /*-<a                             href="qh-globa.htm#TOC"
   >-------------------------------</a><a name="appendprint">-</a>
@@ -83,7 +83,8 @@ void qh_appendprint(qh_PRINT format) {
     qh_initflags() initializes Qhull according to commandStr
 */
 void qh_checkflags(char *command, char *hiddenflags) {
-  char *s= command, *t, *chkerr, key, opt, prevopt;
+  char *s= command, *t, *chkerr; /* qh_skipfilename is non-const */
+  char key, opt, prevopt;
   char chkkey[]= "   ";
   char chkopt[]=  "    ";
   char chkopt2[]= "     ";
@@ -349,7 +350,7 @@ void qh_freebuild(boolT allmem) {
       if (vertex->next)
         qh_delvertex(vertex);
       else {
-        qh_memfree(vertex, sizeof(vertexT));
+        qh_memfree(vertex, (int)sizeof(vertexT));
         qh newvertex_list= qh vertex_list= NULL;
       }
     }
@@ -376,7 +377,7 @@ void qh_freebuild(boolT allmem) {
       FOREACHridge_(facet->ridges) {
         if (ridge->seen) {
           qh_setfree(&(ridge->vertices));
-          qh_memfree(ridge, sizeof(ridgeT));
+          qh_memfree(ridge, (int)sizeof(ridgeT));
         }else
           ridge->seen= True;
       }
@@ -388,7 +389,7 @@ void qh_freebuild(boolT allmem) {
       if (facet->next)
         qh_delfacet(facet);
       else {
-        qh_memfree(facet, sizeof(facetT));
+        qh_memfree(facet, (int)sizeof(facetT));
         qh visible_list= qh newfacet_list= qh facet_list= NULL;
       }
     }
@@ -407,7 +408,7 @@ void qh_freebuild(boolT allmem) {
   qh_memfree(qh interior_point, qh normal_size);
   qh interior_point= NULL;
   FOREACHmerge_(qh facet_mergeset)  /* usually empty */
-    qh_memfree(merge, sizeof(mergeT));
+    qh_memfree(merge, (int)sizeof(mergeT));
   qh facet_mergeset= NULL;  /* temp set */
   qh degen_mergeset= NULL;  /* temp set */
   qh_settempfree_all();
@@ -570,7 +571,7 @@ void qh_init_B(coordT *points, int numpoints, int dim, boolT ismalloc) {
 */
 void qh_init_qhull_command(int argc, char *argv[]) {
 
-  if (!qh_argv_to_command(argc, argv, qh qhull_command, sizeof(qh qhull_command))){
+  if (!qh_argv_to_command(argc, argv, qh qhull_command, (int)sizeof(qh qhull_command))){
     qh_exit(qh_ERRinput);  /* error reported, can not use qh_errexit */
   }
 } /* init_qhull_command */
@@ -722,11 +723,11 @@ void qh_initflags(char *command) {
 	qh_strtod(s, &t);
       }
       if (start < t) {
-        if (!(qh feasible_string= (char*)calloc(t-start+1, 1))) {
+        if (!(qh feasible_string= (char*)calloc((size_t)(t-start+1), (size_t)1))) {
           qh_fprintf(qh ferr, 6034, "qhull error: insufficient memory for 'Hn,n,n'\n");
           qh_errexit(qh_ERRmem, NULL, NULL);
         }
-        strncpy(qh feasible_string, start, t-start);
+        strncpy(qh feasible_string, start, (size_t)(t-start));
         qh_option("Halfspace-about", NULL, NULL);
         qh_option(qh feasible_string, NULL, NULL);
       }else
@@ -1308,7 +1309,7 @@ void qh_initflags(char *command) {
           {
             char filename[qh_FILENAMElen];
 
-            qh_copyfilename(filename, sizeof(filename), s, (int)(t-s));   /* WARN64 */
+            qh_copyfilename(filename, (int)sizeof(filename), s, (int)(t-s));   /* WARN64 */
             s= t;
 	    if (!freopen(filename, "r", stdin)) {
 	      qh_fprintf(qh ferr, 6041, "qhull error: could not open file \"%s\".", filename);
@@ -1328,7 +1329,7 @@ void qh_initflags(char *command) {
             {
               char filename[qh_FILENAMElen];
 
-              qh_copyfilename(filename, sizeof(filename), s, (int)(t-s));  /* WARN64 */
+              qh_copyfilename(filename, (int)sizeof(filename), s, (int)(t-s));  /* WARN64 */
               s= t;
        	      if (!freopen(filename, "w", stdout)) {
 	        qh_fprintf(qh ferr, 6044, "qhull error: could not open file \"%s\".", filename);
@@ -1668,12 +1669,12 @@ void qh_initqhull_mem(void) {
   numsizes= 8+10;
   qh_meminitbuffers(qh IStracing, qh_MEMalign, numsizes,
                      qh_MEMbufsize,qh_MEMinitbuf);
-  qh_memsize(sizeof(vertexT));
+  qh_memsize((int)sizeof(vertexT));
   if (qh MERGING) {
-    qh_memsize(sizeof(ridgeT));
-    qh_memsize(sizeof(mergeT));
+    qh_memsize((int)sizeof(ridgeT));
+    qh_memsize((int)sizeof(mergeT));
   }
-  qh_memsize(sizeof(facetT));
+  qh_memsize((int)sizeof(facetT));
   i= sizeof(setT) + (qh hull_dim - 1) * SETelemsize;  /* ridge.vertices */
   qh_memsize(i);
   qh_memsize(qh normal_size);        /* normal */
@@ -1909,7 +1910,7 @@ void qh_initqhull_start2(FILE *infile, FILE *outfile, FILE *errfile) {
 void qh_initthresholds(char *command) {
   realT value;
   int index, maxdim, k;
-  char *s= command;
+  char *s= command; /* non-const due to strtol */
   char key;
 
   maxdim= qh input_dim;
@@ -2016,7 +2017,7 @@ void qh_initthresholds(char *command) {
     will be printed with statistics ('Ts') and errors
     strlen(option) < 40
 */
-void qh_option(char *option, int *i, realT *r) {
+void qh_option(const char *option, int *i, realT *r) {
   char buf[200];
   int len, maxlen;
 
@@ -2031,9 +2032,9 @@ void qh_option(char *option, int *i, realT *r) {
   maximize_(maxlen, 0);
   if (qh qhull_optionlen >= qh_OPTIONline && maxlen > 0) {
     qh qhull_optionlen= len;
-    strncat(qh qhull_options, "\n", maxlen--);
+    strncat(qh qhull_options, "\n", (size_t)(maxlen--));
   }
-  strncat(qh qhull_options, buf, maxlen);
+  strncat(qh qhull_options, buf, (size_t)maxlen);
 } /* option */
 
 #if qh_QHpointer

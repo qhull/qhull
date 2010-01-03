@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (C) 2009-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullHyperplane.h#7 $$Change: 1112 $
-** $DateTime: 2009/12/11 19:53:07 $$Author: bbarber $
+** Copyright (C) 2009-2010 C. Bradford Barber. All rights reserved.
+** $Id: //product/qhull/main/rel/cpp/QhullHyperplane.h#8 $$Change: 1137 $
+** $DateTime: 2010/01/02 21:58:11 $$Author: bbarber $
 **
 ****************************************************************************/
 

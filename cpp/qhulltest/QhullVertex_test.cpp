@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (C) 2008-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/qhulltest/QhullVertex_test.cpp#8 $$Change: 1111 $
-** $DateTime: 2009/12/10 22:15:38 $$Author: bbarber $
+** Copyright (C) 2008-2010 C. Bradford Barber. All rights reserved.
+** $Id: //product/qhull/main/rel/cpp/qhulltest/QhullVertex_test.cpp#10 $$Change: 1137 $
+** $DateTime: 2010/01/02 21:58:11 $$Author: bbarber $
 **
 ****************************************************************************/
 //pre-compiled headers
@@ -90,7 +90,7 @@ t_getSet()
         QhullVertexListIterator i(vs);
         while(i.hasNext()){
             const QhullVertex v= i.next();
-            cout<< v.id() << endl;
+            cout << v.id() << endl;
             QCOMPARE(v.dimension(),3);
             QVERIFY(v.id()>=0 && v.id()<9); 
             QVERIFY(v.isDefined());
@@ -110,7 +110,7 @@ t_getSet()
         foreach (QhullVertex v, q.vertexList()){  // Qt only
             QhullPoint p= v.point();
             int i= p.id(q.runId());
-            cout<< "Point " << i << ":\n" << p.print(q.runId()) << endl;
+            cout << "Point " << i << ":\n" << p.print(q.runId()) << endl;
             QVERIFY(i>=0 && i<8);
         }
     }
@@ -140,14 +140,14 @@ t_io()
         Qhull q(rcube, "");
         QhullVertex v= q.beginVertex();
         ostringstream os;
-        os<< "Vertex and vertices w/o runId:\n";
-        os<< v;
+        os << "Vertex and vertices w/o runId:\n";
+        os << v;
         QhullVertexSet vs= q.firstFacet().vertices();
-        os<< vs;
+        os << vs;
         os << "Vertex and vertices w/ runId:\n";
         os << v.print(q.runId());
         os << vs.print(q.runId(), "vertices:");
-        cout<< os.str();
+        cout << os.str();
         QString s= QString::fromStdString(os.str());
         QCOMPARE(s.count("(v"), 10);
     }

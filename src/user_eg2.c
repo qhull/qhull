@@ -302,7 +302,7 @@ void addhalf (coordT *points, int numpoints, int numnew, int dim, coordT *feasib
     offset= -1.0;
     for (k=dim; k--; ) {
       if (j/2 == k) {
-	normal[k]= sqrt (dim);   /* to normalize as in makehalf */
+	normal[k]= sqrt((coordT)dim);   /* to normalize as in makehalf */
 	if (j & 1)
 	  normal[k]= -normal[k];
       }else

@@ -84,7 +84,7 @@ int main(int argc, char **argv) {
   }
 
   command_size= qh_argv_to_command_size(argc, argv);
-  if ((command= (char *)qh_malloc(command_size))) {
+  if ((command= (char *)qh_malloc((size_t)command_size))) {
     qh_argv_to_command(argc, argv, command, command_size);
     return_status= qh_rboxpoints(stdout, stderr, command);
     qh_free(command);

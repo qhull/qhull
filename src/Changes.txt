@@ -1,16 +1,14 @@
 
 .............This file lists all changes to qhull and rbox.....................
 
-Doc  
-- qhullcpplib must be before qhull.lib _qh_fprintf already defined in qhull.lib
+To do for documentation
 - Qhull::addPoint().  Problems with qh_findbestfacet and otherpoints see 
    qh-code.htm#inc on-line construction with qh_addpoint()
- - How to handle 64-bit possible loss of data.  WARN64
+- How to handle 64-bit possible loss of data.  WARN64
 - Show custom of qh_fprintf
- - grep 'qh_mem ' x | sort | awk '{ print $2; }' | uniq -c | grep -vE ' (2|4|6|8|10|12|14|16|20|64|162)[^0-9]'
+- grep 'qh_mem ' x | sort | awk '{ print $2; }' | uniq -c | grep -vE ' (2|4|6|8|10|12|14|16|20|64|162)[^0-9]'
 - qtpro/qhulltest contains .pro and Makefile.  Remove Makefiles by setting shadow directory to ../../tmp/projectname
-
-Rules for use of qh_qh and multi processes
+- Rules for use of qh_qh and multi processes
     UsingQhull
     errorIfAnotherUser
     ~QhullPoints() needs ownership of qh_qh
@@ -19,16 +17,18 @@ Rules for use of qh_qh and multi processes
    qhmem, qhstat.ferr
    qhull_inuse==1 when qhull globals active [not useful?]
    rbox_inuse==1 when rbox globals active
+   - Multithreaded -- call largest dimension for infinityPoint() and origin()
+
  - Better documentation for qhmem totshort, freesize, etc.
  - Clean up qhull-news.html XML
  - how to change .h, .c, and .cpp to text/html.  OK in Opera
  - need a page with all QHnnnn for web lookups
- - Update citeseer reference in index.htm#ref
  - QhullVertex.dimension() is not quite correct, epensive
  - Check globalAngleEpsilon
  - Deprecate save_qhull()
+ - Review email for doc changes
 
-Suggestions
+To do for suggestions
    C++ class for access to statistics, accumulate vs. add
    Add dialog box to RoadError-- a virtual function?
  - Gt does not make visible all facets of the mesh example, rbox 32 M1,0,1 | qhull d Gt
@@ -42,12 +42,19 @@ Suggestions
  - Fix doc comments
 
 Qhull cpp questions
+ - iterator Coordinates::operator++() { return iterator(++i); } //FIXUP Should return reference, but get reference to temporary
  - size() as size_t, size_type, or int
  - Should all containers have a reserve()?
  - Qhull.feasiblePoint interface
- - Qhull and RboxPoints messaging
- - change qh_printf() to a virtual function
+ - How to avoid copy constructor while logging, maybeThrowQhullMessage()
+ - How to configure Qhull output.  Trace and results should go to stdout/stderr
+ - Qhull and RboxPoints messaging.  e.g., ~Qhull, hasQhullMessage()
+ -  rename as QhullErrorMessage?
+ - Qhull::feasiblePoint Qhull::useOutputStream as field or getter?
+ - Define virtual functions for user customization of Qhull (e.g., qh_fprintf, qh_memfree,etc.)
  - Figure out RoadError::global_log.  clearQhullMessage currently clearGlobalLog
+ - Should the false QhullFacet be NULL or empty?  e.g., QhullFacet::tricoplanarOwner() and QhullFacetSet::end()
+ - Should output format for floats be predefined (qh_REAL_1, 2.2g, 10.7g) or as currently set for stream
  - Should cout << !point.defined() be blank or 'undefined'
  - Interface for UsingLibQhull::globalAngleEpsilon(), globalDistanceEpsilon, etc.
  - Interface for UsingLibQhull::globalDimension
@@ -57,128 +64,162 @@ Qhull cpp questions
  - Is Q_GLOBAL_STATIC non-threaded/threaded, needed for Qhull?
  - When forwarding an implementation is base() an approriate name (e.g., Coordinates::iterator::base() as std::vector<coordT>::iterator).
  - When forwarding an implementation, does not work "returning address of temporary"
- - Alsoo --, +=, and -=
+ - Also --, +=, and -=
         iterator       &operator++() { return iterator(i++); }
  - if vector<coordT> inheritance is bad, is QhullVertexSet OK?
 
 To do
  - ConvexHull is a submodule to git.  How to get rid of?
- ** Change to static link library before shipping, or define Qt for static linking.
- - Configure qhull-qt.dll
- - ignore Warnings?  How to configure Qhull output.  Trace and results should go to stdout/stderr
  - Review Warn64
- - review all FIXUP.  Add dates?
- - Clear out QhullQh -- it is just the POD type
-    void checkIfQhullRan();
-    void errorAnotherUser();
-    void startQhullAccess();
-    void stopQhullAccess();
- - Redo .pro files for shared cpp library and static qhull library
- - Add dependencies between the .pro files, or define in the .pro files
-   If you want to specify it in the pro file then you can follow the following steps to get the dependencies to be generated automatically:
-   1a) there is a Lib/DLL project with the target name (the .lib is used, not the .dll of course) being that of what is used on link line of an other project in your solution
-   1b) there is a Exe project with the target name being that of what is used in a custom build-step of an other project in your solution
-   2) you don't use paths in the TARGET variable (use DESTDIR/DLLDESTDIR for that), like TARGET=$(SOME_VARIABLE)/myLib, won't work
-   3) if you have a special location for your libs, you specify the -Lmy/library/path and LIBS += mylib, instead of just using LIBS += my/library/path/mylib
-   4) the leaf projects are created before you generate the solution file. (You can use the recursive flag for qmake to do this, like "qmake -tp vc -r [yourproject.pro]"
+ - SUBDIRS to sln -- qmake -tp vc
+ - review all #pragma
+ - review all FIXUP [^0-9]
+ - clean up warnings for libqhullcpp
+ - Decide on citeseer 10.1.1.117.405 or 10.1.1.54.6345
+ - Abandon savannah
+ - Add config directory to Qhull
+ - Fix README Visual C++ quickstart
+ - Review changes with Kent Williams
+   Keep size of qh_set as int, set.h, global.c
+   Keep size of qh_mem as int, mem.h, global.c
+   Why rename index in qh_initthresholds(), poly2.c, qhull.c -- Seems OK
+ - Run qhull regression tests
+ - Measure performance of Qhull
 
-This is achievable by utilizing the MAKEFILE variable to indicate what you want to call the makefile, as for the location of it then you just need to call qmake from where you want it to be generated in.  To get the pro file how you want it something like:
+qhull 2010.0.1  2010/01/02
 
+New Features:
+ - Added option 'Ta' to annotate output with message codes
 
-Pick up changes from Kent Williams
-
-qhull 2009.0.1  2009/12/08
- - Reordered #include from specific to general.  Move up .h for module.  
- - Use gcc 4.4.0 or later.  gcc 4.2.1, 4.2.2, and 4.3.2 -O2 segfaults in qset.c .  gcc 4.1.1 was OK
- -    Bug report    http://gcc.gnu.org/ml/gcc-bugs/2007-09/msg00474.html
+Preliminary C++ support:
+ - Warning: C++ declarations may change without warning
+ - Preliminary documentation for Qhull's C++ interface [qh-code.htm#cpp, qhull-cpp.xml]
  - Added user_eg3 as an example of Qhull.cpp
- - Renamed html/qh-in.htm to html/qh-code.htm
- - Report not enough points if d points, Delaunay, and not Qz
- - Multithreaded -- call largest dimension for infinityPoint() and origin()
- - Oh... Ztotcheck, btw, I had to add to the statistics enum in the qh_KEEPstatistics=0 case in stat.h; otherwise stat.c gets an undefined symbol error. [R. Gardener]
- - qh_restore_qhull() zeroes out qh.old_qhstat and qh.old_tempstack.  Ownership moved.
- - Removed qh.old_stat -- never used
- - Removed qhmem.curlong.  qa_memfreeshort computes curlong from cntlong and cntfree
- - Rewrote save_qhull/restore_qhull
- - Add message code to error messages and warnings (e.g., QH6012)
+ - Removed qhull_interface.cpp
+
+Changes to qhull options and results
+ - Allow 'd' and 'v' as the filename for 'TO ..' and 'TI ...' in qdelaunay [M. Jambon]
+ - Allow quoted filenames for 'TO ...' and 'TI ...'
+ - Fixed rbox ignoring flags that were not separated by spaces
+ - Report all hidden options before exiting in qh_checkflags()
+ - Defined qh_OPTIONline [user.h] as max length of option line ('FO') 
+ - Report error if negative arguments to rbox 'G', 'L', 'Z'
+ - Unknown rbox flag changed from a warning to an error
+ - Set error status 4 qh_ERRmem if rbox runs out of memory
+ - Removed extra spaces at end of line
+
+Breaking Code Changes:
+ - 'rbox tN' takes an integer (previously allowed floats)
  - Renamed qh.coplanarset to coplanarfacetset.  Avoids conflict with facetT.coplanarset
+ - qh_restore_qhull() zeroes out qh.old_qhstat and qh.old_tempstack.  Ownership moved.
+ - Rewrote save_qhull/restore_qhull
+ - Add Ztotcheck to zzdef_ [R. Gardener]
+ - Add message code to error messages and warnings (e.g., QH6012)
+ - Changed qh_malloc to size_t (was unsigned long)
+ - Declare qh_PRINT instead of int [kwilliams]
+ - In qh_printafacet(), changed error output to 'qh ferr'
+
+Bug fixes to C code:
+ - Fixed qh_findfacet_all(), "REALmin" should be "-REALmax" [L.A. Taylor].
+     Effects library users for convex hulls and halfspace intersections.
+ - qh_printfacet [io.c] Removed extra space for neighboring facets
+ - Use gcc 4.4.0 or later.  gcc 4.2.1, 4.2.2, and 4.3.2 -O2 segfaults in qset.c .  gcc 4.1.1 was OK
+   See bug report http://gcc.gnu.org/ml/gcc-bugs/2007-09/msg00474.html
+ - Report error if d points, Delaunay, and not Qz
  - Fixed double-free of facet->centrum for triangulated facets
- - Removed qh_clearcenters from qh_freeqhull.  Duplicated by qh_delfacet
- - Added full tracing for short memory allocations.
- - Memory tracing (T5) redone for sort order by object
- - Fixed qhmem.totshort (total short memory in use)
+ - Fixed mindist initialization if !testcentrum in io.c findbest_test [Ratcliff]
  - Fixed parentheses around warning for missing 'Qc' [qh_initqhull_outputflags]
+ - Fixed rbox buffer overflow of 'command' when appending seedbuf
+ - Fixed option string for 'rbox t t999'.  Although seed was correctly set to 999, 
+   a random seed was appended to the rbox comment (e.g., 'rbox t t999 t32343')
+ - Fixed upper bound of sanity check for qh_RANDOMmax in qh_initqhull_globals()
+
+Changes to C code
+ - Reordered #include from specific to general.  Move up .h for module.
+ - Removed qh.old_stat -- never used
+ - Removed qh_clearcenters from qh_freeqhull.  Duplicated by qh_delfacet
+ - qh_printcenter [io.c] removed unreachable fprintf argument
+ - qh_getarea() [geom2.c] ignored on multiple calls (qh.hasAreaVolume)
+ - qh_getarea() [geom2.c] checks facet->isarea. Set by QhullFacet.facetArea()
+ - qh_triangulate() [poly2.c] ignored on multiple calls (qh.hasTriangulation)
+ - Add statistics for vertex_visit and visit_id to buildtracing
+ - Defined scale and offset parameters for qh_randomfactor
+
+Bug fixes and changes to mem.c/mem.h
+ - Fixed qhmem.totshort (total short memory in use)
+ - Memory tracing (T5) redone for sort order by object
+ - Added full tracing for short memory allocations.
  - Added qhmem.totfree (total short memory on freelists)
- -    Increases size of qh_memalloc_ and qh_memfree_
+     Increases size of qh_memalloc_ and qh_memfree_
  - Added qhmem.totdropped (leftover freesize at end of each short buffer)
  - Added qhmem.totunused (short size - request size)
  - Added qhmem.totbuffer (total short memory buffer w/o links)
  - Added memory statistics to qh_NOmem;
  - Added qh_memtotal to track allocated memory
  - Renamed qh_memfree parameter to 'insize' for consistency with qh_memalloc
+ - Removed qhmem.curlong.  qa_memfreeshort computes curlong from cntlong and cntfree
+ - In mem.h, changed ptr_intT to long.  qh_meminit() checks that it holds a 'void*'
+
+Fixed g++ and devstudio warnings
+ - Except for bit field conversions, compiles cleanly with
+   -Wall -Wextra -Wshadow -Wcast-qual -Wwrite-strings -Wno-sign-conversion -Wconversion
+ - Fixed warnings at VC8, level 4
+ - Fix data types to remove conversion warnings [kwilliams]
+ - Use size_t for calls to malloc,etc [kwilliams]
+ - Change literal strings to const char* [kwilliams]
+ - getid_() returns an int [kwilliams]
+ - Add missing const annotations [kwilliams]
+ - Fixed 64-bit warnings (marked with "WARN64")
+ - Convert sizeof to (int) for int parameters
+ - In libqhull.c, added explicit casts from long to float,  Avoids warning
+ - In global.c, cast time() to int for QRandom-seed.  Avoids warning
+
+Changes to C code for C++ support
+ - Add sln, vcproj, and qtpro files for building Qhull -- add to README notes
  - Added dim to vertexT for cpp interface. Reduced size of qh.vertex_visit
- - Clear qh.ERREXITcalled at end of qh_errexit().
- - Documented Qhull's C++ interface [http://../html/qh-code.htm#cpp]
- - Renamed qh-in.htm to qh-code.htm
- - Removed qhull_interface.cpp
- - Documented <A href="qh-code.htm#cpp">C++ interface</a>
- - qh_printfacet [io.c] Removed extra space for neighboring facets
- - Allow 'd' and 'v' as the filename for 'TO ..' and 'TI ...' in qdelaunay [M. Jambon]
- - Allow quoted filenames for 'TO ...' and 'TI ...'
- - qh_printcenter [io.c] removed unreachable fprintf argument
- - qh_product_output [io.c] may be called multiple times (C++ interface)
- - qh_getarea() [geom2.c] checks facet->isarea. Set by QhullFacet.facetArea()
- - qh_getarea() [geom2.c] ignored on multiple calls (qh.hasAreaVolume)
- - qh_triangulate() [poly2.c] ignored on multiple calls (qh.hasTriangulation)
+ - qh_produce_output [io.c] may be called multiple times (C++ interface)
  - Moved SETsizeaddr_() to qset.h for use by QhullSet.cpp
- - Add statistics for vertex_visit and visit_id to buildtracing
- - Add reference to 'Qt' to 'i'
- - Add reference to 'FS' to 'FA'
- - qh-impre.htm discusses precision issues for halfspace intersection
- - Defined qh_OPTIONline [user.h] as max length of option line ('FO') 
  - Option 'Tz' sets flag qh.USEstdout for QhullPoints.cpp
- - Add cross references between options 'FA' and 'FS'
- - Report all hidden options before exiting in qh_checkflags()
- - Added option 'Ta' to annotate output with message codes
  - Added support for multiple output runs from QhullPoints.outputQhull
  -   qh_clear_outputflags() resets the output flags
  -   qh_initqhull_outputflags split from qh_initqhull_globals
  - Added qh.run_id, a random identifier for this instance of Qhull (QhullPoints)
  -   For qh.run_id, initqhull_start initializes qh_RANDOMseed to time instead of 1
  - Extracted qh_argv_to_command (random.c) from qh_init_qhull_command and fixed a buffer overflow
- - Updated copyright to 2008
  - Moved qh_strtod/qh_strtol from global.c to random.c for use in rboxlib.c
- - Fixed option string for 'rbox t t999'.  Although seed was correctly set to 999, 
-   a random seed was appended to the rbox comment (e.g., 'rbox t t999 t32343')
- - Fixed rbox ignoring flags that were not separated by spaces
- - Fixed rbox buffer overflow of 'command' when appending seedbuf
- - Fixed upper bound of sanity check for qh_RANDOMmax in qh_initqhull_globals()
- - Report error if negative arguments to rbox 'G', 'L', 'Z'
- - Unknown rbox flag changed from a warning to an error
  - Split out random functions into random.c
- - Defined scale and offset parameters for qh_randomfactor
- - Set error status 4 qh_ERRmem if rbox runs out of memory
- - In qh_printafacet(), changed error output to 'qh ferr'
  - Added message codes to qh_fprintf().  See its definition in user.c
- - In mem.h, changed ptr_intT to long.  qh_meminit() checks that it holds a 'void*'
- - Fixed 64-bit warnings (marked with "WARN64")
- - qhull.exe is ... faster/slower
- - Add sln and vcproj files for building Qhull -- add to README notes
- - Removed extra spaces at end of line
- - Fixed warnings at VC8, level 4
- - In libqhull.c, added explicit casts from long to float,  Avoids warning
- - In global.c, cast time() to int for QRandom-seed.  Avoids warning
  - Replaced exit, malloc, free, fprintf, and fputs with qh_malloc,...[J.W. Ratcliff]
  - Added qh_fprintf, qh_malloc, qh_free, ph_printhelp_narrowhull to user.c
  - Moved qh_printhelp_degenerate and qh_printhelp_singular from io.c to user.c
- - Fixed mindist initialization if !testcentrum in io.c findbest_test [Ratcliff]
+ - Clear qh.ERREXITcalled at end of qh_errexit().
+
+Documentation:
+ - Fixed out-of-date CiteSeer references
+ - Renamed html/qh-in.htm to html/qh-code.htm
+ - Renamed qh-in.htm to qh-code.htm
+ - Add reference to 'Qt' to 'i'
+ - Add reference to 'FS' to 'FA'
+ - qh-impre.htm discusses precision issues for halfspace intersection
+ - Add cross references between options 'FA' and 'FS'
  - Added link to Wolfram Research's MathWorld site
  - Updated Fukuda's links
  - Updated Qhull citation with page numbers.
  - Proposed project: constructing Voronoi diagram
  - Proposed project: computing Voronoi volumes
- - Fixed qh_findfacet_all(), "REALmin" should be "-REALmax" [L.A. Taylor].
-     Effects library users for convex hulls and halfspace intersections.
+
+qhull 2009.1  2009/6/11
+
+This is a maintenance release done by Rafael Laboissiere <rafael@debian.org>.
+ - src/rbox.c (main): Avoid problems of evaluation order when
+   pre-incrementing arguments of strtod
+ - src/io.c (qh_produce_output), src/stat.c (qh_initstatistics): Use %lu
+   instead of %d in the format string for arguments of type size_t
+ - html/qhull.man, html/rbox.man: Fix several syntax, macros, and hyphen
+   problems in man pages
+ - The Autotools files have been generated with modern version of autoconf (2.63),
+   automake/aclocal (1.10.2), and libtool (2.2.6)
+ - Some character issues in the man pages are fixed
 
 qhull 2003.1  2003/12/30
 

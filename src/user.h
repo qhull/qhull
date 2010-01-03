@@ -427,7 +427,7 @@ stop after qh_JOGGLEmaxretry attempts
     If using gcc, best alignment is
               #define qh_MEMalign fmax_(__alignof__(realT),__alignof__(void *))
 */
-#define qh_MEMalign fmax_(sizeof(realT), sizeof(void *))
+#define qh_MEMalign ((int)(fmax_(sizeof(realT), sizeof(void *))))
 
 /*-<a                             href="qh-user.htm#TOC"
   >--------------------------------</a><a name="MEMbufsize">-</a>

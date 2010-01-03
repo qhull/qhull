@@ -6,10 +6,12 @@ Convex hull, Delaunay triangulation, Voronoi diagrams, Halfspace intersection
  
       Documentation:
         html/index.htm
+        http://www.qhull.org/html
 
       Available from:
         <http://www.qhull.org>
-	<http://savannah.nongnu.org/projects/qhull>
+         git@gitorious.org:qhull/qhull.git
+        <http://savannah.nongnu.org/projects/qhull>
  
      Version 1 (simplicial only):
         <http://www.qhull.org/download/qhull-1.0.tar.gz>
@@ -17,7 +19,7 @@ Convex hull, Delaunay triangulation, Voronoi diagrams, Halfspace intersection
        
       News and a paper:
         <http://www.qhull.org/news>
-        <http://citeseer.nj.nec.com/83502.html>
+        <http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.54.6345>
 
 Purpose
 
@@ -133,7 +135,7 @@ Compiling the source distribution
   - if the code compiles, the qhull test case will automatically execute
   - if an error occurs, there's an incompatibility between machines
       - For gcc-2.95.1, you need to set flag -fno-strict-aliasing.
-	    It is set by default for other versions of gcc [Karas, Krishnaswami]
+            It is set by default for other versions of gcc [Karas, Krishnaswami]
       - If you can, try a different compiler 
       - You can turn off the Qhull memory manager with qh_NOmem in mem.h
       - You can turn off compiler optimization (-O2 in Makefile)
@@ -152,45 +154,45 @@ Compiling on Windows 95, 98, NT, 2000, XP
 
   Visual C++ quickstart for qhull.exe only:
     - create a "Win32 console application" called "qhull"
-	- add the following files:
-	    geom.c geom2.c global.c io.c mem.c merge.c poly.c poly2.c qhulllib.c
-		qset.c stat.c unix.c user.c
+        - add the following files:
+            geom.c geom2.c global.c io.c mem.c merge.c poly.c poly2.c qhulllib.c
+                qset.c stat.c unix.c user.c
     - create a "Win32 console application" called "rbox" 
-	- add rbox.c
+        - add rbox.c
 
   Visual C++ quickstart for qhull library, qhull.exe, qconvex.exe, etc.
     - To simplify setting up lots of projects, 
-	- create a temporary "Win32 console application" called "source"
-	- add all .c files from .../src/...
-	- In Tools::Options::Tab
-	  Set tab size to 8 and indent size to 2
+        - create a temporary "Win32 console application" called "source"
+        - add all .c files from .../src/...
+        - In Tools::Options::Tab
+          Set tab size to 8 and indent size to 2
 
     - create a "Win32 console application" called "rbox"
-	- move rbox.c from "qhull source"
-	- for Project:Settings..., Link
-	  you only need the default libraries
-	- build the project
+        - move rbox.c from "qhull source"
+        - for Project:Settings..., Link
+          you only need the default libraries
+        - build the project
 
     - create a "Win32 static library" called "library"
-	- move these files from "qhull source"
-	    geom.c geom2.c global.c io.c mem.c merge.c poly.c poly2.c qhulllib.c
-		qset.c stat.c user.c
-	- set the library file (use the same for debug and release)
-	- build the project
+        - move these files from "qhull source"
+            geom.c geom2.c global.c io.c mem.c merge.c poly.c poly2.c qhulllib.c
+                qset.c stat.c user.c
+        - set the library file (use the same for debug and release)
+        - build the project
 
     - create a "Win32 console application" called "qhull"
-	- Move unix.c from "qhull source"
-	- Add the library file created by "library"
-	- Qhull does not use other libraries
+        - Move unix.c from "qhull source"
+        - Add the library file created by "library"
+        - Qhull does not use other libraries
 
     - create a "Win32 console application" called "qconvex"
-	- Move qconvex.c from "qhull source"
-	- Copy the library file from "qhull"
+        - Move qconvex.c from "qhull source"
+        - Copy the library file from "qhull"
 
     - do the same for qdelaun.c, qhalf, qvoronoi.c, user_eg.c, user_eg2.c
-	- delete "qhull sources" since it is no longer needed
-	- use Project:Settings to make any changes
-	- use batch build to rebuild everything
+        - delete "qhull sources" since it is no longer needed
+        - use Project:Settings to make any changes
+        - use batch build to rebuild everything
   
   Qhull compiles with Borland C++ 5.0 bcc32.  A Makefile is included.
   Execute 'make -f Mborland'.  If you use the Borland IDE, set the ANSI
@@ -237,10 +239,10 @@ Distributed files
   README.txt           // instructions for installing Qhull 
   REGISTER.txt         // Qhull registration 
   COPYING.txt          // copyright notice 
-  QHULL-GO.pif	       // Windows icon for qhull-go.bat
+  QHULL-GO.pif         // Windows icon for qhull-go.bat
   Announce.txt         // announcement 
   Changes.txt          // change history for Qhull and rbox 
-  File_id.diz	       // package descriptor
+  File_id.diz          // package descriptor
   index.htm            // Home page 
   html/qh-faq.htm      // Frequently asked questions
   html/qh-get.htm      // Download page
@@ -299,7 +301,7 @@ src/
      qhull_a.h         // include file for *.c 
      geom.c            // geometric routines 
      geom2.c
-     geom.h	
+     geom.h     
      global.c          // global variables 
      io.c              // input-output routines 
      io.h
@@ -318,10 +320,7 @@ src/
 Authors:
 
   C. Bradford Barber                    Hannu Huhdanpaa
-  bradb@qhull.org                       hannu@qhull.org
-  
-                    The Geometry Center
-                    University of Minnesota
+  bradb@shore.net                       hannu@qhull.org
   
   Qhull 1.0 and 2.0 were developed under NSF grants NSF/DMS-8920161 
   and NSF-CCR-91-15793 750-7504 at the Geometry Center and Harvard 

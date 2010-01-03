@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (C) 2009-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullVertexSet.h#5 $$Change: 1111 $
-** $DateTime: 2009/12/10 22:15:38 $$Author: bbarber $
+** Copyright (C) 2009-2010 C. Bradford Barber. All rights reserved.
+** $Id: //product/qhull/main/rel/cpp/QhullVertexSet.h#7 $$Change: 1137 $
+** $DateTime: 2010/01/02 21:58:11 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -74,6 +74,6 @@ public:
 
 std::ostream &operator<<(std::ostream &os, const orgQhull::QhullVertexSet::PrintVertexSet &pr);
 std::ostream &operator<<(std::ostream &os, const orgQhull::QhullVertexSet::PrintIdentifiers &p);
-inline std::ostream &operator<<(std::ostream &os, const orgQhull::QhullVertexSet &vs) { os<< vs.print(orgQhull::UsingLibQhull::NOqhRunId, ""); return os; }
+inline std::ostream &operator<<(std::ostream &os, const orgQhull::QhullVertexSet &vs) { os << vs.print(orgQhull::UsingLibQhull::NOqhRunId, ""); return os; }
 
 #endif // QHULLVERTEXSET_H

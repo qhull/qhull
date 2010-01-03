@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (p) 2009-2009 p. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/qhulltest/QhullPoints_test.cpp#14 $$Change: 1111 $
-** $DateTime: 2009/12/10 22:15:38 $$Author: bbarber $
+** Copyright (p) 2009-2010 C. Bradford Barber. All rights reserved.
+** $Id: //product/qhull/main/rel/cpp/qhulltest/QhullPoints_test.cpp#16 $$Change: 1137 $
+** $DateTime: 2010/01/02 21:58:11 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -459,18 +459,18 @@ t_io()
 { 
     QhullPoints ps;
     ostringstream os;
-    os<< "Empty QhullPoints\n" << ps << endl;
+    os << "Empty QhullPoints\n" << ps << endl;
     coordT c[]= {0.0, 1.0, 2.0, 3.0, 4.0, 5.0};
     QhullPoints ps2(3, 6, c); // 3-dimensional explicit
-    os<< "QhullPoints from c[]\n" << ps2 << endl;
+    os << "QhullPoints from c[]\n" << ps2 << endl;
     RboxPoints rcube("c");
     Qhull q(rcube,"Qt QR0");  // triangulation of rotated unit cube
     QhullPoints ps3= q.points();
-    os<< "QhullPoints\n" << ps3;
-    os<< "RunId\n" << ps3.print(q.runId());
-    os<< ps3.print(q.runId(), "RunId w/ message\n");
-    os<< ps3.printWithIdentifier(q.runId(), "RunId w/ identifiers\n");
-    cout<< os.str();
+    os << "QhullPoints\n" << ps3;
+    os << "RunId\n" << ps3.print(q.runId());
+    os << ps3.print(q.runId(), "RunId w/ message\n");
+    os << ps3.printWithIdentifier(q.runId(), "RunId w/ identifiers\n");
+    cout << os.str();
     QString s= QString::fromStdString(os.str());
     QCOMPARE(s.count("p"), 3*8+3);
     // QCOMPARE(s.count(QRegExp("f\\d")), 3*7 + 13*3*2);

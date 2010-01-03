@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (C) 2009-2009 c-> Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullPointSet.cpp#5 $$Change: 1111 $
-** $DateTime: 2009/12/10 22:15:38 $$Author: bbarber $
+** Copyright (C) 2009-2010 C. Bradford Barber. All rights reserved.
+** $Id: //product/qhull/main/rel/cpp/QhullPointSet.cpp#7 $$Change: 1137 $
+** $DateTime: 2010/01/02 21:58:11 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -160,7 +160,7 @@ using orgQhull::UsingLibQhull;
 ostream & 
 operator<<(ostream &os, const QhullPointSet &ps)
 {
-    os<< ps.print(UsingLibQhull::NOqhRunId); 
+    os << ps.print(UsingLibQhull::NOqhRunId); 
     return os; 
 }//<<QhullPointSet
 
@@ -169,17 +169,17 @@ operator<<(ostream &os, const QhullPointSet::PrintIdentifiers &pr)
 {
     const QhullPointSet s= *pr.point_set;
     if (pr.message) {
-        os<< pr.message;
+        os << pr.message;
     }
     for(QhullPointSet::const_iterator i=s.begin(); i != s.end(); ++i){
         if(i!=s.begin()){
-            os<< " ";
+            os << " ";
         }
         const QhullPoint point= *i;
         int id= point.id(pr.run_id);
-        os<< "p" << id;
+        os << "p" << id;
     }
-    os<< endl;
+    os << endl;
     return os;
 }//PrintIdentifiers
 
@@ -188,11 +188,11 @@ operator<<(ostream &os, const QhullPointSet::PrintPointSet &pr)
 {
     const QhullPointSet s= *pr.point_set;
     if (pr.message) {
-        os<< pr.message;
+        os << pr.message;
     }
     for(QhullPointSet::const_iterator i=s.begin(); i != s.end(); ++i){
         const QhullPoint point= *i;
-        os<< point.print(pr.run_id);
+        os << point.print(pr.run_id);
     }
     return os;
 }//printPointSet

@@ -6,9 +6,9 @@
 
    see qh-geom.htm and geom.h
 
-   copyright (c) 1993-2009 The Geometry Center.
-   $Id: //product/qhull/main/rel/src/geom.c#25 $$Change: 1047 $
-   $DateTime: 2009/09/12 21:08:23 $$Author: bbarber $
+   copyright (c) 1993-2010 The Geometry Center.
+   $Id: //product/qhull/main/rel/src/geom.c#28 $$Change: 1137 $
+   $DateTime: 2010/01/02 21:58:11 $$Author: bbarber $
 
    infrequent code goes into geom2.c
 */
@@ -892,7 +892,8 @@ void qh_normalize2 (coordT *normal, int dim, boolT toporient,
 */
 pointT *qh_projectpoint(pointT *point, facetT *facet, realT dist) {
   pointT *newpoint, *np, *normal;
-  int normsize= qh normal_size,k;
+  int normsize= qh normal_size;
+  int k;
   void **freelistp; /* used !qh_NOmem */
 
   qh_memalloc_(normsize, freelistp, newpoint, pointT);
@@ -928,7 +929,8 @@ pointT *qh_projectpoint(pointT *point, facetT *facet, realT dist) {
 void qh_setfacetplane(facetT *facet) {
   pointT *point;
   vertexT *vertex, **vertexp;
-  int k,i, normsize= qh normal_size, oldtrace= 0;
+  int normsize= qh normal_size;
+  int k,i, oldtrace= 0;
   realT dist;
   void **freelistp; /* used !qh_NOmem */
   coordT *coord, *gmcoord;

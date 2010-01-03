@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (C) 2008-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/qhulltest/Qhull_test.cpp#33 $$Change: 1111 $
-** $DateTime: 2009/12/10 22:15:38 $$Author: bbarber $
+** Copyright (C) 2008-2010 C. Bradford Barber. All rights reserved.
+** $Id: //product/qhull/main/rel/cpp/qhulltest/Qhull_test.cpp#35 $$Change: 1137 $
+** $DateTime: 2010/01/02 21:58:11 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -68,7 +68,7 @@ t_construct()
             QCOMPARE(q.area(),0.0);
             QFAIL("area() did not fail.");
         }catch (const std::exception &e) {
-            cout<< "INFO   : Caught " << e.what(); 
+            cout << "INFO   : Caught " << e.what(); 
         }
     }
     {
@@ -112,10 +112,10 @@ t_attribute()
         q.setOutputStream(&cout);
         q.runQhull("normals of square", 3, 4, normals, "H"); // halfspace intersect
         QCOMPARE(q.facetList().count(), 4); // Vertices of square
-        cout<< "Expecting summary of halfspace intersect\n";
+        cout << "Expecting summary of halfspace intersect\n";
         q.outputQhull();
         q.useOutputStream= false;
-        cout<< "Expecting no output from qh_fprintf() in Qhull.cpp\n";
+        cout << "Expecting no output from qh_fprintf() in Qhull.cpp\n";
         q.outputQhull();
     }
 }//t_attribute
@@ -135,7 +135,7 @@ t_message()
             QFAIL("runQhull Fd did not fail.");
         }catch (const std::exception &e) {
             const char *s= e.what();
-            cout<< "INFO   : Caught " << s; 
+            cout << "INFO   : Caught " << s; 
             QCOMPARE(QString::fromStdString(s).left(6), QString("QH6029"));
             // Cleared when copied to QhullError
             QVERIFY(!q.hasQhullMessage()); 
@@ -154,7 +154,7 @@ t_message()
         QCOMPARE(QString::fromStdString(q.qhullMessage()), QString(""));
     }
     {
-        cout<< "INFO   : Error stream without output stream\n"; 
+        cout << "INFO   : Error stream without output stream\n"; 
         Qhull q;
         q.setErrorStream(&cout);
         q.setOutputStream(0);
@@ -162,7 +162,7 @@ t_message()
             q.runQhull(rcube, "Fd");
             QFAIL("runQhull Fd did not fail.");
         }catch (const QhullError &e) {
-            cout<< "INFO   : Caught " << e; 
+            cout << "INFO   : Caught " << e; 
             QCOMPARE(e.errorCode(), 6029);
         }
         //FIXUP Qhullmessage cleared when QhullError thrown.  Switched to e
@@ -172,7 +172,7 @@ t_message()
         QVERIFY(!q.hasQhullMessage());
     }
     {
-        cout<< "INFO   : Error output sent to output stream without error stream\n"; 
+        cout << "INFO   : Error output sent to output stream without error stream\n"; 
         Qhull q;
         q.setErrorStream(0);
         q.setOutputStream(&cout);
@@ -181,7 +181,7 @@ t_message()
             QFAIL("runQhull TZ did not fail.");
         }catch (const std::exception &e) {
             const char *s= e.what();
-            cout<< "INFO   : Caught " << s; 
+            cout << "INFO   : Caught " << s; 
             QCOMPARE(QString::fromAscii(s).left(6), QString("QH6023"));
         }
         //FIXUP Qhullmessage cleared when QhullError thrown.  Switched to e
@@ -192,7 +192,7 @@ t_message()
         QVERIFY(!q.hasQhullMessage());
     }
     {
-        cout<< "INFO   : No error stream or output stream\n"; 
+        cout << "INFO   : No error stream or output stream\n"; 
         Qhull q;
         q.setErrorStream(0);
         q.setOutputStream(0);
@@ -201,7 +201,7 @@ t_message()
             QFAIL("outputQhull did not fail.");
         }catch (const std::exception &e) {
             const char *s= e.what();
-            cout<< "INFO   : Caught " << s; 
+            cout << "INFO   : Caught " << s; 
             QCOMPARE(QString::fromAscii(s).left(6), QString("QH6029"));
         }
         //FIXUP Qhullmessage cleared when QhullError thrown.  Switched to e
@@ -219,9 +219,9 @@ t_getSet()
     RboxPoints rcube("c");
     {
         Qhull q;
-        QVERIFY(!q.defined());
+        QVERIFY(!q.initialized());
         q.runQhull(rcube, "s");
-        QVERIFY(q.defined());
+        QVERIFY(q.initialized());
         QCOMPARE(q.dimension(), 3);
         QhullPoint p= q.origin();
         QCOMPARE(p.dimension(), 3);
@@ -319,9 +319,9 @@ t_modify()
     RboxPoints diamond("d");
     Qhull q(diamond, "o");
     q.setOutputStream(&cout);
-    cout<< "Expecting vertexList and facetList of a 3-d diamond.\n";
+    cout << "Expecting vertexList and facetList of a 3-d diamond.\n";
     q.outputQhull();
-    cout<< "Expecting normals of a 3-d diamond.\n";
+    cout << "Expecting normals of a 3-d diamond.\n";
     q.outputQhull("n");
     // runQhull tested in t_attribute(), t_message(), etc.
 }//t_modify
@@ -329,14 +329,14 @@ t_modify()
 }//orgQhull
 
 // Redefine Qhull's usermem.c
-void qh_exit(int errstatus) {
-    cout<< "FAIL!  : Qhull called qh_exit().  Qhull's error handling not available.\n.. See the corresponding Qhull:qhull_message or setErrorStream().\n";
-    exit(errstatus);
+void qh_exit(int exitcode) {
+    cout << "FAIL!  : Qhull called qh_exit().  Qhull's error handling not available.\n.. See the corresponding Qhull:qhull_message or setErrorStream().\n";
+    exit(exitcode);
 }
 void qh_free(void *mem) {
     free(mem);
 }
-void *qh_malloc(unsigned int size) {
+void *qh_malloc(size_t size) {
     return malloc(size);
 }
 

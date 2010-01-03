@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (C) 2008-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/road/RoadLogEvent.cpp#9 $$Change: 1111 $
-** $DateTime: 2009/12/10 22:15:38 $$Author: bbarber $
+** Copyright (C) 2008-2010 C. Bradford Barber. All rights reserved.
+** $Id: //product/qhull/main/rel/cpp/road/RoadLogEvent.cpp#11 $$Change: 1137 $
+** $DateTime: 2010/01/02 21:58:11 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -30,9 +30,9 @@ toString(const char *tag, int code) const
 {
     ostringstream os;
     if(tag && code){
-        os<< tag << code;
+        os << tag << code;
         if(format_string){
-            os<< " ";
+            os << " ";
         }
     }
     if(!format_string){
@@ -44,58 +44,58 @@ toString(const char *tag, int code) const
     char extraCode= '\0';
     while(*s){
         if(*s!='%'){
-            os<< *s++;
+            os << *s++;
         }else{
             char c= *++s;
             s++;
             switch(c){
             case 'd':
                 if(++dCount>2){
-                    os<< " ERROR_three_%d_in_format ";
+                    os << " ERROR_three_%d_in_format ";
                 }else if(dCount==2){
-                    os<< int_2;
+                    os << int_2;
                 }else{
-                    os<< int_1;
+                    os << int_1;
                 }
                 break;
             case 'e':
                 if(firstExtraCode(os, c, &extraCode)){
-                    os<< double_1;
+                    os << double_1;
                 }
                 break;
             case 'f':
                 if(++fCount>1){
-                    os<< " ERROR_two_%f_in_format ";
+                    os << " ERROR_two_%f_in_format ";
                 }else{
-                    os<< float_1;
+                    os << float_1;
                 }
                 break;
             case 'i':
                 if(firstExtraCode(os, c, &extraCode)){
-                    os<< int64_1;
+                    os << int64_1;
                 }
                 break;
             case 's':
                 if(firstExtraCode(os, c, &extraCode)){
-                    os<< cstr_1;
+                    os << cstr_1;
                 }
                 break;
             case 'x':
                 if(firstExtraCode(os, c, &extraCode)){
-                    os<< void_1;
+                    os << void_1;
                 }
                 break;
             case '%':
-                os<< c;
+                os << c;
                 break;
             default:
-                os<< " ERROR_%" << c << "_not_defined_in_format";
+                os << " ERROR_%" << c << "_not_defined_in_format";
                 break;
             } 
         }
     }
     if(s[-1]!='\n'){
-        os<< endl;
+        os << endl;
     }
     return os.str(); 
 }//toString
@@ -106,7 +106,7 @@ toString(const char *tag, int code) const
 bool RoadLogEvent::
 firstExtraCode(std::ostream &os, char c, char *extraCode){
     if(*extraCode){
-        os<< " ERROR_%" << *extraCode << "_and_%" << c << "_in_format ";
+        os << " ERROR_%" << *extraCode << "_and_%" << c << "_in_format ";
         return false;
     }
     *extraCode= c;

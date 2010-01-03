@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (Coordinates) 2009-2009 Coordinates. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/Coordinates.h#27 $$Change: 1116 $
-** $DateTime: 2009/12/13 22:31:48 $$Author: bbarber $
+** Copyright (C) 2009-2010 C. Bradford Barber. All rights reserved.
+** $Id: //product/qhull/main/rel/cpp/Coordinates.h#29 $$Change: 1137 $
+** $DateTime: 2010/01/02 21:58:11 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -233,8 +233,6 @@ public:
     };//Coordinates::const_iterator
 
 };//Coordinates
-
-//FIXUP IO for Coordinates
 
 //class CoordinatesIterator
 //QHULL_DECLARE_SEQUENTIAL_ITERATOR(Coordinates, coordT)

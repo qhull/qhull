@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (C) 2008-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/road/RoadTest.cpp#9 $$Change: 1111 $
-** $DateTime: 2009/12/10 22:15:38 $$Author: bbarber $
+** Copyright (C) 2008-2010 C. Bradford Barber. All rights reserved.
+** $Id: //product/qhull/main/rel/cpp/road/RoadTest.cpp#11 $$Change: 1137 $
+** $DateTime: 2010/01/02 21:58:11 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -63,18 +63,18 @@ runTests(QStringList arguments)
         try{
             result += QTest::qExec(testcase, arguments); 
         }catch(const std::exception &e){
-            cout<< "FAIL!  : Threw error ";
-            cout<< e.what() << endl;
+            cout << "FAIL!  : Threw error ";
+            cout << e.what() << endl;
     s_test_count++;
             testcase->recordFailedTest();     
             // Qt 4.5.2 OK.  In Qt 4.3.3, qtestcase did not clear currentTestObject
         }
     }
     if(s_test_fail){
-        cout<< "Failed " << s_test_fail << " of " << s_test_count << " tests.\n";
-        cout<< s_failed_tests.join("\n").toLocal8Bit().constData() << std::endl;
+        cout << "Failed " << s_test_fail << " of " << s_test_count << " tests.\n";
+        cout << s_failed_tests.join("\n").toLocal8Bit().constData() << std::endl;
     }else{
-        cout<< "Passed " << s_test_count << " tests.\n";
+        cout << "Passed " << s_test_count << " tests.\n";
     }
     return result;
 }//runTests

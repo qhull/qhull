@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (C) 2008-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/qhulltest/QhullFacet_test.cpp#27 $$Change: 1111 $
-** $DateTime: 2009/12/10 22:15:38 $$Author: bbarber $
+** Copyright (C) 2008-2010 C. Bradford Barber. All rights reserved.
+** $Id: //product/qhull/main/rel/cpp/qhulltest/QhullFacet_test.cpp#30 $$Change: 1137 $
+** $DateTime: 2010/01/02 21:58:11 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -90,7 +90,7 @@ t_getSet()
         QhullFacetListIterator i(q.facetList());
         while(i.hasNext()){
             const QhullFacet f= i.next();
-            cout<< f.id() << endl;
+            cout << f.id() << endl;
             QCOMPARE(f.dimension(),3);
             QVERIFY(f.id()>0 && f.id()<=39); 
             QVERIFY(f.isDefined());
@@ -120,7 +120,7 @@ t_getSet()
         int tricoplanarCount2= 0;
         foreach (QhullFacet f, q.facetList()){  // Qt only
             QhullHyperplane h= f.hyperplane();
-            cout<< "Hyperplane: " << h << endl; 
+            cout << "Hyperplane: " << h << endl; 
             QCOMPARE(h.count(), 3);
             QCOMPARE(h.offset(), -0.5);
             double n= h.norm();
@@ -128,12 +128,12 @@ t_getSet()
             QhullHyperplane hi= f.innerplane(q.runId());
             QCOMPARE(hi.count(), 3);
             double innerOffset= hi.offset()+0.5;
-            cout<< "InnerPlane: " << hi << "innerOffset+0.5 " << innerOffset << endl;
+            cout << "InnerPlane: " << hi << "innerOffset+0.5 " << innerOffset << endl;
             QVERIFY(innerOffset >= 0.0);
             QhullHyperplane ho= f.outerplane(q.runId());
             QCOMPARE(ho.count(), 3);
             double outerOffset= ho.offset()+0.5;
-            cout<< "OuterPlane: " << ho << "outerOffset+0.5 " << outerOffset << endl;
+            cout << "OuterPlane: " << ho << "outerOffset+0.5 " << outerOffset << endl;
             QVERIFY(outerOffset <= 0.0);
             QVERIFY(outerOffset-innerOffset < 1e-7);
             for(int i= 0; i<3; i++){
@@ -141,7 +141,7 @@ t_getSet()
                 QVERIFY(ho[i]==h[i]);
             }
             QhullPoint center= f.getCenter(q.runId());
-            cout<< "Center: " << center << endl;
+            cout << "Center: " << center << endl;
             double d= f.distance(center);
             QVERIFY(d < innerOffset-outerOffset);
             QhullPoint center2= f.getCenter(q.runId(), qh_PRINTcentrums);
@@ -162,6 +162,7 @@ t_getSet()
         }
         Qhull q3(rcube,"v Qz QR0");  // Voronoi diagram of a cube (one vertex)
         
+        UsingLibQhull::setGlobalDistanceEpsilon(1e-12); // Voronoi vertices are not necessarily within distance episilon
         foreach(QhullFacet f, q3.facetList()){ //Qt only
             if(f.isGood()){
                 QhullPoint p= f.voronoiVertex(q3.runId());
@@ -231,13 +232,13 @@ t_io()
     {
         Qhull q(rcube, "");
         QhullFacet f= q.beginFacet();
-        cout<< f;
+        cout << f;
         ostringstream os;
         os << f.printHeader(q.runId());
         os << f.printFlags("    - flags:");
         os << f.printCenter(q.runId(), qh_PRINTfacets, "    - center:");
         os << f.printRidges(q.runId());
-        cout<< os.str();
+        cout << os.str();
         ostringstream os2;
         os2 << f.print(q.runId());  // invokes print*()
         QString facetString2= QString::fromStdString(os2.str());

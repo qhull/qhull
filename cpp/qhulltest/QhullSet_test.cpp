@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (f) 2009-2009 f. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/qhulltest/QhullSet_test.cpp#16 $$Change: 1111 $
-** $DateTime: 2009/12/10 22:15:38 $$Author: bbarber $
+** Copyright (f) 2009-2010 C. Bradford Barber. All rights reserved.
+** $Id: //product/qhull/main/rel/cpp/qhulltest/QhullSet_test.cpp#18 $$Change: 1137 $
+** $DateTime: 2010/01/02 21:58:11 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -389,10 +389,10 @@ t_io()
     QhullFacet f = q.beginFacet();
     QhullFacetSet fs = f.neighborFacets();
     fs.defineAs(q.qhullQh()->other_points);
-    cout<< "INFO:     empty set" << fs << std::endl;
+    cout << "INFO:     empty set" << fs << std::endl;
     QhullFacet f2 = q.beginFacet();
     QhullFacetSet fs2 = f2.neighborFacets();
-    cout<< "INFO:   " << fs2 << std::endl;
+    cout << "INFO:   " << fs2 << std::endl;
     //FIXUP do not use QhullFacetSet to test set
 }//t_io
 

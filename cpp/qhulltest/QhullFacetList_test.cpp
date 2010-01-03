@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (C) 2008-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/qhulltest/QhullFacetList_test.cpp#12 $$Change: 1111 $
-** $DateTime: 2009/12/10 22:15:38 $$Author: bbarber $
+** Copyright (C) 2008-2010 C. Bradford Barber. All rights reserved.
+** $Id: //product/qhull/main/rel/cpp/qhulltest/QhullFacetList_test.cpp#14 $$Change: 1137 $
+** $DateTime: 2010/01/02 21:58:11 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -160,7 +160,7 @@ t_io()
         ostringstream os;
         os << fs.print(q.runId()); // Runs all print options
         os << "\nFacets only\n" << fs; // printVertices() requires a runId
-        cout<< os.str();
+        cout << os.str();
         QString facets= QString::fromStdString(os.str());
         QCOMPARE(facets.count("(v"), 7+12*3*2);
         QCOMPARE(facets.count(QRegExp("f\\d")), 3*7 + 13*3*2);

@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (C) 2008-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/qhulltest/QhullRidge_test.cpp#8 $$Change: 1111 $
-** $DateTime: 2009/12/10 22:15:38 $$Author: bbarber $
+** Copyright (C) 2008-2010 C. Bradford Barber. All rights reserved.
+** $Id: //product/qhull/main/rel/cpp/qhulltest/QhullRidge_test.cpp#10 $$Change: 1137 $
+** $DateTime: 2010/01/02 21:58:11 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -90,7 +90,7 @@ t_getSet()
         QhullRidgeSetIterator i(rs);
         while(i.hasNext()){
             const QhullRidge r= i.next();
-            cout<< r.id() << endl;
+            cout << r.id() << endl;
             QVERIFY(r.bottomFacet()!=r.topFacet());
             QCOMPARE(r.dimension(), 2); // Ridge one-dimension less than facet
             QVERIFY(r.id()>=0 && r.id()<9*27); 
@@ -149,9 +149,9 @@ t_io()
         QhullRidgeSet rs= f.ridges();
         QhullRidge r= rs.first();
         ostringstream os;
-        os<< "Ridges Without runId\n"<< rs<< "Ridge\n"<< r;
-        os<< "Ridge with runId\n"<< r.print(q.runId());
-        cout<< os.str();
+        os << "Ridges Without runId\n" << rs << "Ridge\n" << r;
+        os << "Ridge with runId\n" << r.print(q.runId());
+        cout << os.str();
         QString s= QString::fromStdString(os.str());
         QCOMPARE(s.count(" r"), 6+2);
     }

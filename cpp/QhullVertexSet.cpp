@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (C) 2009-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullVertexSet.cpp#5 $$Change: 1102 $
-** $DateTime: 2009/12/07 20:26:04 $$Author: bbarber $
+** Copyright (C) 2009-2010 C. Bradford Barber. All rights reserved.
+** $Id: //product/qhull/main/rel/cpp/QhullVertexSet.cpp#7 $$Change: 1137 $
+** $DateTime: 2010/01/02 21:58:11 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -83,9 +83,9 @@ operator<<(ostream &os, const QhullVertexSet::PrintIdentifiers &pr)
     }
     for(QhullVertexSet::const_iterator i=pr.Vertex_set->begin(); i!=pr.Vertex_set->end(); ++i){
         const QhullVertex v= *i;
-        os<< " v" << v.id();
+        os << " v" << v.id();
     }
-    os<< endl;
+    os << endl;
     return os;
 }//<<QhullVertexSet::PrintIdentifiers
 
@@ -94,15 +94,15 @@ operator<<(ostream &os, const QhullVertexSet::PrintIdentifiers &pr)
 ostream &
 operator<<(ostream &os, const QhullVertexSet::PrintVertexSet &pr){
 
-    os<< pr.message;
+    os << pr.message;
     const QhullVertexSet *vs= pr.Vertex_set;
     QhullVertexSetIterator i= *vs;
     while(i.hasNext()){
         const QhullVertex v= i.next();
         const QhullPoint p= v.point();
-        os<< " p" << p.id(pr.run_id) << "(v" << v.id() << ")";
+        os << " p" << p.id(pr.run_id) << "(v" << v.id() << ")";
     }
-    os<< endl;
+    os << endl;
 
     return os;
 }//<< PrintVertexSet

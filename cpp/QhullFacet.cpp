@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (C) 2008-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullFacet.cpp#30 $$Change: 1111 $
-** $DateTime: 2009/12/10 22:15:38 $$Author: bbarber $
+** Copyright (C) 2008-2010 C. Bradford Barber. All rights reserved.
+** $Id: //product/qhull/main/rel/cpp/QhullFacet.cpp#32 $$Change: 1137 $
+** $DateTime: 2010/01/02 21:58:11 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -124,7 +124,7 @@ tricoplanarOwner() const
         }
         return qh_facet->f.triowner;
     }
-    return 0; // FIXUP NULL facet or empty facet
+    return 0; // FIXUP 2009 Should false be the NULL facet or empty facet
 }//tricoplanarOwner
 
 QhullPoint QhullFacet::
@@ -208,24 +208,24 @@ using orgQhull::QhullVertexSet;
 using orgQhull::UsingLibQhull;
 
 ostream &
-operator<<(ostream &os, const QhullFacet::PrintFacet &pr) // FIXUP make const (center)
+operator<<(ostream &os, const QhullFacet::PrintFacet &pr) 
 {
     QhullFacet f= *pr.facet;
     if(f.getFacetT()==0){ // Special values from set iterator
-        os<< " NULLfacet" << endl;
+        os << " NULLfacet" << endl;
         return os;
     }
     if(f.getFacetT()==qh_MERGEridge){
-        os<< " MERGEridge" << endl;
+        os << " MERGEridge" << endl;
         return os;
     }
     if(f.getFacetT()==qh_DUPLICATEridge){
-        os<< " DUPLICATEridge" << endl;
+        os << " DUPLICATEridge" << endl;
         return os;
     }
-    os<< f.printHeader(pr.run_id);
+    os << f.printHeader(pr.run_id);
     if(!f.ridges().isEmpty()){
-        os<< f.printRidges(pr.run_id);
+        os << f.printRidges(pr.run_id);
     }
     return os;
 }//operator<< PrintFacet
@@ -241,7 +241,7 @@ operator<<(ostream &os, const QhullFacet::PrintCenter &pr)
         return os;
     }
     if (pr.message){
-        os<< pr.message;
+        os << pr.message;
     }
     int numCoords;
     if(qh CENTERtype==qh_ASvoronoi){
@@ -251,11 +251,11 @@ operator<<(ostream &os, const QhullFacet::PrintCenter &pr)
                 f->center= qh_facetcenter(f->vertices);
             }
             for(int k=0; k<numCoords; k++){
-                os<< f->center[k] << " "; // FIXUP qh_REAL_1
+                os << f->center[k] << " "; // FIXUP 2009 qh_REAL_1
             }
         }else{
             for(int k=0; k<numCoords; k++){
-                os<< qh_INFINITE << " "; // FIXUP qh_REAL_1
+                os << qh_INFINITE << " "; // FIXUP 2009 qh_REAL_1
             }
         }
     }else{ // qh CENTERtype==qh_AScentrum
@@ -267,13 +267,13 @@ operator<<(ostream &os, const QhullFacet::PrintCenter &pr)
             f->center= qh_getcentrum(f);
         }
         for(int k=0; k<numCoords; k++){
-            os<< f->center[k] << " "; // FIXUP qh_REAL_1
+            os << f->center[k] << " "; // FIXUP 2009 qh_REAL_1
         }
     }
     if(pr.print_format==qh_PRINTgeom && numCoords==2){
-        os<< " 0";
+        os << " 0";
     }
-    os<< endl;
+    os << endl;
     return os;
 }//operator<< PrintCenter
 
@@ -281,70 +281,70 @@ operator<<(ostream &os, const QhullFacet::PrintCenter &pr)
 ostream &
 operator<<(ostream &os, const QhullFacet::PrintFlags &p)
 {
-    const facetT *f= p.facet->getFacetT(); // FIXUP use QhullFacet for <<
+    const facetT *f= p.facet->getFacetT(); 
     if(p.message){
-        os<< p.message;
+        os << p.message;
     }
 
-    os<< (f->toporient ? " top" : " bottom");
+    os << (f->toporient ? " top" : " bottom");
     if(f->simplicial){
-        os<< " simplicial";
+        os << " simplicial";
     }
     if(f->tricoplanar){
-        os<< " tricoplanar";
+        os << " tricoplanar";
     }
     if(f->upperdelaunay){
-        os<< " upperDelaunay";
+        os << " upperDelaunay";
     }
     if(f->visible){
-        os<< " visible";
+        os << " visible";
     }
     if(f->newfacet){
-        os<< " new";
+        os << " new";
     }
     if(f->tested){
-        os<< " tested";
+        os << " tested";
     }
     if(!f->good){
-        os<< " notG";
+        os << " notG";
     }
     if(f->seen){
-        os<< " seen";
+        os << " seen";
     }
     if(f->coplanar){
-        os<< " coplanar";
+        os << " coplanar";
     }
     if(f->mergehorizon){
-        os<< " mergehorizon";
+        os << " mergehorizon";
     }
     if(f->keepcentrum){
-        os<< " keepcentrum";
+        os << " keepcentrum";
     }
     if(f->dupridge){
-        os<< " dupridge";
+        os << " dupridge";
     }
     if(f->mergeridge && !f->mergeridge2){
-        os<< " mergeridge1";
+        os << " mergeridge1";
     }
     if(f->mergeridge2){
-        os<< " mergeridge2";
+        os << " mergeridge2";
     }
     if(f->newmerge){
-        os<< " newmerge";
+        os << " newmerge";
     }
     if(f->flipped){
-        os<< " flipped";
+        os << " flipped";
     }
     if(f->notfurthest){
-        os<< " notfurthest";
+        os << " notfurthest";
     }
     if(f->degenerate){
-        os<< " degenerate";
+        os << " degenerate";
     }
     if(f->redundant){
-        os<< " redundant";
+        os << " redundant";
     }
-    os<< endl;
+    os << endl;
     return os;
 }//operator<< PrintFlags
 
@@ -354,81 +354,81 @@ operator<<(ostream &os, const QhullFacet::PrintHeader &pr)
 {
     QhullFacet facet= *pr.facet;
     facetT *f= facet.getFacetT();
-    os<< "- f" << facet.id() << endl;
-    os<< facet.printFlags("    - flags:");
+    os << "- f" << facet.id() << endl;
+    os << facet.printFlags("    - flags:");
     if(f->isarea){
-        os<< "    - area: " << f->f.area << endl; //FIXUP 2.2g
+        os << "    - area: " << f->f.area << endl; //FIXUP 2009 2.2g
     }else if(qh NEWfacets && f->visible && f->f.replace){
-        os<< "    - replacement: f" << f->f.replace->id << endl;
+        os << "    - replacement: f" << f->f.replace->id << endl;
     }else if(f->newfacet){
         if(f->f.samecycle && f->f.samecycle != f){
-            os<< "    - shares same visible/horizon as f" << f->f.samecycle->id << endl;
+            os << "    - shares same visible/horizon as f" << f->f.samecycle->id << endl;
         }
     }else if(f->tricoplanar /* !isarea */){
         if(f->f.triowner){
-            os<< "    - owner of normal & centrum is facet f" << f->f.triowner->id << endl;
+            os << "    - owner of normal & centrum is facet f" << f->f.triowner->id << endl;
         }
     }else if(f->f.newcycle){
-        os<< "    - was horizon to f" << f->f.newcycle->id << endl;
+        os << "    - was horizon to f" << f->f.newcycle->id << endl;
     }
     if(f->nummerge){
-        os<< "    - merges: " << f->nummerge << endl;
+        os << "    - merges: " << f->nummerge << endl;
     }
-    os<< facet.hyperplane().print("    - normal: ", "\n    - offset: "); // FIXUP %10.7g
+    os << facet.hyperplane().print("    - normal: ", "\n    - offset: "); // FIXUP 2009 %10.7g
     if(qh CENTERtype==qh_ASvoronoi || f->center){
-        os<< facet.printCenter(pr.run_id, qh_PRINTfacets, "    - center: ");
+        os << facet.printCenter(pr.run_id, qh_PRINTfacets, "    - center: ");
     }
 #if qh_MAXoutside
     if(f->maxoutside > qh DISTround){
-        os<< "    - maxoutside: " << f->maxoutside << endl; //FIXUP %10.7g
+        os << "    - maxoutside: " << f->maxoutside << endl; //FIXUP 2009 %10.7g
     }
 #endif
     QhullPointSet ps= facet.outsidePoints();
     if(!ps.isEmpty()){
         QhullPoint furthest= ps.last();
         if (ps.size() < 6) {
-            os<< "    - outside set(furthest p" << furthest.id(pr.run_id) << "):" << endl;
+            os << "    - outside set(furthest p" << furthest.id(pr.run_id) << "):" << endl;
             for(QhullPointSet::iterator i=ps.begin(); i!=ps.end(); ++i){
                 QhullPoint p= *i;
-                os<< p.print(pr.run_id, "     ");
+                os << p.print(pr.run_id, "     ");
             }
         }else if(ps.size()<21){
-            os<< ps.print(pr.run_id, "    - outside set:");
+            os << ps.print(pr.run_id, "    - outside set:");
         }else{
-            os<< "    - outside set:  " << ps.size() << " points.";
-            os<< furthest.print(pr.run_id, "  Furthest");
+            os << "    - outside set:  " << ps.size() << " points.";
+            os << furthest.print(pr.run_id, "  Furthest");
         }
 #if !qh_COMPUTEfurthest
-        os<< "    - furthest distance= " << f->furthestdist << endl; //FIXUP %2.2g
+        os << "    - furthest distance= " << f->furthestdist << endl; //FIXUP 2009 %2.2g
 #endif
     }
     QhullPointSet cs= facet.coplanarPoints();
     if(!cs.isEmpty()){
         QhullPoint furthest= cs.last();
         if (cs.size() < 6) {
-            os<< "    - coplanar set(furthest p" << furthest.id(pr.run_id) << "):" << endl;
+            os << "    - coplanar set(furthest p" << furthest.id(pr.run_id) << "):" << endl;
             for(QhullPointSet::iterator i=cs.begin(); i!=cs.end(); ++i){
                 QhullPoint p= *i;
-                os<< p.print(pr.run_id, "     ");
+                os << p.print(pr.run_id, "     ");
             }
         }else if(cs.size()<21){
-            os<< cs.print(pr.run_id, "    - coplanar set:");
+            os << cs.print(pr.run_id, "    - coplanar set:");
         }else{
-            os<< "    - coplanar set:  " << cs.size() << " points.";
-            os<< furthest.print(pr.run_id, "  Furthest");
+            os << "    - coplanar set:  " << cs.size() << " points.";
+            os << furthest.print(pr.run_id, "  Furthest");
         }
         zinc_(Zdistio);
         double d= facet.distance(furthest);
-        os<< "      furthest distance= " << d << endl; //FIXUP %2.2g
+        os << "      furthest distance= " << d << endl; //FIXUP %2.2g
     }
     QhullVertexSet vs= facet.vertices();
     if(!vs.isEmpty()){
-        os<< vs.print(pr.run_id, "    - vertices:");
+        os << vs.print(pr.run_id, "    - vertices:");
     }
     QhullFacetSet fs= facet.neighborFacets();
     fs.selectAll();
     if(!fs.isEmpty()){
-        os<< fs.printIdentifiers("    - neighboring facets:");
+        os << fs.printIdentifiers("    - neighboring facets:");
     }
     return os;
 }//operator<< PrintHeader
@@ -446,17 +446,17 @@ operator<<(ostream &os, const QhullFacet::PrintRidges &pr)
         UsingLibQhull q(pr.run_id);
         // No calls to libqhull
         if(f->visible && qh NEWfacets){
-            os<< "    - ridges(ids may be garbage):";
+            os << "    - ridges(ids may be garbage):";
             for(QhullRidgeSet::iterator i=rs.begin(); i!=rs.end(); ++i){
                 QhullRidge r= *i;
-                os<< " r" << r.id();
+                os << " r" << r.id();
             }
-            os<< endl;
+            os << endl;
         }else{
-            os<< "    - ridges:" << endl;
+            os << "    - ridges:" << endl;
         }
     }else{
-        os<< "    - ridges:" << endl;
+        os << "    - ridges:" << endl;
     }
 
     // Keep track of printed ridges
@@ -468,7 +468,7 @@ operator<<(ostream &os, const QhullFacet::PrintRidges &pr)
     if(facet.dimension()==3){
         for(QhullRidge r= rs.first(); !r.getRidgeT()->seen; r= r.nextRidge3d(facet)){
             r.getRidgeT()->seen= true;
-            os<< r.print(pr.run_id);
+            os << r.print(pr.run_id);
             ++ridgeCount;
         }
     }else {
@@ -480,24 +480,24 @@ operator<<(ostream &os, const QhullFacet::PrintRidges &pr)
                 QhullRidge r= *j;
                 if(r.otherFacet(neighbor)==facet){
                     r.getRidgeT()->seen= true;
-                    os<< r.print(pr.run_id);
+                    os << r.print(pr.run_id);
                     ridgeCount++;
                 }
             }
         }
     }
     if(ridgeCount!=rs.count()){
-        os<< "     - all ridges:";
+        os << "     - all ridges:";
         for(QhullRidgeSet::iterator i=rs.begin(); i!=rs.end(); ++i){
             QhullRidge r= *i;
-            os<< " r" << r.id();
+            os << " r" << r.id();
         }
-        os<< endl;
+        os << endl;
     }
     for(QhullRidgeSet::iterator i=rs.begin(); i!=rs.end(); ++i){
         QhullRidge r= *i;
         if(!r.getRidgeT()->seen){
-            os<< r.print(pr.run_id);
+            os << r.print(pr.run_id);
         }
     }
     return os;
@@ -507,6 +507,6 @@ operator<<(ostream &os, const QhullFacet::PrintRidges &pr)
 ostream &
 operator<<(ostream &os, QhullFacet &f)
 {
-    os<< f.print(UsingLibQhull::NOqhRunId);
+    os << f.print(UsingLibQhull::NOqhRunId);
     return os;
 }//<< QhullFacet

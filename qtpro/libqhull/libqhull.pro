@@ -2,9 +2,13 @@
 # libqhull.pro -- Qt project for Qhull static library
 # -------------------------------------------------
 
-CONFIG += staticlib
-TEMPLATE = lib
 DESTDIR = ../..
+TEMPLATE = lib
+CONFIG += staticlib warn_on
+CONFIG -= app_bundle qt
+QMAKE_CFLAGS_DEBUG += -Wall -Wextra -Wshadow -Wcast-qual -Wwrite-strings
+QMAKE_CFLAGS_DEBUG += -Wno-sign-conversion # Many size_t vs. int errors
+#QMAKE_CFLAGS_DEBUG += -Wconversion # no workaround for bit-field conversion errors
 build_pass:CONFIG(debug, debug|release):{
     TARGET = qhulld
     OBJECTS_DIR = ../../tmp/libqhull/Debug
@@ -12,7 +16,6 @@ build_pass:CONFIG(debug, debug|release):{
     TARGET = qhull
     OBJECTS_DIR = ../../tmp/libqhull/Release
 }
-CONFIG -= app_bundle qt
 MOC_DIR = ../../tmp/moc
 RCC_DIR = ../../tmp/rcc
 
@@ -33,6 +36,39 @@ SOURCES += src/stat.c
 SOURCES += src/user.c
 SOURCES += src/usermem.c
 SOURCES += src/userprintf.c
+OTHER_FILES += Announce.txt
+OTHER_FILES += COPYING.txt
+OTHER_FILES += File_id.diz
+OTHER_FILES += html/index.htm
+OTHER_FILES += html/qconvex.htm
+OTHER_FILES += html/qdelau_f.htm
+OTHER_FILES += html/qdelaun.htm
+OTHER_FILES += html/qhalf.htm
+OTHER_FILES += html/qh-code.htm
+OTHER_FILES += html/qh-eg.htm
+OTHER_FILES += html/qh-faq.htm
+OTHER_FILES += html/qh-get.htm
+OTHER_FILES += html/qh-impre.htm
+OTHER_FILES += html/qh-optc.htm
+OTHER_FILES += html/qh-optf.htm
+OTHER_FILES += html/qh-optg.htm
+OTHER_FILES += html/qh-opto.htm
+OTHER_FILES += html/qh-optp.htm
+OTHER_FILES += html/qh-optq.htm
+OTHER_FILES += html/qh-optt.htm
+OTHER_FILES += html/qh-quick.htm
+OTHER_FILES += html/qhull.htm
+OTHER_FILES += html/qhull.man
+OTHER_FILES += html/qhull.txt
+OTHER_FILES += html/qhull-cpp.xml
+OTHER_FILES += html/qvoron_f.htm
+OTHER_FILES += html/qvoronoi.htm
+OTHER_FILES += html/rbox.htm
+OTHER_FILES += html/rbox.man
+OTHER_FILES += html/rbox.txt
+OTHER_FILES += index.htm
+OTHER_FILES += README.txt
+OTHER_FILES += REGISTER.txt
 OTHER_FILES += src/Changes.txt
 OTHER_FILES += src/index.htm
 OTHER_FILES += src/Make-config.sh

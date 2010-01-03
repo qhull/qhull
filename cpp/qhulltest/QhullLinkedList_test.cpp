@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (f) 2009-2009 f. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/qhulltest/QhullLinkedList_test.cpp#11 $$Change: 1111 $
-** $DateTime: 2009/12/10 22:15:38 $$Author: bbarber $
+** Copyright (f) 2009-2010 C. Bradford Barber. All rights reserved.
+** $Id: //product/qhull/main/rel/cpp/qhulltest/QhullLinkedList_test.cpp#13 $$Change: 1137 $
+** $DateTime: 2010/01/02 21:58:11 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -321,9 +321,9 @@ t_io()
     RboxPoints rcube("c");
     Qhull q(rcube,"QR0");  // rotated unit cube
     QhullVertexList vs(q.endVertex(), q.endVertex());
-    std::cout<< "INFO:     empty QhullVertextList" << vs << std::endl;
+    std::cout << "INFO:     empty QhullVertextList" << vs << std::endl;
     QhullVertexList vs2= q.vertexList();
-    std::cout<< "INFO:   " << vs2 << std::endl;
+    std::cout << "INFO:   " << vs2 << std::endl;
 }//t_io
 
 }//namespace orgQhull

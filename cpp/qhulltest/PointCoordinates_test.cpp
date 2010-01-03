@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (C) 2009-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/qhulltest/PointCoordinates_test.cpp#11 $$Change: 1118 $
-** $DateTime: 2009/12/20 16:19:59 $$Author: bbarber $
+** Copyright (C) 2009-2010 C. Bradford Barber. All rights reserved.
+** $Id: //product/qhull/main/rel/cpp/qhulltest/PointCoordinates_test.cpp#13 $$Change: 1137 $
+** $DateTime: 2010/01/02 21:58:11 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -169,7 +169,7 @@ t_getset()
         QFAIL("setDimension(2) did not fail for 3-d.");
     }catch (const std::exception &e) {
         const char *s= e.what();
-        cout<< "INFO   : Caught " << s; 
+        cout << "INFO   : Caught " << s; 
     }
 }//t_getset
 
@@ -383,10 +383,10 @@ t_io()
     PointCoordinates c;
     c << 1.0 << 2.0 << 3.0 << 1.0 << 2.0 << 3.0;
     ostringstream os;
-    os<< "PointCoordinates 0-d\n"<< c;
+    os << "PointCoordinates 0-d\n" << c;
     c.setDimension(2);
-    os<< "PointCoordinates 1-3-2\n"<< c;
-    cout<< os.str();
+    os << "PointCoordinates 1-3-2\n" << c;
+    cout << os.str();
     QString s= QString::fromStdString(os.str());
     QCOMPARE(s.count("0"), 3);
     QCOMPARE(s.count("2"), 4);

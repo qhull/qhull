@@ -129,7 +129,7 @@ int qh_new_qhull(int dim, int numpoints, coordT *points, boolT ismalloc,
     qh_meminit(errfile);
     firstcall= False;
   }
-  if (strncmp(qhull_cmd,"qhull ", 6)) {
+  if (strncmp(qhull_cmd,"qhull ", (size_t)6)) {
     qh_fprintf(errfile, 6186, "qhull error (qh_new_qhull): start qhull_cmd argument with \"qhull \"\n");
     qh_exit(qh_ERRinput);
   }
@@ -253,7 +253,7 @@ void qh_errexit(int exitcode, facetT *facet, ridgeT *ridge) {
   notes:
     except for string, any parameter may be NULL
 */
-void qh_errprint(char *string, facetT *atfacet, facetT *otherfacet, ridgeT *atridge, vertexT *atvertex) {
+void qh_errprint(const char *string, facetT *atfacet, facetT *otherfacet, ridgeT *atridge, vertexT *atvertex) {
   int i;
 
   if (atfacet) {

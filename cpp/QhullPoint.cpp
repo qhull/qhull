@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (C) 2009-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullPoint.cpp#23 $$Change: 1111 $
-** $DateTime: 2009/12/10 22:15:38 $$Author: bbarber $
+** Copyright (C) 2009-2010 C. Bradford Barber. All rights reserved.
+** $Id: //product/qhull/main/rel/cpp/QhullPoint.cpp#25 $$Change: 1137 $
+** $DateTime: 2010/01/02 21:58:11 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -61,7 +61,7 @@ operator==(const QhullPoint &other) const
         dist2 += diff*diff;
     }
     double epsilon= UsingLibQhull::globalDistanceEpsilon();
-    // std::cout<< "FIXUP dist2 " << dist2 << " epsilon^2 " << epsilon*epsilon << std::endl;
+    // std::cout << "FIXUP dist2 " << dist2 << " epsilon^2 " << epsilon*epsilon << std::endl;
     return (dist2<=(epsilon*epsilon));
 }//operator==
 
@@ -125,7 +125,7 @@ using orgQhull::UsingLibQhull;
 ostream &
 operator<<(ostream &os, const QhullPoint &p)
 {
-    os<< p.printWithIdentifier(UsingLibQhull::NOqhRunId, "");
+    os << p.printWithIdentifier(UsingLibQhull::NOqhRunId, "");
     return os;
 }
 
@@ -137,22 +137,22 @@ operator<<(ostream &os, const QhullPoint::PrintPoint &pr)
     int i= p.id(pr.run_id);
     if(pr.point_message){
         if(*pr.point_message){
-            os<< pr.point_message << " ";
+            os << pr.point_message << " ";
         }
         if(pr.with_identifier && (i!=-1)){
-            os<< "p" << i << ": ";
+            os << "p" << i << ": ";
         }
     }
     const realT *c= p.coordinates();
     for(int k=p.dimension(); k--; ){
         realT r= *c++;
         if(pr.point_message){
-            os<< " " << r; // FIXUP %8.4g
+            os << " " << r; // FIXUP %8.4g
         }else{
-            os<< " " << r; // FIXUP qh_REAL_1
+            os << " " << r; // FIXUP qh_REAL_1
         }
     }
-    os<< std::endl;
+    os << std::endl;
     return os;
 }//printPoint
 

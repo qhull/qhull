@@ -12,9 +12,9 @@
 
    defines internal functions for libqhull.c global.c
 
-   copyright (c) 1993-2009 The Geometry Center.
-   $Id: //product/qhull/main/rel/src/qhull_a.h#23 $$Change: 1102 $
-   $DateTime: 2009/12/07 20:26:04 $$Author: bbarber $
+   copyright (c) 1993-2010 The Geometry Center.
+   $Id: //product/qhull/main/rel/src/qhull_a.h#25 $$Change: 1137 $
+   $DateTime: 2010/01/02 21:58:11 $$Author: bbarber $
 
    Notes:  grep for ((" and (" to catch fprintf("lkasdjf");
            full parens around (x?y:z)
@@ -89,6 +89,25 @@
 #define trace5(args) {}
 #endif /* qh_NOtrace */
 
+/*-<a                             href="qh-qhull.htm#TOC"
+  >--------------------------------</a><a name="QHULL_UNUSED">-</a>
+
+*/
+
+/* See Qt's qglobal.h */
+#if !defined(SAG_COM) && (defined(WIN64) || defined(_WIN64) || defined(__WIN64__) || defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__))
+#   define QHULL_OS_WIN
+#elif defined(__MWERKS__) && defined(__INTEL__)
+#   define QHULL_OS_WIN
+#endif
+#if defined(__INTEL_COMPILER) && !defined(QHULL_OS_WIN)
+template <typename T>
+inline void qhullUnused(T &x) { (void)x; }
+#  define QHULL_UNUSED(x) qhullUnused(x);
+#else
+#  define QHULL_UNUSED(x) (void)x;
+#endif
+
 /***** -libqhull.c prototypes (alphabetical after qhull) ********************/
 
 void 	qh_qhull(void);
@@ -103,7 +122,7 @@ void 	qh_partitionall(setT *vertices, pointT *points,int npoints);
 void    qh_partitioncoplanar(pointT *point, facetT *facet, realT *dist);
 void    qh_partitionpoint(pointT *point, facetT *facet);
 void 	qh_partitionvisible(boolT allpoints, int *numpoints);
-void    qh_precision(char *reason);
+void    qh_precision(const char *reason);
 void	qh_printsummary(FILE *fp);
 
 /***** -global.c internal prototypes (alphabetical) ***********************/

@@ -6,11 +6,11 @@
    xmlns:rf="http://schemas.roadintranet.org/road-faq-1"
  title=" C++ interface to Qhull"
  file="qhull-cpp.xml"
- fileid="$Id: //product/qhull/main/rel/html/qhull-cpp.xml#21 $$Change: 1083 $"
- fileChange="$DateTime: 2009/11/18 22:43:17 $$Author: bbarber $">
+ fileid="$Id: //product/qhull/main/rel/html/qhull-cpp.xml#22 $$Change: 1137 $"
+ fileChange="$DateTime: 2010/01/02 21:58:11 $$Author: bbarber $">
     <div><h4>Qhull C++  -- C++ interface to Qhull</h4></div>
     <rf:copyright>
-        <a href="../cpp/COPYING.txt">Copyright</a> (c) 2009-2009, C. Bradford Barber
+        <a href="../cpp/COPYING.txt">Copyright</a> (c) 2009-2010, C. Bradford Barber
     </rf:copyright>
    <rf:section id="cpp-cpp-links" title="Useful Links for Qhull C++">
        <div>

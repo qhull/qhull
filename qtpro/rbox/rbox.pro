@@ -5,11 +5,12 @@ TARGET = rbox
 DESTDIR = ../..
 TEMPLATE = app
 CONFIG += console
+LIBS += -L../..
 build_pass:CONFIG(debug, debug|release):{
-   LIBS += ../../libqhulld.a
+   LIBS += libqhulld
    OBJECTS_DIR = ../../tmp/rbox/Debug
 }else:build_pass:CONFIG(release, debug|release):{
-   LIBS += ../../libqhull.a
+   LIBS += libqhull
    OBJECTS_DIR = ../../tmp/rbox/Release
 }
 QT -= gui

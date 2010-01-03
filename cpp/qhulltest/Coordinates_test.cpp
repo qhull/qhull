@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (C) 2009-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/qhulltest/Coordinates_test.cpp#13 $$Change: 1116 $
-** $DateTime: 2009/12/13 22:31:48 $$Author: bbarber $
+** Copyright (C) 2009-2010 C. Bradford Barber. All rights reserved.
+** $Id: //product/qhull/main/rel/cpp/qhulltest/Coordinates_test.cpp#15 $$Change: 1137 $
+** $DateTime: 2010/01/02 21:58:11 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -523,8 +523,8 @@ t_io()
     Coordinates c;
     c << 1.0 << 2.0 << 3.0;
     ostringstream os;
-    os<< "Coordinates 1-2-3\n"<< c;
-    cout<< os.str();
+    os << "Coordinates 1-2-3\n" << c;
+    cout << os.str();
     QString s= QString::fromStdString(os.str());
     QCOMPARE(s.count("2"), 2);
 }//t_io

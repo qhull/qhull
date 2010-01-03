@@ -16,9 +16,9 @@
     - every set is NULL terminated
     - sets may be sorted or unsorted, the caller must distinguish this
    
-   copyright (c) 1993-2009 The Geometry Center.
-   $Id: //product/qhull/main/rel/src/qset.h#16 $$Change: 1099 $
-   $DateTime: 2009/12/04 22:49:19 $$Author: bbarber $
+   copyright (c) 1993-2010 The Geometry Center.
+   $Id: //product/qhull/main/rel/src/qset.h#18 $$Change: 1137 $
+   $DateTime: 2010/01/02 21:58:11 $$Author: bbarber $
 */
 
 #ifndef qhDEFset
@@ -95,7 +95,7 @@ struct setT {
   SETelemsize
     size of a set element in bytes
 */
-#define SETelemsize sizeof(setelemT) 
+#define SETelemsize ((int)sizeof(setelemT)) 
 
 
 /*=========== -macros- =========================*/
@@ -447,7 +447,7 @@ void  qh_setaddnth(setT **setp, int nth, void *newelem);
 void  qh_setappend(setT **setp, void *elem);
 void  qh_setappend_set(setT **setp, setT *setA);
 void  qh_setappend2ndlast(setT **setp, void *elem);
-void  qh_setcheck(setT *set, char *tname, int id);
+void  qh_setcheck(setT *set, const char *tname, unsigned id);
 void  qh_setcompact(setT *set);
 setT *qh_setcopy(setT *set, int extra);
 void *qh_setdel(setT *set, void *elem);
@@ -468,7 +468,7 @@ void  qh_setlarger(setT **setp);
 void *qh_setlast(setT *set);
 setT *qh_setnew(int size);
 setT *qh_setnew_delnthsorted(setT *set, int size, int nth, int prepend);
-void  qh_setprint(FILE *fp, char* string, setT *set);
+void  qh_setprint(FILE *fp, const char* string, setT *set);
 void  qh_setreplace(setT *set, void *oldelem, void *newelem);
 int   qh_setsize(setT *set);
 setT *qh_settemp(int setsize);

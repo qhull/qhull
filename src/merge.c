@@ -20,9 +20,9 @@
    merges occur in qh_mergefacet and in qh_mergecycle
    vertex->neighbors not set until the first merge occurs
 
-   copyright (c) 1993-2009 The Geometry Center.
-   $Id: //product/qhull/main/rel/src/merge.c#22 $$Change: 1102 $
-   $DateTime: 2009/12/07 20:26:04 $$Author: bbarber $        
+   copyright (c) 1993-2010 The Geometry Center.
+   $Id: //product/qhull/main/rel/src/merge.c#24 $$Change: 1137 $
+   $DateTime: 2010/01/02 21:58:11 $$Author: bbarber $        
 */
 
 #include "qhull_a.h"
@@ -126,7 +126,7 @@ void qh_premerge(vertexT *apex, realT maxcentrum, realT maxangle) {
     determine non-convex facets
     merge all non-convex facets
 */
-void qh_postmerge(char *reason, realT maxcentrum, realT maxangle, 
+void qh_postmerge(const char *reason, realT maxcentrum, realT maxangle, 
                       boolT vneighbors) {
   facetT *newfacet;
   boolT othermerges= False;
@@ -230,7 +230,7 @@ void qh_all_merges(boolT othermerge, boolT vneighbors) {
 	facet1= merge->facet1;
 	facet2= merge->facet2;
 	mergetype= merge->type;
-	qh_memfree_(merge, sizeof(mergeT), freelistp);
+	qh_memfree_(merge, (int)sizeof(mergeT), freelistp);
 	if (facet1->visible || facet2->visible) /*deleted facet*/
 	  continue;  
 	if ((facet1->newfacet && !facet1->tested)
@@ -325,7 +325,7 @@ void qh_appendmergeset(facetT *facet, facetT *neighbor, mergeType mergetype, rea
     return;
   if (facet->degenerate && mergetype == MRGdegen)
     return;
-  qh_memalloc_(sizeof(mergeT), freelistp, merge, mergeT);
+  qh_memalloc_((int)sizeof(mergeT), freelistp, merge, mergeT);
   merge->facet1= facet;
   merge->facet2= neighbor;
   merge->type= mergetype;
@@ -567,7 +567,7 @@ boolT qh_checkzero(boolT testall) {
     used by qsort() to order merges by angle
 */
 int qh_compareangle(const void *p1, const void *p2) {
-  mergeT *a= *((mergeT **)p1), *b= *((mergeT **)p2);
+  const mergeT *a= *((mergeT *const*)p1), *b= *((mergeT *const*)p2);
  
   return((a->angle > b->angle) ? 1 : -1);
 } /* compareangle */
@@ -579,7 +579,7 @@ int qh_compareangle(const void *p1, const void *p2) {
     used by qsort() to order merges
 */
 int qh_comparemerge(const void *p1, const void *p2) {
-  mergeT *a= *((mergeT **)p1), *b= *((mergeT **)p2);
+  const mergeT *a= *((mergeT *const*)p1), *b= *((mergeT *const*)p2);
  
   return(a->type - b->type);
 } /* comparemerge */
@@ -591,7 +591,7 @@ int qh_comparemerge(const void *p1, const void *p2) {
     used by qsort() to order vertices by their visitid
 */
 int qh_comparevisit(const void *p1, const void *p2) {
-  vertexT *a= *((vertexT **)p1), *b= *((vertexT **)p2);
+  const vertexT *a= *((vertexT *const*)p1), *b= *((vertexT *const*)p2);
  
   return(a->visitid - b->visitid);
 } /* comparevisit */
@@ -800,13 +800,13 @@ vertexT *qh_find_newvertex(vertexT *oldvertex, setT *vertices, setT *ridges) {
       vertexp--; /* repeat since deleted this vertex */
     }
   }
-  qh vertex_visit += qh_setsize(ridges);
+  qh vertex_visit += (unsigned int)qh_setsize(ridges);
   if (!qh_setsize(vertices)) {
     trace4((qh ferr, 4023, "qh_find_newvertex: vertices not in ridges for v%d\n",
 	    oldvertex->id));
     return NULL;
   }
-  qsort(SETaddr_(vertices, vertexT), qh_setsize(vertices),
+  qsort(SETaddr_(vertices, vertexT), (size_t)qh_setsize(vertices),
 	        sizeof(vertexT *), qh_comparevisit);
   /* can now use qh vertex_visit */
   if (qh PRINTstatistics) {
@@ -1009,7 +1009,7 @@ void qh_flippedmerges(facetT *facetlist, boolT *wasmerge) {
   }
   FOREACHmerge_(othermerges) {
     if (merge->facet1->visible || merge->facet2->visible)
-      qh_memfree(merge, sizeof(mergeT));
+      qh_memfree(merge, (int)sizeof(mergeT));
     else
       qh_setappend(&qh facet_mergeset, merge);
   }
@@ -1102,7 +1102,7 @@ void qh_forcedmerges(boolT *wasmerge) {
   }
   FOREACHmerge_(othermerges) {
     if (merge->type == MRGridge)
-      qh_memfree(merge, sizeof(mergeT));
+      qh_memfree(merge, (int)sizeof(mergeT));
     else
       qh_setappend(&qh facet_mergeset, merge);
   }
@@ -1177,9 +1177,9 @@ void qh_getmergeset(facetT *facetlist) {
   }
   nummerges= qh_setsize(qh facet_mergeset);
   if (qh ANGLEmerge)
-    qsort(SETaddr_(qh facet_mergeset, mergeT), nummerges,sizeof(mergeT *),qh_compareangle);
+    qsort(SETaddr_(qh facet_mergeset, mergeT), (size_t)nummerges, sizeof(mergeT *), qh_compareangle);
   else
-    qsort(SETaddr_(qh facet_mergeset, mergeT), nummerges,sizeof(mergeT *),qh_comparemerge);
+    qsort(SETaddr_(qh facet_mergeset, mergeT), (size_t)nummerges, sizeof(mergeT *), qh_comparemerge);
   if (qh POSTmerging) {
     zadd_(Zmergesettot2, nummerges);
   }else {
@@ -1242,9 +1242,9 @@ void qh_getmergeset_initial(facetT *facetlist) {
   }
   nummerges= qh_setsize(qh facet_mergeset);
   if (qh ANGLEmerge)
-    qsort(SETaddr_(qh facet_mergeset, mergeT), nummerges,sizeof(mergeT *),qh_compareangle);
+    qsort(SETaddr_(qh facet_mergeset, mergeT), (size_t)nummerges, sizeof(mergeT *), qh_compareangle);
   else
-    qsort(SETaddr_(qh facet_mergeset, mergeT), nummerges,sizeof(mergeT *),qh_comparemerge);
+    qsort(SETaddr_(qh facet_mergeset, mergeT), (size_t)nummerges, sizeof(mergeT *), qh_comparemerge);
   if (qh POSTmerging) {
     zadd_(Zmergeinittot2, nummerges);
   }else {
@@ -1589,7 +1589,7 @@ int qh_merge_degenredundant(void) {
     facet1= merge->facet1;
     facet2= merge->facet2;
     mergetype= merge->type;
-    qh_memfree(merge, sizeof(mergeT));
+    qh_memfree(merge, (int)sizeof(mergeT));
     if (facet1->visible)
       continue;
     facet1->degenerate= False; 
@@ -1884,7 +1884,7 @@ void qh_mergecycle_all(facetT *facetlist, boolT *wasmerge) {
       if (nummerge > qh_MAXnummerge) 
       	horizon->nummerge= qh_MAXnummerge;
       else
-        horizon->nummerge= nummerge;
+        horizon->nummerge= (short unsigned int)nummerge;
       zzinc_(Zcyclehorizon);
       total += facets;
       zzadd_(Zcyclefacettot, facets);
@@ -2113,12 +2113,12 @@ void qh_mergecycle_ridges(facetT *samecycle, facetT *newfacet) {
       }
       if (neighbor == newfacet) {
         qh_setfree(&(ridge->vertices)); 
-        qh_memfree_(ridge, sizeof(ridgeT), freelistp);
+        qh_memfree_(ridge, (int)sizeof(ridgeT), freelistp);
         numold++;
       }else if (neighbor->visitid == samevisitid) {
 	qh_setdel(neighbor->ridges, ridge);
 	qh_setfree(&(ridge->vertices)); 
-	qh_memfree_(ridge, sizeof(ridgeT), freelistp);
+	qh_memfree_(ridge, (int)sizeof(ridgeT), freelistp);
 	numold++;
       }else {
         qh_setappend(&newfacet->ridges, ridge);
@@ -2348,7 +2348,7 @@ too strong.\n", qh hull_dim+1);
   if (nummerge >= qh_MAXnummerge) 
     facet2->nummerge= qh_MAXnummerge;
   else
-    facet2->nummerge= nummerge;
+    facet2->nummerge= (short unsigned int)nummerge;
   facet2->newmerge= True;
   facet2->dupridge= False;
   qh_updatetested  (facet1, facet2);
@@ -2677,7 +2677,7 @@ void qh_mergesimplex(facetT *facet1, facetT *facet2, boolT mergeapex) {
     if (otherfacet == facet2) {
       qh_setdel(facet2->ridges, ridge);
       qh_setfree(&(ridge->vertices)); 
-      qh_memfree(ridge, sizeof(ridgeT));
+      qh_memfree(ridge, (int)sizeof(ridgeT));
       qh_setdel(facet2->neighbors, facet1);
     }else {
       qh_setappend(&facet2->ridges, ridge);
@@ -3614,7 +3614,7 @@ void qh_willdelete(facetT *facet, facetT *replace) {
 #else /* qh_NOmerge */
 void qh_premerge(vertexT *apex, realT maxcentrum, realT maxangle) {
 }
-void qh_postmerge(char *reason, realT maxcentrum, realT maxangle, 
+void qh_postmerge(const char *reason, realT maxcentrum, realT maxangle, 
                       boolT vneighbors) {
 }
 boolT qh_checkzero(boolT testall) {

@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (C) 2008-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullLinkedList.h#27 $$Change: 1114 $
-** $DateTime: 2009/12/12 13:49:07 $$Author: bbarber $
+** Copyright (C) 2008-2010 C. Bradford Barber. All rights reserved.
+** $Id: //product/qhull/main/rel/cpp/QhullLinkedList.h#29 $$Change: 1137 $
+** $DateTime: 2010/01/02 21:58:11 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -367,7 +367,7 @@ operator<<(std::ostream &os, const orgQhull::QhullLinkedList<T> &qs)
 {
     typename orgQhull::QhullLinkedList<T>::const_iterator i;
     for(i= qs.begin(); i != qs.end(); ++i){
-        os<< *i;
+        os << *i;
     }
     return os;
 }//operator<<

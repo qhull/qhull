@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (p) 2009-2009 p. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/qhulltest/QhullPointSet_test.cpp#5 $$Change: 1111 $
-** $DateTime: 2009/12/10 22:15:38 $$Author: bbarber $
+** Copyright (p) 2009-2010 C. Bradford Barber. All rights reserved.
+** $Id: //product/qhull/main/rel/cpp/qhulltest/QhullPointSet_test.cpp#7 $$Change: 1137 $
+** $DateTime: 2010/01/02 21:58:11 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -356,10 +356,10 @@ t_io()
     QhullFacet f= q.firstFacet();
     QhullPointSet ps= f.coplanarPoints();
     QVERIFY(ps.count()>=3);  // Sometimes no coplanar points
-    os<< "QhullPointSet from coplanarPoints\n" << ps << endl;
-    os<< "\nRunId\n" << ps.print(q.runId());
-    os<< ps.print(q.runId(), "\nRunId w/ message\n");
-    cout<< os.str();
+    os << "QhullPointSet from coplanarPoints\n" << ps << endl;
+    os << "\nRunId\n" << ps.print(q.runId());
+    os << ps.print(q.runId(), "\nRunId w/ message\n");
+    cout << os.str();
     QString s= QString::fromStdString(os.str());
     QCOMPARE(s.count("p"), 3*ps.count()+1);
     // QCOMPARE(s.count(QRegExp("f\\d")), 3*7 + 13*3*2);

@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (C) 2008-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/qhulltest/QhullFacetSet_test.cpp#9 $$Change: 1111 $
-** $DateTime: 2009/12/10 22:15:38 $$Author: bbarber $
+** Copyright (C) 2008-2010 C. Bradford Barber. All rights reserved.
+** $Id: //product/qhull/main/rel/cpp/qhulltest/QhullFacetSet_test.cpp#11 $$Change: 1137 $
+** $DateTime: 2010/01/02 21:58:11 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -142,7 +142,7 @@ t_io()
         ostringstream os;
         os << fs.print(q.runId(), "Neighbors of first facet with point 0");
         os << fs.printIdentifiers("\nFacet identifiers: ");
-        cout<< os.str();
+        cout << os.str();
         QString facets= QString::fromStdString(os.str());
         QCOMPARE(facets.count(QRegExp(" f[0-9]")), 2+13*2);
     }

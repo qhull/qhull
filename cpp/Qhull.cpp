@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (C) 2008-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/Qhull.cpp#38 $$Change: 1111 $
-** $DateTime: 2009/12/10 22:15:38 $$Author: bbarber $
+** Copyright (C) 2008-2010 C. Bradford Barber. All rights reserved.
+** $Id: //product/qhull/main/rel/cpp/Qhull.cpp#40 $$Change: 1137 $
+** $DateTime: 2010/01/02 21:58:11 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -134,8 +134,8 @@ Qhull::
             qhull_run_id= UsingLibQhull::NOqhRunId;
             // Except for cerr, does not throw errors
             if(hasQhullMessage()){
-                cerr<< "\nQhull output at end\n";
-                cerr<<qhullMessage();  //FIXUP: where should error and log messages go on ~Qhull?  
+                cerr<< "\nQhull output at end\n"; //FIXUP 2009: where should error and log messages go on ~Qhull?  
+                cerr<<qhullMessage();  
                 clearQhullMessage();
             }
         }
@@ -172,7 +172,7 @@ bool Qhull::
 hasQhullMessage() const 
 {
     return (!qhull_message.empty() || qhull_status!=qh_ERRnone);
-    //FIXUP -- inconsistent usage with Rbox.  hasRboxMessage just tests rbox_status.  No appendRboxMessage()
+    //FIXUP 2009 -- inconsistent usage with Rbox.  hasRboxMessage just tests rbox_status.  No appendRboxMessage()
 }
 
 //! qhullMessage does not throw errors (~Qhull)
@@ -208,6 +208,14 @@ setOutputStream(ostream *os)
 
 #//GetSet
 
+void Qhull::
+checkIfQhullInitialized()
+{
+    if(!initialized()){ // qh_initqhull_buffers() not called
+        throw QhullError(10023, "Qhull error: checkIfQhullInitialized failed.  Call runQhull() first.");
+    }
+}//checkIfQhullInitialized
+
 //! Setup global state (qh_qh, qh_qhstat, qhmem.tempstack)
 int Qhull::
 runId()
@@ -223,8 +231,8 @@ runId()
 
 double Qhull::
 area(){
+    checkIfQhullInitialized();
     UsingLibQhull q(this);
-    qhull_qh->checkIfQhullRan();
     if(!qh hasAreaVolume){
         int exitCode = setjmp(qh errexit);
         if(!exitCode){ // no object creation -- destructors skipped on longjmp()
@@ -237,8 +245,8 @@ area(){
 
 double Qhull::
 volume(){
+    checkIfQhullInitialized();
     UsingLibQhull q(this);
-    qhull_qh->checkIfQhullRan();
     if(!qh hasAreaVolume){
         int exitCode = setjmp(qh errexit);
         if(!exitCode){ // no object creation -- destructors skipped on longjmp()
@@ -258,8 +266,14 @@ facetList() const{
 QhullPoints Qhull::
 points() const 
 { 
-    return QhullPoints(dimension(), qhull_qh->num_points*dimension(), qhull_qh->first_point); 
-}
+    return QhullPoints(hullDimension(), qhull_qh->num_points*hullDimension(), qhull_qh->first_point); 
+}//points
+
+QhullPointSet Qhull::
+otherPoints() const 
+{ 
+    return QhullPointSet(hullDimension(), qhull_qh->other_points); 
+}//otherPoints
 
 QhullVertexList Qhull::
 vertexList() const{
@@ -271,8 +285,8 @@ vertexList() const{
 void Qhull::
 outputQhull()
 {
+    checkIfQhullInitialized();
     UsingLibQhull q(this);
-    qhull_qh->checkIfQhullRan();
     int exitCode = setjmp(qh errexit);
     if(!exitCode){ // no object creation -- destructors skipped on longjmp()
         qh_produce_output2(); 
@@ -283,8 +297,8 @@ outputQhull()
 void Qhull::
 outputQhull(const char *outputflags)
 {
+    checkIfQhullInitialized();
     UsingLibQhull q(this);
-    qhull_qh->checkIfQhullRan();
     string cmd(" "); // qh_checkflags skips first word
     cmd += outputflags;
     char *command= const_cast<char*>(cmd.c_str());
@@ -353,7 +367,6 @@ runQhull(const char *rboxCommand, int pointDimension, int pointCount, const real
 	}
 	qh_init_B(newPoints, pointCount, newDimension, newIsMalloc);
         qhull_dimension= (qh DELAUNAY ? qh hull_dim - 1 : qh hull_dim);
-        //FIXUP -- copy rbox_command here.  SetCommandMessage is wrong
 	qh_qhull();
 	qh_check_output();
         qh_prepare_output();
@@ -361,7 +374,7 @@ runQhull(const char *rboxCommand, int pointDimension, int pointCount, const real
 	    qh_check_points();
 	}
     }
-    for(int k= qhull_dimension; k--; ){
+    for(int k= qhull_dimension; k--; ){  // Do not move up (may throw)
         origin_point << 0.0;
     }
     maybeThrowQhullMessage(exitCode);
@@ -404,7 +417,7 @@ maybeThrowQhullMessage(int exitCode)
     if(qhull_status!=qh_ERRnone){
         QhullError e(qhull_status, qhull_message);
         clearQhullMessage();
-        throw e; // FIXUP copy constructor is expensive if logging
+        throw e; // FIXUP 2009: copy constructor is expensive if logging
     }
 }//maybeThrowQhullMessage
 
@@ -467,7 +480,7 @@ void qh_fprintf(FILE *fp, int msgcode, const char *fmt, ... ) {
         va_end(args);
         return;
     }
-    // FIXUP  how do users trap messages and handle input?  A callback?
+    // FIXUP 2009: how do users trap messages and handle input?  A callback?
     char newMessage[MSG_MAXLEN];
     vsnprintf(newMessage, sizeof(newMessage), fmt, args);
     out->appendQhullMessage(newMessage);

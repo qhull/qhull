@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (C) 2008-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullFacetSet.cpp#16 $$Change: 1102 $
-** $DateTime: 2009/12/07 20:26:04 $$Author: bbarber $
+** Copyright (C) 2008-2010 C. Bradford Barber. All rights reserved.
+** $Id: //product/qhull/main/rel/cpp/QhullFacetSet.cpp#18 $$Change: 1137 $
+** $DateTime: 2010/01/02 21:58:11 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -86,7 +86,7 @@ using orgQhull::UsingLibQhull;
 ostream &
 operator<<(ostream &os, const QhullFacetSet &fs)
 {
-    os<< fs.print(UsingLibQhull::NOqhRunId, "");
+    os << fs.print(UsingLibQhull::NOqhRunId, "");
     return os;
 }//<<QhullFacetSet
 
@@ -98,7 +98,7 @@ operator<<(ostream &os, const QhullFacetSet::PrintFacetSet &pr)
     for(QhullFacetSet::iterator i=fs.begin(); i != fs.end(); ++i){
         QhullFacet f= *i;
         if(fs.isSelectAll() || f.isGood()){
-            os<< f.print(pr.run_id);
+            os << f.print(pr.run_id);
         }
     }
     return os;
@@ -108,18 +108,18 @@ operator<<(ostream &os, const QhullFacetSet::PrintFacetSet &pr)
 ostream &
 operator<<(ostream &os, const QhullFacetSet::PrintIdentifiers &p)
 {
-    os<< p.message;
+    os << p.message;
     for(QhullFacetSet::const_iterator i=p.facet_set->begin(); i!=p.facet_set->end(); ++i){
         const QhullFacet f= *i;
         if(f.getFacetT()==qh_MERGEridge){
-            os<< " MERGE";
+            os << " MERGE";
         }else if(f.getFacetT()==qh_DUPLICATEridge){
-            os<< " DUP";
+            os << " DUP";
         }else if(p.facet_set->isSelectAll() || f.isGood()){
-            os<< " f" << f.id();
+            os << " f" << f.id();
         }
     }
-    os<< endl;
+    os << endl;
     return os;
 }//<<QhullFacetSet::PrintIdentifiers
 

@@ -9,9 +9,9 @@
    infrequent code is in poly2.c 
    (all but top 50 and their callers 12/3/95)
 
-   copyright (c) 1993-2009 The Geometry Center.
-   $Id: //product/qhull/main/rel/src/poly.c#21 $$Change: 1102 $
-   $DateTime: 2009/12/07 20:26:04 $$Author: bbarber $
+   copyright (c) 1993-2010 The Geometry Center.
+   $Id: //product/qhull/main/rel/src/poly.c#23 $$Change: 1137 $
+   $DateTime: 2010/01/02 21:58:11 $$Author: bbarber $
 */
 
 #include "qhull_a.h"
@@ -143,7 +143,7 @@ void qh_attachnewfacets(void ) {
 	  if (!neighbor->visible)  /* delete ridge for simplicial horizon */
 	    qh_setdel(neighbor->ridges, ridge);
 	  qh_setfree(&(ridge->vertices)); /* delete on 2nd visit */
-	  qh_memfree(ridge, sizeof(ridgeT));
+	  qh_memfree(ridge, (int)sizeof(ridgeT));
 	}
       }
       SETfirst_(visible->ridges)= NULL;
@@ -269,7 +269,7 @@ void qh_delfacet(facetT *facet) {
     qh_setfree(&(facet->outsideset));
   if (facet->coplanarset)
     qh_setfree(&(facet->coplanarset));
-  qh_memfree_(facet, sizeof(facetT), freelistp);
+  qh_memfree_(facet, (int)sizeof(facetT), freelistp);
 } /* delfacet */
 
 
@@ -481,7 +481,7 @@ facetT *qh_makenewfacet(setT *vertices, boolT toporient,facetT *horizon) {
   }
   newfacet= qh_newfacet();
   newfacet->vertices= vertices;
-  newfacet->toporient= toporient;
+  newfacet->toporient= (unsigned char)toporient;
   if (horizon)
     qh_setappend(&(newfacet->neighbors), horizon);
   qh_appendfacet(newfacet);
@@ -568,7 +568,7 @@ facetT *qh_makenew_nonsimplicial(facetT *visible, vertexT *apex, int *numnew) {
       if (!qh ONLYgood) {
         if (neighbor->visitid == qh visit_id) {
           qh_setfree(&(ridge->vertices));  /* delete on 2nd visit */
-	  qh_memfree_(ridge, sizeof(ridgeT), freelistp);
+	  qh_memfree_(ridge, (int)sizeof(ridgeT), freelistp);
 	}
       }
     }else {  /* neighbor is an horizon facet */
@@ -605,7 +605,7 @@ facetT *qh_makenew_nonsimplicial(facetT *visible, vertexT *apex, int *numnew) {
         if (neighbor->simplicial) {
           qh_setdel(neighbor->ridges, ridge);
           qh_setfree(&(ridge->vertices)); 
-	  qh_memfree(ridge, sizeof(ridgeT));
+	  qh_memfree(ridge, (int)sizeof(ridgeT));
 	}else {
  	  qh_setappend(&(newfacet->ridges), ridge);
  	  if (toporient)
@@ -717,16 +717,17 @@ facetT *qh_makenew_simplicial(facetT *visible, vertexT *apex, int *numnew) {
 void qh_matchneighbor(facetT *newfacet, int newskip, int hashsize, int *hashcount) {
   boolT newfound= False;   /* True, if new facet is already in hash chain */
   boolT same, ismatch;
-  int hash, scan;
+  unsigned hash;
+  int scan;
   facetT *facet, *matchfacet;
   int skip, matchskip;
 
-  hash= (int)qh_gethash(hashsize, newfacet->vertices, qh hull_dim, 1, 
+  hash= qh_gethash(hashsize, newfacet->vertices, qh hull_dim, 1, 
                      SETelem_(newfacet->vertices, newskip));
-  trace4((qh ferr, 4050, "qh_matchneighbor: newfacet f%d skip %d hash %d hashcount %d\n",
+  trace4((qh ferr, 4050, "qh_matchneighbor: newfacet f%d skip %d hash %ud hashcount %d\n",
 	  newfacet->id, newskip, hash, *hashcount));
   zinc_(Zhashlookup);
-  for (scan= hash; (facet= SETelemt_(qh hash_table, scan, facetT)); 
+  for (scan= (int)hash; (facet= SETelemt_(qh hash_table, scan, facetT)); 
        scan= (++scan >= hashsize ? 0 : scan)) {
     if (facet == newfacet) {
       newfound= True;
@@ -741,7 +742,7 @@ void qh_matchneighbor(facetT *newfacet, int newskip, int hashsize, int *hashcoun
           facet->id, newfacet->id);
         qh_errexit2 (qh_ERRprec, facet, newfacet);
       }
-      ismatch= (same == (newfacet->toporient ^ facet->toporient));
+      ismatch= (same == (boolT)((newfacet->toporient ^ facet->toporient)));
       matchfacet= SETelemt_(facet->neighbors, skip, facetT);
       if (ismatch && !matchfacet) {
         SETelem_(facet->neighbors, skip)= newfacet;
@@ -780,7 +781,7 @@ void qh_matchneighbor(facetT *newfacet, int newskip, int hashsize, int *hashcoun
 	  *hashcount += 2;
 	}
       }
-      trace4((qh ferr, 4052, "qh_matchneighbor: new f%d skip %d duplicates ridge for f%d skip %d matching f%d ismatch %d at hash %d\n",
+      trace4((qh ferr, 4052, "qh_matchneighbor: new f%d skip %d duplicates ridge for f%d skip %d matching f%d ismatch %d at hash %ud\n",
 	   newfacet->id, newskip, facet->id, skip, 
 	   (matchfacet == qh_DUPLICATEridge ? -2 : getid_(matchfacet)), 
 	   ismatch, hash));
@@ -790,7 +791,7 @@ void qh_matchneighbor(facetT *newfacet, int newskip, int hashsize, int *hashcoun
   if (!newfound) 
     SETelem_(qh hash_table, scan)= newfacet;  /* same as qh_addhash */
   (*hashcount)++;
-  trace4((qh ferr, 4053, "qh_matchneighbor: no match for f%d skip %d at hash %d\n",
+  trace4((qh ferr, 4053, "qh_matchneighbor: no match for f%d skip %d at hash %ud\n",
            newfacet->id, newskip, hash));
 } /* matchneighbor */
 
@@ -973,8 +974,8 @@ facetT *qh_newfacet(void) {
   facetT *facet;
   void **freelistp; /* used !qh_NOmem */
   
-  qh_memalloc_(sizeof(facetT), freelistp, facet, facetT);
-  memset((char *)facet, 0, sizeof(facetT));
+  qh_memalloc_((int)sizeof(facetT), freelistp, facet, facetT);
+  memset((char *)facet, (size_t)0, sizeof(facetT));
   if (qh facet_id == qh tracefacet_id)
     qh tracefacet= facet;
   facet->id= qh facet_id++;
@@ -1006,15 +1007,15 @@ ridgeT *qh_newridge(void) {
   ridgeT *ridge;
   void **freelistp;   /* used !qh_NOmem */
 
-  qh_memalloc_(sizeof(ridgeT), freelistp, ridge, ridgeT);
-  memset((char *)ridge, 0, sizeof(ridgeT));
+  qh_memalloc_((int)sizeof(ridgeT), freelistp, ridge, ridgeT);
+  memset((char *)ridge, (size_t)0, sizeof(ridgeT));
   zinc_(Ztotridges);
   if (qh ridge_id == 0xFFFFFF) {
     qh_fprintf(qh ferr, 7074, "\
 qhull warning: more than %d ridges.  ID field overflows and two ridges\n\
 may have the same identifier.  Otherwise output ok.\n", 0xFFFFFF);
   }
-  ridge->id= qh ridge_id++;     
+  ridge->id= qh ridge_id++;
   trace4((qh ferr, 4056, "qh_newridge: created ridge r%d\n", ridge->id));
   return(ridge);
 } /* newridge */

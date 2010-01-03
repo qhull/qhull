@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (C) 2009-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullHyperplane.cpp#6 $$Change: 1111 $
-** $DateTime: 2009/12/10 22:15:38 $$Author: bbarber $
+** Copyright (C) 2009-2010 C. Bradford Barber. All rights reserved.
+** $Id: //product/qhull/main/rel/cpp/QhullHyperplane.cpp#8 $$Change: 1137 $
+** $DateTime: 2010/01/02 21:58:11 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -116,7 +116,7 @@ using orgQhull::UsingLibQhull;
 ostream &
 operator<<(ostream &os, const QhullHyperplane &p)
 {
-    os<< p.print();
+    os << p.print();
     return os;
 }
 
@@ -125,15 +125,15 @@ operator<<(ostream &os, const QhullHyperplane::PrintHyperplane &pr)
 {
     QhullHyperplane p= *pr.hyperplane;
     if(pr.hyperplane_message){
-        os<< pr.hyperplane_message;
+        os << pr.hyperplane_message;
     }
     const realT *c= p.coordinates();
     for(int k=p.dimension(); k--; ){
         realT r= *c++;
         if(pr.hyperplane_message){
-            os<< " " << r; // FIXUP %8.4g
+            os << " " << r; // FIXUP %8.4g
         }else{
-            os<< " " << r; // FIXUP qh_REAL_1
+            os << " " << r; // FIXUP qh_REAL_1
         }
     }
     if(pr.hyperplane_offset_message){
@@ -141,7 +141,7 @@ operator<<(ostream &os, const QhullHyperplane::PrintHyperplane &pr)
     }else{
         os << " " << p.offset();
     }
-    os<< std::endl;
+    os << std::endl;
     return os;
 }//PrintHyperplane
 

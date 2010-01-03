@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (C) 2008-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullFacetList.cpp#19 $$Change: 1102 $
-** $DateTime: 2009/12/07 20:26:04 $$Author: bbarber $
+** Copyright (C) 2008-2010 C. Bradford Barber. All rights reserved.
+** $Id: //product/qhull/main/rel/cpp/QhullFacetList.cpp#21 $$Change: 1137 $
+** $DateTime: 2010/01/02 21:58:11 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -88,9 +88,9 @@ ostream &
 operator<<(ostream &os, const QhullFacetList::PrintFacetList &pr)
 {
     QhullFacetList fs= *pr.facet_list;
-    os<< "Vertices for " << fs.count() << " facets" << endl;
-    os<< fs.printVertices(pr.run_id);
-    os<< fs.printFacets(pr.run_id);
+    os << "Vertices for " << fs.count() << " facets" << endl;
+    os << fs.printVertices(pr.run_id);
+    os << fs.printFacets(pr.run_id);
     return os;
 }//operator<<
 
@@ -101,7 +101,7 @@ operator<<(ostream &os, const QhullFacetList::PrintFacets &pr)
     for(QhullFacetList::const_iterator i= pr.facet_list->begin(); i != pr.facet_list->end(); ++i){
         QhullFacet f= *i;
         if(pr.facet_list->isSelectAll() || f.isGood()){
-            os<< f.print(pr.run_id);
+            os << f.print(pr.run_id);
         }
     }
     return os;
@@ -115,7 +115,7 @@ operator<<(ostream &os, const QhullFacetList::PrintVertices &pr)
     QhullVertexSet vs(pr.run_id, pr.facet_list->first().getFacetT(), NULL, pr.facet_list->isSelectAll());
     for(QhullVertexSet::iterator i=vs.begin(); i!=vs.end(); ++i){
         QhullVertex v= *i;
-        os<< v.print(pr.run_id);
+        os << v.print(pr.run_id);
     }
     return os;
 }//printVertices

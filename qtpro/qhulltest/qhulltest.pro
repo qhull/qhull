@@ -5,16 +5,17 @@
 TARGET = qhulltest
 DESTDIR = ../..
 TEMPLATE = app
-CONFIG += console qtestlib
+CONFIG += console qtestlib warn_on
+CONFIG -= app_bundle
+LIBS += -L../..
 build_pass:CONFIG(debug, debug|release):{
-   LIBS += ../../qhullcppd.dll
+   LIBS += libqhullcppd
    OBJECTS_DIR = ../../tmp/qhulltest/Debug
 }else:build_pass:CONFIG(release, debug|release):{
-   LIBS += ../../qhullcpp.dll
+   LIBS += libqhullcpp
    OBJECTS_DIR = ../../tmp/qhulltest/Release
 }
 QT -= gui
-CONFIG -= app_bundle
 MOC_DIR = ../../tmp/moc
 RCC_DIR = ../../tmp/rcc
 INCLUDEPATH = ../../cpp;../../cpp/road;../../tmp

@@ -1,15 +1,16 @@
 /****************************************************************************
 **
-** Copyright (C) 2008-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/functionObjects.h#4 $$Change: 1114 $
-** $DateTime: 2009/12/12 13:49:07 $$Author: bbarber $
+** Copyright (C) 2008-2010 C. Bradford Barber. All rights reserved.
+** $Id: //product/qhull/main/rel/cpp/functionObjects.h#6 $$Change: 1137 $
+** $DateTime: 2010/01/02 21:58:11 $$Author: bbarber $
 **
 ****************************************************************************/
 
 #ifndef QHFUNCTIONOBJECTS_H
 #define QHFUNCTIONOBJECTS_H
 
-#include <stdlib.h> // abs()
+#include <stdlib.h> 
+#include <math.h> // abs()
 
 namespace orgQhull {
 #//Type

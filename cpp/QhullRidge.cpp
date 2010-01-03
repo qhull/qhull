@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (C) 2008-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullRidge.cpp#12 $$Change: 1102 $
-** $DateTime: 2009/12/07 20:26:04 $$Author: bbarber $
+** Copyright (C) 2008-2010 C. Bradford Barber. All rights reserved.
+** $Id: //product/qhull/main/rel/cpp/QhullRidge.cpp#14 $$Change: 1137 $
+** $DateTime: 2010/01/02 21:58:11 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -57,7 +57,7 @@ using orgQhull::UsingLibQhull;
 ostream &
 operator<<(ostream &os, const QhullRidge &r)
 {      
-    os<< r.print(UsingLibQhull::NOqhRunId); 
+    os << r.print(UsingLibQhull::NOqhRunId); 
     return os; 
 }//<< QhullRidge
 
@@ -67,18 +67,18 @@ ostream &
 operator<<(ostream &os, const QhullRidge::PrintRidge &pr)
 { 
     QhullRidge r= *pr.ridge;
-    os<< "     - r" << r.id();
+    os << "     - r" << r.id();
     if(r.getRidgeT()->tested){
-        os<< " tested";
+        os << " tested";
     }
     if(r.getRidgeT()->nonconvex){
-        os<< " nonconvex";
+        os << " nonconvex";
     }
-    os<< endl;
-    os<< r.vertices().print(pr.run_id, "           vertices:");
+    os << endl;
+    os << r.vertices().print(pr.run_id, "           vertices:");
     //FIXUP -- what if top or bottom are NULL?
     if(r.getRidgeT()->top && r.getRidgeT()->bottom){
-        os<< "           between f" << r.topFacet().id() << " and f" << r.bottomFacet().id() << endl;
+        os << "           between f" << r.topFacet().id() << " and f" << r.bottomFacet().id() << endl;
     }
     return os;
 }//<< PrintRidge

@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (C) 2008-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullFacet.h#32 $$Change: 1111 $
-** $DateTime: 2009/12/10 22:15:38 $$Author: bbarber $
+** Copyright (C) 2008-2010 C. Bradford Barber. All rights reserved.
+** $Id: //product/qhull/main/rel/cpp/QhullFacet.h#34 $$Change: 1137 $
+** $DateTime: 2010/01/02 21:58:11 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -40,7 +40,7 @@ class QhullFacet {
 
 private:
 #//Fields -- no additions (QhullFacetSet of facetT*)
-    facetT             *qh_facet;  //! May be 0 (!isDefined) for corner cases (e.g., *facetSet.end()==0)
+    facetT             *qh_facet;  //! May be 0 (!isDefined) for corner cases (e.g., *facetSet.end()==0) and tricoplanarOwner()
 
 #//Class objects
     static facetT       s_empty_facet; // needed for shallow copy
@@ -146,6 +146,6 @@ std::ostream &operator<<(std::ostream &os, const orgQhull::QhullFacet::PrintFlag
 std::ostream &operator<<(std::ostream &os, const orgQhull::QhullFacet::PrintHeader &pr);
 std::ostream &operator<<(std::ostream &os, const orgQhull::QhullFacet::PrintRidges &pr);
 std::ostream &operator<<(std::ostream &os, const orgQhull::QhullFacet::PrintFacet &pr);
-std::ostream &operator<<(std::ostream &os, orgQhull::QhullFacet &f); //FIXUP.  No conversion! { os<< f.print(orgQhull::UsingLibQhull::NOqhRunId); return os; } // FIXUP non-const due to center.  Make it mutable?
+std::ostream &operator<<(std::ostream &os, orgQhull::QhullFacet &f); //FIXUP.  No conversion! { os << f.print(orgQhull::UsingLibQhull::NOqhRunId); return os; } // FIXUP non-const due to center.  Make it mutable?
 
 #endif // QHULLFACET_H

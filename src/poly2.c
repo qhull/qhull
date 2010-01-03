@@ -8,9 +8,9 @@
 
    frequently used code is in poly.c
 
-   copyright (c) 1993-2009 The Geometry Center.
-   $Id: //product/qhull/main/rel/src/poly2.c#33 $$Change: 1102 $
-   $DateTime: 2009/12/07 20:26:04 $$Author: bbarber $
+   copyright (c) 1993-2010 The Geometry Center.
+   $Id: //product/qhull/main/rel/src/poly2.c#35 $$Change: 1137 $
+   $DateTime: 2010/01/02 21:58:11 $$Author: bbarber $
 */
 
 #include "qhull_a.h"
@@ -323,9 +323,9 @@ void qh_check_points(void) {
   trace1((qh ferr, 1025, "qh_check_points: check all points below %2.2g of all facet planes\n",
 	  maxoutside));
   if (qh num_good)   /* miss counts other_points and !good facets */
-     total= (float) qh num_good * qh num_points;
+     total= (float)qh num_good * (float)qh num_points;
   else
-     total= (float) qh num_facets * qh num_points;
+     total= (float)qh num_facets * (float)qh num_points;
   if (total >= qh_VERIFYdirect && !qh maxoutdone) {
     if (!qh_QUICKhelp && qh SKIPcheckmax && qh MERGING)
       qh_fprintf(qh ferr, 7075, "\n\
@@ -390,7 +390,7 @@ all %sfacets.  Will make %2.0f distance computations.\n",
       qh_errexit2( qh_ERRprec, errfacet1, errfacet2 );
     }else if (errfacet1 && qh outside_err > REALmax/2)
         qh_errexit2( qh_ERRprec, errfacet1, errfacet2 );
-       /* else if errfacet1, the error was logged to qh.ferr but does not effect the output */
+    /* else if errfacet1, the error was logged to qh.ferr but does not effect the output */
     trace0((qh ferr, 21, "qh_check_points: max distance outside %2.2g\n", maxdist));
   }
 } /* check_points */
@@ -895,7 +895,7 @@ void qh_checkpolygon(facetT *facetlist) {
       }
     }
   }
-  qh vertex_visit += numfacets;
+  qh vertex_visit += (unsigned int)numfacets;
   if (facetlist == qh facet_list) {
     if (numfacets != qh num_facets - qh num_visible) {
       qh_fprintf(qh ferr, 6140, "qhull internal error (qh_checkpolygon): actual number of facets is %d, cumulative facet count is %d - %d visible facets\n",
@@ -1045,7 +1045,7 @@ void qh_createsimplex(setT *vertices) {
     newfacet= qh_newfacet();
     newfacet->vertices= qh_setnew_delnthsorted(vertices, vertex_n,
 						vertex_i, 0);
-    newfacet->toporient= toporient;
+    newfacet->toporient= (unsigned char)toporient;
     qh_appendfacet(newfacet);
     newfacet->newfacet= True;
     qh_appendvertex(vertex);
@@ -1081,7 +1081,7 @@ void qh_delridge(ridgeT *ridge) {
   qh_setdel(ridge->top->ridges, ridge);
   qh_setdel(ridge->bottom->ridges, ridge);
   qh_setfree(&(ridge->vertices));
-  qh_memfree_(ridge, sizeof(ridgeT), freelistp);
+  qh_memfree_(ridge, (int)sizeof(ridgeT), freelistp);
 } /* delridge */
 
 
@@ -1101,7 +1101,7 @@ void qh_delvertex(vertexT *vertex) {
     qh tracevertex= NULL;
   qh_removevertex(vertex);
   qh_setfree(&vertex->neighbors);
-  qh_memfree(vertex, sizeof(vertexT));
+  qh_memfree(vertex, (int)sizeof(vertexT));
 } /* delvertex */
 
 
@@ -1765,7 +1765,7 @@ void qh_initialhull(setT *vertices) {
   qh_distplane(qh interior_point, firstfacet, &dist);
   if (dist > 0) {  
     FORALLfacets
-      facet->toporient ^= True;
+      facet->toporient ^= (unsigned char)True;
   }
   FORALLfacets
     qh_setfacetplane(facet);
@@ -1774,7 +1774,7 @@ void qh_initialhull(setT *vertices) {
       trace1((qh ferr, 1031, "qh_initialhull: initial orientation incorrect.  Correct all facets\n"));
       facet->flipped= False;
       FORALLfacets {
-	facet->toporient ^= True;
+        facet->toporient ^= (unsigned char)True;
 	qh_orientoutside(facet);
       }
       break;
@@ -2050,7 +2050,7 @@ void qh_matchduplicates(facetT *atfacet, int atskip, int hashsize, int *hashcoun
 	  continue;
 	zinc_(Zhashtests);
 	if (qh_matchvertices(1, newfacet->vertices, newskip, facet->vertices, &skip, &same)) {
-	  ismatch= (same == (newfacet->toporient ^ facet->toporient));
+	  ismatch= (same == (boolT)(newfacet->toporient ^ facet->toporient));
 	  if (SETelemt_(facet->neighbors, skip, facetT) != qh_DUPLICATEridge) {
 	    if (!makematch) {
 	      qh_fprintf(qh ferr, 6155, "qhull internal error (qh_matchduplicates): missing dupridge at f%d skip %d for new f%d skip %d hash %d\n",
@@ -2264,8 +2264,8 @@ vertexT *qh_newvertex(pointT *point) {
   vertexT *vertex;
 
   zinc_(Ztotvertices);
-  vertex= (vertexT *)qh_memalloc(sizeof(vertexT));
-  memset((char *) vertex, 0, sizeof(vertexT));
+  vertex= (vertexT *)qh_memalloc((int)sizeof(vertexT));
+  memset((char *) vertex, (size_t)0, sizeof(vertexT));
   if (qh vertex_id == 0xFFFFFF) {
     qh_fprintf(qh ferr, 6159, "qhull input error: more than %d vertices.  ID field overflows and two vertices\n\
 may have the same identifier.  Vertices not sorted correctly.\n", 0xFFFFFF);
@@ -2275,8 +2275,8 @@ may have the same identifier.  Vertices not sorted correctly.\n", 0xFFFFFF);
     qh tracevertex= vertex;
   vertex->id= qh vertex_id++;
   vertex->point= point;
-  vertex->dim= (qh hull_dim <= MAX_vdim ? qh hull_dim : 0);
-  trace4((qh ferr, 4060, "qh_newvertex: vertex p%d(v%d) created\n", qh_pointid(vertex->point), 
+  vertex->dim= (unsigned char)(qh hull_dim <= MAX_vdim ? qh hull_dim : 0);
+  trace4((qh ferr, 4060, "qh_newvertex: vertex p%d(v%d) created\n", qh_pointid(vertex->point),
 	  vertex->id));
   return(vertex);
 } /* newvertex */
@@ -2755,7 +2755,7 @@ void qh_triangulate(void /*qh facet_list*/) {
     facet1= merge->facet1;
     facet2= merge->facet2;
     mergetype= merge->type;
-    qh_memfree(merge, sizeof(mergeT));
+    qh_memfree(merge, (int)sizeof(mergeT));
     if (mergetype == MRGmirror) {
       zinc_(Ztrimirror);
       qh_triangulate_mirror(facet1, facet2);

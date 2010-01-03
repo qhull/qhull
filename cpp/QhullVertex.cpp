@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (C) 2008-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullVertex.cpp#19 $$Change: 1102 $
-** $DateTime: 2009/12/07 20:26:04 $$Author: bbarber $
+** Copyright (C) 2008-2010 C. Bradford Barber. All rights reserved.
+** $Id: //product/qhull/main/rel/cpp/QhullVertex.cpp#21 $$Change: 1137 $
+** $DateTime: 2010/01/02 21:58:11 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -57,30 +57,30 @@ operator<<(ostream &os, const QhullVertex::PrintVertex &pr)
 { 
     QhullVertex v= *pr.vertex;
     QhullPoint p= v.point();
-    os<< "- p" << p.id(pr.run_id) << " (v" << v.id() << "): ";
+    os << "- p" << p.id(pr.run_id) << " (v" << v.id() << "): ";
     const realT *c= p.coordinates();
     for(int k= p.dimension(); k--; ){
-        os<< " " << *c++; // FIXUP %5.2g 
+        os << " " << *c++; // FIXUP %5.2g 
     }
     if(v.getVertexT()->deleted){
-        os<< " deleted";
+        os << " deleted";
     }
     if(v.getVertexT()->delridge){
-        os<< " ridgedeleted";
+        os << " ridgedeleted";
     }
-    os<< endl;
+    os << endl;
     QhullFacetSetIterator i= v.neighborFacets();
     if(i.hasNext()){
-        os<< " neighborFacets:";
+        os << " neighborFacets:";
         int count= 0;
         while(i.hasNext()){
             if(++count % 100 == 0){
-                os<< endl << "     ";
+                os << endl << "     ";
             }
             QhullFacet f= i.next();
-            os<< " f" << f.id();
+            os << " f" << f.id();
         }
-        os<< endl;
+        os << endl;
     }
     return os;
 }//<< PrintVertex

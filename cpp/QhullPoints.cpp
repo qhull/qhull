@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (C) 2009-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullPoints.cpp#15 $$Change: 1111 $
-** $DateTime: 2009/12/10 22:15:38 $$Author: bbarber $
+** Copyright (C) 2009-2010 C. Bradford Barber. All rights reserved.
+** $Id: //product/qhull/main/rel/cpp/QhullPoints.cpp#17 $$Change: 1137 $
+** $DateTime: 2010/01/02 21:58:11 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -197,7 +197,7 @@ operator<<(ostream &os, const QhullPoints &p)
 {
     QhullPointsIterator i(p);
     while(i.hasNext()){
-        os<< i.next();
+        os << i.next();
     }
     return os;
 }//operator<<QhullPoints
@@ -205,14 +205,14 @@ operator<<(ostream &os, const QhullPoints &p)
 ostream &
 operator<<(ostream &os, const QhullPoints::PrintPoints &pr)
 {
-    os<< pr.point_message;
+    os << pr.point_message;
     QhullPoints ps= *pr.points;
     for(QhullPoints::iterator i=ps.begin(); i != ps.end(); ++i){
         QhullPoint p= *i;
         if(pr.with_identifier){
-            os<< p.printWithIdentifier(pr.run_id, "");
+            os << p.printWithIdentifier(pr.run_id, "");
         }else{
-            os<< p.print(pr.run_id, "");
+            os << p.print(pr.run_id, "");
         }
     }
     return os;

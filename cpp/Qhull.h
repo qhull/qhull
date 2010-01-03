@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (C) 2008-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/Qhull.h#32 $$Change: 1102 $
-** $DateTime: 2009/12/07 20:26:04 $$Author: bbarber $
+** Copyright (C) 2008-2010 C. Bradford Barber. All rights reserved.
+** $Id: //product/qhull/main/rel/cpp/Qhull.h#34 $$Change: 1137 $
+** $DateTime: 2010/01/02 21:58:11 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -46,7 +46,7 @@ private:
     Coordinates         origin_point;   //! origin for qhull_dimension.  Set by runQhull()
     int		        qhull_status;   //! qh_ERRnone if valid
     int                 qhull_dimension; //! Dimension of result (qh.hull_dim or one less for Delaunay/Voronoi)   
-    bool                run_called;     //! True after runQhull.  Error if call again.
+    bool                run_called;     //! True at start of runQhull.  Errors if call again.
     bool                qh_active;      //! True if qh_qh is qhull_qh
     std::string	        qhull_message;  
     std::ostream       *error_stream;   //! overrides errorMessage, use appendQhullMessage()
@@ -59,7 +59,7 @@ private:
 public:
     Coordinates         feasiblePoint;  //! feasible point for half-space intersection
     bool                useOutputStream; //! Set if using outputStream
-    // FIXUP feasiblePoint useOutputStream as field or getter?
+    // FIXUP 2009 feasiblePoint useOutputStream as field or getter?
 
 #//constructor, assignment, destructor, invariant
                         Qhull();      //! Qhull::runQhull() must be called next 
@@ -73,10 +73,9 @@ private:
  
 public:
 #//virtual methods
-    //FIXUP -- qh_memfree, etc. as virtual?
+    //FIXUP 2009 -- qh_memfree, etc. as virtual?
 
 #//Messaging
-    // FIXUP rename as errorMessage?
     void                appendQhullMessage(const std::string &s);
     void                clearQhullMessage();
     std::string         qhullMessage() const;
@@ -86,10 +85,12 @@ public:
     void                setOutputStream(std::ostream *os);
 
 #//GetSet
-    bool                defined() const { return qhull_dimension>0; }
-    int                 dimension() const { return qhull_dimension; } //FIXUP use dimension() instead?
+    void                checkIfQhullInitialized();
+    bool                initialized() const { return qhull_dimension>0; }
+    int                 dimension() const { return qhull_dimension; } 
+    int                 hullDimension() const { return qhullQh()->hull_dim; } 
                         // non-const due to QhullPoint
-    QhullPoint          origin() { QHULL_ASSERT(run_called && origin_point.size()>0); return QhullPoint(dimension(), origin_point.data()); }
+    QhullPoint          origin() { QHULL_ASSERT(initialized()); return QhullPoint(dimension(), origin_point.data()); }
     QhullQh            *qhullQh() const { return qhull_qh; };
     int                 runId(); // Modifies my_qhull
 
@@ -112,8 +113,8 @@ public:
     QhullFacet          firstFacet() const { return beginFacet(); } 
     QhullVertex         firstVertex() const { return beginVertex(); } 
     QhullPoints         points() const;
-    QhullPointSet       otherPoints() const { return QhullPointSet(dimension(), qhull_qh->other_points); }
-    //FIXUP -- replace pointCoordinateBegin with points()?
+    QhullPointSet       otherPoints() const;
+                        //! Same as points().coordinates()
     coordT             *pointCoordinateBegin() const { return qhull_qh->first_point; }
     coordT             *pointCoordinateEnd() const { return qhull_qh->first_point + qhull_qh->num_points*qhull_qh->hull_dim; }
     QhullVertexList     vertexList() const;

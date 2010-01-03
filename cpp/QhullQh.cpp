@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (C) 2008-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullQh.cpp#22 $$Change: 1111 $
-** $DateTime: 2009/12/10 22:15:38 $$Author: bbarber $
+** Copyright (C) 2008-2010 C. Bradford Barber. All rights reserved.
+** $Id: //product/qhull/main/rel/cpp/QhullQh.cpp#24 $$Change: 1137 $
+** $DateTime: 2010/01/02 21:58:11 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -99,54 +99,6 @@ QhullQh::
 }//~QhullQh
 
 #//Parallel Access
-
-void QhullQh::
-errorAnotherUser()
-{
-#if qh_QHpointer
-        if(qh_qh==0){
-	    throw QhullError(10019, "Qhull error: qhull was freed by another caller.  It did not call stopQhullAccess().");
-        }
-        if(qh_qh!=0 && qh_qh!=static_cast<qhT*>(this)){
-            throw QhullError(10020, "Qhull error: qhull is already in use by another instance (run %d qh_qh %x)", qh run_id, 0, 0, qh_qh); 
-        }
-#endif
-}//errorAnotherUser
-
-void QhullQh::
-checkIfQhullRan() // FIXUP -- use successful runQhull instead of TEMPsize?  Many calls OK even if runQhull error'd
-{
-    if(qh TEMPsize==0){ // qh_initqhull_buffers() not called
-        throw QhullError(10023, "Qhull error: checkIfQhullRan failed.  Call runQhull() first.");
-    }
-}//checkIfQhullRan
-
-void QhullQh::
-startQhullAccess()
-{
-#   if qh_QHpointer
-        if(qh_qh){
-            errorAnotherUser();
-        }else{
-            qh_qh= this;
-        }
-#   else
-        errorAnotherUser();
-#   endif
-}//startQhullAccess
-
-void QhullQh::
-stopQhullAccess()
-{
-#   if qh_QHpointer
-        if(qh_qh){
-            errorAnotherUser();
-            qh_qh= 0;
-        }
-#   else
-        errorAnotherUser();
-#   endif
-}//stopQhullAccess
 
 }//namespace orgQhull
 

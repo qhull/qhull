@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (C) 2009-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/Coordinates.cpp#15 $$Change: 1114 $
-** $DateTime: 2009/12/12 13:49:07 $$Author: bbarber $
+** Copyright (C) 2009-2010 C. Bradford Barber. All rights reserved.
+** $Id: //product/qhull/main/rel/cpp/Coordinates.cpp#17 $$Change: 1137 $
+** $DateTime: 2010/01/02 21:58:11 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -177,7 +177,7 @@ operator<<(ostream &os, const Coordinates &cs)
 {
     Coordinates::const_iterator c= cs.begin();
     for(int i=cs.count(); i--; ){
-        os<< *c++ << " ";
+        os << *c++ << " ";
     }
     return os;
 }//operator<<

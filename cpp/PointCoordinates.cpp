@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (C) 2009-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/PointCoordinates.cpp#19 $$Change: 1118 $
-** $DateTime: 2009/12/20 16:19:59 $$Author: bbarber $
+** Copyright (C) 2009-2010 C. Bradford Barber. All rights reserved.
+** $Id: //product/qhull/main/rel/cpp/PointCoordinates.cpp#21 $$Change: 1137 $
+** $DateTime: 2010/01/02 21:58:11 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -145,9 +145,7 @@ append(int count, const coordT *c)
         throw QhullError(10065, "Qhull error: can not append a subset of PointCoordinates to itself.  The coordinates for point %d may move.", indexOf(c, QhullError::NOthrow));
     }
     reserveCoordinates(count);
-    for(int i=count; i--; ){ // FIXUP copy(c, c+count, point_coordinates.end());
-        point_coordinates.push_back(*c++);
-    }
+    std::copy(c, c+count, std::back_inserter(point_coordinates));
     makeValid();
 }//append coordT
 
@@ -238,7 +236,7 @@ PointCoordinates PointCoordinates::
 operator+(const PointCoordinates &other) const
 {
     PointCoordinates pc= *this;
-    pc<< other;
+    pc << other;
     return pc;
 }//operator+
 
@@ -272,7 +270,6 @@ using std::ostream;
 using orgQhull::Coordinates;
 using orgQhull::PointCoordinates;
 
-// FIXUP Almost the same as operator<< for RboxPoints 
 ostream&
 operator<<(ostream &os, const PointCoordinates &p)
 { 
@@ -281,17 +278,17 @@ operator<<(ostream &os, const PointCoordinates &p)
     int dimension= p.dimension();
     string comment= p.comment();
     if(comment.empty()){
-        os<< dimension << endl;
+        os << dimension << endl;
     }else{
-        os<< dimension << " " << comment << endl;
+        os << dimension << " " << comment << endl;
     }
-    os<< count << endl;
+    os << count << endl;
     Coordinates::ConstIterator c= p.beginCoordinates();
     for(int i=0; i<count; i++){
         for(int j=0; j<dimension; j++){
-            os<< *c++ << " ";
+            os << *c++ << " ";
         }
-        os<< endl;
+        os << endl;
     }
     return os;
 }//operator<<

@@ -41,7 +41,7 @@ void out3n( double a, double b, double c);
 
 void	qh_fprintf_rbox(FILE *fp, int msgcode, const char *fmt, ... );
 void    qh_free(void *mem);
-void   *qh_malloc(unsigned int size);
+void   *qh_malloc(size_t size);
 int     qh_rand( void);
 void    qh_srand( int seed);
 
@@ -176,7 +176,7 @@ int qh_rboxpoints(FILE* fout, FILE* ferr, char* rbox_command) {
     case 't':
       istime= 1;
       if (isdigit(*s)) {
-	seed= qh_strtod(s, &s);
+        seed= qh_strtol(s, &s);
         israndom= 0;
       }else 
         israndom= 1;
@@ -220,13 +220,15 @@ int qh_rboxpoints(FILE* fout, FILE* ferr, char* rbox_command) {
       ismesh= 1;
       if (*s)
 	meshn= qh_strtod(s, &s);
-      if (*s == ',')
-	meshm= qh_strtod(++s, &s);
-      else
+      if (*s == ',') {
+        ++s;
+        meshm= qh_strtod(s, &s);
+      }else
 	meshm= 0.0;
-      if (*s == ',')
-	meshr= qh_strtod(++s, &s);
-      else
+      if (*s == ',') {
+        ++s;
+        meshr= qh_strtod(s, &s);
+      }else
 	meshr= sqrt(meshn*meshn + meshm*meshm);
       if (*s && !isspace(*s)) {
 	qh_fprintf_rbox(rbox.ferr, 7069, "rbox warning: assuming 'M3,4,5' since mesh args are not integers or reals\n");
@@ -268,7 +270,7 @@ int qh_rboxpoints(FILE* fout, FILE* ferr, char* rbox_command) {
   if (rbox.isinteger && !isbox)
     box= qh_DEFAULTzbox;
   if (addcube) {
-    cubesize= floor(ldexp(1.0,dim)+0.5);
+    cubesize= (int)floor(ldexp(1.0,dim)+0.5);
     if (cube == 0.0)
       cube= box;
   }else
@@ -457,7 +459,7 @@ int qh_rboxpoints(FILE* fout, FILE* ferr, char* rbox_command) {
 
   /* ============= mesh distribution =============== */
   if (ismesh) {
-    nthroot= pow(numpoints, 1.0/dim) + 0.99999;
+    nthroot= (int)(pow((double)numpoints, 1.0/dim) + 0.99999);
     for (k=dim; k--; )
       mult[k]= 0;
     for (i=0; i < numpoints; i++) {
@@ -561,7 +563,7 @@ int qh_rboxpoints(FILE* fout, FILE* ferr, char* rbox_command) {
       y= sin(angle);
       if (iscdd)
         out1( 1.0);
-      out3n( box*x, box*y, 0);
+      out3n( box*x, box*y, 0.0);
       x *= 1-gap;
       y *= 1-gap;
       if (iscdd)
@@ -747,13 +749,13 @@ int roundi( double a) {
       qh_fprintf_rbox(rbox.ferr, 6200, "rbox input error: negative coordinate %2.2g is too large.  Reduce 'Bn'\n", a);
       qh_errexit_rbox(qh_ERRinput);
     }
-    return a - 0.5;
+    return (int)(a - 0.5);
   }else {
     if (a + 0.5 > INT_MAX) {
       qh_fprintf_rbox(rbox.ferr, 6201, "rbox input error: coordinate %2.2g is too large.  Reduce 'Bn'\n", a);
       qh_errexit_rbox(qh_ERRinput);
     }
-    return a + 0.5;
+    return (int)(a + 0.5);
   }
 } /* roundi */
 

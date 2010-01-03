@@ -3,22 +3,26 @@
 # -------------------------------------------------
 
 DESTDIR = ../..
-CONFIG += shared
 TEMPLATE = lib
+CONFIG += shared warn_on
+CONFIG -= app_bundle
+LIBS += -L../..
 build_pass:CONFIG(debug, debug|release):{
    TARGET = qhullcppd
-   LIBS += ../../libqhulld.a
+   LIBS += libqhulld
    OBJECTS_DIR = ../../tmp/libqhullcpp/Debug
 }else:build_pass:CONFIG(release, debug|release):{
    TARGET = qhullcpp
-   LIBS += ../../libqhull.a
+   LIBS += libqhull
    OBJECTS_DIR = ../../tmp/libqhullcpp/Release
 }
 QT -= gui
-CONFIG -= app_bundle
 MOC_DIR = ../../tmp/moc
 RCC_DIR = ../../tmp/rcc
 INCLUDEPATH = ../../cpp;../../cpp/road;../../tmp
+#FIXUP QMAKE_CXXFLAGS_DEBUG += -Wall -Wextra -Wshadow -Wcast-qual -Wwrite-strings
+#QMAKE_CXXFLAGS_DEBUG += -Wno-sign-conversion # Many size_t vs. int errors
+#QMAKE_CXXFLAGS_DEBUG += -Wconversion # no workaround for bit-field conversion errors
 
 VPATH = ../..
 SOURCES += cpp/Coordinates.cpp

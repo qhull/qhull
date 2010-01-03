@@ -10,9 +10,9 @@
 
    see qhull_a.h for internal functions
 
-   copyright (c) 1993-2009 The Geometry Center.
-   $Id: //product/qhull/main/rel/src/libqhull.c#1 $$Change: 1107 $
-   $DateTime: 2009/12/07 21:05:37 $$Author: bbarber $        
+   copyright (c) 1993-2010 The Geometry Center.
+   $Id: //product/qhull/main/rel/src/libqhull.c#3 $$Change: 1137 $
+   $DateTime: 2010/01/02 21:58:11 $$Author: bbarber $        
 */
 
 #include "qhull_a.h" 
@@ -443,8 +443,8 @@ void qh_buildtracing(pointT *furthest, facetT *facet) {
   if (!furthest) {
     time(&timedata);
     tp= localtime(&timedata);
-    cpu= (float)qh_CPUclock - qh hulltime;
-    cpu /= qh_SECticks;
+    cpu= (float)qh_CPUclock - (float)qh hulltime;
+    cpu /= (float)qh_SECticks;
     total= zzval_(Ztotmerge) - zzval_(Zcyclehorizon) + zzval_(Zcyclefacettot);
     qh_fprintf(qh ferr, 8118, "\n\
 At %02d:%02d:%02d & %2.5g CPU secs, qhull has created %d facets and merged %d.\n\
@@ -465,8 +465,8 @@ At %02d:%02d:%02d & %2.5g CPU secs, qhull has created %d facets and merged %d.\n
     qh lastreport= qh facet_id-1;
     time(&timedata);
     tp= localtime(&timedata);
-    cpu= (float)qh_CPUclock - qh hulltime;
-    cpu /= qh_SECticks;
+    cpu= (float)qh_CPUclock - (float)qh hulltime;
+    cpu /= (float)qh_SECticks;
     total= zzval_(Ztotmerge) - zzval_(Zcyclehorizon) + zzval_(Zcyclefacettot);
     zinc_(Zdistio);
     qh_distplane(furthest, facet, &dist);
@@ -478,8 +478,8 @@ At %02d:%02d:%02d & %2.5g CPU secs, qhull has created %d facets and merged %d.\n
       total, qh num_facets, qh num_vertices, qh num_outside+1,
       furthestid, qh vertex_id, dist, getid_(facet));
   }else if (qh IStracing >=1) {
-    cpu= (float)qh_CPUclock - qh hulltime;
-    cpu /= qh_SECticks;
+    cpu= (float)qh_CPUclock - (float)qh hulltime;
+    cpu /= (float)qh_SECticks;
     qh_distplane(furthest, facet, &dist);
     qh_fprintf(qh ferr, 8120, "qh_addpoint: add p%d(v%d) to hull of %d facets(%2.2g above f%d) and %d outside at %4.4g CPU secs.  Previous was p%d.\n",
       furthestid, qh vertex_id, qh num_facets, dist,
@@ -1175,7 +1175,7 @@ void qh_partitionvisible(/*visible_list*/ boolT allpoints, int *numoutside) {
   qh_precision( reason )
     restart on precision errors if not merging and if 'QJn'
 */
-void qh_precision(char *reason) {
+void qh_precision(const char *reason) {
 
   if (qh ALLOWrestart && !qh PREmerge && !qh MERGEexact) {
     if (qh JOGGLEmax < REALmax/2) {
@@ -1205,7 +1205,7 @@ void qh_printsummary(FILE *fp) {
   int size, id, nummerged, numvertices, numcoplanars= 0, nonsimplicial=0;
   int goodused;
   facetT *facet;
-  char *s;
+  const char *s;
   int numdel= zzval_(Zdelvertextot);
   int numtricoplanars= 0;
 
@@ -1351,7 +1351,7 @@ Convex hull of %d points in %d-d:\n\n", size, qh hull_dim);
   }
   if (!qh RANDOMoutside && qh QHULLfinished) {
     cpu= (float)qh hulltime;
-    cpu /= qh_SECticks;
+    cpu /= (float)qh_SECticks;
     wval_(Wcpu)= cpu;
     qh_fprintf(fp, 9333, "  CPU seconds to compute hull(after input): %2.4g\n", cpu);
   }

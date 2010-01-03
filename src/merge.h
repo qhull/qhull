@@ -6,9 +6,9 @@
 
    see qh-merge.htm and merge.c
 
-   copyright (c) 1993-2009 The Geometry Center.
-   $Id: //product/qhull/main/rel/src/merge.h#17 $$Change: 1102 $
-   $DateTime: 2009/12/07 20:26:04 $$Author: bbarber $
+   copyright (c) 1993-2010 The Geometry Center.
+   $Id: //product/qhull/main/rel/src/merge.h#19 $$Change: 1137 $
+   $DateTime: 2010/01/02 21:58:11 $$Author: bbarber $
 */
 
 #ifndef qhDEFmerge
@@ -114,7 +114,7 @@ struct mergeT {		/* initialize in qh_appendmergeset */
 /*============ prototypes in alphabetical order after pre/postmerge =======*/
 
 void    qh_premerge(vertexT *apex, realT maxcentrum, realT maxangle);
-void    qh_postmerge(char *reason, realT maxcentrum, realT maxangle, 
+void    qh_postmerge(const char *reason, realT maxcentrum, realT maxangle, 
              boolT vneighbors);
 void    qh_all_merges(boolT othermerge, boolT vneighbors);
 void    qh_appendmergeset(facetT *facet, facetT *neighbor, mergeType mergetype, realT *angle);

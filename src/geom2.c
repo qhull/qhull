@@ -7,9 +7,9 @@
 
    see qh-geom.htm and geom.h
 
-   copyright (c) 1993-2009 The Geometry Center.
-   $Id: //product/qhull/main/rel/src/geom2.c#25 $$Change: 1059 $
-   $DateTime: 2009/10/30 18:26:26 $$Author: bbarber $
+   copyright (c) 1993-2010 The Geometry Center.
+   $Id: //product/qhull/main/rel/src/geom2.c#28 $$Change: 1137 $
+   $DateTime: 2010/01/02 21:58:11 $$Author: bbarber $
 
    frequently used code goes into geom.c
 */
@@ -28,13 +28,13 @@ coordT *qh_copypoints(coordT *points, int numpoints, int dimension) {
   int size;
   coordT *newpoints;
 
-  size= numpoints * dimension * sizeof(coordT);
-  if (!(newpoints=(coordT*)qh_malloc(size))) {
+  size= numpoints * dimension * (int)sizeof(coordT);
+  if (!(newpoints=(coordT*)qh_malloc((size_t)size))) {
     qh_fprintf(qh ferr, 6004, "qhull error: insufficient memory to copy %d points\n",
         numpoints);
     qh_errexit(qh_ERRmem, NULL, NULL);
   }
-  memcpy((char *)newpoints, (char *)points, size);
+  memcpy((char *)newpoints, (char *)points, (size_t)size);
   return newpoints;
 } /* copypoints */
 
@@ -470,7 +470,7 @@ realT qh_facetarea(facetT *facet) {
       centrum= qh_getcentrum(facet);
     FOREACHridge_(facet->ridges)
       area += qh_facetarea_simplex(qh hull_dim, centrum, ridge->vertices,
-                 NULL, (ridge->top == facet),  facet->normal, &facet->offset);
+                 NULL, (boolT)(ridge->top == facet),  facet->normal, &facet->offset);
     if (qh CENTERtype != qh_AScentrum)
       qh_memfree(centrum, qh normal_size);
   }
@@ -871,7 +871,7 @@ boolT qh_inthresholds(coordT *normal, realT *angle) {
       sets the Delaunay projection
 */
 void qh_joggleinput(void) {
-  int size, i, seed;
+  int i, seed, size;
   coordT *coordp, *inputp;
   realT randr, randa, randb;
 
@@ -879,7 +879,7 @@ void qh_joggleinput(void) {
     qh input_points= qh first_point;
     qh input_malloc= qh POINTSmalloc;
     size= qh num_points * qh hull_dim * sizeof(coordT);
-    if (!(qh first_point=(coordT*)qh_malloc(size))) {
+    if (!(qh first_point=(coordT*)qh_malloc((size_t)size))) {
       qh_fprintf(qh ferr, 6009, "qhull error: insufficient memory to joggle %d points\n",
           qh num_points);
       qh_errexit(qh_ERRmem, NULL, NULL);
@@ -1340,7 +1340,7 @@ coordT qh_pointdist(pointT *point1, pointT *point2, int dim) {
   notes:
     print a vector by qh_printmatrix(fp, "", &vect, 1, len)
 */
-void qh_printmatrix(FILE *fp, char *string, realT **rows, int numrow, int numcol) {
+void qh_printmatrix(FILE *fp, const char *string, realT **rows, int numrow, int numcol) {
   realT *rowp;
   realT r; /*bug fix*/
   int i,k;
@@ -1364,7 +1364,7 @@ void qh_printmatrix(FILE *fp, char *string, realT **rows, int numrow, int numcol
     print pointids to fp for a set of points
     if string, prints string and 'p' point ids
 */
-void qh_printpoints(FILE *fp, char *string, setT *points) {
+void qh_printpoints(FILE *fp, const char *string, setT *points) {
   pointT *point, **pointp;
 
   if (string) {
@@ -1428,7 +1428,7 @@ void qh_projectinput(void) {
   realT paraboloid, maxboloid= 0;
 
   project= (signed char*)qh_memalloc(size);
-  memset((char*)project, 0, size);
+  memset((char*)project, 0, (size_t)size);
   for (k=0; k < qh input_dim; k++) {   /* skip Delaunay bound */
     if (qh lower_bound[k] == 0 && qh upper_bound[k] == 0) {
       project[k]= -1;
@@ -1465,7 +1465,7 @@ void qh_projectinput(void) {
     qh_projectpoints(project, qh input_dim, qh feasible_point,
 		      1, qh input_dim, qh feasible_point, newdim);
   }
-  qh_memfree(project, ((qh input_dim+1)*sizeof(*project)));
+  qh_memfree(project, (qh input_dim+1)*sizeof(*project));
   if (qh POINTSmalloc)
     qh_free(qh first_point);
   qh first_point= newpoints;

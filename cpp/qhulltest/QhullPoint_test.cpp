@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (C) 2008-2009 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/qhulltest/QhullPoint_test.cpp#11 $$Change: 1111 $
-** $DateTime: 2009/12/10 22:15:38 $$Author: bbarber $
+** Copyright (C) 2008-2010 C. Bradford Barber. All rights reserved.
+** $Id: //product/qhull/main/rel/cpp/qhulltest/QhullPoint_test.cpp#13 $$Change: 1137 $
+** $DateTime: 2010/01/02 21:58:11 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -115,7 +115,7 @@ t_readonly()
         while(i.hasNext()){
             QhullPoint p= i.next().point();
             int id= p.id(q.runId());
-            cout<< "p" << id << endl;
+            cout << "p" << id << endl;
             QVERIFY(p.isDefined());
             QCOMPARE(p.dimension(),3);
             QCOMPARE(id, p.id());
@@ -385,7 +385,7 @@ t_io()
         os << "Point w/ runId:\n";
         os << p.print(q.runId()) << p.print(q.runId(), " and a message ");
         os << p.printWithIdentifier(q.runId(), " Point with id and a message ");
-        cout<< os.str();
+        cout << os.str();
         QString s= QString::fromStdString(os.str());
         QCOMPARE(s.count("p"), 3);
         // QCOMPARE(s.count(QRegExp("f\\d")), 3*7 + 13*3*2);
