@@ -1160,7 +1160,7 @@ SEE ALSO
        Quickhull Algorithm for Convex Hulls," ACM Trans. on Math-
        ematical Software, 22(4):469-483, Dec. 1996.
        http://portal.acm.org/citation.cfm?doid=235815.235821
-       http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.54.6345
+       http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.117.405
 
 
        Clarkson, K.L., K. Mehlhorn, and R. Seidel, "Four  results
@@ -1198,8 +1198,9 @@ Geometry Center              2003/12/30                18
 qhull(1)                                                 qhull(1)
 
 
-       guided the original work at Princeton University.  
-
+       guided the original work at Princeton University.  If you find it 
+       useful, please let us know.
+       
        The Geometry Center was supported by grant DMS-8920161 from the National
        Science Foundation, by grant DOE/DE-FG02-92ER25137 from the Department
        of Energy, by the University of Minnesota, and by Minnesota Technology, Inc.

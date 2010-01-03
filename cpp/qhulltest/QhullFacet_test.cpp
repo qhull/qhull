@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (C) 2008-2010 C. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/qhulltest/QhullFacet_test.cpp#30 $$Change: 1137 $
-** $DateTime: 2010/01/02 21:58:11 $$Author: bbarber $
+** Copyright (C) 2008-2010 C.B. Barber. All rights reserved.
+** $Id: //product/qhull/main/rel/cpp/qhulltest/QhullFacet_test.cpp#31 $$Change: 1139 $
+** $DateTime: 2010/01/03 11:20:29 $$Author: bbarber $
 **
 ****************************************************************************/
 

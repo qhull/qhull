@@ -6,9 +6,9 @@
 
    see qh-merge.htm and merge.c
 
-   copyright (c) 1993-2010 The Geometry Center.
-   $Id: //product/qhull/main/rel/src/merge.h#19 $$Change: 1137 $
-   $DateTime: 2010/01/02 21:58:11 $$Author: bbarber $
+   copyright (c) 1993-2010 C.B. Barber.
+   $Id: //product/qhull/main/rel/src/merge.h#20 $$Change: 1139 $
+   $DateTime: 2010/01/03 11:20:29 $$Author: bbarber $
 */
 
 #ifndef qhDEFmerge

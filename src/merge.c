@@ -20,9 +20,9 @@
    merges occur in qh_mergefacet and in qh_mergecycle
    vertex->neighbors not set until the first merge occurs
 
-   copyright (c) 1993-2010 The Geometry Center.
-   $Id: //product/qhull/main/rel/src/merge.c#24 $$Change: 1137 $
-   $DateTime: 2010/01/02 21:58:11 $$Author: bbarber $        
+   copyright (c) 1993-2010 C.B. Barber.
+   $Id: //product/qhull/main/rel/src/merge.c#25 $$Change: 1139 $
+   $DateTime: 2010/01/03 11:20:29 $$Author: bbarber $        
 */
 
 #include "qhull_a.h"

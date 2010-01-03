@@ -75,8 +75,7 @@ To do
  - review all #pragma
  - review all FIXUP [^0-9]
  - clean up warnings for libqhullcpp
- - Decide on citeseer 10.1.1.117.405 or 10.1.1.54.6345
- - Abandon savannah
+117.405 - Abandon savannah
  - Add config directory to Qhull
  - Fix README Visual C++ quickstart
  - Review changes with Kent Williams
@@ -85,14 +84,18 @@ To do
    Why rename index in qh_initthresholds(), poly2.c, qhull.c -- Seems OK
  - Run qhull regression tests
  - Measure performance of Qhull
+ - qhulltest --all
+ - Number the FIXUPS
+ - Review diffs against qhull 2003.1
+ - Review qh-code.htm#cpp
 
-qhull 2010.0.1  2010/01/02
+qhull 2010.0.1  2010/01/03
 
 New Features:
  - Added option 'Ta' to annotate output with message codes
 
 Preliminary C++ support:
- - Warning: C++ declarations may change without warning
+ - C++ declarations may change without warning
  - Preliminary documentation for Qhull's C++ interface [qh-code.htm#cpp, qhull-cpp.xml]
  - Added user_eg3 as an example of Qhull.cpp
  - Removed qhull_interface.cpp
@@ -120,11 +123,11 @@ Breaking Code Changes:
  - In qh_printafacet(), changed error output to 'qh ferr'
 
 Bug fixes to C code:
+ - Use gcc 4.4.0 or later.  gcc 4.2.1, 4.2.2, and 4.3.2 -O2 segfaults in qset.c .  gcc 4.1.1 was OK
+   See bug report http://gcc.gnu.org/ml/gcc-bugs/2007-09/msg00474.html
  - Fixed qh_findfacet_all(), "REALmin" should be "-REALmax" [L.A. Taylor].
      Effects library users for convex hulls and halfspace intersections.
  - qh_printfacet [io.c] Removed extra space for neighboring facets
- - Use gcc 4.4.0 or later.  gcc 4.2.1, 4.2.2, and 4.3.2 -O2 segfaults in qset.c .  gcc 4.1.1 was OK
-   See bug report http://gcc.gnu.org/ml/gcc-bugs/2007-09/msg00474.html
  - Report error if d points, Delaunay, and not Qz
  - Fixed double-free of facet->centrum for triangulated facets
  - Fixed mindist initialization if !testcentrum in io.c findbest_test [Ratcliff]
@@ -204,6 +207,7 @@ Documentation:
  - Add cross references between options 'FA' and 'FS'
  - Added link to Wolfram Research's MathWorld site
  - Updated Fukuda's links
+ - Changed copyright to C.B. Barber for C++, documentation, and merge.c
  - Updated Qhull citation with page numbers.
  - Proposed project: constructing Voronoi diagram
  - Proposed project: computing Voronoi volumes

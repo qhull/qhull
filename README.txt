@@ -1,6 +1,6 @@
 Name
 
-      qhull, rbox         2003.1           2003/12/30
+      qhull, rbox         2010.0.1          2010/01/03
   
 Convex hull, Delaunay triangulation, Voronoi diagrams, Halfspace intersection
  
@@ -19,7 +19,7 @@ Convex hull, Delaunay triangulation, Voronoi diagrams, Halfspace intersection
        
       News and a paper:
         <http://www.qhull.org/news>
-        <http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.54.6345>
+        <http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.117.405>
 
 Purpose
 
