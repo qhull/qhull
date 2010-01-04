@@ -8,8 +8,8 @@
    see qh-set.htm and qset.h
 
    copyright (c) 1993-2010 The Geometry Center.
-   $Id: //product/qhull/main/rel/src/qset.c#26 $$Change: 1137 $
-   $DateTime: 2010/01/02 21:58:11 $$Author: bbarber $
+   $Id: //product/qhull/main/rel/src/qset.c#27 $$Change: 1142 $
+   $DateTime: 2010/01/03 20:30:12 $$Author: bbarber $
 */
 
 #include "qset.h"
@@ -123,8 +123,7 @@ void qh_setaddsorted(setT **setp, void *newelem) {
     
 */
 void qh_setappend(setT **setp, void *newelem) {
-  int *sizep;
-  void **endp;
+  int *sizep, end_idx;
 
   if (!newelem)
     return;
@@ -132,8 +131,9 @@ void qh_setappend(setT **setp, void *newelem) {
     qh_setlarger(setp);
     sizep= SETsizeaddr_(*setp);
   }
-  *(endp= &((*setp)->e[(*sizep)++ - 1].p))= newelem;
-  *(++endp)= NULL;
+  end_idx = (*sizep)++ - 1;
+  (*setp)->e[end_idx].p = newelem;
+  (*setp)->e[end_idx + 1].p = NULL;
 } /* setappend */
 
 /*-<a                             href="qh-set.htm#TOC"

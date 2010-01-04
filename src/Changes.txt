@@ -88,6 +88,7 @@ To do
  - Number the FIXUPS
  - Review diffs against qhull 2003.1
  - Review qh-code.htm#cpp
+ - Add test of user_eg3, etc.
 
 qhull 2010.0.1  2010/01/03
 
@@ -125,6 +126,9 @@ Breaking Code Changes:
 Bug fixes to C code:
  - Use gcc 4.4.0 or later.  gcc 4.2.1, 4.2.2, and 4.3.2 -O2 segfaults in qset.c .  gcc 4.1.1 was OK
    See bug report http://gcc.gnu.org/ml/gcc-bugs/2007-09/msg00474.html
+ - Rewrite qh_setappend to avoid g++ 4.1, 4.2, and 4.3 strict_aliasing error.
+     Orion Poplawski (orion@cora.nwra.com)
+     http://www.rpmfind.net/linux/RPM/fedora/12/ppc/qhull-devel-2003.1-13.fc12.ppc64.html
  - Fixed qh_findfacet_all(), "REALmin" should be "-REALmax" [L.A. Taylor].
      Effects library users for convex hulls and halfspace intersections.
  - qh_printfacet [io.c] Removed extra space for neighboring facets
@@ -170,6 +174,7 @@ Fixed g++ and devstudio warnings
  - Fix data types to remove conversion warnings [kwilliams]
  - Use size_t for calls to malloc,etc [kwilliams]
  - Change literal strings to const char* [kwilliams]
+ - Added type casts to SETfirst and SETsecond [amorilia+alphax] 
  - getid_() returns an int [kwilliams]
  - Add missing const annotations [kwilliams]
  - Fixed 64-bit warnings (marked with "WARN64")
