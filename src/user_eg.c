@@ -42,7 +42,7 @@
 
    compiled by 'make user_eg'
 
-   see qhulllib.h for data structures, macros, and user-callable functions.
+   see libqhull.h for data structures, macros, and user-callable functions.
 */
 
 #include "qhull_a.h"

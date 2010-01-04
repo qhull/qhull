@@ -39,7 +39,7 @@
 
    derived from unix.c and compiled by 'make user_eg2'
 
-   see qhulllib.h for data structures, macros, and user-callable functions.
+   see libqhull.h for data structures, macros, and user-callable functions.
 
    If you want to control all output to stdio and input to stdin,
    set the #if below to "1" and delete all lines that contain "io.c".

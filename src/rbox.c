@@ -93,5 +93,5 @@ int main(int argc, char **argv) {
     return_status= qh_ERRmem;
   }
   return return_status;
-}//main
+}/*main*/
 

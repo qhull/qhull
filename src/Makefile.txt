@@ -63,10 +63,11 @@ CCOPTS2 = $(CCOPTS1)
 
 # OBJS in execution frequency order.  CFILES after libqhull.c are alphabetical
 OBJS = user.o global.o random.o stat.o io.o geom2.o poly2.o \
-       merge.o qhull.o geom.o poly.o qset.o mem.o
+       merge.o geom.o poly.o qset.o mem.o libqhull.o usermem.o userprintf.o \
+       rboxlib.o
 
 CFILES= unix.c libqhull.c geom.c geom2.c global.c io.c mem.c merge.c poly.c \
-        poly2.c random.c qset.c stat.c user.c qconvex.c qdelaun.c qhalf.c qvoronoi.c
+        poly2.c random.c qset.c stat.c user.c qconvex.c qdelaun.c qhalf.c qvoronoi.c usermem.c userprintf.c rboxlib.c
 HFILES= user.h libqhull.h qhull_a.h geom.h io.h mem.h merge.h poly.h random.h qset.h stat.h
 TXTFILES= ../Announce.txt ../REGISTER.txt ../COPYING.txt ../README.txt Changes.txt
 DOCFILES= ../html/rbox.txt ../html/qhull.txt
@@ -86,7 +87,7 @@ qconvex.o:   libqhull.h user.h mem.h
 qdelaun.o:   libqhull.h user.h mem.h
 qhalf.o:   libqhull.h user.h mem.h
 qvoronoi.o:   libqhull.h user.h mem.h
-qhull.o:  $(HFILES)
+libqhull.o:  $(HFILES)
 geom.o:   $(HFILES)
 geom2.o:  $(HFILES)
 global.o: $(HFILES)
@@ -177,8 +178,8 @@ qhullx: qconvex.o qdelaun.o qhalf.o qvoronoi.o unix.o $(OBJS)
 	-chmod +x ../eg/q_test ../eg/q_eg ../eg/q_egtest
 	-cd ..; ./rbox D4 | ./qhull
 
-rbox: rbox.o
-	$(CC) -o rbox rbox.o $(CCOPTS2) -lm
+rbox: rbox.o libqhull.a
+	$(CC) -o rbox rbox.o -L. -lqhull $(CCOPTS2) -lm
 	cp rbox ..
 
 user_eg: user_eg.o libqhull.a 

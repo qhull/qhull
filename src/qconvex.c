@@ -14,7 +14,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <math.h>
-#include "qhulllib.h"
+#include "libqhull.h"
 #include "mem.h"
 #include "qset.h"
 
