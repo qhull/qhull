@@ -74,7 +74,7 @@ Trace short and quick memory allocations at T5
     On 64-bit machines, a pointer may be larger than an 'int'.  
     qh_meminit()/mem.c checks that 'ptr_intT' holds a 'void*'
     ptr_intT is not defined as 'long long' for portability to older compilers
-    ptr_intT is signed
+    ptr_intT is typically a signed value, but not necessarily so 
     size_t is typically unsigned, but should match the parameter type
     Qhull uses int instead of size_t except for system calls such as malloc, qsort, qh_malloc, etc.
 */
