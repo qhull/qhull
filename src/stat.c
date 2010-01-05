@@ -7,8 +7,8 @@
    see qh-stat.htm and stat.h
 
    copyright (c) 1993-2010 The Geometry Center.
-   $Id: //product/qhull/main/rel/src/stat.c#26 $$Change: 1147 $
-   $DateTime: 2010/01/04 21:29:16 $$Author: bbarber $
+   $Id: //product/qhull/main/rel/src/stat.c#27 $$Change: 1150 $
+   $DateTime: 2010/01/04 22:43:14 $$Author: bbarber $
 */
 
 #include "qhull_a.h"
@@ -513,14 +513,14 @@ void qh_initstatistics(void) {
   returns:
     next zdoc
 */
-boolT qh_newstats(int index, int *nextindex) {
+boolT qh_newstats(int idx, int *nextindex) {
   boolT isnew= False;
   int start, i;
 
-  if (qhstat type[qhstat id[index]] == zdoc) 
-    start= index+1;
+  if (qhstat type[qhstat id[idx]] == zdoc) 
+    start= idx+1;
   else
-    start= index;
+    start= idx;
   for(i= start; i < qhstat next && qhstat type[qhstat id[i]] != zdoc; i++) {
     if (!qh_nostatistic(qhstat id[i]) && !qhstat printed[qhstat id[i]])
 	isnew= True;
@@ -668,12 +668,12 @@ void qh_printstatlevel(FILE *fp, int id, int start) {
   returns:
     next zdoc if non-null
 */
-void qh_printstats(FILE *fp, int index, int *nextindex) {
+void qh_printstats(FILE *fp, int idx, int *nextindex) {
   int j, nexti;
 
-  if (qh_newstats(index, &nexti)) {
+  if (qh_newstats(idx, &nexti)) {
     qh_fprintf(fp, 9367, "\n");
-    for (j=index; j<nexti; j++)
+    for (j=idx; j<nexti; j++)
       qh_printstatlevel(fp, qhstat id[j], 0);
   }
   if (nextindex)

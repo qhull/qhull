@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2009-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullHyperplane.h#9 $$Change: 1139 $
-** $DateTime: 2010/01/03 11:20:29 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullHyperplane.h#10 $$Change: 1150 $
+** $DateTime: 2010/01/04 22:43:14 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -94,8 +94,8 @@ public:
 #//Operator
     bool                operator==(const QhullHyperplane &other) const;
     bool                operator!=(const QhullHyperplane &other) const { return !operator==(other); }
-    const coordT       &operator[](int index) const { QHULL_ASSERT(index>=0 && index<hyperplane_dimension); return *(hyperplane_coordinates+index); }
-    coordT             &operator[](int index) { QHULL_ASSERT(index>=0 && index<hyperplane_dimension); return *(hyperplane_coordinates+index); }
+    const coordT       &operator[](int idx) const { QHULL_ASSERT(idx>=0 && idx<hyperplane_dimension); return *(hyperplane_coordinates+idx); }
+    coordT             &operator[](int idx) { QHULL_ASSERT(idx>=0 && idx<hyperplane_dimension); return *(hyperplane_coordinates+idx); }
 
 #//IO
     struct PrintHyperplane{

@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2009-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullPointSet.h#16 $$Change: 1139 $
-** $DateTime: 2010/01/03 11:20:29 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullPointSet.h#17 $$Change: 1150 $
+** $DateTime: 2010/01/04 22:43:14 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -80,18 +80,18 @@ public:
     bool                operator!=(const QhullPointSet &o) const { return !operator==(o); }
 
 #//Element access -- can not return references since QhullPoint must be generated
-    QhullPoint          at(int index) const { return operator[](index); }
+    QhullPoint          at(int idx) const { return operator[](idx); }
     QhullPoint          back() const { return last(); }
     //! end element is NULL
     QhullPoint          first() const { QHULL_ASSERT(!isEmpty()); return *begin(); }
     QhullPoint          front() const { return first(); }
     QhullPoint          last() const { QHULL_ASSERT(!isEmpty()); return *(end()-1); }
     // mid() not available.  No setT constructor
-    QhullPoint          operator[](int index) const { return QhullPoint(dimension(), QhullSet<coordT *>::operator[](index)); }
+    QhullPoint          operator[](int idx) const { return QhullPoint(dimension(), QhullSet<coordT *>::operator[](idx)); }
     QhullPoint          second()  const { return operator[](1); }
-    QhullPoint          value(int index) const;
+    QhullPoint          value(int idx) const;
     // Non-const since copy is an alias
-    QhullPoint          value(int index, QhullPoint &defaultValue) const;
+    QhullPoint          value(int idx, QhullPoint &defaultValue) const;
 
 #//iterator
     iterator            begin() { return iterator(dimension(), reinterpret_cast<coordT **>(beginPointer())); }
@@ -131,7 +131,7 @@ public:
 
         QhullPoint      operator*() const { return QhullPoint(point_dimension, *i); } 
                       //operator->() n/a, value-type
-        QhullPoint      operator[](int index) { return QhullPoint(point_dimension, *(i+index)); }
+        QhullPoint      operator[](int idx) { return QhullPoint(point_dimension, *(i+idx)); }
         bool            operator==(const iterator &o) const { return i == o.i && point_dimension == o.point_dimension; }
         bool            operator!=(const iterator &o) const { return !operator==(o); }
         bool            operator==(const const_iterator &o) const
@@ -180,7 +180,7 @@ public:
         const_iterator &operator=(const const_iterator &o) { i= o.i; point_dimension= o.point_dimension; return *this; }
    
         QhullPoint      operator*() const { return QhullPoint(point_dimension, *i); } 
-        QhullPoint      operator[](int index) { return QhullPoint(point_dimension, *(i+index)); }
+        QhullPoint      operator[](int idx) { return QhullPoint(point_dimension, *(i+idx)); }
                       //operator->() n/a, value-type
         bool            operator==(const const_iterator &o) const { return i == o.i && point_dimension == o.point_dimension; }
         bool            operator!=(const const_iterator &o) const { return !operator==(o); }

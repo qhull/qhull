@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2009-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullPointSet.cpp#8 $$Change: 1139 $
-** $DateTime: 2010/01/03 11:20:29 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullPointSet.cpp#9 $$Change: 1150 $
+** $DateTime: 2010/01/04 22:43:14 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -19,13 +19,13 @@ namespace orgQhull {
 #//Element-access
 //! Derived from QhullSet::value
 QhullPoint QhullPointSet::
-value(int index) const
+value(int idx) const
 {
     // Avoid call to qh_setsize() and assert in elementPointer()
-    //const T *n= reinterpret_cast<const T *>(&SETelem_(getSetT(), index)); 
-    void **n= reinterpret_cast<void **>(&SETelem_(getSetT(), index)); 
+    //const T *n= reinterpret_cast<const T *>(&SETelem_(getSetT(), idx)); 
+    void **n= reinterpret_cast<void **>(&SETelem_(getSetT(), idx)); 
     coordT **n2= reinterpret_cast<coordT **>(n); 
-    if(index>=0 && n<endPointer()){
+    if(idx>=0 && n<endPointer()){
         return QhullPoint(dimension(), *n2);
     }else{
         return QhullPoint(); 
@@ -35,12 +35,12 @@ value(int index) const
 //! Non-const since copy is an alias
 //! Derived from QhullSet::value
 QhullPoint QhullPointSet::
-value(int index, QhullPoint &defaultValue) const
+value(int idx, QhullPoint &defaultValue) const
 {
     // Avoid call to qh_setsize() and assert in elementPointer()
-    void **n= reinterpret_cast<void **>(&SETelem_(getSetT(), index)); 
+    void **n= reinterpret_cast<void **>(&SETelem_(getSetT(), idx)); 
     coordT **n2= reinterpret_cast<coordT **>(n); 
-    if(index>=0 && n<endPointer()){
+    if(idx>=0 && n<endPointer()){
         return QhullPoint(dimension(), *n2);
     }else{
         return defaultValue;
@@ -94,13 +94,13 @@ count(const QhullPoint &t) const
 int QhullPointSet::
 indexOf(const QhullPoint &t) const
 {
-    int index= 0;
+    int idx= 0;
     QhullPointSetIterator i(*this);
     while(i.hasNext()){
         if(i.next()==t){
-            return index;
+            return idx;
         }
-        ++index;
+        ++idx;
     }
     return -1;
 }//indexOf
@@ -108,16 +108,16 @@ indexOf(const QhullPoint &t) const
 int QhullPointSet::
 lastIndexOf(const QhullPoint &t) const
 {
-    int index= count()-1;
+    int idx= count()-1;
     QhullPointSetIterator i(*this);
     i.toBack();
     while(i.hasPrevious()){
         if(i.previous()==t){
             break;
         }
-        --index;
+        --idx;
     }
-    return index;
+    return idx;
 }//lastIndexOf
 
 

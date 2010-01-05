@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2009-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullPoint.h#30 $$Change: 1139 $
-** $DateTime: 2010/01/03 11:20:29 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullPoint.h#31 $$Change: 1150 $
+** $DateTime: 2010/01/04 22:43:14 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -81,7 +81,7 @@ public:
     bool                isDefined() const { return point_coordinates!=0 && point_dimension>0; }
 
 #//Define
-    void                advancePoint(int index) { point_coordinates += index*point_dimension; }
+    void                advancePoint(int idx) { point_coordinates += idx*point_dimension; }
     void                defineAs(int dimension, coordT *c) { QHULL_ASSERT(dimension>=0); point_coordinates= c; point_dimension= dimension; }
     //! Creates an alias to other
     void                defineAs(QhullPoint &other) { point_coordinates= other.coordinates(); point_dimension= other.dimension(); }
@@ -104,8 +104,8 @@ public:
 #//Operator
     bool                operator==(const QhullPoint &other) const;
     bool                operator!=(const QhullPoint &other) const { return !operator==(other); }
-    const coordT       &operator[](int index) const { QHULL_ASSERT(index>=0 && index<point_dimension); return *(point_coordinates+index); }
-    coordT             &operator[](int index) { QHULL_ASSERT(index>=0 && index<point_dimension); return *(point_coordinates+index); }
+    const coordT       &operator[](int idx) const { QHULL_ASSERT(idx>=0 && idx<point_dimension); return *(point_coordinates+idx); }
+    coordT             &operator[](int idx) { QHULL_ASSERT(idx>=0 && idx<point_dimension); return *(point_coordinates+idx); }
 
     struct PrintPoint{
         const QhullPoint  *point;    //! FIXUP elsewhere.  const is OK now

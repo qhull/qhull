@@ -8,8 +8,8 @@
    see qh-set.htm and qset.h
 
    copyright (c) 1993-2010 The Geometry Center.
-   $Id: //product/qhull/main/rel/src/qset.c#27 $$Change: 1142 $
-   $DateTime: 2010/01/03 20:30:12 $$Author: bbarber $
+   $Id: //product/qhull/main/rel/src/qset.c#28 $$Change: 1150 $
+   $DateTime: 2010/01/04 22:43:14 $$Author: bbarber $
 */
 
 #include "qset.h"
@@ -1284,17 +1284,17 @@ int qh_setunique(setT **set, void *elem) {
     update actual size
     zero elements starting at e[index]   
 */
-void qh_setzero(setT *set, int index, int size) {
+void qh_setzero(setT *set, int idx, int size) {
   int count;
 
-  if (index < 0 || index >= size || size > set->maxsize) {
-    qh_fprintf(qhmem.ferr, 6182, "qhull internal error (qh_setzero): index %d or size %d out of bounds for set:\n", index, size);
+  if (idx < 0 || idx >= size || size > set->maxsize) {
+    qh_fprintf(qhmem.ferr, 6182, "qhull internal error (qh_setzero): index %d or size %d out of bounds for set:\n", idx, size);
     qh_setprint(qhmem.ferr, "", set);
     qh_errexit(qhmem_ERRqhull, NULL, NULL);
   }
   set->e[set->maxsize].i=  size+1;  /* may be overwritten */
-  count= size - index + 1;   /* +1 for NULL terminator */
-  memset((char *)SETelemaddr_(set, index, void), 0, (size_t)count * SETelemsize);
+  count= size - idx + 1;   /* +1 for NULL terminator */
+  memset((char *)SETelemaddr_(set, idx, void), 0, (size_t)count * SETelemsize);
 } /* setzero */
 
 

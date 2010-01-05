@@ -11,8 +11,8 @@
    see qhull_a.h for internal functions
 
    copyright (c) 1993-2010 The Geometry Center.
-   $Id: //product/qhull/main/rel/src/libqhull.c#4 $$Change: 1147 $
-   $DateTime: 2010/01/04 21:29:16 $$Author: bbarber $        
+   $Id: //product/qhull/main/rel/src/libqhull.c#5 $$Change: 1150 $
+   $DateTime: 2010/01/04 22:43:14 $$Author: bbarber $        
 */
 
 #include "qhull_a.h" 
@@ -659,7 +659,7 @@ QhullPoint p%d was above all facets.\n", qh_pointid(point));
 */
 pointT *qh_nextfurthest(facetT **visible) {
   facetT *facet;
-  int size, index;
+  int size, idx;
   realT randr, dist;
   pointT *furthest;
 
@@ -709,21 +709,21 @@ pointT *qh_nextfurthest(facetT **visible) {
       }
       randr= qh_RANDOMint;
       randr= randr/(qh_RANDOMmax+1);
-      index= (int)floor((qh num_outside - outcoplanar) * randr);
+      idx= (int)floor((qh num_outside - outcoplanar) * randr);
       FORALLfacet_(qh facet_next) {
         if (facet->outsideset) {
           SETreturnsize_(facet->outsideset, size);
           if (!size)
             qh_setfree(&facet->outsideset);
-          else if (size > index) {
+          else if (size > idx) {
             *visible= facet;
-            return((pointT*)qh_setdelnth(facet->outsideset, index));
+            return((pointT*)qh_setdelnth(facet->outsideset, idx));
           }else
-            index -= size;
+            idx -= size;
         }
       }
       qh_fprintf(qh ferr, 6169, "qhull internal error (qh_nextfurthest): num_outside %d is too low\nby at least %d, or a random real %g >= 1.0\n",
-              qh num_outside, index+1, randr);
+              qh num_outside, idx+1, randr);
       qh_errexit(qh_ERRqhull, NULL, NULL);
     }else { /* VIRTUALmemory */
       facet= qh facet_tail->previous;

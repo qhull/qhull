@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/qhulltest/QhullPoint_test.cpp#14 $$Change: 1139 $
-** $DateTime: 2010/01/03 11:20:29 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/qhulltest/QhullPoint_test.cpp#15 $$Change: 1150 $
+** $DateTime: 2010/01/04 22:43:14 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -144,11 +144,11 @@ t_define()
         QVERIFY(p==p2);
         QhullPoint p3= vs.last().point();
         QVERIFY(p2!=p3);
-        int index= (p3.coordinates()-p2.coordinates())/p2.dimension();
-        QVERIFY(index>-8 && index<8);
-        p2.advancePoint(index);
+        int idx= (p3.coordinates()-p2.coordinates())/p2.dimension();
+        QVERIFY(idx>-8 && idx<8);
+        p2.advancePoint(idx);
         QVERIFY(p2==p3);
-        p2.advancePoint(-index);
+        p2.advancePoint(-idx);
         QVERIFY(p2==p);
         p2.advancePoint(0);
         QVERIFY(p2==p);

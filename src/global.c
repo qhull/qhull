@@ -12,8 +12,8 @@
    see qhull_a.h for internal functions
 
    copyright (c) 1993-2010 The Geometry Center.
-   $Id: //product/qhull/main/rel/src/global.c#51 $$Change: 1139 $
-   $DateTime: 2010/01/03 11:20:29 $$Author: bbarber $
+   $Id: //product/qhull/main/rel/src/global.c#53 $$Change: 1150 $
+   $DateTime: 2010/01/04 22:43:14 $$Author: bbarber $
  */
 
 #include "qhull_a.h"
@@ -47,7 +47,7 @@ qhT qh_qh;     		/* all global variables.
     recompile user_eg.c, rbox.c, libqhull.c, qconvex.c, qdelaun.c qvoronoi.c, qhalf.c
 */
 
-const char *qh_version = "2010.0.1 2010/01/03";
+const char *qh_version = "2010.0.2 2010/01/04";
 
 /*-<a                             href="qh-globa.htm#TOC"
   >-------------------------------</a><a name="appendprint">-</a>
@@ -1909,7 +1909,7 @@ void qh_initqhull_start2(FILE *infile, FILE *outfile, FILE *errfile) {
 */
 void qh_initthresholds(char *command) {
   realT value;
-  int index, maxdim, k;
+  int idx, maxdim, k;
   char *s= command; /* non-const due to strtol */
   char key;
 
@@ -1928,10 +1928,10 @@ void qh_initthresholds(char *command) {
 		    key, s-1);
 	    continue;
 	  }
-	  index= qh_strtol(s, &s);
-	  if (index >= qh hull_dim) {
+	  idx= qh_strtol(s, &s);
+	  if (idx >= qh hull_dim) {
 	    qh_fprintf(qh ferr, 7045, "qhull warning: dimension %d for Print option '%c' is >= %d.  Ignored\n",
-	        index, key, qh hull_dim);
+	        idx, key, qh hull_dim);
 	    continue;
 	  }
 	  if (*s == ':') {
@@ -1945,9 +1945,9 @@ void qh_initthresholds(char *command) {
 	  }else
 	    value= 0.0;
 	  if (key == 'd')
-	    qh lower_threshold[index]= value;
+	    qh lower_threshold[idx]= value;
 	  else
-	    qh upper_threshold[index]= value;
+	    qh upper_threshold[idx]= value;
 	}
       }
     }else if (*s == 'Q') {
@@ -1967,10 +1967,10 @@ void qh_initthresholds(char *command) {
 		    key);
 	    continue;
 	  }
-	  index= qh_strtol(s, &s);
-	  if (index >= maxdim) {
+	  idx= qh_strtol(s, &s);
+	  if (idx >= maxdim) {
 	    qh_fprintf(qh ferr, 7048, "qhull warning: dimension %d for Qhull option %c is >= %d.  Ignored\n",
-	        index, key, maxdim);
+	        idx, key, maxdim);
 	    continue;
 	  }
 	  if (*s == ':') {
@@ -1981,9 +1981,9 @@ void qh_initthresholds(char *command) {
 	  else
 	    value= qh_DEFAULTbox;
 	  if (key == 'b')
-	    qh lower_bound[index]= value;
+	    qh lower_bound[idx]= value;
 	  else
-	    qh upper_bound[index]= value;
+	    qh upper_bound[idx]= value;
 	}
       }
     }else {

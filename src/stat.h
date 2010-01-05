@@ -7,8 +7,8 @@
    see qh-stat.htm and stat.c
 
    copyright (c) 1993-2010 The Geometry Center.
-   $Id: //product/qhull/main/rel/src/stat.h#25 $$Change: 1137 $
-   $DateTime: 2010/01/02 21:58:11 $$Author: bbarber $
+   $Id: //product/qhull/main/rel/src/stat.h#26 $$Change: 1150 $
+   $DateTime: 2010/01/04 22:43:14 $$Author: bbarber $
 
    recompile qhull if you change this file
 
@@ -523,12 +523,12 @@ void    qh_allstatistics(void);
 void    qh_collectstatistics(void);
 void	qh_freestatistics(void);
 void    qh_initstatistics(void);
-boolT 	qh_newstats(int index, int *nextindex);
+boolT 	qh_newstats(int idx, int *nextindex);
 boolT 	qh_nostatistic(int i);
 void    qh_printallstatistics(FILE *fp, const char *string);
 void    qh_printstatistics(FILE *fp, const char *string);
 void  	qh_printstatlevel(FILE *fp, int id, int start);
-void  	qh_printstats(FILE *fp, int index, int *nextindex);
+void  	qh_printstats(FILE *fp, int idx, int *nextindex);
 realT   qh_stddev(int num, realT tot, realT tot2, realT *ave);
 
 #endif   /* qhDEFstat */

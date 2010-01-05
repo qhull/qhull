@@ -9,8 +9,8 @@
    frequently used code is in poly.c
 
    copyright (c) 1993-2010 The Geometry Center.
-   $Id: //product/qhull/main/rel/src/poly2.c#37 $$Change: 1147 $
-   $DateTime: 2010/01/04 21:29:16 $$Author: bbarber $
+   $Id: //product/qhull/main/rel/src/poly2.c#38 $$Change: 1150 $
+   $DateTime: 2010/01/04 22:43:14 $$Author: bbarber $
 */
 
 #include "qhull_a.h"
@@ -1833,7 +1833,7 @@ setT *qh_initialvertices(int dim, setT *maxpoints, pointT *points, int numpoints
   pointT *point, **pointp;
   setT *vertices, *simplex, *tested;
   realT randr;
-  int index, point_i, point_n, k;
+  int idx, point_i, point_n, k;
   boolT nearzero= False;
   
   vertices= qh_settemp(dim + 1);
@@ -1844,12 +1844,12 @@ setT *qh_initialvertices(int dim, setT *maxpoints, pointT *points, int numpoints
     while (qh_setsize(simplex) != dim+1) {
       randr= qh_RANDOMint;
       randr= randr/(qh_RANDOMmax+1);
-      index= (int)floor(qh num_points * randr);
-      while (qh_setin(simplex, qh_point(index))) {
-	index++; /* in case qh_RANDOMint always returns the same value */
-        index= index < qh num_points ? index : 0;
+      idx= (int)floor(qh num_points * randr);
+      while (qh_setin(simplex, qh_point(idx))) {
+	    idx++; /* in case qh_RANDOMint always returns the same value */
+        idx= idx < qh num_points ? idx : 0;
       }
-      qh_setappend(&simplex, qh_point(index));
+      qh_setappend(&simplex, qh_point(idx));
     }
   }else if (qh hull_dim >= qh_INITIALmax) {
     tested= qh_settemp(dim+1);
@@ -1882,8 +1882,8 @@ setT *qh_initialvertices(int dim, setT *maxpoints, pointT *points, int numpoints
 	}
       }
     }
-    index= 0;
-    while (k != dim && (point= qh_point(index++))) {
+    idx= 0;
+    while (k != dim && (point= qh_point(idx++))) {
       if (!qh_setin(simplex, point) && !qh_setin(tested, point)){
         qh_detsimplex(point, simplex, k, &nearzero);
         if (!nearzero){

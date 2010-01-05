@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2009-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/Coordinates.h#30 $$Change: 1139 $
-** $DateTime: 2010/01/03 11:20:29 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/Coordinates.h#31 $$Change: 1150 $
+** $DateTime: 2010/01/04 22:43:14 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -81,8 +81,8 @@ public:
     size_t             size() const { return coordinate_array.size(); }
 
 #//Element access
-    coordT             &at(int index) { return coordinate_array.at(index); }
-    const coordT       &at(int index) const { return coordinate_array.at(index); }
+    coordT             &at(int idx) { return coordinate_array.at(idx); }
+    const coordT       &at(int idx) const { return coordinate_array.at(idx); }
     coordT             &back() { return coordinate_array.back(); }
     const coordT       &back() const { return coordinate_array.back(); }
     coordT             &first() { return front(); }
@@ -91,10 +91,10 @@ public:
     const coordT       &front() const { return coordinate_array.front(); }
     coordT             &last() { return back(); }
     const coordT       &last() const { return back(); }
-    Coordinates        mid(int index, int length= -1) const;
-    coordT            &operator[](int index) { return coordinate_array.operator[](index); }
-    const coordT      &operator[](int index) const { return coordinate_array.operator[](index); }
-    coordT             value(int index, const coordT &defaultValue) const;
+    Coordinates        mid(int idx, int length= -1) const;
+    coordT            &operator[](int idx) { return coordinate_array.operator[](idx); }
+    const coordT      &operator[](int idx) const { return coordinate_array.operator[](idx); }
+    coordT             value(int idx, const coordT &defaultValue) const;
 
 #//Iterator
     iterator            begin() { return iterator(coordinate_array.begin()); }
@@ -110,7 +110,7 @@ public:
 #//Modify
     void                append(const coordT &c) { push_back(c); }
     void                clear() { coordinate_array.clear(); }
-    iterator            erase(iterator index) { return iterator(coordinate_array.erase(index.base())); }
+    iterator            erase(iterator idx) { return iterator(coordinate_array.erase(idx.base())); }
     iterator            erase(iterator begin, iterator end) { return iterator(coordinate_array.erase(begin.base(), end.base())); }
     void                insert(int before, const coordT &c) { insert(begin()+before, c); }
     iterator            insert(iterator before, const coordT &c) { return iterator(coordinate_array.insert(before.base(), c)); }
@@ -125,13 +125,13 @@ public:
     void                push_back(const coordT &c) { coordinate_array.push_back(c); }
     void                push_front(const coordT &c) { insert(begin(), c); }
                         //removeAll below
-    void                removeAt(int index) { erase(begin()+index); }
+    void                removeAt(int idx) { erase(begin()+idx); }
     void                removeFirst() { erase(begin()); }
     void                removeLast() { erase(--end()); }
-    void                replace(int index, const coordT &c) { (*this)[index]= c; }
+    void                replace(int idx, const coordT &c) { (*this)[idx]= c; }
     void                reserve(int i) { coordinate_array.reserve(i); }
-    void                swap(int index, int other);
-    coordT              takeAt(int index);
+    void                swap(int idx, int other);
+    coordT              takeAt(int idx);
     coordT              takeFirst() { return takeAt(0); }
     coordT              takeLast();
 
@@ -164,7 +164,7 @@ public:
         std::vector<coordT>::iterator &base() { return i; }
                         // No operator-> for base types
         coordT         &operator*() const { return *i; }
-        coordT         &operator[](int index) const { return i[index]; }
+        coordT         &operator[](int idx) const { return i[idx]; }
 
         bool            operator==(const iterator &other) const { return i==other.i; }
         bool            operator!=(const iterator &other) const { return i!=other.i; }
@@ -184,10 +184,10 @@ public:
         iterator        operator++(int) { return iterator(i++); }
         iterator        operator--() { return iterator(--i); }
         iterator        operator--(int) { return iterator(i--); }
-        iterator        operator+=(int index) { return iterator(i += index); }
-        iterator        operator-=(int index) { return iterator(i -= index); }
-        iterator        operator+(int index) const { return iterator(i+index); }
-        iterator        operator-(int index) const { return iterator(i-index); }
+        iterator        operator+=(int idx) { return iterator(i += idx); }
+        iterator        operator-=(int idx) { return iterator(i -= idx); }
+        iterator        operator+(int idx) const { return iterator(i+idx); }
+        iterator        operator-(int idx) const { return iterator(i-idx); }
         difference_type operator-(iterator other) const { return i-other.i; }
     };//Coordinates::iterator
 
@@ -212,7 +212,7 @@ public:
                         // No operator-> for base types
                         // No reference to a base type for () and []
         const coordT   &operator*() const { return *i; }
-        const coordT   &operator[](int index) const { return i[index]; }
+        const coordT   &operator[](int idx) const { return i[idx]; }
 
         bool            operator==(const const_iterator &other) const { return i==other.i; }
         bool            operator!=(const const_iterator &other) const { return i!=other.i; }
@@ -225,10 +225,10 @@ public:
         const_iterator  operator++(int) { return const_iterator(i++); }
         const_iterator  operator--() { return const_iterator(--i); }
         const_iterator  operator--(int) { return const_iterator(i--); }
-        const_iterator  operator+=(int index) { return const_iterator(i += index); }
-        const_iterator  operator-=(int index) { return const_iterator(i -= index); }
-        const_iterator  operator+(int index) const { return const_iterator(i+index); }
-        const_iterator  operator-(int index) const { return const_iterator(i-index); }
+        const_iterator  operator+=(int idx) { return const_iterator(i += idx); }
+        const_iterator  operator-=(int idx) { return const_iterator(i -= idx); }
+        const_iterator  operator+(int idx) const { return const_iterator(i+idx); }
+        const_iterator  operator-(int idx) const { return const_iterator(i-idx); }
         difference_type operator-(const_iterator other) const { return i-other.i; }
     };//Coordinates::const_iterator
 

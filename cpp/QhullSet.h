@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullSet.h#35 $$Change: 1139 $
-** $DateTime: 2010/01/03 11:20:29 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullSet.h#36 $$Change: 1150 $
+** $DateTime: 2010/01/04 22:43:14 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -83,7 +83,7 @@ public:
 #//Element
 protected:
     void              **beginPointer() const { return &qh_set->e[0].p; }
-    void              **elementPointer(int index) const { QHULL_ASSERT(index>=0 && index<qh_set->maxsize); return &SETelem_(qh_set, index); }
+    void              **elementPointer(int idx) const { QHULL_ASSERT(idx>=0 && idx<qh_set->maxsize); return &SETelem_(qh_set, idx); }
                         //! Always points to 0
     void              **endPointer() const { int *i=SETsizeaddr_(qh_set); return (*i ? &qh_set->e[(*i)-1].p : reinterpret_cast<void **>(i)); }
 };//QhullSetBase
@@ -141,7 +141,7 @@ public:
     bool                operator!=(const QhullSet<T> &other) const { return !operator==(other); }
 
 #//Element access
-    const T            &at(int index) const { return operator[](index); }
+    const T            &at(int idx) const { return operator[](idx); }
     T                  &back() { return last(); }
     T                  &back() const { return last(); }
     //! end element is NULL
@@ -155,12 +155,12 @@ public:
     T                  &last() { QHULL_ASSERT(!isEmpty()); return *(end()-1); }
     const T            &last() const {  QHULL_ASSERT(!isEmpty()); return *(end()-1); }
     // mid() not available.  No setT constructor
-    T                  &operator[](int index) { T *n= reinterpret_cast<T *>(elementPointer(index)); QHULL_ASSERT(index>=0 && n < reinterpret_cast<T *>(endPointer())); return *n; }
-    const T            &operator[](int index) const { const T *n= reinterpret_cast<const T *>(elementPointer(index)); QHULL_ASSERT(index>=0 && n < reinterpret_cast<T *>(endPointer())); return *n; }
+    T                  &operator[](int idx) { T *n= reinterpret_cast<T *>(elementPointer(idx)); QHULL_ASSERT(idx>=0 && n < reinterpret_cast<T *>(endPointer())); return *n; }
+    const T            &operator[](int idx) const { const T *n= reinterpret_cast<const T *>(elementPointer(idx)); QHULL_ASSERT(idx>=0 && n < reinterpret_cast<T *>(endPointer())); return *n; }
     T                  &second() { return operator[](1); }
     const T            &second() const { return operator[](1); }
-    T                   value(int index) const;
-    T                   value(int index, const T &defaultValue) const;
+    T                   value(int idx) const;
+    T                   value(int idx, const T &defaultValue) const;
 
 #//Read-write -- Not available, no setT constructor
 
@@ -255,20 +255,20 @@ toQList() const
 
 template <typename T>
 T QhullSet<T>::
-value(int index) const
+value(int idx) const
 {
     // Avoid call to qh_setsize() and assert in elementPointer()
-    const T *n= reinterpret_cast<const T *>(&SETelem_(getSetT(), index)); 
-    return (index>=0 && n<end()) ? *n : T(); 
+    const T *n= reinterpret_cast<const T *>(&SETelem_(getSetT(), idx)); 
+    return (idx>=0 && n<end()) ? *n : T(); 
 }//value
 
 template <typename T>
 T QhullSet<T>::
-value(int index, const T &defaultValue) const
+value(int idx, const T &defaultValue) const
 {
     // Avoid call to qh_setsize() and assert in elementPointer()
-    const T *n= reinterpret_cast<const T *>(&SETelem_(getSetT(), index)); 
-    return (index>=0 && n<end()) ? *n : defaultValue; 
+    const T *n= reinterpret_cast<const T *>(&SETelem_(getSetT(), idx)); 
+    return (idx>=0 && n<end()) ? *n : defaultValue; 
 }//value
 
 #//Search

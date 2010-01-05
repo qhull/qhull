@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2009-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/Coordinates.cpp#18 $$Change: 1139 $
-** $DateTime: 2010/01/03 11:20:29 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/Coordinates.cpp#19 $$Change: 1150 $
+** $DateTime: 2010/01/04 22:43:14 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -25,23 +25,23 @@ namespace orgQhull {
 
 // Inefficient without result-value-optimization or implicitly shared object
 Coordinates Coordinates::
-mid(int index, int length) const
+mid(int idx, int length) const
 {
     int newLength= length;
-    if(length<0 || index+length > count()){
-        newLength= count()-index;
+    if(length<0 || idx+length > count()){
+        newLength= count()-idx;
     }
     Coordinates result;
     if(newLength>0){
-        std::copy(begin()+index, begin()+(index+newLength), std::back_inserter(result));
+        std::copy(begin()+idx, begin()+(idx+newLength), std::back_inserter(result));
     }
     return result;
 }//mid
 
 coordT Coordinates::
-value(int index, const coordT &defaultValue) const
+value(int idx, const coordT &defaultValue) const
 {
-    return ((index < 0 || index >= count()) ? defaultValue : (*this)[index]);
+    return ((idx < 0 || idx >= count()) ? defaultValue : (*this)[idx]);
 }//value
 
 #//Operator
@@ -69,10 +69,10 @@ operator+=(const Coordinates &other)
 #//Read-write
 
 coordT Coordinates::
-takeAt(int index)
+takeAt(int idx)
 {
-    coordT c= at(index);
-    erase(begin()+index);
+    coordT c= at(idx);
+    erase(begin()+idx);
     return c;
 }//takeAt
 
@@ -85,10 +85,10 @@ takeLast()
 }//takeLast
 
 void Coordinates::
-swap(int index, int other)
+swap(int idx, int other)
 {
-    coordT c= at(index);
-    at(index)= at(other);
+    coordT c= at(idx);
+    at(idx)= at(other);
     at(other)= c;
 }//swap
 

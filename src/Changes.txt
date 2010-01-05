@@ -51,6 +51,7 @@ Qhull cpp questions
  - How to configure Qhull output.  Trace and results should go to stdout/stderr
  - Qhull and RboxPoints messaging.  e.g., ~Qhull, hasQhullMessage()
  -  rename as QhullErrorMessage?
+ - Is idx the best name for an index?  It's rather cryptic, but BSD strings.h defines index().
  - Qhull::feasiblePoint Qhull::useOutputStream as field or getter?
  - Define virtual functions for user customization of Qhull (e.g., qh_fprintf, qh_memfree,etc.)
  - Figure out RoadError::global_log.  clearQhullMessage currently clearGlobalLog
@@ -91,11 +92,12 @@ To do
  - Add vcproj for qconvex, etc.
  - Review all ptr_intT
  - Change tabs to spaces in src/*.c *.h
+ - Check for wraparound of 64-bit ints -- e.g., a large set
  - Reconsider old_qhstat data type (amorilia)
    libqhull.h:  qhstatT *old_qhstat;       /* for saving qh_qhstat in save_qhull() and UsingLibQhull.  Free with qh_free() */
    mem.h:   setT      *tempstack;         /* stack of temporary memory, managed by users */
 
- - Run qhull regression tests
+ - Ran qhull regression tests (eg/q_test)  Review the following problems
  
  Output warning Qc
  rbox d D2 | qhull FQ n | qhalf s H0 Fc FP Fn FN FQ Fv Fx
@@ -113,7 +115,7 @@ To do
  Statistics for: rbox 1000 s W1e-13 t | qhull d Tv
 
 
-qhull 2010.0.2
+qhull 2010.0.2  2010/01/04
 
 Fixed bugs
 - qh_gethash [poly.c]: fix sign conversion.  Previously, the result may be negative, leading to a segfault.  
@@ -124,10 +126,11 @@ Breaking code changes
 - Return type of qh_gethash changed from unsigned to int.  Matches 'size'
 - addhash takes a signed hash
   qh_addhash( newelem, hashtable, hashsize, hash )
-- Check for wraparound of 64-bit ints -- e.g., a large set
 
 Code changes
 - Test for qh_qh in qh_printf
+- Makefile.txt corrected for libqhull build [amorilia]
+- Renamed index to idx to avoid shadowing BSD strings.h [kwilliams]
 
 qhull 2010.0.1  2010/01/03
 

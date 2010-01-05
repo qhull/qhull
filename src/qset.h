@@ -17,8 +17,8 @@
     - sets may be sorted or unsorted, the caller must distinguish this
    
    copyright (c) 1993-2010 The Geometry Center.
-   $Id: //product/qhull/main/rel/src/qset.h#18 $$Change: 1137 $
-   $DateTime: 2010/01/02 21:58:11 $$Author: bbarber $
+   $Id: //product/qhull/main/rel/src/qset.h#19 $$Change: 1150 $
+   $DateTime: 2010/01/04 22:43:14 $$Author: bbarber $
 */
 
 #ifndef qhDEFset
@@ -478,7 +478,7 @@ setT *qh_settemppop(void);
 void  qh_settemppush(setT *set);
 void  qh_settruncate(setT *set, int size);
 int   qh_setunique(setT **set, void *elem);
-void  qh_setzero(setT *set, int index, int size);
+void  qh_setzero(setT *set, int idx, int size);
 
 
 #endif /* qhDEFset */

@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2009-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullPoints.cpp#19 $$Change: 1145 $
-** $DateTime: 2010/01/04 21:10:14 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullPoints.cpp#20 $$Change: 1150 $
+** $DateTime: 2010/01/04 22:43:14 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -37,35 +37,35 @@ operator==(const QhullPoints &other) const
 
 #//ElementAccess
 QhullPoints QhullPoints::
-mid(int index, int length) const
+mid(int idx, int length) const
 {
     int n= count();
-    if(index<0 || index>=n){
+    if(idx<0 || idx>=n){
         n= 0;
-    }else if(length<0 || index+length>=n){
-        n -= index;
+    }else if(length<0 || idx+length>=n){
+        n -= idx;
     }else{
-        n -= index+length;
+        n -= idx+length;
     }
-    return QhullPoints(point_dimension, n*point_dimension, point_first+index*point_dimension);
+    return QhullPoints(point_dimension, n*point_dimension, point_first+idx*point_dimension);
 }//mid
 
 QhullPoint QhullPoints::
-value(int index) const
+value(int idx) const
 {
     QhullPoint p;
-    if(index>=0 && index<count()){
-        p.defineAs(point_dimension, point_first+index*point_dimension);
+    if(idx>=0 && idx<count()){
+        p.defineAs(point_dimension, point_first+idx*point_dimension);
     }
     return p;
 }//value
 
 QhullPoint QhullPoints::
-value(int index, QhullPoint &defaultValue) const
+value(int idx, QhullPoint &defaultValue) const
 {
     QhullPoint p;
-    if(index>=0 && index<count()){
-        p.defineAs(point_dimension, point_first+index*point_dimension);
+    if(idx>=0 && idx<count()){
+        p.defineAs(point_dimension, point_first+idx*point_dimension);
     }else{
         p.defineAs(defaultValue);
     }
@@ -108,12 +108,12 @@ indexOf(const coordT *coordinates) const
         return -1;
     }
     size_t offset= coordinates-point_first;
-    int index= (int)(offset/(size_t)dimension()); // int for error reporting
+    int idx= (int)(offset/(size_t)dimension()); // int for error reporting
     int extra= (int)(offset%(size_t)dimension());
     if(extra!=0){
-        throw QhullError(10066, "Qhull error: coordinates %x are not at point boundary (extra %d at index %d)", extra, index, 0.0, coordinates);
+        throw QhullError(10066, "Qhull error: coordinates %x are not at point boundary (extra %d at index %d)", extra, idx, 0.0, coordinates);
     }
-    return index;
+    return idx;
 }//indexOf coordT
 
 int QhullPoints::

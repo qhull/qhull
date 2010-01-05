@@ -30,8 +30,8 @@
     global.c (qh_initbuffers) for an example of using mem.c 
    
   copyright (c) 1993-2010 The Geometry Center.
-  $Id: //product/qhull/main/rel/src/mem.c#30 $$Change: 1137 $
-  $DateTime: 2010/01/02 21:58:11 $$Author: bbarber $
+  $Id: //product/qhull/main/rel/src/mem.c#31 $$Change: 1150 $
+  $DateTime: 2010/01/04 22:43:14 $$Author: bbarber $
 */
 
 #include "mem.h"
@@ -110,15 +110,15 @@ static int qh_intcompare(const void *i, const void *j) {
 */
 void *qh_memalloc(int insize) {
   void **freelistp, *newbuffer;
-  int index, size, n;
+  int idx, size, n;
   int outsize, bufsize;
   void *object;
 
   if (insize <= qhmem.LASTsize) {
-    index= qhmem.indextable[insize];
-    outsize= qhmem.sizetable[index];
+    idx= qhmem.indextable[insize];
+    outsize= qhmem.sizetable[idx];
     qhmem.totshort += outsize;
-    freelistp= qhmem.freelists+index;
+    freelistp= qhmem.freelists+idx;
     if ((object= *freelistp)) {
       qhmem.cntquick++;  
       qhmem.totfree -= outsize;
@@ -207,23 +207,23 @@ void *qh_memalloc(int insize) {
 */
 void qh_memfree(void *object, int insize) {
   void **freelistp;
-  int index, outsize;
+  int idx, outsize;
 
   if (!object)
     return;
   if (insize <= qhmem.LASTsize) {
     qhmem .freeshort++;
-    index= qhmem.indextable[insize];
-    outsize= qhmem.sizetable[index];
+    idx= qhmem.indextable[insize];
+    outsize= qhmem.sizetable[idx];
     qhmem .totfree += outsize;
     qhmem .totshort -= outsize;
-    freelistp= qhmem.freelists + index;
+    freelistp= qhmem.freelists + idx;
     *((void **)object)= *freelistp;
     *freelistp= object;
 #ifdef qh_TRACEshort
-    index= qhmem.cntshort+qhmem.cntquick+qhmem.freeshort;
+    idx= qhmem.cntshort+qhmem.cntquick+qhmem.freeshort;
     if (qhmem.IStracing >= 5) 
-        qh_fprintf(qhmem.ferr, 8142, "qh_mem %p n %8d free short: %d bytes (tot %d cnt %d)\n", object, index, outsize, qhmem.totshort, qhmem.cntshort+qhmem.cntquick-qhmem.freeshort);
+        qh_fprintf(qhmem.ferr, 8142, "qh_mem %p n %8d free short: %d bytes (tot %d cnt %d)\n", object, idx, outsize, qhmem.totshort, qhmem.cntshort+qhmem.cntquick-qhmem.freeshort);
 #endif
   }else {
     qhmem .freelong++;
