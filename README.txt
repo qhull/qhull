@@ -155,7 +155,7 @@ Compiling on Windows 95, 98, NT, 2000, XP
   Visual C++ quickstart for qhull.exe only:
     - create a "Win32 console application" called "qhull"
         - add the following files:
-            geom.c geom2.c global.c io.c mem.c merge.c poly.c poly2.c qhulllib.c
+            geom.c geom2.c global.c io.c mem.c merge.c poly.c poly2.c libqhull.c
                 qset.c stat.c unix.c user.c
     - create a "Win32 console application" called "rbox" 
         - add rbox.c
@@ -175,7 +175,7 @@ Compiling on Windows 95, 98, NT, 2000, XP
 
     - create a "Win32 static library" called "library"
         - move these files from "qhull source"
-            geom.c geom2.c global.c io.c mem.c merge.c poly.c poly2.c qhulllib.c
+            geom.c geom2.c global.c io.c mem.c merge.c poly.c poly2.c libqhull.c
                 qset.c stat.c user.c
         - set the library file (use the same for debug and release)
         - build the project
@@ -289,9 +289,9 @@ src/
      src/index.htm     // index to source files 
      qh-...htm         //   specific files
      user.h            // header file of user definable constants 
-     qhulllib.h           // header file for qhull 
+     libqhull.h           // header file for qhull
      unix.c            // Unix front end to qhull 
-     qhulllib.c           // Quickhull algorithm with partitioning 
+     libqhull.c           // Quickhull algorithm with partitioning
      user.c            // user re-definable functions 
      user_eg.c         // example of incorporating qhull into a user program 
      user_eg2.c        // more complex example 

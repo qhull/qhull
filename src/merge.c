@@ -21,8 +21,8 @@
    vertex->neighbors not set until the first merge occurs
 
    copyright (c) 1993-2010 C.B. Barber.
-   $Id: //product/qhull/main/rel/src/merge.c#25 $$Change: 1139 $
-   $DateTime: 2010/01/03 11:20:29 $$Author: bbarber $        
+   $Id: //product/qhull/main/rel/src/merge.c#26 $$Change: 1144 $
+   $DateTime: 2010/01/04 18:23:37 $$Author: bbarber $        
 */
 
 #include "qhull_a.h"
@@ -1272,7 +1272,7 @@ void qh_hashridge(setT *hashtable, int hashsize, ridgeT *ridge, vertexT *oldvert
   int hash;
   ridgeT *ridgeA;
 
-  hash= (int)qh_gethash(hashsize, ridge->vertices, qh hull_dim-1, 0, oldvertex);
+  hash= qh_gethash(hashsize, ridge->vertices, qh hull_dim-1, 0, oldvertex);
   while (True) {
     if (!(ridgeA= SETelemt_(hashtable, hash, ridgeT))) {
       SETelem_(hashtable, hash)= ridge;
@@ -1318,7 +1318,7 @@ ridgeT *qh_hashridge_find(setT *hashtable, int hashsize, ridgeT *ridge,
 
   *hashslot= 0;
   zinc_(Zhashridge);
-  hash= (int)qh_gethash(hashsize, ridge->vertices, qh hull_dim-1, 0, vertex);
+  hash= qh_gethash(hashsize, ridge->vertices, qh hull_dim-1, 0, vertex);
   while ((ridgeA= SETelemt_(hashtable, hash, ridgeT))) {
     if (ridgeA == ridge)
       *hashslot= -1;      

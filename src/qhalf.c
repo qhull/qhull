@@ -14,7 +14,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <math.h>
-#include "qhulllib.h"
+#include "libqhull.h"
 #include "mem.h"
 #include "qset.h"
 
@@ -45,7 +45,7 @@ int isatty(int);  /* returns 1 if stdin is a tty
     long prompt for qhull
     
   notes:
-    restricted version of qhulllib.c
+    restricted version of libqhull.c
  
   see:
     concise prompt below

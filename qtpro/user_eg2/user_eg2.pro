@@ -1,26 +1,25 @@
 # -------------------------------------------------
-# rbox.pro -- Qt project for rbox.exe
+# user_eg2.pro -- Qt project for Qhull demonstration
 # -------------------------------------------------
-TARGET = rbox
+TARGET = user_eg2
 DESTDIR = ../..
 TEMPLATE = app
 CONFIG += console warn_on
+CONFIG -= app_bundle
 LIBS += -L../..
 QMAKE_CFLAGS += -fno-strict-aliasing
 QMAKE_CFLAGS += -Wall -Wextra -Wshadow -Wcast-qual -Wwrite-strings
 QMAKE_CFLAGS += -Wno-sign-conversion # Many size_t vs. int errors
 build_pass:CONFIG(debug, debug|release):{
    LIBS += libqhulld
-   OBJECTS_DIR = ../../tmp/rbox/Debug
+   OBJECTS_DIR = ../../tmp/user_eg2/Debug
 }else:build_pass:CONFIG(release, debug|release):{
    LIBS += libqhull
-   OBJECTS_DIR = ../../tmp/rbox/Release
+   OBJECTS_DIR = ../../tmp/user_eg2/Release
 }
 QT -= gui
 CONFIG -= app_bundle
-MOC_DIR = ../../tmp/moc
-RCC_DIR = ../../tmp/rcc
-INCLUDEPATH = ../../cpp;../../cpp/road;../../tmp
+INCLUDEPATH = ../../tmp
 VPATH = ../..
-SOURCES += src/rbox.c
+SOURCES += src/user_eg2.c
 HEADERS += src/libqhull.h

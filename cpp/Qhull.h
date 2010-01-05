@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/Qhull.h#35 $$Change: 1139 $
-** $DateTime: 2010/01/03 11:20:29 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/Qhull.h#36 $$Change: 1143 $
+** $DateTime: 2010/01/03 22:41:47 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -42,7 +42,7 @@ class Qhull {
 private:
 #//Members and friends
     QhullQh            *qhull_qh;	//! qh_qh for this instance
-    int                 qhull_run_id;    //! qh.run_id at initialization (catch multiple runs if !qh_POINTER)
+    int                 qhull_run_id;    //! qh.run_id at initialization (catch multiple runs if !qh_QHpointer)
     Coordinates         origin_point;   //! origin for qhull_dimension.  Set by runQhull()
     int		        qhull_status;   //! qh_ERRnone if valid
     int                 qhull_dimension; //! Dimension of result (qh.hull_dim or one less for Delaunay/Voronoi)   

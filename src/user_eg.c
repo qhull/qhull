@@ -36,13 +36,13 @@
    These examples, call qh_qhull() directly.  They allow
    tighter control on the code loaded with Qhull.
 
-   For a simple C++ example, see qhull_interface.cpp
+   For a C++ example, see user_eg3.cpp
 
    Summaries are sent to stderr if other output formats are used
 
    compiled by 'make user_eg'
 
-   see qhulllib.h for data structures, macros, and user-callable functions.
+   see libqhull.h for data structures, macros, and user-callable functions.
 */
 
 #include "qhull_a.h"

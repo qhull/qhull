@@ -4,7 +4,7 @@
 To do for documentation
 - Qhull::addPoint().  Problems with qh_findbestfacet and otherpoints see 
    qh-code.htm#inc on-line construction with qh_addpoint()
-- How to handle 64-bit possible loss of data.  WARN64
+- How to handle 64-bit possible loss of data.  WARN64, ptr_intT, size_t/int
 - Show custom of qh_fprintf
 - grep 'qh_mem ' x | sort | awk '{ print $2; }' | uniq -c | grep -vE ' (2|4|6|8|10|12|14|16|20|64|162)[^0-9]'
 - qtpro/qhulltest contains .pro and Makefile.  Remove Makefiles by setting shadow directory to ../../tmp/projectname
@@ -27,6 +27,7 @@ To do for documentation
  - Check globalAngleEpsilon
  - Deprecate save_qhull()
  - Review email for doc changes
+ - Add option Ta to qhull.man, etc.
 
 To do for suggestions
    C++ class for access to statistics, accumulate vs. add
@@ -82,13 +83,47 @@ To do
    Keep size of qh_set as int, set.h, global.c
    Keep size of qh_mem as int, mem.h, global.c
    Why rename index in qh_initthresholds(), poly2.c, qhull.c -- Seems OK
- - Run qhull regression tests
  - Measure performance of Qhull
- - qhulltest --all
+ - qhulltest --all added to output
  - Number the FIXUPS
- - Review diffs against qhull 2003.1
  - Review qh-code.htm#cpp
  - Add test of user_eg3, etc.
+ - Add vcproj for qconvex, etc.
+ - Review all ptr_intT
+
+ - Run qhull regression tests
+ 
+ Output warning Qc
+ rbox d D2 | qhull FQ n | qhalf s H0 Fc FP Fn FN FQ Fv Fx
+
+ Failed.  Premature exit
+ rbox 1000 W0 | qhull QR2 QJ s Fs Tv
+
+ t not printed
+ Statistics for: rbox 1000 W1e-20 t | qhull Tcv Qc
+
+ 6668,7x outer plane
+ Statistics for: rbox 1000 L100000 s G1e-6 t | qhull Tv Q10
+
+ 5135.7x outer plane
+ Statistics for: rbox 1000 s W1e-13 t | qhull d Tv
+
+
+qhull 2010.0.2
+
+Fixed bugs
+- qh_gethash [poly.c]: fix sign conversion.  Previously, the result may be negative, leading to a segfault.  
+    The bug is more likely with large address spaces
+    Reviewed all uses of %(modulo) for remainder with negative arguments
+
+Breaking code changes
+- Return type of qh_gethash changed from unsigned to int.  Matches 'size'
+- addhash takes a signed hash
+  qh_addhash( newelem, hashtable, hashsize, hash )
+- Check for wraparound of 64-bit ints -- e.g., a large set
+
+Code changes
+- Test for qh_qh in qh_printf
 
 qhull 2010.0.1  2010/01/03
 
@@ -104,6 +139,7 @@ Preliminary C++ support:
 Changes to qhull options and results
  - Allow 'd' and 'v' as the filename for 'TO ..' and 'TI ...' in qdelaunay [M. Jambon]
  - Allow quoted filenames for 'TO ...' and 'TI ...'
+ - Preceed error messages and warnings with a message code (e.g., QH6012)
  - Fixed rbox ignoring flags that were not separated by spaces
  - Report all hidden options before exiting in qh_checkflags()
  - Defined qh_OPTIONline [user.h] as max length of option line ('FO') 
@@ -118,7 +154,6 @@ Breaking Code Changes:
  - qh_restore_qhull() zeroes out qh.old_qhstat and qh.old_tempstack.  Ownership moved.
  - Rewrote save_qhull/restore_qhull
  - Add Ztotcheck to zzdef_ [R. Gardener]
- - Add message code to error messages and warnings (e.g., QH6012)
  - Changed qh_malloc to size_t (was unsigned long)
  - Declare qh_PRINT instead of int [kwilliams]
  - In qh_printafacet(), changed error output to 'qh ferr'
@@ -216,6 +251,7 @@ Documentation:
  - Updated Qhull citation with page numbers.
  - Proposed project: constructing Voronoi diagram
  - Proposed project: computing Voronoi volumes
+ - Replaced tabs with spaces in qhull.txt and rbox.txt
 
 qhull 2009.1  2009/6/11
 

@@ -47,7 +47,11 @@ void qh_fprintf(FILE *fp, int msgcode, const char *fmt, ... ) {
         qh_errexit(6232, NULL, NULL);
     }
     va_start(args, fmt);
+#if qh_QHpointer
+    if (qh_qh && qh ANNOTATEoutput) {
+#else
     if (qh ANNOTATEoutput) {
+#endif
       fprintf(fp, "[QH%.4d]", msgcode);
     }else if (msgcode >= MSG_ERROR && msgcode < MSG_STDERR ) {
       fprintf(fp, "QH%.4d ", msgcode);

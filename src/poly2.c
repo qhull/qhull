@@ -9,8 +9,8 @@
    frequently used code is in poly.c
 
    copyright (c) 1993-2010 The Geometry Center.
-   $Id: //product/qhull/main/rel/src/poly2.c#35 $$Change: 1137 $
-   $DateTime: 2010/01/02 21:58:11 $$Author: bbarber $
+   $Id: //product/qhull/main/rel/src/poly2.c#36 $$Change: 1144 $
+   $DateTime: 2010/01/04 18:23:37 $$Author: bbarber $
 */
 
 #include "qhull_a.h"
@@ -23,7 +23,7 @@
   qh_addhash( newelem, hashtable, hashsize, hash )
     add newelem to linear hash table at hash if not already there
 */
-void qh_addhash(void* newelem, setT *hashtable, int hashsize, unsigned hash) {
+void qh_addhash(void* newelem, setT *hashtable, int hashsize, int hash) {
   int scan;
   void *elem;
 
@@ -2034,7 +2034,7 @@ void qh_matchduplicates(facetT *atfacet, int atskip, int hashsize, int *hashcoun
   int skip, newskip, nextskip= 0, maxskip= 0, maxskip2= 0, makematch;
   realT maxdist= -REALmax, mindist, dist2, low, high;
 
-  hash= (int)qh_gethash(hashsize, atfacet->vertices, qh hull_dim, 1, 
+  hash= qh_gethash(hashsize, atfacet->vertices, qh hull_dim, 1, 
                      SETelem_(atfacet->vertices, atskip));
   trace2((qh ferr, 2046, "qh_matchduplicates: find duplicate matches for f%d skip %d hash %d hashcount %d\n",
 	  atfacet->id, atskip, hash, *hashcount));

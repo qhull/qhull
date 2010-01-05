@@ -10,8 +10,8 @@
    (all but top 50 and their callers 12/3/95)
 
    copyright (c) 1993-2010 The Geometry Center.
-   $Id: //product/qhull/main/rel/src/poly.c#23 $$Change: 1137 $
-   $DateTime: 2010/01/02 21:58:11 $$Author: bbarber $
+   $Id: //product/qhull/main/rel/src/poly.c#24 $$Change: 1144 $
+   $DateTime: 2010/01/04 18:23:37 $$Author: bbarber $
 */
 
 #include "qhull_a.h"
@@ -395,18 +395,20 @@ setT *qh_facetintersect(facetT *facetA, facetT *facetB,
     return hashvalue for a set with firstindex and skipelem
 
   notes:
+    returned hash is in [0,hashsize)
     assumes at least firstindex+1 elements
     assumes skipelem is NULL, in set, or part of hash
     
     hashes memory addresses which may change over different runs of the same data
     using sum for hash does badly in high d
 */
-unsigned qh_gethash(int hashsize, setT *set, int size, int firstindex, void *skipelem) {
+int qh_gethash(int hashsize, setT *set, int size, int firstindex, void *skipelem) {
   void **elemp= SETelemaddr_(set, firstindex, void);
   ptr_intT hash = 0, elem;
+  unsigned result;
   int i;
 #ifdef _MSC_VER			  /* Microsoft Visual C++ -- warn about 64-bit issues */
-#pragma warning( push)		  /* WARN64 -- ptr_intT was defined for 64-bit issues */
+#pragma warning( push)		  /* WARN64 -- ptr_intT holds a 64-bit pointer */
 #pragma warning( disable : 4311)  /* 'type cast': pointer truncation from 'void*' to 'ptr_intT' */
 #endif
 
@@ -447,9 +449,14 @@ unsigned qh_gethash(int hashsize, setT *set, int size, int firstindex, void *ski
     }while (*elemp);
     break;
   }
-  hash %= (ptr_intT) hashsize;
-  /* hash= 0; for debugging purposes */
-  return hash;
+  if (hashsize<0) {
+    qh_fprintf(qh ferr, 6232, "qhull internal error: negative hashsize %d passed to qh_gethash [poly.c]\n", hashsize);
+    qh_errexit2 (qh_ERRqhull, NULL, NULL);
+  }
+  result= (unsigned)hash;
+  result %= (unsigned)hashsize;
+  /* result= 0; for debugging */
+  return result;
 #ifdef _MSC_VER
 #pragma warning( pop)
 #endif
@@ -717,17 +724,16 @@ facetT *qh_makenew_simplicial(facetT *visible, vertexT *apex, int *numnew) {
 void qh_matchneighbor(facetT *newfacet, int newskip, int hashsize, int *hashcount) {
   boolT newfound= False;   /* True, if new facet is already in hash chain */
   boolT same, ismatch;
-  unsigned hash;
-  int scan;
+  int hash, scan;
   facetT *facet, *matchfacet;
   int skip, matchskip;
 
   hash= qh_gethash(hashsize, newfacet->vertices, qh hull_dim, 1, 
                      SETelem_(newfacet->vertices, newskip));
-  trace4((qh ferr, 4050, "qh_matchneighbor: newfacet f%d skip %d hash %ud hashcount %d\n",
+  trace4((qh ferr, 4050, "qh_matchneighbor: newfacet f%d skip %d hash %d hashcount %d\n",
 	  newfacet->id, newskip, hash, *hashcount));
   zinc_(Zhashlookup);
-  for (scan= (int)hash; (facet= SETelemt_(qh hash_table, scan, facetT)); 
+  for (scan= hash; (facet= SETelemt_(qh hash_table, scan, facetT)); 
        scan= (++scan >= hashsize ? 0 : scan)) {
     if (facet == newfacet) {
       newfound= True;
@@ -781,7 +787,7 @@ void qh_matchneighbor(facetT *newfacet, int newskip, int hashsize, int *hashcoun
 	  *hashcount += 2;
 	}
       }
-      trace4((qh ferr, 4052, "qh_matchneighbor: new f%d skip %d duplicates ridge for f%d skip %d matching f%d ismatch %d at hash %ud\n",
+      trace4((qh ferr, 4052, "qh_matchneighbor: new f%d skip %d duplicates ridge for f%d skip %d matching f%d ismatch %d at hash %d\n",
 	   newfacet->id, newskip, facet->id, skip, 
 	   (matchfacet == qh_DUPLICATEridge ? -2 : getid_(matchfacet)), 
 	   ismatch, hash));
@@ -791,7 +797,7 @@ void qh_matchneighbor(facetT *newfacet, int newskip, int hashsize, int *hashcoun
   if (!newfound) 
     SETelem_(qh hash_table, scan)= newfacet;  /* same as qh_addhash */
   (*hashcount)++;
-  trace4((qh ferr, 4053, "qh_matchneighbor: no match for f%d skip %d at hash %ud\n",
+  trace4((qh ferr, 4053, "qh_matchneighbor: no match for f%d skip %d at hash %d\n",
            newfacet->id, newskip, hash));
 } /* matchneighbor */
 

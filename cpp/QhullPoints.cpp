@@ -108,8 +108,8 @@ indexOf(const coordT *coordinates) const
         return -1;
     }
     size_t offset= coordinates-point_first;
-    int index= (int)offset/dimension(); // int for error reporting
-    int extra= (int)offset%dimension();
+    int index= (int)(offset/(size_t)dimension()); // int for error reporting
+    int extra= (int)(offset%(size_t)dimension());
     if(extra!=0){
         throw QhullError(10066, "Qhull error: coordinates %x are not at point boundary (extra %d at index %d)", extra, index, 0.0, coordinates);
     }
@@ -124,7 +124,7 @@ indexOf(const coordT *coordinates, int noThrow) const
         if(!includesCoordinates(coordinates)||dimension()==0){
             return -1;
         }
-        extra= (coordinates-point_first)%dimension();
+        extra= (coordinates-point_first)%(size_t)dimension();
     }
     return indexOf(coordinates-extra);
 }//indexOf coordT noThrow

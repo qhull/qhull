@@ -1,26 +1,27 @@
 # -------------------------------------------------
-# rbox.pro -- Qt project for rbox.exe
+# qhalf.pro -- Qt project file for qconvex.exe
 # -------------------------------------------------
-TARGET = rbox
+
+TARGET = qhalf
 DESTDIR = ../..
 TEMPLATE = app
 CONFIG += console warn_on
+CONFIG -= app_bundle
 LIBS += -L../..
-QMAKE_CFLAGS += -fno-strict-aliasing
+# QMAKE_CFLAGS += -fno-strict-aliasing
 QMAKE_CFLAGS += -Wall -Wextra -Wshadow -Wcast-qual -Wwrite-strings
 QMAKE_CFLAGS += -Wno-sign-conversion # Many size_t vs. int errors
 build_pass:CONFIG(debug, debug|release):{
    LIBS += libqhulld
-   OBJECTS_DIR = ../../tmp/rbox/Debug
+   OBJECTS_DIR = ../../tmp/qconvex/Debug
 }else:build_pass:CONFIG(release, debug|release):{
    LIBS += libqhull
-   OBJECTS_DIR = ../../tmp/rbox/Release
+   OBJECTS_DIR = ../../tmp/qconvex/Release
 }
 QT -= gui
-CONFIG -= app_bundle
 MOC_DIR = ../../tmp/moc
 RCC_DIR = ../../tmp/rcc
-INCLUDEPATH = ../../cpp;../../cpp/road;../../tmp
+INCLUDEPATH = ../../tmp
 VPATH = ../..
-SOURCES += src/rbox.c
+SOURCES += src/qhalf.c
 HEADERS += src/libqhull.h

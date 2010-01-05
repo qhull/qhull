@@ -76,7 +76,7 @@ public:
     int		        dimension() const { return point_dimension; }
     bool                empty() const { return point_end==point_first; }
     coordT             *extraCoordinates() const { return extraCoordinatesCount() ? (point_end-extraCoordinatesCount()) : 0; }
-    int			extraCoordinatesCount() const { return point_dimension>0 ? (int)(point_end-point_first)%point_dimension : 0; }  // WARN64
+    int			extraCoordinatesCount() const { return point_dimension>0 ? (int)((point_end-point_first)%(size_t)point_dimension) : 0; }  // WARN64
     bool                includesCoordinates(const coordT *coordinates) const { return coordinates>=point_first && coordinates<point_end; }
     bool                isEmpty() const { return empty(); }
     bool                operator==(const QhullPoints &other) const;

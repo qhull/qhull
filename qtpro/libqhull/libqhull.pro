@@ -6,8 +6,9 @@ DESTDIR = ../..
 TEMPLATE = lib
 CONFIG += staticlib warn_on
 CONFIG -= app_bundle qt
-QMAKE_CFLAGS_DEBUG += -Wall -Wextra -Wshadow -Wcast-qual -Wwrite-strings
-QMAKE_CFLAGS_DEBUG += -Wno-sign-conversion # Many size_t vs. int errors
+QMAKE_CFLAGS += -fno-strict-aliasing
+QMAKE_CFLAGS += -Wall -Wextra -Wshadow -Wcast-qual -Wwrite-strings
+QMAKE_CFLAGS += -Wno-sign-conversion # Many size_t vs. int errors
 #QMAKE_CFLAGS_DEBUG += -Wconversion # no workaround for bit-field conversion errors
 build_pass:CONFIG(debug, debug|release):{
     TARGET = qhulld

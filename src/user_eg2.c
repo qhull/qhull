@@ -9,6 +9,8 @@
   The method used here and in unix.c gives you additional
   control over Qhull.
 
+  See user_eg3.cpp for a C++ example
+
   call with:
 
      user_eg2 "triangulated cube/diamond options" "delaunay options" "halfspace options"
@@ -39,7 +41,7 @@
 
    derived from unix.c and compiled by 'make user_eg2'
 
-   see qhulllib.h for data structures, macros, and user-callable functions.
+   see libqhull.h for data structures, macros, and user-callable functions.
 
    If you want to control all output to stdio and input to stdin,
    set the #if below to "1" and delete all lines that contain "io.c".
@@ -468,9 +470,11 @@ your project.\n\n");
 -errexit- return exitcode to system after an error
   assumes exitcode non-zero
   prints useful information
-  see qh_errexit2() in qhulllib.c for 2 facets
+  see qh_errexit2() in libqhull.c for 2 facets
 */
 void qh_errexit(int exitcode, facetT *facet, ridgeT *ridge) {
+  QHULL_UNUSED(facet);
+  QHULL_UNUSED(ridge);
 
   if (qh ERREXITcalled) {
     fprintf (qh ferr, "qhull error while processing previous error.  Exit program\n");
@@ -506,7 +510,7 @@ void qh_errexit(int exitcode, facetT *facet, ridgeT *ridge) {
 -errprint- prints out the information of the erroneous object
     any parameter may be NULL, also prints neighbors and geomview output
 */
-void qh_errprint(char *string, facetT *atfacet, facetT *otherfacet, ridgeT *atridge, vertexT *atvertex) {
+void qh_errprint(const char *string, facetT *atfacet, facetT *otherfacet, ridgeT *atridge, vertexT *atvertex) {
 
   fprintf (qh ferr, "%s facets f%d f%d ridge r%d vertex v%d\n",
 	   string, getid_(atfacet), getid_(otherfacet), getid_(atridge),
@@ -529,6 +533,185 @@ void qh_printfacetlist(facetT *facetlist, setT *facets, boolT printall) {
     fprintf( qh ferr, "facet f%d\n", facet->id);
 } /* printfacetlist */
 
+/* qh_printhelp_degenerate( fp )
+    prints descriptive message for precision error
+
+  notes:
+    no message if qh_QUICKhelp
+*/
+void qh_printhelp_degenerate(FILE *fp) {
+
+  if (qh MERGEexact || qh PREmerge || qh JOGGLEmax < REALmax/2)
+    qh_fprintf(fp, 9368, "\n\
+A Qhull error has occurred.  Qhull should have corrected the above\n\
+precision error.  Please send the input and all of the output to\n\
+qhull_bug@qhull.org\n");
+  else if (!qh_QUICKhelp) {
+    qh_fprintf(fp, 9369, "\n\
+Precision problems were detected during construction of the convex hull.\n\
+This occurs because convex hull algorithms assume that calculations are\n\
+exact, but floating-point arithmetic has roundoff errors.\n\
+\n\
+To correct for precision problems, do not use 'Q0'.  By default, Qhull\n\
+selects 'C-0' or 'Qx' and merges non-convex facets.  With option 'QJ',\n\
+Qhull joggles the input to prevent precision problems.  See \"Imprecision\n\
+in Qhull\" (qh-impre.htm).\n\
+\n\
+If you use 'Q0', the output may include\n\
+coplanar ridges, concave ridges, and flipped facets.  In 4-d and higher,\n\
+Qhull may produce a ridge with four neighbors or two facets with the same \n\
+vertices.  Qhull reports these events when they occur.  It stops when a\n\
+concave ridge, flipped facet, or duplicate facet occurs.\n");
+#if REALfloat
+    qh_fprintf(fp, 9370, "\
+\n\
+Qhull is currently using single precision arithmetic.  The following\n\
+will probably remove the precision problems:\n\
+  - recompile qhull for realT precision(#define REALfloat 0 in user.h).\n");
+#endif
+    if (qh DELAUNAY && !qh SCALElast && qh MAXabs_coord > 1e4)
+      qh_fprintf(fp, 9371, "\
+\n\
+When computing the Delaunay triangulation of coordinates > 1.0,\n\
+  - use 'Qbb' to scale the last coordinate to [0,m] (max previous coordinate)\n");
+    if (qh DELAUNAY && !qh ATinfinity)
+      qh_fprintf(fp, 9372, "\
+When computing the Delaunay triangulation:\n\
+  - use 'Qz' to add a point at-infinity.  This reduces precision problems.\n");
+
+    qh_fprintf(fp, 9373, "\
+\n\
+If you need triangular output:\n\
+  - use option 'Qt' to triangulate the output\n\
+  - use option 'QJ' to joggle the input points and remove precision errors\n\
+  - use option 'Ft'.  It triangulates non-simplicial facets with added points.\n\
+\n\
+If you must use 'Q0',\n\
+try one or more of the following options.  They can not guarantee an output.\n\
+  - use 'QbB' to scale the input to a cube.\n\
+  - use 'Po' to produce output and prevent partitioning for flipped facets\n\
+  - use 'V0' to set min. distance to visible facet as 0 instead of roundoff\n\
+  - use 'En' to specify a maximum roundoff error less than %2.2g.\n\
+  - options 'Qf', 'Qbb', and 'QR0' may also help\n",
+               qh DISTround);
+    qh_fprintf(fp, 9374, "\
+\n\
+To guarantee simplicial output:\n\
+  - use option 'Qt' to triangulate the output\n\
+  - use option 'QJ' to joggle the input points and remove precision errors\n\
+  - use option 'Ft' to triangulate the output by adding points\n\
+  - use exact arithmetic (see \"Imprecision in Qhull\", qh-impre.htm)\n\
+");
+  }
+} /* printhelp_degenerate */
+
+
+/* qh_printhelp_narrowhull( minangle )
+     Warn about a narrow hull
+
+  notes:
+    Alternatively, reduce qh_WARNnarrow in user.h
+
+*/
+void qh_printhelp_narrowhull(FILE *fp, realT minangle) {
+
+    qh_fprintf(fp, 9375, "qhull precision warning: \n\
+The initial hull is narrow (cosine of min. angle is %.16f).\n\
+A coplanar point may lead to a wide facet.  Options 'QbB' (scale to unit box)\n\
+or 'Qbb' (scale last coordinate) may remove this warning.  Use 'Pp' to skip\n\
+this warning.  See 'Limitations' in qh-impre.htm.\n",
+          -minangle);   /* convert from angle between normals to angle between facets */
+} /* printhelp_narrowhull */
+
+/* qh_printhelp_singular
+      prints descriptive message for singular input
+*/
+void qh_printhelp_singular(FILE *fp) {
+  facetT *facet;
+  vertexT *vertex, **vertexp;
+  realT min, max, *coord, dist;
+  int i,k;
+
+  qh_fprintf(fp, 9376, "\n\
+The input to qhull appears to be less than %d dimensional, or a\n\
+computation has overflowed.\n\n\
+Qhull could not construct a clearly convex simplex from points:\n",
+           qh hull_dim);
+  qh_printvertexlist(fp, "", qh facet_list, NULL, qh_ALL);
+  if (!qh_QUICKhelp)
+    qh_fprintf(fp, 9377, "\n\
+The center point is coplanar with a facet, or a vertex is coplanar\n\
+with a neighboring facet.  The maximum round off error for\n\
+computing distances is %2.2g.  The center point, facets and distances\n\
+to the center point are as follows:\n\n", qh DISTround);
+  qh_printpointid(fp, "center point", qh hull_dim, qh interior_point, -1);
+  qh_fprintf(fp, 9378, "\n");
+  FORALLfacets {
+    qh_fprintf(fp, 9379, "facet");
+    FOREACHvertex_(facet->vertices)
+      qh_fprintf(fp, 9380, " p%d", qh_pointid(vertex->point));
+    zinc_(Zdistio);
+    qh_distplane(qh interior_point, facet, &dist);
+    qh_fprintf(fp, 9381, " distance= %4.2g\n", dist);
+  }
+  if (!qh_QUICKhelp) {
+    if (qh HALFspace)
+      qh_fprintf(fp, 9382, "\n\
+These points are the dual of the given halfspaces.  They indicate that\n\
+the intersection is degenerate.\n");
+    qh_fprintf(fp, 9383,"\n\
+These points either have a maximum or minimum x-coordinate, or\n\
+they maximize the determinant for k coordinates.  Trial points\n\
+are first selected from points that maximize a coordinate.\n");
+    if (qh hull_dim >= qh_INITIALmax)
+      qh_fprintf(fp, 9384, "\n\
+Because of the high dimension, the min x-coordinate and max-coordinate\n\
+points are used if the determinant is non-zero.  Option 'Qs' will\n\
+do a better, though much slower, job.  Instead of 'Qs', you can change\n\
+the points by randomly rotating the input with 'QR0'.\n");
+  }
+  qh_fprintf(fp, 9385, "\nThe min and max coordinates for each dimension are:\n");
+  for (k=0; k < qh hull_dim; k++) {
+    min= REALmax;
+    max= -REALmin;
+    for (i=qh num_points, coord= qh first_point+k; i--; coord += qh hull_dim) {
+      maximize_(max, *coord);
+      minimize_(min, *coord);
+    }
+    qh_fprintf(fp, 9386, "  %d:  %8.4g  %8.4g  difference= %4.4g\n", k, min, max, max-min);
+  }
+  if (!qh_QUICKhelp) {
+    qh_fprintf(fp, 9387, "\n\
+If the input should be full dimensional, you have several options that\n\
+may determine an initial simplex:\n\
+  - use 'QJ'  to joggle the input and make it full dimensional\n\
+  - use 'QbB' to scale the points to the unit cube\n\
+  - use 'QR0' to randomly rotate the input for different maximum points\n\
+  - use 'Qs'  to search all points for the initial simplex\n\
+  - use 'En'  to specify a maximum roundoff error less than %2.2g.\n\
+  - trace execution with 'T3' to see the determinant for each point.\n",
+                     qh DISTround);
+#if REALfloat
+    qh_fprintf(fp, 9388, "\
+  - recompile qhull for realT precision(#define REALfloat 0 in libqhull.h).\n");
+#endif
+    qh_fprintf(fp, 9389, "\n\
+If the input is lower dimensional:\n\
+  - use 'QJ' to joggle the input and make it full dimensional\n\
+  - use 'Qbk:0Bk:0' to delete coordinate k from the input.  You should\n\
+    pick the coordinate with the least range.  The hull will have the\n\
+    correct topology.\n\
+  - determine the flat containing the points, rotate the points\n\
+    into a coordinate plane, and delete the other coordinates.\n\
+  - add one or more points to make the input full dimensional.\n\
+");
+    if (qh DELAUNAY && !qh ATinfinity)
+      qh_fprintf(fp, 9390, "\n\n\
+This is a Delaunay triangulation and the input is co-circular or co-spherical:\n\
+  - use 'Qz' to add a point \"at infinity\" (i.e., above the paraboloid)\n\
+  - or use 'QJ' to joggle the input and avoid co-circular data\n");
+  }
+} /* printhelp_singular */
 
 
 /*-----------------------------------------

@@ -7,8 +7,8 @@
    see qh-poly.htm, libqhull.h and poly.c
 
    copyright (c) 1993-2010 The Geometry Center.
-   $Id: //product/qhull/main/rel/src/poly.h#20 $$Change: 1137 $
-   $DateTime: 2010/01/02 21:58:11 $$Author: bbarber $
+   $Id: //product/qhull/main/rel/src/poly.h#21 $$Change: 1144 $
+   $DateTime: 2010/01/04 18:23:37 $$Author: bbarber $
 */
 
 #ifndef qhDEFpoly
@@ -214,7 +214,7 @@ boolT   qh_checkflipped(facetT *facet, realT *dist, boolT allerror);
 void	qh_delfacet(facetT *facet);
 void 	qh_deletevisible(void /*qh visible_list, qh horizon_list*/);
 setT   *qh_facetintersect(facetT *facetA, facetT *facetB, int *skipAp,int *skipBp, int extra);
-unsigned qh_gethash(int hashsize, setT *set, int size, int firstindex, void *skipelem);
+int     qh_gethash(int hashsize, setT *set, int size, int firstindex, void *skipelem);
 facetT *qh_makenewfacet(setT *vertices, boolT toporient, facetT *facet);
 void    qh_makenewplanes(void /* newfacet_list */);
 facetT *qh_makenew_nonsimplicial(facetT *visible, vertexT *apex, int *numnew);
@@ -234,7 +234,7 @@ void    qh_updatevertices(void);
 
 /*========== -prototypes poly2.c in alphabetical order ===========*/
 
-void    qh_addhash(void* newelem, setT *hashtable, int hashsize, unsigned hash);
+void    qh_addhash(void* newelem, setT *hashtable, int hashsize, int hash);
 void 	qh_check_bestdist(void);
 void    qh_check_maxout(void);
 void    qh_check_output(void);

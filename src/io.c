@@ -14,8 +14,8 @@
    This allows the user to avoid loading io.o from qhull.a
 
    copyright (c) 1993-2010 The Geometry Center.
-   $Id: //product/qhull/main/rel/src/io.c#33 $$Change: 1137 $
-   $DateTime: 2010/01/02 21:58:11 $$Author: bbarber $
+   $Id: //product/qhull/main/rel/src/io.c#34 $$Change: 1144 $
+   $DateTime: 2010/01/04 18:23:37 $$Author: bbarber $
 */
 
 #include "qhull_a.h"
@@ -1382,7 +1382,7 @@ void qh_printbegin(FILE *fp, qh_PRINT format, facetT *facetlist, setT *facets, b
         qh_fprintf(fp, 9042, "1 ");
       }
       qh_fprintf(fp, 9043, "# 1 point per line\n1 ");
-      for (i=num-1; i--; ) {
+      for (i=num-1; i--; ) { /* num at least 3 for D2 */
         if (i % 20 == 0)
           qh_fprintf(fp, 9044, "\n");
         qh_fprintf(fp, 9045, "0 ");

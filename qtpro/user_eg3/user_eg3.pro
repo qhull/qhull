@@ -4,7 +4,7 @@
 TARGET = user_eg3
 DESTDIR = ../..
 TEMPLATE = app
-CONFIG += console
+CONFIG += console warn_on
 LIBS += -L../..
 build_pass:CONFIG(debug, debug|release):{
    LIBS += libqhullcppd
