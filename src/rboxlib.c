@@ -396,7 +396,7 @@ int qh_rboxpoints(FILE* fout, FILE* ferr, char* rbox_command) {
 
   /* ============= simplex distribution =============== */
   if (issimplex+issimplex2) {
-    if (!(simplex= qh_malloc( dim * (dim+1) * sizeof(double)))) {
+    if (!(simplex= (double*)qh_malloc( dim * (dim+1) * sizeof(double)))) {
       qh_fprintf_rbox(rbox.ferr, 6196, "rbox error: insufficient memory for simplex\n");
       qh_errexit_rbox(qh_ERRmem); /* qh_ERRmem */
     }

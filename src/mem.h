@@ -115,7 +115,7 @@ struct qhmemT {               /* global memory management variables */
   void    *curbuffer;         /* current buffer, linked by offset 0 */
   void    *freemem;           /*   free memory in curbuffer */
   int 	   freesize;          /*   size of freemem in bytes */
-  void 	  *tempstack;         /* stack of temporary memory, managed by users */
+  setT 	  *tempstack;         /* stack of temporary memory, managed by users */
   FILE    *ferr;              /* file for reporting errors, only user is qh_fprintf() */
   int      IStracing;         /* =5 if tracing memory allocations */
   int      cntquick;          /* count of quick allocations */
