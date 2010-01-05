@@ -11,8 +11,8 @@
    see qhull_a.h for internal functions
 
    copyright (c) 1993-2010 The Geometry Center.
-   $Id: //product/qhull/main/rel/src/libqhull.c#3 $$Change: 1137 $
-   $DateTime: 2010/01/02 21:58:11 $$Author: bbarber $        
+   $Id: //product/qhull/main/rel/src/libqhull.c#4 $$Change: 1147 $
+   $DateTime: 2010/01/04 21:29:16 $$Author: bbarber $        
 */
 
 #include "qhull_a.h" 
@@ -1353,7 +1353,7 @@ Convex hull of %d points in %d-d:\n\n", size, qh hull_dim);
     cpu= (float)qh hulltime;
     cpu /= (float)qh_SECticks;
     wval_(Wcpu)= cpu;
-    qh_fprintf(fp, 9333, "  CPU seconds to compute hull(after input): %2.4g\n", cpu);
+    qh_fprintf(fp, 9333, "  CPU seconds to compute hull (after input): %2.4g\n", cpu);
   }
   if (qh RERUN) {
     if (!qh PREmerge && !qh MERGEexact)

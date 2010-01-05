@@ -751,7 +751,7 @@ struct qhT {
   realT last_newhigh;
   unsigned lastreport;    /* for qh_buildtracing */
   int mergereport;        /* for qh_tracemerging */
-  qhstatT *old_qhstat;       /* for saving qh_qhstat in save_qhull() and UsingLibQhull.  Free with qh_free() */
+  void *old_qhstat;       /* for saving qh_qhstat in save_qhull() and UsingLibQhull.  Free with qh_free() */
   setT *old_tempstack;    /* for saving qhmem.tempstack in save_qhull */
   int   ridgeoutnum;      /* number of ridges for 4OFF output (qh_printbegin,etc) */
 };

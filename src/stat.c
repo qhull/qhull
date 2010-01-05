@@ -7,8 +7,8 @@
    see qh-stat.htm and stat.h
 
    copyright (c) 1993-2010 The Geometry Center.
-   $Id: //product/qhull/main/rel/src/stat.c#25 $$Change: 1137 $
-   $DateTime: 2010/01/02 21:58:11 $$Author: bbarber $
+   $Id: //product/qhull/main/rel/src/stat.c#26 $$Change: 1147 $
+   $DateTime: 2010/01/04 21:29:16 $$Author: bbarber $
 */
 
 #include "qhull_a.h"
@@ -45,7 +45,7 @@ void qh_allstatA(void) {
   zdef_(wmin, Wmindenom, "min. denominator in hyperplane computation", -1);
 
   qhstat precision= qhstat next;  /* call qh_precision for each of these */
-  zzdef_(zdoc, Zdoc3, "precision problems(corrected unless 'Q0' or an error)", -1);
+  zzdef_(zdoc, Zdoc3, "precision problems (corrected unless 'Q0' or an error)", -1);
   zzdef_(zinc, Zcoplanarridges, "coplanar half ridges in output", -1);
   zzdef_(zinc, Zconcaveridges, "concave half ridges in output", -1);
   zzdef_(zinc, Zflippedfacets, "flipped facets", -1);

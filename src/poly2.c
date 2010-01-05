@@ -9,8 +9,8 @@
    frequently used code is in poly.c
 
    copyright (c) 1993-2010 The Geometry Center.
-   $Id: //product/qhull/main/rel/src/poly2.c#36 $$Change: 1144 $
-   $DateTime: 2010/01/04 18:23:37 $$Author: bbarber $
+   $Id: //product/qhull/main/rel/src/poly2.c#37 $$Change: 1147 $
+   $DateTime: 2010/01/04 21:29:16 $$Author: bbarber $
 */
 
 #include "qhull_a.h"
@@ -328,8 +328,7 @@ void qh_check_points(void) {
      total= (float)qh num_facets * (float)qh num_points;
   if (total >= qh_VERIFYdirect && !qh maxoutdone) {
     if (!qh_QUICKhelp && qh SKIPcheckmax && qh MERGING)
-      qh_fprintf(qh ferr, 7075, "\n\
-qhull input warning: merging without checking outer planes('Q5' or 'Po').\n\
+      qh_fprintf(qh ferr, 7075, "qhull input warning: merging without checking outer planes('Q5' or 'Po').\n\
 Verify may report that a point is outside of a facet.\n");
     qh_check_bestdist();
   }else {
@@ -339,8 +338,7 @@ Verify may report that a point is outside of a facet.\n");
       testouter= False;
     if (!qh_QUICKhelp) {
       if (qh MERGEexact)
-	qh_fprintf(qh ferr, 7076, "\n\
-qhull input warning: exact merge ('Qx').  Verify may report that a point\n\
+        qh_fprintf(qh ferr, 7076, "qhull input warning: exact merge ('Qx').  Verify may report that a point\n\
 is outside of a facet.  See qh-optq.htm#Qx\n");
       else if (qh SKIPcheckmax || qh NOnearinside)
 	qh_fprintf(qh ferr, 7077, "\n\

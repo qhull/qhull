@@ -90,6 +90,10 @@ To do
  - Add test of user_eg3, etc.
  - Add vcproj for qconvex, etc.
  - Review all ptr_intT
+ - Change tabs to spaces in src/*.c *.h
+ - Reconsider old_qhstat data type (amorilia)
+   libqhull.h:  qhstatT *old_qhstat;       /* for saving qh_qhstat in save_qhull() and UsingLibQhull.  Free with qh_free() */
+   mem.h:   setT      *tempstack;         /* stack of temporary memory, managed by users */
 
  - Run qhull regression tests
  

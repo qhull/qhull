@@ -12,8 +12,8 @@
      qh_errexit(qhmem_ERRqhull, NULL, NULL) otherwise
 
    copyright (c) 1993-2010 The Geometry Center.
-   $Id: //product/qhull/main/rel/src/mem.h#26 $$Change: 1144 $
-   $DateTime: 2010/01/04 18:23:37 $$Author: bbarber $
+   $Id: //product/qhull/main/rel/src/mem.h#27 $$Change: 1148 $
+   $DateTime: 2010/01/04 21:34:40 $$Author: bbarber $
 */
 
 #ifndef qhDEFmem
@@ -115,7 +115,7 @@ struct qhmemT {               /* global memory management variables */
   void    *curbuffer;         /* current buffer, linked by offset 0 */
   void    *freemem;           /*   free memory in curbuffer */
   int 	   freesize;          /*   size of freemem in bytes */
-  setT 	  *tempstack;         /* stack of temporary memory, managed by users */
+  void 	  *tempstack;         /* stack of temporary memory, managed by users */
   FILE    *ferr;              /* file for reporting errors, only user is qh_fprintf() */
   int      IStracing;         /* =5 if tracing memory allocations */
   int      cntquick;          /* count of quick allocations */
