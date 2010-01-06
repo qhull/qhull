@@ -22,7 +22,7 @@ To do for documentation
  - Better documentation for qhmem totshort, freesize, etc.
  - Clean up qhull-news.html XML
  - how to change .h, .c, and .cpp to text/html.  OK in Opera
- - need a page with all QHnnnn for web lookups
+ - Set up wiki for Qhull.  Include error and warning codes (QHnnnn).
  - QhullVertex.dimension() is not quite correct, epensive
  - Check globalAngleEpsilon
  - Deprecate save_qhull()
@@ -97,25 +97,16 @@ To do
    libqhull.h:  qhstatT *old_qhstat;       /* for saving qh_qhstat in save_qhull() and UsingLibQhull.  Free with qh_free() */
    mem.h:   setT      *tempstack;         /* stack of temporary memory, managed by users */
 
- - Ran qhull regression tests (eg/q_test)  Review the following problems
+ - Add library dependencies to .pro files.  For now, rebuild on changes.
  
- Output warning Qc
- rbox d D2 | qhull FQ n | qhalf s H0 Fc FP Fn FN FQ Fv Fx
+qhull 2010.0.3 2010/01/05
 
- Failed.  Premature exit
- rbox 1000 W0 | qhull QR2 QJ s Fs Tv
+Fixed bugs
+- 'QJn' (joggle): Fix qh.STOPcone in qh_build_withrestart().  It was not cleared. 
+- qh_initqhull_outputflags [global.c]: warn about Qc only if QHULLfinished, otherwise set if needed
 
- t not printed
- Statistics for: rbox 1000 W1e-20 t | qhull Tcv Qc
-
- 6668,7x outer plane
- Statistics for: rbox 1000 L100000 s G1e-6 t | qhull Tv Q10
-
- 5135.7x outer plane
- Statistics for: rbox 1000 s W1e-13 t | qhull d Tv
-
-
-qhull 2010.0.2  2010/01/04
+qhull 2010.0.2 2010/01/04
+- Reviewed output of q_test and compared to results from 2003.1
 
 Fixed bugs
 - qh_gethash [poly.c]: fix sign conversion.  Previously, the result may be negative, leading to a segfault.  
@@ -132,7 +123,7 @@ Code changes
 - Makefile.txt corrected for libqhull build [amorilia]
 - Renamed index to idx to avoid shadowing BSD strings.h [kwilliams]
 
-qhull 2010.0.1  2010/01/03
+qhull 2010.0.1 2010/01/03
 
 New Features:
  - Added option 'Ta' to annotate output with message codes
@@ -146,7 +137,7 @@ Preliminary C++ support:
 Changes to qhull options and results
  - Allow 'd' and 'v' as the filename for 'TO ..' and 'TI ...' in qdelaunay [M. Jambon]
  - Allow quoted filenames for 'TO ...' and 'TI ...'
- - Preceed error messages and warnings with a message code (e.g., QH6012)
+ - Prefix error messages and warnings with a message code (e.g., QH6012)
  - Fixed rbox ignoring flags that were not separated by spaces
  - Report all hidden options before exiting in qh_checkflags()
  - Defined qh_OPTIONline [user.h] as max length of option line ('FO') 

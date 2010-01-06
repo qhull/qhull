@@ -11,8 +11,8 @@
    see qhull_a.h for internal functions
 
    copyright (c) 1993-2010 The Geometry Center.
-   $Id: //product/qhull/main/rel/src/libqhull.c#5 $$Change: 1150 $
-   $DateTime: 2010/01/04 22:43:14 $$Author: bbarber $        
+   $Id: //product/qhull/main/rel/src/libqhull.c#6 $$Change: 1151 $
+   $DateTime: 2010/01/05 19:34:31 $$Author: bbarber $        
 */
 
 #include "qhull_a.h" 
@@ -108,7 +108,7 @@ void qh_qhull(void) {
   }
   qh hulltime= qh_CPUclock - qh hulltime;
   qh QHULLfinished= True;
-  trace1((qh ferr, 1036, "qh_qhull: algorithm completed\n"));
+  trace1((qh ferr, 1036, "Qhull: algorithm completed\n"));
 } /* qhull */
 
 /*-<a                             href="qh-qhull.htm#TOC"
@@ -295,12 +295,12 @@ void qh_build_withrestart(void) {
     if (restart) {       /* only from qh_precision() */
       zzinc_(Zretry);
       wmax_(Wretrymax, qh JOGGLEmax);
-      qh STOPcone= True; /* if break, prevents normal output */
+      /* QH7078 warns about using 'TCn' with 'QJn' */
+      qh STOPcone= -1; /* if break from joggle, prevents normal output */
     }
     if (!qh RERUN && qh JOGGLEmax < REALmax/2) {
       if (qh build_cnt > qh_JOGGLEmaxretry) {
-	qh_fprintf(qh ferr, 6229, "\n\
-qhull precision error: %d attempts to construct a convex hull\n\
+	qh_fprintf(qh ferr, 6229, "qhull precision error: %d attempts to construct a convex hull\n\
         with joggled input.  Increase joggle above 'QJ%2.2g'\n\
 	or modify qh_JOGGLE... parameters in user.h\n",
 	   qh build_cnt, qh JOGGLEmax);
@@ -310,6 +310,7 @@ qhull precision error: %d attempts to construct a convex hull\n\
 	break;
     }else if (qh build_cnt && qh build_cnt >= qh RERUN)
       break;
+    qh STOPcone= 0;
     qh_freebuild(True);  /* first call is a nop */
     qh build_cnt++;
     if (!qh qhull_optionsiz)
@@ -1226,7 +1227,7 @@ void qh_printsummary(FILE *fp) {
   if (id >=0 && qh STOPcone-1 != id && -qh STOPpoint-1 != id)
     size--;
   if (qh STOPcone || qh STOPpoint)
-      qh_fprintf(fp, 9288, "\nAt a premature exit due to 'TVn', 'TCn', 'TRn', or precision error.");
+      qh_fprintf(fp, 9288, "\nAt a premature exit due to 'TVn', 'TCn', 'TRn', or precision error with 'QJn'.");
   if (qh UPPERdelaunay)
     goodused= qh GOODvertex + qh GOODpoint + qh SPLITthresholds;
   else if (qh DELAUNAY)

@@ -336,16 +336,6 @@ int qh_rboxpoints(FILE* fout, FILE* ferr, char* rbox_command) {
     totpoints= numpoints + isaxis;
   totpoints += cubesize + diamondsize + addpoints;
 
-  if (iscdd) 
-    qh_fprintf_rbox(rbox.fout, 9391, "%s\nbegin\n        %d %d %s\n", 
-          NOcommand ? "" : command, 
-          totpoints, dim+1,
-          rbox.isinteger ? "integer" : "real");
-  else if (NOcommand)
-    qh_fprintf_rbox(rbox.fout, 9392, "%d\n%d\n", dim, totpoints);
-  else
-    qh_fprintf_rbox(rbox.fout, 9393, "%d %s\n%d\n", dim, command, totpoints);
-
   /* ============= seed randoms =============== */
   if (istime == 0) {
     for (s=command; *s; s++) {
@@ -357,10 +347,25 @@ int qh_rboxpoints(FILE* fout, FILE* ferr, char* rbox_command) {
     }
   }else if (israndom) {
     seed= time(&timedata);
-    sprintf(seedbuf, " t%d", seed);
+    sprintf(seedbuf, " t%d", seed);  /* appends an extra t, not worth removing */
     strncat(command, seedbuf, sizeof(command));
+    t= strstr(command, " t ");
+    if (t)
+      strcpy(t+1, t+3); /* remove " t " */
   } /* else, seed explicitly set to n */
   qh_RANDOMseed_(seed);
+
+  /* ============= print header =============== */
+
+  if (iscdd) 
+      qh_fprintf_rbox(rbox.fout, 9391, "%s\nbegin\n        %d %d %s\n", 
+      NOcommand ? "" : command, 
+      totpoints, dim+1,
+      rbox.isinteger ? "integer" : "real");
+  else if (NOcommand)
+      qh_fprintf_rbox(rbox.fout, 9392, "%d\n%d\n", dim, totpoints);
+  else
+      qh_fprintf_rbox(rbox.fout, 9393, "%d %s\n%d\n", dim, command, totpoints);
 
   /* ============= explicit points =============== */
   if ((s= first_point)) {

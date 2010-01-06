@@ -1,5 +1,5 @@
 
- Qhull 2010.0.2  2010/01/04
+ Qhull 2010.0.3  2010/01/05
 
         http://www.qhull.org
         git@gitorious.org:qhull/qhull.git

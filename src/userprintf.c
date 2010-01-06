@@ -58,6 +58,9 @@ void qh_fprintf(FILE *fp, int msgcode, const char *fmt, ... ) {
     }
     vfprintf(fp, fmt, args);
     va_end(args);
+
+    /* Place debugging traps here. Use with option 'Tn' */
+
 } /* qh_fprintf */
 
 void qh_fprintf_rbox(FILE *fp, int msgcode, const char *fmt, ... ) {

@@ -1025,6 +1025,9 @@ qhull(1)                                                 qhull(1)
               includes  information  about  memory allocation and
               Gaussian elimination.
 
+       Ta     Annotate output with codes that identify the 
+              corresponding qh_fprintf() statement.
+
        Tc     Check frequently during execution.  This will catch
               most inconsistency errors.
 

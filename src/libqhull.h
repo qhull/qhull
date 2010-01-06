@@ -7,8 +7,8 @@
    see qh-qhull.htm, qhull_a.h
 
    copyright (c) 1993-2010 The Geometry Center.
-   $Id: //product/qhull/main/rel/src/libqhull.h#4 $$Change: 1137 $
-   $DateTime: 2010/01/02 21:58:11 $$Author: bbarber $
+   $Id: //product/qhull/main/rel/src/libqhull.h#5 $$Change: 1151 $
+   $DateTime: 2010/01/05 19:34:31 $$Author: bbarber $
 
    NOTE: access to qh_qh is via the 'qh' macro.  This allows
    qh_qh to be either a pointer or a structure.  An example
@@ -516,7 +516,7 @@ struct qhT {
   boolT SKIPconvex;       /* true 'Q6' if skip convexity testing during pre-merge */
   boolT SPLITthresholds;  /* true if upper_/lower_threshold defines a region
                                used only for printing (!for qh ONLYgood) */
-  int	STOPcone;         /* 'TCn' 1+n for stopping after cone for point n*/
+  int	STOPcone;         /* 'TCn' 1+n for stopping after cone for point n */
 			  /*       also used by qh_build_withresart for err exit*/
   int	STOPpoint;        /* 'TVn' 'TV-n' 1+n for stopping after/before(-)
 			                adding point n */
@@ -999,12 +999,14 @@ void	qh_printhelp_narrowhull(FILE *fp, realT minangle);
 void	qh_printhelp_singular(FILE *fp);
 void 	qh_user_memsizes(void);
 
-/********* -user2.c prototypes (alphabetical) **********************/
+/********* -usermem.c prototypes (alphabetical) **********************/
 void    qh_exit(int exitcode);
-void	qh_fprintf(FILE *fp, int msgcode, const char *fmt, ... );
-void	qh_fprintf_rbox(FILE *fp, int msgcode, const char *fmt, ... );
 void    qh_free(void *mem);
 void   *qh_malloc(size_t size);
+
+/********* -userprintf.c prototypes (alphabetical) **********************/
+void	qh_fprintf(FILE *fp, int msgcode, const char *fmt, ... );
+void	qh_fprintf_rbox(FILE *fp, int msgcode, const char *fmt, ... );
 
 /***** -geom.c/geom2.c/random.c prototypes (duplicated from geom.h, random.h) ****************/
 

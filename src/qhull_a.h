@@ -13,8 +13,8 @@
    defines internal functions for libqhull.c global.c
 
    copyright (c) 1993-2010 The Geometry Center.
-   $Id: //product/qhull/main/rel/src/qhull_a.h#25 $$Change: 1137 $
-   $DateTime: 2010/01/02 21:58:11 $$Author: bbarber $
+   $Id: //product/qhull/main/rel/src/qhull_a.h#26 $$Change: 1151 $
+   $DateTime: 2010/01/05 19:34:31 $$Author: bbarber $
 
    Notes:  grep for ((" and (" to catch fprintf("lkasdjf");
            full parens around (x?y:z)
@@ -69,6 +69,8 @@
 
   traceN((qh ferr, 0Nnnn, "format\n", vars));
     calls qh_fprintf if qh.IStracing >= N
+
+    Add debugging traps to the end of qh_fprintf
 
   notes:
     removing tracing reduces code size but doesn't change execution speed

@@ -7,8 +7,8 @@
    see qh-stat.htm and stat.c
 
    copyright (c) 1993-2010 The Geometry Center.
-   $Id: //product/qhull/main/rel/src/stat.h#26 $$Change: 1150 $
-   $DateTime: 2010/01/04 22:43:14 $$Author: bbarber $
+   $Id: //product/qhull/main/rel/src/stat.h#27 $$Change: 1151 $
+   $DateTime: 2010/01/05 19:34:31 $$Author: bbarber $
 
    recompile qhull if you change this file
 
@@ -352,7 +352,7 @@ enum ztypes {zdoc,zinc,zadd,zmax,zmin,ZTYPEreal,wadd,wmax,wmin,ZTYPEend};
   MAYdebugx
     define as maydebug() to be called frequently for error trapping
 */
-#define MAYdebugx 
+#define MAYdebugx
 
 /*-<a                             href="qh-stat.htm#TOC"
   >--------------------------------</a><a name="zdef_">-</a>

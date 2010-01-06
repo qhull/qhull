@@ -12,8 +12,8 @@
    see qhull_a.h for internal functions
 
    copyright (c) 1993-2010 The Geometry Center.
-   $Id: //product/qhull/main/rel/src/global.c#53 $$Change: 1150 $
-   $DateTime: 2010/01/04 22:43:14 $$Author: bbarber $
+   $Id: //product/qhull/main/rel/src/global.c#55 $$Change: 1152 $
+   $DateTime: 2010/01/05 22:11:10 $$Author: bbarber $
  */
 
 #include "qhull_a.h"
@@ -47,7 +47,7 @@ qhT qh_qh;     		/* all global variables.
     recompile user_eg.c, rbox.c, libqhull.c, qconvex.c, qdelaun.c qvoronoi.c, qhalf.c
 */
 
-const char *qh_version = "2010.0.2 2010/01/04";
+const char *qh_version = "2010.0.3 2010/01/05";
 
 /*-<a                             href="qh-globa.htm#TOC"
   >-------------------------------</a><a name="appendprint">-</a>
@@ -1405,6 +1405,8 @@ void qh_initflags(char *command) {
 	s++;
     }
   }
+  if (qh STOPcone && qh JOGGLEmax < REALmax/2)
+    qh_fprintf(qh ferr, 7078, "qhull warning: 'TCn' (stopCone) ignored when used with 'QJn' (joggle)\n");
   if (isgeom && !qh FORCEoutput && qh PRINTout[1])
     qh_fprintf(qh ferr, 7037, "qhull warning: additional output formats are not compatible with Geomview\n");
   /* set derived values in qh_initqhull_globals */
@@ -1749,10 +1751,6 @@ void qh_initqhull_outputflags(void) {
     if (qh PRINTprecision) 
       qh_fprintf(qh ferr, 7041, "qhull input warning: 'QJ' (joggle) will usually prevent coincident input sites for options 'Fc' and 'FP'\n");
   }
-  if (!qh KEEPcoplanar && !qh KEEPinside && !qh ONLYgood
-    && ((qh PRINTcoplanar && qh PRINTspheres) || printcoplanar)) {
-        qh_fprintf(qh ferr, 7072, "qhull output warning: ignoring coplanar points, option 'Qc' not set for qhull.\n");
-  }
   if (printmath && (qh hull_dim > 3 || qh VORONOI)) {
     qh_fprintf(qh ferr, 6056, "qhull input error: Mathematica and Maple output is only available for 2-d and 3-d convex hulls and 2-d Delaunay triangulations\n");
     qh_errexit(qh_ERRinput, NULL, NULL);
@@ -1780,10 +1778,14 @@ available for 4-d output(ignored).  Could use 'GDn' instead.\n");
     }
   }
   if (!qh KEEPcoplanar && !qh KEEPinside && !qh ONLYgood) {
-      if ((qh PRINTcoplanar && qh PRINTspheres) || printcoplanar) {
-          qh KEEPcoplanar = True;
-          qh_option("Qcoplanar", NULL, NULL);
+    if ((qh PRINTcoplanar && qh PRINTspheres) || printcoplanar) {
+      if (qh QHULLfinished) {
+        qh_fprintf(qh ferr, 7072, "qhull output warning: ignoring coplanar points, option 'Qc' was not set for the first run of qhull.\n");
+      }else {
+        qh KEEPcoplanar = True;
+        qh_option("Qcoplanar", NULL, NULL);
       }
+    }
   }
   qh PRINTdim= qh hull_dim;
   if (qh DROPdim >=0) {    /* after Geomview checks */

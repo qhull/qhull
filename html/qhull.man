@@ -856,6 +856,10 @@ execution and geometric and topological events.  'T4' traces the
 algorithm.  'T5' includes information about memory allocation and
 Gaussian elimination.
 .TP
+Ta
+Annotate output with codes that identify the 
+corresponding qh_fprintf() statement.
+.TP
 Tc
 Check frequently during execution.  This will catch most inconsistency
 errors.
