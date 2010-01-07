@@ -1,8 +1,8 @@
 # -------------------------------------------------
-# qconvex.pro -- Qt project file for qconvex.exe
+# qvoronoi.pro -- Qt project file for qvoronoi.exe
 # -------------------------------------------------
 
-TARGET = qconvex
+TARGET = qvoronoi
 DESTDIR = ../..
 TEMPLATE = app
 CONFIG += console warn_on
@@ -12,15 +12,17 @@ QMAKE_CFLAGS += -Wall -Wextra -Wshadow -Wcast-qual -Wwrite-strings
 QMAKE_CFLAGS += -Wno-sign-conversion # Many size_t vs. int errors
 build_pass:CONFIG(debug, debug|release):{
    LIBS += libqhulld
-   OBJECTS_DIR = ../../tmp/qconvex/Debug
+   PRE_TARGETDEPS += ../../libqhulld.a
+   OBJECTS_DIR = ../../tmp/qvoronoi/Debug
 }else:build_pass:CONFIG(release, debug|release):{
    LIBS += libqhull
-   OBJECTS_DIR = ../../tmp/qconvex/Release
+   PRE_TARGETDEPS += ../../libqhull.a
+   OBJECTS_DIR = ../../tmp/qvoronoi/Release
 }
 QT -= gui
 MOC_DIR = ../../tmp/moc
 RCC_DIR = ../../tmp/rcc
 INCLUDEPATH = ../../tmp
 VPATH = ../..
-SOURCES += src/qconvex.c
+SOURCES += src/qvoronoi.c
 HEADERS += src/libqhull.h

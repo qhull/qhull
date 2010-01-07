@@ -10,10 +10,12 @@ CONFIG -= app_bundle
 LIBS += -L../..
 build_pass:CONFIG(debug, debug|release):{
    LIBS += libqhullcppd
+   PRE_TARGETDEPS += ../../libqhullcppd.a
    OBJECTS_DIR = ../../tmp/qhulltest/Debug
 }else:build_pass:CONFIG(release, debug|release):{
    LIBS += libqhullcpp
    OBJECTS_DIR = ../../tmp/qhulltest/Release
+   PRE_TARGETDEPS += ../../libqhullcpp.a
 }
 QT -= gui
 MOC_DIR = ../../tmp/moc

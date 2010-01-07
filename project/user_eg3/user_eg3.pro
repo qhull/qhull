@@ -8,9 +8,11 @@ CONFIG += console warn_on
 LIBS += -L../..
 build_pass:CONFIG(debug, debug|release):{
    LIBS += libqhullcppd
+   PRE_TARGETDEPS += ../../libqhullcppd.a
    OBJECTS_DIR = ../../tmp/user_eg3/Debug
 }else:build_pass:CONFIG(release, debug|release):{
    LIBS += libqhullcpp
+   PRE_TARGETDEPS += ../../libqhullcpp.a
    OBJECTS_DIR = ../../tmp/user_eg3/Release
 }
 QT -= gui

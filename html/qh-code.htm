@@ -212,8 +212,10 @@ C++ programs</a></h2>
 incomplete.  You will need to extend the interface for all
 but the simplest applications.
 You will need to understand the data structures and read the code.
-Most users will find it easier to call Qhull as an external
-command.
+Most users will find it easier to call Qhull as a program.
+
+<p><b>Note:</b>  Please download the latest sources from
+git://gitorious.org/qhull/qhull.git
 
 <p>
 Qhull's C++ interface provides wrapper classes for Qhull and Rbox.  It provides access to Qhull's data structures.
@@ -261,8 +263,7 @@ See RboxPoints.cpp for an example.
 A more flexible approach extends Qhull's classes.  For example,
 to access the vertices of a <a href="#facet-cpp">QhullFacet</a>,
 define a constructor of <a href="#vertexset-cpp">QhullVertexSet</a>
-that takes a QhullFacet as a parameter.  Please send these extensions
-to bradb@shore.net for incorporation into Qhull.
+that takes a QhullFacet as a parameter.
 </p>
 <p>
 With care, you may create multiple Qhull instances, but only one instance may be active at time.

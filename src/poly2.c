@@ -9,8 +9,8 @@
    frequently used code is in poly.c
 
    copyright (c) 1993-2010 The Geometry Center.
-   $Id: //product/qhull/main/rel/src/poly2.c#38 $$Change: 1150 $
-   $DateTime: 2010/01/04 22:43:14 $$Author: bbarber $
+   $Id: //product/qhull/main/rel/src/poly2.c#39 $$Change: 1154 $
+   $DateTime: 2010/01/06 20:41:28 $$Author: bbarber $
 */
 
 #include "qhull_a.h"
@@ -341,8 +341,7 @@ Verify may report that a point is outside of a facet.\n");
         qh_fprintf(qh ferr, 7076, "qhull input warning: exact merge ('Qx').  Verify may report that a point\n\
 is outside of a facet.  See qh-optq.htm#Qx\n");
       else if (qh SKIPcheckmax || qh NOnearinside)
-	qh_fprintf(qh ferr, 7077, "\n\
-qhull input warning: no outer plane check ('Q5') or no processing of\n\
+        qh_fprintf(qh ferr, 7077, "qhull input warning: no outer plane check ('Q5') or no processing of\n\
 near-inside points ('Q8').  Verify may report that a point is outside\n\
 of a facet.\n");
     }

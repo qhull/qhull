@@ -73,31 +73,43 @@ Qhull cpp questions
 To do
  - ConvexHull is a submodule to git.  How to get rid of?
  - Review Warn64
- - SUBDIRS to sln -- qmake -tp vc
  - review all #pragma
  - review all FIXUP [^0-9]
  - clean up warnings for libqhullcpp
-117.405 - Abandon savannah
- - Add config directory to Qhull
- - Fix README Visual C++ quickstart
+ - Abandon savannah
  - Review changes with Kent Williams
    Keep size of qh_set as int, set.h, global.c
    Keep size of qh_mem as int, mem.h, global.c
-   Why rename index in qh_initthresholds(), poly2.c, qhull.c -- Seems OK
  - Measure performance of Qhull
  - qhulltest --all added to output
  - Number the FIXUPS
- - Review qh-code.htm#cpp
  - Add test of user_eg3, etc.
- - Add vcproj for qconvex, etc.
  - Review all ptr_intT
  - Change tabs to spaces in src/*.c *.h
  - Check for wraparound of 64-bit ints -- e.g., a large set
  - Reconsider old_qhstat data type (amorilia)
    libqhull.h:  qhstatT *old_qhstat;       /* for saving qh_qhstat in save_qhull() and UsingLibQhull.  Free with qh_free() */
    mem.h:   setT      *tempstack;         /* stack of temporary memory, managed by users */
+ - Add vcproj for qconvex, etc. Change qhullcpp to libqhull.dll
+ - Add config directory to Qhull
+ - Generate vcproj from qtpro files
+   cd qtpro && qmake -spec win32-msvc2005 -tp vc -recursive
+   sed -i 's/C\:\/bash\/local\/qhull\/qtpro\///' qhull-all.sln
+ - Add output of qhulltest to source
+ - Make distribution -- remove tmp, news, .git, leftovers from project, change CRLF
 
- - Add library dependencies to .pro files.  For now, rebuild on changes.
+qhull 2010.1 2010/01/06
+
+- Fixed serious bug in qh_gethash [poly.c] 
+- Documentation and build system are incomplete (see above)
+- First release of C++ interface [qh-code.htm]
+- Development moved to http://gitorious.org/qhull 
+  git clone git@gitorious.org:qhull/qhull.git
+- Did not fix conformant tesselations for 'Qt'.  
+  For details, see http://www.qhull.org/news#bugs of May 2007 and Dec 2006.
+- Use g++ builds for Windows distribution (10% faster than msvc2005)
+  Combined vcproj/ and qtproj/ into project/
+  vcproj will be replaced by qmake generated files
  
 qhull 2010.0.3 2010/01/05
 
@@ -123,7 +135,7 @@ Code changes
 - Makefile.txt corrected for libqhull build [amorilia]
 - Renamed index to idx to avoid shadowing BSD strings.h [kwilliams]
 
-qhull 2010.0.1 2010/01/03
+qhull 2010.0.1  2010/01/03
 
 New Features:
  - Added option 'Ta' to annotate output with message codes
@@ -136,6 +148,7 @@ Preliminary C++ support:
 
 Changes to qhull options and results
  - Allow 'd' and 'v' as the filename for 'TO ..' and 'TI ...' in qdelaunay [M. Jambon]
+ - 'rbox tN' requires an integer (previously allowed floats)
  - Allow quoted filenames for 'TO ...' and 'TI ...'
  - Prefix error messages and warnings with a message code (e.g., QH6012)
  - Fixed rbox ignoring flags that were not separated by spaces
@@ -147,7 +160,6 @@ Changes to qhull options and results
  - Removed extra spaces at end of line
 
 Breaking Code Changes:
- - 'rbox tN' takes an integer (previously allowed floats)
  - Renamed qh.coplanarset to coplanarfacetset.  Avoids conflict with facetT.coplanarset
  - qh_restore_qhull() zeroes out qh.old_qhstat and qh.old_tempstack.  Ownership moved.
  - Rewrote save_qhull/restore_qhull
