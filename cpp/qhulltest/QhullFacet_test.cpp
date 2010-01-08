@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/qhulltest/QhullFacet_test.cpp#31 $$Change: 1139 $
-** $DateTime: 2010/01/03 11:20:29 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/qhulltest/QhullFacet_test.cpp#32 $$Change: 1164 $
+** $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -58,8 +58,8 @@ cleanup()
 
 void QhullFacet_test::
 t_constructConvert()
-{ 
-    // Qhull.runQhull() constructs QhullFacets as facetT 
+{
+    // Qhull.runQhull() constructs QhullFacets as facetT
     QhullFacet f;
     QVERIFY(!f.isDefined());
     QCOMPARE(f.dimension(),0);
@@ -81,7 +81,7 @@ t_constructConvert()
 
 void QhullFacet_test::
 t_getSet()
-{ 
+{
     RboxPoints rcube("c");
     {
         Qhull q(rcube,"Qt QR0");  // triangulation of rotated unit cube
@@ -92,7 +92,7 @@ t_getSet()
             const QhullFacet f= i.next();
             cout << f.id() << endl;
             QCOMPARE(f.dimension(),3);
-            QVERIFY(f.id()>0 && f.id()<=39); 
+            QVERIFY(f.id()>0 && f.id()<=39);
             QVERIFY(f.isDefined());
             if(i.hasNext()){
                 QCOMPARE(f.next(), i.peekNext());
@@ -120,7 +120,7 @@ t_getSet()
         int tricoplanarCount2= 0;
         foreach (QhullFacet f, q.facetList()){  // Qt only
             QhullHyperplane h= f.hyperplane();
-            cout << "Hyperplane: " << h << endl; 
+            cout << "Hyperplane: " << h << endl;
             QCOMPARE(h.count(), 3);
             QCOMPARE(h.offset(), -0.5);
             double n= h.norm();
@@ -161,7 +161,7 @@ t_getSet()
             QVERIFY(center4[i]==center3[i]);
         }
         Qhull q3(rcube,"v Qz QR0");  // Voronoi diagram of a cube (one vertex)
-        
+
         UsingLibQhull::setGlobalDistanceEpsilon(1e-12); // Voronoi vertices are not necessarily within distance episilon
         foreach(QhullFacet f, q3.facetList()){ //Qt only
             if(f.isGood()){
@@ -176,7 +176,7 @@ t_getSet()
 
 void QhullFacet_test::
 t_value()
-{   
+{
     RboxPoints rcube("c");
     {
         Qhull q(rcube, "");
@@ -198,7 +198,7 @@ t_value()
 
 void QhullFacet_test::
 t_foreach()
-{   
+{
     RboxPoints rcube("c W0 300");  // 300 points on surface of cube
     {
         Qhull q(rcube, "QR0 Qc"); // keep coplanars, thick facet, and rotate the cube
@@ -227,7 +227,7 @@ t_foreach()
 
 void QhullFacet_test::
 t_io()
-{   
+{
     RboxPoints rcube("c");
     {
         Qhull q(rcube, "");

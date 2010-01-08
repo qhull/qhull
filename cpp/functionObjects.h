@@ -1,26 +1,26 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/functionObjects.h#7 $$Change: 1139 $
-** $DateTime: 2010/01/03 11:20:29 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/functionObjects.h#8 $$Change: 1164 $
+** $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
 **
 ****************************************************************************/
 
 #ifndef QHFUNCTIONOBJECTS_H
 #define QHFUNCTIONOBJECTS_H
 
-#include <stdlib.h> 
+#include <stdlib.h>
 #include <math.h> // abs()
 
 namespace orgQhull {
 #//Type
 
     //! Sum of absolute values of the elements in a container
-    class AbsoluteSumOf; 
+    class AbsoluteSumOf;
     //! Sum of the elements in a container
-    class SumOf; 
+    class SumOf;
     //! Sum of squares of the elements in a container
-    class SumSquaresOf; 
+    class SumSquaresOf;
 
 #//Class
 

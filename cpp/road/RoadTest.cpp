@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/road/RoadTest.cpp#12 $$Change: 1139 $
-** $DateTime: 2010/01/03 11:20:29 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/road/RoadTest.cpp#13 $$Change: 1164 $
+** $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -61,12 +61,12 @@ runTests(QStringList arguments)
 
     foreach(RoadTest *testcase, s_testcases){
         try{
-            result += QTest::qExec(testcase, arguments); 
+            result += QTest::qExec(testcase, arguments);
         }catch(const std::exception &e){
             cout << "FAIL!  : Threw error ";
             cout << e.what() << endl;
     s_test_count++;
-            testcase->recordFailedTest();     
+            testcase->recordFailedTest();
             // Qt 4.5.2 OK.  In Qt 4.3.3, qtestcase did not clear currentTestObject
         }
     }

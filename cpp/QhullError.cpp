@@ -19,7 +19,7 @@ using std::string;
 
 typedef std::auto_ptr<std::stringstream> StringStreamPointer; //! auto_ptr transfers ownership on copy
 
-#ifdef _MSC_VER  // Microsoft Visual C++ -- warning level 4 
+#ifdef _MSC_VER  // Microsoft Visual C++ -- warning level 4
 #endif
 
 namespace orgQhull {

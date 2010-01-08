@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/road/RoadError.h#19 $$Change: 1139 $
-** $DateTime: 2010/01/03 11:20:29 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/road/RoadError.h#20 $$Change: 1164 $
+** $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -22,7 +22,7 @@ namespace orgQhull {
 
 #//Types
     //! RoadError -- Report and log errors
-    //!  See discussion in Saylan, G., "Practical C++ error handling in hybrid environments," Dr. Dobb's Journal, p. 50-55, March 2007.  
+    //!  See discussion in Saylan, G., "Practical C++ error handling in hybrid environments," Dr. Dobb's Journal, p. 50-55, March 2007.
     //!   He uses an auto_ptr to track a stringstream.  It constructs a string on the fly.  RoadError uses the copy constructor to transform RoadLogEvent into a string
     class RoadError;
 

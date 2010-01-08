@@ -1,7 +1,7 @@
 /*<html><pre>  -<a                             href="qh-user.htm"
   >-------------------------------</a><a name="TOP">-</a>
 
-   user.c 
+   user.c
    user redefinable functions
 
    see user2.c for qh_fprintf, qh_malloc, qh_free
@@ -20,10 +20,10 @@
 
    This is unsupported software.  You're welcome to make changes,
    but you're on your own if something goes wrong.  Use 'Tc' to
-   check frequently.  Usually qhull will report an error if 
+   check frequently.  Usually qhull will report an error if
    a data structure becomes inconsistent.  If so, it also reports
    the last point added to the hull, e.g., 102.  You can then trace
-   the execution of qhull with "T4P102".  
+   the execution of qhull with "T4P102".
 
    Please report any errors that you fix to qhull@qhull.org
 
@@ -36,11 +36,11 @@
 
    if the other functions here are redefined to not use qh_print...,
    then io.o will not be loaded from qhull.a.  See user_eg.c for an
-   example.  We recommend keeping io.o for the extra debugging 
+   example.  We recommend keeping io.o for the extra debugging
    information it supplies.
 */
 
-#include "qhull_a.h" 
+#include "qhull_a.h"
 
 #include <stdarg.h>
 
@@ -51,34 +51,34 @@
     template for calling qhull from inside your program
     remove #if 0, #endif to compile
 
-  returns: 
+  returns:
     exit code(see qh_ERR... in libqhull.h)
     all memory freed
 
   notes:
-    This can be called any number of times.  
+    This can be called any number of times.
 
   see:
     qh_call_qhull_once()
-    
+
 */
 #if 0
 {
-  int dim;	            /* dimension of points */
+  int dim;                  /* dimension of points */
   int numpoints;            /* number of points */
   coordT *points;           /* array of coordinates for each point */
   boolT ismalloc;           /* True if qhull should free points in qh_freeqhull() or reallocation */
   char flags[]= "qhull Tv"; /* option flags for qhull, see qh_opt.htm */
   FILE *outfile= stdout;    /* output from qh_produce_output()
-			       use NULL to skip qh_produce_output() */
+                               use NULL to skip qh_produce_output() */
   FILE *errfile= stderr;    /* error messages from qhull code */
   int exitcode;             /* 0 if no error from qhull */
-  facetT *facet;	    /* set by FORALLfacets */
-  int curlong, totlong;	    /* memory remaining after qh_memfreeshort */
+  facetT *facet;            /* set by FORALLfacets */
+  int curlong, totlong;     /* memory remaining after qh_memfreeshort */
 
   /* initialize dim, numpoints, points[], ismalloc here */
   exitcode= qh_new_qhull(dim, numpoints, points, ismalloc,
-                      flags, outfile, errfile); 
+                      flags, outfile, errfile);
   if (!exitcode) {                  /* if no error */
     /* 'qh facet_list' contains the convex hull */
     FORALLfacets {
@@ -87,7 +87,7 @@
   }
   qh_freeqhull(!qh_ALL);
   qh_memfreeshort(&curlong, &totlong);
-  if (curlong || totlong) 
+  if (curlong || totlong)
     qh_fprintf(errfile, 7068, "qhull internal warning (main): did not free %d bytes of long memory(%d pieces)\n", totlong, curlong);
 }
 #endif
@@ -108,9 +108,9 @@
     qhull_cmd must start with "qhull "
     projects points to a new point array for Delaunay triangulations ('d' and 'v')
     transforms points into a new point array for halfspace intersection ('H')
-       
 
-  To allow multiple, concurrent calls to qhull() 
+
+  To allow multiple, concurrent calls to qhull()
     - set qh_QHpointer in user.h
     - use qh_save_qhull and qh_restore_qhull to swap the global data structure between calls.
     - use qh_freeqhull(qh_ALL) to free intermediate convex hulls
@@ -118,8 +118,8 @@
   see:
     user_eg.c for an example
 */
-int qh_new_qhull(int dim, int numpoints, coordT *points, boolT ismalloc, 
-		char *qhull_cmd, FILE *outfile, FILE *errfile) {
+int qh_new_qhull(int dim, int numpoints, coordT *points, boolT ismalloc,
+                char *qhull_cmd, FILE *outfile, FILE *errfile) {
   int exitcode, hulldim;
   boolT new_ismalloc;
   static boolT firstcall = True;
@@ -143,14 +143,14 @@ int qh_new_qhull(int dim, int numpoints, coordT *points, boolT ismalloc,
     if (qh DELAUNAY)
       qh PROJECTdelaunay= True;
     if (qh HALFspace) {
-      /* points is an array of halfspaces, 
+      /* points is an array of halfspaces,
          the last coordinate of each halfspace is its offset */
       hulldim= dim-1;
-      qh_setfeasible(hulldim); 
+      qh_setfeasible(hulldim);
       new_points= qh_sethalfspace_all(dim, numpoints, points, qh feasible_point);
       new_ismalloc= True;
       if (ismalloc)
-	qh_free(points);
+        qh_free(points);
     }else {
       hulldim= dim;
       new_points= points;
@@ -160,7 +160,7 @@ int qh_new_qhull(int dim, int numpoints, coordT *points, boolT ismalloc,
     qh_qhull();
     qh_check_output();
     if (outfile)
-      qh_produce_output(); 
+      qh_produce_output();
     if (qh VERIFYoutput && !qh STOPpoint && !qh STOPcone)
       qh_check_points();
   }
@@ -170,14 +170,14 @@ int qh_new_qhull(int dim, int numpoints, coordT *points, boolT ismalloc,
 
 /*-<a                             href="qh-user.htm#TOC"
   >-------------------------------</a><a name="errexit">-</a>
-  
+
   qh_errexit( exitcode, facet, ridge )
     report and exit from an error
     report facet and ridge if non-NULL
     reports useful information such as last point processed
     set qh.FORCEoutput to print neighborhood of facet
 
-  see: 
+  see:
     qh_errexit2() in libqhull.c for printing 2 facets
 
   design:
@@ -188,7 +188,7 @@ int qh_new_qhull(int dim, int numpoints, coordT *points, boolT ismalloc,
     print summary and statistics (including precision statistics)
     if qh_ERRsingular
       print help text for singular data set
-    exit program via long jump (if defined) or exit()      
+    exit program via long jump (if defined) or exit()
 */
 void qh_errexit(int exitcode, facetT *facet, ridgeT *ridge) {
 
@@ -219,9 +219,9 @@ void qh_errexit(int exitcode, facetT *facet, ridgeT *ridge) {
       qh_fprintf(qh ferr, 8134, "\nAt error exit:\n");
       qh_printsummary(qh ferr);
       if (qh PRINTstatistics) {
-	qh_collectstatistics();
-	qh_printstatistics(qh ferr, "at error exit");
-	qh_memstatistics(qh ferr);
+        qh_collectstatistics();
+        qh_printstatistics(qh ferr, "at error exit");
+        qh_memstatistics(qh ferr);
       }
     }
     if (qh PRINTprecision)
@@ -245,11 +245,11 @@ void qh_errexit(int exitcode, facetT *facet, ridgeT *ridge) {
 
 /*-<a                             href="qh-user.htm#TOC"
   >-------------------------------</a><a name="errprint">-</a>
-  
+
   qh_errprint( fp, string, atfacet, otherfacet, atridge, atvertex )
     prints out the information of facets and ridges to fp
     also prints neighbors and geomview output
-    
+
   notes:
     except for string, any parameter may be NULL
 */
@@ -270,7 +270,7 @@ void qh_errprint(const char *string, facetT *atfacet, facetT *otherfacet, ridgeT
     if (atridge->top && atridge->top != atfacet && atridge->top != otherfacet)
       qh_printfacet(qh ferr, atridge->top);
     if (atridge->bottom
-	&& atridge->bottom != atfacet && atridge->bottom != otherfacet)
+        && atridge->bottom != atfacet && atridge->bottom != otherfacet)
       qh_printfacet(qh ferr, atridge->bottom);
     if (!atfacet)
       atfacet= atridge->top;
@@ -285,17 +285,17 @@ void qh_errprint(const char *string, facetT *atfacet, facetT *otherfacet, ridgeT
     qh_fprintf(qh ferr, 8139, "ERRONEOUS and NEIGHBORING FACETS to output\n");
     for (i=0; i < qh_PRINTEND; i++)  /* use fout for geomview output */
       qh_printneighborhood(qh fout, qh PRINTout[i], atfacet, otherfacet,
-			    !qh_ALL);
+                            !qh_ALL);
   }
 } /* errprint */
 
 
 /*-<a                             href="qh-user.htm#TOC"
   >-------------------------------</a><a name="printfacetlist">-</a>
-  
+
   qh_printfacetlist( fp, facetlist, facets, printall )
     print all fields for a facet list and/or set of facets to fp
-    if !printall, 
+    if !printall,
       only prints good facets
 
   notes:
@@ -391,7 +391,7 @@ To guarantee simplicial output:\n\
 
 /*-<a                             href="qh-globa.htm#TOC"
   >-------------------------------</a><a name="printhelp_narrowhull">-</a>
-  
+
   qh_printhelp_narrowhull( minangle )
     Warn about a narrow hull
 
@@ -504,7 +504,7 @@ This is a Delaunay triangulation and the input is co-circular or co-spherical:\n
 
 /*-<a                             href="qh-globa.htm#TOC"
   >-------------------------------</a><a name="user_memsizes">-</a>
-  
+
   qh_user_memsizes()
     allocate up to 10 additional, quick allocation sizes
 

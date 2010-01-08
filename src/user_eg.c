@@ -18,7 +18,7 @@
 
      user_eg "QR0 p" "QR0 v p" "QR0 Fp"  # rotate input and return points
                                          # 'v' returns Voronoi
-					 # transform is rotated for halfspaces
+                                         # transform is rotated for halfspaces
 
    main() makes three runs of qhull.
 
@@ -84,9 +84,9 @@ void makecube (coordT *points, int numpoints, int dim) {
     point= points + j*dim;
     for (k=dim; k--; ) {
       if (j & ( 1 << k))
-	point[k]= 1.0;
+        point[k]= 1.0;
       else
-	point[k]= -1.0;
+        point[k]= -1.0;
     }
   }
 } /*.makecube.*/
@@ -160,9 +160,9 @@ void makehalf (coordT *points, int numpoints, int dim) {
     point[dim]= -1.0; /* offset */
     for (k=dim; k--; ) {
       if (j & ( 1 << k))
-	point[k]= 1.0;
+        point[k]= 1.0;
       else
-	point[k]= -1.0;
+        point[k]= -1.0;
     }
   }
 } /*.makehalf.*/
@@ -182,18 +182,18 @@ void makehalf (coordT *points, int numpoints, int dim) {
 
 */
 int main (int argc, char *argv[]) {
-  int dim= DIM;	            /* dimension of points */
+  int dim= DIM;             /* dimension of points */
   int numpoints;            /* number of points */
   coordT points[(DIM+1)*TOTpoints]; /* array of coordinates for each point */
   coordT *rows[TOTpoints];
   boolT ismalloc= False;    /* True if qhull should free points in qh_freeqhull() or reallocation */
   char flags[250];          /* option flags for qhull, see qh_opt.htm */
   FILE *outfile= stdout;    /* output from qh_produce_output()
-			       use NULL to skip qh_produce_output() */
+                               use NULL to skip qh_produce_output() */
   FILE *errfile= stderr;    /* error messages from qhull code */
   int exitcode;             /* 0 if no error from qhull */
-  facetT *facet;	    /* set by FORALLfacets */
-  int curlong, totlong;	    /* memory remaining after qh_memfreeshort */
+  facetT *facet;            /* set by FORALLfacets */
+  int curlong, totlong;     /* memory remaining after qh_memfreeshort */
   int i;
 
   printf ("This is the output from user_eg.c\n\n\
@@ -280,7 +280,7 @@ your project.\n\n");
     print_summary();
     printf( "\nfree first triangulation and restore second one.\n");
     qh_freeqhull (qh_ALL);               /* free short and long memory used by first call */
-			                 /* do not use qh_memfreeshort */
+                                         /* do not use qh_memfreeshort */
     qh_restore_qhull (&oldqhB);
     print_summary();
   }

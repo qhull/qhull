@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2009-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullPoints.h#28 $$Change: 1150 $
-** $DateTime: 2010/01/04 22:43:14 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullPoints.h#29 $$Change: 1164 $
+** $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -68,21 +68,21 @@ public:
 
 #//GetSet
     coordT             *coordinates() const { return point_first; }
-    int			coordinateCount() const { return (int)(point_end-point_first); } // WARN64
-    int		        count() const { return (int)size(); } // WARN64
+    int                 coordinateCount() const { return (int)(point_end-point_first); } // WARN64
+    int                 count() const { return (int)size(); } // WARN64
     void                defineAs(int dimension, int coordinateCount, coordT *c) { QHULL_ASSERT(dimension>=0 && coordinateCount>=0 && c!=0); point_first= c; point_end= c+coordinateCount; point_dimension= dimension; }
     void                defineAs(int coordinateCount, coordT *c) { QHULL_ASSERT((coordinateCount>=0 && c!=0) || (c==0 && coordinateCount==0)); point_first= c; point_end= c+coordinateCount; }
     void                defineAs(const QhullPoints &other) { point_first= other.point_first; point_end= other.point_end; point_dimension= other.point_dimension; }
-    int		        dimension() const { return point_dimension; }
+    int                 dimension() const { return point_dimension; }
     bool                empty() const { return point_end==point_first; }
     coordT             *extraCoordinates() const { return extraCoordinatesCount() ? (point_end-extraCoordinatesCount()) : 0; }
-    int			extraCoordinatesCount() const { return point_dimension>0 ? (int)((point_end-point_first)%(size_t)point_dimension) : 0; }  // WARN64
+    int                 extraCoordinatesCount() const { return point_dimension>0 ? (int)((point_end-point_first)%(size_t)point_dimension) : 0; }  // WARN64
     bool                includesCoordinates(const coordT *coordinates) const { return coordinates>=point_first && coordinates<point_end; }
     bool                isEmpty() const { return empty(); }
     bool                operator==(const QhullPoints &other) const;
     bool                operator!=(const QhullPoints &other) const { return !operator==(other); }
-    void                setDimension(int dimension) { QHULL_ASSERT(dimension>=0); point_dimension= dimension; } 
-    size_t	        size() const { return (point_dimension ? (point_end-point_first)/point_dimension : 0); }
+    void                setDimension(int dimension) { QHULL_ASSERT(dimension>=0); point_dimension= dimension; }
+    size_t              size() const { return (point_dimension ? (point_end-point_first)/point_dimension : 0); }
 
 #//ElementAccess -- can not return references to QhullPoint
     QhullPoint          at(int idx) const { coordT *p= point_first+idx*point_dimension; QHULL_ASSERT(p<point_end); return QhullPoint(point_dimension, p); }
@@ -201,7 +201,7 @@ public:
         const char     *point_message;
         int             run_id;
         bool            with_identifier;
-        PrintPoints(int qhRunId, const char *message, bool withIdentifier, const QhullPoints &ps) : points(&ps), point_message(message), run_id(qhRunId), with_identifier(withIdentifier) {} 
+        PrintPoints(int qhRunId, const char *message, bool withIdentifier, const QhullPoints &ps) : points(&ps), point_message(message), run_id(qhRunId), with_identifier(withIdentifier) {}
     };//PrintPoints
     PrintPoints          print() const { return  PrintPoints(UsingLibQhull::NOqhRunId, "", false, *this); }
     PrintPoints          print(int qhRunId) const { return PrintPoints(qhRunId, "", true, *this); }
@@ -211,28 +211,28 @@ public:
 };//QhullPoints
 
 // FIXUP -- can't use macro because next(),etc would return a reference to a temporary -- QHULL_DECLARE_SEQUENTIAL_ITERATOR(QhullPoints, QhullPoint)
-class QhullPointsIterator 
-{ 
-    typedef QhullPoints::const_iterator const_iterator; 
+class QhullPointsIterator
+{
+    typedef QhullPoints::const_iterator const_iterator;
 
 private:
 #//Fields
-    const QhullPoints  *ps; 
-    const_iterator      i; 
+    const QhullPoints  *ps;
+    const_iterator      i;
 
-public: 
-                        QhullPointsIterator(const QhullPoints &other) : ps(&other), i(ps->constBegin()) {} 
-    QhullPointsIterator &operator=(const QhullPoints &other) { ps = &other; i = ps->constBegin(); return *this; } 
+public:
+                        QhullPointsIterator(const QhullPoints &other) : ps(&other), i(ps->constBegin()) {}
+    QhullPointsIterator &operator=(const QhullPoints &other) { ps = &other; i = ps->constBegin(); return *this; }
     bool                findNext(const QhullPoint &t);
     bool                findPrevious(const QhullPoint &t);
-    bool                hasNext() const { return i != ps->constEnd(); } 
-    bool                hasPrevious() const { return i != ps->constBegin(); } 
-    QhullPoint          next() { return *i++; } 
-    QhullPoint          peekNext() const { return *i; } 
-    QhullPoint          peekPrevious() const { const_iterator p = i; return *--p; } 
-    QhullPoint          previous() { return *--i; } 
-    void                toBack() { i = ps->constEnd(); } 
-    void                toFront() { i = ps->constBegin(); } 
+    bool                hasNext() const { return i != ps->constEnd(); }
+    bool                hasPrevious() const { return i != ps->constBegin(); }
+    QhullPoint          next() { return *i++; }
+    QhullPoint          peekNext() const { return *i; }
+    QhullPoint          peekPrevious() const { const_iterator p = i; return *--p; }
+    QhullPoint          previous() { return *--i; }
+    void                toBack() { i = ps->constEnd(); }
+    void                toFront() { i = ps->constBegin(); }
 };//QhullPointsIterator
 
 }//namespace orgQhull

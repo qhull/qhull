@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2009-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/qhulltest/Coordinates_test.cpp#16 $$Change: 1139 $
-** $DateTime: 2010/01/03 11:20:29 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/qhulltest/Coordinates_test.cpp#17 $$Change: 1164 $
+** $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -51,7 +51,7 @@ add_Coordinates_test()
 
 void Coordinates_test::
 t_construct()
-{ 
+{
     Coordinates c;
     QCOMPARE(c.size(), 0U);
     QVERIFY(c.isEmpty());
@@ -79,7 +79,7 @@ t_construct()
 
 void Coordinates_test::
 t_convert()
-{ 
+{
     Coordinates c;
     c << 1.0 << 3.0;
     QCOMPARE(c.data()[1], 3.0);
@@ -100,13 +100,13 @@ t_convert()
     c4= std::vector<double>(2, 0.0); //FIXUP move to Coordinates_test
     QCOMPARE(c4.back(), 0.0);
     Coordinates c5(std::vector<double>(2, 0.0));
-    QCOMPARE(c4.size(), c5.size()); 
+    QCOMPARE(c4.size(), c5.size());
     QVERIFY(c4==c5);
 }//t_convert
 
 void Coordinates_test::
 t_element()
-{   
+{
     Coordinates c;
     c << 1.0 << -2.0;
     c.at(1)= -3;
@@ -139,7 +139,7 @@ t_element()
 
 void Coordinates_test::
 t_readonly()
-{   
+{
     Coordinates c;
     QCOMPARE(c.size(), 0u);
     QCOMPARE(c.count(), 0);
@@ -154,7 +154,7 @@ t_readonly()
 
 void Coordinates_test::
 t_operator()
-{   
+{
     Coordinates c;
     Coordinates c2(c);
     QVERIFY(c==c2);
@@ -185,7 +185,7 @@ t_operator()
 
 void Coordinates_test::
 t_const_iterator()
-{ 
+{
     Coordinates c;
     QCOMPARE(c.begin(), c.end());
     // begin and end checked elsewhere
@@ -219,7 +219,7 @@ t_const_iterator()
 
 void Coordinates_test::
 t_iterator()
-{ 
+{
     Coordinates c;
     QCOMPARE(c.begin(), c.end());
     // begin and end checked elsewhere
@@ -254,7 +254,7 @@ t_iterator()
 
 void Coordinates_test::
 t_coord_iterator()
-{ 
+{
     Coordinates c;
     c << 1.0 << 3.0;
     CoordinatesIterator i(c);
@@ -302,7 +302,7 @@ t_coord_iterator()
 
 void Coordinates_test::
 t_mutable_coord_iterator()
-{ 
+{
     // Same tests as CoordinatesIterator
     Coordinates c;
     c << 1.0 << 3.0;
@@ -405,7 +405,7 @@ t_mutable_coord_iterator()
 
 void Coordinates_test::
 t_readwrite()
-{ 
+{
     Coordinates c;
     c.clear();
     QCOMPARE(c.count(), 0);
@@ -419,9 +419,9 @@ t_readwrite()
     Coordinates::iterator i= c.erase(c.begin());
     QCOMPARE(*i, 0.0);
     i= c.insert(c.end(), 1.0);
-    QCOMPARE(*i, 1.0);    
+    QCOMPARE(*i, 1.0);
     QCOMPARE(c.count(), 2);
-    c.pop_back();    
+    c.pop_back();
     QCOMPARE(c.count(), 1);   // 0
     QCOMPARE(c[0], 0.0);
     c.push_back(2.0);
@@ -474,7 +474,7 @@ t_readwrite()
 
 void Coordinates_test::
 t_search()
-{ 
+{
     Coordinates c;
     c << 1.0 << 3.0 << 1.0;
     QVERIFY(c.contains(1.0));
@@ -519,7 +519,7 @@ t_search()
 
 void Coordinates_test::
 t_io()
-{ 
+{
     Coordinates c;
     c << 1.0 << 2.0 << 3.0;
     ostringstream os;

@@ -12,8 +12,8 @@
    see qhull_a.h for internal functions
 
    copyright (c) 1993-2010 The Geometry Center.
-   $Id: //product/qhull/main/rel/src/global.c#56 $$Change: 1159 $
-   $DateTime: 2010/01/06 22:14:43 $$Author: bbarber $
+   $Id: //product/qhull/main/rel/src/global.c#57 $$Change: 1164 $
+   $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
  */
 
 #include "qhull_a.h"
@@ -23,14 +23,14 @@
 int qhull_inuse= 0; /* not used */
 
 #if qh_QHpointer
-qhT *qh_qh= NULL;	/* pointer to all global variables */
+qhT *qh_qh= NULL;       /* pointer to all global variables */
 #else
-qhT qh_qh;     		/* all global variables.
-			   Add "= {0}" if this causes a compiler error.
-			   Also qh_qhstat in stat.c and qhmem in mem.c.  */
+qhT qh_qh;              /* all global variables.
+                           Add "= {0}" if this causes a compiler error.
+                           Also qh_qhstat in stat.c and qhmem in mem.c.  */
 #endif
 
-/*-<a                             href	="qh-globa.htm#TOC"
+/*-<a                             href  ="qh-globa.htm#TOC"
   >--------------------------------</a><a name="qh_version">-</a>
 
   qh_version
@@ -39,15 +39,15 @@ qhT qh_qh;     		/* all global variables.
     the revision increases on code changes only
 
   notes:
-    change date:    Changes.txt, Announce.txt, README.txt, 
-                    qhull.man, qhull.txt, qhull-news.html, Eudora signatures, 
+    change date:    Changes.txt, Announce.txt, README.txt,
+                    qhull.man, qhull.txt, qhull-news.html, Eudora signatures,
     change version: README.txt, qh-get.htm, File_id.diz, Makefile.txt
     change year:    Copying.txt
     check download size
     recompile user_eg.c, rbox.c, libqhull.c, qconvex.c, qdelaun.c qvoronoi.c, qhalf.c
 */
 
-const char *qh_version = "2010.1 2010/01/06";
+const char *qh_version = "2010.1 2010/01/07";
 
 /*-<a                             href="qh-globa.htm#TOC"
   >-------------------------------</a><a name="appendprint">-</a>
@@ -67,10 +67,10 @@ void qh_appendprint(qh_PRINT format) {
     }
   }
 } /* appendprint */
-     
+
 /*-<a                             href="qh-globa.htm#TOC"
   >-------------------------------</a><a name="checkflags">-</a>
-  
+
   qh_checkflags( commandStr, hiddenFlags )
     errors if commandStr contains hiddenFlags
     hiddenFlags starts and ends with a space and is space deliminated (checked)
@@ -78,7 +78,7 @@ void qh_appendprint(qh_PRINT format) {
   notes:
     ignores first word (e.g., "qconvex i")
     use qh_strtol/strtod since strtol/strtod may or may not skip trailing spaces
-  
+
   see:
     qh_initflags() initializes Qhull according to commandStr
 */
@@ -94,7 +94,7 @@ void qh_checkflags(char *command, char *hiddenflags) {
     qh_fprintf(qh ferr, 6026, "qhull error (qh_checkflags): hiddenflags must start and end with a space: \"%s\"", hiddenflags);
     qh_errexit(qh_ERRinput, NULL, NULL);
   }
-  if (strpbrk(hiddenflags, ",\n\r\t")) { 
+  if (strpbrk(hiddenflags, ",\n\r\t")) {
     qh_fprintf(qh ferr, 6027, "qhull error (qh_checkflags): hiddenflags contains commas, newlines, or tabs: \"%s\"", hiddenflags);
     qh_errexit(qh_ERRinput, NULL, NULL);
   }
@@ -122,27 +122,27 @@ void qh_checkflags(char *command, char *hiddenflags) {
       chkopt[1]= key;
       chkopt2[1]= key;
       while (!chkerr && *s && !isspace(*s)) {
-	opt= *s++;
-	if (isalpha(opt)) {
-	  chkopt[2]= opt;
-	  if (strstr(hiddenflags, chkopt))
-	    chkerr= chkopt;
-	  if (prevopt != ' ') {
- 	    chkopt2[2]= prevopt;
- 	    chkopt2[3]= opt;
-	    if (strstr(hiddenflags, chkopt2))
-	      chkerr= chkopt2;
-	  }
-	}else if (key == 'Q' && isdigit(opt) && prevopt != 'b' 
-	      && (prevopt == ' ' || islower(prevopt))) {
-  	    chkopt[2]= opt;
-	    if (strstr(hiddenflags, chkopt))
-	      chkerr= chkopt;
-	}else {
-	  qh_strtod(s-1, &t);
-	  if (s < t)
-	    s= t;
-	}
+        opt= *s++;
+        if (isalpha(opt)) {
+          chkopt[2]= opt;
+          if (strstr(hiddenflags, chkopt))
+            chkerr= chkopt;
+          if (prevopt != ' ') {
+            chkopt2[2]= prevopt;
+            chkopt2[3]= opt;
+            if (strstr(hiddenflags, chkopt2))
+              chkerr= chkopt2;
+          }
+        }else if (key == 'Q' && isdigit(opt) && prevopt != 'b'
+              && (prevopt == ' ' || islower(prevopt))) {
+            chkopt[2]= opt;
+            if (strstr(hiddenflags, chkopt))
+              chkerr= chkopt;
+        }else {
+          qh_strtod(s-1, &t);
+          if (s < t)
+            s= t;
+        }
         prevopt= opt;
       }
     }
@@ -153,13 +153,13 @@ void qh_checkflags(char *command, char *hiddenflags) {
       waserr= True;
     }
   }
-  if (waserr) 
+  if (waserr)
     qh_errexit(qh_ERRinput, NULL, NULL);
 } /* checkflags */
-    
+
 /*-<a                             href="qh-globa.htm#TOC"
   >-------------------------------</a><a name="qh_clear_outputflags">-</a>
-  
+
   qh_clear_outputflags()
     Clear output flags for QhullPoints
 */
@@ -213,20 +213,20 @@ void qh_clear_outputflags(void) {
 
   if (!qh qhull_commandsiz2)
       qh qhull_commandsiz2= (int)strlen(qh qhull_command); /* WARN64 */
-  else { 
+  else {
       qh qhull_command[qh qhull_commandsiz2]= '\0';
   }
   if (!qh qhull_optionsiz2)
     qh qhull_optionsiz2= (int)strlen(qh qhull_options);  /* WARN64 */
-  else { 
+  else {
     qh qhull_options[qh qhull_optionsiz2]= '\0';
     qh qhull_optionlen= qh_OPTIONline;  /* start a new line */
   }
 } /* clear_outputflags */
-    
+
 /*-<a                             href="qh-globa.htm#TOC"
   >-------------------------------</a><a name="clock">-</a>
-  
+
   qh_clock()
     return user CPU time in 100ths (qh_SECtick)
     only defined for qh_CLOCKtype == 2
@@ -367,10 +367,10 @@ void qh_freebuild(boolT allmem) {
     }
     FORALLfacets {
       if (facet->visible) {
-	FOREACHridge_(facet->ridges) {
-	  if (!otherfacet_(ridge, facet)->visible)
-	    ridge->seen= True;  /* an unattached ridge */
-	}
+        FOREACHridge_(facet->ridges) {
+          if (!otherfacet_(ridge, facet)->visible)
+            ridge->seen= True;  /* an unattached ridge */
+        }
       }
     }
     while ((facet= qh facet_list)) {
@@ -667,45 +667,45 @@ void qh_initflags(char *command) {
       break;
     case 'A':
       if (!isdigit(*s) && *s != '.' && *s != '-')
-	qh_fprintf(qh ferr, 7002, "qhull warning: no maximum cosine angle given for option 'An'.  Ignored.\n");
+        qh_fprintf(qh ferr, 7002, "qhull warning: no maximum cosine angle given for option 'An'.  Ignored.\n");
       else {
-	if (*s == '-') {
-	  qh premerge_cos= -qh_strtod(s, &s);
+        if (*s == '-') {
+          qh premerge_cos= -qh_strtod(s, &s);
           qh_option("Angle-premerge-", NULL, &qh premerge_cos);
-	  qh PREmerge= True;
-	}else {
-	  qh postmerge_cos= qh_strtod(s, &s);
+          qh PREmerge= True;
+        }else {
+          qh postmerge_cos= qh_strtod(s, &s);
           qh_option("Angle-postmerge", NULL, &qh postmerge_cos);
-	  qh POSTmerge= True;
-	}
-	qh MERGING= True;
+          qh POSTmerge= True;
+        }
+        qh MERGING= True;
       }
       break;
     case 'C':
       if (!isdigit(*s) && *s != '.' && *s != '-')
-	qh_fprintf(qh ferr, 7003, "qhull warning: no centrum radius given for option 'Cn'.  Ignored.\n");
+        qh_fprintf(qh ferr, 7003, "qhull warning: no centrum radius given for option 'Cn'.  Ignored.\n");
       else {
-	if (*s == '-') {
-	  qh premerge_centrum= -qh_strtod(s, &s);
+        if (*s == '-') {
+          qh premerge_centrum= -qh_strtod(s, &s);
           qh_option("Centrum-premerge-", NULL, &qh premerge_centrum);
-	  qh PREmerge= True;
-	}else {
-	  qh postmerge_centrum= qh_strtod(s, &s);
+          qh PREmerge= True;
+        }else {
+          qh postmerge_centrum= qh_strtod(s, &s);
           qh_option("Centrum-postmerge", NULL, &qh postmerge_centrum);
-	  qh POSTmerge= True;
-	}
-	qh MERGING= True;
+          qh POSTmerge= True;
+        }
+        qh MERGING= True;
       }
       break;
     case 'E':
       if (*s == '-')
-	qh_fprintf(qh ferr, 7004, "qhull warning: negative maximum roundoff given for option 'An'.  Ignored.\n");
+        qh_fprintf(qh ferr, 7004, "qhull warning: negative maximum roundoff given for option 'An'.  Ignored.\n");
       else if (!isdigit(*s))
-	qh_fprintf(qh ferr, 7005, "qhull warning: no maximum roundoff given for option 'En'.  Ignored.\n");
+        qh_fprintf(qh ferr, 7005, "qhull warning: no maximum roundoff given for option 'En'.  Ignored.\n");
       else {
-	qh DISTround= qh_strtod(s, &s);
+        qh DISTround= qh_strtod(s, &s);
         qh_option("Distance-roundoff", NULL, &qh DISTround);
-	qh SETroundoff= True;
+        qh SETroundoff= True;
       }
       break;
     case 'H':
@@ -714,13 +714,13 @@ void qh_initflags(char *command) {
       qh_strtod(s, &t);
       while (t > s)  {
         if (*t && !isspace(*t)) {
-	  if (*t == ',')
-	    t++;
-	  else
-	    qh_fprintf(qh ferr, 7006, "qhull warning: origin for Halfspace intersection should be 'Hn,n,n,...'\n");
-	}
+          if (*t == ',')
+            t++;
+          else
+            qh_fprintf(qh ferr, 7006, "qhull warning: origin for Halfspace intersection should be 'Hn,n,n,...'\n");
+        }
         s= t;
-	qh_strtod(s, &t);
+        qh_strtod(s, &t);
       }
       if (start < t) {
         if (!(qh feasible_string= (char*)calloc((size_t)(t-start+1), (size_t)1))) {
@@ -735,36 +735,36 @@ void qh_initflags(char *command) {
       break;
     case 'R':
       if (!isdigit(*s))
-	qh_fprintf(qh ferr, 7007, "qhull warning: missing random perturbation for option 'Rn'.  Ignored\n");
+        qh_fprintf(qh ferr, 7007, "qhull warning: missing random perturbation for option 'Rn'.  Ignored\n");
       else {
-	qh RANDOMfactor= qh_strtod(s, &s);
+        qh RANDOMfactor= qh_strtod(s, &s);
         qh_option("Random_perturb", NULL, &qh RANDOMfactor);
         qh RANDOMdist= True;
       }
       break;
     case 'V':
       if (!isdigit(*s) && *s != '-')
-	qh_fprintf(qh ferr, 7008, "qhull warning: missing visible distance for option 'Vn'.  Ignored\n");
+        qh_fprintf(qh ferr, 7008, "qhull warning: missing visible distance for option 'Vn'.  Ignored\n");
       else {
-	qh MINvisible= qh_strtod(s, &s);
+        qh MINvisible= qh_strtod(s, &s);
         qh_option("Visible", NULL, &qh MINvisible);
       }
       break;
     case 'U':
       if (!isdigit(*s) && *s != '-')
-	qh_fprintf(qh ferr, 7009, "qhull warning: missing coplanar distance for option 'Un'.  Ignored\n");
+        qh_fprintf(qh ferr, 7009, "qhull warning: missing coplanar distance for option 'Un'.  Ignored\n");
       else {
-	qh MAXcoplanar= qh_strtod(s, &s);
+        qh MAXcoplanar= qh_strtod(s, &s);
         qh_option("U-coplanar", NULL, &qh MAXcoplanar);
       }
       break;
     case 'W':
       if (*s == '-')
-	qh_fprintf(qh ferr, 7010, "qhull warning: negative outside width for option 'Wn'.  Ignored.\n");
+        qh_fprintf(qh ferr, 7010, "qhull warning: negative outside width for option 'Wn'.  Ignored.\n");
       else if (!isdigit(*s))
-	qh_fprintf(qh ferr, 7011, "qhull warning: missing outside width for option 'Wn'.  Ignored\n");
+        qh_fprintf(qh ferr, 7011, "qhull warning: missing outside width for option 'Wn'.  Ignored\n");
       else {
-	qh MINoutside= qh_strtod(s, &s);
+        qh MINoutside= qh_strtod(s, &s);
         qh_option("W-outside", NULL, &qh MINoutside);
         qh APPROXhull= True;
       }
@@ -772,16 +772,16 @@ void qh_initflags(char *command) {
     /************  sub menus ***************/
     case 'F':
       while (*s && !isspace(*s)) {
-	switch (*s++) {
-	case 'a':
-	  qh_option("Farea", NULL, NULL);
-	  qh_appendprint(qh_PRINTarea);
-	  qh GETarea= True;
-	  break;
-	case 'A':
-	  qh_option("FArea-total", NULL, NULL);
-	  qh GETarea= True;
-	  break;
+        switch (*s++) {
+        case 'a':
+          qh_option("Farea", NULL, NULL);
+          qh_appendprint(qh_PRINTarea);
+          qh GETarea= True;
+          break;
+        case 'A':
+          qh_option("FArea-total", NULL, NULL);
+          qh GETarea= True;
+          break;
         case 'c':
           qh_option("Fcoplanars", NULL, NULL);
           qh_appendprint(qh_PRINTcoplanars);
@@ -790,18 +790,18 @@ void qh_initflags(char *command) {
           qh_option("FCentrums", NULL, NULL);
           qh_appendprint(qh_PRINTcentrums);
           break;
-	case 'd':
+        case 'd':
           qh_option("Fd-cdd-in", NULL, NULL);
-	  qh CDDinput= True;
-	  break;
-	case 'D':
+          qh CDDinput= True;
+          break;
+        case 'D':
           qh_option("FD-cdd-out", NULL, NULL);
-	  qh CDDoutput= True;
-	  break;
-	case 'F':
-	  qh_option("FFacets-xridge", NULL, NULL);
+          qh CDDoutput= True;
+          break;
+        case 'F':
+          qh_option("FFacets-xridge", NULL, NULL);
           qh_appendprint(qh_PRINTfacets_xridge);
-	  break;
+          break;
         case 'i':
           qh_option("Finner", NULL, NULL);
           qh_appendprint(qh_PRINTinner);
@@ -830,25 +830,25 @@ void qh_initflags(char *command) {
           qh_option("Fouter", NULL, NULL);
           qh_appendprint(qh_PRINTouter);
           break;
-	case 'O':
-	  if (qh PRINToptions1st) {
-	    qh_option("FOptions", NULL, NULL);
-	    qh_appendprint(qh_PRINToptions);
-	  }else
-	    qh PRINToptions1st= True;
-	  break;
-	case 'p':
-	  qh_option("Fpoint-intersect", NULL, NULL);
-	  qh_appendprint(qh_PRINTpointintersect);
-	  break;
-	case 'P':
-	  qh_option("FPoint-nearest", NULL, NULL);
-	  qh_appendprint(qh_PRINTpointnearest);
-	  break;
-	case 'Q':
-	  qh_option("FQhull", NULL, NULL);
-	  qh_appendprint(qh_PRINTqhull);
-	  break;
+        case 'O':
+          if (qh PRINToptions1st) {
+            qh_option("FOptions", NULL, NULL);
+            qh_appendprint(qh_PRINToptions);
+          }else
+            qh PRINToptions1st= True;
+          break;
+        case 'p':
+          qh_option("Fpoint-intersect", NULL, NULL);
+          qh_appendprint(qh_PRINTpointintersect);
+          break;
+        case 'P':
+          qh_option("FPoint-nearest", NULL, NULL);
+          qh_appendprint(qh_PRINTpointnearest);
+          break;
+        case 'Q':
+          qh_option("FQhull", NULL, NULL);
+          qh_appendprint(qh_PRINTqhull);
+          break;
         case 's':
           qh_option("Fsummary", NULL, NULL);
           qh_appendprint(qh_PRINTsummary);
@@ -870,23 +870,23 @@ void qh_initflags(char *command) {
           qh_option("FVertex-average", NULL, NULL);
           qh_appendprint(qh_PRINTaverage);
           break;
-	case 'x':
-	  qh_option("Fxtremes", NULL, NULL);
-	  qh_appendprint(qh_PRINTextremes);
-	  break;
-	default:
-	  s--;
-	  qh_fprintf(qh ferr, 7012, "qhull warning: unknown 'F' output option %c, rest ignored\n", (int)s[0]);
-	  while (*++s && !isspace(*s));
-	  break;
-	}
+        case 'x':
+          qh_option("Fxtremes", NULL, NULL);
+          qh_appendprint(qh_PRINTextremes);
+          break;
+        default:
+          s--;
+          qh_fprintf(qh ferr, 7012, "qhull warning: unknown 'F' output option %c, rest ignored\n", (int)s[0]);
+          while (*++s && !isspace(*s));
+          break;
+        }
       }
       break;
     case 'G':
       isgeom= True;
       qh_appendprint(qh_PRINTgeom);
       while (*s && !isspace(*s)) {
-	switch (*s++) {
+        switch (*s++) {
         case 'a':
           qh_option("Gall-points", NULL, NULL);
           qh PRINTdots= True;
@@ -895,73 +895,73 @@ void qh_initflags(char *command) {
           qh_option("Gcentrums", NULL, NULL);
           qh PRINTcentrums= True;
           break;
-	case 'h':
+        case 'h':
           qh_option("Gintersections", NULL, NULL);
-	  qh DOintersections= True;
-	  break;
-	case 'i':
+          qh DOintersections= True;
+          break;
+        case 'i':
           qh_option("Ginner", NULL, NULL);
-	  qh PRINTinner= True;
-	  break;
-	case 'n':
+          qh PRINTinner= True;
+          break;
+        case 'n':
           qh_option("Gno-planes", NULL, NULL);
-	  qh PRINTnoplanes= True;
-	  break;
-	case 'o':
+          qh PRINTnoplanes= True;
+          break;
+        case 'o':
           qh_option("Gouter", NULL, NULL);
-	  qh PRINTouter= True;
-	  break;
-	case 'p':
+          qh PRINTouter= True;
+          break;
+        case 'p':
           qh_option("Gpoints", NULL, NULL);
-	  qh PRINTcoplanar= True;
-	  break;
-	case 'r':
+          qh PRINTcoplanar= True;
+          break;
+        case 'r':
           qh_option("Gridges", NULL, NULL);
-	  qh PRINTridges= True;
-	  break;
-	case 't':
+          qh PRINTridges= True;
+          break;
+        case 't':
           qh_option("Gtransparent", NULL, NULL);
-	  qh PRINTtransparent= True;
-	  break;
-	case 'v':
+          qh PRINTtransparent= True;
+          break;
+        case 'v':
           qh_option("Gvertices", NULL, NULL);
-	  qh PRINTspheres= True;
-	  break;
-	case 'D':
-	  if (!isdigit(*s))
-	    qh_fprintf(qh ferr, 6035, "qhull input error: missing dimension for option 'GDn'\n");
-	  else {
-	    if (qh DROPdim >= 0)
-	      qh_fprintf(qh ferr, 7013, "qhull warning: can only drop one dimension.  Previous 'GD%d' ignored\n",
-	           qh DROPdim);
-  	    qh DROPdim= qh_strtol(s, &s);
+          qh PRINTspheres= True;
+          break;
+        case 'D':
+          if (!isdigit(*s))
+            qh_fprintf(qh ferr, 6035, "qhull input error: missing dimension for option 'GDn'\n");
+          else {
+            if (qh DROPdim >= 0)
+              qh_fprintf(qh ferr, 7013, "qhull warning: can only drop one dimension.  Previous 'GD%d' ignored\n",
+                   qh DROPdim);
+            qh DROPdim= qh_strtol(s, &s);
             qh_option("GDrop-dim", &qh DROPdim, NULL);
           }
-	  break;
-	default:
-	  s--;
-	  qh_fprintf(qh ferr, 7014, "qhull warning: unknown 'G' print option %c, rest ignored\n", (int)s[0]);
-	  while (*++s && !isspace(*s));
-	  break;
-	}
+          break;
+        default:
+          s--;
+          qh_fprintf(qh ferr, 7014, "qhull warning: unknown 'G' print option %c, rest ignored\n", (int)s[0]);
+          while (*++s && !isspace(*s));
+          break;
+        }
       }
       break;
     case 'P':
       while (*s && !isspace(*s)) {
-	switch (*s++) {
-	case 'd': case 'D':  /* see qh_initthresholds() */
-	  key= s[-1];
-	  i= qh_strtol(s, &s);
-	  r= 0;
-	  if (*s == ':') {
-	    s++;
-	    r= qh_strtod(s, &s);
-	  }
-	  if (key == 'd')
-  	    qh_option("Pdrop-facets-dim-less", &i, &r);
-  	  else
-  	    qh_option("PDrop-facets-dim-more", &i, &r);
-	  break;
+        switch (*s++) {
+        case 'd': case 'D':  /* see qh_initthresholds() */
+          key= s[-1];
+          i= qh_strtol(s, &s);
+          r= 0;
+          if (*s == ':') {
+            s++;
+            r= qh_strtod(s, &s);
+          }
+          if (key == 'd')
+            qh_option("Pdrop-facets-dim-less", &i, &r);
+          else
+            qh_option("PDrop-facets-dim-more", &i, &r);
+          break;
         case 'g':
           qh_option("Pgood-facets", NULL, NULL);
           qh PRINTgood= True;
@@ -978,329 +978,329 @@ void qh_initflags(char *command) {
           qh_option("Pprecision-ignore", NULL, NULL);
           qh PRINTprecision= False;
           break;
-	case 'A':
-	  if (!isdigit(*s))
-	    qh_fprintf(qh ferr, 6036, "qhull input error: missing facet count for keep area option 'PAn'\n");
-	  else {
-  	    qh KEEParea= qh_strtol(s, &s);
+        case 'A':
+          if (!isdigit(*s))
+            qh_fprintf(qh ferr, 6036, "qhull input error: missing facet count for keep area option 'PAn'\n");
+          else {
+            qh KEEParea= qh_strtol(s, &s);
             qh_option("PArea-keep", &qh KEEParea, NULL);
             qh GETarea= True;
           }
-	  break;
-	case 'F':
-	  if (!isdigit(*s))
-	    qh_fprintf(qh ferr, 6037, "qhull input error: missing facet area for option 'PFn'\n");
-	  else {
-  	    qh KEEPminArea= qh_strtod(s, &s);
+          break;
+        case 'F':
+          if (!isdigit(*s))
+            qh_fprintf(qh ferr, 6037, "qhull input error: missing facet area for option 'PFn'\n");
+          else {
+            qh KEEPminArea= qh_strtod(s, &s);
             qh_option("PFacet-area-keep", NULL, &qh KEEPminArea);
             qh GETarea= True;
           }
-	  break;
-	case 'M':
-	  if (!isdigit(*s))
-	    qh_fprintf(qh ferr, 6038, "qhull input error: missing merge count for option 'PMn'\n");
-	  else {
-  	    qh KEEPmerge= qh_strtol(s, &s);
+          break;
+        case 'M':
+          if (!isdigit(*s))
+            qh_fprintf(qh ferr, 6038, "qhull input error: missing merge count for option 'PMn'\n");
+          else {
+            qh KEEPmerge= qh_strtol(s, &s);
             qh_option("PMerge-keep", &qh KEEPmerge, NULL);
           }
-	  break;
-	default:
-	  s--;
-	  qh_fprintf(qh ferr, 7015, "qhull warning: unknown 'P' print option %c, rest ignored\n", (int)s[0]);
-	  while (*++s && !isspace(*s));
-	  break;
-	}
+          break;
+        default:
+          s--;
+          qh_fprintf(qh ferr, 7015, "qhull warning: unknown 'P' print option %c, rest ignored\n", (int)s[0]);
+          while (*++s && !isspace(*s));
+          break;
+        }
       }
       break;
     case 'Q':
       lastproject= -1;
       while (*s && !isspace(*s)) {
-	switch (*s++) {
-	case 'b': case 'B':  /* handled by qh_initthresholds */
-	  key= s[-1];
-	  if (key == 'b' && *s == 'B') {
-	    s++;
-	    r= qh_DEFAULTbox;
-	    qh SCALEinput= True;
-	    qh_option("QbBound-unit-box", NULL, &r);
-	    break;
-	  }
-	  if (key == 'b' && *s == 'b') {
-	    s++;
-	    qh SCALElast= True;
-	    qh_option("Qbbound-last", NULL, NULL);
-	    break;
-	  }
-	  k= qh_strtol(s, &s);
-	  r= 0.0;
-	  wasproject= False;
-	  if (*s == ':') {
-	    s++;
-	    if ((r= qh_strtod(s, &s)) == 0.0) {
- 	      t= s;            /* need true dimension for memory allocation */
-	      while (*t && !isspace(*t)) {
-	        if (toupper(*t++) == 'B'
-	         && k == qh_strtol(t, &t)
-	         && *t++ == ':'
-	         && qh_strtod(t, &t) == 0.0) {
-	          qh PROJECTinput++;
-	          trace2((qh ferr, 2004, "qh_initflags: project dimension %d\n", k));
-	          qh_option("Qb-project-dim", &k, NULL);
-		  wasproject= True;
-	          lastproject= k;
-	          break;
-		}
-	      }
-	    }
-  	  }
-	  if (!wasproject) {
-	    if (lastproject == k && r == 0.0)
-	      lastproject= -1;  /* doesn't catch all possible sequences */
-	    else if (key == 'b') {
-	      qh SCALEinput= True;
-	      if (r == 0.0)
-		r= -qh_DEFAULTbox;
-	      qh_option("Qbound-dim-low", &k, &r);
-	    }else {
-	      qh SCALEinput= True;
-	      if (r == 0.0)
-		r= qh_DEFAULTbox;
-	      qh_option("QBound-dim-high", &k, &r);
-	    }
-	  }
-	  break;
-	case 'c':
-	  qh_option("Qcoplanar-keep", NULL, NULL);
-	  qh KEEPcoplanar= True;
-	  break;
-	case 'f':
-	  qh_option("Qfurthest-outside", NULL, NULL);
-	  qh BESToutside= True;
-	  break;
-	case 'g':
-	  qh_option("Qgood-facets-only", NULL, NULL);
-	  qh ONLYgood= True;
-	  break;
-	case 'i':
-	  qh_option("Qinterior-keep", NULL, NULL);
-	  qh KEEPinside= True;
-	  break;
-	case 'm':
-	  qh_option("Qmax-outside-only", NULL, NULL);
-	  qh ONLYmax= True;
-	  break;
-	case 'r':
-	  qh_option("Qrandom-outside", NULL, NULL);
-	  qh RANDOMoutside= True;
-	  break;
-	case 's':
-	  qh_option("Qsearch-initial-simplex", NULL, NULL);
-	  qh ALLpoints= True;
-	  break;
-	case 't':
-	  qh_option("Qtriangulate", NULL, NULL);
-	  qh TRIangulate= True;
-	  break;
-	case 'T':
-	  qh_option("QTestPoints", NULL, NULL);
-	  if (!isdigit(*s))
-	    qh_fprintf(qh ferr, 6039, "qhull input error: missing number of test points for option 'QTn'\n");
-	  else {
-  	    qh TESTpoints= qh_strtol(s, &s);
+        switch (*s++) {
+        case 'b': case 'B':  /* handled by qh_initthresholds */
+          key= s[-1];
+          if (key == 'b' && *s == 'B') {
+            s++;
+            r= qh_DEFAULTbox;
+            qh SCALEinput= True;
+            qh_option("QbBound-unit-box", NULL, &r);
+            break;
+          }
+          if (key == 'b' && *s == 'b') {
+            s++;
+            qh SCALElast= True;
+            qh_option("Qbbound-last", NULL, NULL);
+            break;
+          }
+          k= qh_strtol(s, &s);
+          r= 0.0;
+          wasproject= False;
+          if (*s == ':') {
+            s++;
+            if ((r= qh_strtod(s, &s)) == 0.0) {
+              t= s;            /* need true dimension for memory allocation */
+              while (*t && !isspace(*t)) {
+                if (toupper(*t++) == 'B'
+                 && k == qh_strtol(t, &t)
+                 && *t++ == ':'
+                 && qh_strtod(t, &t) == 0.0) {
+                  qh PROJECTinput++;
+                  trace2((qh ferr, 2004, "qh_initflags: project dimension %d\n", k));
+                  qh_option("Qb-project-dim", &k, NULL);
+                  wasproject= True;
+                  lastproject= k;
+                  break;
+                }
+              }
+            }
+          }
+          if (!wasproject) {
+            if (lastproject == k && r == 0.0)
+              lastproject= -1;  /* doesn't catch all possible sequences */
+            else if (key == 'b') {
+              qh SCALEinput= True;
+              if (r == 0.0)
+                r= -qh_DEFAULTbox;
+              qh_option("Qbound-dim-low", &k, &r);
+            }else {
+              qh SCALEinput= True;
+              if (r == 0.0)
+                r= qh_DEFAULTbox;
+              qh_option("QBound-dim-high", &k, &r);
+            }
+          }
+          break;
+        case 'c':
+          qh_option("Qcoplanar-keep", NULL, NULL);
+          qh KEEPcoplanar= True;
+          break;
+        case 'f':
+          qh_option("Qfurthest-outside", NULL, NULL);
+          qh BESToutside= True;
+          break;
+        case 'g':
+          qh_option("Qgood-facets-only", NULL, NULL);
+          qh ONLYgood= True;
+          break;
+        case 'i':
+          qh_option("Qinterior-keep", NULL, NULL);
+          qh KEEPinside= True;
+          break;
+        case 'm':
+          qh_option("Qmax-outside-only", NULL, NULL);
+          qh ONLYmax= True;
+          break;
+        case 'r':
+          qh_option("Qrandom-outside", NULL, NULL);
+          qh RANDOMoutside= True;
+          break;
+        case 's':
+          qh_option("Qsearch-initial-simplex", NULL, NULL);
+          qh ALLpoints= True;
+          break;
+        case 't':
+          qh_option("Qtriangulate", NULL, NULL);
+          qh TRIangulate= True;
+          break;
+        case 'T':
+          qh_option("QTestPoints", NULL, NULL);
+          if (!isdigit(*s))
+            qh_fprintf(qh ferr, 6039, "qhull input error: missing number of test points for option 'QTn'\n");
+          else {
+            qh TESTpoints= qh_strtol(s, &s);
             qh_option("QTestPoints", &qh TESTpoints, NULL);
           }
-	  break;
-	case 'u':
-	  qh_option("QupperDelaunay", NULL, NULL);
-	  qh UPPERdelaunay= True;
-	  break;
-	case 'v':
-	  qh_option("Qvertex-neighbors-convex", NULL, NULL);
-	  qh TESTvneighbors= True;
-	  break;
-	case 'x':
-	  qh_option("Qxact-merge", NULL, NULL);
-	  qh MERGEexact= True;
-	  break;
-	case 'z':
-	  qh_option("Qz-infinity-point", NULL, NULL);
-	  qh ATinfinity= True;
-	  break;
-	case '0':
-	  qh_option("Q0-no-premerge", NULL, NULL);
-	  qh NOpremerge= True;
-	  break;
-	case '1':
-	  if (!isdigit(*s)) {
-	    qh_option("Q1-no-angle-sort", NULL, NULL);
-	    qh ANGLEmerge= False;
-	    break; 
-	  }
-	  switch (*s++) {
-  	  case '0':
-	    qh_option("Q10-no-narrow", NULL, NULL);
-	    qh NOnarrow= True;
-	    break; 
-  	  case '1':
-	    qh_option("Q11-trinormals Qtriangulate", NULL, NULL);
-	    qh TRInormals= True;
-	    qh TRIangulate= True;
-	    break; 
-	  default:
-	    s--;
-	    qh_fprintf(qh ferr, 7016, "qhull warning: unknown 'Q' qhull option 1%c, rest ignored\n", (int)s[0]);
-	    while (*++s && !isspace(*s));
-	    break;
-	  }
-	  break;
-	case '2':
-	  qh_option("Q2-no-merge-independent", NULL, NULL);
-	  qh MERGEindependent= False;
-	  goto LABELcheckdigit;
-	  break; /* no warnings */
-	case '3':
-	  qh_option("Q3-no-merge-vertices", NULL, NULL);
-	  qh MERGEvertices= False;
-	LABELcheckdigit:
-	  if (isdigit(*s))
-	    qh_fprintf(qh ferr, 7017, "qhull warning: can not follow '1', '2', or '3' with a digit.  '%c' skipped.\n",
-	             *s++);
-	  break;
-	case '4':
-	  qh_option("Q4-avoid-old-into-new", NULL, NULL);
-	  qh AVOIDold= True;
-	  break;
-	case '5':
-	  qh_option("Q5-no-check-outer", NULL, NULL);
-	  qh SKIPcheckmax= True;
-	  break;
-	case '6':
-	  qh_option("Q6-no-concave-merge", NULL, NULL);
-	  qh SKIPconvex= True;
-	  break;
-	case '7':
-	  qh_option("Q7-no-breadth-first", NULL, NULL);
-	  qh VIRTUALmemory= True;
-	  break;
-	case '8':
-	  qh_option("Q8-no-near-inside", NULL, NULL);
-	  qh NOnearinside= True;
-	  break;
-	case '9':
-	  qh_option("Q9-pick-furthest", NULL, NULL);
-	  qh PICKfurthest= True;
-	  break;
-	case 'G':
-	  i= qh_strtol(s, &t);
-	  if (qh GOODpoint)
-	    qh_fprintf(qh ferr, 7018, "qhull warning: good point already defined for option 'QGn'.  Ignored\n");
+          break;
+        case 'u':
+          qh_option("QupperDelaunay", NULL, NULL);
+          qh UPPERdelaunay= True;
+          break;
+        case 'v':
+          qh_option("Qvertex-neighbors-convex", NULL, NULL);
+          qh TESTvneighbors= True;
+          break;
+        case 'x':
+          qh_option("Qxact-merge", NULL, NULL);
+          qh MERGEexact= True;
+          break;
+        case 'z':
+          qh_option("Qz-infinity-point", NULL, NULL);
+          qh ATinfinity= True;
+          break;
+        case '0':
+          qh_option("Q0-no-premerge", NULL, NULL);
+          qh NOpremerge= True;
+          break;
+        case '1':
+          if (!isdigit(*s)) {
+            qh_option("Q1-no-angle-sort", NULL, NULL);
+            qh ANGLEmerge= False;
+            break;
+          }
+          switch (*s++) {
+          case '0':
+            qh_option("Q10-no-narrow", NULL, NULL);
+            qh NOnarrow= True;
+            break;
+          case '1':
+            qh_option("Q11-trinormals Qtriangulate", NULL, NULL);
+            qh TRInormals= True;
+            qh TRIangulate= True;
+            break;
+          default:
+            s--;
+            qh_fprintf(qh ferr, 7016, "qhull warning: unknown 'Q' qhull option 1%c, rest ignored\n", (int)s[0]);
+            while (*++s && !isspace(*s));
+            break;
+          }
+          break;
+        case '2':
+          qh_option("Q2-no-merge-independent", NULL, NULL);
+          qh MERGEindependent= False;
+          goto LABELcheckdigit;
+          break; /* no warnings */
+        case '3':
+          qh_option("Q3-no-merge-vertices", NULL, NULL);
+          qh MERGEvertices= False;
+        LABELcheckdigit:
+          if (isdigit(*s))
+            qh_fprintf(qh ferr, 7017, "qhull warning: can not follow '1', '2', or '3' with a digit.  '%c' skipped.\n",
+                     *s++);
+          break;
+        case '4':
+          qh_option("Q4-avoid-old-into-new", NULL, NULL);
+          qh AVOIDold= True;
+          break;
+        case '5':
+          qh_option("Q5-no-check-outer", NULL, NULL);
+          qh SKIPcheckmax= True;
+          break;
+        case '6':
+          qh_option("Q6-no-concave-merge", NULL, NULL);
+          qh SKIPconvex= True;
+          break;
+        case '7':
+          qh_option("Q7-no-breadth-first", NULL, NULL);
+          qh VIRTUALmemory= True;
+          break;
+        case '8':
+          qh_option("Q8-no-near-inside", NULL, NULL);
+          qh NOnearinside= True;
+          break;
+        case '9':
+          qh_option("Q9-pick-furthest", NULL, NULL);
+          qh PICKfurthest= True;
+          break;
+        case 'G':
+          i= qh_strtol(s, &t);
+          if (qh GOODpoint)
+            qh_fprintf(qh ferr, 7018, "qhull warning: good point already defined for option 'QGn'.  Ignored\n");
           else if (s == t)
-	    qh_fprintf(qh ferr, 7019, "qhull warning: missing good point id for option 'QGn'.  Ignored\n");
-	  else if (i < 0 || *s == '-') {
- 	    qh GOODpoint= i-1;
-  	    qh_option("QGood-if-dont-see-point", &i, NULL);
-	  }else {
- 	    qh GOODpoint= i+1;
-  	    qh_option("QGood-if-see-point", &i, NULL);
-  	  }
- 	  s= t;
-	  break;
-	case 'J':
+            qh_fprintf(qh ferr, 7019, "qhull warning: missing good point id for option 'QGn'.  Ignored\n");
+          else if (i < 0 || *s == '-') {
+            qh GOODpoint= i-1;
+            qh_option("QGood-if-dont-see-point", &i, NULL);
+          }else {
+            qh GOODpoint= i+1;
+            qh_option("QGood-if-see-point", &i, NULL);
+          }
+          s= t;
+          break;
+        case 'J':
           if (!isdigit(*s) && *s != '-')
-   	    qh JOGGLEmax= 0.0;
-	  else {
- 	    qh JOGGLEmax= (realT) qh_strtod(s, &s);
+            qh JOGGLEmax= 0.0;
+          else {
+            qh JOGGLEmax= (realT) qh_strtod(s, &s);
             qh_option("QJoggle", NULL, &qh JOGGLEmax);
-	  }
-	  break;
-	case 'R':
+          }
+          break;
+        case 'R':
           if (!isdigit(*s) && *s != '-')
-	    qh_fprintf(qh ferr, 7020, "qhull warning: missing random seed for option 'QRn'.  Ignored\n");
-	  else {
- 	    qh ROTATErandom= i= qh_strtol(s, &s);
-   	    if (i > 0)
-   	      qh_option("QRotate-id", &i, NULL );
-	    else if (i < -1)
-   	      qh_option("QRandom-seed", &i, NULL );
+            qh_fprintf(qh ferr, 7020, "qhull warning: missing random seed for option 'QRn'.  Ignored\n");
+          else {
+            qh ROTATErandom= i= qh_strtol(s, &s);
+            if (i > 0)
+              qh_option("QRotate-id", &i, NULL );
+            else if (i < -1)
+              qh_option("QRandom-seed", &i, NULL );
           }
-	  break;
-	case 'V':
-	  i= qh_strtol(s, &t);
-	  if (qh GOODvertex)
-	    qh_fprintf(qh ferr, 7021, "qhull warning: good vertex already defined for option 'QVn'.  Ignored\n");
+          break;
+        case 'V':
+          i= qh_strtol(s, &t);
+          if (qh GOODvertex)
+            qh_fprintf(qh ferr, 7021, "qhull warning: good vertex already defined for option 'QVn'.  Ignored\n");
           else if (s == t)
-	    qh_fprintf(qh ferr, 7022, "qhull warning: no good point id given for option 'QVn'.  Ignored\n");
-	  else if (i < 0) {
- 	    qh GOODvertex= i - 1;
- 	    qh_option("QV-good-facets-not-point", &i, NULL);
-	  }else {
-  	    qh_option("QV-good-facets-point", &i, NULL);
-	    qh GOODvertex= i + 1;
+            qh_fprintf(qh ferr, 7022, "qhull warning: no good point id given for option 'QVn'.  Ignored\n");
+          else if (i < 0) {
+            qh GOODvertex= i - 1;
+            qh_option("QV-good-facets-not-point", &i, NULL);
+          }else {
+            qh_option("QV-good-facets-point", &i, NULL);
+            qh GOODvertex= i + 1;
           }
- 	  s= t;
-	  break;
-	default:
-	  s--;
-	  qh_fprintf(qh ferr, 7023, "qhull warning: unknown 'Q' qhull option %c, rest ignored\n", (int)s[0]);
-	  while (*++s && !isspace(*s));
-	  break;
-	}
+          s= t;
+          break;
+        default:
+          s--;
+          qh_fprintf(qh ferr, 7023, "qhull warning: unknown 'Q' qhull option %c, rest ignored\n", (int)s[0]);
+          while (*++s && !isspace(*s));
+          break;
+        }
       }
       break;
     case 'T':
       while (*s && !isspace(*s)) {
-	if (isdigit(*s) || *s == '-')
-	  qh IStracing= qh_strtol(s, &s);
-	else switch (*s++) {
-	case 'a':
+        if (isdigit(*s) || *s == '-')
+          qh IStracing= qh_strtol(s, &s);
+        else switch (*s++) {
+        case 'a':
           qh_option("Tannotate-output", NULL, NULL);
-	  qh ANNOTATEoutput= True;
-	  break;
-	case 'c':
+          qh ANNOTATEoutput= True;
+          break;
+        case 'c':
           qh_option("Tcheck-frequently", NULL, NULL);
-	  qh CHECKfrequently= True;
-	  break;
-	case 's':
+          qh CHECKfrequently= True;
+          break;
+        case 's':
           qh_option("Tstatistics", NULL, NULL);
-	  qh PRINTstatistics= True;
-	  break;
-	case 'v':
+          qh PRINTstatistics= True;
+          break;
+        case 'v':
           qh_option("Tverify", NULL, NULL);
-	  qh VERIFYoutput= True;
-	  break;
-	case 'z':
+          qh VERIFYoutput= True;
+          break;
+        case 'z':
           if (qh ferr == qh_FILEstderr) {
             /* The C++ interface captures the output in qh_fprint_qhull() */
             qh_option("Tz-stdout", NULL, NULL);
             qh USEstdout= True;
-          }else if (!qh fout) 
-	    qh_fprintf(qh ferr, 7024, "qhull warning: output file undefined(stdout).  Option 'Tz' ignored.\n");
-	  else {
-	    qh_option("Tz-stdout", NULL, NULL);
+          }else if (!qh fout)
+            qh_fprintf(qh ferr, 7024, "qhull warning: output file undefined(stdout).  Option 'Tz' ignored.\n");
+          else {
+            qh_option("Tz-stdout", NULL, NULL);
             qh USEstdout= True;
-  	    qh ferr= qh fout;
-  	    qhmem.ferr= qh fout;
-	  }
-	  break;
-	case 'C':
-	  if (!isdigit(*s))
-	    qh_fprintf(qh ferr, 7025, "qhull warning: missing point id for cone for trace option 'TCn'.  Ignored\n");
-	  else {
-	    i= qh_strtol(s, &s);
-	    qh_option("TCone-stop", &i, NULL);
-	    qh STOPcone= i + 1;
+            qh ferr= qh fout;
+            qhmem.ferr= qh fout;
           }
-	  break;
-	case 'F':
-	  if (!isdigit(*s))
-	    qh_fprintf(qh ferr, 7026, "qhull warning: missing frequency count for trace option 'TFn'.  Ignored\n");
-	  else {
-	    qh REPORTfreq= qh_strtol(s, &s);
+          break;
+        case 'C':
+          if (!isdigit(*s))
+            qh_fprintf(qh ferr, 7025, "qhull warning: missing point id for cone for trace option 'TCn'.  Ignored\n");
+          else {
+            i= qh_strtol(s, &s);
+            qh_option("TCone-stop", &i, NULL);
+            qh STOPcone= i + 1;
+          }
+          break;
+        case 'F':
+          if (!isdigit(*s))
+            qh_fprintf(qh ferr, 7026, "qhull warning: missing frequency count for trace option 'TFn'.  Ignored\n");
+          else {
+            qh REPORTfreq= qh_strtol(s, &s);
             qh_option("TFacet-log", &qh REPORTfreq, NULL);
-	    qh REPORTfreq2= qh REPORTfreq/2;  /* for tracemerging() */
-	  }
-	  break;
-	case 'I':
+            qh REPORTfreq2= qh REPORTfreq/2;  /* for tracemerging() */
+          }
+          break;
+        case 'I':
           if (!isspace(*s))
             qh_fprintf(qh ferr, 7027, "qhull warning: missing space between 'TI' and filename, %s\n", s);
           while (isspace(*s))
@@ -1311,16 +1311,16 @@ void qh_initflags(char *command) {
 
             qh_copyfilename(filename, (int)sizeof(filename), s, (int)(t-s));   /* WARN64 */
             s= t;
-	    if (!freopen(filename, "r", stdin)) {
-	      qh_fprintf(qh ferr, 6041, "qhull error: could not open file \"%s\".", filename);
-	      qh_errexit(qh_ERRinput, NULL, NULL);
-	    }else {
-	      qh_option("TInput-file", NULL, NULL);
-	      qh_option(filename, NULL, NULL);
-	    }
+            if (!freopen(filename, "r", stdin)) {
+              qh_fprintf(qh ferr, 6041, "qhull error: could not open file \"%s\".", filename);
+              qh_errexit(qh_ERRinput, NULL, NULL);
+            }else {
+              qh_option("TInput-file", NULL, NULL);
+              qh_option(filename, NULL, NULL);
+            }
           }
-	  break;
-	case 'O':
+          break;
+        case 'O':
             if (!isspace(*s))
                 qh_fprintf(qh ferr, 7028, "qhull warning: missing space between 'TO' and filename, %s\n", s);
             while (isspace(*s))
@@ -1331,78 +1331,78 @@ void qh_initflags(char *command) {
 
               qh_copyfilename(filename, (int)sizeof(filename), s, (int)(t-s));  /* WARN64 */
               s= t;
-       	      if (!freopen(filename, "w", stdout)) {
-	        qh_fprintf(qh ferr, 6044, "qhull error: could not open file \"%s\".", filename);
-	        qh_errexit(qh_ERRinput, NULL, NULL);
-	      }else {
-	        qh_option("TOutput-file", NULL, NULL);
-	      qh_option(filename, NULL, NULL);
-	    }
-	  }
-	  break;
-	case 'P':
-	  if (!isdigit(*s))
-	    qh_fprintf(qh ferr, 7029, "qhull warning: missing point id for trace option 'TPn'.  Ignored\n");
-	  else {
-	    qh TRACEpoint= qh_strtol(s, &s);
+              if (!freopen(filename, "w", stdout)) {
+                qh_fprintf(qh ferr, 6044, "qhull error: could not open file \"%s\".", filename);
+                qh_errexit(qh_ERRinput, NULL, NULL);
+              }else {
+                qh_option("TOutput-file", NULL, NULL);
+              qh_option(filename, NULL, NULL);
+            }
+          }
+          break;
+        case 'P':
+          if (!isdigit(*s))
+            qh_fprintf(qh ferr, 7029, "qhull warning: missing point id for trace option 'TPn'.  Ignored\n");
+          else {
+            qh TRACEpoint= qh_strtol(s, &s);
             qh_option("Trace-point", &qh TRACEpoint, NULL);
           }
-	  break;
-	case 'M':
-	  if (!isdigit(*s))
-	    qh_fprintf(qh ferr, 7030, "qhull warning: missing merge id for trace option 'TMn'.  Ignored\n");
-	  else {
-	    qh TRACEmerge= qh_strtol(s, &s);
+          break;
+        case 'M':
+          if (!isdigit(*s))
+            qh_fprintf(qh ferr, 7030, "qhull warning: missing merge id for trace option 'TMn'.  Ignored\n");
+          else {
+            qh TRACEmerge= qh_strtol(s, &s);
             qh_option("Trace-merge", &qh TRACEmerge, NULL);
           }
-	  break;
-	case 'R':
-	  if (!isdigit(*s))
-	    qh_fprintf(qh ferr, 7031, "qhull warning: missing rerun count for trace option 'TRn'.  Ignored\n");
-	  else {
-	    qh RERUN= qh_strtol(s, &s);
+          break;
+        case 'R':
+          if (!isdigit(*s))
+            qh_fprintf(qh ferr, 7031, "qhull warning: missing rerun count for trace option 'TRn'.  Ignored\n");
+          else {
+            qh RERUN= qh_strtol(s, &s);
             qh_option("TRerun", &qh RERUN, NULL);
           }
-	  break;
-	case 'V':
-	  i= qh_strtol(s, &t);
-	  if (s == t)
-	    qh_fprintf(qh ferr, 7032, "qhull warning: missing furthest point id for trace option 'TVn'.  Ignored\n");
-	  else if (i < 0) {
-	    qh STOPpoint= i - 1;
+          break;
+        case 'V':
+          i= qh_strtol(s, &t);
+          if (s == t)
+            qh_fprintf(qh ferr, 7032, "qhull warning: missing furthest point id for trace option 'TVn'.  Ignored\n");
+          else if (i < 0) {
+            qh STOPpoint= i - 1;
             qh_option("TV-stop-before-point", &i, NULL);
-	  }else {
-	    qh STOPpoint= i + 1;
+          }else {
+            qh STOPpoint= i + 1;
             qh_option("TV-stop-after-point", &i, NULL);
           }
           s= t;
-	  break;
-	case 'W':
-	  if (!isdigit(*s))
-	    qh_fprintf(qh ferr, 7033, "qhull warning: missing max width for trace option 'TWn'.  Ignored\n");
-	  else {
- 	    qh TRACEdist= (realT) qh_strtod(s, &s);
+          break;
+        case 'W':
+          if (!isdigit(*s))
+            qh_fprintf(qh ferr, 7033, "qhull warning: missing max width for trace option 'TWn'.  Ignored\n");
+          else {
+            qh TRACEdist= (realT) qh_strtod(s, &s);
             qh_option("TWide-trace", NULL, &qh TRACEdist);
           }
-	  break;
-	default:
-	  s--;
-	  qh_fprintf(qh ferr, 7034, "qhull warning: unknown 'T' trace option %c, rest ignored\n", (int)s[0]);
-	  while (*++s && !isspace(*s));
-	  break;
-	}
+          break;
+        default:
+          s--;
+          qh_fprintf(qh ferr, 7034, "qhull warning: unknown 'T' trace option %c, rest ignored\n", (int)s[0]);
+          while (*++s && !isspace(*s));
+          break;
+        }
       }
       break;
     default:
       qh_fprintf(qh ferr, 7035, "qhull warning: unknown flag %c(%x)\n", (int)s[-1],
-	       (int)s[-1]);
+               (int)s[-1]);
       break;
     }
     if (s-1 == prev_s && *s && !isspace(*s)) {
       qh_fprintf(qh ferr, 7036, "qhull warning: missing space after flag %c(%x); reserved for menu. Skipped.\n",
-	       (int)*prev_s, (int)*prev_s);
+               (int)*prev_s, (int)*prev_s);
       while (*s && !isspace(*s))
-	s++;
+        s++;
     }
   }
   if (qh STOPcone && qh JOGGLEmax < REALmax/2)
@@ -1498,7 +1498,7 @@ void qh_initqhull_globals(coordT *points, int numpoints, int dim, boolT ismalloc
       qh MERGEexact= True;
       qh_option("Qxact_merge", NULL, NULL);
     }
-  }else if (qh MERGEexact) 
+  }else if (qh MERGEexact)
     qh MERGING= True;
   if (!qh NOpremerge && qh JOGGLEmax > REALmax/2) {
 #ifdef qh_NOmerge
@@ -1545,7 +1545,7 @@ void qh_initqhull_globals(coordT *points, int numpoints, int dim, boolT ismalloc
   if (qh SCALElast && !qh DELAUNAY && qh PRINTprecision)
     qh_fprintf(qh ferr, 7040, "qhull input warning: option 'Qbb' (scale-last-coordinate) is normally used with 'd' or 'v'\n");
   qh DOcheckmax= (!qh SKIPcheckmax && qh MERGING );
-  qh KEEPnearinside= (qh DOcheckmax && !(qh KEEPinside && qh KEEPcoplanar) 
+  qh KEEPnearinside= (qh DOcheckmax && !(qh KEEPinside && qh KEEPcoplanar)
                           && !qh NOnearinside);
   if (qh MERGING)
     qh CENTERtype= qh_AScentrum;
@@ -1571,7 +1571,7 @@ void qh_initqhull_globals(coordT *points, int numpoints, int dim, boolT ismalloc
     factorial *= k;
   qh AREAfactor= 1.0 / factorial;
   trace2((qh ferr, 2005, "qh_initqhull_globals: initialize globals.  dim %d numpoints %d malloc? %d projected %d to hull_dim %d\n",
-	dim, numpoints, ismalloc, qh PROJECTinput, qh hull_dim));
+        dim, numpoints, ismalloc, qh PROJECTinput, qh hull_dim));
   qh normal_size= qh hull_dim * sizeof(coordT);
   qh center_size= qh normal_size - sizeof(coordT);
   pointsneeded= qh hull_dim+1;
@@ -1618,7 +1618,7 @@ void qh_initqhull_globals(coordT *points, int numpoints, int dim, boolT ismalloc
       qh_fprintf(qh ferr, 8036, "\
 qhull configuration error (qh_RANDOMmax in user.h):\n\
    random integer %d > qh_RANDOMmax(%.8g)\n",
-	       randi, qh_RANDOMmax);
+               randi, qh_RANDOMmax);
       qh_errexit(qh_ERRinput, NULL, NULL);
     }
   }
@@ -1630,7 +1630,7 @@ qhull configuration error (qh_RANDOMmax in user.h):\n\
 qhull configuration warning (qh_RANDOMmax in user.h):\n\
    average of 1000 random integers (%.2g) is much different than expected (%.2g).\n\
    Is qh_RANDOMmax (%.2g) wrong?\n",
-	     randr, qh_RANDOMmax * 0.5, qh_RANDOMmax);
+             randr, qh_RANDOMmax * 0.5, qh_RANDOMmax);
   qh RANDOMa= 2.0 * qh RANDOMfactor/qh_RANDOMmax;
   qh RANDOMb= 1.0 - qh RANDOMfactor;
   if (qh_HASHfactor < 1.1) {
@@ -1640,12 +1640,12 @@ qhull configuration warning (qh_RANDOMmax in user.h):\n\
   }
   if (numpoints+extra < pointsneeded) {
     qh_fprintf(qh ferr, 6214, "qhull input error: not enough points(%d) to construct initial simplex(need %d)\n",
-	    numpoints, pointsneeded);
+            numpoints, pointsneeded);
     qh_errexit(qh_ERRinput, NULL, NULL);
   }
   qh_initqhull_outputflags();
 } /* initqhull_globals */
- 
+
 /*-<a                             href="qh-globa.htm#TOC"
   >-------------------------------</a><a name="initqhull_mem">-</a>
 
@@ -1709,7 +1709,7 @@ void qh_initqhull_outputflags(void) {
   trace3((qh ferr, 3024, "qh_initqhull_outputflags: %s\n", qh qhull_command));
   if (!(qh PRINTgood || qh PRINTneighbors)) {
     if (qh KEEParea || qh KEEPminArea < REALmax/2 || qh KEEPmerge || qh DELAUNAY
-	|| (!qh ONLYgood && (qh GOODvertex || qh GOODpoint))) {
+        || (!qh ONLYgood && (qh GOODvertex || qh GOODpoint))) {
       qh PRINTgood= True;
       qh_option("Pgood", NULL, NULL);
     }
@@ -1743,12 +1743,12 @@ void qh_initqhull_outputflags(void) {
     }else if (qh PRINTout[i] == qh_PRINTvertices) {
       if (qh VORONOI)
         qh_option("Fvoronoi", NULL, NULL);
-      else 
+      else
         qh_option("Fvertices", NULL, NULL);
     }
   }
   if (printcoplanar && qh DELAUNAY && qh JOGGLEmax < REALmax/2) {
-    if (qh PRINTprecision) 
+    if (qh PRINTprecision)
       qh_fprintf(qh ferr, 7041, "qhull input warning: 'QJ' (joggle) will usually prevent coincident input sites for options 'Fc' and 'FP'\n");
   }
   if (printmath && (qh hull_dim > 3 || qh VORONOI)) {
@@ -1771,7 +1771,7 @@ void qh_initqhull_outputflags(void) {
     }
     /* can not warn about furthest-site Geomview output: no lower_threshold */
     if (qh hull_dim == 4 && qh DROPdim == -1 &&
-	(qh PRINTcoplanar || qh PRINTspheres || qh PRINTcentrums)) {
+        (qh PRINTcoplanar || qh PRINTspheres || qh PRINTcentrums)) {
       qh_fprintf(qh ferr, 7042, "qhull input warning: coplanars, vertices, and centrums output not\n\
 available for 4-d output(ignored).  Could use 'GDn' instead.\n");
       qh PRINTcoplanar= qh PRINTspheres= qh PRINTcentrums= False;
@@ -1831,10 +1831,10 @@ void qh_initqhull_start(FILE *infile, FILE *outfile, FILE *errfile) {
     initialize statistics, stdio, default values for global variables
     assumes qh_qh is defined
   notes:
-    report errors elsewhere, error handling and g_qhull_output [Qhull.cpp, QhullQh()] not in initialized 
+    report errors elsewhere, error handling and g_qhull_output [Qhull.cpp, QhullQh()] not in initialized
   see:
     qh_maxmin() determines the precision constants
-    qh_freeqhull2() 
+    qh_freeqhull2()
 */
 void qh_initqhull_start2(FILE *infile, FILE *outfile, FILE *errfile) {
   time_t timedata;
@@ -1924,69 +1924,69 @@ void qh_initthresholds(char *command) {
     if (*s == 'P') {
       s++;
       while (*s && !isspace(key= *s++)) {
-	if (key == 'd' || key == 'D') {
-	  if (!isdigit(*s)) {
-	    qh_fprintf(qh ferr, 7044, "qhull warning: no dimension given for Print option '%c' at: %s.  Ignored\n",
-		    key, s-1);
-	    continue;
-	  }
-	  idx= qh_strtol(s, &s);
-	  if (idx >= qh hull_dim) {
-	    qh_fprintf(qh ferr, 7045, "qhull warning: dimension %d for Print option '%c' is >= %d.  Ignored\n",
-	        idx, key, qh hull_dim);
-	    continue;
-	  }
-	  if (*s == ':') {
-	    s++;
-	    value= qh_strtod(s, &s);
-	    if (fabs((double)value) > 1.0) {
-	      qh_fprintf(qh ferr, 7046, "qhull warning: value %2.4g for Print option %c is > +1 or < -1.  Ignored\n",
-	              value, key);
-	      continue;
-	    }
-	  }else
-	    value= 0.0;
-	  if (key == 'd')
-	    qh lower_threshold[idx]= value;
-	  else
-	    qh upper_threshold[idx]= value;
-	}
+        if (key == 'd' || key == 'D') {
+          if (!isdigit(*s)) {
+            qh_fprintf(qh ferr, 7044, "qhull warning: no dimension given for Print option '%c' at: %s.  Ignored\n",
+                    key, s-1);
+            continue;
+          }
+          idx= qh_strtol(s, &s);
+          if (idx >= qh hull_dim) {
+            qh_fprintf(qh ferr, 7045, "qhull warning: dimension %d for Print option '%c' is >= %d.  Ignored\n",
+                idx, key, qh hull_dim);
+            continue;
+          }
+          if (*s == ':') {
+            s++;
+            value= qh_strtod(s, &s);
+            if (fabs((double)value) > 1.0) {
+              qh_fprintf(qh ferr, 7046, "qhull warning: value %2.4g for Print option %c is > +1 or < -1.  Ignored\n",
+                      value, key);
+              continue;
+            }
+          }else
+            value= 0.0;
+          if (key == 'd')
+            qh lower_threshold[idx]= value;
+          else
+            qh upper_threshold[idx]= value;
+        }
       }
     }else if (*s == 'Q') {
       s++;
       while (*s && !isspace(key= *s++)) {
-	if (key == 'b' && *s == 'B') {
-	  s++;
-	  for (k=maxdim; k--; ) {
-	    qh lower_bound[k]= -qh_DEFAULTbox;
-	    qh upper_bound[k]= qh_DEFAULTbox;
-	  }
-	}else if (key == 'b' && *s == 'b')
-	  s++;
-	else if (key == 'b' || key == 'B') {
-	  if (!isdigit(*s)) {
-	    qh_fprintf(qh ferr, 7047, "qhull warning: no dimension given for Qhull option %c.  Ignored\n",
-		    key);
-	    continue;
-	  }
-	  idx= qh_strtol(s, &s);
-	  if (idx >= maxdim) {
-	    qh_fprintf(qh ferr, 7048, "qhull warning: dimension %d for Qhull option %c is >= %d.  Ignored\n",
-	        idx, key, maxdim);
-	    continue;
-	  }
-	  if (*s == ':') {
-	    s++;
-	    value= qh_strtod(s, &s);
-	  }else if (key == 'b')
-	    value= -qh_DEFAULTbox;
-	  else
-	    value= qh_DEFAULTbox;
-	  if (key == 'b')
-	    qh lower_bound[idx]= value;
-	  else
-	    qh upper_bound[idx]= value;
-	}
+        if (key == 'b' && *s == 'B') {
+          s++;
+          for (k=maxdim; k--; ) {
+            qh lower_bound[k]= -qh_DEFAULTbox;
+            qh upper_bound[k]= qh_DEFAULTbox;
+          }
+        }else if (key == 'b' && *s == 'b')
+          s++;
+        else if (key == 'b' || key == 'B') {
+          if (!isdigit(*s)) {
+            qh_fprintf(qh ferr, 7047, "qhull warning: no dimension given for Qhull option %c.  Ignored\n",
+                    key);
+            continue;
+          }
+          idx= qh_strtol(s, &s);
+          if (idx >= maxdim) {
+            qh_fprintf(qh ferr, 7048, "qhull warning: dimension %d for Qhull option %c is >= %d.  Ignored\n",
+                idx, key, maxdim);
+            continue;
+          }
+          if (*s == ':') {
+            s++;
+            value= qh_strtod(s, &s);
+          }else if (key == 'b')
+            value= -qh_DEFAULTbox;
+          else
+            value= qh_DEFAULTbox;
+          if (key == 'b')
+            qh lower_bound[idx]= value;
+          else
+            qh upper_bound[idx]= value;
+        }
       }
     }else {
       while (*s && !isspace(*s))

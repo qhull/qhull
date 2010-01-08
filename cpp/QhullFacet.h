@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullFacet.h#35 $$Change: 1139 $
-** $DateTime: 2010/01/03 11:20:29 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullFacet.h#36 $$Change: 1164 $
+** $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -49,7 +49,7 @@ public:
 #//Constants
 
 #//Constructors
-                        QhullFacet() : qh_facet(&s_empty_facet) {} 
+                        QhullFacet() : qh_facet(&s_empty_facet) {}
                         //! Shallow copy
                         QhullFacet(const QhullFacet &o) : qh_facet(o.qh_facet ? o.qh_facet : &s_empty_facet) {}
     QhullFacet         &operator=(const QhullFacet &o) { qh_facet= o.qh_facet ? o.qh_facet : &s_empty_facet; return *this; }
@@ -65,7 +65,7 @@ public:
     facetT             *getBaseT() const { return getFacetT(); }
 
 #//getSet
-    int                 dimension() const; 
+    int                 dimension() const;
     int                 id() const { return qh_facet ? qh_facet->id : -1; }
     bool                isDefined() const { return qh_facet && qh_facet != &s_empty_facet; }
     bool                isGood() const { return qh_facet && qh_facet->good; }
@@ -78,8 +78,8 @@ public:
     QhullPoint          getCenter(int qhRunId) { return getCenter(qhRunId, qh_PRINTpoints); }
     QhullPoint          getCenter(int qhRunId, qh_PRINT printFormat);
     QhullHyperplane     hyperplane() const { return QhullHyperplane(dimension(), qh_facet->normal, qh_facet->offset); }
-    QhullHyperplane     innerplane(int qhRunId) const; 
-    QhullHyperplane     outerplane(int qhRunId) const; 
+    QhullHyperplane     innerplane(int qhRunId) const;
+    QhullHyperplane     outerplane(int qhRunId) const;
     QhullPoint          voronoiVertex(int qhRunId);
 
 #//value
@@ -103,35 +103,35 @@ public:
         const char     *message;
         int             run_id;
         qh_PRINT        print_format;
-                        PrintCenter(int qhRunId, QhullFacet &f, qh_PRINT printFormat, const char * s) : facet(&f), message(s), run_id(qhRunId), print_format(printFormat){} 
+                        PrintCenter(int qhRunId, QhullFacet &f, qh_PRINT printFormat, const char * s) : facet(&f), message(s), run_id(qhRunId), print_format(printFormat){}
     };//PrintCenter
     PrintCenter         printCenter(int qhRunId, qh_PRINT printFormat, const char *message) { return PrintCenter(qhRunId, *this, printFormat, message); }
 
     struct PrintFacet{
-        QhullFacet     *facet;  //! FIXUP, non-const due to f->center() 
+        QhullFacet     *facet;  //! FIXUP, non-const due to f->center()
         int             run_id;
-                        PrintFacet(int qhRunId, QhullFacet &f) : facet(&f), run_id(qhRunId) {} 
+                        PrintFacet(int qhRunId, QhullFacet &f) : facet(&f), run_id(qhRunId) {}
     };//PrintFacet
     PrintFacet          print(int qhRunId) { return PrintFacet(qhRunId, *this); }
 
     struct PrintFlags{
         const QhullFacet *facet; // Pointer to allow as subclass
         const char     *message;
-                        PrintFlags(const QhullFacet &f, const char *s) : facet(&f), message(s) {} 
+                        PrintFlags(const QhullFacet &f, const char *s) : facet(&f), message(s) {}
     };//PrintFlags
     PrintFlags          printFlags(const char *message) const { return PrintFlags(*this, message); }
 
     struct PrintHeader{
-        QhullFacet     *facet;  //! FIXUP, non-const due to f->center() 
+        QhullFacet     *facet;  //! FIXUP, non-const due to f->center()
         int             run_id;
-                        PrintHeader(int qhRunId, QhullFacet &f) : facet(&f), run_id(qhRunId) {} 
+                        PrintHeader(int qhRunId, QhullFacet &f) : facet(&f), run_id(qhRunId) {}
     };//PrintHeader
     PrintHeader         printHeader(int qhRunId) { return PrintHeader(qhRunId, *this); }
 
     struct PrintRidges{
-        QhullFacet     *facet; 
-        int             run_id; 
-                        PrintRidges(int qhRunId, QhullFacet &f) : facet(&f), run_id(qhRunId) {} 
+        QhullFacet     *facet;
+        int             run_id;
+                        PrintRidges(int qhRunId, QhullFacet &f) : facet(&f), run_id(qhRunId) {}
     };//PrintRidges
     PrintRidges         printRidges(int qhRunId) { return PrintRidges(qhRunId, *this); }
 

@@ -1,5 +1,5 @@
 
- Qhull 2010.1 2010/01/06
+ Qhull 2010.1 2010/01/07
 
         http://www.qhull.org
         git@gitorious.org:qhull/qhull.git
@@ -8,10 +8,10 @@
         http://www.geomview.org
         http://www.geom.uiuc.edu
 
-Qhull computes convex hulls, Delaunay triangulations, Voronoi diagrams, 
-furthest-site Voronoi diagrams, and halfspace intersections about a point. 
-It runs in 2-d, 3-d, 4-d, or higher.  It implements the Quickhull algorithm 
-for computing convex hulls.   Qhull handles round-off errors from floating 
+Qhull computes convex hulls, Delaunay triangulations, Voronoi diagrams,
+furthest-site Voronoi diagrams, and halfspace intersections about a point.
+It runs in 2-d, 3-d, 4-d, or higher.  It implements the Quickhull algorithm
+for computing convex hulls.   Qhull handles round-off errors from floating
 point arithmetic.  It can approximate a convex hull.
 
 The program includes options for hull volume, facet area, partial hulls,
@@ -40,7 +40,7 @@ combines the two-dimensional Quickhull Algorithm with  the general dimension
 Beneath-Beyond Algorithm.  It is similar to the randomized, incremental
 algorithms for convex hull and Delaunay triangulation.  We provide empirical
 evidence that the algorithm runs faster when the input contains non-extreme
-points, and that it uses less memory. 
+points, and that it uses less memory.
 
 Computational geometry algorithms have traditionally assumed that input sets
 are well behaved.  When an algorithm is implemented with floating point
@@ -48,5 +48,5 @@ arithmetic, this assumption can lead to serious errors.  We briefly describe
 a solution to this problem when computing the convex hull in two, three, or
 four dimensions.  The output is a set of "thick" facets that contain all
 possible exact convex hulls of the input.   A variation is effective in five
-or more dimensions.  
+or more dimensions.
 

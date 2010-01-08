@@ -372,11 +372,11 @@ and nearly cocircular points.
 
 <p>For example, compare
 <pre>
-	rbox 1000 W0 t | qconvex Qb2:-1e-14B2:1e-14
+        rbox 1000 W0 t | qconvex Qb2:-1e-14B2:1e-14
 </pre>
 with
 <pre>
-	rbox 1000 W0 t | qconvex
+        rbox 1000 W0 t | qconvex
 </pre>
 The distributions are the same but the first is compressed to a 2e-14 slab.
 <p>
@@ -391,7 +391,7 @@ further discussion.</p>
 facets.  This is similar to 'Qx'.  It may lead to serious precision errors,
 for example,
 <pre>
-	rbox 10000 W1e-13  | qhull Q6  Tv
+        rbox 10000 W1e-13  | qhull Q6  Tv
 </pre>
 
 <p>
@@ -417,7 +417,7 @@ produce wide facets.
 turned off ('<a href="qh-optq.htm#Q10">Q10</a>'), qhull may produce
 a wide facet:</p>
 <pre>
-	 RBOX 1000 L100000 s G1e-16 t1002074964 | QHULL Tv Q10
+         RBOX 1000 L100000 s G1e-16 t1002074964 | QHULL Tv Q10
 </pre>
 
 <p>
@@ -427,8 +427,8 @@ approximation. For example, if you do not use qdelaunay nor option
 Delaunay triangulation of nearly cocircular points may produce a poor
 approximation:
 <pre>
-	 RBOX s 5000 W1e-13 D2 t1002151341 | QHULL d Qt
-	 RBOX 1000 s W1e-13 t1002231672 | QHULL d Tv
+         RBOX s 5000 W1e-13 D2 t1002151341 | QHULL d Qt
+         RBOX 1000 s W1e-13 t1002231672 | QHULL d Tv
 </pre>
 
 <p>During
@@ -449,7 +449,7 @@ Use option '<a href="qh-optq.htm#Q10">Q10</a>' to try Qhull without
 special processing for narrow distributions.
 For example, special processing is needed for:
 <pre>
-	 RBOX 1000 L100000 s G1e-16 t1002074964 | QHULL Tv Q10
+         RBOX 1000 L100000 s G1e-16 t1002074964 | QHULL Tv Q10
 </pre>
 
 <p>You may turn off the warning message by reducing
@@ -463,9 +463,9 @@ A point may be left outside of the convex hull ('<a href="qh-optt.htm#Tv">Tv</a>
 Examples include
 the furthest-site Delaunay triangulation of nearly cocircular points plus the origin, and the convex hull of a cone of nearly cocircular points. The width of the band is 10^-13.
 <pre>
-	rbox s 1000 W1e-13 P0 D2 t996799242 | qhull d Tv
-	rbox 1000 s Z1 G1e-13 t1002152123 | qhull Tv
-	RBOX 1000 s Z1 G1e-13 t1002231668 | QHULL Tv
+        rbox s 1000 W1e-13 P0 D2 t996799242 | qhull d Tv
+        rbox 1000 s Z1 G1e-13 t1002152123 | qhull Tv
+        RBOX 1000 s Z1 G1e-13 t1002231668 | QHULL Tv
 </pre>
 
 <p>
@@ -536,7 +536,7 @@ with option '<a href="qh-optc.htm#Cn">C-n</a>'.
 Delaunay triangulations, a new point may lead to no good facets.  For example,
 try a strong convexity constraint:
 <pre>
-	rbox 1000 s t993602376 | qdelaunay C-1e-3
+        rbox 1000 s t993602376 | qdelaunay C-1e-3
 </pre>
 
 </ul>

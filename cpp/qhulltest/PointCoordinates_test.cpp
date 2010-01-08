@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2009-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/qhulltest/PointCoordinates_test.cpp#14 $$Change: 1139 $
-** $DateTime: 2010/01/03 11:20:29 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/qhulltest/PointCoordinates_test.cpp#15 $$Change: 1164 $
+** $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -50,7 +50,7 @@ add_PointCoordinates_test()
 
 void PointCoordinates_test::
 t_construct()
-{ 
+{
     PointCoordinates pc;
     QCOMPARE(pc.size(), 0U);
     QCOMPARE(pc.coordinateCount(), 0);
@@ -121,7 +121,7 @@ t_construct()
 
 void PointCoordinates_test::
 t_convert()
-{ 
+{
     //defineAs tested above
     coordT c[]= {0.0, 1.0, 2.0, 3.0, 4.0, 5.0};
     PointCoordinates ps(3, "two 3-d points", 6, c);
@@ -144,7 +144,7 @@ t_convert()
 
 void PointCoordinates_test::
 t_getset()
-{   
+{
     // See t_construct() for test of coordinates, coordinateCount, dimension, empty, isEmpty, ==, !=
     // See t_construct() for test of checkValid, comment, setDimension
     PointCoordinates pc("Coordinates c");
@@ -169,13 +169,13 @@ t_getset()
         QFAIL("setDimension(2) did not fail for 3-d.");
     }catch (const std::exception &e) {
         const char *s= e.what();
-        cout << "INFO   : Caught " << s; 
+        cout << "INFO   : Caught " << s;
     }
 }//t_getset
 
 void PointCoordinates_test::
 t_element()
-{   
+{
     coordT c[]= {0.0, 1.0, 2.0, 3.0, 4.0, 5.0};
     PointCoordinates pc(2, "2-d points", 6, c);
     QhullPoint p= pc.at(0);
@@ -192,7 +192,7 @@ t_element()
 
 void PointCoordinates_test::
 t_foreach()
-{   
+{
     coordT c[]= {0.0, 1.0, 2.0, 3.0, 4.0, 5.0};
     PointCoordinates pc(2, "2-d points", 6, c);
     QhullPoints::Iterator i= pc.begin();
@@ -239,7 +239,7 @@ t_foreach()
 
 void PointCoordinates_test::
 t_search()
-{ 
+{
     coordT c[]= {0.0, 1.0, 2.0, 3.0, 4.0, 5.0};
     PointCoordinates pc(2, "2-d points", 6, c);
     QhullPoint p0= pc[0];
@@ -253,7 +253,7 @@ t_search()
 
 void PointCoordinates_test::
 t_modify()
-{ 
+{
     coordT c[]= {0.0, 1.0, 2.0, 3.0, 4.0, 5.0};
     PointCoordinates pc(2, "2-d points", 6, c);
     coordT c3[]= {0.0, 1.0, 2.0, 3.0, 4.0, 5.0};
@@ -313,11 +313,11 @@ t_modify()
 
 void PointCoordinates_test::
 t_append_points()
-{ 
+{
     PointCoordinates pc(2, "stringstream");
     stringstream s("2 3 1 2 3 4 5 6");
     pc.appendPoints(s);
-    QCOMPARE(pc.count(), 3); 
+    QCOMPARE(pc.count(), 3);
 }//t_append_points
 
 void PointCoordinates_test::
@@ -379,7 +379,7 @@ t_coord_iterator()
 
 void PointCoordinates_test::
 t_io()
-{ 
+{
     PointCoordinates c;
     c << 1.0 << 2.0 << 3.0 << 1.0 << 2.0 << 3.0;
     ostringstream os;

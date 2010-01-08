@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/qhulltest/QhullVertex_test.cpp#11 $$Change: 1139 $
-** $DateTime: 2010/01/03 11:20:29 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/qhulltest/QhullVertex_test.cpp#12 $$Change: 1164 $
+** $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
 **
 ****************************************************************************/
 //pre-compiled headers
@@ -55,8 +55,8 @@ cleanup()
 
 void QhullVertex_test::
 t_constructConvert()
-{ 
-    // Qhull.runQhull() constructs QhullFacets as facetT 
+{
+    // Qhull.runQhull() constructs QhullFacets as facetT
     QhullVertex v;
     QVERIFY(!v.isDefined());
     QCOMPARE(v.dimension(),0);
@@ -78,7 +78,7 @@ t_constructConvert()
 
 void QhullVertex_test::
 t_getSet()
-{ 
+{
     RboxPoints rcube("c");
     {
         Qhull q(rcube,"Qt QR0");  // triangulation of rotated unit cube
@@ -92,7 +92,7 @@ t_getSet()
             const QhullVertex v= i.next();
             cout << v.id() << endl;
             QCOMPARE(v.dimension(),3);
-            QVERIFY(v.id()>=0 && v.id()<9); 
+            QVERIFY(v.id()>=0 && v.id()<9);
             QVERIFY(v.isDefined());
             if(i.hasNext()){
                 QCOMPARE(v.next(), i.peekNext());
@@ -118,7 +118,7 @@ t_getSet()
 
 void QhullVertex_test::
 t_foreach()
-{   
+{
     RboxPoints rcube("c W0 300");  // 300 points on surface of cube
     {
         Qhull q(rcube, "QR0 Qc"); // keep coplanars, thick facet, and rotate the cube
@@ -134,7 +134,7 @@ t_foreach()
 
 void QhullVertex_test::
 t_io()
-{   
+{
     RboxPoints rcube("c");
     {
         Qhull q(rcube, "");

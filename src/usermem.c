@@ -1,7 +1,7 @@
 /*<html><pre>  -<a                             href="qh-user.htm"
   >-------------------------------</a><a name="TOP">-</a>
 
-   usermem.c 
+   usermem.c
    qh_exit(), qh_free(), and qh_malloc()
 
    see README.txt  see COPYING.txt for copyright information.
@@ -18,7 +18,7 @@
    Please report any errors that you fix to qhull@qhull.org
 */
 
-#include "libqhull.h" 
+#include "libqhull.h"
 
 #include <stdlib.h>
 

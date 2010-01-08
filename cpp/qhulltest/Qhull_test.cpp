@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/qhulltest/Qhull_test.cpp#36 $$Change: 1139 $
-** $DateTime: 2010/01/03 11:20:29 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/qhulltest/Qhull_test.cpp#37 $$Change: 1164 $
+** $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -56,7 +56,7 @@ cleanup()
 
 void Qhull_test::
 t_construct()
-{ 
+{
     {
         Qhull q;
         QCOMPARE(q.dimension(),0);
@@ -68,7 +68,7 @@ t_construct()
             QCOMPARE(q.area(),0.0);
             QFAIL("area() did not fail.");
         }catch (const std::exception &e) {
-            cout << "INFO   : Caught " << e.what(); 
+            cout << "INFO   : Caught " << e.what();
         }
     }
     {
@@ -96,7 +96,7 @@ t_construct()
 
 void Qhull_test::
 t_attribute()
-{ 
+{
     RboxPoints rcube("c");
     {
         double normals[] = {
@@ -123,7 +123,7 @@ t_attribute()
 //! No QhullMessage for errors outside of qhull
 void Qhull_test::
 t_message()
-{ 
+{
     RboxPoints rcube("c");
     {
         Qhull q;
@@ -135,17 +135,17 @@ t_message()
             QFAIL("runQhull Fd did not fail.");
         }catch (const std::exception &e) {
             const char *s= e.what();
-            cout << "INFO   : Caught " << s; 
+            cout << "INFO   : Caught " << s;
             QCOMPARE(QString::fromStdString(s).left(6), QString("QH6029"));
             // Cleared when copied to QhullError
-            QVERIFY(!q.hasQhullMessage()); 
+            QVERIFY(!q.hasQhullMessage());
             // QCOMPARE(q.qhullMessage(), QString::fromStdString(s).remove(0, 7));
             // QCOMPARE(q.qhullStatus(), 6029);
             q.clearQhullMessage();  // FIXUP -- review decision to clearQhullMessage at QhullError()
             QVERIFY(!q.hasQhullMessage());
         }
         q.appendQhullMessage("Append 1");
-        QVERIFY(q.hasQhullMessage()); 
+        QVERIFY(q.hasQhullMessage());
         QCOMPARE(QString::fromStdString(q.qhullMessage()), QString("Append 1"));
         q.appendQhullMessage("\nAppend 2\n");
         QCOMPARE(QString::fromStdString(q.qhullMessage()), QString("Append 1\nAppend 2\n"));
@@ -154,7 +154,7 @@ t_message()
         QCOMPARE(QString::fromStdString(q.qhullMessage()), QString(""));
     }
     {
-        cout << "INFO   : Error stream without output stream\n"; 
+        cout << "INFO   : Error stream without output stream\n";
         Qhull q;
         q.setErrorStream(&cout);
         q.setOutputStream(0);
@@ -162,17 +162,17 @@ t_message()
             q.runQhull(rcube, "Fd");
             QFAIL("runQhull Fd did not fail.");
         }catch (const QhullError &e) {
-            cout << "INFO   : Caught " << e; 
+            cout << "INFO   : Caught " << e;
             QCOMPARE(e.errorCode(), 6029);
         }
         //FIXUP Qhullmessage cleared when QhullError thrown.  Switched to e
-        //QVERIFY(q.hasQhullMessage()); 
+        //QVERIFY(q.hasQhullMessage());
         //QCOMPARE(QString::fromStdString(q.qhullMessage()).left(6), QString("QH6029"));
         q.clearQhullMessage();
         QVERIFY(!q.hasQhullMessage());
     }
     {
-        cout << "INFO   : Error output sent to output stream without error stream\n"; 
+        cout << "INFO   : Error output sent to output stream without error stream\n";
         Qhull q;
         q.setErrorStream(0);
         q.setOutputStream(&cout);
@@ -181,18 +181,18 @@ t_message()
             QFAIL("runQhull TZ did not fail.");
         }catch (const std::exception &e) {
             const char *s= e.what();
-            cout << "INFO   : Caught " << s; 
+            cout << "INFO   : Caught " << s;
             QCOMPARE(QString::fromAscii(s).left(6), QString("QH6023"));
         }
         //FIXUP Qhullmessage cleared when QhullError thrown.  Switched to e
-        //QVERIFY(q.hasQhullMessage()); 
+        //QVERIFY(q.hasQhullMessage());
         //QCOMPARE(QString::fromStdString(q.qhullMessage()).left(17), QString("qhull: no message"));
         //QCOMPARE(q.qhullStatus(), 6023);
         q.clearQhullMessage();
         QVERIFY(!q.hasQhullMessage());
     }
     {
-        cout << "INFO   : No error stream or output stream\n"; 
+        cout << "INFO   : No error stream or output stream\n";
         Qhull q;
         q.setErrorStream(0);
         q.setOutputStream(0);
@@ -201,11 +201,11 @@ t_message()
             QFAIL("outputQhull did not fail.");
         }catch (const std::exception &e) {
             const char *s= e.what();
-            cout << "INFO   : Caught " << s; 
+            cout << "INFO   : Caught " << s;
             QCOMPARE(QString::fromAscii(s).left(6), QString("QH6029"));
         }
         //FIXUP Qhullmessage cleared when QhullError thrown.  Switched to e
-        //QVERIFY(q.hasQhullMessage()); 
+        //QVERIFY(q.hasQhullMessage());
         //QCOMPARE(QString::fromStdString(q.qhullMessage()).left(9), QString("qhull err"));
         //QCOMPARE(q.qhullStatus(), 6029);
         q.clearQhullMessage();
@@ -215,7 +215,7 @@ t_message()
 
 void Qhull_test::
 t_getSet()
-{ 
+{
     RboxPoints rcube("c");
     {
         Qhull q;
@@ -242,7 +242,7 @@ t_getSet()
 
 void Qhull_test::
 t_getQh()
-{ 
+{
     RboxPoints rcube("c");
     {
         Qhull q;
@@ -269,7 +269,7 @@ t_getQh()
 
 void Qhull_test::
 t_getValue()
-{ 
+{
     RboxPoints rcube("c");
     {
         Qhull q;
@@ -281,7 +281,7 @@ t_getValue()
 
 void Qhull_test::
 t_foreach()
-{ 
+{
     RboxPoints rcube("c");
     {
         Qhull q;
@@ -314,7 +314,7 @@ t_foreach()
 
 void Qhull_test::
 t_modify()
-{ 
+{
     //addPoint() tested in t_foreach
     RboxPoints diamond("d");
     Qhull q(diamond, "o");

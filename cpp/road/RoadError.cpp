@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/road/RoadError.cpp#15 $$Change: 1139 $
-** $DateTime: 2010/01/03 11:20:29 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/road/RoadError.cpp#16 $$Change: 1164 $
+** $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -19,7 +19,7 @@ using std::cerr;
 using std::cout;
 using std::string;
 
-#ifdef _MSC_VER  // Microsoft Visual C++ -- warning level 4 
+#ifdef _MSC_VER  // Microsoft Visual C++ -- warning level 4
 #endif
 
 namespace orgQhull {
@@ -37,7 +37,7 @@ global_log;
 #//Constructor
 
 RoadError::
-RoadError() 
+RoadError()
 : error_code(0)
 , log_event()
 , error_message()
@@ -48,7 +48,7 @@ RoadError(const RoadError &e)
 : error_code(e.error_code)
 , log_event(e.log_event)
 , error_message(e.error_message)
-{ 
+{
 }//copy construct
 
 RoadError::
@@ -56,7 +56,7 @@ RoadError(int code, const std::string &message)
 : error_code(code)
 , log_event(message.c_str())
 , error_message(log_event.toString(ROADtag, error_code))
-{ 
+{
     log_event.cstr_1= error_message.c_str(); // overwrites initial value
 }
 
@@ -84,7 +84,7 @@ RoadError(int code, const char *fmt, int d, int d2)
 RoadError::
 RoadError(int code, const char *fmt, int d, int d2, float f)
 : error_code(code)
-, log_event(fmt, d, d2, f) 
+, log_event(fmt, d, d2, f)
 , error_message()
 { }
 
@@ -123,7 +123,7 @@ RoadError(int code, const char *fmt, int d, int d2, float f, double e)
 , error_message()
 { }
 
-RoadError & RoadError:: 
+RoadError & RoadError::
 operator=(const RoadError &e)
 {
     error_code= e.error_code;

@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2009-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/PointCoordinates.h#14 $$Change: 1139 $
-** $DateTime: 2010/01/03 11:20:29 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/PointCoordinates.h#15 $$Change: 1164 $
+** $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -28,8 +28,8 @@ class PointCoordinates : public QhullPoints {
 
 private:
 #//Field
-    Coordinates         point_coordinates;	//! array of point coordinates
-                                                //! may have extraCoordinates() 
+    Coordinates         point_coordinates;      //! array of point coordinates
+                                                //! may have extraCoordinates()
     std::string         point_comment;          //! Comment describing PointCoordinates
 
 public:
@@ -47,11 +47,11 @@ public:
 #//Convert
     //! QhullPoints coordinates, constData, data, count, size
 #ifndef QHULL_NO_STL
-    void	        append(const std::vector<coordT> &coordinates) { if(!coordinates.empty()){ append((int)coordinates.size(), &coordinates[0]); } } 
+    void                append(const std::vector<coordT> &coordinates) { if(!coordinates.empty()){ append((int)coordinates.size(), &coordinates[0]); } }
     std::vector<coordT> toStdVector() const { return point_coordinates.toStdVector(); }
 #endif //QHULL_NO_STL
 #ifdef QHULL_USES_QT
-    void	        append(const QList<coordT> &coordinates) { if(!coordinates.isEmpty()){ append(coordinates.count(), &coordinates[0]); } } 
+    void                append(const QList<coordT> &coordinates) { if(!coordinates.isEmpty()){ append(coordinates.count(), &coordinates[0]); } }
     QList<coordT>       toQList() const { return point_coordinates.toQList(); }
 #endif //QHULL_USES_QT
 
@@ -74,10 +74,10 @@ public:
 
 #//Foreach
     //! See QhullPoints for begin, constBegin, end
-    Coordinates::ConstIterator	beginCoordinates() const { return point_coordinates.begin(); }
+    Coordinates::ConstIterator  beginCoordinates() const { return point_coordinates.begin(); }
     Coordinates::Iterator       beginCoordinates() { return point_coordinates.begin(); }
     Coordinates::ConstIterator  beginCoordinates(int pointIndex) const;
-    Coordinates::Iterator	beginCoordinates(int pointIndex);
+    Coordinates::Iterator       beginCoordinates(int pointIndex);
     Coordinates::ConstIterator  endCoordinates() const { return point_coordinates.end(); }
     Coordinates::Iterator       endCoordinates() { return point_coordinates.end(); }
 
@@ -93,7 +93,7 @@ public:
     void                append(const coordT &c) { append(1, &c); } //! Dimension previously defined
     void                append(const QhullPoint &p);
     //! See convert for std::vector and QList
-    void	        append(const Coordinates &c) { append(c.count(), c.data()); } 
+    void                append(const Coordinates &c) { append(c.count(), c.data()); }
     void                append(const PointCoordinates &other);
     void                appendComment(const std::string &s);
     void                appendPoints(std::istream &in);
@@ -104,7 +104,7 @@ public:
     PointCoordinates   &operator<<(const coordT &c) { return *this += c; }
     PointCoordinates   &operator<<(const QhullPoint &p) { return *this += p; }
     // reserve() is non-const
-    void	        reserveCoordinates(int newCoordinates);
+    void                reserveCoordinates(int newCoordinates);
 
 #//Helpers
 private:

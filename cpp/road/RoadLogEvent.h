@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/road/RoadLogEvent.h#11 $$Change: 1139 $
-** $DateTime: 2010/01/03 11:20:29 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/road/RoadLogEvent.h#12 $$Change: 1164 $
+** $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -23,7 +23,7 @@ struct RoadLogEvent {
 
 public:
 #//Fields
-    const char     *format_string; //! Format string (a literal with format codes, for logging)    
+    const char     *format_string; //! Format string (a literal with format codes, for logging)
     int             int_1;       //! Integer argument (%d, for logging)
     int             int_2;       //! Integer argument (%d, for logging)
     float           float_1;     //! Float argument (%f, for logging)

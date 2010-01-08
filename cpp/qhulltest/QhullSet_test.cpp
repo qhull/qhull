@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (f) 2009-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/qhulltest/QhullSet_test.cpp#19 $$Change: 1139 $
-** $DateTime: 2010/01/03 11:20:29 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/qhulltest/QhullSet_test.cpp#20 $$Change: 1164 $
+** $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -52,7 +52,7 @@ cleanup()
 
 void QhullSet_test::
 t_qhullsetbase()
-{ 
+{
     RboxPoints rcube("c");
     {
         Qhull q(rcube,"Qt QR0");  // triangulation of rotated unit cube
@@ -92,7 +92,7 @@ t_qhullsetbase()
 
 void QhullSet_test::
 t_convert()
-{ 
+{
     RboxPoints rcube("c");
     {
         Qhull q(rcube,"Qt QR0");  // triangulation of rotated unit cube
@@ -118,7 +118,7 @@ t_convert()
 
 void QhullSet_test::
 t_element()
-{   
+{
     RboxPoints rcube("c");
     Qhull q(rcube,"QR0");  // rotated unit cube
     QhullFacet f = q.beginFacet();
@@ -155,7 +155,7 @@ t_element()
 
 void QhullSet_test::
 t_search()
-{   
+{
     RboxPoints rcube("c");
     Qhull q(rcube,"QR0");  // rotated unit cube
     QhullFacet f = q.beginFacet();
@@ -182,7 +182,7 @@ t_search()
 
 void QhullSet_test::
 t_iterator()
-{ 
+{
     RboxPoints rcube("c");
     {
         Qhull q(rcube,"QR0");  // rotated unit cube
@@ -204,7 +204,7 @@ t_iterator()
         QCOMPARE(f2.id(), fs[3].id());
         QhullFacetSet::Iterator i3(i2);
         QCOMPARE(*i2, *i3);
-        
+
         (i3= i)++;
         QCOMPARE((*i3).id(), fs[1].id());
         QVERIFY(i==i);
@@ -213,7 +213,7 @@ t_iterator()
         QVERIFY(i<=i2);
         QVERIFY(i2>i);
         QVERIFY(i2>=i);
-        
+
         QhullFacetSet::ConstIterator i4= fs.begin();
         QVERIFY(i==i4); // iterator COMP const_iterator
         QVERIFY(i<=i4);
@@ -243,16 +243,16 @@ t_iterator()
         QCOMPARE(i, i2--);
         QCOMPARE(i2, fs.begin());
         QCOMPARE(--i, i2);
-        QCOMPARE(i2 += 4, fs.end()); 
-        QCOMPARE(i2 -= 4, fs.begin()); 
-        QCOMPARE(i2+0, fs.begin()); 
+        QCOMPARE(i2 += 4, fs.end());
+        QCOMPARE(i2 -= 4, fs.begin());
+        QCOMPARE(i2+0, fs.begin());
         QCOMPARE(i2+4, fs.end());
         i2 += 4;
         i= i2-0;
         QCOMPARE(i, i2);
         i= i2-4;
-        QCOMPARE(i, fs.begin()); 
-        QCOMPARE(i2-i, 4); 
+        QCOMPARE(i, fs.begin());
+        QCOMPARE(i2-i, 4);
 
         //fs.begin end tested above
 
@@ -262,7 +262,7 @@ t_iterator()
 
 void QhullSet_test::
 t_const_iterator()
-{ 
+{
     RboxPoints rcube("c");
     {
         Qhull q(rcube,"QR0");  // rotated unit cube
@@ -304,16 +304,16 @@ t_const_iterator()
         QCOMPARE(i, i2--);
         QCOMPARE(i2, fs.constBegin());
         QCOMPARE(--i, i2);
-        QCOMPARE(i2+=4, fs.constEnd()); 
-        QCOMPARE(i2-=4, fs.constBegin()); 
-        QCOMPARE(i2+0, fs.constBegin()); 
+        QCOMPARE(i2+=4, fs.constEnd());
+        QCOMPARE(i2-=4, fs.constBegin());
+        QCOMPARE(i2+0, fs.constBegin());
         QCOMPARE(i2+4, fs.constEnd());
         i2 += 4;
         i= i2-0;
         QCOMPARE(i, i2);
         i= i2-4;
-        QCOMPARE(i, fs.constBegin()); 
-        QCOMPARE(i2-i, 4); 
+        QCOMPARE(i, fs.constBegin());
+        QCOMPARE(i2-i, 4);
 
         // QhullFacetSet is const-only
     }
@@ -352,7 +352,7 @@ t_qhullset_iterator()
     QVERIFY(i.hasNext());
     QVERIFY(!i.hasPrevious());
 
-    // i at front, i2 at end/back, 4 neighbors 
+    // i at front, i2 at end/back, 4 neighbors
     QhullFacetSet fs3 = f2.neighborFacets(); // same as fs2
     QhullFacet f3(fs2[0]);
     QhullFacet f4= fs3[0];
@@ -382,7 +382,7 @@ t_qhullset_iterator()
 
 void QhullSet_test::
 t_io()
-{ 
+{
     RboxPoints rcube("c");
     Qhull q(rcube,"QR0");  // rotated unit cube
     // Fake an empty set.  Default constructor not defined.  No memory allocation.

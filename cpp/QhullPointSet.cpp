@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2009-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullPointSet.cpp#9 $$Change: 1150 $
-** $DateTime: 2010/01/04 22:43:14 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullPointSet.cpp#10 $$Change: 1164 $
+** $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -22,13 +22,13 @@ QhullPoint QhullPointSet::
 value(int idx) const
 {
     // Avoid call to qh_setsize() and assert in elementPointer()
-    //const T *n= reinterpret_cast<const T *>(&SETelem_(getSetT(), idx)); 
-    void **n= reinterpret_cast<void **>(&SETelem_(getSetT(), idx)); 
-    coordT **n2= reinterpret_cast<coordT **>(n); 
+    //const T *n= reinterpret_cast<const T *>(&SETelem_(getSetT(), idx));
+    void **n= reinterpret_cast<void **>(&SETelem_(getSetT(), idx));
+    coordT **n2= reinterpret_cast<coordT **>(n);
     if(idx>=0 && n<endPointer()){
         return QhullPoint(dimension(), *n2);
     }else{
-        return QhullPoint(); 
+        return QhullPoint();
     }
 }//value
 
@@ -38,8 +38,8 @@ QhullPoint QhullPointSet::
 value(int idx, QhullPoint &defaultValue) const
 {
     // Avoid call to qh_setsize() and assert in elementPointer()
-    void **n= reinterpret_cast<void **>(&SETelem_(getSetT(), idx)); 
-    coordT **n2= reinterpret_cast<coordT **>(n); 
+    void **n= reinterpret_cast<void **>(&SETelem_(getSetT(), idx));
+    coordT **n2= reinterpret_cast<coordT **>(n);
     if(idx>=0 && n<endPointer()){
         return QhullPoint(dimension(), *n2);
     }else{
@@ -128,21 +128,21 @@ findNext(const QhullPoint &p)
 {
     while(i!=c->constEnd()){
         if(*i++ == p){
-            return true; 
+            return true;
         }
     }
-    return false; 
+    return false;
 }//findNext
 
 bool QhullPointSetIterator::
 findPrevious(const QhullPoint &p)
-{ 
+{
     while(i!=c->constBegin()){
         if(*(--i) == p){
             return true;
         }
     }
-    return false;  
+    return false;
 }//findPrevious
 
 }//namespace orgQhull
@@ -157,14 +157,14 @@ using orgQhull::UsingLibQhull;
 
 #//operator<<
 
-ostream & 
+ostream &
 operator<<(ostream &os, const QhullPointSet &ps)
 {
-    os << ps.print(UsingLibQhull::NOqhRunId); 
-    return os; 
+    os << ps.print(UsingLibQhull::NOqhRunId);
+    return os;
 }//<<QhullPointSet
 
-ostream & 
+ostream &
 operator<<(ostream &os, const QhullPointSet::PrintIdentifiers &pr)
 {
     const QhullPointSet s= *pr.point_set;
@@ -183,7 +183,7 @@ operator<<(ostream &os, const QhullPointSet::PrintIdentifiers &pr)
     return os;
 }//PrintIdentifiers
 
-ostream & 
+ostream &
 operator<<(ostream &os, const QhullPointSet::PrintPointSet &pr)
 {
     const QhullPointSet s= *pr.point_set;

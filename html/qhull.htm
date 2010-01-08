@@ -10,16 +10,16 @@
 <p><b><a name="TOP">Up</a></b><b>:</b> <a href="http://www.qhull.org">Home page</a> for Qhull<br>
 <b>Up:</b> <a href="index.htm#TOC">Qhull manual</a>: Table of Contents<br>
 <b>To:</b> <a href="qh-quick.htm#programs">Programs</a>
-&#149; <a href="qh-quick.htm#options">Options</a> 
-&#149; <a href="qh-opto.htm#output">Output</a> 
-&#149; <a href="qh-optf.htm#format">Formats</a> 
-&#149; <a href="qh-optg.htm#geomview">Geomview</a> 
+&#149; <a href="qh-quick.htm#options">Options</a>
+&#149; <a href="qh-opto.htm#output">Output</a>
+&#149; <a href="qh-optf.htm#format">Formats</a>
+&#149; <a href="qh-optg.htm#geomview">Geomview</a>
 &#149; <a href="qh-optp.htm#print">Print</a>
-&#149; <a href="qh-optq.htm#qhull">Qhull</a> 
-&#149; <a href="qh-optc.htm#prec">Precision</a> 
+&#149; <a href="qh-optq.htm#qhull">Qhull</a>
+&#149; <a href="qh-optc.htm#prec">Precision</a>
 &#149; <a href="qh-optt.htm#trace">Trace</a><br>
-<b>To:</b> <a href="#synopsis">sy</a>nopsis &#149; <a href="#input">in</a>put 
-&#149; <a href="#outputs">ou</a>tputs &#149; <a href="#controls">co</a>ntrols 
+<b>To:</b> <a href="#synopsis">sy</a>nopsis &#149; <a href="#input">in</a>put
+&#149; <a href="#outputs">ou</a>tputs &#149; <a href="#controls">co</a>ntrols
 &#149; <a href="#options">op</a>tions
 <hr>
 <!-- Main text of document -->
@@ -31,38 +31,38 @@ height="100"></a>qhull -- convex hull and related structures</h1>
 <p>The convex hull of a set of points is the smallest convex set
 containing the points.  The Delaunay triangulation and furthest-site
 Delaunay triangulation are equivalent to a convex hull in one
-higher dimension.  Halfspace intersection about a point is 
+higher dimension.  Halfspace intersection about a point is
 equivalent to a convex hull by polar duality.
 
 <p>The <tt>qhull</tt> program provides options to build these
-structures and to experiment with the process.  Use the 
+structures and to experiment with the process.  Use the
 <a href=qconvex.htm>qconvex</a>,
-<a href=qdelaun.htm>qdelaunay</a>, <a href=qhalf.htm>qhalf</a>, 
+<a href=qdelaun.htm>qdelaunay</a>, <a href=qhalf.htm>qhalf</a>,
 and <a href=qvoronoi.htm>qvoronoi</a> programs
 to build specific structures.  You may use <tt>qhull</tt> instead.
-It takes the same options and uses the same code.  
+It takes the same options and uses the same code.
 <blockquote>
 <dl>
-    <dt><b>Example:</b> rbox 1000 D3 | qhull 
-	 <a href="qh-optc.htm#Cn">C-1e-4</a> 
-	 <a href="qh-optf.htm#FO">FO</a>
-	 <a href="qh-optt.htm#Ts">Ts</a>
-	 </dt>
+    <dt><b>Example:</b> rbox 1000 D3 | qhull
+         <a href="qh-optc.htm#Cn">C-1e-4</a>
+         <a href="qh-optf.htm#FO">FO</a>
+         <a href="qh-optt.htm#Ts">Ts</a>
+         </dt>
     <dd>Compute the 3-d convex hull of 1000 random
-	     points.  
-		 Centrums must be 10^-4 below neighboring
-		 hyperplanes.  Print the options and precision constants.
-		 When done, print statistics.  These options may be
-		 used with any of the Qhull programs.</dd>
+             points.
+                 Centrums must be 10^-4 below neighboring
+                 hyperplanes.  Print the options and precision constants.
+                 When done, print statistics.  These options may be
+                 used with any of the Qhull programs.</dd>
     <dt>&nbsp;</dt>
     <dt><b>Example:</b> rbox 1000 D3 | qhull <a href=qhull.htm#outputs>d</a>
-	 <a href="qh-optq.htm#Qbb">Qbb</a>
-	 <a href="qh-optc.htm#Rn">R1e-4</a> 
-	 <a href="qh-optq.htm#Q0">Q0</a></dt>
+         <a href="qh-optq.htm#Qbb">Qbb</a>
+         <a href="qh-optc.htm#Rn">R1e-4</a>
+         <a href="qh-optq.htm#Q0">Q0</a></dt>
     <dd>Compute the 3-d Delaunay triangulation of 1000 random
-	     points.  Randomly perturb all calculations by
-		 [0.9999,1.0001].  Do not correct precision problems.
-		 This leads to serious precision errors.</dd>
+             points.  Randomly perturb all calculations by
+                 [0.9999,1.0001].  Do not correct precision problems.
+                 This leads to serious precision errors.</dd>
 </dl>
 </blockquote>
 <p>Use the following equivalences when calling <tt>qhull</tt> in 2-d to 4-d (a 3-d
@@ -99,12 +99,12 @@ Delaunay triangulation is a 5-d convex hull):
 <p>By default, Qhull merges coplanar facets.  For example, the convex
 hull of a cube's vertices has six facets.
 
-<p>If you use '<a href="qh-optq.htm#Qt">Qt</a>' (triangulated output), 
-all facets will be simplicial (e.g., triangles in 2-d).  For the cube 
+<p>If you use '<a href="qh-optq.htm#Qt">Qt</a>' (triangulated output),
+all facets will be simplicial (e.g., triangles in 2-d).  For the cube
 example, it will have 12 facets.  Some facets may be
-degenerate and have zero area. 
+degenerate and have zero area.
 
-<p>If you use '<a href="qh-optq.htm#QJn">QJ</a>' (joggled input), 
+<p>If you use '<a href="qh-optq.htm#QJn">QJ</a>' (joggled input),
 all facets will be simplicial.  The corresponding vertices will be
 slightly perturbed.  Joggled input is less accurate that triangulated
 output.See <a
@@ -122,7 +122,7 @@ are there extra points in a 4-d or higher convex hull?</a><br>
 
 <h3><a href="#TOP">»</a><a name="synopsis">qhull synopsis</a></h3>
 <pre>
-qhull- compute convex hulls and related structures. 
+qhull- compute convex hulls and related structures.
     input (stdin): dimension, n, point coordinates
     comments start with a non-numeric character
     halfspace: use dim+1 and put offsets after coefficients
@@ -174,7 +174,7 @@ examples:
 </ul>
 
 <p>Use I/O redirection (e.g., qhull &lt; data.txt), a pipe (e.g., rbox 10 | qhull),
-or the '<a href=qh-optt.htm#TI>TI</a>' option (e.g., qhull TI data.txt).  
+or the '<a href=qh-optt.htm#TI>TI</a>' option (e.g., qhull TI data.txt).
 
 <p>Comments start with a non-numeric character.  Error reporting is
 simpler if there is one point per line.  Dimension
@@ -240,20 +240,20 @@ individually or together.</p>
     <dd><b>General</b></dd>
     <dt><a name="d">qhull d</a></dt>
     <dd>compute the convex hull of the input points.
-	See <a href=qconvex.htm>qconvex</a>.</dd>
+        See <a href=qconvex.htm>qconvex</a>.</dd>
     <dt><a name="d">qhull d Qbb</a></dt>
     <dd>compute the Delaunay triangulation by lifting the points
-	to a paraboloid.  Use option '<a href="qh-optq.htm#Qbb">Qbb</a>'
-	to scale the paraboloid and improve numeric precision.
-	See <a href=qdelaun.htm>qdelaunay</a>.</dd>
+        to a paraboloid.  Use option '<a href="qh-optq.htm#Qbb">Qbb</a>'
+        to scale the paraboloid and improve numeric precision.
+        See <a href=qdelaun.htm>qdelaunay</a>.</dd>
     <dt><a name="v">qhull v Qbb</a></dt>
     <dd>compute the Voronoi diagram by computing the Delaunay
-	triangulation.    Use option '<a href="qh-optq.htm#Qbb">Qbb</a>'
-	to scale the paraboloid and improve numeric precision.
-	See <a href=qvoronoi.htm>qvoronoi</a>.</dd>
+        triangulation.    Use option '<a href="qh-optq.htm#Qbb">Qbb</a>'
+        to scale the paraboloid and improve numeric precision.
+        See <a href=qvoronoi.htm>qvoronoi</a>.</dd>
     <dt><a name="H">qhull H</a></dt>
     <dd>compute the halfspace intersection about a point via polar
-	duality.  See <a href=qhalf.htm>qhalf</a>.</dd>
+        duality.  See <a href=qhalf.htm>qhalf</a>.</dd>
 </dl>
 </blockquote>
 
@@ -288,7 +288,7 @@ individually or together.</p>
 
 <pre>
 qhull- compute convex hulls and related structures.
-    http://www.qhull.org 
+    http://www.qhull.org
 
 input (stdin):
     first lines: dimension and number of points (or vice-versa).
@@ -329,7 +329,7 @@ Qhull control options:
     QGn  - good facet if visible from point n, -n for not visible
     QVn  - good facet if it includes point n, -n if not
     Q0   - turn off default p remerge with 'C-0'/'Qx'
-    Q1	   - sort merges by type instead of angle
+    Q1     - sort merges by type instead of angle
     Q2   - merge all non-convex at once instead of independent sets
     Q3   - do not merge redundant vertices
     Q4   - avoid old>new merges
@@ -339,7 +339,7 @@ Qhull control options:
     Q8   - do not process near-inside points
     Q9   - process furthest of furthest points
     Q10  - no special processing for narrow distributions
-	Q11  - copy normals and recompute centrums for tricoplanar facets
+        Q11  - copy normals and recompute centrums for tricoplanar facets
 
 Towpaths Trace options:
     T4   - trace at level n, 4=all, 5=mem/gauss, -1= events
@@ -444,16 +444,16 @@ Print options:
 <p><b>Up:</b> <a href="http://www.qhull.org">Home page</a> for Qhull<br>
 <b>Up:</b> <a href="index.htm#TOC">Qhull manual</a>: Table of Contents<br>
 <b>To:</b> <a href="qh-quick.htm#programs">Programs</a>
-&#149; <a href="qh-quick.htm#options">Options</a> 
-&#149; <a href="qh-opto.htm#output">Output</a> 
-&#149; <a href="qh-optf.htm#format">Formats</a> 
-&#149; <a href="qh-optg.htm#geomview">Geomview</a> 
+&#149; <a href="qh-quick.htm#options">Options</a>
+&#149; <a href="qh-opto.htm#output">Output</a>
+&#149; <a href="qh-optf.htm#format">Formats</a>
+&#149; <a href="qh-optg.htm#geomview">Geomview</a>
 &#149; <a href="qh-optp.htm#print">Print</a>
-&#149; <a href="qh-optq.htm#qhull">Qhull</a> 
-&#149; <a href="qh-optc.htm#prec">Precision</a> 
+&#149; <a href="qh-optq.htm#qhull">Qhull</a>
+&#149; <a href="qh-optc.htm#prec">Precision</a>
 &#149; <a href="qh-optt.htm#trace">Trace</a><br>
-<b>To:</b> <a href="#synopsis">sy</a>nopsis &#149; <a href="#input">in</a>put 
-&#149; <a href="#outputs">ou</a>tputs &#149; <a href="#controls">co</a>ntrols 
+<b>To:</b> <a href="#synopsis">sy</a>nopsis &#149; <a href="#input">in</a>put
+&#149; <a href="#outputs">ou</a>tputs &#149; <a href="#controls">co</a>ntrols
 &#149; <a href="#options">op</a>tions
 <!-- GC common information -->
 <hr>

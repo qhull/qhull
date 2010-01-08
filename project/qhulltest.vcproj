@@ -81,7 +81,7 @@
 				AdditionalDependencies="../tmp/qhullcpp/Debug/qhullcpp.lib ../tmp/libqhull/Debug/qhull.lib $(QTDIR)\lib\QtTestd4.lib $(QTDIR)\lib\QtGuid4.lib $(QTDIR)\lib\QtCored4.lib"
 				OutputFile="..\qhulltest.exe"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="c:\Qt\4.5.2\lib"
+				AdditionalLibraryDirectories="C:\Qt\4.6.0\lib"
 				IgnoreAllDefaultLibraries="false"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile=""

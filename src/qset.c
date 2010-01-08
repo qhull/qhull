@@ -1,4 +1,3 @@
-
 /*<html><pre>  -<a                             href="qh-set.htm"
   >-------------------------------</a><a name="TOP">-</a>
 
@@ -8,8 +7,8 @@
    see qh-set.htm and qset.h
 
    copyright (c) 1993-2010 The Geometry Center.
-   $Id: //product/qhull/main/rel/src/qset.c#28 $$Change: 1150 $
-   $DateTime: 2010/01/04 22:43:14 $$Author: bbarber $
+   $Id: //product/qhull/main/rel/src/qset.c#29 $$Change: 1164 $
+   $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
 */
 
 #include "qset.h"
@@ -25,7 +24,7 @@
 typedef struct ridgeT ridgeT;
 typedef struct facetT facetT;
 void    qh_errexit(int exitcode, facetT *, ridgeT *);
-void	qh_fprintf(FILE *fp, int msgcode, const char *fmt, ... );
+void    qh_fprintf(FILE *fp, int msgcode, const char *fmt, ... );
 #  ifdef _MSC_VER  /* Microsoft Visual C++ -- warning level 4 */
 #  pragma warning( disable : 4127)  /* conditional expression is constant */
 #  pragma warning( disable : 4706)  /* assignment within conditional function */
@@ -35,13 +34,13 @@ void	qh_fprintf(FILE *fp, int msgcode, const char *fmt, ... );
 /*=============== internal macros ===========================*/
 
 /*============ functions in alphabetical order ===================*/
-  
+
 /*-<a                             href="qh-set.htm#TOC"
   >--------------------------------<a name="setaddnth">-</a>
-   
+
   qh_setaddnth( setp, nth, newelem)
     adds newelem as n'th element of sorted or unsorted *setp
-      
+
   notes:
     *setp and newelem must be defined
     *setp may be a temp set
@@ -78,15 +77,15 @@ void qh_setaddnth(setT **setp, int nth, void *newelem) {
 
 /*-<a                              href="qh-set.htm#TOC"
   >--------------------------------<a name="setaddsorted">-</a>
-   
+
   setaddsorted( setp, newelem )
     adds an newelem into sorted *setp
-      
+
   notes:
     *setp and newelem must be defined
     *setp may be a temp set
     nop if newelem already in set
-  
+
   design:
     find newelem's position in *setp
     insert newelem
@@ -109,7 +108,7 @@ void qh_setaddsorted(setT **setp, void *newelem) {
 
 /*-<a                             href="qh-set.htm#TOC"
   >-------------------------------<a name="setappend">-</a>
-  
+
   qh_setappend( setp, newelem)
     append newelem to *setp
 
@@ -120,7 +119,7 @@ void qh_setaddsorted(setT **setp, void *newelem) {
   design:
     expand *setp if empty or full
     append newelem to *setp
-    
+
 */
 void qh_setappend(setT **setp, void *newelem) {
   int *sizep, end_idx;
@@ -138,8 +137,8 @@ void qh_setappend(setT **setp, void *newelem) {
 
 /*-<a                             href="qh-set.htm#TOC"
   >-------------------------------<a name="setappend_set">-</a>
-  
-  qh_setappend_set( setp, setA) 
+
+  qh_setappend_set( setp, setA)
     appends setA to *setp
 
   notes:
@@ -149,7 +148,7 @@ void qh_setappend(setT **setp, void *newelem) {
   design:
     setup for copy
     expand *setp if it is too small
-    append all elements of setA to *setp 
+    append all elements of setA to *setp
 */
 void qh_setappend_set(setT **setp, setT *setA) {
   int *sizep, sizeA, size;
@@ -172,14 +171,14 @@ void qh_setappend_set(setT **setp, setT *setA) {
     sizep= SETsizeaddr_(*setp);
   }
   *sizep= size+sizeA+1;   /* memcpy may overwrite */
-  if (sizeA > 0) 
+  if (sizeA > 0)
     memcpy((char *)&((*setp)->e[size].p), (char *)&(setA->e[0].p), (size_t)(sizeA+1) * SETelemsize);
 } /* setappend_set */
 
 
 /*-<a                             href="qh-set.htm#TOC"
   >-------------------------------<a name="setappend2ndlast">-</a>
-  
+
   qh_setappend2ndlast( setp, newelem )
     makes newelem the next to the last element in *setp
 
@@ -196,7 +195,7 @@ void qh_setappend_set(setT **setp, setT *setA) {
 void qh_setappend2ndlast(setT **setp, void *newelem) {
   int *sizep;
   void **endp, **lastp;
-  
+
   if (!*setp || !*(sizep= SETsizeaddr_(*setp))) {
     qh_setlarger(setp);
     sizep= SETsizeaddr_(*setp);
@@ -211,8 +210,8 @@ void qh_setappend2ndlast(setT **setp, void *newelem) {
 
 /*-<a                             href="qh-set.htm#TOC"
   >-------------------------------<a name="setcheck">-</a>
-  
-  qh_setcheck( set, typename, id ) 
+
+  qh_setcheck( set, typename, id )
     check set for validity
     report errors with typename and id
 
@@ -229,11 +228,11 @@ void qh_setcheck(setT *set, const char *tname, unsigned id) {
   maxsize= set->maxsize;
   if (size > maxsize || !maxsize) {
     qh_fprintf(qhmem.ferr, 6172, "qhull internal error (qh_setcheck): actual size %d of %s%d is greater than max size %d\n",
-	     size, tname, id, maxsize);
+             size, tname, id, maxsize);
     waserr= 1;
   }else if (set->e[size].p) {
     qh_fprintf(qhmem.ferr, 6173, "qhull internal error (qh_setcheck): %s%d(size %d max %d) is not null terminated.\n",
-	     tname, id, maxsize, size-1);
+             tname, id, maxsize, size-1);
     waserr= 1;
   }
   if (waserr) {
@@ -245,7 +244,7 @@ void qh_setcheck(setT *set, const char *tname, unsigned id) {
 
 /*-<a                             href="qh-set.htm#TOC"
   >-------------------------------<a name="setcompact">-</a>
-  
+
   qh_setcompact( set )
     remove internal NULLs from an unsorted set
 
@@ -258,7 +257,7 @@ void qh_setcheck(setT *set, const char *tname, unsigned id) {
 
   design:
     setup pointers into set
-    skip NULLs while copying elements to start of set 
+    skip NULLs while copying elements to start of set
     update the actual size
 */
 void qh_setcompact(setT *set) {
@@ -274,7 +273,7 @@ void qh_setcompact(setT *set) {
     if (!(*destp++ = *elemp++)) {
       destp--;
       if (elemp > endp)
-	break;
+        break;
     }
   }
   qh_settruncate(set, (int)(destp-firstp));   /* WARN64 */
@@ -283,7 +282,7 @@ void qh_setcompact(setT *set) {
 
 /*-<a                             href="qh-set.htm#TOC"
   >-------------------------------<a name="setcopy">-</a>
-  
+
   qh_setcopy( set, extra )
     make a copy of a sorted or unsorted set with extra slots
 
@@ -293,7 +292,7 @@ void qh_setcompact(setT *set) {
   design:
     create a newset with extra slots
     copy the elements to the newset
-    
+
 */
 setT *qh_setcopy(setT *set, int extra) {
   setT *newset;
@@ -311,19 +310,19 @@ setT *qh_setcopy(setT *set, int extra) {
 
 /*-<a                             href="qh-set.htm#TOC"
   >-------------------------------<a name="setdel">-</a>
-  
+
   qh_setdel( set, oldelem )
     delete oldelem from an unsorted set
 
   returns:
     returns oldelem if found
     returns NULL otherwise
-    
+
   notes:
     set may be NULL
     oldelem must not be NULL;
     only deletes one copy of oldelem in set
-     
+
   design:
     locate oldelem
     update actual size if it was full
@@ -353,8 +352,8 @@ void *qh_setdel(setT *set, void *oldelem) {
 
 /*-<a                             href="qh-set.htm#TOC"
   >-------------------------------<a name="setdellast">-</a>
-  
-  qh_setdellast( set) 
+
+  qh_setdellast( set)
     return last element of set or NULL
 
   notes:
@@ -366,14 +365,14 @@ void *qh_setdel(setT *set, void *oldelem) {
     if full set
       delete last element and set actual size
     else
-      delete last element and update actual size 
+      delete last element and update actual size
 */
 void *qh_setdellast(setT *set) {
   int setsize;  /* actually, actual_size + 1 */
   int maxsize;
   int *sizep;
   void *returnvalue;
-  
+
   if (!set || !(set->e[0].p))
     return NULL;
   sizep= SETsizeaddr_(set);
@@ -393,9 +392,9 @@ void *qh_setdellast(setT *set) {
 
 /*-<a                             href="qh-set.htm#TOC"
   >-------------------------------<a name="setdelnth">-</a>
-  
+
   qh_setdelnth( set, nth )
-    deletes nth element from unsorted set 
+    deletes nth element from unsorted set
     0 is first element
 
   returns:
@@ -431,23 +430,23 @@ void *qh_setdelnth(setT *set, int nth) {
 
 /*-<a                             href="qh-set.htm#TOC"
   >-------------------------------<a name="setdelnthsorted">-</a>
-  
+
   qh_setdelnthsorted( set, nth )
     deletes nth element from sorted set
 
   returns:
     returns the element (use type conversion)
-  
+
   notes:
     errors if nth invalid
-    
-  see also: 
+
+  see also:
     setnew_delnthsorted
 
   design:
     setup points and check nth
     copy remaining elements down one
-    update actual size  
+    update actual size
 */
 void *qh_setdelnthsorted(setT *set, int nth) {
   void **newp, **oldp, *elem;
@@ -472,20 +471,20 @@ void *qh_setdelnthsorted(setT *set, int nth) {
 
 /*-<a                             href="qh-set.htm#TOC"
   >-------------------------------<a name="setdelsorted">-</a>
-  
+
   qh_setdelsorted( set, oldelem )
     deletes oldelem from sorted set
 
   returns:
     returns oldelem if it was deleted
-  
+
   notes:
     set may be NULL
 
   design:
     locate oldelem in set
     copy remaining elements down one
-    update actual size  
+    update actual size
 */
 void *qh_setdelsorted(setT *set, void *oldelem) {
   void **newp, **oldp;
@@ -511,7 +510,7 @@ void *qh_setdelsorted(setT *set, void *oldelem) {
 
 /*-<a                             href="qh-set.htm#TOC"
   >-------------------------------<a name="setduplicate">-</a>
-  
+
   qh_setduplicate( set, elemsize )
     duplicate a set of elemsize elements
 
@@ -525,10 +524,10 @@ void *qh_setdelsorted(setT *set, void *oldelem) {
       append newelem to newset
 */
 setT *qh_setduplicate(setT *set, int elemsize) {
-  void		*elem, **elemp, *newElem;
-  setT		*newSet;
-  int		size;
-  
+  void          *elem, **elemp, *newElem;
+  setT          *newSet;
+  int           size;
+
   if (!(size= qh_setsize(set)))
     return NULL;
   newSet= qh_setnew(size);
@@ -543,7 +542,7 @@ setT *qh_setduplicate(setT *set, int elemsize) {
 
 /*-<a                             href="qh-set.htm#TOC"
   >-------------------------------<a name="setequal">-</a>
-  
+
   qh_setequal(  )
     returns 1 if two sorted sets are equal, otherwise returns 0
 
@@ -558,7 +557,7 @@ setT *qh_setduplicate(setT *set, int elemsize) {
 int qh_setequal(setT *setA, setT *setB) {
   void **elemAp, **elemBp;
   int sizeA, sizeB;
-  
+
   SETreturnsize_(setA, sizeA);
   SETreturnsize_(setB, sizeB);
   if (sizeA != sizeB)
@@ -575,17 +574,17 @@ int qh_setequal(setT *setA, setT *setB) {
 
 /*-<a                             href="qh-set.htm#TOC"
   >-------------------------------<a name="setequal_except">-</a>
-  
+
   qh_setequal_except( setA, skipelemA, setB, skipelemB )
     returns 1 if sorted setA and setB are equal except for skipelemA & B
 
   returns:
     false if either skipelemA or skipelemB are missing
-  
+
   notes:
     neither set may be NULL
 
-    if skipelemB is NULL, 
+    if skipelemB is NULL,
       can skip any one element of setB
 
   design:
@@ -616,18 +615,18 @@ int qh_setequal_except(setT *setA, void *skipelemA, setT *setB, void *skipelemB)
     }
     if (!*elemA)
       break;
-    if (*elemA++ != *elemB++) 
+    if (*elemA++ != *elemB++)
       return 0;
   }
   if (skip != 2 || *elemB)
     return 0;
   return 1;
 } /* setequal_except */
-  
+
 
 /*-<a                             href="qh-set.htm#TOC"
   >-------------------------------<a name="setequal_skip">-</a>
-  
+
   qh_setequal_skip( setA, skipA, setB, skipB )
     returns 1 if sorted setA and setB are equal except for elements skipA & B
 
@@ -655,24 +654,24 @@ int qh_setequal_skip(setT *setA, int skipA, setT *setB, int skipB) {
       elemB++;
     if (!*elemA)
       break;
-    if (*elemA++ != *elemB++) 
+    if (*elemA++ != *elemB++)
       return 0;
   }
   if (*elemB)
     return 0;
   return 1;
 } /* setequal_skip */
-  
+
 
 /*-<a                             href="qh-set.htm#TOC"
   >-------------------------------<a name="setfree">-</a>
-  
+
   qh_setfree( setp )
     frees the space occupied by a sorted or unsorted set
 
   returns:
     sets setp to NULL
-    
+
   notes:
     set may be NULL
 
@@ -683,9 +682,9 @@ int qh_setequal_skip(setT *setA, int skipA, setT *setB, int skipB) {
 void qh_setfree(setT **setp) {
   int size;
   void **freelistp;  /* used !qh_NOmem */
-  
+
   if (*setp) {
-    size= sizeof(setT) + ((*setp)->maxsize)*SETelemsize; 
+    size= sizeof(setT) + ((*setp)->maxsize)*SETelemsize;
     if (size <= qhmem.LASTsize) {
       qh_memfree_(*setp, size, freelistp);
     }else
@@ -697,7 +696,7 @@ void qh_setfree(setT **setp) {
 
 /*-<a                             href="qh-set.htm#TOC"
   >-------------------------------<a name="setfree2">-</a>
-  
+
   qh_setfree2( setp, elemsize )
     frees the space occupied by a set and its elements
 
@@ -706,39 +705,39 @@ void qh_setfree(setT **setp) {
 
   design:
     free each element
-    free set 
+    free set
 */
 void qh_setfree2 (setT **setp, int elemsize) {
-  void		*elem, **elemp;
-  
+  void          *elem, **elemp;
+
   FOREACHelem_(*setp)
     qh_memfree(elem, elemsize);
   qh_setfree(setp);
 } /* setfree2 */
 
 
-      
+
 /*-<a                             href="qh-set.htm#TOC"
   >-------------------------------<a name="setfreelong">-</a>
-  
+
   qh_setfreelong( setp )
     frees a set only if it's in long memory
 
   returns:
     sets setp to NULL if it is freed
-    
+
   notes:
     set may be NULL
 
   design:
     if set is large
-      free it    
+      free it
 */
 void qh_setfreelong(setT **setp) {
   int size;
-  
+
   if (*setp) {
-    size= sizeof(setT) + ((*setp)->maxsize)*SETelemsize; 
+    size= sizeof(setT) + ((*setp)->maxsize)*SETelemsize;
     if (size > qhmem.LASTsize) {
       qh_memfree(*setp, size);
       *setp= NULL;
@@ -749,7 +748,7 @@ void qh_setfreelong(setT **setp) {
 
 /*-<a                             href="qh-set.htm#TOC"
   >-------------------------------<a name="setin">-</a>
-  
+
   qh_setin( set, setelem )
     returns 1 if setelem is in a set, 0 otherwise
 
@@ -772,9 +771,9 @@ int qh_setin(setT *set, void *setelem) {
 
 /*-<a                             href="qh-set.htm#TOC"
   >-------------------------------<a name="setindex">-</a>
-  
+
   qh_setindex( set, atelem )
-    returns the index of atelem in set.   
+    returns the index of atelem in set.
     returns -1, if not in set or maxsize wrong
 
   notes:
@@ -803,7 +802,7 @@ int qh_setindex(setT *set, void *atelem) {
 
 /*-<a                             href="qh-set.htm#TOC"
   >-------------------------------<a name="setlarger">-</a>
-  
+
   qh_setlarger( oldsetp )
     returns a larger set that contains all elements of *oldsetp
 
@@ -833,12 +832,12 @@ void qh_setlarger(setT **oldsetp) {
     memcpy((char *)newp, (char *)oldp, (size_t)(size+1) * SETelemsize);
     sizep= SETsizeaddr_(newset);
     *sizep= size+1;
-    FOREACHset_((setT *)qhmem.tempstack) {
+    FOREACHset_(qhmem.tempstack) {
       if (set == oldset)
-	*(setp-1)= newset;
+        *(setp-1)= newset;
     }
     qh_setfree(oldsetp);
-  }else 
+  }else
     newset= qh_setnew(3);
   *oldsetp= newset;
 } /* setlarger */
@@ -846,7 +845,7 @@ void qh_setlarger(setT **oldsetp) {
 
 /*-<a                             href="qh-set.htm#TOC"
   >-------------------------------<a name="setlast">-</a>
-  
+
   qh_setlast(  )
     return last element of set or NULL (use type conversion)
 
@@ -854,14 +853,14 @@ void qh_setlarger(setT **oldsetp) {
     set may be NULL
 
   design:
-    return last element  
+    return last element
 */
 void *qh_setlast(setT *set) {
   int size;
 
   if (set) {
     size= *SETsizeaddr_(set);
-    if (!size) 
+    if (!size)
       return SETelem_(set, set->maxsize - 1);
     else if (size > 1)
       return SETelem_(set, size - 2);
@@ -872,7 +871,7 @@ void *qh_setlast(setT *set) {
 
 /*-<a                             href="qh-set.htm#TOC"
   >-------------------------------<a name="setnew">-</a>
-  
+
   qh_setnew( setsize )
     creates and allocates space for a set
 
@@ -898,7 +897,7 @@ setT *qh_setnew(int setsize) {
     qh_memalloc_(size, freelistp, set, setT);
 #ifndef qh_NOmem
     sizereceived= qhmem.sizetable[ qhmem.indextable[size]];
-    if (sizereceived > size) 
+    if (sizereceived > size)
       setsize += (sizereceived - size)/SETelemsize;
 #endif
   }else
@@ -912,7 +911,7 @@ setT *qh_setnew(int setsize) {
 
 /*-<a                             href="qh-set.htm#TOC"
   >-------------------------------<a name="setnew_delnthsorted">-</a>
-  
+
   qh_setnew_delnthsorted( set, size, nth, prepend )
     creates a sorted set not containing nth element
     if prepend, the first prepend elements are undefined
@@ -1003,7 +1002,7 @@ setT *qh_setnew_delnthsorted(setT *set, int size, int nth, int prepend) {
 
 /*-<a                             href="qh-set.htm#TOC"
   >-------------------------------<a name="setprint">-</a>
-  
+
   qh_setprint( fp, string, set )
     print set elements to fp with identifying string
 
@@ -1018,7 +1017,7 @@ void qh_setprint(FILE *fp, const char* string, setT *set) {
   else {
     SETreturnsize_(set, size);
     qh_fprintf(fp, 9347, "%s set=%p maxsize=%d size=%d elems=",
-	     string, set, set->maxsize, size);
+             string, set, set->maxsize, size);
     if (size > set->maxsize)
       size= set->maxsize+1;
     for (k=0; k < size; k++)
@@ -1029,7 +1028,7 @@ void qh_setprint(FILE *fp, const char* string, setT *set) {
 
 /*-<a                             href="qh-set.htm#TOC"
   >-------------------------------<a name="setreplace">-</a>
-  
+
   qh_setreplace( set, oldelem, newelem )
     replaces oldelem in set with newelem
 
@@ -1043,7 +1042,7 @@ void qh_setprint(FILE *fp, const char* string, setT *set) {
 */
 void qh_setreplace(setT *set, void *oldelem, void *newelem) {
   void **elemp;
-  
+
   elemp= SETaddr_(set, void);
   while (*elemp != oldelem && *elemp)
     elemp++;
@@ -1060,7 +1059,7 @@ void qh_setreplace(setT *set, void *oldelem, void *newelem) {
 
 /*-<a                             href="qh-set.htm#TOC"
   >-------------------------------<a name="setsize">-</a>
-  
+
   qh_setsize( set )
     returns the size of a set
 
@@ -1074,7 +1073,7 @@ void qh_setreplace(setT *set, void *oldelem, void *newelem) {
 */
 int qh_setsize(setT *set) {
   int size, *sizep;
-  
+
   if (!set)
     return(0);
   sizep= SETsizeaddr_(set);
@@ -1082,7 +1081,7 @@ int qh_setsize(setT *set) {
     size--;
     if (size > set->maxsize) {
       qh_fprintf(qhmem.ferr, 6178, "qhull internal error (qh_setsize): current set size %d is greater than maximum size %d\n",
-	       size, set->maxsize);
+               size, set->maxsize);
       qh_setprint(qhmem.ferr, "set: ", set);
       qh_errexit(qhmem_ERRqhull, NULL, NULL);
     }
@@ -1104,29 +1103,29 @@ int qh_setsize(setT *set) {
   design:
     allocate set
     append to qhmem.tempstack
-    
+
 */
 setT *qh_settemp(int setsize) {
   setT *newset;
-  
+
   newset= qh_setnew(setsize);
-  qh_setappend((setT **)&qhmem.tempstack, newset);
+  qh_setappend(&qhmem.tempstack, newset);
   if (qhmem.IStracing >= 5)
     qh_fprintf(qhmem.ferr, 8123, "qh_settemp: temp set %p of %d elements, depth %d\n",
-       newset, newset->maxsize, qh_setsize((setT*)qhmem.tempstack));
+       newset, newset->maxsize, qh_setsize(qhmem.tempstack));
   return newset;
 } /* settemp */
 
 /*-<a                             href="qh-set.htm#TOC"
   >-------------------------------<a name="settempfree">-</a>
-  
+
   qh_settempfree( set )
     free temporary set at top of qhmem.tempstack
 
   notes:
     nop if set is NULL
     errors if set not from previous   qh_settemp
-  
+
   to locate errors:
     use 'T2' to find source and then find mis-matching qh_settemp
 
@@ -1143,8 +1142,8 @@ void qh_settempfree(setT **set) {
   if (stackedset != *set) {
     qh_settemppush(stackedset);
     qh_fprintf(qhmem.ferr, 6179, "qhull internal error (qh_settempfree): set %p(size %d) was not last temporary allocated(depth %d, set %p, size %d)\n",
-	     *set, qh_setsize(*set), qh_setsize((setT*)qhmem.tempstack)+1,
-	     stackedset, qh_setsize(stackedset));
+             *set, qh_setsize(*set), qh_setsize(qhmem.tempstack)+1,
+             stackedset, qh_setsize(stackedset));
     qh_errexit(qhmem_ERRqhull, NULL, NULL);
   }
   qh_setfree(set);
@@ -1152,7 +1151,7 @@ void qh_settempfree(setT **set) {
 
 /*-<a                             href="qh-set.htm#TOC"
   >-------------------------------<a name="settempfree_all">-</a>
-  
+
   qh_settempfree_all(  )
     free all temporary sets in qhmem.tempstack
 
@@ -1164,40 +1163,40 @@ void qh_settempfree(setT **set) {
 void qh_settempfree_all(void) {
   setT *set, **setp;
 
-  FOREACHset_((setT *)qhmem.tempstack)
+  FOREACHset_(qhmem.tempstack)
     qh_setfree(&set);
-  qh_setfree((setT **)&qhmem.tempstack);
+  qh_setfree(&qhmem.tempstack);
 } /* settempfree_all */
 
 /*-<a                             href="qh-set.htm#TOC"
   >-------------------------------<a name="settemppop">-</a>
-  
+
   qh_settemppop(  )
-    pop and return temporary set from qhmem.tempstack 
+    pop and return temporary set from qhmem.tempstack
 
   notes:
     the returned set is permanent
-    
+
   design:
     pop and check top of qhmem.tempstack
 */
 setT *qh_settemppop(void) {
   setT *stackedset;
-  
-  stackedset= (setT*)qh_setdellast((setT *)qhmem.tempstack);
+
+  stackedset= (setT*)qh_setdellast(qhmem.tempstack);
   if (!stackedset) {
     qh_fprintf(qhmem.ferr, 6180, "qhull internal error (qh_settemppop): pop from empty temporary stack\n");
     qh_errexit(qhmem_ERRqhull, NULL, NULL);
   }
   if (qhmem.IStracing >= 5)
     qh_fprintf(qhmem.ferr, 8124, "qh_settemppop: depth %d temp set %p of %d elements\n",
-       qh_setsize((setT*)qhmem.tempstack)+1, stackedset, qh_setsize(stackedset));
+       qh_setsize(qhmem.tempstack)+1, stackedset, qh_setsize(stackedset));
   return stackedset;
 } /* settemppop */
 
 /*-<a                             href="qh-set.htm#TOC"
   >-------------------------------<a name="settemppush">-</a>
-  
+
   qh_settemppush( set )
     push temporary set unto qhmem.tempstack (makes it temporary)
 
@@ -1205,26 +1204,26 @@ setT *qh_settemppop(void) {
     duplicates settemp() for tracing
 
   design:
-    append set to tempstack  
+    append set to tempstack
 */
 void qh_settemppush(setT *set) {
-  
-  qh_setappend((setT**)&qhmem.tempstack, set);
+
+  qh_setappend(&qhmem.tempstack, set);
   if (qhmem.IStracing >= 5)
     qh_fprintf(qhmem.ferr, 8125, "qh_settemppush: depth %d temp set %p of %d elements\n",
-      qh_setsize((setT*)qhmem.tempstack), set, qh_setsize(set));
+      qh_setsize(qhmem.tempstack), set, qh_setsize(set));
 } /* settemppush */
 
- 
+
 /*-<a                             href="qh-set.htm#TOC"
   >-------------------------------<a name="settruncate">-</a>
-  
+
   qh_settruncate( set, size )
     truncate set to size elements
 
   notes:
     set must be defined
-  
+
   see:
     SETtruncate_
 
@@ -1242,10 +1241,10 @@ void qh_settruncate(setT *set, int size) {
   set->e[set->maxsize].i= size+1;   /* maybe overwritten */
   set->e[size].p= NULL;
 } /* settruncate */
-    
+
 /*-<a                             href="qh-set.htm#TOC"
   >-------------------------------<a name="setunique">-</a>
-  
+
   qh_setunique( set, elem )
     add elem to unsorted set unless it is already in set
 
@@ -1264,10 +1263,10 @@ int qh_setunique(setT **set, void *elem) {
   }
   return 0;
 } /* setunique */
-    
+
 /*-<a                             href="qh-set.htm#TOC"
   >-------------------------------<a name="setzero">-</a>
-  
+
   qh_setzero( set, index, size )
     zero elements from index on
     set actual size of set to size
@@ -1275,14 +1274,14 @@ int qh_setunique(setT **set, void *elem) {
   notes:
     set must be defined
     the set becomes an indexed set (can not use FOREACH...)
-  
+
   see also:
     qh_settruncate
-    
+
   design:
     check index and size
     update actual size
-    zero elements starting at e[index]   
+    zero elements starting at e[index]
 */
 void qh_setzero(setT *set, int idx, int size) {
   int count;

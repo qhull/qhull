@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullStat.cpp#8 $$Change: 1139 $
-** $DateTime: 2010/01/03 11:20:29 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullStat.cpp#9 $$Change: 1164 $
+** $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -20,7 +20,7 @@ using std::string;
 using std::vector;
 using std::ostream;
 
-#ifdef _MSC_VER  // Microsoft Visual C++ -- warning level 4 
+#ifdef _MSC_VER  // Microsoft Visual C++ -- warning level 4
 #endif
 
 namespace orgQhull {
@@ -30,7 +30,7 @@ namespace orgQhull {
 //! If qh_QHpointer==0, invoke with placement new on qh_stat;
 QhullStat::
 QhullStat()
-{ 
+{
 }//QhullStat
 
 QhullStat::

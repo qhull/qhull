@@ -1,18 +1,18 @@
 /*<html><pre>  -<a                             href="qh-stat.htm"
   >-------------------------------</a><a name="TOP">-</a>
 
-   stat.h 
+   stat.h
      contains all statistics that are collected for qhull
 
    see qh-stat.htm and stat.c
 
    copyright (c) 1993-2010 The Geometry Center.
-   $Id: //product/qhull/main/rel/src/stat.h#27 $$Change: 1151 $
-   $DateTime: 2010/01/05 19:34:31 $$Author: bbarber $
+   $Id: //product/qhull/main/rel/src/stat.h#28 $$Change: 1164 $
+   $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
 
    recompile qhull if you change this file
 
-   Integer statistics are Z* while real statistics are W*.  
+   Integer statistics are Z* while real statistics are W*.
 
    define maydebugx to call a routine at every statistic event
 
@@ -93,7 +93,7 @@ enum statistics {     /* alphabetical after Z/W */
     Wdegenmax,
     Wdegentot,
     Zdegenvertex,
-    Zdelfacetdup, 
+    Zdelfacetdup,
     Zdelridge,
     Zdelvertextot,
     Zdelvertexmax,
@@ -126,9 +126,9 @@ enum statistics {     /* alphabetical after Z/W */
     Wduplicatetot,
     Zdupridge,
     Zdupsame,
-    Zflipped, 
-    Wflippedmax, 
-    Wflippedtot, 
+    Zflipped,
+    Wflippedmax,
+    Wflippedtot,
     Zflippedfacets,
     Zfindbest,
     Zfindbestmax,
@@ -212,13 +212,13 @@ enum statistics {     /* alphabetical after Z/W */
     Zpartflip,
     Zparthorizon,
     Zpartinside,
-    Zpartition, 
+    Zpartition,
     Zpartitionall,
     Zpartnear,
     Zpbalance,
     Wpbalance,
-    Wpbalance2, 
-    Zpostfacets, 
+    Wpbalance2,
+    Zpostfacets,
     Zpremergetot,
     Zprocessed,
     Zremvertex,
@@ -335,9 +335,9 @@ enum statistics {     /* for zzdef etc. macros */
 
 /*-<a                             href="qh-stat.htm#TOC"
   >-------------------------------</a><a name="ztype">-</a>
-  
+
   ztype
-    the type of a statistic sets its initial value.  
+    the type of a statistic sets its initial value.
 
   notes:
     The type should be the same as the macro for collecting the statistic
@@ -348,7 +348,7 @@ enum ztypes {zdoc,zinc,zadd,zmax,zmin,ZTYPEreal,wadd,wmax,wmin,ZTYPEend};
 
 /*-<a                             href="qh-stat.htm#TOC"
   >--------------------------------</a><a name="MAYdebugx">-</a>
-  
+
   MAYdebugx
     define as maydebug() to be called frequently for error trapping
 */
@@ -356,7 +356,7 @@ enum ztypes {zdoc,zinc,zadd,zmax,zmin,ZTYPEreal,wadd,wmax,wmin,ZTYPEend};
 
 /*-<a                             href="qh-stat.htm#TOC"
   >--------------------------------</a><a name="zdef_">-</a>
-  
+
   zzdef_, zdef_( type, name, doc, -1)
     define a statistic (assumes 'qhstat.next= 0;')
 
@@ -375,7 +375,7 @@ enum ztypes {zdoc,zinc,zadd,zmax,zmin,ZTYPEreal,wadd,wmax,wmin,ZTYPEend};
 
 /*-<a                             href="qh-stat.htm#TOC"
   >--------------------------------</a><a name="zinc_">-</a>
-  
+
   zzinc_( name ), zinc_( name)
     increment an integer statistic
 */
@@ -388,7 +388,7 @@ enum ztypes {zdoc,zinc,zadd,zmax,zmin,ZTYPEreal,wadd,wmax,wmin,ZTYPEend};
 
 /*-<a                             href="qh-stat.htm#TOC"
   >--------------------------------</a><a name="zadd_">-</a>
-  
+
   zzadd_( name, value ), zadd_( name, value ), wadd_( name, value )
     add value to an integer or real statistic
 */
@@ -452,7 +452,7 @@ enum ztypes {zdoc,zinc,zadd,zmax,zmin,ZTYPEreal,wadd,wmax,wmin,ZTYPEend};
 
 /*-<a                             href="qh-stat.htm#TOC"
   >--------------------------------</a><a name="intrealT">-</a>
- 
+
   intrealT
     union of integer and real, used for statistics
 */
@@ -464,24 +464,24 @@ union intrealT {
 
 /*-<a                             href="qh-stat.htm#TOC"
   >--------------------------------</a><a name="qhstat">-</a>
-  
+
   qhstat
     global data structure for statistics, similar to qh and qhrbox
-  
+
   notes:
    access to qh_qhstat is via the "qhstat" macro.  There are two choices
    qh_QHpointer = 1     access globals via a pointer
                         enables qh_saveqhull() and qh_restoreqhull()
-		= 0     qh_qhstat is a static data structure
-		        only one instance of qhull() can be active at a time
-			default value
+                = 0     qh_qhstat is a static data structure
+                        only one instance of qhull() can be active at a time
+                        default value
    qh_QHpointer is defined in libqhull.h
 
    allocated in stat.c using qh_malloc()
 */
 #ifndef DEFqhstatT
 #define DEFqhstatT 1
-typedef struct qhstatT qhstatT; 
+typedef struct qhstatT qhstatT;
 #endif
 
 #if qh_QHpointer
@@ -489,9 +489,9 @@ typedef struct qhstatT qhstatT;
 extern qhstatT *qh_qhstat;
 #else
 #define qhstat qh_qhstat.
-extern qhstatT qh_qhstat; 
+extern qhstatT qh_qhstat;
 #endif
-struct qhstatT {  
+struct qhstatT {
   intrealT   stats[ZEND];     /* integer and real statistics */
   unsigned   char id[ZEND+10]; /* id's in print order */
   const char *doc[ZEND];       /* array of documentation strings */
@@ -521,14 +521,14 @@ void    qh_allstatH(void);
 void    qh_allstatI(void);
 void    qh_allstatistics(void);
 void    qh_collectstatistics(void);
-void	qh_freestatistics(void);
+void    qh_freestatistics(void);
 void    qh_initstatistics(void);
-boolT 	qh_newstats(int idx, int *nextindex);
-boolT 	qh_nostatistic(int i);
+boolT   qh_newstats(int idx, int *nextindex);
+boolT   qh_nostatistic(int i);
 void    qh_printallstatistics(FILE *fp, const char *string);
 void    qh_printstatistics(FILE *fp, const char *string);
-void  	qh_printstatlevel(FILE *fp, int id, int start);
-void  	qh_printstats(FILE *fp, int idx, int *nextindex);
+void    qh_printstatlevel(FILE *fp, int id, int start);
+void    qh_printstats(FILE *fp, int idx, int *nextindex);
 realT   qh_stddev(int num, realT tot, realT tot2, realT *ave);
 
 #endif   /* qhDEFstat */

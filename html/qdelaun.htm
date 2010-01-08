@@ -53,7 +53,7 @@ by O'Rourke [<a href="index.htm#orou94">'94</a>]. </p>
         <a href="qh-optf.htm#Fv">Fv</a> <a href="qh-optq.htm#Qt">Qt</a></dt>
     <dd>Compute the 2-d Delaunay triangulation of a triangle and
         a small square. Write a summary and unoriented
-	regions to the console.  Produce triangulated output.</dd>
+        regions to the console.  Produce triangulated output.</dd>
     <dt>&nbsp;</dt>
     <dt><b>Example:</b> rbox 10 D2 | qdelaunay <a
         href="qh-optq.htm#QJn">QJ</a> <a href="qh-opto.htm#s">s</a>
@@ -231,60 +231,60 @@ outputs</a></h3>
     <dd><b>Delaunay regions</b></dd>
     <dt><a href="qh-opto.htm#i">i</a></dt>
     <dd>list input sites for each Delaunay region. The first line is the number of regions.  The
-	remaining lines list the input sites for each region.  The regions are
-		oriented.  In 3-d and
+        remaining lines list the input sites for each region.  The regions are
+                oriented.  In 3-d and
         higher, report cospherical sites by adding extra points.  Use triangulated
-	output ('<a href="qh-optq.htm#Qt">Qt</a>') to avoid non-simpicial regions.  For the circle-in-square example,
-	eight Delaunay regions are triangular and the ninth has four input sites.</dd>
+        output ('<a href="qh-optq.htm#Qt">Qt</a>') to avoid non-simpicial regions.  For the circle-in-square example,
+        eight Delaunay regions are triangular and the ninth has four input sites.</dd>
     <dt><a href="qh-optf.htm#Fv">Fv</a></dt>
     <dd>list input sites for each Delaunay region.  The first line is the number of regions.
-	Each remaining line starts with the number of input sites.  The regions
-	are unoriented.  For the circle-in-square example,
-	eight Delaunay regions are triangular and the ninth has four input sites.</dd>
+        Each remaining line starts with the number of input sites.  The regions
+        are unoriented.  For the circle-in-square example,
+        eight Delaunay regions are triangular and the ninth has four input sites.</dd>
     <dt><a href="qh-optf.htm#Fn">Fn</a></dt>
     <dd>list neighboring regions for each Delaunay region.  The first line is the
-	number of regions.  Each remaining line starts with the number of
-	neighboring regions.  Negative indices (e.g., <em>-1</em>) indicate regions
-	outside of the Delaunay triangulation.
-	For the circle-in-square example, the four regions on the square are neighbors to
-	the region-at-infinity.</dd>
+        number of regions.  Each remaining line starts with the number of
+        neighboring regions.  Negative indices (e.g., <em>-1</em>) indicate regions
+        outside of the Delaunay triangulation.
+        For the circle-in-square example, the four regions on the square are neighbors to
+        the region-at-infinity.</dd>
     <dt><a href="qh-optf.htm#FN">FN</a></dt>
     <dd>list the Delaunay regions for each input site.  The first line is the
-	total number of input sites.  Each remaining line starts with the number of
-	Delaunay regions.  Negative indices (e.g., <em>-1</em>) indicate regions
-	outside of the Delaunay triangulation.
-	For the circle-in-square example, each point on the circle belongs to four
-	Delaunay regions.  Use '<a href="qh-optq.htm#Qc">Qc</a> FN'
-	to include coincident input sites and deleted vertices. </dd>
+        total number of input sites.  Each remaining line starts with the number of
+        Delaunay regions.  Negative indices (e.g., <em>-1</em>) indicate regions
+        outside of the Delaunay triangulation.
+        For the circle-in-square example, each point on the circle belongs to four
+        Delaunay regions.  Use '<a href="qh-optq.htm#Qc">Qc</a> FN'
+        to include coincident input sites and deleted vertices. </dd>
     <dt><a href="qh-optf.htm#Fa">Fa</a></dt>
     <dd>print area for each Delaunay region. The first line is the number of regions.
-	The areas follow, one line per region.  For the circle-in-square example, the
-	cocircular region has area 0.4. </dd>
+        The areas follow, one line per region.  For the circle-in-square example, the
+        cocircular region has area 0.4. </dd>
     <dt>&nbsp;</dt>
     <dt>&nbsp;</dt>
     <dd><b>Input sites</b></dd>
     <dt><a href="qh-optf.htm#Fc">Fc</a></dt>
     <dd>list coincident input sites for each Delaunay region.
-	The first line is the number of regions.  The remaining lines start with
-	the number of coincident sites and deleted vertices.  Deleted vertices
-	indicate highly degenerate input (see'<A href="qh-optf.htm#Fs">Fs</a>').
-	A coincident site is assigned to one Delaunay
-	region.  Do not use '<a href="qh-optq.htm#QJn">QJ</a>' with 'Fc'; the joggle will separate
-	coincident sites.</dd>
+        The first line is the number of regions.  The remaining lines start with
+        the number of coincident sites and deleted vertices.  Deleted vertices
+        indicate highly degenerate input (see'<A href="qh-optf.htm#Fs">Fs</a>').
+        A coincident site is assigned to one Delaunay
+        region.  Do not use '<a href="qh-optq.htm#QJn">QJ</a>' with 'Fc'; the joggle will separate
+        coincident sites.</dd>
     <dt><a href="qh-optf.htm#FP">FP</a></dt>
     <dd>print coincident input sites with distance to
         nearest site (i.e., vertex). The first line is the
-	number of coincident sites.  Each remaining line starts with the point ID of
-	an input site, followed by the point ID of a coincident point, its region, and distance.
+        number of coincident sites.  Each remaining line starts with the point ID of
+        an input site, followed by the point ID of a coincident point, its region, and distance.
         Includes deleted vertices which
-	indicate highly degenerate input (see'<A href="qh-optf.htm#Fs">Fs</a>').
+        indicate highly degenerate input (see'<A href="qh-optf.htm#Fs">Fs</a>').
         Do not use '<a href="qh-optq.htm#QJn">QJ</a>' with 'FP'; the joggle will separate
-	coincident sites.</dd>
+        coincident sites.</dd>
     <dt><a href="qh-optf.htm#Fx">Fx</a></dt>
     <dd>list extreme points of the input sites.  These points are on the
-	boundary of the convex hull.   The first line is the number of
-	extreme points.  Each point is listed, one per line.  The circle-in-square example
-	has four extreme points.</dd>
+        boundary of the convex hull.   The first line is the number of
+        extreme points.  Each point is listed, one per line.  The circle-in-square example
+        has four extreme points.</dd>
     <dt>&nbsp;</dt>
     <dt>&nbsp;</dt>
     <dd><b>General</b></dd>
@@ -339,7 +339,7 @@ degenerate facets of zero area.</dd>
     <dd>input data from file.  The filename may not use spaces or quotes.</dd>
     <dt><a href="qh-optt.htm#TO">TO file</a></dt>
     <dd>output results to file.  Use single quotes if the filename
-	contains spaces (e.g., <tt>TO 'file with spaces.txt'</tt></dd>
+        contains spaces (e.g., <tt>TO 'file with spaces.txt'</tt></dd>
     <dt><a href="qh-optt.htm#TFn">TFn</a></dt>
     <dd>report progress after constructing <em>n</em> facets</dd>
     <dt><a href="qh-optp.htm#PDk">PDk:1</a></dt>
@@ -463,7 +463,7 @@ conventions</a>.</p>
         site's coordinates</li>
     <li><em>coplanar point</em> - a <em>coincident</em>
         input site or a deleted vertex.  Deleted vertices
-	indicate highly degenerate input.</li>
+        indicate highly degenerate input.</li>
     <li><em>vertex</em> - a point on the paraboloid. It
         corresponds to a unique input site. </li>
     <li><em>point-at-infinity</em> - a point added above the
@@ -570,7 +570,7 @@ Geomview options (2-d and 3-d)
     Gi   - inner planes only
      Gn  -  no planes
      Go  -  outer planes only
-    Gc	   - centrums
+    Gc     - centrums
     Gh   - hyperplane intersections
     Gr   - ridges
     GDn  - drop dimension n in 3-d and 4-d output

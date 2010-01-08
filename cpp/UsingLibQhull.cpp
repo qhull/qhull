@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/UsingLibQhull.cpp#4 $$Change: 1139 $
-** $DateTime: 2010/01/03 11:20:29 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/UsingLibQhull.cpp#5 $$Change: 1164 $
+** $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -13,7 +13,7 @@
 #include "QhullError.h"
 #include "QhullQh.h"
 
-#ifdef _MSC_VER  // Microsoft Visual C++ -- warning level 4 
+#ifdef _MSC_VER  // Microsoft Visual C++ -- warning level 4
 #endif
 
 namespace orgQhull {
@@ -60,7 +60,7 @@ bool UsingLibQhull::
 s_has_distance_epsilon= false;
 
 bool UsingLibQhull::
-s_using_libqhull= false; 
+s_using_libqhull= false;
 
 #//Constructors
 
@@ -86,11 +86,11 @@ UsingLibQhull(Qhull *q)
 #if qh_QHpointer
     if(qh_qh){
         qh old_qhstat= qh_qhstat;
-        qh old_tempstack= static_cast<setT *>(qhmem.tempstack);
+        qh old_tempstack= qhmem.tempstack;
     }
     qh_qh= qhullqh;
-    qh_qhstat= static_cast<qhstatT *>(qhullqh->old_qhstat);
-    qhmem.tempstack=  qhullqh->old_tempstack;
+    qh_qhstat= qhullqh->old_qhstat;
+    qhmem.tempstack= qhullqh->old_tempstack;
     qhullqh->old_qhstat= 0;
     qhullqh->old_tempstack= 0;
 #else
@@ -99,7 +99,7 @@ UsingLibQhull(Qhull *q)
         throw QhullError(10040, "Qhull internal error: Qhull.qhullQh() is not qh_qh (%x, static).  Overwrite?", 0,0,0.0, &qh_qh);
     }
 #endif
-    s_qhull_output= q;	    // set s_qhull_output for qh_fprintf()
+    s_qhull_output= q;      // set s_qhull_output for qh_fprintf()
     qh NOerrexit= False;   // assumes setjmp called next
 }//UsingLibQhull qhull
 
@@ -124,16 +124,16 @@ UsingLibQhull(Qhull *q, int noThrow)
 #if qh_QHpointer
         if(qh_qh){
             qh old_qhstat= qh_qhstat;
-            qh old_tempstack= static_cast<setT *>(qhmem.tempstack);
+            qh old_tempstack= qhmem.tempstack;
         }
         qh_qh= qhullqh;
-        qh_qhstat= static_cast<qhstatT *>(qhullqh->old_qhstat);
-        qhmem.tempstack=  qhullqh->old_tempstack;
+        qh_qhstat= qhullqh->old_qhstat;
+        qhmem.tempstack= qhullqh->old_tempstack;
         qhullqh->old_qhstat= 0;
         qhullqh->old_tempstack= 0;
 #endif
         my_qhull= q;
-        s_qhull_output= q;	    // set s_qhull_output for qh_fprintf()
+        s_qhull_output= q;          // set s_qhull_output for qh_fprintf()
         qh NOerrexit= False;   // assumes setjmp called next
     }
 }//UsingLibQhull qhull noThrow
@@ -148,17 +148,17 @@ UsingLibQhull(int qhRunId)
     checkUsingLibQhull();
 #if qh_QHpointer
     if(!qh_qh || !qh_qhstat){
-	throw QhullError(10024, "Qhull error: UsingLibQhull is not active (qh_qh %x or qh_qhstat is not defined)", 0,0,0.0, qh_qh);
+        throw QhullError(10024, "Qhull error: UsingLibQhull is not active (qh_qh %x or qh_qhstat is not defined)", 0,0,0.0, qh_qh);
     }
 #endif
     if(qh run_id!=qhRunId){
         throw QhullError(10036, "Qhull error: qhRunId %d != qh_qh.runId %d.  Is another Qhull active?", qhRunId, qh run_id);
     }
     if(!s_qhull_output){
-	throw QhullError(10037, "Qhull error: UsingLibQhull not active(s_qhull_output undefined).  Invoke UsingLibQhull before this call");
+        throw QhullError(10037, "Qhull error: UsingLibQhull not active(s_qhull_output undefined).  Invoke UsingLibQhull before this call");
     }
     if(s_qhull_output->qhull_run_id!=qhRunId){
-	throw QhullError(10046, "Qhull error: qhRunId %d != s_qhull_output.runId %d.  Is another Qhull active", qhRunId, s_qhull_output->qhull_run_id);
+        throw QhullError(10046, "Qhull error: qhRunId %d != s_qhull_output.runId %d.  Is another Qhull active", qhRunId, s_qhull_output->qhull_run_id);
     }
     my_qhull= s_qhull_output;
     qh NOerrexit= False;   // assumes setjmp called next
@@ -192,16 +192,16 @@ checkQhullMemoryEmpty()
     // qh_memtotal does not error
     qh_memtotal(&curlong, &totlong, &curshort, &totshort, &maxlong, &totbuffer);
     if (curlong || totlong){
-        throw QhullError(10026, "Qhull error: qhull did not free %d bytes of long memory (%d pieces).", totlong, curlong); 
+        throw QhullError(10026, "Qhull error: qhull did not free %d bytes of long memory (%d pieces).", totlong, curlong);
     }
     if (curshort || totshort){
-        throw QhullError(10035, "Qhull error: qhull did not free %d bytes of short memory (%d pieces).", totshort, curshort); 
+        throw QhullError(10035, "Qhull error: qhull did not free %d bytes of short memory (%d pieces).", totshort, curshort);
     }
 }//checkQhullMemoryEmpty
 
 double UsingLibQhull::
-currentAngleEpsilon() 
-{ 
+currentAngleEpsilon()
+{
     if(s_qhull_output && s_qhull_output->initialized()){
         return s_qhull_output->qhullQh()->ANGLEround*FACTORepsilon;
     }else if(s_has_angle_epsilon){
@@ -211,8 +211,8 @@ currentAngleEpsilon()
 }//currentAngleEpsilon
 
 double UsingLibQhull::
-currentDistanceEpsilon() 
-{ 
+currentDistanceEpsilon()
+{
     if(s_qhull_output && s_qhull_output->initialized()){
         return s_qhull_output->qhullQh()->DISTround*FACTORepsilon;
     }else if(s_has_distance_epsilon){
@@ -229,9 +229,9 @@ currentPoints(int *dimension, const coordT **pointsEnd)
         *pointsEnd= qh first_point+qh num_points*qh hull_dim;
         return qh first_point;
     }else if(s_has_points){
-        *dimension= s_points_dimension; 
-        *pointsEnd= s_points_end; 
-        return s_points_begin; 
+        *dimension= s_points_dimension;
+        *pointsEnd= s_points_end;
+        return s_points_begin;
     }
     throw QhullError(10059, "Qhull error: missing definition for currentPoints().  Need currentQhull() or setGlobalDistanceEpsilon()");
 }//currentPoints
@@ -240,15 +240,15 @@ Qhull &UsingLibQhull::
 currentQhull()
 {
     if(!s_qhull_output){
-        throw QhullError(10055, "Qhull error: currentQhull not defined.  Run qhull first."); 
+        throw QhullError(10055, "Qhull error: currentQhull not defined.  Run qhull first.");
     }
     return *s_qhull_output;
 }//currentQhull
 
 // for QhullVertex::dimension() when >= 16
 int UsingLibQhull::
-currentVertexDimension() 
-{ 
+currentVertexDimension()
+{
     if(s_qhull_output && s_qhull_output->initialized()){
         return s_qhull_output->dimension();
     }else if(s_has_vertex_dimension){
@@ -261,29 +261,29 @@ const coordT *UsingLibQhull::
 globalPoints(int *dimension, const coordT **pointsEnd)
 {
     if(s_has_points){
-        *dimension= s_points_dimension; 
-        *pointsEnd= s_points_end; 
-        return s_points_begin; 
+        *dimension= s_points_dimension;
+        *pointsEnd= s_points_end;
+        return s_points_begin;
     }else{
         return currentPoints(dimension, pointsEnd);
     }
 }//globalPoints
 
 bool UsingLibQhull::
-hasPoints() 
-{ 
+hasPoints()
+{
     return s_has_points || (s_qhull_output && s_qhull_output->initialized());
 }
 
 bool UsingLibQhull::
-hasVertexDimension() 
-{ 
+hasVertexDimension()
+{
     return s_has_vertex_dimension || (s_qhull_output && s_qhull_output->initialized());
 }
 
 void UsingLibQhull::
-setGlobals() 
-{ 
+setGlobals()
+{
     if(s_qhull_output && s_qhull_output->initialized()){
         QhullQh *qqh= s_qhull_output->qhullQh();
         s_angle_epsilon= qqh->ANGLEround*FACTORepsilon;
@@ -302,8 +302,8 @@ setGlobals()
  }//setGlobals
 
 void UsingLibQhull::
-unsetGlobals() 
-{ 
+unsetGlobals()
+{
     s_has_angle_epsilon= false;
     s_has_distance_epsilon= false;
     s_has_points= false;

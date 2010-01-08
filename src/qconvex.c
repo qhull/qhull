@@ -35,7 +35,7 @@ extern "C" {
 
 #else
 int isatty(int);  /* returns 1 if stdin is a tty
-		   if "Undefined symbol" this can be deleted along with call in main() */
+                   if "Undefined symbol" this can be deleted along with call in main() */
 #endif
 
 /*-<a                             href="qh-qhull.htm#TOC"
@@ -43,17 +43,17 @@ int isatty(int);  /* returns 1 if stdin is a tty
 
   qh_prompt
     long prompt for qconvex
-    
+
   notes:
     restricted version of libqhull.c
 
   see:
     concise prompt below
-*/  
+*/
 
 /* duplicated in qconvex.htm */
 char hidden_options[]=" d v H Qbb Qf Qg Qm Qr Qu Qv Qx Qz TR E V Fp Gt Q0 Q1 Q2 Q3 Q4 Q5 Q6 Q7 Q8 Q9 ";
-	       
+
 char qh_prompta[]= "\n\
 qconvex- compute the convex hull\n\
     http://www.qhull.org  %s\n\
@@ -182,8 +182,8 @@ Print options:\n\
   >-------------------------------</a><a name="prompt2">-</a>
 
   qh_prompt2
-    synopsis for qhull 
-*/  
+    synopsis for qhull
+*/
 char qh_prompt2[]= "\n\
 qconvex- compute the convex hull.  Qhull %s\n\
     input (stdin): dimension, number of points, point coordinates\n\
@@ -223,8 +223,8 @@ examples:\n\
   >-------------------------------</a><a name="prompt3">-</a>
 
   qh_prompt3
-    concise prompt for qhull 
-*/  
+    concise prompt for qhull
+*/
 char qh_prompt3[]= "\n\
 Qhull %s.\n\
 Except for 'F.' and 'PG', upper-case options take an argument.\n\
@@ -257,10 +257,10 @@ Except for 'F.' and 'PG', upper-case options take an argument.\n\
 
 /*-<a                             href="qh-qhull.htm"
   >-------------------------------</a><a name="main">-</a>
-  
+
   main( argc, argv )
     processes the command line, calls qhull() to do the work, and exits
-  
+
   design:
     initializes data structures
     reads points
@@ -283,18 +283,18 @@ int main(int argc, char *argv[]) {
   SIOUXSettings.rows= 40;
   if (setvbuf(stdin, inBuf, _IOFBF, sizeof(inBuf)) < 0   /* w/o, SIOUX I/O is slow*/
   || setvbuf(stdout, outBuf, _IOFBF, sizeof(outBuf)) < 0
-  || (stdout != stderr && setvbuf(stderr, errBuf, _IOFBF, sizeof(errBuf)) < 0)) 
+  || (stdout != stderr && setvbuf(stderr, errBuf, _IOFBF, sizeof(errBuf)) < 0))
     fprintf(stderr, "qhull internal warning (main): could not change stdio to fully buffered.\n");
   argc= ccommand(&argv);
 #endif
 
-  if ((argc == 1) && isatty( 0 /*stdin*/)) {      
+  if ((argc == 1) && isatty( 0 /*stdin*/)) {
     fprintf(stdout, qh_prompt2, qh_version);
     exit(qh_ERRnone);
   }
   if (argc > 1 && *argv[1] == '-' && !*(argv[1]+1)) {
-    fprintf(stdout, qh_prompta, qh_version, qh_DEFAULTbox, 
-		qh_promptb, qh_promptc, qh_promptd, qh_prompte);
+    fprintf(stdout, qh_prompta, qh_version, qh_DEFAULTbox,
+                qh_promptb, qh_promptc, qh_promptd, qh_prompte);
     exit(qh_ERRnone);
   }
   if (argc >1 && *argv[1] == '.' && !*(argv[1]+1)) {
@@ -325,7 +325,7 @@ int main(int argc, char *argv[]) {
 #else
   qh_freeqhull( False);
   qh_memfreeshort(&curlong, &totlong);
-  if (curlong || totlong) 
+  if (curlong || totlong)
     fprintf(stderr, "qhull internal warning (main): did not free %d bytes of long memory(%d pieces)\n",
        totlong, curlong);
 #endif

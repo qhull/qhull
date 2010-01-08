@@ -23,7 +23,7 @@
 
      user_eg2 "QR0 p" "QR0 v p" "QR0 Fp"  # rotate input and return points
                                          # 'v' returns Voronoi
-					 # transform is rotated for halfspaces
+                                         # transform is rotated for halfspaces
 
    main() makes three runs of qhull.
 
@@ -93,9 +93,9 @@ void makecube (coordT *points, int numpoints, int dim) {
     point= points + j*dim;
     for (k=dim; k--; ) {
       if (j & ( 1 << k))
-	point[k]= 1.0;
+        point[k]= 1.0;
       else
-	point[k]= -1.0;
+        point[k]= -1.0;
     }
   }
 } /*.makecube.*/
@@ -129,14 +129,14 @@ void adddiamond (coordT *points, int numpoints, int numnew, int dim) {
     */
     for (k=dim; k--; ) {
       if (j/2 == k)
-	point[k]= (j & 1) ? 2.0 : -2.0;
+        point[k]= (j & 1) ? 2.0 : -2.0;
       else
-	point[k]= 0.0;
+        point[k]= 0.0;
     }
     facet= qh_findbestfacet (point, !qh_ALL, &bestdist, &isoutside);
     if (isoutside) {
       if (!qh_addpoint (point, facet, False))
-	break;  /* user requested an early exit with 'TVn' or 'TCn' */
+        break;  /* user requested an early exit with 'TVn' or 'TCn' */
     }
     printf ("%d vertices and %d facets\n",
                  qh num_vertices, qh num_facets);
@@ -202,11 +202,11 @@ void addDelaunay (coordT *points, int numpoints, int numnew, int dim) {
     facet= qh_findbestfacet (point, !qh_ALL, &bestdist, &isoutside);
     if (isoutside) {
       if (!qh_addpoint (point, facet, False))
-	break;  /* user requested an early exit with 'TVn' or 'TCn' */
+        break;  /* user requested an early exit with 'TVn' or 'TCn' */
     }
     qh_printpoint (stdout, "added point", point);
     printf ("%d points, %d extra points, %d vertices, and %d facets in total\n",
-	          qh num_points, qh_setsize (qh other_points),
+                  qh num_points, qh_setsize (qh other_points),
                   qh num_vertices, qh num_facets);
 
     /* qh_produce_output(); */
@@ -265,9 +265,9 @@ void makehalf (coordT *points, int numpoints, int dim) {
     point[dim]= -1.0; /* offset */
     for (k=dim; k--; ) {
       if (j & ( 1 << k))
-	point[k]= 1.0;
+        point[k]= 1.0;
       else
-	point[k]= -1.0;
+        point[k]= -1.0;
     }
   }
 } /*.makehalf.*/
@@ -304,22 +304,22 @@ void addhalf (coordT *points, int numpoints, int numnew, int dim, coordT *feasib
     offset= -1.0;
     for (k=dim; k--; ) {
       if (j/2 == k) {
-	normal[k]= sqrt((coordT)dim);   /* to normalize as in makehalf */
-	if (j & 1)
-	  normal[k]= -normal[k];
+        normal[k]= sqrt((coordT)dim);   /* to normalize as in makehalf */
+        if (j & 1)
+          normal[k]= -normal[k];
       }else
-	normal[k]= 0.0;
+        normal[k]= 0.0;
     }
     point= points + (numpoints+j)* (dim+1);  /* does not use point[dim] */
     qh_sethalfspace (dim, point, &next, normal, &offset, feasible);
     facet= qh_findbestfacet (point, !qh_ALL, &bestdist, &isoutside);
     if (isoutside) {
       if (!qh_addpoint (point, facet, False))
-	break;  /* user requested an early exit with 'TVn' or 'TCn' */
+        break;  /* user requested an early exit with 'TVn' or 'TCn' */
     }
     qh_printpoint (stdout, "added offset -1 and normal", normal);
     printf ("%d points, %d extra points, %d vertices, and %d facets in total\n",
-	          qh num_points, qh_setsize (qh other_points),
+                  qh num_points, qh_setsize (qh other_points),
                   qh num_vertices, qh num_facets);
     /* qh_produce_output(); */
   }
@@ -352,7 +352,7 @@ int main (int argc, char *argv[]) {
 It shows how qhull() may be called from an application.  It is not part\n\
 of qhull itself.  If it appears accidently, please remove user_eg2.c from\n\
 your project.\n\n");
-  ismalloc= False; 	/* True if qh_freeqhull should 'free(array)' */
+  ismalloc= False;      /* True if qh_freeqhull should 'free(array)' */
   /*
     Run 1: convex hull
   */
@@ -513,8 +513,8 @@ void qh_errexit(int exitcode, facetT *facet, ridgeT *ridge) {
 void qh_errprint(const char *string, facetT *atfacet, facetT *otherfacet, ridgeT *atridge, vertexT *atvertex) {
 
   fprintf (qh ferr, "%s facets f%d f%d ridge r%d vertex v%d\n",
-	   string, getid_(atfacet), getid_(otherfacet), getid_(atridge),
-	   getid_(atvertex));
+           string, getid_(atfacet), getid_(otherfacet), getid_(atridge),
+           getid_(atvertex));
 } /* errprint */
 
 

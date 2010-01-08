@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/qhulltest/QhullRidge_test.cpp#11 $$Change: 1139 $
-** $DateTime: 2010/01/03 11:20:29 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/qhulltest/QhullRidge_test.cpp#12 $$Change: 1164 $
+** $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -53,8 +53,8 @@ cleanup()
 
 void QhullRidge_test::
 t_construct()
-{ 
-    // Qhull.runQhull() constructs QhullFacets as facetT 
+{
+    // Qhull.runQhull() constructs QhullFacets as facetT
     QhullRidge r;
     QVERIFY(!r.isDefined());
     QCOMPARE(r.dimension(),0);
@@ -79,7 +79,7 @@ t_construct()
 
 void QhullRidge_test::
 t_getSet()
-{ 
+{
     RboxPoints rcube("c");
     {
         Qhull q(rcube,"QR0");  // triangulation of rotated unit cube
@@ -93,7 +93,7 @@ t_getSet()
             cout << r.id() << endl;
             QVERIFY(r.bottomFacet()!=r.topFacet());
             QCOMPARE(r.dimension(), 2); // Ridge one-dimension less than facet
-            QVERIFY(r.id()>=0 && r.id()<9*27); 
+            QVERIFY(r.id()>=0 && r.id()<9*27);
             QVERIFY(r.isDefined());
             QVERIFY(r==r);
             QVERIFY(r==i.peekPrevious());
@@ -108,7 +108,7 @@ t_getSet()
 
 void QhullRidge_test::
 t_foreach()
-{   
+{
     RboxPoints rcube("c");  // cube
     {
         Qhull q(rcube, "QR0"); // rotated cube
@@ -141,7 +141,7 @@ t_foreach()
 
 void QhullRidge_test::
 t_io()
-{   
+{
     RboxPoints rcube("c");
     {
         Qhull q(rcube, "");

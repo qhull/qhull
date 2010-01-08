@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2009-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/qhulltest/QhullHyperplane_test.cpp#10 $$Change: 1139 $
-** $DateTime: 2010/01/03 11:20:29 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/qhulltest/QhullHyperplane_test.cpp#11 $$Change: 1164 $
+** $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -62,8 +62,8 @@ cleanup()
 
 void QhullHyperplane_test::
 t_construct()
-{ 
-    // Qhull.runQhull() constructs QhullFacets as facetT 
+{
+    // Qhull.runQhull() constructs QhullFacets as facetT
     QhullHyperplane h;
     QVERIFY(!h.isDefined());
     QCOMPARE(h.dimension(),0);
@@ -83,7 +83,7 @@ t_construct()
 
 void QhullHyperplane_test::
 t_convert()
-{ 
+{
     RboxPoints rcube("c");
     Qhull q(rcube,"Qt QR0");  // triangulation of rotated unit cube
     QhullHyperplane h= q.firstFacet().hyperplane();
@@ -105,7 +105,7 @@ t_convert()
 
 void QhullHyperplane_test::
 t_readonly()
-{ 
+{
     RboxPoints rcube("c");
     {
         Qhull q(rcube,"Qt QR0");  // triangulation of rotated unit cube
@@ -138,7 +138,7 @@ t_readonly()
 
 void QhullHyperplane_test::
 t_define()
-{ 
+{
     RboxPoints rcube("c");
     {
         Qhull q(rcube,"Qt QR0");  // triangulation of rotated unit cube
@@ -169,7 +169,7 @@ t_define()
 
 void QhullHyperplane_test::
 t_value()
-{ 
+{
     RboxPoints rcube("c G1");
     Qhull q(rcube,"Qt QR0");  // triangulation of rotated unit cube
     const QhullHyperplane h= q.firstFacet().hyperplane();
@@ -181,7 +181,7 @@ t_value()
 
 void QhullHyperplane_test::
 t_operator()
-{ 
+{
     RboxPoints rcube("c");
     Qhull q(rcube,"Qt QR0");  // triangulation of rotated unit cube
     const QhullHyperplane h= q.firstFacet().hyperplane();
@@ -190,7 +190,7 @@ t_operator()
     for(int k=h.dimension(); k--; ){
         QCOMPARE(c[k], h[k]);
     }
-    //h[0]= 10.0; // compiler error, const 
+    //h[0]= 10.0; // compiler error, const
     QhullHyperplane h2= q.firstFacet().hyperplane();
     h2[0]= 10.0;  // Overwrites Hyperplane coordinate!
     QCOMPARE(h2[0], 10.0);
@@ -198,7 +198,7 @@ t_operator()
 
 void QhullHyperplane_test::
 t_iterator()
-{ 
+{
     RboxPoints rcube("c");
     {
         QhullHyperplane h2;
@@ -264,16 +264,16 @@ t_iterator()
         QCOMPARE(i, i2--);
         QCOMPARE(i2, h.begin());
         QCOMPARE(--i, i2);
-        QCOMPARE(i2 += 3, h.end()); 
-        QCOMPARE(i2 -= 3, h.begin()); 
-        QCOMPARE(i2+0, h.begin()); 
+        QCOMPARE(i2 += 3, h.end());
+        QCOMPARE(i2 -= 3, h.begin());
+        QCOMPARE(i2+0, h.begin());
         QCOMPARE(i2+3, h.end());
         i2 += 3;
         i= i2-0;
         QCOMPARE(i, i2);
         i= i2-3;
-        QCOMPARE(i, h.begin()); 
-        QCOMPARE(i2-i, 3); 
+        QCOMPARE(i, h.begin());
+        QCOMPARE(i2-i, 3);
 
         //h.begin end tested above
 
@@ -283,7 +283,7 @@ t_iterator()
 
 void QhullHyperplane_test::
 t_const_iterator()
-{ 
+{
     RboxPoints rcube("c");
     {
         Qhull q(rcube,"QR0");  // rotated unit cube
@@ -324,16 +324,16 @@ t_const_iterator()
         QCOMPARE(i, i2--);
         QCOMPARE(i2, h.constBegin());
         QCOMPARE(--i, i2);
-        QCOMPARE(i2+=3, h.constEnd()); 
-        QCOMPARE(i2-=3, h.constBegin()); 
-        QCOMPARE(i2+0, h.constBegin()); 
+        QCOMPARE(i2+=3, h.constEnd());
+        QCOMPARE(i2-=3, h.constBegin());
+        QCOMPARE(i2+0, h.constBegin());
         QCOMPARE(i2+3, h.constEnd());
         i2 += 3;
         i= i2-0;
         QCOMPARE(i, i2);
         i= i2-3;
-        QCOMPARE(i, h.constBegin()); 
-        QCOMPARE(i2-i, 3); 
+        QCOMPARE(i, h.constBegin());
+        QCOMPARE(i2-i, 3);
 
         // QhullHyperplane is const-only
     }
@@ -388,7 +388,7 @@ t_qhullHyperplane_iterator()
 
 void QhullHyperplane_test::
 t_io()
-{   
+{
     RboxPoints rcube("c");
     {
         Qhull q(rcube, "");
@@ -409,7 +409,7 @@ t_io()
 
 //FIXUP -- Move conditional, QhullHyperplane code to QhullHyperplane.cpp
 #ifndef QHULL_NO_STL
-std::vector<coordT> QhullHyperplane:: 
+std::vector<coordT> QhullHyperplane::
 toStdVector() const
 {
     QhullHyperplaneIterator i(*this);

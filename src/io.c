@@ -14,8 +14,8 @@
    This allows the user to avoid loading io.o from qhull.a
 
    copyright (c) 1993-2010 The Geometry Center.
-   $Id: //product/qhull/main/rel/src/io.c#34 $$Change: 1144 $
-   $DateTime: 2010/01/04 18:23:37 $$Author: bbarber $
+   $Id: //product/qhull/main/rel/src/io.c#35 $$Change: 1164 $
+   $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
 */
 
 #include "qhull_a.h"
@@ -37,20 +37,20 @@
     prints output in qh.PRINTout order
 */
 void qh_produce_output(void) {
-    int tempsize= qh_setsize((setT*)qhmem.tempstack);
+    int tempsize= qh_setsize(qhmem.tempstack);
 
     qh_prepare_output();
     qh_produce_output2();
-    if (qh_setsize((setT*)qhmem.tempstack) != tempsize) {
+    if (qh_setsize(qhmem.tempstack) != tempsize) {
         qh_fprintf(qh ferr, 6206, "qhull internal error (qh_produce_output): temporary sets not empty(%d)\n",
-            qh_setsize((setT*)qhmem.tempstack));
+            qh_setsize(qhmem.tempstack));
         qh_errexit(qh_ERRqhull, NULL, NULL);
     }
 } /* produce_output */
 
 
 void qh_produce_output2(void) {
-  int i, tempsize= qh_setsize((setT*)qhmem.tempstack), d_1;
+  int i, tempsize= qh_setsize(qhmem.tempstack), d_1;
 
   if (qh PRINTsummary)
     qh_printsummary(qh ferr);
@@ -74,9 +74,9 @@ void qh_produce_output2(void) {
             (int)sizeof(vertexT), (int)sizeof(facetT),
             qh normal_size, d_1, d_1 + SETelemsize);
   }
-  if (qh_setsize((setT*)qhmem.tempstack) != tempsize) {
+  if (qh_setsize(qhmem.tempstack) != tempsize) {
     qh_fprintf(qh ferr, 6065, "qhull internal error (qh_produce_output2): temporary sets not empty(%d)\n",
-             qh_setsize((setT*)qhmem.tempstack));
+             qh_setsize(qhmem.tempstack));
     qh_errexit(qh_ERRqhull, NULL, NULL);
   }
 } /* produce_output2 */
@@ -1081,7 +1081,7 @@ void qh_prepare_output(void) {
     qh_getarea(qh facet_list);
   if (qh KEEParea || qh KEEPmerge || qh KEEPminArea < REALmax/2)
     qh_markkeep (qh facet_list);
-  if (qh PRINTstatistics) 
+  if (qh PRINTstatistics)
     qh_collectstatistics();
 }
 
@@ -4032,13 +4032,13 @@ boolT qh_skipfacet(facetT *facet) {
     skips leading spaces
     ends with spacing or eol
     if starts with ' or " ends with the same, skipping \' or \"
-    For qhull, qh_argv_to_command() only uses double quotes 
+    For qhull, qh_argv_to_command() only uses double quotes
 */
 char *qh_skipfilename(char *filename) {
   char *s= filename;  /* non-const due to return */
   char c;
 
-  while (*s && isspace(*s)) 
+  while (*s && isspace(*s))
     s++;
   c= *s++;
   if (c == '\0') {

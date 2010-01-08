@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (p) 2009-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/qhulltest/QhullPointSet_test.cpp#8 $$Change: 1139 $
-** $DateTime: 2010/01/03 11:20:29 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/qhulltest/QhullPointSet_test.cpp#9 $$Change: 1164 $
+** $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -56,7 +56,7 @@ cleanup()
 
 void QhullPointSet_test::
 t_construct()
-{ 
+{
     RboxPoints rcube("c W0 1000");
     Qhull q(rcube,"Qc");  // cube with 1000 coplanar points
     int coplanarCount= 0;
@@ -86,7 +86,7 @@ t_construct()
 
 void QhullPointSet_test::
 t_convert()
-{   
+{
     RboxPoints rcube("c W0 1000");
     Qhull q(rcube,"Qc");  // cube with 1000 coplanar points
     QhullFacet f= q.firstFacet();
@@ -109,7 +109,7 @@ t_convert()
 
 void QhullPointSet_test::
 t_element()
-{   
+{
     RboxPoints rcube("c W0 1000");
     Qhull q(rcube,"Qc");  // cube with 1000 coplanar points
     QhullFacet f= q.firstFacet();
@@ -139,7 +139,7 @@ t_element()
 
 void QhullPointSet_test::
 t_iterator()
-{ 
+{
     RboxPoints rcube("c W0 1000");
     Qhull q(rcube,"Qc");  // cube with 1000 coplanar points
     QhullFacet f= q.firstFacet();
@@ -206,16 +206,16 @@ t_iterator()
     QCOMPARE(i, i2--);
     QCOMPARE(i2, ps.begin());
     QCOMPARE(--i, i2);
-    QCOMPARE(i2+=ps.count(), ps.end()); 
-    QCOMPARE(i2-=ps.count(), ps.begin()); 
-    QCOMPARE(i2+0, ps.begin()); 
+    QCOMPARE(i2+=ps.count(), ps.end());
+    QCOMPARE(i2-=ps.count(), ps.begin());
+    QCOMPARE(i2+0, ps.begin());
     QCOMPARE(i2+ps.count(), ps.end());
     i2 += ps.count();
     i= i2-0;
     QCOMPARE(i, i2);
     i= i2-ps.count();
-    QCOMPARE(i, ps.begin()); 
-    QCOMPARE(i2-i, ps.count()); 
+    QCOMPARE(i, ps.begin());
+    QCOMPARE(i2-i, ps.count());
 
     //ps.begin end tested above
 
@@ -224,7 +224,7 @@ t_iterator()
 
 void QhullPointSet_test::
 t_const_iterator()
-{ 
+{
     RboxPoints rcube("c W0 1000");
     Qhull q(rcube,"Qc");  // cube with 1000 coplanar points
     QhullFacet f= q.firstFacet();
@@ -242,7 +242,7 @@ t_const_iterator()
     QVERIFY(i==i2);
     i2= ps.end();
     QVERIFY(i!=i2);
-    QhullPoint p= *i; // QhullPoint is the base class for QhullPointSet::iterator 
+    QhullPoint p= *i; // QhullPoint is the base class for QhullPointSet::iterator
     QCOMPARE(p.dimension(), ps.dimension());
     QCOMPARE(p, ps[0]);
     i2--;
@@ -349,7 +349,7 @@ t_pointset_iterator()
 
 void QhullPointSet_test::
 t_io()
-{ 
+{
     ostringstream os;
     RboxPoints rcube("c W0 120");
     Qhull q(rcube,"Qc");  // cube with 100 coplanar points
@@ -367,7 +367,7 @@ t_io()
 
 //FIXUP -- Move conditional, QhullPointSet code to QhullPointSet.cpp
 #ifndef QHULL_NO_STL
-std::vector<QhullPoint> QhullPointSet:: 
+std::vector<QhullPoint> QhullPointSet::
 toStdVector() const
 {
     QhullPointSetIterator i(*this);

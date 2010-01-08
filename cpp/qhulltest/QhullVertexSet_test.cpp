@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/qhulltest/QhullVertexSet_test.cpp#3 $$Change: 1139 $
-** $DateTime: 2010/01/03 11:20:29 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/qhulltest/QhullVertexSet_test.cpp#4 $$Change: 1164 $
+** $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -52,7 +52,7 @@ cleanup()
 
 void QhullFacetSet_test::
 t_construct()
-{ 
+{
     RboxPoints rcube("c");
     Qhull q(rcube,"QR0");  // rotated unit cube
     QhullFacet f= q.firstFacet();
@@ -67,7 +67,7 @@ t_construct()
 
 void QhullFacetSet_test::
 t_convert()
-{ 
+{
     RboxPoints rcube("c");
     Qhull q(rcube,"QR0 QV2");  // rotated unit cube
     QhullFacet f= q.firstFacet();
@@ -89,7 +89,7 @@ t_convert()
 //! Spot check properties and read-only.  See QhullSet_test
 void QhullFacetSet_test::
 t_readonly()
-{ 
+{
     RboxPoints rcube("c");
     Qhull q(rcube,"QV0");  // good facets are adjacent to point 0
     QhullFacetSet fs= q.firstFacet().neighborFacets();
@@ -115,7 +115,7 @@ t_readonly()
 
 void QhullFacetSet_test::
 t_foreach()
-{   
+{
     RboxPoints rcube("c");
     // Spot check predicates and accessors.  See QhullLinkedList_test
     Qhull q(rcube,"QR0");  // rotated unit cube
@@ -133,7 +133,7 @@ t_foreach()
 
 void QhullFacetSet_test::
 t_io()
-{   
+{
     RboxPoints rcube("c");
     {
         Qhull q(rcube,"QR0 QV0");   // good facets are adjacent to point 0
@@ -149,7 +149,7 @@ t_io()
 
 //FIXUP -- Move conditional, QhullFacetSet code to QhullFacetSet.cpp
 #ifndef QHULL_NO_STL
-std::vector<QhullFacet> QhullFacetSet:: 
+std::vector<QhullFacet> QhullFacetSet::
 toStdVector() const
 {
     QhullSetIterator<QhullFacet> i(*this);

@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullVertex.h#25 $$Change: 1139 $
-** $DateTime: 2010/01/03 11:20:29 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullVertex.h#26 $$Change: 1164 $
+** $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -53,7 +53,7 @@ public:
 #//Constants
 
 #//Constructors
-                        QhullVertex() : qh_vertex(&s_empty_vertex) {} 
+                        QhullVertex() : qh_vertex(&s_empty_vertex) {}
                         //! Shallow copy
                         QhullVertex(const QhullVertex &o) : qh_vertex(o.qh_vertex) {}
     QhullVertex        &operator=(const QhullVertex &o) { qh_vertex= o.qh_vertex; return *this; }
@@ -79,13 +79,13 @@ public:
 
 #//ForEach
     //See also QhullVertexList
-    QhullFacetSet       neighborFacets() const; 
+    QhullFacetSet       neighborFacets() const;
 
 #//IO
     struct PrintVertex{
-        const QhullVertex *vertex; 
+        const QhullVertex *vertex;
         int             run_id;
-                        PrintVertex(int qhRunId, const QhullVertex &v) : vertex(&v), run_id(qhRunId) {} 
+                        PrintVertex(int qhRunId, const QhullVertex &v) : vertex(&v), run_id(qhRunId) {}
     };//PrintVertex
     PrintVertex         print(int qhRunId) const { return PrintVertex(qhRunId, *this); }
 };//class QhullVertex

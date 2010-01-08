@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/UsingLibQhull.h#5 $$Change: 1139 $
-** $DateTime: 2010/01/03 11:20:29 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/UsingLibQhull.h#6 $$Change: 1164 $
+** $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -23,9 +23,9 @@ namespace orgQhull {
 /*******************************
 
 UsingLibQhull is stack based, but as a call
-Qhull declarations are stack-based.  But can't define a 
-setjmp environment, since the target goes away.  So must be UsingLibQhull, but can only have one 
-setjmp at a time? Can embedded another Using as long as save/restore 
+Qhull declarations are stack-based.  But can't define a
+setjmp environment, since the target goes away.  So must be UsingLibQhull, but can only have one
+setjmp at a time? Can embedded another Using as long as save/restore
 longjmp on exit.
 */
     class UsingLibQhull;
@@ -56,9 +56,9 @@ private:
     //! Global values
     static double       s_angle_epsilon;   //! Epsilon for angle equality
     static double       s_distance_epsilon;   //! Epsilon for distance equality
-    static const coordT *s_points_begin;            //! For QhullPoint::id() w/o qhRunId.  
-    static const coordT *s_points_end;            //! For QhullPoint::id() w/o qhRunId.  
-    static int          s_points_dimension; 
+    static const coordT *s_points_begin;            //! For QhullPoint::id() w/o qhRunId.
+    static const coordT *s_points_end;            //! For QhullPoint::id() w/o qhRunId.
+    static int          s_points_dimension;
     static int          s_vertex_dimension; //! Default dimension (e.g., if Vertex::dimension() >= 16)
 
 public:
@@ -120,7 +120,7 @@ You may use global variables in 'qh' after declaring UsingLibQhull.  For example
 
 To trap errors from libqhull, UsingLibQhull must be followed by
 
-UsingLibQhull q(qhRunId); 
+UsingLibQhull q(qhRunId);
 int exitCode = setjmp(qh errexit);
 if(!exitCode){ // no object creation -- destructors skipped on longjmp()
     calls to libqhull

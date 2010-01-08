@@ -10,13 +10,13 @@
 <p><b>Up:</b> <a href="http://www.qhull.org">Home page</a> for Qhull<br>
 <b>Up:</b> <a href="index.htm#TOC">Qhull manual</a>: Table of Contents<br>
 <b>To:</b> <a href="qh-quick.htm#programs">Programs</a>
-&#149; <a href="qh-quick.htm#options">Options</a> 
-&#149; <a href="qh-opto.htm#output">Output</a> 
-&#149; <a href="qh-optf.htm#format">Formats</a> 
-&#149; <a href="qh-optg.htm#geomview">Geomview</a> 
+&#149; <a href="qh-quick.htm#options">Options</a>
+&#149; <a href="qh-opto.htm#output">Output</a>
+&#149; <a href="qh-optf.htm#format">Formats</a>
+&#149; <a href="qh-optg.htm#geomview">Geomview</a>
 &#149; <a href="qh-optp.htm#print">Print</a>
-&#149; <a href="qh-optq.htm#qhull">Qhull</a> 
-&#149; <a href="qh-optc.htm#prec">Precision</a> 
+&#149; <a href="qh-optq.htm#qhull">Qhull</a>
+&#149; <a href="qh-optc.htm#prec">Precision</a>
 &#149; <a href="qh-optt.htm#trace">Trace</a></p>
 
 <hr>
@@ -34,13 +34,13 @@ options are indicated by 'Q' followed by a letter. </p>
 <hr>
 
 <p><a href="index.htm#TOC">»</a> <a href="qh-quick.htm#programs">Programs</a>
-<a name="qhull">&#149;</a> <a href="qh-quick.htm#options">Options</a> 
-&#149; <a href="qh-opto.htm#output">Output</a> 
-&#149; <a href="qh-optf.htm#format">Formats</a> 
-&#149; <a href="qh-optg.htm#geomview">Geomview</a> 
+<a name="qhull">&#149;</a> <a href="qh-quick.htm#options">Options</a>
+&#149; <a href="qh-opto.htm#output">Output</a>
+&#149; <a href="qh-optf.htm#format">Formats</a>
+&#149; <a href="qh-optg.htm#geomview">Geomview</a>
 &#149; <a href="qh-optp.htm#print">Print</a>
-&#149; <a href="qh-optq.htm#qhull">Qhull</a> 
-&#149; <a href="qh-optc.htm#prec">Precision</a> 
+&#149; <a href="qh-optq.htm#qhull">Qhull</a>
+&#149; <a href="qh-optc.htm#prec">Precision</a>
 &#149; <a href="qh-optt.htm#trace">Trace</a></p>
 
 <h2>Qhull control options</h2>
@@ -247,9 +247,9 @@ facets (needs 'QGn' 'QVn' or 'Pdk') </a></h3>
 facets. With the '<a href="#Qg">Qg</a>' option, Qhull will only
 build those facets that it needs to determine the good facets in
 the output. This may speed up Qhull in 2-d and 3-d. It is
-useful for furthest-site Delaunay 
-triangulations (<a href=qdelau_f.htm>qdelaunay Qu</a>, 
-invoke with 'qhull d Qbb <a href="#Qu">Qu</a> Qg'). 
+useful for furthest-site Delaunay
+triangulations (<a href=qdelau_f.htm>qdelaunay Qu</a>,
+invoke with 'qhull d Qbb <a href="#Qu">Qu</a> Qg').
 It is not effective in higher
 dimensions because many facets see a given point and contain a
 given vertex. It is not guaranteed to work for all combinations.</p>
@@ -284,7 +284,7 @@ points. You will probably want '<a href="#Qc">Qc </a>' as well. </p>
 
 <p>Option 'Qi' is automatically set for '<a href=qdelaun.htm>qdelaunay</a>
 <a href="#Qc">Qc</a>' and '<a href=qvoronoi.htm>qvoronoi</a>
-<a href="#Qc">Qc</a>'. If you use 
+<a href="#Qc">Qc</a>'. If you use
 '<a href=qdelaun.htm>qdelaunay</a> Qi' or '<a href=qvoronoi.htm>qvoronoi</a>
 Qi', option '<a href="qh-opto.htm#s">s</a>' reports all nearly
 incident points while option '<a href="qh-optf.htm#Fs">Fs</a>'
@@ -334,7 +334,7 @@ href="qh-optq.htm#Qt">Qt</a>')</p>
 <p>By default, 'QJn' uses a fixed random number seed. To use time
 as the random number seed, select '<a href="qh-optq.htm#QRn">QR-1</a>'.
 The summary ('<a href="qh-opto.htm#s">s</a>') will show the
-selected seed as 'QR-n'.  
+selected seed as 'QR-n'.
 
 <p>With 'QJn', Qhull does not error on degenerate hyperplane
 computations. Except for Delaunay and Voronoi computations, Qhull
@@ -345,7 +345,7 @@ selected options. Option 'FO' displays the joggle and the joggle
 seed. If Qhull restarts, it will redisplay the options. </p>
 
 <p>Use option '<a href="qh-optt.htm#TRn">TRn</a>' to estimate the
-probability that Qhull will fail for a given 'QJn'.  
+probability that Qhull will fail for a given 'QJn'.
 
 <h3><a href="#qhull">»</a><a name="Qm">Qm - only process points
 that increase the maximum outer plane </a></h3>
@@ -379,7 +379,7 @@ because the randomization is inefficient. </p>
 <h3><a href="#qhull">»</a><a name="QRn">QRn - random rotation </a></h3>
 
 <p>Option 'QRn' randomly rotates the input. For Delaunay
-triangulations (<a href=qdelaun.htm>qdelaunay</a> or <a href=qvoronoi.htm>qvoronoi</a>), 
+triangulations (<a href=qdelaun.htm>qdelaunay</a> or <a href=qvoronoi.htm>qvoronoi</a>),
 it rotates the lifted points about
 the last axis. </p>
 
@@ -427,7 +427,7 @@ may be ignored due to precision errors.
 <h3><a href="#qhull">»</a><a name="Qu">Qu - compute upper hull
 for furthest-site Delaunay triangulation </a></h3>
 
-<p>When computing a Delaunay triangulation (<a href=qdelaun.htm>qdelaunay</a> 
+<p>When computing a Delaunay triangulation (<a href=qdelaun.htm>qdelaunay</a>
 or <a href=qvoronoi.htm>qvoronoi</a>),
 Qhull computes both the the convex hull of points on a
 paraboloid. It normally prints facets of the lower hull. These
@@ -440,8 +440,8 @@ and the <a href="qvoron_f.htm">furthest-site Voronoi diagram</a>.</p>
 'Qu'. If you use the Qhull library, a faster method is 1) use
 Qhull to compute the convex hull of the input sites; 2) take the
 extreme points (vertices) of the convex hull; 3) add one interior
-point (e.g., 
-'<a href="qh-optf.htm#FV">FV</a>', the average of <em>d</em> extreme points); 4) run 
+point (e.g.,
+'<a href="qh-optf.htm#FV">FV</a>', the average of <em>d</em> extreme points); 4) run
 'qhull d Qbb Qu' or 'qhull v Qbb Qu' on these points.</p>
 
 <h3><a href="#qhull">»</a><a name="Qv">Qv - test vertex
@@ -462,18 +462,18 @@ includes point n, -n if not </a></h3>
 '<a href="qh-optp.htm#Pg">Pg</a>') if one of its vertices is
 point n. If <i>n&lt;0</i>, a good facet does not include point n.
 
-<p>If options '<a href="qh-optp.htm#PG">PG</a>' 
+<p>If options '<a href="qh-optp.htm#PG">PG</a>'
 and '<a href="#Qg">Qg</a>' are not set, option '<a href="qh-optp.htm#Pg">Pg</a>'
-(print only good) 
+(print only good)
 is automatically set.
 </p>
 
 <p>Option 'QVn' behaves oddly with options '<a href="qh-optf.htm#Fx">Fx</a>'
 and '<a href=qvoronoi.htm>qvoronoi</a> <a href="qh-optf.htm#Fv2">Fv</a>'.
 
-<p>If used with option '<a href="#Qg">Qg</a>' (only process good facets), point n is 
+<p>If used with option '<a href="#Qg">Qg</a>' (only process good facets), point n is
 either in the initial simplex or it is the first
-point added to the hull. Options 'QVn Qg' require either '<a href="#QJn">QJ</a>' or 
+point added to the hull. Options 'QVn Qg' require either '<a href="#QJn">QJ</a>' or
 '<a href="#Q0">Q0</a>' (no merging).</p>
 
 <h3><a href="#qhull">»</a><a name="Qx">Qx - exact pre-merges
@@ -654,15 +654,15 @@ Option '<a href="#Qt">Qt</a>' triangulates non-simplicial facets
 into "tricoplanar" facets.
 Normally tricoplanar facets share the same normal, centrum, and
 Voronoi vertex.  They can not be merged or replaced.  With
-option 'Q11', Qhull duplicates the normal and Voronoi vertex.  
-It recomputes the centrum.  
+option 'Q11', Qhull duplicates the normal and Voronoi vertex.
+It recomputes the centrum.
 
 <p>Use 'Q11' if you use the Qhull library to add points
-incrementally and call qh_triangulate() after each point.  
+incrementally and call qh_triangulate() after each point.
 Otherwise, Qhull will report an error when it tries to
 merge and replace a tricoplanar facet.
 
-<p>With sufficient merging and new points, option 'Q11' may 
+<p>With sufficient merging and new points, option 'Q11' may
 lead to precision problems such
 as duplicate ridges and concave facets.  For example, if qh_triangulate()
 is added to qh_addpoint(), RBOX 1000 s W1e-12 t1001813667 P0 | QHULL d Q11 Tv,
@@ -674,13 +674,13 @@ reports an error due to a duplicate ridge.
 <p><b>Up:</b> <a href="http://www.qhull.org">Home page</a> for Qhull<br>
 <b>Up:</b> <a href="index.htm#TOC">Qhull manual</a>: Table of Contents<br>
 <b>To:</b> <a href="qh-quick.htm#programs">Programs</a>
-&#149; <a href="qh-quick.htm#options">Options</a> 
-&#149; <a href="qh-opto.htm#output">Output</a> 
-&#149; <a href="qh-optf.htm#format">Formats</a> 
-&#149; <a href="qh-optg.htm#geomview">Geomview</a> 
+&#149; <a href="qh-quick.htm#options">Options</a>
+&#149; <a href="qh-opto.htm#output">Output</a>
+&#149; <a href="qh-optf.htm#format">Formats</a>
+&#149; <a href="qh-optg.htm#geomview">Geomview</a>
 &#149; <a href="qh-optp.htm#print">Print</a>
-&#149; <a href="qh-optq.htm#qhull">Qhull</a> 
-&#149; <a href="qh-optc.htm#prec">Precision</a> 
+&#149; <a href="qh-optq.htm#qhull">Qhull</a>
+&#149; <a href="qh-optc.htm#prec">Precision</a>
 &#149; <a href="qh-optt.htm#trace">Trace</a></p>
 <!-- GC common information -->
 <hr>

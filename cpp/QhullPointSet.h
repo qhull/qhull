@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2009-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullPointSet.h#17 $$Change: 1150 $
-** $DateTime: 2010/01/04 22:43:14 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullPointSet.h#18 $$Change: 1164 $
+** $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -33,7 +33,7 @@ class QhullPointSet : public QhullSet<coordT *> {
 
 private:
 #//Field
-    int                 point_dimension; 
+    int                 point_dimension;
 
 public:
 #//Subtypes and types
@@ -75,7 +75,7 @@ public:
 #//Read-only
     //inherits count, empty, isEmpty, size
     using QhullSetBase::count;
-    int                 dimension() const { return point_dimension; } 
+    int                 dimension() const { return point_dimension; }
     bool                operator==(const QhullPointSet &o) const;
     bool                operator!=(const QhullPointSet &o) const { return !operator==(o); }
 
@@ -129,7 +129,7 @@ public:
                         iterator(const iterator &o) : i(o.i), point_dimension(o.point_dimension) {}
         iterator       &operator=(const iterator &o) { i= o.i; point_dimension= o.point_dimension; return *this; }
 
-        QhullPoint      operator*() const { return QhullPoint(point_dimension, *i); } 
+        QhullPoint      operator*() const { return QhullPoint(point_dimension, *i); }
                       //operator->() n/a, value-type
         QhullPoint      operator[](int idx) { return QhullPoint(point_dimension, *(i+idx)); }
         bool            operator==(const iterator &o) const { return i == o.i && point_dimension == o.point_dimension; }
@@ -178,8 +178,8 @@ public:
                         const_iterator(const const_iterator &o) : i(o.i), point_dimension(o.point_dimension) {}
                         const_iterator(iterator o) : i(o.i), point_dimension(o.point_dimension) {}
         const_iterator &operator=(const const_iterator &o) { i= o.i; point_dimension= o.point_dimension; return *this; }
-   
-        QhullPoint      operator*() const { return QhullPoint(point_dimension, *i); } 
+
+        QhullPoint      operator*() const { return QhullPoint(point_dimension, *i); }
         QhullPoint      operator[](int idx) { return QhullPoint(point_dimension, *(i+idx)); }
                       //operator->() n/a, value-type
         bool            operator==(const const_iterator &o) const { return i == o.i && point_dimension == o.point_dimension; }
@@ -207,7 +207,7 @@ public:
         const QhullPointSet *point_set; // FIXUP should Print... use pointers?
         const char     *message;
         int             run_id;
-        PrintIdentifiers(const char *message, const QhullPointSet *s) : point_set(s), message(message) {} 
+        PrintIdentifiers(const char *message, const QhullPointSet *s) : point_set(s), message(message) {}
     };//PrintIdentifiers
     PrintIdentifiers printIdentifiers(const char *message) const { return PrintIdentifiers(message, this); }
 
@@ -215,7 +215,7 @@ public:
         const QhullPointSet *point_set; // FIXUP should Print... use pointers?
         const char     *message;
         int             run_id;
-        PrintPointSet(int qhRunId, const char *message, const QhullPointSet &s) : point_set(&s), message(message), run_id(qhRunId) {} 
+        PrintPointSet(int qhRunId, const char *message, const QhullPointSet &s) : point_set(&s), message(message), run_id(qhRunId) {}
     };//PrintPointSet
     PrintPointSet       print(int qhRunId) const { return PrintPointSet(qhRunId, 0, *this); }
     PrintPointSet       print(int qhRunId, const char *message) const { return PrintPointSet(qhRunId, message, *this); }

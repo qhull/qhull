@@ -3,13 +3,13 @@
 
    unix.c
      command line interface to qhull
-	 includes SIOUX interface for Macintoshes
+         includes SIOUX interface for Macintoshes
 
    see qh-qhull.htm
 
    copyright (c) 1993-2010 The Geometry Center.
-   $Id: //product/qhull/main/rel/src/unix.c#25 $$Change: 1137 $
-   $DateTime: 2010/01/02 21:58:11 $$Author: bbarber $
+   $Id: //product/qhull/main/rel/src/unix.c#26 $$Change: 1164 $
+   $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
 */
 
 #include "mem.h"
@@ -39,18 +39,18 @@ extern "C" {
 
 #else
 int isatty(int);  /* returns 1 if stdin is a tty
-		   if "Undefined symbol" this can be deleted along with call in main() */
+                   if "Undefined symbol" this can be deleted along with call in main() */
 #endif
 
 /*-<a                             href="qh-qhull.htm#TOC"
   >-------------------------------</a><a name="prompt">-</a>
 
-  qh_prompt 
+  qh_prompt
     long prompt for qhull
-    
+
   see:
     concise prompt below
-*/  
+*/
 char qh_prompta[]= "\n\
 qhull- compute convex hulls and related structures.\n\
     http://www.qhull.org  %s\n\
@@ -96,7 +96,7 @@ char qh_promptb[]= "\
     QGn  - good facet if visible from point n, -n for not visible\n\
     QVn  - good facet if it includes point n, -n if not\n\
     Q0   - turn off default premerge with 'C-0'/'Qx'\n\
-    Q1	   - sort merges by type instead of angle\n\
+    Q1     - sort merges by type instead of angle\n\
     Q2   - merge all non-convex at once instead of independent sets\n\
     Q3   - do not merge redundant vertices\n\
     Q4   - avoid old->new merges\n\
@@ -273,7 +273,7 @@ char qh_prompt3[]= "\n\
 Qhull %s.\n\
 Except for 'F.' and 'PG', upper-case options take an argument.\n\
 \n\
- delaunay       voronoi	       Geomview       Halfspace      facet_dump\n\
+ delaunay       voronoi        Geomview       Halfspace      facet_dump\n\
  incidences     mathematica    normals        OFF_format     points\n\
  summary\n\
 \n\
@@ -346,7 +346,7 @@ int main(int argc, char *argv[]) {
   }
   if (argc > 1 && *argv[1] == '-' && !*(argv[1]+1)) {
     fprintf(stdout, qh_prompta, qh_version, qh_DEFAULTbox,
-		qh_promptb, qh_promptc, qh_promptd, qh_prompte);
+                qh_promptb, qh_promptc, qh_promptd, qh_prompte);
     exit(qh_ERRnone);
   }
   if (argc >1 && *argv[1] == '.' && !*(argv[1]+1)) {

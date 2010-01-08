@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2009-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/PointCoordinates.cpp#22 $$Change: 1139 $
-** $DateTime: 2010/01/03 11:20:29 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/PointCoordinates.cpp#23 $$Change: 1164 $
+** $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -49,7 +49,7 @@ PointCoordinates(const std::string &comment)
 : QhullPoints()
 , point_coordinates()
 , point_comment()
-{ 
+{
     appendComment(comment);
     makeValid();
 }
@@ -59,7 +59,7 @@ PointCoordinates(int dimension, const std::string &comment)
 : QhullPoints(dimension)
 , point_coordinates()
 , point_comment()
-{ 
+{
     appendComment(comment);
     makeValid();
 }
@@ -69,7 +69,7 @@ PointCoordinates(int dimension, const std::string &comment, int coordinateCount,
 : QhullPoints(dimension)
 , point_coordinates()
 , point_comment(comment)
-{ 
+{
     append(coordinateCount, c);
 }
 
@@ -78,7 +78,7 @@ PointCoordinates(const PointCoordinates &other)
 : QhullPoints(other)
 , point_coordinates(other.point_coordinates)
 , point_comment(other.point_comment)
-{ 
+{
     makeValid();
 }
 
@@ -157,17 +157,17 @@ append(const PointCoordinates &other)
 }//append PointCoordinates
 
 void PointCoordinates::
-append(const QhullPoint &p) 
-{ 
+append(const QhullPoint &p)
+{
     setDimension(p.dimension());
-    append(p.dimension(), p.coordinates()); 
+    append(p.dimension(), p.coordinates());
 }//append QhullPoint
 
 void PointCoordinates::
 appendComment(const std::string &s){
     if(char c= s[0] && point_comment.empty()){
         if(c=='-' || isdigit(c)){
-            throw QhullError(10028, "Qhull argument error: comments can not start with a number or minus, %s", 0, 0, 0.0, s.c_str()); 
+            throw QhullError(10028, "Qhull argument error: comments can not start with a number or minus, %s", 0, 0, 0.0, s.c_str());
         }
     }
     point_comment += s;
@@ -242,7 +242,7 @@ operator+(const PointCoordinates &other) const
 
 void PointCoordinates::
 reserveCoordinates(int newCoordinates)
-{ 
+{
     // vector::reserve is not const
     point_coordinates.reserve((int)point_coordinates.size()+newCoordinates); // WARN64
     makeValid();
@@ -272,7 +272,7 @@ using orgQhull::PointCoordinates;
 
 ostream&
 operator<<(ostream &os, const PointCoordinates &p)
-{ 
+{
     p.checkValid();
     int count= p.count();
     int dimension= p.dimension();

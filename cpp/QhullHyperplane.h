@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2009-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullHyperplane.h#10 $$Change: 1150 $
-** $DateTime: 2010/01/04 22:43:14 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullHyperplane.h#11 $$Change: 1164 $
+** $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -23,7 +23,7 @@ namespace orgQhull {
     class QhullPoint;
 
 #//Types
-    //! QhullHyperplane as an offset, dimension, and pointer to coordinates 
+    //! QhullHyperplane as an offset, dimension, and pointer to coordinates
     class QhullHyperplane;
     //! Java-style iterator for QhullHyperplane coordinates
     class QhullHyperplaneIterator;
@@ -52,7 +52,7 @@ public:
     QhullHyperplane    &operator=(const QhullHyperplane &other) { hyperplane_coordinates= other.hyperplane_coordinates; hyperplane_dimension= other.hyperplane_dimension; hyperplane_offset= other.hyperplane_offset; return *this; }
                        ~QhullHyperplane() {}
 
-#//Conversions -- 
+#//Conversions --
 //! Includes offset at end
 #ifndef QHULL_NO_STL
     std::vector<coordT> toStdVector() const;
@@ -65,7 +65,7 @@ public:
 public:
     const coordT       *coordinates() const { return hyperplane_coordinates; }
     coordT             *coordinates() { return hyperplane_coordinates; }
-    int		        dimension() const { return hyperplane_dimension; }
+    int                 dimension() const { return hyperplane_dimension; }
     bool                isDefined() const { return hyperplane_coordinates!=0 && hyperplane_dimension>0; }
     coordT              offset() const { return hyperplane_offset; }
 
@@ -73,9 +73,9 @@ public:
     void                defineAs(int dimension, coordT *c, coordT offset) { QHULL_ASSERT(dimension>=0); hyperplane_coordinates= c; hyperplane_dimension= dimension; hyperplane_offset= offset; }
     //! Creates an alias to other
     void                defineAs(QhullHyperplane &other) { hyperplane_coordinates= other.coordinates(); hyperplane_dimension= other.dimension();  hyperplane_offset= other.offset(); }
-    void                setCoordinates(coordT *c) { hyperplane_coordinates= c; } 
-    void                setDimension(int dimension) { hyperplane_dimension= dimension; } 
-    void                setOffset(coordT c) { hyperplane_offset= c; } 
+    void                setCoordinates(coordT *c) { hyperplane_coordinates= c; }
+    void                setDimension(int dimension) { hyperplane_dimension= dimension; }
+    void                setOffset(coordT c) { hyperplane_offset= c; }
 
 #//value
     double              distance(const QhullPoint &p) const;
@@ -102,7 +102,7 @@ public:
         const QhullHyperplane  *hyperplane;    //! FIXUP elsewhere.  const is OK now
         const char     *hyperplane_message;
         const char     *hyperplane_offset_message;
-                        PrintHyperplane(const char *message, const char *offsetMessage, const QhullHyperplane &p) : hyperplane(&p), hyperplane_message(message), hyperplane_offset_message(offsetMessage) {} 
+                        PrintHyperplane(const char *message, const char *offsetMessage, const QhullHyperplane &p) : hyperplane(&p), hyperplane_message(message), hyperplane_offset_message(offsetMessage) {}
     };//PrintHyperplane
     PrintHyperplane          print() const { return  PrintHyperplane(0, 0, *this); }
     PrintHyperplane          print(const char *message, const char *offsetMessage) const { return PrintHyperplane(message, offsetMessage, *this); }

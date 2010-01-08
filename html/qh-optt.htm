@@ -10,13 +10,13 @@
 <p><b>Up:</b> <a href="http://www.qhull.org">Home page</a> for Qhull<br>
 <b>Up:</b> <a href="index.htm#TOC">Qhull manual</a>: Table of Contents<br>
 <b>To:</b> <a href="qh-quick.htm#programs">Programs</a>
-&#149; <a href="qh-quick.htm#options">Options</a> 
-&#149; <a href="qh-opto.htm#output">Output</a> 
-&#149; <a href="qh-optf.htm#format">Formats</a> 
-&#149; <a href="qh-optg.htm#geomview">Geomview</a> 
+&#149; <a href="qh-quick.htm#options">Options</a>
+&#149; <a href="qh-opto.htm#output">Output</a>
+&#149; <a href="qh-optf.htm#format">Formats</a>
+&#149; <a href="qh-optg.htm#geomview">Geomview</a>
 &#149; <a href="qh-optp.htm#print">Print</a>
-&#149; <a href="qh-optq.htm#qhull">Qhull</a> 
-&#149; <a href="qh-optc.htm#prec">Precision</a> 
+&#149; <a href="qh-optq.htm#qhull">Qhull</a>
+&#149; <a href="qh-optc.htm#prec">Precision</a>
 &#149; <a href="qh-optt.htm#trace">Trace</a></p>
 
 <hr>
@@ -34,13 +34,13 @@ indicated by 'T' followed by a letter.
 <hr>
 
 <p><a href="index.htm#TOC">»</a> <a href="qh-quick.htm#programs">Programs</a>
-<a name="trace">&#149;</a> <a href="qh-quick.htm#options">Options</a> 
-&#149; <a href="qh-opto.htm#output">Output</a> 
-&#149; <a href="qh-optf.htm#format">Formats</a> 
-&#149; <a href="qh-optg.htm#geomview">Geomview</a> 
+<a name="trace">&#149;</a> <a href="qh-quick.htm#options">Options</a>
+&#149; <a href="qh-opto.htm#output">Output</a>
+&#149; <a href="qh-optf.htm#format">Formats</a>
+&#149; <a href="qh-optg.htm#geomview">Geomview</a>
 &#149; <a href="qh-optp.htm#print">Print</a>
-&#149; <a href="qh-optq.htm#qhull">Qhull</a> 
-&#149; <a href="qh-optc.htm#prec">Precision</a> 
+&#149; <a href="qh-optq.htm#qhull">Qhull</a>
+&#149; <a href="qh-optc.htm#prec">Precision</a>
 &#149; <a href="qh-optt.htm#trace">Trace</a></p>
 
 <h2>Trace options</h2>
@@ -62,7 +62,7 @@ indicated by 'T' followed by a letter.
     <dd>rerun qhull n times</dd>
     <dt><a href="#Tv">Tv</a></dt>
     <dd>verify result: structure, convexity, and point inclusion</dd>
- 
+
     <dt>&nbsp;</dt>
     <dt>&nbsp;</dt>
     <dd><b>Debugging</b></dd>
@@ -113,7 +113,7 @@ hull. During post-merging, 'TFn' reports progress after more than
 <h3><a href="#trace">»</a><a name="TI">TI file - input data from file</a></h3>
 
 <p>Input data from 'file' instead of stdin.  The filename may not
-contain spaces or use single quotes.  
+contain spaces or use single quotes.
 You may use I/O redirection
 instead (e.g., 'rbox 10 | qdelaunay >results').</P>
 
@@ -148,9 +148,9 @@ memory addresses which may change across executions.
 single quotes.  Unix and Windows NT users may use I/O redirection
 instead (e.g., 'rbox 10 | qdelaunay >results').</P>
 <p>
-Windows95 users should always use 'TO file'.  If they use I/O redirection, 
+Windows95 users should always use 'TO file'.  If they use I/O redirection,
 error output is not sent to the console.  Qhull uses single quotes instead
-of double quotes because a missing double quote can 
+of double quotes because a missing double quote can
 freeze Windows95 (e.g., do not run, rbox 10 | qhull TO &quot;x)</p>
 <p>
 
@@ -158,25 +158,25 @@ freeze Windows95 (e.g., do not run, rbox 10 | qhull TO &quot;x)</p>
 when point n added to hull </a></h3>
 
 <p>Option 'TPn' turns on tracing when point n is added to
-the hull.  It also traces partitions of point n.  This option 
+the hull.  It also traces partitions of point n.  This option
 reduces the output size when tracing.  It is the normal
 method to determine the cause of a Qhull error. All Qhull errors
-report the last point added. 
+report the last point added.
 
-<p>Use options 'TPn <a href="qh-optt.htm#TVn">TVn</a>' to 
+<p>Use options 'TPn <a href="qh-optt.htm#TVn">TVn</a>' to
 trace the addition of point n to the convex hull and stop when done.</p>
 
-<p>If used with option '<a href="qh-optt.htm#TWn">TWn</a>', 
+<p>If used with option '<a href="qh-optt.htm#TWn">TWn</a>',
 'TPn' turns off tracing after adding point n to the hull.
-Use options 'TPn TWn' to 
+Use options 'TPn TWn' to
 trace the addition of point n to the convex hull, partitions
 of point n, and wide merges.</p>
 
 <h3><a href="#trace">»</a><a name="TRn">TRn - rerun qhull n times</a></h3>
 
-<p>Option 'TRn' reruns Qhull n times.  It is usually used 
+<p>Option 'TRn' reruns Qhull n times.  It is usually used
 with '<a href="qh-optq.htm#QJn">QJn</a>' to determine the probability
-that a given joggle will fail.  The summary 
+that a given joggle will fail.  The summary
 ('<a href="qh-opto.htm#s">s</a>') lists the failure
 rate and the precision errors that occurred.
 Option '<a href="#Ts">Ts</a>' will report statistics for
@@ -184,7 +184,7 @@ all of the runs.  Trace and output options only apply to the last
 run.  An event trace, '<a href="#Tn">T-1</a>' reports events for all runs.
 
 <p>Tracing applies to the last run of Qhull.  If an error
-is reported, the options list the run number as "_run".  
+is reported, the options list the run number as "_run".
 To trace this run, set 'TRn' to the same value.</p>
 
 <h3><a href="#trace">»</a><a name="Ts">Ts - print statistics </a></h3>
@@ -217,12 +217,12 @@ prints a message to stderr unless option '<a
 href="qh-optp.htm#Pp">Pp</a>' is used. This allows the user to
 interrupt Qhull without changing the output. </p>
 
-<p>With '<a href=qvoronoi.htm>qvoronoi</a> <a href="qh-optf.htm#Fi2">Fi</a>' 
+<p>With '<a href=qvoronoi.htm>qvoronoi</a> <a href="qh-optf.htm#Fi2">Fi</a>'
 and '<a href=qvoronoi.htm>qvoronoi</a> <a href="qh-optf.htm#Fo2">Fo</a>',
 option 'Tv' collects statistics that verify all Voronoi vertices lie
-on the separating hyperplane, and for bounded regions, all 
+on the separating hyperplane, and for bounded regions, all
 separating hyperplanes are perpendicular bisectors.
- 
+
 <h3><a href="#trace">»</a><a name="TVn">TV-n - stop qhull before
 adding point n</a></h3>
 
@@ -253,13 +253,13 @@ stdout </a></h3>
 <p><b>Up:</b> <a href="http://www.qhull.org">Home page</a> for Qhull<br>
 <b>Up:</b> <a href="index.htm#TOC">Qhull manual</a>: Table of Contents<br>
 <b>To:</b> <a href="qh-quick.htm#programs">Programs</a>
-&#149; <a href="qh-quick.htm#options">Options</a> 
-&#149; <a href="qh-opto.htm#output">Output</a> 
-&#149; <a href="qh-optf.htm#format">Formats</a> 
-&#149; <a href="qh-optg.htm#geomview">Geomview</a> 
+&#149; <a href="qh-quick.htm#options">Options</a>
+&#149; <a href="qh-opto.htm#output">Output</a>
+&#149; <a href="qh-optf.htm#format">Formats</a>
+&#149; <a href="qh-optg.htm#geomview">Geomview</a>
 &#149; <a href="qh-optp.htm#print">Print</a>
-&#149; <a href="qh-optq.htm#qhull">Qhull</a> 
-&#149; <a href="qh-optc.htm#prec">Precision</a> 
+&#149; <a href="qh-optq.htm#qhull">Qhull</a>
+&#149; <a href="qh-optc.htm#prec">Precision</a>
 &#149; <a href="qh-optt.htm#trace">Trace</a></p>
 <!-- GC common information -->
 <hr>

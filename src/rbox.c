@@ -3,7 +3,7 @@
 
    rbox.c
      rbox program for generating input points for qhull.
-   
+
    notes:
      50 points generated for 'rbox D4'
 
@@ -73,7 +73,7 @@ int main(int argc, char **argv) {
   SIOUXSettings.rows= 40;
   if (setvbuf(stdin, inBuf, _IOFBF, sizeof(inBuf)) < 0   /* w/o, SIOUX I/O is slow*/
   || setvbuf(stdout, outBuf, _IOFBF, sizeof(outBuf)) < 0
-  || (stdout != stderr && setvbuf(stderr, errBuf, _IOFBF, sizeof(errBuf)) < 0)) 
+  || (stdout != stderr && setvbuf(stderr, errBuf, _IOFBF, sizeof(errBuf)) < 0))
     fprintf(stderr, "qhull internal warning (main): could not change stdio to fully buffered.\n");
   argc= ccommand(&argv);
 #endif

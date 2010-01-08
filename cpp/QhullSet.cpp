@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullSet.cpp#17 $$Change: 1139 $
-** $DateTime: 2010/01/03 11:20:29 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullSet.cpp#18 $$Change: 1164 $
+** $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -11,7 +11,7 @@
 #include "QhullError.h"
 #include "QhullSet.h"
 
-#ifdef _MSC_VER  // Microsoft Visual C++ -- warning level 4 
+#ifdef _MSC_VER  // Microsoft Visual C++ -- warning level 4
 #endif
 
 namespace orgQhull {
@@ -22,7 +22,7 @@ setT QhullSetBase::
 s_empty_set;
 
 // Same code for qh_setsize [qset.c] and QhullSetBase::count
-int QhullSetBase::count(const setT *set) 
+int QhullSetBase::count(const setT *set)
 {
     int size;
     const int *sizep;

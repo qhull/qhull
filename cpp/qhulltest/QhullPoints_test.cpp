@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (p) 2009-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/qhulltest/QhullPoints_test.cpp#17 $$Change: 1139 $
-** $DateTime: 2010/01/03 11:20:29 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/qhulltest/QhullPoints_test.cpp#18 $$Change: 1164 $
+** $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -54,7 +54,7 @@ cleanup()
 
 void QhullPoints_test::
 t_construct()
-{ 
+{
     QhullPoints ps;
     QCOMPARE(ps.dimension(), 0);
     QVERIFY(ps.isEmpty());
@@ -93,7 +93,7 @@ t_construct()
 
 void QhullPoints_test::
 t_convert()
-{   
+{
     //defineAs tested above
     coordT c[]= {0.0, 1.0, 2.0, 3.0, 4.0, 5.0};
     QhullPoints ps(3, 6, c);
@@ -117,7 +117,7 @@ t_convert()
 
 void QhullPoints_test::
 t_getset()
-{   
+{
     //See t_construct for coordinates, count, defineAs, dimension, empty, isempty, ==, !=, size
     coordT c[]= {0.0, 1.0, 2.0, 3.0, 4.0, 5.0};
     QhullPoints ps(3, 6, c);
@@ -158,7 +158,7 @@ t_getset()
 
 void QhullPoints_test::
 t_element()
-{   
+{
     coordT c[]= {0.0, 1.0, 2.0, 3.0, 4.0, 5.0};
     QhullPoints ps(2, 6, c);
     QhullPoint p(2, c);
@@ -197,7 +197,7 @@ t_element()
 
 void QhullPoints_test::
 t_iterator()
-{ 
+{
     coordT c[]= {0.0, 1.0, 2.0};
     QhullPoints ps(1, 3, c);
     QhullPoints::Iterator i(ps);
@@ -209,7 +209,7 @@ t_iterator()
     QVERIFY(i==i2);
     i2= ps.end();
     QVERIFY(i!=i2);
-    QhullPoint p(i); // QhullPoint is the base class for QhullPoints::iterator 
+    QhullPoint p(i); // QhullPoint is the base class for QhullPoints::iterator
     QCOMPARE(p.dimension(), ps.dimension());
     QCOMPARE(p.coordinates(), ps.coordinates());
     i2--;
@@ -265,16 +265,16 @@ t_iterator()
     QCOMPARE(i, i2--);
     QCOMPARE(i2, ps.begin());
     QCOMPARE(--i, i2);
-    QCOMPARE(i2+=3, ps.end()); 
-    QCOMPARE(i2-=3, ps.begin()); 
-    QCOMPARE(i2+0, ps.begin()); 
+    QCOMPARE(i2+=3, ps.end());
+    QCOMPARE(i2-=3, ps.begin());
+    QCOMPARE(i2+0, ps.begin());
     QCOMPARE(i2+3, ps.end());
     i2 += 3;
     i= i2-0;
     QCOMPARE(i, i2);
     i= i2-3;
-    QCOMPARE(i, ps.begin()); 
-    QCOMPARE(i2-i, 3); 
+    QCOMPARE(i, ps.begin());
+    QCOMPARE(i2-i, 3);
 
     //ps.begin end tested above
 
@@ -283,7 +283,7 @@ t_iterator()
 
 void QhullPoints_test::
 t_const_iterator()
-{ 
+{
     coordT c[]= {0.0, 1.0, 2.0};
     const QhullPoints ps(1, 3, c);
     QhullPoints::ConstIterator i(ps);
@@ -333,16 +333,16 @@ t_const_iterator()
     QCOMPARE(i, i2--);
     QCOMPARE(i2, ps.constBegin());
     QCOMPARE(--i, i2);
-    QCOMPARE(i2+=3, ps.constEnd()); 
-    QCOMPARE(i2-=3, ps.constBegin()); 
-    QCOMPARE(i2+0, ps.constBegin()); 
+    QCOMPARE(i2+=3, ps.constEnd());
+    QCOMPARE(i2-=3, ps.constBegin());
+    QCOMPARE(i2+0, ps.constBegin());
     QCOMPARE(i2+3, ps.constEnd());
     i2 += 3;
     i= i2-0;
     QCOMPARE(i, i2);
     i= i2-3;
-    QCOMPARE(i, ps.constBegin()); 
-    QCOMPARE(i2-i, 3); 
+    QCOMPARE(i, ps.constBegin());
+    QCOMPARE(i2-i, 3);
 
     // QhullPoints is const-only
 }//t_const_iterator
@@ -456,7 +456,7 @@ t_points_iterator()
 
 void QhullPoints_test::
 t_io()
-{ 
+{
     QhullPoints ps;
     ostringstream os;
     os << "Empty QhullPoints\n" << ps << endl;
@@ -478,7 +478,7 @@ t_io()
 
 //FIXUP -- Move conditional, QhullPoints code to QhullPoints.cpp
 #ifndef QHULL_NO_STL
-std::vector<QhullPoint> QhullPoints:: 
+std::vector<QhullPoint> QhullPoints::
 toStdVector() const
 {
     QhullPointsIterator i(*this);

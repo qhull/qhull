@@ -1,37 +1,37 @@
 /*<html><pre>  -<a                             href="qh-mem.htm"
   >-------------------------------</a><a name="TOP">-</a>
 
-  mem.c 
+  mem.c
     memory management routines for qhull
 
   This is a standalone program.
-   
+
   To initialize memory:
 
-    qh_meminit(stderr);  
+    qh_meminit(stderr);
     qh_meminitbuffers(qh IStracing, qh_MEMalign, 7, qh_MEMbufsize,qh_MEMinitbuf);
     qh_memsize((int)sizeof(facetT));
     qh_memsize((int)sizeof(facetT));
     ...
     qh_memsetup();
-    
+
   To free up all memory buffers:
     qh_memfreeshort(&curlong, &totlong);
-         
+
   if qh_NOmem,
     malloc/free is used instead of mem.c
 
-  notes: 
+  notes:
     uses Quickfit algorithm (freelists for commonly allocated sizes)
     assumes small sizes for freelists (it discards the tail of memory buffers)
-   
+
   see:
     qh-mem.htm and mem.h
-    global.c (qh_initbuffers) for an example of using mem.c 
-   
+    global.c (qh_initbuffers) for an example of using mem.c
+
   copyright (c) 1993-2010 The Geometry Center.
-  $Id: //product/qhull/main/rel/src/mem.c#31 $$Change: 1150 $
-  $DateTime: 2010/01/04 22:43:14 $$Author: bbarber $
+  $Id: //product/qhull/main/rel/src/mem.c#32 $$Change: 1164 $
+  $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
 */
 
 #include "mem.h"
@@ -48,7 +48,7 @@ typedef struct facetT facetT;
 #endif
 void    qh_errexit(int exitcode, facetT *, ridgeT *);
 void    qh_exit(int exitcode);
-void	qh_fprintf(FILE *fp, int msgcode, const char *fmt, ... );
+void    qh_fprintf(FILE *fp, int msgcode, const char *fmt, ... );
 void    qh_free(void *mem);
 void   *qh_malloc(size_t size);
 #endif
@@ -64,14 +64,14 @@ qhmemT qhmem= {0,0,0,0,0,0,0,0,0,0,0,
 #ifndef qh_NOmem
 
 /*============= internal functions ==============*/
-  
+
 static int qh_intcompare(const void *i, const void *j);
 
 /*========== functions in alphabetical order ======== */
 
 /*-<a                             href="qh-mem.htm#TOC"
   >-------------------------------</a><a name="intcompare">-</a>
-  
+
   qh_intcompare( i, j )
     used by qsort and bsearch to compare two integers
 */
@@ -82,13 +82,13 @@ static int qh_intcompare(const void *i, const void *j) {
 
 /*-<a                             href="qh-mem.htm#TOC"
   >--------------------------------</a><a name="memalloc">-</a>
-   
-  qh_memalloc( insize )  
+
+  qh_memalloc( insize )
     returns object of insize bytes
-    qhmem is the global memory structure 
-    
+    qhmem is the global memory structure
+
   returns:
-    pointer to allocated memory 
+    pointer to allocated memory
     errors if insufficient memory
 
   notes:
@@ -96,7 +96,7 @@ static int qh_intcompare(const void *i, const void *j) {
     actual object may be larger than insize
     use qh_memalloc_() for inline code for quick allocations
     logs allocations if 'T5'
-  
+
   design:
     if size < qhmem.LASTsize
       if qhmem.freelists[size] non-empty
@@ -120,12 +120,12 @@ void *qh_memalloc(int insize) {
     qhmem.totshort += outsize;
     freelistp= qhmem.freelists+idx;
     if ((object= *freelistp)) {
-      qhmem.cntquick++;  
+      qhmem.cntquick++;
       qhmem.totfree -= outsize;
       *freelistp= *((void **)*freelistp);  /* replace freelist with next object */
 #ifdef qh_TRACEshort
       n= qhmem.cntshort+qhmem.cntquick+qhmem.freeshort;
-      if (qhmem.IStracing >= 5) 
+      if (qhmem.IStracing >= 5)
           qh_fprintf(qhmem.ferr, 8141, "qh_mem %p n %8d alloc quick: %d bytes (tot %d cnt %d)\n", object, n, outsize, qhmem.totshort, qhmem.cntshort+qhmem.cntquick-qhmem.freeshort);
 #endif
       return(object);
@@ -133,20 +133,20 @@ void *qh_memalloc(int insize) {
       qhmem.cntshort++;
       if (outsize > qhmem .freesize) {
         qhmem .totdropped += qhmem .freesize;
-	if (!qhmem.curbuffer)
-	  bufsize= qhmem.BUFinit;
+        if (!qhmem.curbuffer)
+          bufsize= qhmem.BUFinit;
         else
-	  bufsize= qhmem.BUFsize;
+          bufsize= qhmem.BUFsize;
         if (!(newbuffer= qh_malloc((size_t)bufsize))) {
-	  qh_fprintf(qhmem.ferr, 6080, "qhull error (qh_memalloc): insufficient memory to allocate short memory buffer (%d bytes)\n", bufsize);
-	  qh_errexit(qhmem_ERRmem, NULL, NULL);
-	} 
-	*((void **)newbuffer)= qhmem.curbuffer;  /* prepend newbuffer to curbuffer 
-						    list */
-	qhmem.curbuffer= newbuffer;
+          qh_fprintf(qhmem.ferr, 6080, "qhull error (qh_memalloc): insufficient memory to allocate short memory buffer (%d bytes)\n", bufsize);
+          qh_errexit(qhmem_ERRmem, NULL, NULL);
+        }
+        *((void **)newbuffer)= qhmem.curbuffer;  /* prepend newbuffer to curbuffer
+                                                    list */
+        qhmem.curbuffer= newbuffer;
         size= (sizeof(void **) + qhmem.ALIGNmask) & ~qhmem.ALIGNmask;
-	qhmem.freemem= (void *)((char *)newbuffer+size);
-	qhmem.freesize= bufsize - size;
+        qhmem.freemem= (void *)((char *)newbuffer+size);
+        qhmem.freesize= bufsize - size;
         qhmem.totbuffer += bufsize - size; /* easier to check */
         /* Periodically test totbuffer.  It matches at beginning and exit of every call */
         n = qhmem.totshort + qhmem.totfree + qhmem.totdropped + qhmem.freesize - outsize;
@@ -161,7 +161,7 @@ void *qh_memalloc(int insize) {
       qhmem.totunused += outsize - insize;
 #ifdef qh_TRACEshort
       n= qhmem.cntshort+qhmem.cntquick+qhmem.freeshort;
-      if (qhmem.IStracing >= 5) 
+      if (qhmem.IStracing >= 5)
           qh_fprintf(qhmem.ferr, 8140, "qh_mem %p n %8d alloc short: %d bytes (tot %d cnt %d)\n", object, n, outsize, qhmem.totshort, qhmem.cntshort+qhmem.cntquick-qhmem.freeshort);
 #endif
       return object;
@@ -189,8 +189,8 @@ void *qh_memalloc(int insize) {
 
 /*-<a                             href="qh-mem.htm#TOC"
   >--------------------------------</a><a name="memfree">-</a>
-   
-  qh_memfree( object, insize ) 
+
+  qh_memfree( object, insize )
     free up an object of size bytes
     size is insize from qh_memalloc
 
@@ -198,7 +198,7 @@ void *qh_memalloc(int insize) {
     object may be NULL
     type checking warns if using (void **)object
     use qh_memfree_() for quick free's of small objects
- 
+
   design:
     if size <= qhmem.LASTsize
       append object to corresponding freelist
@@ -222,7 +222,7 @@ void qh_memfree(void *object, int insize) {
     *freelistp= object;
 #ifdef qh_TRACEshort
     idx= qhmem.cntshort+qhmem.cntquick+qhmem.freeshort;
-    if (qhmem.IStracing >= 5) 
+    if (qhmem.IStracing >= 5)
         qh_fprintf(qhmem.ferr, 8142, "qh_mem %p n %8d free short: %d bytes (tot %d cnt %d)\n", object, idx, outsize, qhmem.totshort, qhmem.cntshort+qhmem.cntquick-qhmem.freeshort);
 #endif
   }else {
@@ -237,7 +237,7 @@ void qh_memfree(void *object, int insize) {
 
 /*-<a                             href="qh-mem.htm#TOC"
   >-------------------------------</a><a name="memfreeshort">-</a>
-  
+
   qh_memfreeshort( curlong, totlong )
     frees up all short and qhmem memory allocations
 
@@ -272,12 +272,12 @@ void qh_memfreeshort(int *curlong, int *totlong) {
 
 /*-<a                             href="qh-mem.htm#TOC"
   >--------------------------------</a><a name="meminit">-</a>
-   
+
   qh_meminit( ferr )
     initialize qhmem and test sizeof( void*)
 */
 void qh_meminit(FILE *ferr) {
-  
+
   memset((char *)&qhmem, 0, sizeof(qhmem));  /* every field is 0, FALSE, NULL */
   qhmem.ferr= ferr;
   if (sizeof(void*) < sizeof(int)) {
@@ -292,7 +292,7 @@ void qh_meminit(FILE *ferr) {
 
 /*-<a                             href="qh-mem.htm#TOC"
   >-------------------------------</a><a name="meminitbuffers">-</a>
-  
+
   qh_meminitbuffers( tracelevel, alignment, numsizes, bufsize, bufinit )
     initialize qhmem
     if tracelevel >= 5, trace memory allocations
@@ -324,7 +324,7 @@ void qh_meminitbuffers(int tracelevel, int alignment, int numsizes, int bufsize,
 
 /*-<a                             href="qh-mem.htm#TOC"
   >-------------------------------</a><a name="memsetup">-</a>
-  
+
   qh_memsetup()
     set up memory after running memsize()
 */
@@ -355,7 +355,7 @@ void qh_memsetup(void) {
 
 /*-<a                             href="qh-mem.htm#TOC"
   >-------------------------------</a><a name="memsize">-</a>
-  
+
   qh_memsize( size )
     define a free list for this size
 */
@@ -380,7 +380,7 @@ void qh_memsize(int size) {
 
 /*-<a                             href="qh-mem.htm#TOC"
   >-------------------------------</a><a name="memstatistics">-</a>
-  
+
   qh_memstatistics( fp )
     print out memory statistics
 
@@ -389,7 +389,7 @@ void qh_memsize(int size) {
 void qh_memstatistics(FILE *fp) {
   int i, count, totfree= 0;
   void *object;
-  
+
   for (i=0; i < qhmem.TABLEsize; i++) {
     count=0;
     for (object= qhmem .freelists[i]; object; object= *((void **)object))
@@ -414,12 +414,12 @@ void qh_memstatistics(FILE *fp) {
 %7d bytes of long memory in use (in %d pieces)\n\
 %7d bytes of short memory buffers (minus links)\n\
 %7d bytes per short memory buffer (initially %d bytes)\n",
-	   qhmem .cntquick, qhmem .cntshort, qhmem .cntlong,
-	   qhmem .freeshort, qhmem .freelong, 
-	   qhmem .totshort, qhmem .totfree, 
+           qhmem .cntquick, qhmem .cntshort, qhmem .cntlong,
+           qhmem .freeshort, qhmem .freelong,
+           qhmem .totshort, qhmem .totfree,
            qhmem .totdropped + qhmem .freesize, qhmem .totunused,
-	   qhmem .maxlong, qhmem .totlong, qhmem .cntlong - qhmem .freelong,
-	   qhmem .totbuffer, qhmem .BUFsize, qhmem .BUFinit);
+           qhmem .maxlong, qhmem .totlong, qhmem .cntlong - qhmem .freelong,
+           qhmem .totbuffer, qhmem .BUFsize, qhmem .BUFinit);
   if (qhmem.cntlarger) {
     qh_fprintf(fp, 9279, "%7d calls to qh_setlarger\n%7.2g     average copy size\n",
            qhmem.cntlarger, ((float)qhmem.totlarger)/(float)qhmem.cntlarger);
@@ -437,7 +437,7 @@ void qh_memstatistics(FILE *fp) {
 
 /*-<a                             href="qh-mem.htm#TOC"
   >-------------------------------</a><a name="NOmem">-</a>
-  
+
   qh_NOmem
     turn off quick-fit memory allocation
 
@@ -509,9 +509,9 @@ void qh_memstatistics(FILE *fp) {
 %7d long frees\n\
 %7d bytes of long memory allocated (max, except for input)\n\
 %7d bytes of long memory in use (in %d pieces)\n",
-	   qhmem .cntlong,
-	   qhmem .freelong, 
-	   qhmem .maxlong, qhmem .totlong, qhmem .cntlong - qhmem .freelong);
+           qhmem .cntlong,
+           qhmem .freelong,
+           qhmem .maxlong, qhmem .totlong, qhmem .cntlong - qhmem .freelong);
 }
 
 #endif /* qh_NOmem */
@@ -520,7 +520,7 @@ void qh_memstatistics(FILE *fp) {
 >-------------------------------</a><a name="memtotlong">-</a>
 
   qh_memtotal( totlong, curlong, totshort, curshort, maxlong, totbuffer )
-    Return the total, allocated long and short memory 
+    Return the total, allocated long and short memory
 
   returns:
     Returns the total current bytes of long and short allocations

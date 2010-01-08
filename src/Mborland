@@ -16,19 +16,19 @@
 CC      = bcc32    # 32 bit compiler for DOS
                    # bcc32i - Intel's compiler
 LINKER  = $(CC)    # bcc calls tlink32 with needed options
-CFLAGS  = -w- -A -O2	
+CFLAGS  = -w- -A -O2    
                     # -w- no warnings, bcc doesn't handle assigns in conditions
-                	# -A Ansi standard
-                	# -X no auto-dependency outputs
-                	# -v debugging, use CCOPTS for both 
-                	# -O2 optimization   
+                        # -A Ansi standard
+                        # -X no auto-dependency outputs
+                        # -v debugging, use CCOPTS for both 
+                        # -O2 optimization   
 !if $d(_DPMI)
 LFLAGS  = -WX -w-   # -WX loads DPMI library
 !else
 LFLAGS  = -lap -lx -lc  
-					# -lap 32-bit console application
-					# -lx no map file
-					# -lc case is significant 
+                                        # -lap 32-bit console application
+                                        # -lx no map file
+                                        # -lc case is significant 
 !endif
 
 EXERB = rbox
@@ -51,119 +51,119 @@ HFILES1 = libqhull.h stat.h qhull_a.h user.h
 # General rules
 
 .c.obj:
-	$(CC) -c $(CFLAGS) $<
+        $(CC) -c $(CFLAGS) $<
 
 # Default
 
 all:          $(EXERB) $(EXEQH) $(EXEQC) $(EXEQD) $(EXEQV) $(EXEQF) test
 
 help:
-	@echo  USAGE:
-	@echo  "make all       to produce qhull, rbox, qconvex, qdelaun, qvoronoi, qhalf"
-	@echo  "make user_eg   to produce user_eg"
-	@echo  "make user_eg2  to produce user_eg2"
-	@echo  "make new       to rebuild qhull and rbox from source"
-	@echo  "make clean     to remove object files"
-	@echo  "make cleanall  to remove all generated file"
-	@echo  "make test      to test rbox and qhull"
-	@echo  OPTIONS (default is 32-bit console app):
-	@echo  "-D_DPMI        for C++ 4.01 and DOS Power Pack"
+        @echo  USAGE:
+        @echo  "make all       to produce qhull, rbox, qconvex, qdelaun, qvoronoi, qhalf"
+        @echo  "make user_eg   to produce user_eg"
+        @echo  "make user_eg2  to produce user_eg2"
+        @echo  "make new       to rebuild qhull and rbox from source"
+        @echo  "make clean     to remove object files"
+        @echo  "make cleanall  to remove all generated file"
+        @echo  "make test      to test rbox and qhull"
+        @echo  OPTIONS (default is 32-bit console app):
+        @echo  "-D_DPMI        for C++ 4.01 and DOS Power Pack"
 
 # Executables
 
 $(EXEQH):     ..\$(EXEQH).exe
-	@echo Made ..\$(EXEQH).exe
+        @echo Made ..\$(EXEQH).exe
 
 ..\$(EXEQH).exe: unix.obj user.obj $(OBJS1) $(OBJS2)
-	@echo unix.obj user.obj > $(TMPFILE)
-	@echo $(OBJS1) >> $(TMPFILE)
-	@echo $(OBJS2) >> $(TMPFILE)
-	$(LINKER) -e$@ $(CFLAGS) $(LFLAGS) @$(TMPFILE)
+        @echo unix.obj user.obj > $(TMPFILE)
+        @echo $(OBJS1) >> $(TMPFILE)
+        @echo $(OBJS2) >> $(TMPFILE)
+        $(LINKER) -e$@ $(CFLAGS) $(LFLAGS) @$(TMPFILE)
 
 $(EXEQC):     ..\$(EXEQC).exe
-	@echo Made ..\$(EXEQC).exe
+        @echo Made ..\$(EXEQC).exe
 
 ..\$(EXEQC).exe: qconvex.obj user.obj $(OBJS1) $(OBJS2)
-	@echo qconvex.obj user.obj > $(TMPFILE)
-	@echo $(OBJS1) >> $(TMPFILE)
-	@echo $(OBJS2) >> $(TMPFILE)
-	$(LINKER) -e$@ $(CFLAGS) $(LFLAGS) @$(TMPFILE)
+        @echo qconvex.obj user.obj > $(TMPFILE)
+        @echo $(OBJS1) >> $(TMPFILE)
+        @echo $(OBJS2) >> $(TMPFILE)
+        $(LINKER) -e$@ $(CFLAGS) $(LFLAGS) @$(TMPFILE)
 
 $(EXEQD):     ..\$(EXEQD).exe
-	@echo Made ..\$(EXEQD).exe
+        @echo Made ..\$(EXEQD).exe
 
 ..\$(EXEQD).exe: qdelaun.obj user.obj $(OBJS1) $(OBJS2)
-	@echo qdelaun.obj user.obj > $(TMPFILE)
-	@echo $(OBJS1) >> $(TMPFILE)
-	@echo $(OBJS2) >> $(TMPFILE)
-	$(LINKER) -e$@ $(CFLAGS) $(LFLAGS) @$(TMPFILE)
+        @echo qdelaun.obj user.obj > $(TMPFILE)
+        @echo $(OBJS1) >> $(TMPFILE)
+        @echo $(OBJS2) >> $(TMPFILE)
+        $(LINKER) -e$@ $(CFLAGS) $(LFLAGS) @$(TMPFILE)
 
 $(EXEQV):     ..\$(EXEQV).exe
-	@echo Made ..\$(EXEQV).exe
+        @echo Made ..\$(EXEQV).exe
 
 ..\$(EXEQV).exe: qvoronoi.obj user.obj $(OBJS1) $(OBJS2)
-	@echo qvoronoi.obj user.obj > $(TMPFILE)
-	@echo $(OBJS1) >> $(TMPFILE)
-	@echo $(OBJS2) >> $(TMPFILE)
-	$(LINKER) -e$@ $(CFLAGS) $(LFLAGS) @$(TMPFILE)
+        @echo qvoronoi.obj user.obj > $(TMPFILE)
+        @echo $(OBJS1) >> $(TMPFILE)
+        @echo $(OBJS2) >> $(TMPFILE)
+        $(LINKER) -e$@ $(CFLAGS) $(LFLAGS) @$(TMPFILE)
 
 $(EXEQF):     ..\$(EXEQF).exe
-	@echo Made ..\$(EXEQF).exe
+        @echo Made ..\$(EXEQF).exe
 
 ..\$(EXEQF).exe: qhalf.obj user.obj $(OBJS1) $(OBJS2)
-	@echo qhalf.obj user.obj > $(TMPFILE)
-	@echo $(OBJS1) >> $(TMPFILE)
-	@echo $(OBJS2) >> $(TMPFILE)
-	$(LINKER) -e$@ $(CFLAGS) $(LFLAGS) @$(TMPFILE)
+        @echo qhalf.obj user.obj > $(TMPFILE)
+        @echo $(OBJS1) >> $(TMPFILE)
+        @echo $(OBJS2) >> $(TMPFILE)
+        $(LINKER) -e$@ $(CFLAGS) $(LFLAGS) @$(TMPFILE)
 
 $(EXEEG):     ..\$(EXEEG).exe
-	@echo Made ..\$(EXEEG).exe
+        @echo Made ..\$(EXEEG).exe
 
 ..\$(EXEEG).exe: user_eg.obj $(OBJS1) $(OBJS2)
-	@echo user_eg.obj user.obj > $(TMPFILE)
-	@echo $(OBJS1) >> $(TMPFILE)
-	@echo $(OBJS2) >> $(TMPFILE)
-	$(LINKER) -e$@ $(CFLAGS) $(LFLAGS) @$(TMPFILE)
+        @echo user_eg.obj user.obj > $(TMPFILE)
+        @echo $(OBJS1) >> $(TMPFILE)
+        @echo $(OBJS2) >> $(TMPFILE)
+        $(LINKER) -e$@ $(CFLAGS) $(LFLAGS) @$(TMPFILE)
 
 $(EXEEG2):     ..\$(EXEEG2).exe
-	@echo Made ..\$(EXEEG2).exe
+        @echo Made ..\$(EXEEG2).exe
 
 ..\$(EXEEG2).exe: user_eg2.obj $(OBJS1) $(OBJS2)
-	@echo user_eg2.obj > $(TMPFILE)
-	@echo $(OBJS1) >> $(TMPFILE)
-	@echo $(OBJS2) >> $(TMPFILE)
-	$(LINKER) -e$@ $(CFLAGS) $(LFLAGS) @$(TMPFILE)
+        @echo user_eg2.obj > $(TMPFILE)
+        @echo $(OBJS1) >> $(TMPFILE)
+        @echo $(OBJS2) >> $(TMPFILE)
+        $(LINKER) -e$@ $(CFLAGS) $(LFLAGS) @$(TMPFILE)
 
 $(EXERB):     ..\$(EXERB).exe
-	@echo Made ..\$(EXERB).exe
+        @echo Made ..\$(EXERB).exe
 
 ..\$(EXERB).exe: rbox.obj
-	$(LINKER) -e$@ $(CFLAGS) $(LFLAGS) rbox.obj
+        $(LINKER) -e$@ $(CFLAGS) $(LFLAGS) rbox.obj
 
 # Test rbox and qhull
 
 test:   
-	@..\rbox D4 > test.x
-	@..\qhull <test.x
-	@del test.x
+        @..\rbox D4 > test.x
+        @..\qhull <test.x
+        @del test.x
 
 # Clean up
 
 clean:
-	@del *.obj
-	@del $(TMPFILE) 
+        @del *.obj
+        @del $(TMPFILE) 
 
 cleanall: clean
-	@del ..\$(EXERB).exe
-	@del ..\$(EXEQC).exe
-	@del ..\$(EXEQD).exe
-	@del ..\$(EXEQF).exe
-	@del ..\$(EXEQH).exe
-	@del ..\$(EXEQV).exe
-	@del ..\$(EXEEG).exe
-	@del ..\$(EXEEG2).exe
-	@del ..\q_test.x
-	@del ..\q_test.log.1
+        @del ..\$(EXERB).exe
+        @del ..\$(EXEQC).exe
+        @del ..\$(EXEQD).exe
+        @del ..\$(EXEQF).exe
+        @del ..\$(EXEQH).exe
+        @del ..\$(EXEQV).exe
+        @del ..\$(EXEEG).exe
+        @del ..\$(EXEEG2).exe
+        @del ..\q_test.x
+        @del ..\q_test.log.1
 
 # Clean up and rebuild all
 

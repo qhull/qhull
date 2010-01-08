@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (p) 2009-2010 p. Bradford Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/qhulltest/Point_test.cpp#11 $$Change: 1137 $
-** $DateTime: 2010/01/02 21:58:11 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/qhulltest/Point_test.cpp#12 $$Change: 1164 $
+** $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -41,7 +41,7 @@ add_Point_test()
 }
 
 void Point_test::
-initTestCase(){ 
+initTestCase(){
     RboxPoints rcube("c");
     Qhull q(rcube, "");
     UsingQhullLib::setGlobals();
@@ -49,7 +49,7 @@ initTestCase(){
 
 void Point_test::
 t_construct()
-{ 
+{
     QhullPoint p;
     QCOMPARE(p.dimension(), 0);
     coordT c[]= {0.0, 1.0, 2.0};
@@ -66,7 +66,7 @@ t_construct()
 
 void Point_test::
 t_getset()
-{   
+{
     coordT c[]= {0.0, 1.0, 2.0};
     QhullPoint p(3, c);
     QCOMPARE(p.coordinates(), c);
@@ -90,7 +90,7 @@ t_getset()
 
 void Point_test::
 t_operator()
-{   
+{
     QhullPoint p;
     QhullPoint p2(p);
     QVERIFY(p==p2);
@@ -169,7 +169,7 @@ t_iterator()
     QVERIFY(i3>i);
     QVERIFY(i3>=i);
     // compiler errors -- QhullPoint is const-only
-    // QCOMPARE((i[0]= -10.0), -10.0); 
+    // QCOMPARE((i[0]= -10.0), -10.0);
     // coordT *c3= &i3[1];
 }//t_iterator
 
@@ -221,7 +221,7 @@ t_point_iterator()
 
 void Point_test::
 t_io()
-{ 
+{
     QhullPoint p;
     cout<< "INFO:     empty point" << p << endl;
     const coordT c[]= {1.0, 3.0, 4.0};

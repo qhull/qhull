@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullVertex.cpp#22 $$Change: 1139 $
-** $DateTime: 2010/01/03 11:20:29 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullVertex.cpp#23 $$Change: 1164 $
+** $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -15,7 +15,7 @@
 #include "QhullVertexSet.h"
 #include "QhullFacet.h"
 
-#ifdef _MSC_VER  // Microsoft Visual C++ -- warning level 4 
+#ifdef _MSC_VER  // Microsoft Visual C++ -- warning level 4
 #pragma warning( disable : 4611)  // interaction between '_setjmp' and C++ object destruction is non-portable
 #pragma warning( disable : 4996)  // function was declared deprecated(strcpy, localtime, etc.)
 #endif
@@ -54,13 +54,13 @@ using orgQhull::UsingLibQhull;
 //! Duplicate of qh_printvertex [io.c]
 ostream &
 operator<<(ostream &os, const QhullVertex::PrintVertex &pr)
-{ 
+{
     QhullVertex v= *pr.vertex;
     QhullPoint p= v.point();
     os << "- p" << p.id(pr.run_id) << " (v" << v.id() << "): ";
     const realT *c= p.coordinates();
     for(int k= p.dimension(); k--; ){
-        os << " " << *c++; // FIXUP %5.2g 
+        os << " " << *c++; // FIXUP %5.2g
     }
     if(v.getVertexT()->deleted){
         os << " deleted";

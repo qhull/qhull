@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/Qhull.cpp#41 $$Change: 1139 $
-** $DateTime: 2010/01/03 11:20:29 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/Qhull.cpp#42 $$Change: 1164 $
+** $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -27,7 +27,7 @@ using std::string;
 using std::vector;
 using std::ostream;
 
-#ifdef _MSC_VER  // Microsoft Visual C++ -- warning level 4 
+#ifdef _MSC_VER  // Microsoft Visual C++ -- warning level 4
 #pragma warning( disable : 4611)  // interaction between '_setjmp' and C++ object destruction is non-portable
 #pragma warning( disable : 4996)  // function was declared deprecated(strcpy, localtime, etc.)
 #endif
@@ -54,7 +54,7 @@ Qhull()
 , output_stream(0)
 , feasiblePoint()
 , useOutputStream(false)
-{ 
+{
     initializeQhull();
 }//Qhull
 
@@ -72,7 +72,7 @@ Qhull(const RboxPoints &points, const char *qhullCommand)
 , output_stream(0)
 , feasiblePoint()
 , useOutputStream(false)
-{ 
+{
     initializeQhull();
     runQhull(points, qhullCommand);
 }//Qhull rbox
@@ -91,7 +91,7 @@ Qhull(const char *rboxCommand, int pointDimension, int pointCount, const realT *
 , output_stream(0)
 , feasiblePoint()
 , useOutputStream(false)
-{ 
+{
     initializeQhull();
     runQhull(rboxCommand, pointDimension, pointCount, points, qhullCommand);
 }//Qhull points
@@ -100,10 +100,10 @@ Qhull(const char *rboxCommand, int pointDimension, int pointCount, const realT *
 void Qhull::
 initializeQhull()
 {
-    #if qh_QHpointer 
+    #if qh_QHpointer
         qhull_qh= new QhullQh;
         qhull_qh->old_qhstat= qh_qhstat;
-        qhull_qh->old_tempstack= static_cast<setT *>(qhmem.tempstack);
+        qhull_qh->old_tempstack= qhmem.tempstack;
         qh_qh= 0;
         qh_qhstat= 0;
     #else
@@ -123,19 +123,19 @@ Qhull::
     if(q.defined()){
         int exitCode = setjmp(qh errexit);
         if(!exitCode){ // no object creation -- destructors skipped on longjmp()
-#if qh_QHpointer 
+#if qh_QHpointer
             delete qhull_qh;
             // clears qhull_qh and qh_qh
             qh_qh= 0;
 #else
             qhull_qh->~QhullQh();
             qhull_qh= 0;
-#endif        
+#endif
             qhull_run_id= UsingLibQhull::NOqhRunId;
             // Except for cerr, does not throw errors
             if(hasQhullMessage()){
-                cerr<< "\nQhull output at end\n"; //FIXUP 2009: where should error and log messages go on ~Qhull?  
-                cerr<<qhullMessage();  
+                cerr<< "\nQhull output at end\n"; //FIXUP 2009: where should error and log messages go on ~Qhull?
+                cerr<<qhullMessage();
                 clearQhullMessage();
             }
         }
@@ -149,7 +149,7 @@ Qhull::
 void Qhull::
 appendQhullMessage(const string &s)
 {
-    if(output_stream && useOutputStream && qh USEstdout){   // threading errors caught elsewhere 
+    if(output_stream && useOutputStream && qh USEstdout){   // threading errors caught elsewhere
         *output_stream << s;
     }else if(error_stream){
         *error_stream << s;
@@ -169,7 +169,7 @@ clearQhullMessage()
 
 //! hasQhullMessage does not throw errors (~Qhull)
 bool Qhull::
-hasQhullMessage() const 
+hasQhullMessage() const
 {
     return (!qhull_message.empty() || qhull_status!=qh_ERRnone);
     //FIXUP 2009 -- inconsistent usage with Rbox.  hasRboxMessage just tests rbox_status.  No appendRboxMessage()
@@ -219,11 +219,11 @@ checkIfQhullInitialized()
 //! Setup global state (qh_qh, qh_qhstat, qhmem.tempstack)
 int Qhull::
 runId()
-{ 
+{
     UsingLibQhull u(this);
     QHULL_UNUSED(u);
 
-    return qhull_run_id; 
+    return qhull_run_id;
 }//runId
 
 
@@ -264,15 +264,15 @@ facetList() const{
 }//facetList
 
 QhullPoints Qhull::
-points() const 
-{ 
-    return QhullPoints(hullDimension(), qhull_qh->num_points*hullDimension(), qhull_qh->first_point); 
+points() const
+{
+    return QhullPoints(hullDimension(), qhull_qh->num_points*hullDimension(), qhull_qh->first_point);
 }//points
 
 QhullPointSet Qhull::
-otherPoints() const 
-{ 
-    return QhullPointSet(hullDimension(), qhull_qh->other_points); 
+otherPoints() const
+{
+    return QhullPointSet(hullDimension(), qhull_qh->other_points);
 }//otherPoints
 
 QhullVertexList Qhull::
@@ -289,7 +289,7 @@ outputQhull()
     UsingLibQhull q(this);
     int exitCode = setjmp(qh errexit);
     if(!exitCode){ // no object creation -- destructors skipped on longjmp()
-        qh_produce_output2(); 
+        qh_produce_output2();
     }
     maybeThrowQhullMessage(exitCode);
 }//outputQhull
@@ -307,10 +307,10 @@ outputQhull(const char *outputflags)
         qh_clear_outputflags();
         char *s = qh qhull_command + strlen(qh qhull_command) + 1; //space
         strncat(qh qhull_command, command, sizeof(qh qhull_command));
-        qh_checkflags(command, s_not_output_options); 
+        qh_checkflags(command, s_not_output_options);
         qh_initflags(s);
         qh_initqhull_outputflags();
-        if(qh KEEPminArea < REALmax/2 
+        if(qh KEEPminArea < REALmax/2
            || (0 != qh KEEParea + qh KEEPmerge + qh GOODvertex
                     + qh GOODthreshold + qh GOODpoint + qh SPLITthresholds)){
             facetT *facet;
@@ -320,7 +320,7 @@ outputQhull(const char *outputflags)
             }
             qh_prepare_output();
         }
-        qh_produce_output2(); 
+        qh_produce_output2();
         if(qh VERIFYoutput && !qh STOPpoint && !qh STOPcone){
             qh_check_points();
         }
@@ -334,7 +334,7 @@ runQhull(const RboxPoints &points, const char *qhullCommand)
     runQhull(points.comment().c_str(), points.dimension(), points.count(), &*points.coordinates(), qhullCommand);
 }//runQhull, RboxPoints
 
-//! points is a array of points, input sites ('d' or 'v'), or halfspaces with offset last ('H') 
+//! points is a array of points, input sites ('d' or 'v'), or halfspaces with offset last ('H')
 //! Derived from qh_new_qhull [user.c]
 void Qhull::
 runQhull(const char *rboxCommand, int pointDimension, int pointCount, const realT *points, const char *qhullCommand)
@@ -343,36 +343,36 @@ runQhull(const char *rboxCommand, int pointDimension, int pointCount, const real
         throw QhullError(10027, "Qhull error: runQhull called twice.  Only one call allowed.");
     }
     run_called= true;
-    string s("qhull ");	
+    string s("qhull ");
     s += qhullCommand;
     char *command= const_cast<char*>(s.c_str());
     UsingLibQhull q(this);
     int exitCode = setjmp(qh errexit);
     if(!exitCode){ // no object creation -- destructors skipped on longjmp()
         qh_checkflags(command, s_unsupported_options);
-	qh_initflags(command);
+        qh_initflags(command);
         *qh rbox_command= '\0';
         strncat( qh rbox_command, rboxCommand, sizeof( qh rbox_command));
-	if(qh DELAUNAY){
-	    qh PROJECTdelaunay= True;   // qh_init_B() calls qh_projectinput()
-	}
-	pointT *newPoints= const_cast<pointT*>(points);
-	int newDimension= pointDimension;
-	int newIsMalloc= False;
-	if(qh HALFspace){
-	    --newDimension;
-	    initializeFeasiblePoint(newDimension);
-	    newPoints= qh_sethalfspace_all(pointDimension, pointCount, newPoints, qh feasible_point);
-	    newIsMalloc= True;
-	}
-	qh_init_B(newPoints, pointCount, newDimension, newIsMalloc);
+        if(qh DELAUNAY){
+            qh PROJECTdelaunay= True;   // qh_init_B() calls qh_projectinput()
+        }
+        pointT *newPoints= const_cast<pointT*>(points);
+        int newDimension= pointDimension;
+        int newIsMalloc= False;
+        if(qh HALFspace){
+            --newDimension;
+            initializeFeasiblePoint(newDimension);
+            newPoints= qh_sethalfspace_all(pointDimension, pointCount, newPoints, qh feasible_point);
+            newIsMalloc= True;
+        }
+        qh_init_B(newPoints, pointCount, newDimension, newIsMalloc);
         qhull_dimension= (qh DELAUNAY ? qh hull_dim - 1 : qh hull_dim);
-	qh_qhull();
-	qh_check_output();
+        qh_qhull();
+        qh_check_output();
         qh_prepare_output();
-	if(qh VERIFYoutput && !qh STOPpoint && !qh STOPcone){
-	    qh_check_points();
-	}
+        if(qh VERIFYoutput && !qh STOPpoint && !qh STOPcone){
+            qh_check_points();
+        }
     }
     for(int k= qhull_dimension; k--; ){  // Do not move up (may throw)
         origin_point << 0.0;
@@ -386,24 +386,24 @@ void Qhull::
 initializeFeasiblePoint(int hulldim)
 {
     if(qh feasible_string){
-        qh_setfeasible(hulldim); 
+        qh_setfeasible(hulldim);
     }else{
         if(feasiblePoint.empty()){
             qh_fprintf(qh ferr, 6209, "qhull error: missing feasible point for halfspace intersection.  Use option 'Hn,n' or set qh.feasiblePoint\n");
             qh_errexit(qh_ERRmem, NULL, NULL);
         }
         if(feasiblePoint.size()!=(size_t)hulldim){
-            qh_fprintf(qh ferr, 6210, "qhull error: dimension of feasiblePoint should be %d.  It is %u", hulldim, feasiblePoint.size()); 
+            qh_fprintf(qh ferr, 6210, "qhull error: dimension of feasiblePoint should be %d.  It is %u", hulldim, feasiblePoint.size());
             qh_errexit(qh_ERRmem, NULL, NULL);
         }
-	if (!(qh feasible_point= (coordT*)qh_malloc(hulldim * sizeof(coordT)))) {
-	    qh_fprintf(qh ferr, 6202, "qhull error: insufficient memory for feasible point\n");
-	    qh_errexit(qh_ERRmem, NULL, NULL);
-	}
-	coordT *t= qh feasible_point;
-	// No qh_... routines after here -- longjmp() ignores destructor
-	for(Coordinates::ConstIterator p=feasiblePoint.begin(); p<feasiblePoint.end(); p++){
-	    *t++= *p;
+        if (!(qh feasible_point= (coordT*)qh_malloc(hulldim * sizeof(coordT)))) {
+            qh_fprintf(qh ferr, 6202, "qhull error: insufficient memory for feasible point\n");
+            qh_errexit(qh_ERRmem, NULL, NULL);
+        }
+        coordT *t= qh feasible_point;
+        // No qh_... routines after here -- longjmp() ignores destructor
+        for(Coordinates::ConstIterator p=feasiblePoint.begin(); p<feasiblePoint.end(); p++){
+            *t++= *p;
         }
     }
 }//initializeFeasiblePoint
@@ -448,14 +448,14 @@ notes:
     fgets() is not trapped like fprintf()
     Do not throw errors from here.  Use qh_errexit;
 */
-extern "C" 
+extern "C"
 void qh_fprintf(FILE *fp, int msgcode, const char *fmt, ... ) {
     va_list args;
 
     using namespace orgQhull;
 
     if(!s_qhull_output){
-        fprintf(stderr, "QH10025 Qhull error: UsingLibQhull not declared prior to calling qh_...().  s_qhull_output==NULL.\n"); 
+        fprintf(stderr, "QH10025 Qhull error: UsingLibQhull not declared prior to calling qh_...().  s_qhull_output==NULL.\n");
         qh_exit(10025);
     }
     Qhull *out= s_qhull_output;
@@ -466,10 +466,10 @@ void qh_fprintf(FILE *fp, int msgcode, const char *fmt, ... ) {
                 out->qhull_status= msgcode;
             }
         }
-	char newMessage[MSG_MAXLEN];
+        char newMessage[MSG_MAXLEN];
         // RoadError will add the message tag
-	vsnprintf(newMessage, sizeof(newMessage), fmt, args);
-	out->appendQhullMessage(newMessage);
+        vsnprintf(newMessage, sizeof(newMessage), fmt, args);
+        out->appendQhullMessage(newMessage);
         va_end(args);
         return;
     }

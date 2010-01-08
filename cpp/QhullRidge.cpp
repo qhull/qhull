@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullRidge.cpp#15 $$Change: 1139 $
-** $DateTime: 2010/01/03 11:20:29 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullRidge.cpp#16 $$Change: 1164 $
+** $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -12,7 +12,7 @@
 #include "QhullVertex.h"
 #include "QhullRidge.h"
 
-#ifdef _MSC_VER  // Microsoft Visual C++ -- warning level 4 
+#ifdef _MSC_VER  // Microsoft Visual C++ -- warning level 4
 #pragma warning( disable : 4611)  // interaction between '_setjmp' and C++ object destruction is non-portable
 #pragma warning( disable : 4996)  // function was declared deprecated(strcpy, localtime, etc.)
 #endif
@@ -27,7 +27,7 @@ s_empty_ridge= {};
 
 #//Accessors
 //! Return next ridge and optional vertex for a 3d facet and ridge
-//! Returns !isDefined() if no more ridges 
+//! Returns !isDefined() if no more ridges
 //! Does not use qh_qh or qh_errexit()
 QhullRidge QhullRidge::
 nextRidge3d(const QhullFacet f, QhullVertex *nextVertex) const
@@ -56,16 +56,16 @@ using orgQhull::UsingLibQhull;
 
 ostream &
 operator<<(ostream &os, const QhullRidge &r)
-{      
-    os << r.print(UsingLibQhull::NOqhRunId); 
-    return os; 
+{
+    os << r.print(UsingLibQhull::NOqhRunId);
+    return os;
 }//<< QhullRidge
 
 //! Duplicate of qh_printridge [io.c]
 //!  if pr.run_id==UsingLibQhull::NOqhRunId, no access to qh [needed for QhullVertex/QhullPoint]
 ostream &
 operator<<(ostream &os, const QhullRidge::PrintRidge &pr)
-{ 
+{
     QhullRidge r= *pr.ridge;
     os << "     - r" << r.id();
     if(r.getRidgeT()->tested){

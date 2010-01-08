@@ -97,26 +97,26 @@ first.
         </ul>
     <li>Delaunay and Voronoi diagram questions<ul>
         <li><a href="#maxsphere">How</a> do I get the radii of the empty
-		spheres for each Voronoi vertex?
+                spheres for each Voronoi vertex?
 
-		<li><A href="#flat">How</A> do I get rid of nearly flat Delaunay
+                <li><A href="#flat">How</A> do I get rid of nearly flat Delaunay
     triangles?
 
-		<li><A href="#square">What</A> is the Voronoi diagram of a square?
+                <li><A href="#square">What</A> is the Voronoi diagram of a square?
 
-		<li><A href="#vclosest">How</A> do I find the Delaunay triangle or Voronoi
+                <li><A href="#vclosest">How</A> do I find the Delaunay triangle or Voronoi
     region that is closest to a point?
 
-		<li><A href="#mesh">How</A> do I compute the Delaunay triangulation of a
+                <li><A href="#mesh">How</A> do I compute the Delaunay triangulation of a
     non-convex object?
 
-		<li><A href="#mesh">How</A> do I mesh a volume from a set of triangulated
+                <li><A href="#mesh">How</A> do I mesh a volume from a set of triangulated
     surface points?
 
-			<li><A href="#constrained">Can</A> Qhull produce a triangular mesh for an
+                        <li><A href="#constrained">Can</A> Qhull produce a triangular mesh for an
     object?
 
-		<li><A href="#dridges">For</A> 3-d Delaunay triangulations, how do I
+                <li><A href="#dridges">For</A> 3-d Delaunay triangulations, how do I
     report the triangles of each tetrahedron?
         <li><A href="#vsphere">How</A> do I construct the Voronoi diagram of
     cospherical points?
@@ -134,13 +134,13 @@ first.
         </ul>
     <li>Halfspace questions<ul>
         <li><A href="#halfspace">How</A> do I compute the
-			intersection of halfspaces with Qhull?</li>
+                        intersection of halfspaces with Qhull?</li>
         </ul>
     <li><a name="library">Qhull library</a> questions<ul>
-	<li><A href="#math">Is</A> Qhull available for Mathematica, Matlab, or
+        <li><A href="#math">Is</A> Qhull available for Mathematica, Matlab, or
     Maple?
 
-	<li><A href="#ridges">Why</A> are there too few ridges?
+        <li><A href="#ridges">Why</A> are there too few ridges?
         <li><A href="#call">Can</A> Qhull use coordinates without placing them in
     a data file?
         <li><A href="#size">How</A> large are Qhull's data structures?
@@ -320,7 +320,7 @@ problems. It can triangulate the output ('<A
 <h2><A href="#TOC">»</A><a name="convex">Convex hull questions</a></h2>
 
 <h4><A href="#TOC">»</A><a name="area">How</a> do I report just the area
-			and volume of a convex hull?</h4><blockquote>
+                        and volume of a convex hull?</h4><blockquote>
 
 Use option 'FS'.  For example,
 
@@ -473,7 +473,7 @@ prevents coincident input sites. </p>
 diagram questions</a></h2>
 
 <h4><A href="#TOC">»</A><a name="maxsphere">How</a> do I get the radii of the empty
-		spheres for each Voronoi vertex?</h4><blockquote>
+                spheres for each Voronoi vertex?</h4><blockquote>
 
 Use option '<A href="qh-optf.htm#Fi">Fi</A>' to list each bisector (i.e. Delaunay ridge).  Then compute the
 minimum distance for each Voronoi vertex.
@@ -536,7 +536,7 @@ or triangulated output ('<A href="qh-optq.htm#Qt">Qt</A>').
 
 </blockquote>
 <h4><A href="#TOC">»</A><a name="square">What</a> is the Voronoi diagram
-			    of a square?</h4><blockquote>
+                            of a square?</h4><blockquote>
 
 <p>
 Consider a square,
@@ -725,22 +725,22 @@ every combination of 3 vertices. Each triangle is a
 <p>For example, </p>
 
 <pre>
-	rbox 10 | qdelaunay Qt i
-	14
-	9 5 8 7
-	0 9 8 7
-	5 3 8 7
-	3 0 8 7
-	5 4 8 1
-	4 6 8 1
-	2 9 5 8
-	4 2 5 8
-	4 2 9 5
-	6 2 4 8
-	9 2 0 8
-	2 6 0 8
-	2 4 9 1
-	2 6 4 1
+        rbox 10 | qdelaunay Qt i
+        14
+        9 5 8 7
+        0 9 8 7
+        5 3 8 7
+        3 0 8 7
+        5 4 8 1
+        4 6 8 1
+        2 9 5 8
+        4 2 5 8
+        4 2 9 5
+        6 2 4 8
+        9 2 0 8
+        2 6 0 8
+        2 4 9 1
+        2 6 4 1
 </pre>
 
 <p>is the Delaunay triangulation of 10 random points. Ridge 9-5-8
@@ -1084,7 +1084,7 @@ rbox 1000 | qconvex W0.05 C0.05 PA6 Fo
 <h2><A href="#TOC">»</A>Halfspace questions</h2>
 
 <h4><A href="#TOC">»</A><a name="halfspace">How</a> do I compute the
-			    intersection of halfspaces with Qhull?</h4><blockquote>
+                            intersection of halfspaces with Qhull?</h4><blockquote>
 
 <p>Qhull computes the halfspace intersection about a point.  The
 point must be inside all of the halfspaces.  Given a point, a
@@ -1110,15 +1110,15 @@ questions</a></h2>
 <p>Z. You of <a href="http://www.mathworks.com">MathWorks</a> added qhull to MATLAB 6.
 See functions <a href="http://www.mathworks.com/access/helpdesk/help/techdoc/ref/convhulln.shtml"
  >convhulln</a>,
-	<a href="http://www.mathworks.com/access/helpdesk/help/techdoc/ref/delaunayn.shtml"
+        <a href="http://www.mathworks.com/access/helpdesk/help/techdoc/ref/delaunayn.shtml"
  >delaunayn</a>,
-	<a href="http://www.mathworks.com/access/helpdesk/help/techdoc/ref/griddata3.shtml"
+        <a href="http://www.mathworks.com/access/helpdesk/help/techdoc/ref/griddata3.shtml"
  >griddata3</a>,
-	<a href="http://www.mathworks.com/access/helpdesk/help/techdoc/ref/griddatan.shtml"
+        <a href="http://www.mathworks.com/access/helpdesk/help/techdoc/ref/griddatan.shtml"
  >griddatan</a>,
-	<a href="http://www.mathworks.com/access/helpdesk/help/techdoc/ref/tsearch.shtml"
+        <a href="http://www.mathworks.com/access/helpdesk/help/techdoc/ref/tsearch.shtml"
  >tsearch</a>,
-	<a href="http://www.mathworks.com/access/helpdesk/help/techdoc/ref/tsearchn.shtml"
+        <a href="http://www.mathworks.com/access/helpdesk/help/techdoc/ref/tsearchn.shtml"
  >tsearchn</a>, and
     <a href="http://www.mathworks.com/access/helpdesk/help/techdoc/ref/voronoin.shtml"
  >voronoin</a>.  V. Brumberg update MATLAB R14 for Qhull 2003.1 and triangulated output.
@@ -1170,15 +1170,15 @@ each ridge once (instead of twice).  For example,
     qh_makeridges(facet);
     facet->visitId= qh visit_id;
     FOREACHridge_(facet->ridges) {
-	neighbor= otherfacet_(ridge, visible);
-	if (neighbor->visitid != qh visit_id)
+        neighbor= otherfacet_(ridge, visible);
+        if (neighbor->visitid != qh visit_id)
             printf("   ridge r%d between f%d and f%d\n", ridge->id, ridge->top->id, ridge->bottom->id);
     }
   }
 </pre></blockquote>
 
 </blockquote><h4><A href="#TOC">»</A><a name="call">Can</a> Qhull use coordinates without placing
-			them in a data file?</h4><blockquote>
+                        them in a data file?</h4><blockquote>
 
 <p>Use qh_call_qhull().  See user_eg.c for an example.
 See the manual for an introduction to the Qhull library.
@@ -1233,10 +1233,10 @@ facets. In pseudo-code: </p>
 
 <pre>
     for each facet of the triangulation
-	if the facet is Delaunay (i.e., part of the lower convex hull)
-	    for each ridge of the facet
-		if the ridge's neighboring facet has not been visited
-		    ... process a ridge of the Delaunay triangulation ...
+        if the facet is Delaunay (i.e., part of the lower convex hull)
+            for each ridge of the facet
+                if the ridge's neighboring facet has not been visited
+                    ... process a ridge of the Delaunay triangulation ...
 </pre>
 
 <p>In undebugged, C code: </p>
@@ -1244,26 +1244,26 @@ facets. In pseudo-code: </p>
 <pre>
     qh visit_id++;
     FORALLfacets_(facetlist)
-	if (!facet-&gt;upperdelaunay) {
-	    facet-&gt;visitid= qh visit_id;
-	    qh_makeridges(facet);
-	    FOREACHridge_(facet-&gt;ridges) {
-		neighbor= otherfacet_(ridge, facet);
-		if (neighbor-&gt;visitid != qh visit_id) {
-		    /* Print ridge here with facet-id and neighbor-id */
-		    /*fprintf(fp, "f%d\tf%d\t",facet-&gt;id,neighbor-&gt;ID);*/
-		    FOREACHvertex_(ridge-&gt;vertices)
-			fprintf(fp,"%d ",qh_pointid (vertex-&gt;point) );
-		    qh_printfacetNvertex_simplicial (fp, facet, format);
-		    fprintf(fp," ");
-		    if(neighbor-&gt;upperdelaunay)
-			fprintf(fp," -1 -1 -1 -1 ");
-		    else
-			qh_printfacetNvertex_simplicial (fp, neighbor, format);
-		    fprintf(fp,"\n");
-		}
-	    }
-	}
+        if (!facet-&gt;upperdelaunay) {
+            facet-&gt;visitid= qh visit_id;
+            qh_makeridges(facet);
+            FOREACHridge_(facet-&gt;ridges) {
+                neighbor= otherfacet_(ridge, facet);
+                if (neighbor-&gt;visitid != qh visit_id) {
+                    /* Print ridge here with facet-id and neighbor-id */
+                    /*fprintf(fp, "f%d\tf%d\t",facet-&gt;id,neighbor-&gt;ID);*/
+                    FOREACHvertex_(ridge-&gt;vertices)
+                        fprintf(fp,"%d ",qh_pointid (vertex-&gt;point) );
+                    qh_printfacetNvertex_simplicial (fp, facet, format);
+                    fprintf(fp," ");
+                    if(neighbor-&gt;upperdelaunay)
+                        fprintf(fp," -1 -1 -1 -1 ");
+                    else
+                        qh_printfacetNvertex_simplicial (fp, neighbor, format);
+                    fprintf(fp,"\n");
+                }
+            }
+        }
     }
 </pre>
 
@@ -1285,9 +1285,9 @@ visit each facet of the lower convex hull, use: </p>
 
     ...
     FORALLfacets {
-	if (!facet-&gt;upperdelaunay) {
-	    ... only facets for Delaunay regions ...
-	}
+        if (!facet-&gt;upperdelaunay) {
+            ... only facets for Delaunay regions ...
+        }
     }
 </pre>
 
@@ -1422,7 +1422,7 @@ vertex of the closest Delaunay triangle. </p>
 
 <pre>
     realT dist, bestdist= REALmax;
-	vertexT *bestvertex= NULL, *vertex, **vertexp;
+        vertexT *bestvertex= NULL, *vertex, **vertexp;
 
     /* 'facet' is the closest Delaunay triangle to 'point' */
 

@@ -283,7 +283,15 @@ Distributed files
   src/Makefile.txt     // Makefile for Unix or cygwin 'make' 
   src/Mborland         // Makefile for Borland C++/Win32
   src/Make-config.sh   // Create Debian configure and automake
- 
+  project/qhull-all.pro  // Qt project with Visual C++ vcproj files
+
+eg/ 
+  q_eg                 // shell script for Geomview examples
+  q_egtest             // shell script for Geomview test examples
+  q_test               // shell script to test qhull
+  q_test-ok.txt        // output from q_test
+  qhulltest-ok.txt     // output from qhulltest (Qt only)
+
 src/      
   rbox consists of:
      rbox.exe          // Win32 executable (.zip only) 
@@ -299,7 +307,11 @@ src/
      qdelaunay.exe
      qhalf.exe
      qvoronoi.exe
-     qhull-go.bat      // DOS window
+     qhullcpp.dll
+     user_eg.exe
+     user_eg2.exe
+     user_eg3.exe      // cpp demonstration 
+     eg/qhull-go.bat   // DOS window
      qconvex.htm       // html manuals
      qdelaun.htm
      qdelau_f.htm        
@@ -315,15 +327,12 @@ src/
      qh--4d.gif,etc.   // images for manual 
      qhull.man         // Unix man page 
      qhull.txt
-     q_eg              // shell script for Geomview examples
-     q_egtest          // shell script for Geomview test examples
-     q_test            // shell script to test qhull
   
   top-level source files:
      src/index.htm     // index to source files 
      qh-...htm         //   specific files
      user.h            // header file of user definable constants 
-     libqhull.h           // header file for qhull
+     libqhull.h        // header file for qhull
      unix.c            // Unix front end to qhull 
      qconvex.c    
      qhalf.c

@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/road/RoadTest.h#14 $$Change: 1139 $
-** $DateTime: 2010/01/03 11:20:29 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/road/RoadTest.h#15 $$Change: 1164 $
+** $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -34,7 +34,7 @@ class Name_test : public RoadTest
 private slots:
     void t_name();
     //Executed before any test
-    void initTestCase(); 
+    void initTestCase();
     void init();          // Each test
     //Executed after each test
     void cleanup(); //RoadTest::cleanup();
@@ -57,7 +57,7 @@ class RoadTest : public QObject
 
 protected:
 #//class variable
-    static QList<RoadTest*> 
+    static QList<RoadTest*>
                         s_testcases; ///! List of testcases to execute.  Initialized via add_...()
     static int          s_test_count; ///! Total number of tests executed
     static int          s_test_fail; ///! Number of failed tests
@@ -69,15 +69,15 @@ public slots:
 
 public:
 #//constructor, destructor
-    RoadTest()	{ s_testcases.append(this); };
-    ~RoadTest()	{ s_testcases.removeAll(this); };
+    RoadTest()  { s_testcases.append(this); };
+    ~RoadTest() { s_testcases.removeAll(this); };
 
 #//Helper
     void                recordFailedTest();
 
 
 #//class function
-    static int		runTests(QStringList arguments);
+    static int          runTests(QStringList arguments);
 
 };//RoadTest
 
@@ -88,11 +88,11 @@ public:
 
 namespace QTest {
 
-template<> 
-inline char * 
-toString(const std::string &s) 
-{ 
-    return qstrdup(s.c_str()); 
+template<>
+inline char *
+toString(const std::string &s)
+{
+    return qstrdup(s.c_str());
 }
 
 }//namespace QTest

@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullLog.h#11 $$Change: 1139 $
-** $DateTime: 2010/01/03 11:20:29 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullLog.h#12 $$Change: 1164 $
+** $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -32,16 +32,16 @@ public:
 #//Constants
 
 #//Class global
-    static std::vector<std::string> 
+    static std::vector<std::string>
                             a_log;
-    static std::vector<QhullEvent> 
+    static std::vector<QhullEvent>
                            a_events;
     static int             a_head;     //! Head of event queue.  Multiple threads may simultaneously increment a_head
     static int             a_tail;     //! Tail of event queue.
 
-    static int             a_head_gap;      //! Gap between tail and head.  
+    static int             a_head_gap;      //! Gap between tail and head.
     static int             a_tail_end;      //! End of event queue.  Additional elements allocated to avoid buffer overflow
-    static int             a_max_overrun; //! Maximum overrun due to multiple threads (a_head-a_end) 
+    static int             a_max_overrun; //! Maximum overrun due to multiple threads (a_head-a_end)
 
     static int              a_call_depth;  //! Current call depth
     static int              a_min_call_depth;  //! Minimum call depth since last cull
@@ -75,7 +75,7 @@ private:
 
 };//QhullLog
 
-#if 0 
+#if 0
 .what is the last error message
 .where is the stack + execution log
 messageLength()

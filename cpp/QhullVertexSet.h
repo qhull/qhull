@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2009-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullVertexSet.h#8 $$Change: 1139 $
-** $DateTime: 2010/01/03 11:20:29 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullVertexSet.h#9 $$Change: 1164 $
+** $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -19,10 +19,10 @@ namespace orgQhull {
     class               QhullVertex;
 
 #//Types
-    //! QhullVertexSet -- a set of Qhull Vertices, as a C++ class. 
+    //! QhullVertexSet -- a set of Qhull Vertices, as a C++ class.
     //! See Qhull
     class               QhullVertexSet;
-    typedef QhullSetIterator<QhullVertex>  
+    typedef QhullSetIterator<QhullVertex>
                         QhullVertexSetIterator;
 
 class QhullVertexSet : public QhullSet<QhullVertex> {
@@ -30,7 +30,7 @@ class QhullVertexSet : public QhullSet<QhullVertex> {
 private:
 #//Fields
     Qhull              *qhsettemp_qhull; //! For sets allocated with qh_settemp()
-    bool                qhsettemp_defined;  //! Set was allocated with q_memalloc() 
+    bool                qhsettemp_defined;  //! Set was allocated with q_memalloc()
 
 public:
 #//Constructor
@@ -55,14 +55,14 @@ public:
         const QhullVertexSet *Vertex_set;
         const char     *message;
         int             run_id;
-                        PrintVertexSet(int qhRunId, const char *message, const QhullVertexSet *s) : Vertex_set(s), message(message), run_id(qhRunId) {} 
+                        PrintVertexSet(int qhRunId, const char *message, const QhullVertexSet *s) : Vertex_set(s), message(message), run_id(qhRunId) {}
     };//PrintVertexSet
     const PrintVertexSet       print(int qhRunId, const char *message) const { return PrintVertexSet(qhRunId, message, this); }
 
     struct PrintIdentifiers{
         const QhullVertexSet *Vertex_set;
         const char     *message;
-                        PrintIdentifiers(const char *message, const QhullVertexSet *s) : Vertex_set(s), message(message) {} 
+                        PrintIdentifiers(const char *message, const QhullVertexSet *s) : Vertex_set(s), message(message) {}
     };//PrintIdentifiers
     PrintIdentifiers    printIdentifiers(const char *message) const { return PrintIdentifiers(message, this); }
 

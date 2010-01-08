@@ -18,7 +18,6 @@ To do for documentation
    qhull_inuse==1 when qhull globals active [not useful?]
    rbox_inuse==1 when rbox globals active
    - Multithreaded -- call largest dimension for infinityPoint() and origin()
-
  - Better documentation for qhmem totshort, freesize, etc.
  - Clean up qhull-news.html XML
  - how to change .h, .c, and .cpp to text/html.  OK in Opera
@@ -27,7 +26,6 @@ To do for documentation
  - Check globalAngleEpsilon
  - Deprecate save_qhull()
  - Review email for doc changes
- - Add option Ta to qhull.man, etc.
 
 To do for suggestions
    C++ class for access to statistics, accumulate vs. add
@@ -73,33 +71,30 @@ Qhull cpp questions
 To do
  - ConvexHull is a submodule to git.  How to get rid of?
  - Review Warn64
- - review all #pragma
- - review all FIXUP [^0-9]
- - clean up warnings for libqhullcpp
  - Abandon savannah
- - Review changes with Kent Williams
-   Keep size of qh_set as int, set.h, global.c
-   Keep size of qh_mem as int, mem.h, global.c
  - Measure performance of Qhull
  - qhulltest --all added to output
- - Number the FIXUPS
  - Add test of user_eg3, etc.
- - Review all ptr_intT
- - Change tabs to spaces in src/*.c *.h
  - Check for wraparound of 64-bit ints -- e.g., a large set
- - Reconsider old_qhstat data type (amorilia)
-   libqhull.h:  qhstatT *old_qhstat;       /* for saving qh_qhstat in save_qhull() and UsingLibQhull.  Free with qh_free() */
-   mem.h:   setT      *tempstack;         /* stack of temporary memory, managed by users */
- - Add vcproj for qconvex, etc. Change qhullcpp to libqhull.dll
  - Add config directory to Qhull
  - Generate vcproj from qtpro files
    cd qtpro && qmake -spec win32-msvc2005 -tp vc -recursive
    sed -i 's/C\:\/bash\/local\/qhull\/qtpro\///' qhull-all.sln
- - Add output of qhulltest to source
+   Change qhullcpp to libqhull.dll
+   Allow both builds on same host (keep /tmp separate)
  - Make distribution -- remove tmp, news, .git, leftovers from project, change CRLF
+ - review all #pragma
+ - review all FIXUP [^0-9]
+ - Number the FIXUPS
+ - Review ptr_intT in qh_matchvertices [poly.c]
+ - clean up warnings for libqhullcpp
+
+qhull 2010.1 2010/01/07
+ - Assign type to qh.old_qhstat and memT.tempstack [amorilia]
+ - Replace tabs with spaces.
+ - Fix qh_pointid in case ptr_intT is unsigned
 
 qhull 2010.1 2010/01/06
-
 - Fixed serious bug in qh_gethash [poly.c] 
 - Documentation and build system are incomplete (see above)
 - First release of C++ interface [qh-code.htm]
@@ -118,6 +113,7 @@ Fixed bugs
 - qh_initqhull_outputflags [global.c]: warn about Qc only if QHULLfinished, otherwise set if needed
 
 qhull 2010.0.2 2010/01/04
+
 - Reviewed output of q_test and compared to results from 2003.1
 
 Fixed bugs
@@ -218,6 +214,8 @@ Fixed g++ and devstudio warnings
  - Fixed warnings at VC8, level 4
  - Fix data types to remove conversion warnings [kwilliams]
  - Use size_t for calls to malloc,etc [kwilliams]
+   Retained int sizes for qset.h and mem.h.  Follows Qt convention
+   and is easier to work with.  int can be 64-bits if 2 billion facets
  - Change literal strings to const char* [kwilliams]
  - Added type casts to SETfirst and SETsecond [amorilia+alphax] 
  - getid_() returns an int [kwilliams]

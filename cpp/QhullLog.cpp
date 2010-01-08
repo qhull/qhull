@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullLog.cpp#9 $$Change: 1139 $
-** $DateTime: 2010/01/03 11:20:29 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullLog.cpp#10 $$Change: 1164 $
+** $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -12,7 +12,7 @@
 
 #include <time.h>
 
-#ifdef _MSC_VER  // Microsoft Visual C++ -- warning level 4 
+#ifdef _MSC_VER  // Microsoft Visual C++ -- warning level 4
 #endif
 
 namespace orgQhull {
@@ -27,7 +27,7 @@ int             a_tail_end= 0;
 int             a_max_overrun= 0;
 int             a_call_depth= 0;
 int              a_min_call_depth= 0;
-time_t           a_start_time_s= 0; 
+time_t           a_start_time_s= 0;
 int              a_logging_enabled= 0;
 
 #//Constructor, destructor, etc.
@@ -111,7 +111,7 @@ log(int level, const char *message, int arg1, const char* arg3)
 #//Helper
 
 void QhullLog::
-cullEvents() 
+cullEvents()
 {
 
 }//cullEvents
@@ -133,7 +133,7 @@ log(QhullEvent::EventTypes e, int traceLevel, const char *message, int arg1, int
 }
 
 void QhullLog::
-maybeCullEvents() 
+maybeCullEvents()
 {
     if(a_tail>=a_tail_end){
         if(a_tail-a_tail_end > a_max_overrun){
@@ -146,7 +146,7 @@ maybeCullEvents()
             cullEvents();
         }
     }else if(a_head>a_tail && a_head-a_tail < a_head_gap){
-        cullEvents();        
+        cullEvents();
     }
 }//maybeCullEvents
 

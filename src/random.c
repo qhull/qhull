@@ -22,7 +22,7 @@
  qh_argv_to_command( argc, argv, command, max_size )
 
     build command from argc/argv
-    max_size is at least 
+    max_size is at least
 
  returns:
     a space-delimited string of options (just as typed)
@@ -43,16 +43,16 @@ int qh_argv_to_command(int argc, char *argv[], char* command, int max_size) {
   if (argc) {
     if ((s= strrchr( argv[0], '\\')) /* get filename w/o .exe extension */
     || (s= strrchr( argv[0], '/')))
-	s++;	
+        s++;
     else
-	s= argv[0];
+        s= argv[0];
     if ((int)strlen(s) < max_size)   /* WARN64 */
-	strcpy(command, s);
+        strcpy(command, s);
     else
-	goto error_argv;
+        goto error_argv;
     if ((s= strstr(command, ".EXE"))
     ||  (s= strstr(command, ".exe")))
-	*s= '\0';
+        *s= '\0';
   }
   for (i=1; i < argc; i++) {
     s= argv[i];
@@ -95,7 +95,7 @@ error_argv:
 qh_argv_to_command_size( argc, argv )
 
     return size to allocate for qh_argv_to_command()
-    
+
 notes:
     argc may be 0
     actual size is usually shorter
@@ -104,7 +104,7 @@ int qh_argv_to_command_size(int argc, char *argv[]) {
     unsigned int count= 1; /* null-terminator if argc==0 */
     int i;
     char *s;
-    
+
     for (i=0; i<argc; i++){
       count += (int)strlen(argv[i]) + 1;   /* WARN64 */
       if (i>0 && strchr(argv[i], ' ')) {
@@ -153,9 +153,9 @@ int qh_rand( void) {
     lo = seed % qh_rand_q;  /* seed mod q */
     test = qh_rand_a * lo - qh_rand_r * hi;
     if (test > 0)
-	seed= test;
+        seed= test;
     else
-	seed= test + qh_rand_m;
+        seed= test + qh_rand_m;
     qh_rand_seed= seed;
     /* seed = seed < qh_RANDOMmax/2 ? 0 : qh_RANDOMmax;  for testing */
     /* seed = qh_RANDOMmax;  for testing */
@@ -164,11 +164,11 @@ int qh_rand( void) {
 
 void qh_srand( int seed) {
     if (seed < 1)
-	qh_rand_seed= 1;
+        qh_rand_seed= 1;
     else if (seed >= qh_rand_m)
-	qh_rand_seed= qh_rand_m - 1;
+        qh_rand_seed= qh_rand_m - 1;
     else
-	qh_rand_seed= seed;
+        qh_rand_seed= seed;
 } /* qh_srand */
 
 /*-<a                             href="qh-geom.htm#TOC"
@@ -206,11 +206,11 @@ void qh_randommatrix(realT *buffer, int dim, realT **rows) {
     coord= buffer;
     rowi= rows;
     for (i=0; i < dim; i++) {
-	*(rowi++)= coord;
-	for (k=0; k < dim; k++) {
-	    realr= qh_RANDOMint;
-	    *(coord++)= 2.0 * realr/(qh_RANDOMmax+1) - 1.0;
-	}
+        *(rowi++)= coord;
+        for (k=0; k < dim; k++) {
+            realr= qh_RANDOMint;
+            *(coord++)= 2.0 * realr/(qh_RANDOMmax+1) - 1.0;
+        }
     }
     *rowi= coord;
 } /* randommatrix */

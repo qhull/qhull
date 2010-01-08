@@ -11,13 +11,13 @@
 page</a> for Qhull <br>
 <b>Up:</b> <a href="index.htm#TOC">Qhull manual</a>: Table of Contents<br>
 <b>To:</b> <a href="qh-quick.htm#programs">Programs</a>
-&#149; <a href="qh-quick.htm#options">Options</a> 
-&#149; <a href="qh-opto.htm#output">Output</a> 
-&#149; <a href="qh-optf.htm#format">Formats</a> 
-&#149; <a href="qh-optg.htm#geomview">Geomview</a> 
+&#149; <a href="qh-quick.htm#options">Options</a>
+&#149; <a href="qh-opto.htm#output">Output</a>
+&#149; <a href="qh-optf.htm#format">Formats</a>
+&#149; <a href="qh-optg.htm#geomview">Geomview</a>
 &#149; <a href="qh-optp.htm#print">Print</a>
-&#149; <a href="qh-optq.htm#qhull">Qhull</a> 
-&#149; <a href="qh-optc.htm#prec">Precision</a> 
+&#149; <a href="qh-optq.htm#qhull">Qhull</a>
+&#149; <a href="qh-optc.htm#prec">Precision</a>
 &#149; <a href="qh-optt.htm#trace">Trace</a><br>
 <b>To: </b><a href="#TOC">Qhull examples: Table of Contents</a> (please wait
 while loading)<br>
@@ -35,7 +35,7 @@ href="index.htm#geomview">Geomview</a>.  You will need to
 use a Unix computer with a copy of Geomview.
 <p>
 If you are not running Unix, you can view <a
-href="http://www.geom.uiuc.edu/graphics/pix/Special_Topics/Computational_Geometry/welcome.html">pictures</a> 
+href="http://www.geom.uiuc.edu/graphics/pix/Special_Topics/Computational_Geometry/welcome.html">pictures</a>
 for some of the examples.  To understand Qhull without Geomview, try the
 examples in <a href="qh-quick.htm#programs">Programs</a> and
 <a href="qh-quick.htm#programs">Programs/input</a>.  You can also try small
@@ -90,7 +90,7 @@ Contents </a></h2>
         </ul>
     </li>
     <li><a href="#TOC">»</a> <a name="joggle">Triangulated output or joggled input</a>
-    	<ul>
+        <ul>
             <li><a href="#15a">eg.15a.surface</a></li>
             <li><a href="#15b">eg.15b.triangle</a></li>
             <li><a href="#15c">eg.15c.joggle</a></li>
@@ -228,7 +228,7 @@ vertices.</p>
 <p>This is a combination of the diamond distribution and the
 sphere.</p>
 
-<h3><a href="#2d">»</a><a name="09">rbox 100 L3 G0.5 s | qconvex 
+<h3><a href="#2d">»</a><a name="09">rbox 100 L3 G0.5 s | qconvex
 G &gt;eg.09.lens </a></h3>
 
 <p>Each half of the lens distribution lies on a sphere of radius
@@ -304,7 +304,7 @@ does not work with facet merging.</p>
 <h3><a href="#joggle">»</a><a name="15a">rbox 500 W0 | qconvex QR0 Qc Gvp &gt;eg.15a.surface</a></h3>
 
 <p>This is the convex hull of 500 points on the surface of
-a cube.  Note the large, non-simplicial facet for each face. 
+a cube.  Note the large, non-simplicial facet for each face.
 Qhull merges non-convex facets.
 
 <p>If the facets were not merged, Qhull
@@ -318,9 +318,9 @@ rbox 500 W0 | qhull QR0 Q0
 <p>
 <h3><a href="#joggle">»</a><a name="15b">rbox 500 W0 | qconvex QR0 Qt Qc Gvp &gt;eg.15b.triangle</a></h3>
 
-<p>Like the previous examples, this is the convex hull of 500 points on the 
+<p>Like the previous examples, this is the convex hull of 500 points on the
 surface of a cube.  Option '<a href="qh-optq.htm#Qt">Qt</a>' triangulates the
-non-simplicial facets.  Triangulated output is  
+non-simplicial facets.  Triangulated output is
 particularly helpful for Delaunay triangulations.
 
 <p>
@@ -340,7 +340,7 @@ this process until no precision problems occur.
 <p>
 Joggled input is a simple solution to precision problems in
 computational geometry.  Qhull can also merge facets to handle
-precision problems.  See <a href="qh-impre.htm#joggle">Merged facets or joggled input</a>.  
+precision problems.  See <a href="qh-impre.htm#joggle">Merged facets or joggled input</a>.
 
 <h2><a href="#TOC">»</a>Delaunay and Voronoi diagrams</h2>
 
@@ -354,7 +354,7 @@ points centered on the square.
 
 <p>The Delaunay triangulation is the triangulation with empty
 circumcircles.  The input for this example is unusual because it
-includes six co-circular points.  Every triangular subset of these 
+includes six co-circular points.  Every triangular subset of these
 points has the same circumcircle.  Option '<a href="qh-optq.htm#Qt">Qt</a>'
 triangulates the co-circular facet.</p>
 
@@ -382,7 +382,7 @@ the Z-axis, you'll see that points and edges coincide.</p>
 &lt;eg.data.17 Gna &gt;eg.17d.voronoi.2</a></h3>
 
 <p>The Voronoi diagram is the dual of the Delaunay triangulation.
-Here you see the original sites and the Voronoi vertices.   
+Here you see the original sites and the Voronoi vertices.
 Notice the each
 vertex is equidistant from three sites. The edges indicate the
 Voronoi region for a site. Qhull does not draw the unbounded
@@ -393,8 +393,8 @@ rays from option '<a href="qh-optf.htm#Fo2">Fo</a>'.
 </p>
 
 <p>Instead
-of triangulated output ('<a href="qh-optq.htm#Qt">Qt</a>'), this 
-example uses joggled input ('<a href="qh-optq.htm#QJn">QJ</a>').  
+of triangulated output ('<a href="qh-optq.htm#Qt">Qt</a>'), this
+example uses joggled input ('<a href="qh-optq.htm#QJn">QJ</a>').
 Normally, you should use neither 'QJ' nor 'Qt' for Voronoi diagrams.
 
 <h3><a href="#delaunay">»</a><a name="17e">qvoronoi &lt;eg.data.17
@@ -402,12 +402,12 @@ Gna &gt;eg.17e.voronoi.2i </a></h3>
 
 <p>This looks the same as the previous diagrams, but take a look
 at the data.  Run 'qvoronoi p &lt;eg/eg.data.17'.  This prints
-the Voronoi vertices.  
+the Voronoi vertices.
 
 <p>With 'QJ', there are four nearly identical Voronoi vertices
 within 10^-11 of the origin.  Option 'QJ' joggled the input.  After the joggle,
-the cocircular 
-input sites are no longer cocircular.  The corresponding Voronoi vertices are 
+the cocircular
+input sites are no longer cocircular.  The corresponding Voronoi vertices are
 similar but not identical.
 
 <p>This example does not use options 'Qt' or 'QJ'.  The cocircular
@@ -514,11 +514,11 @@ This is because a random perturbation of '<a
 href="qh-optc.htm#Rn">R0.01 </a>' is equivalent to losing all but
 1.8 digits of precision. The outer planes float above the points
 because Qhull needs to allow for the maximum roundoff error. </p>
-<p> 
-If you start with a smaller random perturbation, you 
+<p>
+If you start with a smaller random perturbation, you
 can use joggle ('<a href="qh-optq.htm#QJn">QJn</a>') to avoid
 precision problems.  You need to set <i>n</i> significantly
-larger than the random perturbation.  For example, try 
+larger than the random perturbation.  For example, try
 'rbox 200 s | qconvex Qc R1e-4 QJ1e-1'.
 
 <h3><a href="#merge">»</a><a name="22a">rbox 1000 s| qconvex C0.01
@@ -667,13 +667,13 @@ third picture is a duplicate of the first. </p>
 page for Qhull</a> <br>
 <b>Up:</b> <a href="index.htm#TOC">Qhull manual: Table of Contents</a><br>
 <b>To:</b> <a href="qh-quick.htm#programs">Programs</a>
-&#149; <a href="qh-quick.htm#options">Options</a> 
-&#149; <a href="qh-opto.htm#output">Output</a> 
-&#149; <a href="qh-optf.htm#format">Formats</a> 
-&#149; <a href="qh-optg.htm#geomview">Geomview</a> 
+&#149; <a href="qh-quick.htm#options">Options</a>
+&#149; <a href="qh-opto.htm#output">Output</a>
+&#149; <a href="qh-optf.htm#format">Formats</a>
+&#149; <a href="qh-optg.htm#geomview">Geomview</a>
 &#149; <a href="qh-optp.htm#print">Print</a>
-&#149; <a href="qh-optq.htm#qhull">Qhull</a> 
-&#149; <a href="qh-optc.htm#prec">Precision</a> 
+&#149; <a href="qh-optq.htm#qhull">Qhull</a>
+&#149; <a href="qh-optc.htm#prec">Precision</a>
 &#149; <a href="qh-optt.htm#trace">Trace</a><br>
 <b>To: </b><a href="#TOC">Qhull examples: Table of Contents</a> (please wait
 while loading)<br>

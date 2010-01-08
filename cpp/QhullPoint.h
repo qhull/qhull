@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2009-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullPoint.h#31 $$Change: 1150 $
-** $DateTime: 2010/01/04 22:43:14 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullPoint.h#32 $$Change: 1164 $
+** $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -22,7 +22,7 @@ extern "C" {
 namespace orgQhull {
 
 #//Types
-    //! QhullPoint as a pointer and dimension to shared memory 
+    //! QhullPoint as a pointer and dimension to shared memory
     class QhullPoint;
     //! Java-style iterator for QhullPoint coordinates
     class QhullPointIterator;
@@ -75,7 +75,7 @@ public:
 public:
     const coordT       *coordinates() const { return point_coordinates; }
     coordT             *coordinates() { return point_coordinates; }
-    int		        dimension() const { return point_dimension; }
+    int                 dimension() const { return point_dimension; }
     int                 id(int qhRunId) const { return id(qhRunId, dimension(), coordinates()); }
     int                 id() const { return id(UsingLibQhull::NOqhRunId, dimension(), coordinates()); }
     bool                isDefined() const { return point_coordinates!=0 && point_dimension>0; }
@@ -85,8 +85,8 @@ public:
     void                defineAs(int dimension, coordT *c) { QHULL_ASSERT(dimension>=0); point_coordinates= c; point_dimension= dimension; }
     //! Creates an alias to other
     void                defineAs(QhullPoint &other) { point_coordinates= other.coordinates(); point_dimension= other.dimension(); }
-    void                setCoordinates(coordT *c) { point_coordinates= c; } 
-    void                setDimension(int dimension) { point_dimension= dimension; } 
+    void                setCoordinates(coordT *c) { point_coordinates= c; }
+    void                setDimension(int dimension) { point_dimension= dimension; }
 
 #//value
     double              distance(const QhullPoint &p) const;
@@ -112,7 +112,7 @@ public:
         const char     *point_message;
         int             run_id;
         bool            with_identifier;
-                        PrintPoint(int qhRunId, const char *message, bool withIdentifier, const QhullPoint &p) : point(&p), point_message(message), run_id(qhRunId), with_identifier(withIdentifier) {} 
+                        PrintPoint(int qhRunId, const char *message, bool withIdentifier, const QhullPoint &p) : point(&p), point_message(message), run_id(qhRunId), with_identifier(withIdentifier) {}
     };//PrintPoint
     PrintPoint          print() const { return  PrintPoint(UsingLibQhull::NOqhRunId, "", false, *this); }
     PrintPoint          print(int qhRunId) const { return PrintPoint(qhRunId, "", true, *this); }

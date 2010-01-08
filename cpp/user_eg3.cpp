@@ -49,10 +49,10 @@ For example\n\
 -user_eg3-  main procedure of user_eg3 application
 */
 int main(int argc, char **argv) {
-      
+
     if(argc==1){
-	cout << prompt;
-	return 1;
+        cout << prompt;
+        return 1;
     }
     try{
         return user_eg3(argc, argv);
@@ -62,7 +62,7 @@ int main(int argc, char **argv) {
     }
 }//main
 
-int user_eg3(int argc, char **argv) 
+int user_eg3(int argc, char **argv)
 {
     if(strcmp(argv[1], "eg-100")==0){
         RboxPoints rbox;

@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/RboxPoints.h#27 $$Change: 1139 $
-** $DateTime: 2010/01/03 11:20:29 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/RboxPoints.h#28 $$Change: 1164 $
+** $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -32,9 +32,9 @@ namespace orgQhull {
 
 private:
 #//Fields and friends
-    int			rbox_new_count;     //! Number of points for PointCoordinates 
-    int			rbox_status;    //! error status from rboxpoints.  qh_ERRnone if none.
-    std::string		rbox_message;   //! stderr from rboxpoints
+    int                 rbox_new_count;     //! Number of points for PointCoordinates
+    int                 rbox_status;    //! error status from rboxpoints.  qh_ERRnone if none.
+    std::string         rbox_message;   //! stderr from rboxpoints
 
     friend void ::qh_fprintf_rbox(FILE *fp, int msgcode, const char *fmt, ... );
 
@@ -49,14 +49,14 @@ public:
 public:
 #//GetSet
     void                clearRboxMessage();
-    int			newCount() const { return rbox_new_count; }
-    std::string		rboxMessage() const;
-    int			rboxStatus() const;
-    bool		hasRboxMessage() const;
+    int                 newCount() const { return rbox_new_count; }
+    std::string         rboxMessage() const;
+    int                 rboxStatus() const;
+    bool                hasRboxMessage() const;
     void                setNewCount(int pointCount) { QHULL_ASSERT(pointCount>=0); rbox_new_count= pointCount; }
 
 #//Modify
-    void		appendPoints(const char* rboxCommand);
+    void                appendPoints(const char* rboxCommand);
     using               PointCoordinates::appendPoints;
     void                reservePoints() { reserveCoordinates((count()+newCount())*dimension()); }
 };//class RboxPoints

@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullStat.h#10 $$Change: 1139 $
-** $DateTime: 2010/01/03 11:20:29 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullStat.h#11 $$Change: 1164 $
+** $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -38,7 +38,7 @@ public:
                         QhullStat();
                        ~QhullStat();
 
-private: 
+private:
     //!disable copy constructor and assignment
                         QhullStat(const QhullStat &);
     QhullStat          &operator=(const QhullStat &);

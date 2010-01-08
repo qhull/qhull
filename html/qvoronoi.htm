@@ -52,7 +52,7 @@ dual of the <a href=qdelaun.htm>Delaunay triangulation</a>. </p>
 
     <dt>&nbsp;</dt>
     <dt><b>Example:</b> rbox r y c G0.1 D2 | qvoronoi
-	     <a href="qh-opto.htm#s">s</a>
+             <a href="qh-opto.htm#s">s</a>
         <a href="qh-opto.htm#o">o</a> <a href="qh-optt.htm#TO">TO
         result</a></dt>
     <dd>Compute the 2-d Voronoi diagram of a triangle and a small
@@ -77,10 +77,10 @@ dual of the <a href=qdelaun.htm>Delaunay triangulation</a>. </p>
     <dt>&nbsp;</dt>
     <dt><b>Example:</b> rbox r y c G0.1 D2 | qvoronoi <a href="qh-optf.htm#Fi2">Fi</a></dt>
     <dd>Print the bounded, separating hyperplanes for the 2-d Voronoi diagram of a
-	      triangle and a small
+              triangle and a small
         square.  Note the four hyperplanes (i.e., lines) for Voronoi vertex
-		&quot;8&quot;.  It is at the origin.
-		</dd>
+                &quot;8&quot;.  It is at the origin.
+                </dd>
 </dl>
 </blockquote>
 
@@ -232,56 +232,56 @@ outputs</a></h3>
     <dd><b>Voronoi vertices</b></dd>
     <dt><a href="qh-opto.htm#p">p</a></dt>
     <dd>print the coordinates of the Voronoi vertices.  The first line
-	is the dimension.  The second line is the number of vertices.  Each
-	remaining line is a Voronoi vertex.</dd>
+        is the dimension.  The second line is the number of vertices.  Each
+        remaining line is a Voronoi vertex.</dd>
     <dt><a href="qh-optf.htm#Fn">Fn</a></dt>
     <dd>list the neighboring Voronoi vertices for each Voronoi
         vertex.  The first line is the number of Voronoi vertices.  Each
-		remaining line starts with the number of neighboring vertices.
-		Negative vertices (e.g., <em>-1</em>) indicate vertices
-	outside of the Voronoi diagram.
+                remaining line starts with the number of neighboring vertices.
+                Negative vertices (e.g., <em>-1</em>) indicate vertices
+        outside of the Voronoi diagram.
      In the circle-in-box example, the
-		Voronoi vertex at the origin has four neighbors.</dd>
+                Voronoi vertex at the origin has four neighbors.</dd>
     <dt><a href="qh-optf.htm#FN">FN</a></dt>
     <dd>list the Voronoi vertices for each Voronoi region.  The first line is
-	the number of Voronoi regions.  Each remaining line starts with the
-	number of Voronoi vertices.  Negative indices (e.g., <em>-1</em>) indicate vertices
-	outside of the Voronoi diagram.
-	In the circle-in-box example, the four bounded regions are defined by four
-	Voronoi vertices.</dd>
+        the number of Voronoi regions.  Each remaining line starts with the
+        number of Voronoi vertices.  Negative indices (e.g., <em>-1</em>) indicate vertices
+        outside of the Voronoi diagram.
+        In the circle-in-box example, the four bounded regions are defined by four
+        Voronoi vertices.</dd>
 
     <dt>&nbsp;</dt>
     <dt>&nbsp;</dt>
     <dd><b>Voronoi regions</b></dd>
     <dt><a href="qh-opto.htm#o">o</a></dt>
     <dd>print the Voronoi regions in OFF format.  The first line is the
-	dimension.  The second line is the number of vertices, the number
-	of input sites, and "1".  The third line represents the vertex-at-infinity.
-	Its coordinates are "-10.101".  The next lines are the coordinates
-	of the Voronoi vertices.  Each remaining line starts with the number
-	of Voronoi vertices in a Voronoi region.  In 2-d, the vertices are
+        dimension.  The second line is the number of vertices, the number
+        of input sites, and "1".  The third line represents the vertex-at-infinity.
+        Its coordinates are "-10.101".  The next lines are the coordinates
+        of the Voronoi vertices.  Each remaining line starts with the number
+        of Voronoi vertices in a Voronoi region.  In 2-d, the vertices are
 listed in adjacency order (unoriented). In 3-d and higher, the
 vertices are listed in numeric order.  In the circle-in-square
-	example, each bounded region includes the Voronoi vertex at
-	the origin.  Lines consisting of <em>0</em> indicate
-	coplanar input sites or '<a href="qh-optq.htm#Qz">Qz</a>'.  </dd>
+        example, each bounded region includes the Voronoi vertex at
+        the origin.  Lines consisting of <em>0</em> indicate
+        coplanar input sites or '<a href="qh-optq.htm#Qz">Qz</a>'.  </dd>
     <dt><a href="qh-optf.htm#Fi2">Fi</a></dt>
     <dd>print separating hyperplanes for inner, bounded Voronoi
         regions.  The first number is the number of separating
-		hyperplanes.  Each remaining line starts with <i>3+dim</i>.  The
-		next two numbers are adjacent input sites.  The next <i>dim</i>
-		numbers are the coefficients of the separating hyperplane.  The
-		last number is its offset.  Use '<a href="qh-optt.htm#Tv">Tv</a>' to verify that the
+                hyperplanes.  Each remaining line starts with <i>3+dim</i>.  The
+                next two numbers are adjacent input sites.  The next <i>dim</i>
+                numbers are the coefficients of the separating hyperplane.  The
+                last number is its offset.  Use '<a href="qh-optt.htm#Tv">Tv</a>' to verify that the
 hyperplanes are perpendicular bisectors. It will list relevant
 statistics to stderr. </dd>
     <dt><a href="qh-optf.htm#Fo2">Fo</a></dt>
     <dd>print separating hyperplanes for outer, unbounded Voronoi
         regions.  The first number is the number of separating
-		hyperplanes.  Each remaining line starts with <i>3+dim</i>.  The
-		next two numbers are adjacent input sites on the convex hull.  The
-		next <i>dim</i>
-		numbers are the coefficients of the separating hyperplane.  The
-		last number is its offset.  Use '<a href="qh-optt.htm#Tv">Tv</a>' to verify that the
+                hyperplanes.  Each remaining line starts with <i>3+dim</i>.  The
+                next two numbers are adjacent input sites on the convex hull.  The
+                next <i>dim</i>
+                numbers are the coefficients of the separating hyperplane.  The
+                last number is its offset.  Use '<a href="qh-optt.htm#Tv">Tv</a>' to verify that the
 hyperplanes are perpendicular bisectors. It will list relevant
 statistics to stderr,</dd>
     <dt>&nbsp;</dt>
@@ -289,33 +289,33 @@ statistics to stderr,</dd>
     <dd><b>Input sites</b></dd>
     <dt><a href="qh-optf.htm#Fv2">Fv</a></dt>
     <dd>list ridges of Voronoi vertices for pairs of input sites.  The
-	first line is the number of ridges.  Each remaining line starts with
-	two plus the number of Voronoi vertices in the ridge.  The next
-	two numbers are two adjacent input sites.  The remaining numbers list
-	the Voronoi vertices.  As with option 'o', a <em>0</em> indicates
-	the vertex-at-infinity
-	and an unbounded, separating hyperplane.
-	The perpendicular bisector (separating hyperplane)
-	of the input sites is a flat through these vertices.
-	In the circle-in-square example, the ridge for each edge of the square
-	is unbounded.</dd>
+        first line is the number of ridges.  Each remaining line starts with
+        two plus the number of Voronoi vertices in the ridge.  The next
+        two numbers are two adjacent input sites.  The remaining numbers list
+        the Voronoi vertices.  As with option 'o', a <em>0</em> indicates
+        the vertex-at-infinity
+        and an unbounded, separating hyperplane.
+        The perpendicular bisector (separating hyperplane)
+        of the input sites is a flat through these vertices.
+        In the circle-in-square example, the ridge for each edge of the square
+        is unbounded.</dd>
     <dt><a href="qh-optf.htm#Fc">Fc</a></dt>
     <dd>list coincident input sites for each Voronoi vertex.
-	The first line is the number of vertices.  The remaining lines start with
-	the number of coincident sites and deleted vertices.  Deleted vertices
-	indicate highly degenerate input (see'<A href="qh-optf.htm#Fs">Fs</a>').
-	A coincident site is assigned to one Voronoi
-	vertex.  Do not use '<a href="qh-optq.htm#QJn">QJ</a>' with 'Fc'; the joggle will separate
-	coincident sites.</dd>
+        The first line is the number of vertices.  The remaining lines start with
+        the number of coincident sites and deleted vertices.  Deleted vertices
+        indicate highly degenerate input (see'<A href="qh-optf.htm#Fs">Fs</a>').
+        A coincident site is assigned to one Voronoi
+        vertex.  Do not use '<a href="qh-optq.htm#QJn">QJ</a>' with 'Fc'; the joggle will separate
+        coincident sites.</dd>
     <dt><a href="qh-optf.htm#FP">FP</a></dt>
     <dd>print coincident input sites with distance to
         nearest site (i.e., vertex). The first line is the
-	number of coincident sites.  Each remaining line starts with the point ID of
-	an input site, followed by the point ID of a coincident point, its vertex, and distance.
+        number of coincident sites.  Each remaining line starts with the point ID of
+        an input site, followed by the point ID of a coincident point, its vertex, and distance.
         Includes deleted vertices which
-	indicate highly degenerate input (see'<A href="qh-optf.htm#Fs">Fs</a>').
-	Do not use '<a href="qh-optq.htm#QJn">QJ</a>' with 'FP'; the joggle will separate
-	coincident sites.</dd>
+        indicate highly degenerate input (see'<A href="qh-optf.htm#Fs">Fs</a>').
+        Do not use '<a href="qh-optq.htm#QJn">QJ</a>' with 'FP'; the joggle will separate
+        coincident sites.</dd>
     <dt>&nbsp;</dt>
     <dt>&nbsp;</dt>
     <dd><b>General</b></dd>
@@ -324,14 +324,14 @@ statistics to stderr,</dd>
         href="qh-optf.htm#Fs">Fs</a>' for numeric data.</dd>
     <dt><a href="qh-opto.htm#i">i</a></dt>
     <dd>list input sites for each <a href=qdelaun.htm>Delaunay region</a>.  Use option '<a href="qh-optp.htm#Pp">Pp</a>'
-	to avoid the warning.  The first line is the number of regions.  The
-	remaining lines list the input sites for each region.  The regions are
-	oriented.  In the circle-in-square example, the cocircular region has four
-	edges.  In 3-d and higher, report cospherical sites by adding extra points.
-	</dd>
+        to avoid the warning.  The first line is the number of regions.  The
+        remaining lines list the input sites for each region.  The regions are
+        oriented.  In the circle-in-square example, the cocircular region has four
+        edges.  In 3-d and higher, report cospherical sites by adding extra points.
+        </dd>
     <dt><a href="qh-optg.htm#G">G</a></dt>
     <dd>Geomview output for 2-d Voronoi diagrams.</dd>
-	</dl>
+        </dl>
 </blockquote>
 </blockquote>
 <h3><a href="#TOP">»</a> <a name="controls">qvoronoi
@@ -348,7 +348,7 @@ controls</a></h3>
     will contain two copies of the Voronoi vertex.</dd>
     <dt><a href="qh-optq.htm#QJn">QJ</a></dt>
     <dd>joggle the input to avoid Voronoi vertices defined by more
-	than <i>dim+1</i> points.    It is less accurate than triangulated output ('Qt').
+        than <i>dim+1</i> points.    It is less accurate than triangulated output ('Qt').
     </dd>
    <dt><a href="qh-optq.htm#Qu">Qu</a></dt>
     <dd>compute the <a href="qvoron_f.htm">furthest-site Voronoi diagram</a>.</dd>
@@ -364,7 +364,7 @@ controls</a></h3>
     <dd>input data from file.  The filename may not use spaces or quotes.</dd>
     <dt><a href="qh-optt.htm#TO">TO file</a></dt>
     <dd>output results to file.  Use single quotes if the filename
-	contains spaces (e.g., <tt>TO 'file with spaces.txt'</tt></dd>
+        contains spaces (e.g., <tt>TO 'file with spaces.txt'</tt></dd>
     <dt><a href="qh-optt.htm#TFn">TFn</a></dt>
     <dd>report progress after constructing <em>n</em> facets</dd>
     <dt><a href="qh-optp.htm#PDk">PDk:1</a></dt>
@@ -372,7 +372,7 @@ controls</a></h3>
         to the last dimension (e.g., 'PD2:1' for 2-d inputs). </dd>
     <dt><a href="qh-opto.htm#f">f </a></dt>
     <dd>facet dump.  Print the data structure for each facet (i.e.,
-	Voronoi vertex).</dd>
+        Voronoi vertex).</dd>
 </dl>
 
 </blockquote>
@@ -523,7 +523,7 @@ href="qdelaun.htm#conventions">Delaunay conventions</a>, and
         paraboloid by option '<a href="qh-optq.htm#Qz">Qz</a>'</li>
     <li><em>Delaunay facet</em> - a lower facet of the
         paraboloid. The last coefficient of its normal is
-		clearly negative.</li>
+                clearly negative.</li>
     <li><em>Voronoi vertex</em> - the circumcenter of a Delaunay
         facet</li>
     <li><em>Voronoi region</em> - the Voronoi vertices for an
@@ -622,7 +622,7 @@ Geomview options (2-d only)
     Gi   - inner planes only
      Gn  -  no planes
      Go  -  outer planes only
-    Gc	 - centrums
+    Gc   - centrums
     Gh   - hyperplane intersections
     Gr   - ridges
     GDn  - drop dimension n in 3-d and 4-d output

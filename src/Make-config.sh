@@ -12,8 +12,8 @@
 #
 #note:
 #     'configure; make' does not work under cygwin.
-#	src/unix.c:354: variable 'qh_qh' can't be auto-imported.
-#	Please read the documentation for ld's --enable-auto-import for details.
+#       src/unix.c:354: variable 'qh_qh' can't be auto-imported.
+#       Please read the documentation for ld's --enable-auto-import for details.
 
 ###################################################
 ###########  ../configure.in ######################
@@ -114,7 +114,7 @@ cat >../html/Makefile.am <<\HERE-HTML
 ### Man pages (trick to get around .man extension)
 
 %.1: %.man
-	cp $< $@
+        cp $< $@
 CLEANFILES = *.1
 man_MANS = rbox.1 qhull.1
 

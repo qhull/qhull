@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2006-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/qhulltest/RboxPoints_test.cpp#19 $$Change: 1139 $
-** $DateTime: 2010/01/03 11:20:29 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/qhulltest/RboxPoints_test.cpp#20 $$Change: 1164 $
+** $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
 **
 ****************************************************************************/
 //pre-compiled headers
@@ -45,7 +45,7 @@ add_RboxPoints_test()
 
 void RboxPoints_test::
 t_construct()
-{ 
+{
     RboxPoints rp;
     QCOMPARE(rp.dimension(), 0);
     QCOMPARE(rp.count(), 0);
@@ -67,16 +67,16 @@ t_construct()
 
 void RboxPoints_test::
 t_error()
-{ 
+{
     RboxPoints rp;
     try{
         rp.appendPoints("D0 c");
         QFAIL("'D0 c' did not fail.");
     }catch (const std::exception &e) {
         const char *s= e.what();
-        cout << "INFO   : Caught " << s; 
+        cout << "INFO   : Caught " << s;
         QCOMPARE(QString(s).left(6), QString("QH6189"));
-        QVERIFY(rp.hasRboxMessage()); 
+        QVERIFY(rp.hasRboxMessage());
         QCOMPARE(QString::fromStdString(rp.rboxMessage()).left(8), QString("rbox err"));
         QCOMPARE(rp.rboxStatus(), 6189);
         rp.clearRboxMessage();
@@ -88,7 +88,7 @@ t_error()
         QFAIL("setDimension(-1) did not fail.");
     }catch (const RoadError &e) {
         const char *s= e.what();
-        cout << "INFO   : Caught " << s; 
+        cout << "INFO   : Caught " << s;
         QCOMPARE(QString(s).left(7), QString("QH10062"));
         QCOMPARE(e.errorCode(), 10062);
         QCOMPARE(QString::fromStdString(e.what()), QString(s));
@@ -99,13 +99,13 @@ t_error()
 
 void RboxPoints_test::
 t_test()
-{ 
+{
     // isEmpty -- t_construct
 }//t_test
 
 void RboxPoints_test::
 t_getSet()
-{ 
+{
     // comment -- t_construct
     // count -- t_construct
     // dimension -- t_construct
@@ -120,7 +120,7 @@ t_getSet()
         rp.setDimension(102);
         QFAIL("setDimension(102) did not fail.");
     }catch (const std::exception &e) {
-        cout << "INFO   : Caught " << e.what(); 
+        cout << "INFO   : Caught " << e.what();
     }
     QCOMPARE(rp.newCount(), 0);
     rp.appendPoints("D2 P1 P2");
@@ -131,7 +131,7 @@ t_getSet()
     QCOMPARE(pc.dimension(), 2);
     QCOMPARE(pc.count(), 2);
     QVERIFY(rp==pc);
-    rp.setNewCount(10);  // Normally only used by appendPoints for rbox processing 
+    rp.setNewCount(10);  // Normally only used by appendPoints for rbox processing
     QCOMPARE(rp.newCount(), 10);
     rp.reservePoints();
     QVERIFY(rp==pc);
@@ -139,7 +139,7 @@ t_getSet()
 
 void RboxPoints_test::
 t_foreach()
-{ 
+{
     RboxPoints rp("c");
     Coordinates::ConstIterator cci= rp.beginCoordinates();
     orgQhull::Coordinates::Iterator ci= rp.beginCoordinates();
@@ -162,7 +162,7 @@ t_foreach()
 
 void RboxPoints_test::
 t_change()
-{ 
+{
     RboxPoints rp("c D2");
     stringstream s;
     s << "4 count" << endl;
@@ -180,7 +180,7 @@ t_change()
         rp.appendPoints(s2);
         QFAIL("incomplete appendPoints() did not fail.");
     }catch (const std::exception &e) {
-        cout << "INFO   : Caught " << e.what(); 
+        cout << "INFO   : Caught " << e.what();
     }
     RboxPoints rp2;
     rp2.append(rp);
@@ -202,7 +202,7 @@ t_change()
 
 void RboxPoints_test::
 t_ostream()
-{ 
+{
     RboxPoints rp("c D2");
     ostringstream oss;
     oss << rp;

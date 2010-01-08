@@ -1,7 +1,7 @@
 /*<html><pre>  -<a                             href="qh-user.htm"
   >-------------------------------</a><a name="TOP">-</a>
 
-   userprintf.c 
+   userprintf.c
    qh_fprintf() and qh_fprintf_rbox()
 
    see README.txt  see COPYING.txt for copyright information.
@@ -19,7 +19,7 @@
    Please report any errors that you fix to qhull@qhull.org
 */
 
-#include "libqhull.h" 
+#include "libqhull.h"
 
 #include <stdarg.h>
 #include <stdio.h>
@@ -27,7 +27,7 @@
 
 /*-<a                             href="qh-user.htm#TOC"
    >-------------------------------</a><a name="qh_fprintf">-</a>
-  
+
    qh_fprintf(fp, msgcode, format, list of args )
      print arguments to *fp according to format
      Use qh_fprintf_rbox() for rboxlib.c
@@ -35,7 +35,7 @@
    notes:
      same as fprintf()
      fgets() is not trapped like fprintf()
-     exit qh_fprintf via qh_errexit() 
+     exit qh_fprintf via qh_errexit()
      exit qh_fprintf_rbox via qh_errexit_rbox()
 */
 
@@ -65,7 +65,7 @@ void qh_fprintf(FILE *fp, int msgcode, const char *fmt, ... ) {
 
 void qh_fprintf_rbox(FILE *fp, int msgcode, const char *fmt, ... ) {
     va_list args;
-    
+
     if (!fp) {
         fprintf(stderr, "QH6231 Qhull internal error (userprintf.c): fp is 0.  Wrong qh_fprintf_rbox called.\n");
         qh_errexit_rbox(6231);

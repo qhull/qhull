@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/qhulltest/QhullPoint_test.cpp#15 $$Change: 1150 $
-** $DateTime: 2010/01/04 22:43:14 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/qhulltest/QhullPoint_test.cpp#16 $$Change: 1164 $
+** $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -62,8 +62,8 @@ cleanup()
 
 void QhullPoint_test::
 t_construct()
-{ 
-    // Qhull.runQhull() constructs QhullFacets as facetT 
+{
+    // Qhull.runQhull() constructs QhullFacets as facetT
     QhullPoint p;
     QVERIFY(!p.isDefined());
     QCOMPARE(p.dimension(),0);
@@ -87,7 +87,7 @@ t_construct()
 
 void QhullPoint_test::
 t_convert()
-{ 
+{
     RboxPoints rcube("c");
     Qhull q(rcube,"Qt QR0");  // triangulation of rotated unit cube
     QhullVertex v= q.firstVertex();
@@ -106,7 +106,7 @@ t_convert()
 
 void QhullPoint_test::
 t_readonly()
-{ 
+{
     RboxPoints rcube("c");
     {
         Qhull q(rcube,"Qt QR0");  // triangulation of rotated unit cube
@@ -119,7 +119,7 @@ t_readonly()
             QVERIFY(p.isDefined());
             QCOMPARE(p.dimension(),3);
             QCOMPARE(id, p.id());
-            QVERIFY(p.id()>=0 && p.id()<9); 
+            QVERIFY(p.id()>=0 && p.id()<9);
             const coordT *c= p.coordinates();
             coordT *c2= p.coordinates();
             QCOMPARE(c, c2);
@@ -134,7 +134,7 @@ t_readonly()
 
 void QhullPoint_test::
 t_define()
-{ 
+{
     RboxPoints rcube("c");
     {
         Qhull q(rcube,"Qt QR0");  // triangulation of rotated unit cube
@@ -171,7 +171,7 @@ t_define()
 
 void QhullPoint_test::
 t_operator()
-{ 
+{
     RboxPoints rcube("c");
     Qhull q(rcube,"Qt QR0");  // triangulation of rotated unit cube
     const QhullPoint p= q.firstVertex().point();
@@ -180,7 +180,7 @@ t_operator()
     for(int k=p.dimension(); k--; ){
         QCOMPARE(c[k], p[k]);
     }
-    //p[0]= 10.0; // compiler error, const 
+    //p[0]= 10.0; // compiler error, const
     QhullPoint p2= q.firstVertex().point();
     p2[0]= 10.0;  // Overwrites point coordinate
     QCOMPARE(p2[0], 10.0);
@@ -188,7 +188,7 @@ t_operator()
 
 void QhullPoint_test::
 t_iterator()
-{ 
+{
     RboxPoints rcube("c");
     {
         QhullPoint p2;
@@ -250,16 +250,16 @@ t_iterator()
         QCOMPARE(i, i2--);
         QCOMPARE(i2, p.begin());
         QCOMPARE(--i, i2);
-        QCOMPARE(i2 += 3, p.end()); 
-        QCOMPARE(i2 -= 3, p.begin()); 
-        QCOMPARE(i2+0, p.begin()); 
+        QCOMPARE(i2 += 3, p.end());
+        QCOMPARE(i2 -= 3, p.begin());
+        QCOMPARE(i2+0, p.begin());
         QCOMPARE(i2+3, p.end());
         i2 += 3;
         i= i2-0;
         QCOMPARE(i, i2);
         i= i2-3;
-        QCOMPARE(i, p.begin()); 
-        QCOMPARE(i2-i, 3); 
+        QCOMPARE(i, p.begin());
+        QCOMPARE(i2-i, 3);
 
         //p.begin end tested above
 
@@ -269,7 +269,7 @@ t_iterator()
 
 void QhullPoint_test::
 t_const_iterator()
-{ 
+{
     RboxPoints rcube("c");
     {
         Qhull q(rcube,"QR0");  // rotated unit cube
@@ -310,16 +310,16 @@ t_const_iterator()
         QCOMPARE(i, i2--);
         QCOMPARE(i2, p.constBegin());
         QCOMPARE(--i, i2);
-        QCOMPARE(i2+=3, p.constEnd()); 
-        QCOMPARE(i2-=3, p.constBegin()); 
-        QCOMPARE(i2+0, p.constBegin()); 
+        QCOMPARE(i2+=3, p.constEnd());
+        QCOMPARE(i2-=3, p.constBegin());
+        QCOMPARE(i2+0, p.constBegin());
         QCOMPARE(i2+3, p.constEnd());
         i2 += 3;
         i= i2-0;
         QCOMPARE(i, i2);
         i= i2-3;
-        QCOMPARE(i, p.constBegin()); 
-        QCOMPARE(i2-i, 3); 
+        QCOMPARE(i, p.constBegin());
+        QCOMPARE(i2-i, 3);
 
         // QhullPoint is const-only
     }
@@ -374,7 +374,7 @@ t_qhullpoint_iterator()
 
 void QhullPoint_test::
 t_io()
-{   
+{
     RboxPoints rcube("c");
     {
         Qhull q(rcube, "");
@@ -394,7 +394,7 @@ t_io()
 
 //FIXUP -- Move conditional, QhullPoint code to QhullPoint.cpp
 #ifndef QHULL_NO_STL
-std::vector<coordT> QhullPoint:: 
+std::vector<coordT> QhullPoint::
 toStdVector() const
 {
     QhullPointIterator i(*this);

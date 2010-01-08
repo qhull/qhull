@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullQh.cpp#25 $$Change: 1139 $
-** $DateTime: 2010/01/03 11:20:29 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullQh.cpp#26 $$Change: 1164 $
+** $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -22,7 +22,7 @@ using std::string;
 using std::vector;
 using std::ostream;
 
-#ifdef _MSC_VER  // Microsoft Visual C++ -- warning level 4 
+#ifdef _MSC_VER  // Microsoft Visual C++ -- warning level 4
 #pragma warning( disable : 4611)  // interaction between '_setjmp' and C++ object destruction is non-portable
 #pragma warning( disable : 4996)  // function was declared deprecated(strcpy, localtime, etc.)
 #endif
@@ -34,11 +34,11 @@ namespace orgQhull {
 #//Constructor, destructor, etc.
 
 //! If qh_QHpointer==0, invoke with placement new on qh_qh;
-//! Sets qh_qh and qh_qhstat.  Need to reset before UsingLibQhull.  
+//! Sets qh_qh and qh_qhstat.  Need to reset before UsingLibQhull.
 //! Derived from qh_new_qhull[user.c]
 QhullQh::
 QhullQh()
-{ 
+{
     static boolT firstcall = True;
 
     if(firstcall){
@@ -52,10 +52,10 @@ QhullQh()
 #if qh_QHpointer
     if(qh_qh){
         if(qh old_qhstat){
-            throw QhullError(10041, "Qhull internal error: qh_qh.old_qhstat defined (%x) but qh_qh is active.  qh_qh not restored correctly.", 0, 0, 0.0, qh old_qhstat); 
+            throw QhullError(10041, "Qhull internal error: qh_qh.old_qhstat defined (%x) but qh_qh is active.  qh_qh not restored correctly.", 0, 0, 0.0, qh old_qhstat);
         }
         qh old_qhstat= qh_qhstat;
-        qh old_tempstack= static_cast<setT *>(qhmem.tempstack);
+        qh old_tempstack= qhmem.tempstack;
         qh_qhstat= 0;
         qhmem.tempstack= 0;
     }
@@ -66,7 +66,7 @@ QhullQh()
     }
 #endif
     // NOerrors -- Does not call qh_errexit()
-    qh_initstatistics(); 
+    qh_initstatistics();
     // NOerrors -- Does not call qh_errexit()
     qh_initqhull_start2(NULL, NULL, qh_FILEstderr);
 }//QhullQh
@@ -77,20 +77,20 @@ QhullQh::
 {
 #if qh_QHpointer
     if(!qh_qh){
-        QhullError e(10042, "Qhull internal error: qh_qh undefined.  Was ~QhullQh() invoked independent of UsingLibQhull?", qh run_id, 0, 0, qh_qh); 
+        QhullError e(10042, "Qhull internal error: qh_qh undefined.  Was ~QhullQh() invoked independent of UsingLibQhull?", qh run_id, 0, 0, qh_qh);
         e.logError();
     }else if(!qh_qhstat){
-        QhullError e(10043, "Qhull internal error: qh_qhstat null.  Is another thread running?"); 
+        QhullError e(10043, "Qhull internal error: qh_qhstat null.  Is another thread running?");
         e.logError();
     }else if(qh_qh!=this){
-        QhullError e(10044, "Qhull error: ~QhullQh() invoked independent of UsingLibQhull. qh_qh %x (runId %d) vs. QhullQh.runId %d.", qh run_id, run_id, 0.0, qh_qh); 
+        QhullError e(10044, "Qhull error: ~QhullQh() invoked independent of UsingLibQhull. qh_qh %x (runId %d) vs. QhullQh.runId %d.", qh run_id, run_id, 0.0, qh_qh);
         e.logError();
     }else{
         qh_freeqhull2(qh_ALL); // sets qh.NOerrexit.  Clears struct *qh_qh including run_id, but not qh_qh itself
     }
 #else
     if(&qh_qh!=this){
-        QhullError e(10045, "Qhull error: ~QhullQh() invoked independent of UsingLibQhull. qh_qh %x (runId %d) vs. QhullQh.runId %d.", qh run_id, run_id, 0.0, qh_qh); 
+        QhullError e(10045, "Qhull error: ~QhullQh() invoked independent of UsingLibQhull. qh_qh %x (runId %d) vs. QhullQh.runId %d.", qh run_id, run_id, 0.0, qh_qh);
         e.logError();
     }else{
         qh_freeqhull2(qh_ALL); // sets qh.NOerrexit.  Clears struct *qh_qh including run_id, but not qh_qh itself

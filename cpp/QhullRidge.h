@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullRidge.h#22 $$Change: 1139 $
-** $DateTime: 2010/01/03 11:20:29 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullRidge.h#23 $$Change: 1164 $
+** $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -33,7 +33,7 @@ namespace orgQhull {
     typedef QhullSetIterator<QhullRidge>  QhullRidgeSetIterator;
 
     // see QhullSets.h for QhullRidgeSet and QhullRidgeSetIterator -- avoids circular references
-   
+
 /************************
 a ridge is hull_dim-1 simplex between two neighboring facets.  If the
 facets are non-simplicial, there may be more than one ridge between
@@ -61,7 +61,7 @@ public:
 #//Constants
 
 #//Constructors
-                        QhullRidge() : qh_ridge(&s_empty_ridge) {} 
+                        QhullRidge() : qh_ridge(&s_empty_ridge) {}
                         //! Shallow copy
                         QhullRidge(const QhullRidge &o) : qh_ridge(o.qh_ridge) {}
     QhullRidge         &operator=(const QhullRidge &o) { qh_ridge= o.qh_ridge; return *this; }
@@ -93,9 +93,9 @@ public:
 #//IO
 
     struct PrintRidge{
-        const QhullRidge *ridge; 
+        const QhullRidge *ridge;
         int             run_id;
-                        PrintRidge(int qhRunId, const QhullRidge &r) : ridge(&r), run_id(qhRunId) {} 
+                        PrintRidge(int qhRunId, const QhullRidge &r) : ridge(&r), run_id(qhRunId) {}
     };//PrintRidge
     PrintRidge          print(int qhRunId) const { return PrintRidge(qhRunId, *this); }
 };//class QhullRidge

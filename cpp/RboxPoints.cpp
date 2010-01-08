@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/RboxPoints.cpp#32 $$Change: 1139 $
-** $DateTime: 2010/01/03 11:20:29 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/RboxPoints.cpp#33 $$Change: 1164 $
+** $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -48,7 +48,7 @@ RboxPoints(const char *rboxCommand)
 , rbox_new_count(0)
 , rbox_status(qh_ERRnone)
 , rbox_message()
-{ 
+{
     appendPoints(rboxCommand);
 }
 
@@ -62,7 +62,7 @@ RboxPoints(const RboxPoints &other)
 
 RboxPoints & RboxPoints::
 operator=(const RboxPoints &other)
-{ 
+{
     PointCoordinates::operator=(other);
     rbox_new_count= other.rbox_new_count;
     rbox_status= other.rbox_status;
@@ -123,11 +123,11 @@ appendPoints(const char *rboxCommand)
         throw QhullError(10067, "Qhull error: Extra coordinates (%d) prior to calling RboxPoints::appendPoints.  Was %s", extraCoordinatesCount(), 0, 0.0, comment().c_str());
     }
     int previousCount= count();
-    rbox_output= this;		    // set rbox_output for qh_fprintf()
+    rbox_output= this;              // set rbox_output for qh_fprintf()
     int status= ::qh_rboxpoints(0, 0, command);
     rbox_output= 0;
     if(rbox_status==qh_ERRnone){
-	rbox_status= status;
+        rbox_status= status;
     }
     if(rbox_status!=qh_ERRnone){
         throw QhullError(rbox_status, rbox_message);
@@ -157,7 +157,7 @@ notes:
     fgets() is not trapped like fprintf()
     Do not throw errors from here.  Use qh_errexit_rbox;
 */
-extern "C" 
+extern "C"
 void qh_fprintf_rbox(FILE*, int msgcode, const char *fmt, ... ) {
     va_list args;
 
@@ -166,10 +166,10 @@ void qh_fprintf_rbox(FILE*, int msgcode, const char *fmt, ... ) {
     RboxPoints *out= rbox_output;
     va_start(args, fmt);
     if(msgcode<MSG_OUTPUT){
-	char newMessage[MSG_MAXLEN];
+        char newMessage[MSG_MAXLEN];
         // RoadError provides the message tag
-	vsnprintf(newMessage, sizeof(newMessage), fmt, args);
-	out->rbox_message += newMessage;
+        vsnprintf(newMessage, sizeof(newMessage), fmt, args);
+        out->rbox_message += newMessage;
         if(out->rbox_status<MSG_ERROR || out->rbox_status>=MSG_STDERR){
             out->rbox_status= msgcode;
         }
@@ -183,7 +183,7 @@ void qh_fprintf_rbox(FILE*, int msgcode, const char *fmt, ... ) {
         qh_errexit_rbox(10010);
         /* never returns */
     case 9393:
-	{
+        {
             int dimension= va_arg(args, int);
             string command(va_arg(args, char*));
             int count= va_arg(args, int);
@@ -193,8 +193,8 @@ void qh_fprintf_rbox(FILE*, int msgcode, const char *fmt, ... ) {
             out->appendComment("\"");
             out->setNewCount(count);
             out->reservePoints();
-	}
-	break;
+        }
+        break;
     case 9407:
         *out << va_arg(args, int);
         // fall through
@@ -205,14 +205,14 @@ void qh_fprintf_rbox(FILE*, int msgcode, const char *fmt, ... ) {
         *out << va_arg(args, int);
         break;
     case 9408:
-	*out << va_arg(args, double);
-	// fall through
+        *out << va_arg(args, double);
+        // fall through
     case 9406:
         *out << va_arg(args, double);
-	// fall through
+        // fall through
     case 9404:
         *out << va_arg(args, double);
-	break;
+        break;
     }
     va_end(args);
 } /* qh_fprintf_rbox */

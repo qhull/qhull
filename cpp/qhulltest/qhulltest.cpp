@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/qhulltest/qhulltest.cpp#53 $$Change: 1139 $
-** $DateTime: 2010/01/03 11:20:29 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/qhulltest/qhulltest.cpp#54 $$Change: 1164 $
+** $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -11,7 +11,7 @@
 #include <sstream>
 #include <string>
 #include <stdexcept>
-#include "../road/RoadTest.h" 
+#include "../road/RoadTest.h"
 
 #include "../road/RoadError.h"
 
@@ -48,9 +48,9 @@ void addQhullTests(QStringList &args)
     }//--all
 }//addQhullTests
 
-int main(int argc, char *argv[]) 
-{ 
-    QCoreApplication app(argc, argv); 
+int main(int argc, char *argv[])
+{
+    QCoreApplication app(argc, argv);
     QStringList args= app.arguments();
     addQhullTests(args);
     int status=1010;
@@ -73,8 +73,8 @@ int main(int argc, char *argv[])
 
 }//orgQhull
 
-int main(int argc, char *argv[]) 
-{ 
+int main(int argc, char *argv[])
+{
     return orgQhull::main(argc, argv); // Needs RoadTest:: for TESTadd_() linkage
 }
 

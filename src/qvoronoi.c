@@ -36,21 +36,21 @@ extern "C" {
 
 #else
 int isatty(int);  /* returns 1 if stdin is a tty
-		   if "Undefined symbol" this can be deleted along with call in main() */
+                   if "Undefined symbol" this can be deleted along with call in main() */
 #endif
 
 /*-<a                             href="qh-qhull.htm#TOC"
   >-------------------------------</a><a name="prompt">-</a>
 
-  qh_prompt 
+  qh_prompt
     long prompt for qhull
-    
+
   notes:
     restricted version of libqhull.c
- 
+
   see:
     concise prompt below
-*/  
+*/
 
 /* duplicated in qvoron_f.htm and qvoronoi.htm */
 char hidden_options[]=" d n m v H U Qb QB Qc Qf Qg Qi Qm Qr QR Qv Qx TR E V Fa FA FC Fp FS Ft FV Pv Gt Q0 Q1 Q2 Q3 Q4 Q5 Q6 Q7 Q8 Q9 ";
@@ -141,7 +141,7 @@ Geomview options (2-d only)\n\
     Gi   - inner planes only\n\
      Gn  -  no planes\n\
      Go  -  outer planes only\n\
-    Gc	 - centrums\n\
+    Gc   - centrums\n\
     Gh   - hyperplane intersections\n\
     Gr   - ridges\n\
     GDn  - drop dimension n in 3-d and 4-d output\n\
@@ -166,8 +166,8 @@ Print options:\n\
   >-------------------------------</a><a name="prompt2">-</a>
 
   qh_prompt2
-    synopsis for qhull 
-*/  
+    synopsis for qhull
+*/
 char qh_prompt2[]= "\n\
 qvoronoi- compute the Voronoi diagram.  Qhull %s\n\
     input (stdin): dimension, number of points, point coordinates\n\
@@ -206,8 +206,8 @@ rbox c P0 D2 | qvoronoi s Fv QV0\n\
   >-------------------------------</a><a name="prompt3">-</a>
 
   qh_prompt3
-    concise prompt for qhull 
-*/  
+    concise prompt for qhull
+*/
 char qh_prompt3[]= "\n\
 Qhull %s.\n\
 Except for 'F.' and 'PG', upper-case options take an argument.\n\
@@ -237,10 +237,10 @@ Except for 'F.' and 'PG', upper-case options take an argument.\n\
 
 /*-<a                             href="qh-qhull.htm#TOC"
   >-------------------------------</a><a name="main">-</a>
-  
+
   main( argc, argv )
     processes the command line, calls qhull() to do the work, and exits
-  
+
   design:
     initializes data structures
     reads points
@@ -263,18 +263,18 @@ int main(int argc, char *argv[]) {
   SIOUXSettings.rows= 40;
   if (setvbuf(stdin, inBuf, _IOFBF, sizeof(inBuf)) < 0   /* w/o, SIOUX I/O is slow*/
   || setvbuf(stdout, outBuf, _IOFBF, sizeof(outBuf)) < 0
-  || (stdout != stderr && setvbuf(stderr, errBuf, _IOFBF, sizeof(errBuf)) < 0)) 
+  || (stdout != stderr && setvbuf(stderr, errBuf, _IOFBF, sizeof(errBuf)) < 0))
     fprintf(stderr, "qhull internal warning (main): could not change stdio to fully buffered.\n");
   argc= ccommand(&argv);
 #endif
 
-  if ((argc == 1) && isatty( 0 /*stdin*/)) {      
+  if ((argc == 1) && isatty( 0 /*stdin*/)) {
     fprintf(stdout, qh_prompt2, qh_version);
     exit(qh_ERRnone);
   }
   if (argc > 1 && *argv[1] == '-' && !*(argv[1]+1)) {
     fprintf(stdout, qh_prompta, qh_version,
-		qh_promptb, qh_promptc, qh_promptd, qh_prompte);
+                qh_promptb, qh_promptc, qh_promptd, qh_prompte);
     exit(qh_ERRnone);
   }
   if (argc >1 && *argv[1] == '.' && !*(argv[1]+1)) {
@@ -286,7 +286,7 @@ int main(int argc, char *argv[]) {
   if (!exitcode) {
     qh_option("voronoi  _bbound-last  _coplanar-keep", NULL, NULL);
     qh DELAUNAY= True;     /* 'v'   */
-    qh VORONOI= True; 
+    qh VORONOI= True;
     qh SCALElast= True;    /* 'Qbb' */
     qh_checkflags(qh qhull_command, hidden_options);
     qh_initflags(qh qhull_command);
@@ -309,7 +309,7 @@ int main(int argc, char *argv[]) {
 #else
   qh_freeqhull( False);
   qh_memfreeshort(&curlong, &totlong);
-  if (curlong || totlong) 
+  if (curlong || totlong)
     fprintf(stderr, "qhull internal warning (main): did not free %d bytes of long memory(%d pieces)\n",
        totlong, curlong);
 #endif

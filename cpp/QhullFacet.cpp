@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullFacet.cpp#33 $$Change: 1139 $
-** $DateTime: 2010/01/03 11:20:29 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullFacet.cpp#34 $$Change: 1164 $
+** $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -208,7 +208,7 @@ using orgQhull::QhullVertexSet;
 using orgQhull::UsingLibQhull;
 
 ostream &
-operator<<(ostream &os, const QhullFacet::PrintFacet &pr) 
+operator<<(ostream &os, const QhullFacet::PrintFacet &pr)
 {
     QhullFacet f= *pr.facet;
     if(f.getFacetT()==0){ // Special values from set iterator
@@ -281,7 +281,7 @@ operator<<(ostream &os, const QhullFacet::PrintCenter &pr)
 ostream &
 operator<<(ostream &os, const QhullFacet::PrintFlags &p)
 {
-    const facetT *f= p.facet->getFacetT(); 
+    const facetT *f= p.facet->getFacetT();
     if(p.message){
         os << p.message;
     }

@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullFacetSet.h#19 $$Change: 1139 $
-** $DateTime: 2010/01/03 11:20:29 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullFacetSet.h#20 $$Change: 1164 $
+** $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -21,7 +21,7 @@ namespace orgQhull {
 #//Types
     //! QhullFacetSet -- a set of Qhull facets, as a C++ class.  See QhullFacetList.h
     class               QhullFacetSet;
-    typedef QhullSetIterator<QhullFacet>  
+    typedef QhullSetIterator<QhullFacet>
                         QhullFacetSetIterator;
 
 class QhullFacetSet : public QhullSet<QhullFacet> {
@@ -64,20 +64,20 @@ public:
                         //! operator==() does not depend on isGood()
 
 #//IO
-    // Not same as QhullFacetList#IO.  A QhullFacetSet is a component of a QhullFacetList.  
+    // Not same as QhullFacetList#IO.  A QhullFacetSet is a component of a QhullFacetList.
 
     struct PrintFacetSet{
         const QhullFacetSet *facet_set; // FIXUP should Print... use pointers?
         const char     *message;
         int             run_id;
-                        PrintFacetSet(int qhRunId, const char *message, const QhullFacetSet *s) : facet_set(s), message(message), run_id(qhRunId) {} 
+                        PrintFacetSet(int qhRunId, const char *message, const QhullFacetSet *s) : facet_set(s), message(message), run_id(qhRunId) {}
     };//PrintFacetSet
     const PrintFacetSet       print(int qhRunId, const char *message) const { return PrintFacetSet(qhRunId, message, this); }
 
     struct PrintIdentifiers{
         const QhullFacetSet *facet_set;
         const char     *message;
-                        PrintIdentifiers(const char *message, const QhullFacetSet *s) : facet_set(s), message(message) {} 
+                        PrintIdentifiers(const char *message, const QhullFacetSet *s) : facet_set(s), message(message) {}
     };//PrintIdentifiers
     PrintIdentifiers    printIdentifiers(const char *message) const { return PrintIdentifiers(message, this); }
 

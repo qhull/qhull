@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2009-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/Coordinates.h#31 $$Change: 1150 $
-** $DateTime: 2010/01/04 22:43:14 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/Coordinates.h#32 $$Change: 1164 $
+** $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -34,7 +34,7 @@ class Coordinates {
 
 private:
 #//Fields
-    std::vector<coordT> coordinate_array;  
+    std::vector<coordT> coordinate_array;
 
 public:
 #//Subtypes
@@ -59,7 +59,7 @@ public:
     Coordinates        &operator=(const Coordinates &other) { coordinate_array= other.coordinate_array; return *this; }
     Coordinates        &operator=(const std::vector<coordT> &other) { coordinate_array= other; return *this; }
                        ~Coordinates() {}
- 
+
 #//Conversion
 
     coordT             *data() { return isEmpty() ? 0 : &at(0); }

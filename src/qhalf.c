@@ -35,21 +35,21 @@ extern "C" {
 
 #else
 int isatty(int);  /* returns 1 if stdin is a tty
-		   if "Undefined symbol" this can be deleted along with call in main() */
+                   if "Undefined symbol" this can be deleted along with call in main() */
 #endif
 
 /*-<a                             href="qh-qhull.htm#TOC"
   >-------------------------------</a><a name="prompt">-</a>
 
-  qh_prompt 
+  qh_prompt
     long prompt for qhull
-    
+
   notes:
     restricted version of libqhull.c
- 
+
   see:
     concise prompt below
-*/  
+*/
 
 /* duplicated in qhalf.htm */
 char hidden_options[]=" d n v Qbb QbB Qf Qg Qm Qr QR Qv Qx Qz TR E V Fa FA FC FD FS Ft FV Gt Q0 Q1 Q2 Q3 Q4 Q5 Q6 Q7 Q8 Q9 ";
@@ -146,7 +146,7 @@ Geomview output (2-d, 3-d and 4-d; dual convex hull)\n\
     Gi   - inner planes (i.e., halfspace intersections) only\n\
      Gn  -  no planes\n\
      Go  -  outer planes only\n\
-    Gc	 - centrums\n\
+    Gc   - centrums\n\
     Gh   - hyperplane intersections\n\
     Gr   - ridges\n\
     GDn  - drop dimension n in 3-d and 4-d output\n\
@@ -171,8 +171,8 @@ Print options:\n\
   >-------------------------------</a><a name="prompt2">-</a>
 
   qh_prompt2
-    synopsis for qhull 
-*/  
+    synopsis for qhull
+*/
 char qh_prompt2[]= "\n\
 qhalf- halfspace intersection about a point.  Qhull %s\n\
     input (stdin): [dim, 1, interior point], dim+1, n, coefficients+offset\n\
@@ -209,8 +209,8 @@ examples:\n\
   >-------------------------------</a><a name="prompt3">-</a>
 
   qh_prompt3
-    concise prompt for qhull 
-*/  
+    concise prompt for qhull
+*/
 char qh_prompt3[]= "\n\
 Qhull %s.\n\
 Except for 'F.' and 'PG', upper_case options take an argument.\n\
@@ -240,10 +240,10 @@ Except for 'F.' and 'PG', upper_case options take an argument.\n\
 
 /*-<a                             href="qh-qhull.htm#TOC"
   >-------------------------------</a><a name="main">-</a>
-  
+
   main( argc, argv )
     processes the command line, calls qhull() to do the work, and exits
-  
+
   design:
     initializes data structures
     reads points
@@ -266,17 +266,17 @@ int main(int argc, char *argv[]) {
   SIOUXSettings.rows= 40;
   if (setvbuf(stdin, inBuf, _IOFBF, sizeof(inBuf)) < 0   /* w/o, SIOUX I/O is slow*/
   || setvbuf(stdout, outBuf, _IOFBF, sizeof(outBuf)) < 0
-  || (stdout != stderr && setvbuf(stderr, errBuf, _IOFBF, sizeof(errBuf)) < 0)) 
+  || (stdout != stderr && setvbuf(stderr, errBuf, _IOFBF, sizeof(errBuf)) < 0))
     fprintf(stderr, "qhull internal warning (main): could not change stdio to fully buffered.\n");
   argc= ccommand(&argv);
 #endif
 
-  if ((argc == 1) && isatty( 0 /*stdin*/)) {      
+  if ((argc == 1) && isatty( 0 /*stdin*/)) {
     fprintf(stdout, qh_prompt2, qh_version);
     exit(qh_ERRnone);
   }
   if (argc > 1 && *argv[1] == '-' && !*(argv[1]+1)) {
-    fprintf(stdout, qh_prompta, qh_version, 
+    fprintf(stdout, qh_prompta, qh_version,
         qh_promptb, qh_promptc, qh_promptd, qh_prompte);
     exit(qh_ERRnone);
   }
@@ -316,7 +316,7 @@ qhull error: options 'Qbk:n' and 'QBk:n' are not used with qhalf.\n\
 #else
   qh_freeqhull( False);
   qh_memfreeshort(&curlong, &totlong);
-  if (curlong || totlong) 
+  if (curlong || totlong)
     fprintf(stderr, "qhull internal warning (main): did not free %d bytes of long memory(%d pieces)\n",
        totlong, curlong);
 #endif

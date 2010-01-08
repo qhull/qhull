@@ -3,12 +3,12 @@
 
    rboxlib.c
      Generate input points
-   
+
    notes:
      For documentation, see prompt[] of rbox.c
      50 points generated for 'rbox D4'
 
-   WARNING: 
+   WARNING:
      incorrect range if qh_RANDOMmax is defined wrong (user.h)
 */
 
@@ -39,7 +39,7 @@ void out1( double a);
 void out2n( double a, double b);
 void out3n( double a, double b, double c);
 
-void	qh_fprintf_rbox(FILE *fp, int msgcode, const char *fmt, ... );
+void    qh_fprintf_rbox(FILE *fp, int msgcode, const char *fmt, ... );
 void    qh_free(void *mem);
 void   *qh_malloc(size_t size);
 int     qh_rand( void);
@@ -74,7 +74,7 @@ rboxT rbox;
     1 (qh_ERRinput) on input error
     4 (qh_ERRmem) on memory error
     5 (qh_ERRqhull) on internal error
-  
+
   notes:
     To avoid stdio, redefine qh_malloc, qh_free, and qh_fprintf_rbox (user.c)
 
@@ -102,7 +102,7 @@ int qh_rboxpoints(FILE* fout, FILE* ferr, char* rbox_command) {
   double anglediff, angle, x, y, cube= 0.0, diamond= 0.0;
   double box= qh_DEFAULTbox; /* scale all numbers before output */
   double randmax= qh_RANDOMmax;
-  char command[200], seedbuf[200];    
+  char command[200], seedbuf[200];
   char *s= command, *t, *first_point= NULL;
   time_t timedata;
   int exitcode;
@@ -119,7 +119,7 @@ int qh_rboxpoints(FILE* fout, FILE* ferr, char* rbox_command) {
   if (exitcode) {
     /* same code for error exit and normal return */
     if (simplex)
-	qh_free(simplex);
+        qh_free(simplex);
     rbox_inuse= False;
     return exitcode;
   }
@@ -146,17 +146,17 @@ int qh_rboxpoints(FILE* fout, FILE* ferr, char* rbox_command) {
       addcube= 1;
       t= s;
       while (isspace(*t))
-	t++;
+        t++;
       if (*t == 'G')
-	cube= qh_strtod(++t, &s);
+        cube= qh_strtod(++t, &s);
       break;
     case 'd':
       adddiamond= 1;
       t= s;
       while (isspace(*t))
-	t++;
+        t++;
       if (*t == 'G')
-	diamond= qh_strtod(++t, &s);
+        diamond= qh_strtod(++t, &s);
       break;
     case 'h':
       iscdd= 1;
@@ -178,7 +178,7 @@ int qh_rboxpoints(FILE* fout, FILE* ferr, char* rbox_command) {
       if (isdigit(*s)) {
         seed= qh_strtol(s, &s);
         israndom= 0;
-      }else 
+      }else
         israndom= 1;
       break;
     case 'x':
@@ -204,46 +204,46 @@ int qh_rboxpoints(FILE* fout, FILE* ferr, char* rbox_command) {
       break;
     case 'G':
       if (isdigit(*s))
-	gap= qh_strtod(s, &s);
+        gap= qh_strtod(s, &s);
       else
-	gap= 0.5;
+        gap= 0.5;
       isgap= 1;
       break;
     case 'L':
       if (isdigit(*s))
-	radius= qh_strtod(s, &s);
+        radius= qh_strtod(s, &s);
       else
-	radius= 10;
+        radius= 10;
       islens= 1;
       break;
     case 'M':
       ismesh= 1;
       if (*s)
-	meshn= qh_strtod(s, &s);
+        meshn= qh_strtod(s, &s);
       if (*s == ',') {
         ++s;
         meshm= qh_strtod(s, &s);
       }else
-	meshm= 0.0;
+        meshm= 0.0;
       if (*s == ',') {
         ++s;
         meshr= qh_strtod(s, &s);
       }else
-	meshr= sqrt(meshn*meshn + meshm*meshm);
+        meshr= sqrt(meshn*meshn + meshm*meshm);
       if (*s && !isspace(*s)) {
-	qh_fprintf_rbox(rbox.ferr, 7069, "rbox warning: assuming 'M3,4,5' since mesh args are not integers or reals\n");
-	meshn= 3.0, meshm=4.0, meshr=5.0;
+        qh_fprintf_rbox(rbox.ferr, 7069, "rbox warning: assuming 'M3,4,5' since mesh args are not integers or reals\n");
+        meshn= 3.0, meshm=4.0, meshr=5.0;
       }
       break;
     case 'O':
       rbox.out_offset= qh_strtod(s, &s);
       break;
     case 'P':
-      if (!first_point) 
+      if (!first_point)
         first_point= s-1;
       addpoints++;
       while (*s && !isspace(*s))   /* read points later */
-	s++;
+        s++;
       break;
     case 'W':
       width= qh_strtod(s, &s);
@@ -251,9 +251,9 @@ int qh_rboxpoints(FILE* fout, FILE* ferr, char* rbox_command) {
       break;
     case 'Z':
       if (isdigit(*s))
-	radius= qh_strtod(s, &s);
+        radius= qh_strtod(s, &s);
       else
-	radius= 1.0;
+        radius= 1.0;
       isaxis= 1;
       break;
     default:
@@ -283,13 +283,13 @@ int qh_rboxpoints(FILE* fout, FILE* ferr, char* rbox_command) {
     diamondsize= 0;
   if (islens) {
     if (isaxis) {
-	qh_fprintf_rbox(rbox.ferr, 6190, "rbox error: can not combine 'Ln' with 'Zn'\n");
-	qh_errexit_rbox(qh_ERRinput);
+        qh_fprintf_rbox(rbox.ferr, 6190, "rbox error: can not combine 'Ln' with 'Zn'\n");
+        qh_errexit_rbox(qh_ERRinput);
     }
     if (radius <= 1.0) {
-	qh_fprintf_rbox(rbox.ferr, 6191, "rbox error: lens radius %.2g should be greater than 1.0\n",
-	       radius);
-	qh_errexit_rbox(qh_ERRinput);
+        qh_fprintf_rbox(rbox.ferr, 6191, "rbox error: lens radius %.2g should be greater than 1.0\n",
+               radius);
+        qh_errexit_rbox(qh_ERRinput);
     }
     lensangle= asin(1.0/radius);
     lensbase= radius * cos(lensangle);
@@ -297,18 +297,18 @@ int qh_rboxpoints(FILE* fout, FILE* ferr, char* rbox_command) {
 
   if (!numpoints) {
     if (issimplex2)
-	; /* ok */
+        ; /* ok */
     else if (isregular + issimplex + islens + issphere + isaxis + isspiral + iswidth + ismesh) {
-	qh_fprintf_rbox(rbox.ferr, 6192, "rbox error: missing count\n");
-	qh_errexit_rbox(qh_ERRinput);
+        qh_fprintf_rbox(rbox.ferr, 6192, "rbox error: missing count\n");
+        qh_errexit_rbox(qh_ERRinput);
     }else if (adddiamond + addcube + addpoints)
-	; /* ok */
-    else { 
-	numpoints= 50;  /* ./rbox D4 is the test case */
-	issphere= 1;
+        ; /* ok */
+    else {
+        numpoints= 50;  /* ./rbox D4 is the test case */
+        issphere= 1;
     }
   }
-  if ((issimplex + islens + isspiral + ismesh > 1) 
+  if ((issimplex + islens + isspiral + ismesh > 1)
   || (issimplex + issphere + isspiral + ismesh > 1)) {
     qh_fprintf_rbox(rbox.ferr, 6193, "rbox error: can only specify one of 'l', 's', 'x', 'Ln', or 'Mn,m,r' ('Ln s' is ok).\n");
     qh_errexit_rbox(qh_ERRinput);
@@ -322,11 +322,11 @@ int qh_rboxpoints(FILE* fout, FILE* ferr, char* rbox_command) {
   else if (isregular) {
     totpoints= numpoints;
     if (dim == 2) {
-    	if (islens)
-    	  totpoints += numpoints - 2;
+        if (islens)
+          totpoints += numpoints - 2;
     }else if (dim == 3) {
-    	if (islens)
-    	  totpoints += 2 * numpoints;
+        if (islens)
+          totpoints += 2 * numpoints;
       else if (isgap)
         totpoints += 1 + numpoints;
       else
@@ -340,9 +340,9 @@ int qh_rboxpoints(FILE* fout, FILE* ferr, char* rbox_command) {
   if (istime == 0) {
     for (s=command; *s; s++) {
       if (issimplex2 && *s == 'y') /* make 'y' same seed as 'x' */
-	i= 'x';
+        i= 'x';
       else
-	i= *s;
+        i= *s;
       seed= 11*seed + i;
     }
   }else if (israndom) {
@@ -357,9 +357,9 @@ int qh_rboxpoints(FILE* fout, FILE* ferr, char* rbox_command) {
 
   /* ============= print header =============== */
 
-  if (iscdd) 
-      qh_fprintf_rbox(rbox.fout, 9391, "%s\nbegin\n        %d %d %s\n", 
-      NOcommand ? "" : command, 
+  if (iscdd)
+      qh_fprintf_rbox(rbox.fout, 9391, "%s\nbegin\n        %d %d %s\n",
+      NOcommand ? "" : command,
       totpoints, dim+1,
       rbox.isinteger ? "integer" : "real");
   else if (NOcommand)
@@ -372,29 +372,29 @@ int qh_rboxpoints(FILE* fout, FILE* ferr, char* rbox_command) {
     while (s && *s) { /* 'P' */
       count= 0;
       if (iscdd)
-	out1( 1.0);
+        out1( 1.0);
       while (*++s) {
-	out1( qh_strtod(s, &s));
-	count++;
-	if (isspace(*s) || !*s)
-	  break;
-	if (*s != ',') {
-	  qh_fprintf_rbox(rbox.ferr, 6194, "rbox error: missing comma after coordinate in %s\n\n", s);
-	  qh_errexit_rbox(qh_ERRinput);
-	}
+        out1( qh_strtod(s, &s));
+        count++;
+        if (isspace(*s) || !*s)
+          break;
+        if (*s != ',') {
+          qh_fprintf_rbox(rbox.ferr, 6194, "rbox error: missing comma after coordinate in %s\n\n", s);
+          qh_errexit_rbox(qh_ERRinput);
+        }
       }
       if (count < dim) {
-	for (k=dim-count; k--; )
-	  out1( 0.0);
+        for (k=dim-count; k--; )
+          out1( 0.0);
       }else if (count > dim) {
-	qh_fprintf_rbox(rbox.ferr, 6195, "rbox error: %d coordinates instead of %d coordinates in %s\n\n", 
-		  count, dim, s);
-	qh_errexit_rbox(qh_ERRinput);
+        qh_fprintf_rbox(rbox.ferr, 6195, "rbox error: %d coordinates instead of %d coordinates in %s\n\n",
+                  count, dim, s);
+        qh_errexit_rbox(qh_ERRinput);
       }
       qh_fprintf_rbox(rbox.fout, 9394, "\n");
       while ((s= strchr(s, 'P'))) {
-	if (isspace(s[-1]))
-	  break;
+        if (isspace(s[-1]))
+          break;
       }
     }
   }
@@ -421,8 +421,8 @@ int qh_rboxpoints(FILE* fout, FILE* ferr, char* rbox_command) {
         }
       }
     }
-    if (issimplex2) { 
-	simplexp= simplex;
+    if (issimplex2) {
+        simplexp= simplex;
       for (i=0; i<dim+1; i++) {
         if (iscdd)
           out1( 1.0);
@@ -432,7 +432,7 @@ int qh_rboxpoints(FILE* fout, FILE* ferr, char* rbox_command) {
       }
     }
     for (j=0; j<numpoints; j++) {
-      if (iswidth) 
+      if (iswidth)
         apex= qh_RANDOMint % (dim+1);
       else
         apex= -1;
@@ -454,7 +454,7 @@ int qh_rboxpoints(FILE* fout, FILE* ferr, char* rbox_command) {
         coord[k] /= norm;
       if (iscdd)
         out1( 1.0);
-      for (k=0; k < dim; k++) 
+      for (k=0; k < dim; k++)
         out1( coord[k] * box);
       qh_fprintf_rbox(rbox.fout, 9396, "\n");
     }
@@ -469,18 +469,18 @@ int qh_rboxpoints(FILE* fout, FILE* ferr, char* rbox_command) {
       mult[k]= 0;
     for (i=0; i < numpoints; i++) {
       for (k=0; k < dim; k++) {
-	if (k == 0)
-	  out1( mult[0] * meshn + mult[1] * (-meshm));
-	else if (k == 1)
-	  out1( mult[0] * meshm + mult[1] * meshn);
-	else
-	  out1( mult[k] * meshr );
+        if (k == 0)
+          out1( mult[0] * meshn + mult[1] * (-meshm));
+        else if (k == 1)
+          out1( mult[0] * meshm + mult[1] * meshn);
+        else
+          out1( mult[k] * meshr );
       }
       qh_fprintf_rbox(rbox.fout, 9397, "\n");
       for (k=0; k < dim; k++) {
-	if (++mult[k] < nthroot)
-	  break;
-	mult[k]= 0;
+        if (++mult[k] < nthroot)
+          break;
+        mult[k]= 0;
       }
     }
   }
@@ -511,29 +511,29 @@ int qh_rboxpoints(FILE* fout, FILE* ferr, char* rbox_command) {
       x= radius * cos(angle);
       y= radius * sin(angle);
       if (dim == 2) {
-	if (iscdd)
-	  out1( 1.0);
+        if (iscdd)
+          out1( 1.0);
         out2n( x*box, y*box);
       }else {
-	norm= sqrt(1.0 + x*x + y*y);
-	if (iscdd)
-	  out1( 1.0);
-	out3n( box*x/norm, box*y/norm, box/norm);
-	if (isgap) {
-	  x *= 1-gap;
-	  y *= 1-gap;
-	  norm= sqrt(1.0 + x*x + y*y);
-	  if (iscdd)
+        norm= sqrt(1.0 + x*x + y*y);
+        if (iscdd)
+          out1( 1.0);
+        out3n( box*x/norm, box*y/norm, box/norm);
+        if (isgap) {
+          x *= 1-gap;
+          y *= 1-gap;
+          norm= sqrt(1.0 + x*x + y*y);
+          if (iscdd)
             out1( 1.0);
-	  out3n( box*x/norm, box*y/norm, box/norm);
-	}
+          out3n( box*x/norm, box*y/norm, box/norm);
+        }
       }
     }
   }
   /* ============= regular points for 'r Ln D2' =============== */
   else if (isregular && islens && dim == 2) {
     double cos_0;
-    
+
     angle= lensangle;
     anglediff= 2 * lensangle/(numpoints - 1);
     cos_0= cos(lensangle);
@@ -584,12 +584,12 @@ int qh_rboxpoints(FILE* fout, FILE* ferr, char* rbox_command) {
     if (isaxis) {
       gendim= dim-1;
       if (iscdd)
-	out1( 1.0);
+        out1( 1.0);
       for (j=0; j < gendim; j++)
-	out1( 0.0);
+        out1( 0.0);
       out1( -box);
       qh_fprintf_rbox(rbox.fout, 9398, "\n");
-    }else if (islens) 
+    }else if (islens)
       gendim= dim-1;
     else
       gendim= dim;
@@ -597,68 +597,68 @@ int qh_rboxpoints(FILE* fout, FILE* ferr, char* rbox_command) {
     for (i=0; i < numpoints; i++) {
       norm= 0.0;
       for (j=0; j < gendim; j++) {
-	randr= qh_RANDOMint;
-	coord[j]= 2.0 * randr/randmax - 1.0;
-	norm += coord[j] * coord[j];
+        randr= qh_RANDOMint;
+        coord[j]= 2.0 * randr/randmax - 1.0;
+        norm += coord[j] * coord[j];
       }
       norm= sqrt(norm);
       /* ============= dim-1 point of 'Zn' distribution ========== */
       if (isaxis) {
-	if (!isgap) {
-	  isgap= 1;
-	  gap= 1.0;
-	}
-	randr= qh_RANDOMint;
-	rangap= 1.0 - gap * randr/randmax;
-	factor= radius * rangap / norm;
-	for (j=0; j<gendim; j++)
-	  coord[j]= factor * coord[j];
+        if (!isgap) {
+          isgap= 1;
+          gap= 1.0;
+        }
+        randr= qh_RANDOMint;
+        rangap= 1.0 - gap * randr/randmax;
+        factor= radius * rangap / norm;
+        for (j=0; j<gendim; j++)
+          coord[j]= factor * coord[j];
       /* ============= dim-1 point of 'Ln s' distribution =========== */
       }else if (islens && issphere) {
-	if (!isgap) {
-	  isgap= 1;
-	  gap= 1.0;
-	}
-	randr= qh_RANDOMint;
-	rangap= 1.0 - gap * randr/randmax;
-	factor= rangap / norm;
-	for (j=0; j<gendim; j++)
-	  coord[j]= factor * coord[j];
+        if (!isgap) {
+          isgap= 1;
+          gap= 1.0;
+        }
+        randr= qh_RANDOMint;
+        rangap= 1.0 - gap * randr/randmax;
+        factor= rangap / norm;
+        for (j=0; j<gendim; j++)
+          coord[j]= factor * coord[j];
       /* ============= dim-1 point of 'Ln' distribution ========== */
       }else if (islens && !issphere) {
-	if (!isgap) {
-	  isgap= 1;
-	  gap= 1.0;
-	}
-	j= qh_RANDOMint % gendim;
-	if (coord[j] < 0)
-	  coord[j]= -1.0 - coord[j] * gap;
-	else
-	  coord[j]= 1.0 - coord[j] * gap;
+        if (!isgap) {
+          isgap= 1;
+          gap= 1.0;
+        }
+        j= qh_RANDOMint % gendim;
+        if (coord[j] < 0)
+          coord[j]= -1.0 - coord[j] * gap;
+        else
+          coord[j]= 1.0 - coord[j] * gap;
       /* ============= point of 'l' distribution =============== */
       }else if (isspiral) {
-	if (dim != 3) {
-	  qh_fprintf_rbox(rbox.ferr, 6199, "rbox error: spiral distribution is available only in 3d\n\n");
-	  longjmp(rbox.errexit,qh_ERRinput);
-	}
-	coord[0]= cos(2*PI*i/(numpoints - 1));
-	coord[1]= sin(2*PI*i/(numpoints - 1));
-	coord[2]= 2.0*(double)i/(double)(numpoints-1) - 1.0;
+        if (dim != 3) {
+          qh_fprintf_rbox(rbox.ferr, 6199, "rbox error: spiral distribution is available only in 3d\n\n");
+          longjmp(rbox.errexit,qh_ERRinput);
+        }
+        coord[0]= cos(2*PI*i/(numpoints - 1));
+        coord[1]= sin(2*PI*i/(numpoints - 1));
+        coord[2]= 2.0*(double)i/(double)(numpoints-1) - 1.0;
       /* ============= point of 's' distribution =============== */
       }else if (issphere) {
-	factor= 1.0/norm;
-	if (iswidth) {
-	  randr= qh_RANDOMint;
-	  factor *= 1.0 - width * randr/randmax;
-	}
-	for (j=0; j<dim; j++)
-	  coord[j]= factor * coord[j];
+        factor= 1.0/norm;
+        if (iswidth) {
+          randr= qh_RANDOMint;
+          factor *= 1.0 - width * randr/randmax;
+        }
+        for (j=0; j<dim; j++)
+          coord[j]= factor * coord[j];
       }
       /* ============= project 'Zn s' point in to sphere =============== */
       if (isaxis && issphere) {
-	coord[dim-1]= 1.0;
-	norm= 1.0;
-	for (j=0; j<gendim; j++)
+        coord[dim-1]= 1.0;
+        norm= 1.0;
+        for (j=0; j<gendim; j++)
           norm += coord[j] * coord[j];
         norm= sqrt(norm);
         for (j=0; j<dim; j++)
@@ -673,7 +673,7 @@ int qh_rboxpoints(FILE* fout, FILE* ferr, char* rbox_command) {
         coord[dim-1]= 2.0 * randr/randmax - 1.0;
       /* ============= project 'Ln' point out to sphere =============== */
       }else if (islens) {
-	coord[dim-1]= lensbase;
+        coord[dim-1]= lensbase;
         for (j=0, norm= 0; j<dim; j++)
           norm += coord[j] * coord[j];
         norm= sqrt(norm);
@@ -697,7 +697,7 @@ int qh_rboxpoints(FILE* fout, FILE* ferr, char* rbox_command) {
       /* ============= write point =============== */
       if (iscdd)
         out1( 1.0);
-      for (k=0; k < dim; k++) 
+      for (k=0; k < dim; k++)
         out1( coord[k] * box);
       qh_fprintf_rbox(rbox.fout, 9399, "\n");
     }
@@ -709,10 +709,10 @@ int qh_rboxpoints(FILE* fout, FILE* ferr, char* rbox_command) {
       if (iscdd)
         out1( 1.0);
       for (k=dim-1; k>=0; k--) {
-	if (j & ( 1 << k))
-	  out1( cube);
-	else
-	  out1( -cube);
+        if (j & ( 1 << k))
+          out1( cube);
+        else
+          out1( -cube);
       }
       qh_fprintf_rbox(rbox.fout, 9400, "\n");
     }
@@ -724,12 +724,12 @@ int qh_rboxpoints(FILE* fout, FILE* ferr, char* rbox_command) {
       if (iscdd)
         out1( 1.0);
       for (k=dim-1; k>=0; k--) {
-	if (j/2 != k)
-	  out1( 0.0);
-	else if (j & 0x1)
-	  out1( diamond);
-	else
-	  out1( -diamond);
+        if (j/2 != k)
+          out1( 0.0);
+        else if (j & 0x1)
+          out1( diamond);
+        else
+          out1( -diamond);
       }
       qh_fprintf_rbox(rbox.fout, 9401, "\n");
     }
@@ -766,7 +766,7 @@ int roundi( double a) {
 
 void out1(double a) {
 
-  if (rbox.isinteger) 
+  if (rbox.isinteger)
     qh_fprintf_rbox(rbox.fout, 9403, "%d ", roundi( a+rbox.out_offset));
   else
     qh_fprintf_rbox(rbox.fout, 9404, qh_REAL_1, a+rbox.out_offset);
@@ -780,7 +780,7 @@ void out2n( double a, double b) {
     qh_fprintf_rbox(rbox.fout, 9406, qh_REAL_2n, a+rbox.out_offset, b+rbox.out_offset);
 } /* out2n */
 
-void out3n( double a, double b, double c) { 
+void out3n( double a, double b, double c) {
 
   if (rbox.isinteger)
     qh_fprintf_rbox(rbox.fout, 9407, "%d %d %d\n", roundi(a+rbox.out_offset), roundi(b+rbox.out_offset), roundi(c+rbox.out_offset));

@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullSet.h#36 $$Change: 1150 $
-** $DateTime: 2010/01/04 22:43:14 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullSet.h#37 $$Change: 1164 $
+** $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -35,14 +35,14 @@ namespace orgQhull {
     //!  A QhullSet does not own its contents -- erase(), clear(), removeFirst(), removeLast(), pop_back(), pop_front(), fromStdList() not defined
     //!  Qhull's FOREACHelement_() [qset.h] is more efficient than QhullSet.  It uses a NULL terminator instead of an end pointer.  STL requires an end pointer.
     //!  Derived from QhullLinkedList.h and Qt/core/tools/qvector.h
-    
+
     //! QhullSetIterator<T> defined below
     //See: QhullPointSet, QhullLinkedList<T>
 
 class QhullSetBase {
 
 private:
-#//Fields -- 
+#//Fields --
     setT               *qh_set;
 
 #//Class objects
@@ -124,7 +124,7 @@ private:
     QhullSet<T>        &operator=(const QhullSet<T> &);
 public:
 
-#//Conversion 
+#//Conversion
 
 #ifndef QHULL_NO_STL
     std::vector<T>      toStdVector() const;
@@ -182,23 +182,23 @@ public:
 
 // FIXUP? can't use QHULL_DECLARE_SEQUENTIAL_ITERATOR because it is not a template
 
-template <typename T> 
-class QhullSetIterator { 
+template <typename T>
+class QhullSetIterator {
 
 #//Subtypes
-    typedef typename QhullSet<T>::const_iterator const_iterator; 
+    typedef typename QhullSet<T>::const_iterator const_iterator;
 
 private:
 #//Fields
-    const_iterator      i; 
-    const_iterator      begin_i; 
-    const_iterator      end_i; 
+    const_iterator      i;
+    const_iterator      begin_i;
+    const_iterator      end_i;
 
-public: 
+public:
 #//Constructors
-                        QhullSetIterator<T>(const QhullSet<T> &s) : i(s.begin()), begin_i(i), end_i(s.end()) {} 
-                        QhullSetIterator<T>(const QhullSetIterator<T> &o) : i(o.i), begin_i(o.begin_i), end_i(o.end_i) {} 
-    QhullSetIterator<T> &operator=(const QhullSetIterator<T> &o) { i= o.i; begin_i= o.begin_i; end_i= o.end_i; return *this; } 
+                        QhullSetIterator<T>(const QhullSet<T> &s) : i(s.begin()), begin_i(i), end_i(s.end()) {}
+                        QhullSetIterator<T>(const QhullSetIterator<T> &o) : i(o.i), begin_i(o.begin_i), end_i(o.end_i) {}
+    QhullSetIterator<T> &operator=(const QhullSetIterator<T> &o) { i= o.i; begin_i= o.begin_i; end_i= o.end_i; return *this; }
 
 #//ReadOnly
     int                 countRemaining() { return (int)(end_i-begin_i); } // WARN64
@@ -208,22 +208,22 @@ public:
     bool                findPrevious(const T &t);
 
 #//Foreach
-    bool                hasNext() const { return i != end_i; } 
-    bool                hasPrevious() const { return i != begin_i; } 
-    T                   next() { return *i++; } 
-    T                   peekNext() const { return *i; } 
-    T                   peekPrevious() const { const_iterator p = i; return *--p; } 
-    T                   previous() { return *--i; } 
-    void                toBack() { i = end_i; } 
-    void                toFront() { i = begin_i; } 
+    bool                hasNext() const { return i != end_i; }
+    bool                hasPrevious() const { return i != begin_i; }
+    T                   next() { return *i++; }
+    T                   peekNext() const { return *i; }
+    T                   peekPrevious() const { const_iterator p = i; return *--p; }
+    T                   previous() { return *--i; }
+    void                toBack() { i = end_i; }
+    void                toFront() { i = begin_i; }
 };//class QhullSetIterator
 
 #//== Definitions =========================================
 
-#//Conversion 
+#//Conversion
 
 #ifndef QHULL_NO_STL
-template <typename T> 
+template <typename T>
 std::vector<T> QhullSet<T>::
 toStdVector() const
 {
@@ -238,7 +238,7 @@ toStdVector() const
 #endif
 
 #ifdef QHULL_USES_QT
-template <typename T> 
+template <typename T>
 QList<T> QhullSet<T>::
 toQList() const
 {
@@ -258,8 +258,8 @@ T QhullSet<T>::
 value(int idx) const
 {
     // Avoid call to qh_setsize() and assert in elementPointer()
-    const T *n= reinterpret_cast<const T *>(&SETelem_(getSetT(), idx)); 
-    return (idx>=0 && n<end()) ? *n : T(); 
+    const T *n= reinterpret_cast<const T *>(&SETelem_(getSetT(), idx));
+    return (idx>=0 && n<end()) ? *n : T();
 }//value
 
 template <typename T>
@@ -267,16 +267,16 @@ T QhullSet<T>::
 value(int idx, const T &defaultValue) const
 {
     // Avoid call to qh_setsize() and assert in elementPointer()
-    const T *n= reinterpret_cast<const T *>(&SETelem_(getSetT(), idx)); 
-    return (idx>=0 && n<end()) ? *n : defaultValue; 
+    const T *n= reinterpret_cast<const T *>(&SETelem_(getSetT(), idx));
+    return (idx>=0 && n<end()) ? *n : defaultValue;
 }//value
 
 #//Search
 
 template <typename T>
 bool QhullSet<T>::
-contains(const T &t) const 
-{ 
+contains(const T &t) const
+{
     setT *s= getSetT();
     void *e= t.getBaseT();  // contains() is not inline for better error reporting
     int result= qh_setin(s, e);
@@ -345,7 +345,7 @@ findPrevious(const T &t)
 #//== Global namespace =========================================
 
 template <typename T>
-std::ostream &  
+std::ostream &
 operator<<(std::ostream &os, const orgQhull::QhullSet<T> &qs)
 {
     const T *i= qs.begin();
