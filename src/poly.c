@@ -403,6 +403,7 @@ unsigned qh_gethash (int hashsize, setT *set, int size, int firstindex, void *sk
   void **elemp= SETelemaddr_(set, firstindex, void);
   ptr_intT hash = 0, elem;
   int i;
+  unsigned result;
 
   switch (size-firstindex) {
   case 1:
@@ -441,9 +442,10 @@ unsigned qh_gethash (int hashsize, setT *set, int size, int firstindex, void *sk
     }while(*elemp);
     break;
   }
-  hash %= (ptr_intT) hashsize;
-  /* hash= 0; for debugging purposes */
-  return hash;
+  result= (unsigned)hash;
+  result %= (unsigned)hashsize;
+  /* result= 0; for debugging purposes */
+  return result;
 } /* gethash */
 
 /*-<a                             href="qh-poly.htm#TOC"
