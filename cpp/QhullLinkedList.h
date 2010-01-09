@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullLinkedList.h#31 $$Change: 1164 $
-** $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullLinkedList.h#32 $$Change: 1167 $
+** $DateTime: 2010/01/08 19:03:17 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -177,7 +177,7 @@ public:
 };//QhullLinkedList
 
 template <typename T>
-class QhullLinkedListIterator // FiXUP define QhullMutableLinkedListIterator
+class QhullLinkedListIterator // FiXUP QH10000 define QhullMutableLinkedListIterator
 {
     typedef typename QhullLinkedList<T>::const_iterator const_iterator;
     const QhullLinkedList<T> *c;

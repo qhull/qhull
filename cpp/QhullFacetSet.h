@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullFacetSet.h#20 $$Change: 1164 $
-** $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullFacetSet.h#21 $$Change: 1167 $
+** $DateTime: 2010/01/08 19:03:17 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -67,7 +67,7 @@ public:
     // Not same as QhullFacetList#IO.  A QhullFacetSet is a component of a QhullFacetList.
 
     struct PrintFacetSet{
-        const QhullFacetSet *facet_set; // FIXUP should Print... use pointers?
+        const QhullFacetSet *facet_set;
         const char     *message;
         int             run_id;
                         PrintFacetSet(int qhRunId, const char *message, const QhullFacetSet *s) : facet_set(s), message(message), run_id(qhRunId) {}
@@ -87,7 +87,7 @@ public:
 
 #//== Global namespace =========================================
 
-std::ostream &operator<<(std::ostream &os, const orgQhull::QhullFacetSet &fs); // FIXUP no 'const ...PrintFacetSet as below! { os << fs.print(orgQhull::UsingLibQhull::NOqhRunId, ""); }
+std::ostream &operator<<(std::ostream &os, const orgQhull::QhullFacetSet &fs); // FIXUP QH10000 no 'const ...PrintFacetSet as below! { os << fs.print(orgQhull::UsingLibQhull::NOqhRunId, ""); }
 std::ostream &operator<<(std::ostream &os, const orgQhull::QhullFacetSet::PrintFacetSet &pr);
 std::ostream &operator<<(std::ostream &os, const orgQhull::QhullFacetSet::PrintIdentifiers &p);
 

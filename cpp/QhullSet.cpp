@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullSet.cpp#18 $$Change: 1164 $
-** $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullSet.cpp#19 $$Change: 1167 $
+** $DateTime: 2010/01/08 19:03:17 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -33,9 +33,9 @@ int QhullSetBase::count(const setT *set)
     if ((size= *sizep)) {
         size--;
         if (size > set->maxsize) {
+            // FIXUP QH10000 How to add additional output to a error? -- qh_setprint(qhmem.ferr, "set: ", set);
             throw QhullError(10032, "QhullSet internal error: current set size %d is greater than maximum size %d\n",
                 size, set->maxsize);
-            // FIXUP -- qh_setprint(qhmem.ferr, "set: ", set);
         }
     }else
         size= set->maxsize;

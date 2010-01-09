@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2009-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullPointSet.h#18 $$Change: 1164 $
-** $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullPointSet.h#19 $$Change: 1167 $
+** $DateTime: 2010/01/08 19:03:17 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -45,7 +45,7 @@ public:
     typedef QhullPoint  value_type;
     typedef ptrdiff_t   difference_type;
     typedef int         size_type;
-    //typedef const value_type *const_pointer;    // FIXUP: Pointers and reference types not available due to missing dimension
+    //typedef const value_type *const_pointer;    // FIXUP QH10000: QhullPointSet does not define pointer or reference due to point_dimension
     //typedef const value_type &const_reference;
     //typedef value_type *pointer;
     //typedef value_type &reference;
@@ -204,7 +204,7 @@ public:
 
 #//IO
     struct PrintIdentifiers{
-        const QhullPointSet *point_set; // FIXUP should Print... use pointers?
+        const QhullPointSet *point_set;
         const char     *message;
         int             run_id;
         PrintIdentifiers(const char *message, const QhullPointSet *s) : point_set(s), message(message) {}
@@ -212,7 +212,7 @@ public:
     PrintIdentifiers printIdentifiers(const char *message) const { return PrintIdentifiers(message, this); }
 
     struct PrintPointSet{
-        const QhullPointSet *point_set; // FIXUP should Print... use pointers?
+        const QhullPointSet *point_set;
         const char     *message;
         int             run_id;
         PrintPointSet(int qhRunId, const char *message, const QhullPointSet &s) : point_set(&s), message(message), run_id(qhRunId) {}
@@ -223,7 +223,7 @@ public:
 };//QhullPointSet
 
 //derived from qiterator.h
-class QhullPointSetIterator { // FiXUP define QhullMutablePointSetIterator
+class QhullPointSetIterator { // FiXUP QH10000 define QhullMutablePointSetIterator
     typedef QhullPointSet::const_iterator const_iterator;
     const QhullPointSet *c;
     const_iterator      i;

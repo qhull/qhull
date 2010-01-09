@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2009-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullPoint.cpp#26 $$Change: 1139 $
-** $DateTime: 2010/01/03 11:20:29 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullPoint.cpp#27 $$Change: 1167 $
+** $DateTime: 2010/01/08 19:03:17 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -61,7 +61,7 @@ operator==(const QhullPoint &other) const
         dist2 += diff*diff;
     }
     double epsilon= UsingLibQhull::globalDistanceEpsilon();
-    // std::cout << "FIXUP dist2 " << dist2 << " epsilon^2 " << epsilon*epsilon << std::endl;
+    // std::cout << "DEBUG dist2 " << dist2 << " epsilon^2 " << epsilon*epsilon << std::endl;
     return (dist2<=(epsilon*epsilon));
 }//operator==
 
@@ -133,7 +133,7 @@ operator<<(ostream &os, const QhullPoint &p)
 ostream &
 operator<<(ostream &os, const QhullPoint::PrintPoint &pr)
 {
-    QhullPoint p= *pr.point; // FIXUP null point
+    QhullPoint p= *pr.point; 
     int i= p.id(pr.run_id);
     if(pr.point_message){
         if(*pr.point_message){
@@ -147,9 +147,9 @@ operator<<(ostream &os, const QhullPoint::PrintPoint &pr)
     for(int k=p.dimension(); k--; ){
         realT r= *c++;
         if(pr.point_message){
-            os << " " << r; // FIXUP %8.4g
+            os << " " << r; // FIXUP QH10010 %8.4g
         }else{
-            os << " " << r; // FIXUP qh_REAL_1
+            os << " " << r; // FIXUP QH10010 qh_REAL_1
         }
     }
     os << std::endl;

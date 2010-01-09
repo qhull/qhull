@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullRidge.cpp#16 $$Change: 1164 $
-** $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullRidge.cpp#17 $$Change: 1167 $
+** $DateTime: 2010/01/08 19:03:17 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -76,9 +76,13 @@ operator<<(ostream &os, const QhullRidge::PrintRidge &pr)
     }
     os << endl;
     os << r.vertices().print(pr.run_id, "           vertices:");
-    //FIXUP -- what if top or bottom are NULL?
     if(r.getRidgeT()->top && r.getRidgeT()->bottom){
         os << "           between f" << r.topFacet().id() << " and f" << r.bottomFacet().id() << endl;
+    }else if(r.getRidgeT()->top){
+        os << "           top f" << r.topFacet().id() << endl;
+    }else if(r.getRidgeT()->bottom){
+        os << "           bottom f" << r.bottomFacet().id() << endl;
     }
+
     return os;
 }//<< PrintRidge

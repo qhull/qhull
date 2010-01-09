@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/Qhull.h#37 $$Change: 1164 $
-** $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/Qhull.h#38 $$Change: 1167 $
+** $DateTime: 2010/01/08 19:03:17 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -59,7 +59,7 @@ private:
 public:
     Coordinates         feasiblePoint;  //! feasible point for half-space intersection
     bool                useOutputStream; //! Set if using outputStream
-    // FIXUP 2009 feasiblePoint useOutputStream as field or getter?
+    // FIXUP QH10003 feasiblePoint useOutputStream as field or getter?
 
 #//constructor, assignment, destructor, invariant
                         Qhull();      //! Qhull::runQhull() must be called next
@@ -73,7 +73,7 @@ private:
 
 public:
 #//virtual methods
-    //FIXUP 2009 -- qh_memfree, etc. as virtual?
+    //FIXUP QH10004 -- qh_memfree, etc. as virtual?
 
 #//Messaging
     void                appendQhullMessage(const std::string &s);

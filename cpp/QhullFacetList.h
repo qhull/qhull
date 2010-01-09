@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullFacetList.h#22 $$Change: 1164 $
-** $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullFacetList.h#23 $$Change: 1167 $
+** $DateTime: 2010/01/08 19:03:17 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -97,10 +97,6 @@ public:
 std::ostream &operator<<(std::ostream &os, const orgQhull::QhullFacetList::PrintFacetList &p);
 std::ostream &operator<<(std::ostream &os, const orgQhull::QhullFacetList::PrintFacets &p);
 std::ostream &operator<<(std::ostream &os, const orgQhull::QhullFacetList::PrintVertices &p);
-
-// FIXUP -- why did <<facetList work and the others did not?
-// print() not available since printVertices() requires qhRunId.
-// [9/09] added const
-inline std::ostream &operator<<(std::ostream &os, const orgQhull::QhullFacetList &fs) { os << fs.printFacets(orgQhull::UsingLibQhull::NOqhRunId); return os; }
+std::ostream &operator<<(std::ostream &os, const orgQhull::QhullFacetList &fs) { os << fs.printFacets(orgQhull::UsingLibQhull::NOqhRunId); return os; }
 
 #endif // QHULLFACETLIST_H

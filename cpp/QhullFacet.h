@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullFacet.h#36 $$Change: 1164 $
-** $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullFacet.h#37 $$Change: 1167 $
+** $DateTime: 2010/01/08 19:03:17 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -99,7 +99,7 @@ public:
 
 #//IO
     struct PrintCenter{
-        QhullFacet     *facet;  //! Not const due to facet.center()
+        QhullFacet     *facet;  // non-const due to facet.center()
         const char     *message;
         int             run_id;
         qh_PRINT        print_format;
@@ -108,28 +108,28 @@ public:
     PrintCenter         printCenter(int qhRunId, qh_PRINT printFormat, const char *message) { return PrintCenter(qhRunId, *this, printFormat, message); }
 
     struct PrintFacet{
-        QhullFacet     *facet;  //! FIXUP, non-const due to f->center()
+        QhullFacet     *facet;  // non-const due to f->center()
         int             run_id;
                         PrintFacet(int qhRunId, QhullFacet &f) : facet(&f), run_id(qhRunId) {}
     };//PrintFacet
     PrintFacet          print(int qhRunId) { return PrintFacet(qhRunId, *this); }
 
     struct PrintFlags{
-        const QhullFacet *facet; // Pointer to allow as subclass
+        const QhullFacet *facet;
         const char     *message;
                         PrintFlags(const QhullFacet &f, const char *s) : facet(&f), message(s) {}
     };//PrintFlags
     PrintFlags          printFlags(const char *message) const { return PrintFlags(*this, message); }
 
     struct PrintHeader{
-        QhullFacet     *facet;  //! FIXUP, non-const due to f->center()
+        QhullFacet     *facet;  // non-const due to f->center()
         int             run_id;
                         PrintHeader(int qhRunId, QhullFacet &f) : facet(&f), run_id(qhRunId) {}
     };//PrintHeader
     PrintHeader         printHeader(int qhRunId) { return PrintHeader(qhRunId, *this); }
 
     struct PrintRidges{
-        QhullFacet     *facet;
+        const QhullFacet *facet;
         int             run_id;
                         PrintRidges(int qhRunId, QhullFacet &f) : facet(&f), run_id(qhRunId) {}
     };//PrintRidges
@@ -146,6 +146,6 @@ std::ostream &operator<<(std::ostream &os, const orgQhull::QhullFacet::PrintFlag
 std::ostream &operator<<(std::ostream &os, const orgQhull::QhullFacet::PrintHeader &pr);
 std::ostream &operator<<(std::ostream &os, const orgQhull::QhullFacet::PrintRidges &pr);
 std::ostream &operator<<(std::ostream &os, const orgQhull::QhullFacet::PrintFacet &pr);
-std::ostream &operator<<(std::ostream &os, orgQhull::QhullFacet &f); //FIXUP.  No conversion! { os << f.print(orgQhull::UsingLibQhull::NOqhRunId); return os; } // FIXUP non-const due to center.  Make it mutable?
+std::ostream &operator<<(std::ostream &os, orgQhull::QhullFacet &f); // non-const due to qh_getcenter()
 
 #endif // QHULLFACET_H

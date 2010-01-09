@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/RboxPoints.cpp#33 $$Change: 1164 $
-** $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/RboxPoints.cpp#34 $$Change: 1167 $
+** $DateTime: 2010/01/08 19:03:17 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -72,7 +72,7 @@ operator=(const RboxPoints &other)
 
 
 RboxPoints::
-~RboxPoints() // FIXUP call destructor for PointCoordinates?
+~RboxPoints() 
 {}
 
 #//Error

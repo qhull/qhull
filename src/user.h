@@ -48,6 +48,7 @@ Code flags --
   If add new messages, assign these values and increment.
 
   def counters = [27, 1047, 2059, 3025, 4068, 5003, 6233, 7079, 8143, 9410]
+  10011-10016 available
 
   See: qh_ERR* [libqhull.h]
 */
@@ -62,6 +63,7 @@ Code flags --
 #define MSG_WARNING 7000
 #define MSG_STDERR  8000  /* log messages Written to qh.ferr */
 #define MSG_OUTPUT  9000
+#define MSG_FIXUP  10000
 #define MSG_MAXLEN  3000 /* qh_printhelp_degenerate() in user.c */
 
 

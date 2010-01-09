@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullSet.h#37 $$Change: 1164 $
-** $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullSet.h#38 $$Change: 1167 $
+** $DateTime: 2010/01/08 19:03:17 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -356,7 +356,5 @@ operator<<(std::ostream &os, const orgQhull::QhullSet<T> &qs)
     }
     return os;
 }//operator<<
-
-//FIXUP add runId to set.operator<<
 
 #endif // QhullSet_H

@@ -48,7 +48,7 @@ Qhull cpp questions
  - How to avoid copy constructor while logging, maybeThrowQhullMessage()
  - How to configure Qhull output.  Trace and results should go to stdout/stderr
  - Qhull and RboxPoints messaging.  e.g., ~Qhull, hasQhullMessage()
- -  rename as QhullErrorMessage?
+ -  rename as QhullErrorMessage?  How to add additional output, e.g., qh_setprint
  - Is idx the best name for an index?  It's rather cryptic, but BSD strings.h defines index().
  - Qhull::feasiblePoint Qhull::useOutputStream as field or getter?
  - Define virtual functions for user customization of Qhull (e.g., qh_fprintf, qh_memfree,etc.)
@@ -67,27 +67,41 @@ Qhull cpp questions
  - Also --, +=, and -=
         iterator       &operator++() { return iterator(i++); }
  - if vector<coordT> inheritance is bad, is QhullVertexSet OK?
+ - Should QhullPointSet define pointer and reference data types?
+ - Allow UsingQhullLib to work with static allocation of qh_qh
 
 To do
  - ConvexHull is a submodule to git.  How to get rid of?
- - Review Warn64
  - Abandon savannah
- - Measure performance of Qhull
+ - Measure performance of Qhull, seconds per point by dimension
  - qhulltest --all added to output
  - Add test of user_eg3, etc.
- - Check for wraparound of 64-bit ints -- e.g., a large set
+ - Check for wraparound of 64-bit ints -- e.g., a large set or points
  - Add config directory to Qhull
+ - Remove user_eg and user_eg2 from distribution
+ - Add md5sum
  - Generate vcproj from qtpro files
    cd qtpro && qmake -spec win32-msvc2005 -tp vc -recursive
    sed -i 's/C\:\/bash\/local\/qhull\/qtpro\///' qhull-all.sln
    Change qhullcpp to libqhull.dll
    Allow both builds on same host (keep /tmp separate)
  - Make distribution -- remove tmp, news, .git, leftovers from project, change CRLF
+ -   search for 2010.1, Dates
+ - update http://compgeom.cs.uiuc.edu/~jeffe/compgeom/code.html#topes
+ - Notify geom discussion list
+ - Develop patch for qh_gethash
+ - update FAQ and date.
+ - Notify Wolfram
+ - Review Warn64
  - review all #pragma
  - review all FIXUP [^0-9]
  - Number the FIXUPS
  - Review ptr_intT in qh_matchvertices [poly.c]
  - clean up warnings for libqhullcpp
+ - user.h qh_qhPOINTER 0 for qhull -- need two static libraries
+ - review os << QhullFacetSet vs QhullFacetList vs. QhullHyperplane vs. QhullPoint QhullRidge
+ - generate static qhull for qhull.exe
+ 
 
 qhull 2010.1 2010/01/07
  - Assign type to qh.old_qhstat and memT.tempstack [amorilia]

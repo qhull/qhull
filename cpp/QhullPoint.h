@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2009-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullPoint.h#32 $$Change: 1164 $
-** $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullPoint.h#33 $$Change: 1167 $
+** $DateTime: 2010/01/08 19:03:17 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -35,10 +35,6 @@ private:
 #//Fields
     coordT             *point_coordinates;  // Keep pointers aligned
     int                 point_dimension;
-    //FIXUP C2063: 'operator<<' : not a function
-    //friend std::ostream & ::operator<<(std::ostream &os, QhullPoint &p);
-    //FIXUP QhullFacet_test.cpp error C2679: binary '<<' : no operator found which takes a right-hand operand of type 'orgQhull::Coordinates'
-    //friend std::ostream &operator<<(std::ostream &os, QhullPoint &p);
 
 public:
 #//Subtypes
@@ -108,7 +104,7 @@ public:
     coordT             &operator[](int idx) { QHULL_ASSERT(idx>=0 && idx<point_dimension); return *(point_coordinates+idx); }
 
     struct PrintPoint{
-        const QhullPoint  *point;    //! FIXUP elsewhere.  const is OK now
+        const QhullPoint  *point;
         const char     *point_message;
         int             run_id;
         bool            with_identifier;
@@ -128,7 +124,7 @@ QHULL_DECLARE_SEQUENTIAL_ITERATOR(QhullPoint, coordT)
 #//Global functions
 
 std::ostream &operator<<(std::ostream &os, const orgQhull::QhullPoint::PrintPoint &pr);
-std::ostream &operator<<(std::ostream &os, const orgQhull::QhullPoint &p); // FIXUP OK in c program but not inline { os << p.print(orgQhull::UsingLibQhull::NOqhRunId, ""); return os; }
+std::ostream &operator<<(std::ostream &os, const orgQhull::QhullPoint &p); // FIXUP QH10000 OK in c program but not inline { os << p.print(orgQhull::UsingLibQhull::NOqhRunId, ""); return os; }
 
 #endif // QHPOINT_H
 

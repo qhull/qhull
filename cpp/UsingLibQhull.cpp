@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/UsingLibQhull.cpp#5 $$Change: 1164 $
-** $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/UsingLibQhull.cpp#6 $$Change: 1167 $
+** $DateTime: 2010/01/08 19:03:17 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -45,7 +45,7 @@ int UsingLibQhull::
 s_points_dimension= 0;
 
 int UsingLibQhull::
-s_vertex_dimension= 0;  // FIXUP: required if dimension>15
+s_vertex_dimension= 0;  // FIXUP QH10000: s_vertex_dimension is required if dimension>15.  Cannot store in QhullVertex
 
 bool UsingLibQhull::
 s_has_points= false;
@@ -94,7 +94,7 @@ UsingLibQhull(Qhull *q)
     qhullqh->old_qhstat= 0;
     qhullqh->old_tempstack= 0;
 #else
-    #error FIXUP static qh_qh not tested.  Delete the line to try.
+    #error FIXUP QH10000 static qh_qh not tested.  Delete the line to try.
     if(qhullqh!=&qh_qh){
         throw QhullError(10040, "Qhull internal error: Qhull.qhullQh() is not qh_qh (%x, static).  Overwrite?", 0,0,0.0, &qh_qh);
     }

@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2009-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullPoints.h#29 $$Change: 1164 $
-** $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullPoints.h#30 $$Change: 1167 $
+** $DateTime: 2010/01/08 19:03:17 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -158,7 +158,7 @@ public:
         difference_type operator-(iterator other) const { QHULL_ASSERT(dimension()==other.dimension()); return (coordinates()-other.coordinates())/dimension(); }
     };//QhullPoints::iterator
 
-#//QhullPoints::const_iterator //FIXUP what does const_... mean?
+#//QhullPoints::const_iterator -- FIXUP QH10000 const_iterator same as iterator
     class const_iterator : public QhullPoint {
 
     public:
@@ -197,7 +197,7 @@ public:
 
 #//IO
     struct PrintPoints{
-        const QhullPoints  *points;    //! FIXUP elsewhere.  const is OK now
+        const QhullPoints  *points;
         const char     *point_message;
         int             run_id;
         bool            with_identifier;
@@ -210,7 +210,7 @@ public:
     //FIXUP remove message for print()?
 };//QhullPoints
 
-// FIXUP -- can't use macro because next(),etc would return a reference to a temporary -- QHULL_DECLARE_SEQUENTIAL_ITERATOR(QhullPoints, QhullPoint)
+// can't use QHULL_DECLARE_SEQUENTIAL_ITERATOR because next(),etc would return a reference to a temporary
 class QhullPointsIterator
 {
     typedef QhullPoints::const_iterator const_iterator;

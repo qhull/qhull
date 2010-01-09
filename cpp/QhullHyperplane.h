@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2009-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullHyperplane.h#11 $$Change: 1164 $
-** $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullHyperplane.h#12 $$Change: 1167 $
+** $DateTime: 2010/01/08 19:03:17 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -99,7 +99,7 @@ public:
 
 #//IO
     struct PrintHyperplane{
-        const QhullHyperplane  *hyperplane;    //! FIXUP elsewhere.  const is OK now
+        const QhullHyperplane  *hyperplane;  
         const char     *hyperplane_message;
         const char     *hyperplane_offset_message;
                         PrintHyperplane(const char *message, const char *offsetMessage, const QhullHyperplane &p) : hyperplane(&p), hyperplane_message(message), hyperplane_offset_message(offsetMessage) {}
@@ -116,7 +116,7 @@ QHULL_DECLARE_SEQUENTIAL_ITERATOR(QhullHyperplane, coordT)
 #//Global functions
 
 std::ostream &operator<<(std::ostream &os, const orgQhull::QhullHyperplane::PrintHyperplane &pr);
-std::ostream &operator<<(std::ostream &os, const orgQhull::QhullHyperplane &p); //FIXUP -- multiple instances if define here
+std::ostream &operator<<(std::ostream &os, const orgQhull::QhullHyperplane &p); //FIXUP QH10000 -- multiple instances if define here
 
 #endif // QHHYPERPLANE_H
 

@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/Qhull.cpp#42 $$Change: 1164 $
-** $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/Qhull.cpp#43 $$Change: 1167 $
+** $DateTime: 2010/01/08 19:03:17 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -134,7 +134,7 @@ Qhull::
             qhull_run_id= UsingLibQhull::NOqhRunId;
             // Except for cerr, does not throw errors
             if(hasQhullMessage()){
-                cerr<< "\nQhull output at end\n"; //FIXUP 2009: where should error and log messages go on ~Qhull?
+                cerr<< "\nQhull output at end\n"; //FIXUP QH10005: where should error and log messages go on ~Qhull?
                 cerr<<qhullMessage();
                 clearQhullMessage();
             }
@@ -172,7 +172,7 @@ bool Qhull::
 hasQhullMessage() const
 {
     return (!qhull_message.empty() || qhull_status!=qh_ERRnone);
-    //FIXUP 2009 -- inconsistent usage with Rbox.  hasRboxMessage just tests rbox_status.  No appendRboxMessage()
+    //FIXUP QH10006 -- inconsistent usage with Rbox.  hasRboxMessage just tests rbox_status.  No appendRboxMessage()
 }
 
 //! qhullMessage does not throw errors (~Qhull)
@@ -417,7 +417,7 @@ maybeThrowQhullMessage(int exitCode)
     if(qhull_status!=qh_ERRnone){
         QhullError e(qhull_status, qhull_message);
         clearQhullMessage();
-        throw e; // FIXUP 2009: copy constructor is expensive if logging
+        throw e; // FIXUP QH10007: copy constructor is expensive if logging
     }
 }//maybeThrowQhullMessage
 
@@ -480,7 +480,7 @@ void qh_fprintf(FILE *fp, int msgcode, const char *fmt, ... ) {
         va_end(args);
         return;
     }
-    // FIXUP 2009: how do users trap messages and handle input?  A callback?
+    // FIXUP QH10008: how do users trap messages and handle input?  A callback?
     char newMessage[MSG_MAXLEN];
     vsnprintf(newMessage, sizeof(newMessage), fmt, args);
     out->appendQhullMessage(newMessage);

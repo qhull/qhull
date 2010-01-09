@@ -7,8 +7,8 @@
    see qh-qhull.htm, qhull_a.h
 
    copyright (c) 1993-2010 The Geometry Center.
-   $Id: //product/qhull/main/rel/src/libqhull.h#6 $$Change: 1164 $
-   $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
+   $Id: //product/qhull/main/rel/src/libqhull.h#7 $$Change: 1167 $
+   $DateTime: 2010/01/08 19:03:17 $$Author: bbarber $
 
    NOTE: access to qh_qh is via the 'qh' macro.  This allows
    qh_qh to be either a pointer or a structure.  An example
@@ -771,8 +771,8 @@ struct qhT {
   >--------------------------------</a><a name="getid_">-</a>
 
   getid_(p)
-    return ID for facet, ridge, or vertex
-    FIXUP: return MAXINT if NULL (-1 causes type conversion error )
+    return int ID for facet, ridge, or vertex
+    return -1 if NULL
 */
 #define getid_(p)       ((p) ? (int)((p)->id) : -1)
 

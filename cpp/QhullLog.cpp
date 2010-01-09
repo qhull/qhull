@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullLog.cpp#10 $$Change: 1164 $
-** $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullLog.cpp#11 $$Change: 1167 $
+** $DateTime: 2010/01/08 19:03:17 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -137,7 +137,7 @@ maybeCullEvents()
 {
     if(a_tail>=a_tail_end){
         if(a_tail-a_tail_end > a_max_overrun){
-            a_max_overrun= a_tail-a_tail_end; //FIXUP -- race condition
+            a_max_overrun= a_tail-a_tail_end; //FIXUP -- race condition, code not in Qhull
         }
         a_tail= 0;
     }

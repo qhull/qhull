@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/road/RoadError.h#20 $$Change: 1164 $
-** $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/road/RoadError.h#21 $$Change: 1167 $
+** $DateTime: 2010/01/08 19:03:17 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -70,7 +70,7 @@ public:
 #//GetSet
     bool                defined() const { return log_event.defined(); }
     int                 errorCode() const { return error_code; };
-   // FIXUP std::string         errorMessage() const { return error_message; }; //! Populated by throw
+   // FIXUP QH10000 should RoadError provide errorMessage().  Currently what()
     RoadLogEvent        roadLogEvent() const { return log_event; };
 
 #//Update
