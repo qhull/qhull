@@ -1,5 +1,6 @@
 # -------------------------------------------------
 # libqhull.pro -- Qt project for Qhull static library
+#   Built with qh_QHpointer=0.  See libqhullp.pro
 # -------------------------------------------------
 
 DESTDIR = ../..
