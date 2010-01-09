@@ -34,15 +34,15 @@ qhT qh_qh;     		/* all global variables.
     the revision increases on code changes only
 
   notes:
-    change date:    Changes.txt, Announce.txt, README.txt, 
-                    qhull.man, qhull.txt, qhull-news.html, Eudora signatures, 
+    change date:    Changes.txt, Announce.txt, README.txt,
+                    qhull.man, qhull.txt, qhull-news.html, Eudora signatures,
     change version: README.txt, qh-get.htm, File_id.diz, Makefile.txt
     change year:    Copying.txt
     check download size
     recompile user_eg.c, rbox.c, qhull.c, qconvex.c, qdelaun.c qvoronoi.c, qhalf.c
 */
 
-char *qh_version = "2009.1 2009/06/11";
+char *qh_version = "2009.1.1 2010/01/09";
 
 /*-<a                             href="qh-globa.htm#TOC"
   >-------------------------------</a><a name="appendprint">-</a>
@@ -62,10 +62,10 @@ void qh_appendprint (qh_PRINT format) {
     }
   }
 } /* appendprint */
-     
+
 /*-<a                             href="qh-globa.htm#TOC"
   >-------------------------------</a><a name="checkflags">-</a>
-  
+
   qh_checkflags( commandStr, hiddenFlags )
     errors if commandStr contains hiddenFlags
     hiddenFlags starts and ends with a space and is space deliminated (checked)
@@ -73,7 +73,7 @@ void qh_appendprint (qh_PRINT format) {
   notes:
     ignores first word (e.g., "qconvex i")
     use qh_strtol/strtod since strtol/strtod may or may not skip trailing spaces
-  
+
   see:
     qh_initflags() initializes Qhull according to commandStr
 */
@@ -87,7 +87,7 @@ void qh_checkflags(char *command, char *hiddenflags) {
     fprintf(qh ferr, "qhull error (qh_checkflags): hiddenflags must start and end with a space: \"%s\"", hiddenflags);
     qh_errexit(qh_ERRinput, NULL, NULL);
   }
-  if (strpbrk(hiddenflags, ",\n\r\t")) { 
+  if (strpbrk(hiddenflags, ",\n\r\t")) {
     fprintf(qh ferr, "qhull error (qh_checkflags): hiddenflags contains commas, newlines, or tabs: \"%s\"", hiddenflags);
     qh_errexit(qh_ERRinput, NULL, NULL);
   }
@@ -131,7 +131,7 @@ void qh_checkflags(char *command, char *hiddenflags) {
 	    if (strstr(hiddenflags, chkopt2))
 	      chkerr= chkopt2;
 	  }
-	}else if (key == 'Q' && isdigit(opt) && prevopt != 'b' 
+	}else if (key == 'Q' && isdigit(opt) && prevopt != 'b'
 	      && (prevopt == ' ' || islower(prevopt))) {
   	    chkopt[2]= opt;
 	    if (strstr(hiddenflags, chkopt))
@@ -152,10 +152,10 @@ void qh_checkflags(char *command, char *hiddenflags) {
     }
   }
 } /* checkflags */
-    
+
 /*-<a                             href="qh-globa.htm#TOC"
   >-------------------------------</a><a name="clock">-</a>
-  
+
   qh_clock()
     return user CPU time in 100ths (qh_SECtick)
     only defined for qh_CLOCKtype == 2
@@ -1064,18 +1064,18 @@ void qh_initflags(char *command) {
 	  if (!isdigit(*s)) {
 	    qh_option ("Q1-no-angle-sort", NULL, NULL);
 	    qh ANGLEmerge= False;
-	    break; 
+	    break;
 	  }
 	  switch(*s++) {
   	  case '0':
 	    qh_option ("Q10-no-narrow", NULL, NULL);
 	    qh NOnarrow= True;
-	    break; 
+	    break;
   	  case '1':
 	    qh_option ("Q11-trinormals Qtriangulate", NULL, NULL);
 	    qh TRInormals= True;
 	    qh TRIangulate= True;
-	    break; 
+	    break;
 	  default:
 	    s--;
 	    fprintf (qh ferr, "qhull warning: unknown 'Q' qhull option 1%c, rest ignored\n", (int)s[0]);
@@ -1446,7 +1446,7 @@ void qh_initqhull_globals (coordT *points, int numpoints, int dim, boolT ismallo
       qh MERGEexact= True;
       qh_option ("Qxact_merge", NULL, NULL);
     }
-  }else if (qh MERGEexact) 
+  }else if (qh MERGEexact)
     qh MERGING= True;
   if (!qh NOpremerge && qh JOGGLEmax > REALmax/2) {
 #ifdef qh_NOmerge
@@ -1500,7 +1500,7 @@ void qh_initqhull_globals (coordT *points, int numpoints, int dim, boolT ismallo
   if (qh SCALElast && !qh DELAUNAY && qh PRINTprecision)
     fprintf (qh ferr, "qhull input warning: option 'Qbb' (scale-last-coordinate) is normally used with 'd' or 'v'\n");
   qh DOcheckmax= (!qh SKIPcheckmax && qh MERGING );
-  qh KEEPnearinside= (qh DOcheckmax && !(qh KEEPinside && qh KEEPcoplanar) 
+  qh KEEPnearinside= (qh DOcheckmax && !(qh KEEPinside && qh KEEPcoplanar)
                           && !qh NOnearinside);
   if (qh MERGING)
     qh CENTERtype= qh_AScentrum;
@@ -1626,12 +1626,12 @@ qhull configuration warning (qh_RANDOMmax in user.h):\n\
     }else if (qh PRINTout[i] == qh_PRINTvertices) {
       if (qh VORONOI)
         qh_option ("Fvoronoi", NULL, NULL);
-      else 
+      else
         qh_option ("Fvertices", NULL, NULL);
     }
   }
   if (printcoplanar && qh DELAUNAY && qh JOGGLEmax < REALmax/2) {
-    if (qh PRINTprecision) 
+    if (qh PRINTprecision)
       fprintf (qh ferr, "qhull input warning: 'QJ' (joggle) will usually prevent coincident input sites for options 'Fc' and 'FP'\n");
   }
   if (!qh KEEPcoplanar && !qh KEEPinside && !qh ONLYgood) {
@@ -1679,7 +1679,7 @@ available for 4-d output (ignored).  Could use 'GDn' instead.\n");
     qh PRINTdim= qh hull_dim-1;
   }
 } /* initqhull_globals */
- 
+
 /*-<a                             href="qh-globa.htm#TOC"
   >-------------------------------</a><a name="initqhull_mem">-</a>
 
