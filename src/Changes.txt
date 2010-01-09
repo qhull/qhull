@@ -95,14 +95,13 @@ To do
  - review all FIXUP [^0-9]
  - Number the FIXUPS
  - clean up warnings for libqhullcpp
- - add labels to git for Qhull
- - Make backup
  
 Need help
  - ConvexHull is a submodule to git.  How to get rid of?
  - Set up configure and debian build.  If possible, please keep qhull-2010.1/ clean
-   Use qhull-2010.1/project/ for build-related files 
- - Set up CMake.  
+   http://savannah.nongnu.org/cvs/?group=qhull
+   Please use qhull-2010.1/project/ for build-related files 
+ - Set up CMake for cpp
  - The C++ interface needs work.  Give it a try and make it better.
  - Verify -fno-strict-aliasing is needed for gcc 4.1, 4.2, and 4.3 (q_test segfaults)
 
