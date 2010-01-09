@@ -274,12 +274,14 @@ Distributed files
   COPYING.txt          // copyright notice 
   QHULL-GO.pif         // Windows icon for qhull-go.bat
   Announce.txt         // announcement 
-  Changes.txt          // change history for Qhull and rbox 
+  CMakeLists.txt       // CMake file
   File_id.diz          // package descriptor
   index.htm            // Home page 
   html/qh-faq.htm      // Frequently asked questions
   html/qh-get.htm      // Download page
   html/index.htm       // Manual
+  src/Changes.txt      // change history for Qhull and rbox 
+  src/CMakeLists.txt   // CMake file
   src/Makefile.txt     // Makefile for Unix or cygwin 'make' 
   src/Mborland         // Makefile for Borland C++/Win32
   src/Make-config.sh   // Create Debian configure and automake
@@ -308,7 +310,7 @@ src/
      qhalf.exe
      qvoronoi.exe
      qhullcpp.dll
-     user_eg3.exe      // cpp demonstration 
+     user_eg3.exe      // C++ demonstration program 
      eg/qhull-go.bat   // DOS window
      qconvex.htm       // html manuals
      qdelaun.htm

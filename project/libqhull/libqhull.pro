@@ -24,6 +24,7 @@ RCC_DIR = ../../tmp/rcc
 
 VPATH= ../..
 OTHER_FILES += Announce.txt
+OTHER_FILES += CMakeLists.txt
 OTHER_FILES += COPYING.txt
 OTHER_FILES += File_id.diz
 OTHER_FILES += html/index.htm
@@ -57,6 +58,7 @@ OTHER_FILES += index.htm
 OTHER_FILES += README.txt
 OTHER_FILES += REGISTER.txt
 OTHER_FILES += src/Changes.txt
+OTHER_FILES += src/CMakeLists.txt
 OTHER_FILES += src/index.htm
 OTHER_FILES += src/Make-config.sh
 OTHER_FILES += src/Makefile.txt
