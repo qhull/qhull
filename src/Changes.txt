@@ -104,6 +104,7 @@ Need help
    Use qhull-2010.1/project/ for build-related files 
  - Set up CMake.  
  - The C++ interface needs work.  Give it a try and make it better.
+ - Verify -fno-strict-aliasing is needed for gcc 4.1, 4.2, and 4.3 (q_test segfaults)
 
 qhull 2010.1 2010/01/09
  - Patched qh_gethash.  See project/patch/qhull-2003.1 with patched poly.c and patch.

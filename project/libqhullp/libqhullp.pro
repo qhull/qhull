@@ -1,5 +1,6 @@
 # -------------------------------------------------
 # libqhullp.pro -- Qhull static library with qh_qhPointer
+#   see libqhull.pro
 # -------------------------------------------------
 
 DESTDIR = ../..
@@ -22,16 +23,16 @@ build_pass:CONFIG(debug, debug|release):{
 MOC_DIR = ../../tmp/moc
 RCC_DIR = ../../tmp/rcc
 
-VPATH= ../..
+# libqhull.pro and libqhullp.pro are the same
 SOURCES += src/geom.c
 SOURCES += src/geom2.c
 SOURCES += src/global.c
 SOURCES += src/io.c
+SOURCES += src/libqhull.c
 SOURCES += src/mem.c
 SOURCES += src/merge.c
 SOURCES += src/poly2.c
 SOURCES += src/poly.c
-SOURCES += src/libqhull.c
 SOURCES += src/qset.c
 SOURCES += src/random.c
 SOURCES += src/rboxlib.c
@@ -39,61 +40,13 @@ SOURCES += src/stat.c
 SOURCES += src/user.c
 SOURCES += src/usermem.c
 SOURCES += src/userprintf.c
-OTHER_FILES += Announce.txt
-OTHER_FILES += COPYING.txt
-OTHER_FILES += File_id.diz
-OTHER_FILES += html/index.htm
-OTHER_FILES += html/qconvex.htm
-OTHER_FILES += html/qdelau_f.htm
-OTHER_FILES += html/qdelaun.htm
-OTHER_FILES += html/qhalf.htm
-OTHER_FILES += html/qh-code.htm
-OTHER_FILES += html/qh-eg.htm
-OTHER_FILES += html/qh-faq.htm
-OTHER_FILES += html/qh-get.htm
-OTHER_FILES += html/qh-impre.htm
-OTHER_FILES += html/qh-optc.htm
-OTHER_FILES += html/qh-optf.htm
-OTHER_FILES += html/qh-optg.htm
-OTHER_FILES += html/qh-opto.htm
-OTHER_FILES += html/qh-optp.htm
-OTHER_FILES += html/qh-optq.htm
-OTHER_FILES += html/qh-optt.htm
-OTHER_FILES += html/qh-quick.htm
-OTHER_FILES += html/qhull.htm
-OTHER_FILES += html/qhull.man
-OTHER_FILES += html/qhull.txt
-OTHER_FILES += html/qhull-cpp.xml
-OTHER_FILES += html/qvoron_f.htm
-OTHER_FILES += html/qvoronoi.htm
-OTHER_FILES += html/rbox.htm
-OTHER_FILES += html/rbox.man
-OTHER_FILES += html/rbox.txt
-OTHER_FILES += index.htm
-OTHER_FILES += README.txt
-OTHER_FILES += REGISTER.txt
-OTHER_FILES += src/Changes.txt
-OTHER_FILES += src/index.htm
-OTHER_FILES += src/Make-config.sh
-OTHER_FILES += src/Makefile.txt
-OTHER_FILES += src/Mborland
-OTHER_FILES += src/qh-geom.htm
-OTHER_FILES += src/qh-globa.htm
-OTHER_FILES += src/qh-io.htm
-OTHER_FILES += src/qh-mem.htm
-OTHER_FILES += src/qh-merge.htm
-OTHER_FILES += src/qh-poly.htm
-OTHER_FILES += src/qh-qhull.htm
-OTHER_FILES += src/qh-set.htm
-OTHER_FILES += src/qh-stat.htm
-OTHER_FILES += src/qh-user.htm
 HEADERS += src/geom.h
 HEADERS += src/io.h
+HEADERS += src/libqhull.h
 HEADERS += src/mem.h
 HEADERS += src/merge.h
 HEADERS += src/poly.h
 # qhull.h is for backwards compatibility
-HEADERS += src/libqhull.h
 HEADERS += src/qhull_a.h
 HEADERS += src/qset.h
 HEADERS += src/random.h
