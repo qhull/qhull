@@ -1,6 +1,6 @@
 Name
 
-      qhull, rbox         2003.1           2003/12/30
+      qhull, rbox         2009.1           2009/06/11
   
 Convex hull, Delaunay triangulation, Voronoi diagrams, Halfspace intersection
  
@@ -9,7 +9,7 @@ Convex hull, Delaunay triangulation, Voronoi diagrams, Halfspace intersection
 
       Available from:
         <http://www.qhull.org>
-	<http://savannah.gnu.org/projects/qhull>
+	<http://savannah.nongnu.org/projects/qhull>
  
      Version 1 (simplicial only):
         <http://www.qhull.org/download/qhull-1.0.tar.gz>
@@ -44,9 +44,15 @@ Environment requirements
   Qhull is copyrighted software.  Please read COPYING.txt and REGISTER.txt
   before using or distributing Qhull.
 
+To cite Qhull, please use
+
+  Barber, C.B., Dobkin, D.P., and Huhdanpaa, H.T., "The Quickhull 
+  algorithm for convex hulls," ACM Trans. on Mathematical Software,
+  22(4):469-483, Dec 1996, http://www.qhull.org.
+
 To contribute to Qhull
 
-  Qhull is on Savannah at http://savannah.gnu.org/projects/qhull/
+  Qhull is on Savannah at http://savannah.nongnu.org/projects/qhull/
 
 Qhull on Windows 95, 98, ME, NT, 2000, XP
 
@@ -312,11 +318,11 @@ src/
 Authors:
 
   C. Bradford Barber                    Hannu Huhdanpaa
-  bradb@qhull.org                    hannu@qhull.org
+  bradb@qhull.org                       hannu@qhull.org
   
                     The Geometry Center
                     University of Minnesota
   
-  Qhull 1.0 was developed under NSF grants NSF/DMS-8920161 and
-  NSF-CCR-91-15793 750-7504 at the Geometry Center and Harvard 
+  Qhull 1.0 and 2.0 were developed under NSF grants NSF/DMS-8920161 
+  and NSF-CCR-91-15793 750-7504 at the Geometry Center and Harvard 
   University.  If you find Qhull useful, please let us know.

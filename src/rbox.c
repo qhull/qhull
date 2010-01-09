@@ -218,12 +218,15 @@ int main(int argc, char **argv) {
     	    s= argv[i]+1;
 	    if (*s)
 	      meshn= strtod (s, &s);
-	    if (*s == ',')
-	      meshm= strtod (++s, &s);
-	    else
+	    if (*s == ',') {
+              s++;
+	      meshm= strtod (s, &s);
+            } else
 	      meshm= 0.0;
-	    if (*s == ',')
-	      meshr= strtod (++s, &s);
+	    if (*s == ',') {
+              s++;
+	      meshr= strtod (s, &s);
+            }
 	    else
 	      meshr= sqrt (meshn*meshn + meshm*meshm);
 	    if (*s) {

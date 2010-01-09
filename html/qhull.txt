@@ -46,7 +46,7 @@ SYNOPSIS
 	- installation:	  README.txt
 	- see also:	  COPYING.txt, REGISTER.txt, Changes.txt
 	- WWW:	<http://www.qhull.org>
-        - CVS:  <http://savannah.gnu.org/projects/qhull/>
+        - CVS:  <http://savannah.nongnu.org/projects/qhull/>
         - mirror: <http://www6.uniovi.es/ftp/pub/mirrors/geom.umn.edu/software/ghindex.html>
 	- news:	<http://www.qhull.org/news>
 	- Geomview:  <http://www.geomview.org>
@@ -1158,7 +1158,7 @@ SEE ALSO
 
        Barber,	C.  B.,	 D.P.  Dobkin,	and  H.T. Huhdanpaa, "The
        Quickhull Algorithm for Convex Hulls," ACM Trans. on Math-
-       ematical		  Software,	      Dec.	    1996.
+       ematical	Software, 22(4):469-483, Dec. 1996.
        http://www.acm.org/pubs/citations/journals/toms/1996-22-4/p469-barber/
        http://citeseer.nj.nec.com/83502.html
 
@@ -1190,8 +1190,8 @@ ACKNOWLEDGEMENTS
        Geometry	Center,	Harvard	University, and	Endocardial Solu-
        tions, Inc. for supporting this work.
 
-       The software was	developed under	National Science  Founda-
-       tion grants NSF/DMS-8920161 and NSF-CCR-91-15793	750-7504.
+       Qhull 1.0 and 2.0 were developed under National Science Foundation 
+       grants NSF/DMS-8920161 and NSF-CCR-91-15793 750-7504.  David Dobkin 
 
 
 
@@ -1204,15 +1204,13 @@ Geometry Center		     2003/12/30		       18
 qhull(1)						 qhull(1)
 
 
-       David Dobkin guided the original	work at	Princeton Univer-
-       sity.  If you find it useful, please let	us know.
+       guided the original work at Princeton University.  
 
-       The Geometry Center is supported	by grant DMS-8920161 from
-       the  National  Science  Foundation,   by	  grant	  DOE/DE-
-       FG02-92ER25137  from the	Department of Energy, by the Uni-
-       versity of Minnesota, and by Minnesota Technology, Inc.
+       The Geometry Center is supported by grant DMS-8920161 from the National
+       Science Foundation, by grant DOE/DE-FG02-92ER25137 from the Department
+       of Energy, by the University of Minnesota, and by Minnesota Technology, Inc.
 
-       Qhull is available at http://www.qhull.org
+       Qhull is available from http://www.qhull.org
 
 
 

@@ -42,7 +42,7 @@ qhT qh_qh;     		/* all global variables.
     recompile user_eg.c, rbox.c, qhull.c, qconvex.c, qdelaun.c qvoronoi.c, qhalf.c
 */
 
-char *qh_version = "2003.1 2003/12/30";
+char *qh_version = "2009.1 2009/06/11";
 
 /*-<a                             href="qh-globa.htm#TOC"
   >-------------------------------</a><a name="appendprint">-</a>

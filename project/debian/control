@@ -1,0 +1,56 @@
+Source: qhull
+Section: math
+Priority: optional
+Maintainer: Rafael Laboissiere <rafael@debian.org>
+Standards-Version: 3.6.1
+Build-Depends: debhelper (>= 4), docbook-utils, eperl, dpatch
+
+Package: libqhull5
+Section: libs
+Architecture: any
+Depends: ${shlibs:Depends}
+Description: Calculate convex hulls and related structures (shared library)
+ Qhull computes convex hulls, Delaunay triangulations, halfspace
+ intersections about a point, Voronoi diagrams, furthest-site
+ Delaunay triangulations, and furthest-site Voronoi diagrams. It
+ runs in 2-d, 3-d, 4-d, and higher dimensions.
+ .
+ This package contain the shared C library.
+ .
+ Homepage: http://www.qhull.org
+
+Package: libqhull-dev
+Section: libdevel
+Architecture: any
+Depends: libqhull5 (= ${Source-Version}), libc6-dev
+Description: Calculate convex hulls and related structures (development files)
+ Qhull computes convex hulls, Delaunay triangulations, halfspace
+ intersections about a point, Voronoi diagrams, furthest-site
+ Delaunay triangulations, and furthest-site Voronoi diagrams. It
+ runs in 2-d, 3-d, 4-d, and higher dimensions.
+ .
+ This package contains the files necessary for development (headers and
+ libraries), as well as the library documentation in HTML format.
+ .
+ Homepage: http://www.qhull.org
+
+Package: qhull-bin
+Section: math
+Architecture: any
+Depends: libqhull5 (= ${Source-Version})
+Suggests: geomview
+Description: Calculate convex hulls and related structures (utilities)
+ Qhull computes convex hulls, Delaunay triangulations, halfspace
+ intersections about a point, Voronoi diagrams, furthest-site
+ Delaunay triangulations, and furthest-site Voronoi diagrams. It
+ runs in 2-d, 3-d, 4-d, and higher dimensions.
+ .
+ This package contains the qhull executable that gives a pipe interface to
+ some of the functionality of the library.  Also included is rbox is a
+ useful tool in generating input for Qhull; it generates hypercubes,
+ diamonds, cones, circles, simplices, spirals, lattices, and random points.
+ .
+ Qhull produces graphical output for Geomview.  This helps with
+ understanding the output (http://www.geomview.org).
+ .
+ Homepage: http://www.qhull.org
