@@ -97,6 +97,6 @@ public:
 std::ostream &operator<<(std::ostream &os, const orgQhull::QhullFacetList::PrintFacetList &p);
 std::ostream &operator<<(std::ostream &os, const orgQhull::QhullFacetList::PrintFacets &p);
 std::ostream &operator<<(std::ostream &os, const orgQhull::QhullFacetList::PrintVertices &p);
-std::ostream &operator<<(std::ostream &os, const orgQhull::QhullFacetList &fs) { os << fs.printFacets(orgQhull::UsingLibQhull::NOqhRunId); return os; }
+std::ostream &operator<<(std::ostream &os, const orgQhull::QhullFacetList &fs);
 
 #endif // QHULLFACETLIST_H

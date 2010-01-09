@@ -87,7 +87,7 @@ public:
 
 #//== Global namespace =========================================
 
-std::ostream &operator<<(std::ostream &os, const orgQhull::QhullFacetSet &fs); // FIXUP QH10000 no 'const ...PrintFacetSet as below! { os << fs.print(orgQhull::UsingLibQhull::NOqhRunId, ""); }
+std::ostream &operator<<(std::ostream &os, const orgQhull::QhullFacetSet &fs);
 std::ostream &operator<<(std::ostream &os, const orgQhull::QhullFacetSet::PrintFacetSet &pr);
 std::ostream &operator<<(std::ostream &os, const orgQhull::QhullFacetSet::PrintIdentifiers &p);
 

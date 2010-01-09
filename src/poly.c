@@ -10,8 +10,8 @@
    (all but top 50 and their callers 12/3/95)
 
    copyright (c) 1993-2010 The Geometry Center.
-   $Id: //product/qhull/main/rel/src/poly.c#25 $$Change: 1164 $
-   $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
+   $Id: //product/qhull/main/rel/src/poly.c#26 $$Change: 1171 $
+   $DateTime: 2010/01/09 10:11:25 $$Author: bbarber $
 */
 
 #include "qhull_a.h"
@@ -958,9 +958,8 @@ boolT qh_matchvertices(int firstindex, setT *verticesA, int skipA,
   }while (*(++elemAp));
   if (!skipBp)
     skipBp= ++elemBp;
-  *skipB= SETindex_(verticesB, skipB);
-  /* WARN64 -- This expression on pointers returns 0 or 1 */
-  *same= !(int)((((ptr_intT)skipA & 0x1) ^ ((ptr_intT)*skipB & 0x1)));
+  *skipB= SETindex_(verticesB, skipB); /* i.e., skipBp - verticesB */
+  *same= !((skipA & 0x1) ^ (*skipB & 0x1)); /* result is 0 or 1 */
   trace4((qh ferr, 4054, "qh_matchvertices: matched by skip %d(v%d) and skip %d(v%d) same? %d\n",
           skipA, (*skipAp)->id, *skipB, (*(skipBp-1))->id, *same));
   return(True);

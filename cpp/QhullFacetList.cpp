@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullFacetList.cpp#22 $$Change: 1139 $
-** $DateTime: 2010/01/03 11:20:29 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullFacetList.cpp#23 $$Change: 1171 $
+** $DateTime: 2010/01/09 10:11:25 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -120,4 +120,10 @@ operator<<(ostream &os, const QhullFacetList::PrintVertices &pr)
     return os;
 }//printVertices
 
+std::ostream &
+operator<<(ostream &os, const QhullFacetList &fs)
+{
+    os << fs.printFacets(UsingLibQhull::NOqhRunId);
+    return os;
+}//QhullFacetList
 

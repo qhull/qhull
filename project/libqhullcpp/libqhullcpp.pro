@@ -7,15 +7,16 @@ TEMPLATE = lib
 CONFIG += shared warn_on
 CONFIG -= app_bundle
 LIBS += -L../..
+DEFINES += qh_QHpointer
 build_pass:CONFIG(debug, debug|release):{
    TARGET = qhullcppd
-   LIBS += libqhulld
-   PRE_TARGETDEPS += ../../libqhulld.a
+   LIBS += libqhullpd  # qh_QHpointer
+   PRE_TARGETDEPS += ../../libqhullpd.a
    OBJECTS_DIR = ../../tmp/libqhullcpp/Debug
 }else:build_pass:CONFIG(release, debug|release):{
    TARGET = qhullcpp
-   LIBS += libqhull
-   PRE_TARGETDEPS += ../../libqhull.a
+   LIBS += libqhullp
+   PRE_TARGETDEPS += ../../libqhullp.a
    OBJECTS_DIR = ../../tmp/libqhullcpp/Release
 }
 QT -= gui

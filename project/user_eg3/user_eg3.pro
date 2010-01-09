@@ -6,6 +6,7 @@ DESTDIR = ../..
 TEMPLATE = app
 CONFIG += console warn_on
 LIBS += -L../..
+DEFINES += qh_QHpointer
 build_pass:CONFIG(debug, debug|release):{
    LIBS += libqhullcppd
    PRE_TARGETDEPS += ../../libqhullcppd.a

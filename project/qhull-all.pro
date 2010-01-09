@@ -6,6 +6,7 @@ TEMPLATE = subdirs
 CONFIG += ordered
 
 SUBDIRS += libqhull
+SUBDIRS += libqhullp  #qh_QHpointer
 SUBDIRS += user_eg
 SUBDIRS += user_eg2
 SUBDIRS += qhull

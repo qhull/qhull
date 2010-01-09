@@ -8,6 +8,7 @@ TEMPLATE = app
 CONFIG += console qtestlib warn_on
 CONFIG -= app_bundle
 LIBS += -L../..
+DEFINES += qh_QHpointer
 build_pass:CONFIG(debug, debug|release):{
    LIBS += libqhullcppd
    PRE_TARGETDEPS += ../../libqhullcppd.a

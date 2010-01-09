@@ -31,7 +31,7 @@
 
 /*=========================== -included files ==============*/
 
-#include "user.h"      /* user definable constants (e.g., qh_QHPOINTER) */
+#include "user.h"      /* user definable constants (e.g., qh_QHpointer) */
 
 #include <setjmp.h>
 #include <float.h>

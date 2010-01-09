@@ -24,6 +24,8 @@ Code flags --
 
 */
 
+#include <time.h>
+
 #ifndef qhDEFuser
 #define qhDEFuser 1
 
@@ -571,7 +573,8 @@ stop after qh_JOGGLEmaxretry attempts
 
   qh_QHpointer  = 1     access globals via a pointer to allocated memory
                         enables qh_saveqhull() and qh_restoreqhull()
-                        costs about 8% in time and 2% in space
+                        [2010, gcc] costs about 4% in time and 4% in space
+                        [2003, msvc] costs about 8% in time and 2% in space
 
                 = 0     qh_qh and qh_qhstat are static data structures
                         only one instance of qhull() can be active at a time
@@ -582,13 +585,14 @@ stop after qh_JOGGLEmaxretry attempts
     qh is defined in libqhull.h
     qhmem is defined in mem.h
     qhstat is defined in stat.h
+    C++ build defines qh_QHpointer [libqhullp.pro, libqhullcpp.pro]
 
   see:
     user_eg.c for an example
   FIXUP need to override for C++ (-Dqh_QHpointer=1)
 */
 #ifndef qh_QHpointer
-#define qh_QHpointer 1
+#define qh_QHpointer 0
 #endif
 #if 0  /* sample code */
     qhT *oldqhA, *oldqhB;
