@@ -12,7 +12,7 @@
 .\"
 .\"  Warning: a leading quote "'" or dot "." will not format correctly
 .\"
-.TH qhull 1 "2009/06/11" "Geometry Center"
+.TH qhull 1 "2009/06/14" "Geometry Center"
 .SH NAME
 qhull \- convex hull, Delaunay triangulation, Voronoi diagram, 
 halfspace intersection about a point, hull volume, facet area

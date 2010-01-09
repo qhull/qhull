@@ -6,7 +6,7 @@ qhull 2009.1.1 2010/01/09
 Patch release with poly.c-qh_gethash.patch from gitorious.org/qhull
 qh_gethash allowed a negative result, causing overwrite or segfault
 
-qhull 2009.1  2009/06/11
+qhull 2009.1  2009/06/14
 
 This is a maintenance release done by Rafael Laboissiere <rafael@debian.org>.
 
