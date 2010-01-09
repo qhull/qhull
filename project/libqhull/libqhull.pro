@@ -75,22 +75,23 @@ OTHER_FILES += src/qh-stat.htm
 OTHER_FILES += src/qh-user.htm
 
 # libqhull.pro and libqhullp.pro are the same
-SOURCES += src/geom.c
-SOURCES += src/geom2.c
-SOURCES += src/global.c
-SOURCES += src/io.c
-SOURCES += src/libqhull.c
-SOURCES += src/mem.c
-SOURCES += src/merge.c
-SOURCES += src/poly.c
-SOURCES += src/poly2.c
-SOURCES += src/qset.c
-SOURCES += src/random.c
+# Order object files by frequency of execution.  Small files at end.
 SOURCES += src/rboxlib.c
-SOURCES += src/stat.c
 SOURCES += src/user.c
+SOURCES += src/global.c
+SOURCES += src/stat.c
+SOURCES += src/io.c
+SOURCES += src/geom2.c
+SOURCES += src/poly2.c
+SOURCES += src/merge.c
+SOURCES += src/libqhull.c
+SOURCES += src/geom.c
+SOURCES += src/poly.c
+SOURCES += src/qset.c
+SOURCES += src/mem.c
 SOURCES += src/usermem.c
 SOURCES += src/userprintf.c
+SOURCES += src/random.c
 HEADERS += src/geom.h
 HEADERS += src/io.h
 HEADERS += src/libqhull.h

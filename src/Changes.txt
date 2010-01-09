@@ -95,15 +95,17 @@ To do
  - review all FIXUP [^0-9]
  - Number the FIXUPS
  - clean up warnings for libqhullcpp
+ - get copy of unused and news
  
 Need help
- - ConvexHull is a submodule to git.  How to get rid of?
- - Set up configure and debian build.  If possible, please keep qhull-2010.1/ clean
-   http://savannah.nongnu.org/cvs/?group=qhull
-   Please use qhull-2010.1/project/ for build-related files 
- - Set up CMake for cpp
+ - Remove ConvexHull from git.  It appears to be a submodule.
+ - Set up debian build.  
+   Branch 'debian' is from http://savannah.nongnu.org/cvs/?group=qhull
+   Please keep files in config/ or project/debian/
+   project/debian needs updating for its new location (two levels down)
+ - Add CMakeLists.txt for qhullcpp, user_eg3, cpp/, and cpp/road
  - The C++ interface needs work.  Give it a try and make it better.
- - Verify -fno-strict-aliasing is needed for gcc 4.1, 4.2, and 4.3 (q_test segfaults)
+ - Verify -fno-strict-aliasing needed for gcc 4.1, 4.2, and 4.3 (qset segfault)
 
 qhull 2010.1 2010/01/09
  - Patched qh_gethash.  See project/patch/qhull-2003.1 with patched poly.c and patch.
@@ -115,6 +117,8 @@ qhull 2010.1 2010/01/09
    Cost of qh_QHpointer: [2003, msvc] 8% time 2% space, [2010, gcc] 4% time 4% space
  - user.h requires <time.h> for CLOCKS_PER_SEC
  - Add CMakeLists.txt [kwilliams]
+ - Order object files by frequency of execution for better locality.
+ - Fix tabs in Makefile.txt [mschamschula]
  
 qhull 2010.1 2010/01/07
  - Assign type to qh.old_qhstat and memT.tempstack [amorilia]

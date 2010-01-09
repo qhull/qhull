@@ -1,23 +1,24 @@
 project(qhull_lib)
 
+# Order object files by frequency of execution.  Small files at end.
 set(
     qhull_src
-        geom.c
-        geom2.c
-        global.c
-        io.c
-        libqhull.c
-        mem.c
-        merge.c
-        poly.c
-        poly2.c
-        qset.c
-        random.c
         rboxlib.c
-        stat.c
         user.c
+        global.c
+        stat.c
+        io.c
+        geom2.c
+        poly2.c
+        merge.c
+        libqhull.c
+        geom.c
+        poly.c
+        qset.c
+        mem.c
         usermem.c
         userprintf.c
+        random.c
 )
 
 file(GLOB qhull_hdr *.h)
