@@ -99,12 +99,18 @@ To do
  - user.h qh_qhPOINTER 0 for qhull -- need two static libraries
  - review os << QhullFacetSet vs QhullFacetList vs. QhullHyperplane vs. QhullPoint QhullRidge
  - generate static qhull for qhull.exe
+ - timer is off by 3 orders of magnitude
  
 Need help
  - ConvexHull is a submodule to git.  How to get rid of?
  - Set up configure and debian build.  If possible, please use project/ instead of qhull-2010.1/
  - Set up CMake.  If possible, please use project/ instead of qhull-2010.1/
  - The C++ interface needs a lot of work
+
+qhull 2010.1 2010/01/08
+ - Patched qh_gethash.  See project/patch/qhull-2003.1 with patched poly.c and patch.
+     Compared results of q_test, q_eg, and q_egtest with patched poly.c, qhull-2003.1 
+ - Remove user_eg.exe and user_eg2.exe from Windows distribution
  
 qhull 2010.1 2010/01/07
  - Assign type to qh.old_qhstat and memT.tempstack [amorilia]

@@ -308,8 +308,6 @@ src/
      qhalf.exe
      qvoronoi.exe
      qhullcpp.dll
-     user_eg.exe
-     user_eg2.exe
      user_eg3.exe      // cpp demonstration 
      eg/qhull-go.bat   // DOS window
      qconvex.htm       // html manuals
