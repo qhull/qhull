@@ -1,18 +1,24 @@
 project(qhull_lib)
 
-set(qhull_src 
-user.c 
-global.c 
-stat.c 
-io.c 
-geom2.c
-poly2.c 
-merge.c 
-qhull.c 
-geom.c 
-poly.c 
-qset.c 
-mem.c)
+set(
+    qhull_src
+        geom.c
+        geom2.c
+        global.c
+        io.c
+        libqhull.c
+        mem.c
+        merge.c
+        poly.c
+        poly2.c
+        qset.c
+        random.c
+        rboxlib.c
+        stat.c
+        user.c
+        usermem.c
+        userprintf.c
+)
 
 file(GLOB qhull_hdr *.h)
 
