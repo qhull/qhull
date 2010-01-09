@@ -71,8 +71,6 @@ Qhull cpp questions
  - Allow UsingQhullLib to work with static allocation of qh_qh
 
 To do
- - ConvexHull is a submodule to git.  How to get rid of?
- - Abandon savannah
  - Measure performance of Qhull, seconds per point by dimension
  - qhulltest --all added to output
  - Add test of user_eg3, etc.
@@ -102,7 +100,12 @@ To do
  - review os << QhullFacetSet vs QhullFacetList vs. QhullHyperplane vs. QhullPoint QhullRidge
  - generate static qhull for qhull.exe
  
-
+Need help
+ - ConvexHull is a submodule to git.  How to get rid of?
+ - Set up configure and debian build.  If possible, please use project/ instead of qhull-2010.1/
+ - Set up CMake.  If possible, please use project/ instead of qhull-2010.1/
+ - The C++ interface needs a lot of work
+ 
 qhull 2010.1 2010/01/07
  - Assign type to qh.old_qhstat and memT.tempstack [amorilia]
  - Replace tabs with spaces.
