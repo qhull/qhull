@@ -76,8 +76,8 @@ To do
  - qhulltest --all added to output
  - Add test of user_eg3, etc.
  - Check for wraparound of 64-bit ints -- e.g., a large set or points
- - Add config directory to Qhull
  - Add md5sum
+ - Set up globals for thread-private storage
  - Generate vcproj from qtpro files
    cd qtpro && qmake -spec win32-msvc2005 -tp vc -recursive
    sed -i 's/C\:\/bash\/local\/qhull\/qtpro\///' qhull-all.sln
@@ -96,11 +96,12 @@ To do
  - get copy of unused
  
 Need help
- - Set up debian build.  
+ - Set up debian build. 
+   Please keep debian files in config/ and project/debian/
    Branch 'debian' is from http://savannah.nongnu.org/cvs/?group=qhull
-   Please keep files in config/ or project/debian/
-   project/debian needs updating for its new location (two levels down)
+   project/debian needs updating for its new location.  It was at qhull's level.
  - Add CMakeLists.txt for qhullcpp, user_eg3, cpp/, and cpp/road
+   If practical, please move to project/
  - The C++ interface needs work.  Give it a try and make it better.
  - Verify -fno-strict-aliasing needed for gcc 4.1, 4.2, and 4.3 (qset segfault)
 
@@ -281,7 +282,6 @@ Changes to C code for C++ support
 Documentation:
  - Fixed out-of-date CiteSeer references
  - Renamed html/qh-in.htm to html/qh-code.htm
- - Renamed qh-in.htm to qh-code.htm
  - Add reference to 'Qt' to 'i'
  - Add reference to 'FS' to 'FA'
  - qh-impre.htm discusses precision issues for halfspace intersection

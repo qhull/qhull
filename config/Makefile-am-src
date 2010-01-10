@@ -9,6 +9,7 @@ lib_LTLIBRARIES = libqhull.la
 
 # from:
 libqhull_la_SOURCES = \
+  rboxlib.c           \
   user.c              \
   global.c            \
   stat.c              \
@@ -16,11 +17,14 @@ libqhull_la_SOURCES = \
   geom2.c             \
   poly2.c             \
   merge.c             \
-  qhull.c             \
+  libqhull.c          \
   geom.c              \
   poly.c              \
   qset.c              \
-  mem.c
+  mem.c               \
+  usermem.c           \
+  userprintf.c        \
+  random.c 
 
 # how:
 libqhull_la_LDFLAGS = -version-info 5:0:0 -lm
@@ -56,7 +60,8 @@ pkginclude_HEADERS = \
   stat.h             \
   io.h               \
   merge.h            \
-  qhull.h            \
+  libqhull.h         \
+  random.h           \
   qset.h             \
   user.h
 
@@ -71,7 +76,7 @@ examplesdir = $(docdir)/examples
 examples_DATA =       \
   user_eg.c           \
   user_eg2.c          \
-  qhull_interface.cpp \
+  CMakeLists.txt      \
   Makefile.txt        \
   Mborland
 

@@ -13,8 +13,10 @@ examples_DATA = \
   q_eg          \
   q_egtest      \
   q_test        \
+  q_test-ok.txt \
+  q_test.bat    \
   Qhull-go.bat  \
-  q_test.bat
+  qhulltest-ok.txt
 
 ### Extra files to be included in the tarball
 

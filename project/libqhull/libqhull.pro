@@ -98,9 +98,9 @@ HEADERS += src/libqhull.h
 HEADERS += src/mem.h
 HEADERS += src/merge.h
 HEADERS += src/poly.h
+HEADERS += src/random.h
 # qhull.h is for backwards compatibility
 HEADERS += src/qhull_a.h
 HEADERS += src/qset.h
-HEADERS += src/random.h
 HEADERS += src/stat.h
 HEADERS += src/user.h

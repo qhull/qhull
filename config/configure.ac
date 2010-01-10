@@ -3,7 +3,7 @@ dnl Author: Rafael Laboissiere <rafael@debian.org>
 dnl Created: Mon Dec  3 21:36:21 CET 2001
 
 AC_INIT(qhull, 2009.1)
-AC_CONFIG_SRCDIR(src/qhull.c)
+AC_CONFIG_SRCDIR(src/libqhull.c)
 
 AC_CONFIG_AUX_DIR(config)
 AC_CONFIG_MACRO_DIR(config)
