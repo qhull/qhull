@@ -1,6 +1,6 @@
 Name
 
-      qhull, rbox         2010.1 2010/01/07
+      qhull, rbox         2010.1    2010/01/09
   
 Convex hull, Delaunay triangulation, Voronoi diagrams, Halfspace intersection
  
@@ -12,12 +12,13 @@ Convex hull, Delaunay triangulation, Voronoi diagrams, Halfspace intersection
         <http://www.qhull.org>
         <git@gitorious.org:qhull/qhull.git>
  
-     Version 1 (simplicial only):
-        <http://www.qhull.org/download/qhull-1.0.tar.gz>
-       
       News and a paper:
         <http://www.qhull.org/news>
         <http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.117.405>
+
+     Version 1 (simplicial only):
+        <http://www.qhull.org/download/qhull-1.0.tar.gz>
+       
 
 Purpose
 
@@ -34,15 +35,14 @@ Purpose
   Qhull produces graphical output for Geomview.  This helps with
   understanding the output. <http://www.geomview.org>
 
-    
 Environment requirements
 
   Qhull and rbox should run on all 32-bit and 64-bit computers.  Use
   an ANSI C or C++ compiler to compile the program.  The software is 
   self-contained.  It comes with examples and test scripts.
   
-  Qhull's C++ interface uses the STL.  The C++ test program is based on
-  QTestLib from Nokia's Qt Framework.  For 2010, Qhull's C++ interface 
+  Qhull's C++ interface uses the STL.  The C++ test program uses QTestLib 
+  from Nokia's Qt Framework.  For 2010, Qhull's C++ interface 
   may change without notice.
   
   Qhull is copyrighted software.  Please read COPYING.txt and REGISTER.txt
@@ -54,10 +54,17 @@ To cite Qhull, please use
   algorithm for convex hulls," ACM Trans. on Mathematical Software,
   22(4):469-483, Dec 1996, http://www.qhull.org.
 
-Qhull on Windows
+To contribute to Qhull
+
+  Qhull is on Gitorious (http://gitorious.org:qhull, git@gitorious.org:qhull/qhull.git)
+  
+  For internal documentation, see html/qh-code.htm
+
+-----------------
+Installing Qhull on Windows
 
   The zip file contains rbox.exe, qhull.exe, qconvex.exe, qdelaunay.exe, 
-  qhalf.exe, qvoronoi.exe, documentation files, and source files.
+  qhalf.exe, qvoronoi.exe, user_eg3.exe, documentation files, and source files.
   
   To install Qhull:
   - Unzip the files into a directory.  You may use WinZip32 <www.hotfiles.com>
@@ -74,36 +81,70 @@ Qhull on Windows
   - Execute 'rbox 10 | qconvex' to compute the convex hull of 10 random points.
   - Execute 'rbox 10 | qconvex i TO file' to write results to 'file'. 
   - Browse the documentation: qhull\html\index.htm
-  - If an error occurs, Windows sends the error to stdout instead of stderr 
-      - use 'TO xxx' to send normal output to xxx and error output to stdout
+  - If an error occurs, Windows sends the error to stdout instead of stderr. 
+    Use 'TO xxx' to send normal output to xxx and error output to stdout
 
-To contribute to Qhull
+-----------------
+Installing Qhull on Unix with gcc
 
-  Qhull is on Gitorious (http://gitorious.org:qhull, git@gitorious.org:qhull/qhull.git)
+  The tgz tarball contains documentation and source files.
   
-  For internal documentation, see html/qh-code.htm
-
-Compiling with cygwin on Windows
-  - install cygwin [www.cygwin.com] with gcc, make, ar, and ln
+  To install Qhull
+  - Extract the files
   - cd qhull/src
-  - make -f Makefile.txt
+  - make
+  - or, make -f Makefile.txt
 
-Compiling with Qt on Windows or Unix
+-----------------
+Installing Qhull with Autoconf
+
+  The tar.gz tarball contains documentation, source files, 
+  and a config directory [R. Laboissiere].
   
-  Download Qt SDK from Nokia.
-  Start Qt Creator
-  Load project/qhull-all.pro
-  Build all
+  To install Qhull
+  - Extract the files
+  - ./configure
+  - make
+  - make install
 
-Compiling on Windows
+-----------------
+Compiling Qhull with Qt 
 
-  Qhull compiles as a console application in Visual C++ 5.0 at warning 
-  level 3.
+  Qt is a C++ framework for Windows, Linux, and Macintosh
 
-  Visual C++ quickstart for qhull library, qhull.exe, qconvex.exe, etc.
-    - Load project/qhull.sln
-    - Build->Build all
-  
+  Qhull includes a C++ test using Qt's QTestLib
+
+  To compile Qhull  
+  - Download the Qt SDK from Nokia (http://qt.nokia.com/downloads)
+  - Start Qt Creator
+  - Load project/qhull-all.pro
+  - Build all
+
+-----------------
+Compiling Qhull on Windows.
+
+  To compile Qhull with Visual C++
+  - Load solution project/qhull.sln
+  - For project qhulltest, 
+    install Qt for DevStudio (http://qt.nokia.com/downloads)
+  - Build->Build all
+
+  To compile Qhull with MINGW
+  - Install Road Bash (http://www.qhull.org/bash)
+  - or install MSYS (http://www.mingw.org/wiki/msys)
+  - Install MINGW (http://www.mingw.org/)
+  - cd src
+  - make 
+  - or, make -f Makefile.txt
+
+  To compile Qhull with cygwin
+  - Install cygwin (http://www.cygwin.com)
+  - Include packages for gcc, make, ar, and ln
+  - cd src
+  - make
+  - or, make -f Makefile.txt
+
+-----------------
 Compiling the source distribution
 
   The gzip file, qhull-src.tgz, contains documentation and source files for
@@ -156,24 +197,9 @@ Compiling the source distribution
       - define MANDIR and BINDIR
       - type 'make install'
 
-Qhull on Unix (Debian)
-
-  [Jan 2009] Not available yet for Qhull 2010.1
-
-  The gzip file, qhull.tar.gz, contains documentation and source files for
-  qhull and rbox.  It should compile on all Unix systems, including Debian.
-  You may also use the source instructions below.
-  
-  To unpack the gzip file
-  - tar zxf qhull.tar.gz
-  - cd qhull
-  
-  Compile with the configure Makefile [R. Laboissiere]:
-  - ./configure
-  - make
-
 If you need to create a custom build, create projects as follows.
-These instructions assume Visual C++, but similar ones also apply.
+These instructions assume Visual C++, but similar ones apply to other
+build systems.
 
   For qhull.exe and rbox.exe only:
     - create a "console application" called "qhull"
@@ -225,6 +251,7 @@ These instructions assume Visual C++, but similar ones also apply.
         - Add the library file created by "libqhullcpp"
 
     - create a "Win32 console application" called "qhulltest"
+        - Install Qt for DevStudio (http://qt.nokia.com/downloads)
         - Add everything in cpp/qhulltest
         - Add road/RoadTest.cpp
 
@@ -267,6 +294,7 @@ Compiling on other machines
   You may compile Qhull with a C++ compiler.  
 
 
+-----------------
 Distributed files
 
   README.txt           // instructions for installing Qhull 
@@ -458,6 +486,7 @@ cpp/road/
     RoadTest.cpp
     RoadTest.h
 
+-----------------
 Authors:
 
   C. Bradford Barber                    Hannu Huhdanpaa

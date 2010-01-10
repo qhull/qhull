@@ -25,7 +25,6 @@ To do for documentation
  - QhullVertex.dimension() is not quite correct, epensive
  - Check globalAngleEpsilon
  - Deprecate save_qhull()
- - Review email for doc changes
 
 To do for suggestions
    C++ class for access to statistics, accumulate vs. add
@@ -94,35 +93,48 @@ To do
  - Number the FIXUPS
  - clean up warnings for libqhullcpp
  - get copy of unused
- 
+ - Review email archives for doc changes
+
+------------
 Need help
+ - The C++ interface needs work.  Give it a try and make it better.
  - Set up debian build. 
    Please keep debian files in config/ and project/debian/
    Branch 'debian' is from http://savannah.nongnu.org/cvs/?group=qhull
    project/debian needs updating for its new location.  It was at qhull's level.
  - Add CMakeLists.txt for qhullcpp, user_eg3, cpp/, and cpp/road
    If practical, please move to project/
- - The C++ interface needs work.  Give it a try and make it better.
  - Verify -fno-strict-aliasing needed for gcc 4.1, 4.2, and 4.3 (qset segfault)
 
+------------
 qhull 2010.1 2010/01/09
-- Remove user_eg.exe and user_eg2.exe from Windows distribution
-- Remove ptr_intT from qh_matchvertices.  It was int since the beginning.
+
+Changes to build and distribution
 - Use qh_QHpointer=0 for libqhull.a, qhull, rbox, etc.
   Use -Dqh_QHpointer for libqhullp.a, qhullcpp.dll, etc.
-  Cost of qh_QHpointer: [2003, msvc] 8% time 2% space, [2010, gcc] 4% time 4% space
-- user.h requires <time.h> for CLOCKS_PER_SEC
+  qh_QHpointer costs: [2010, gcc] 4% time 4% space, [2003, msvc] 8% time 2% space
+- Add config/ and project/debian/ for Autoconf build [R. Laboissiere]
+  from debian branch in git and http://savannah.nongnu.org/cvs/?group=qhull
 - Add CMakeLists.txt [kwilliams]
-- Order object files by frequency of execution for better locality.
 - Fix tabs in Makefile.txt [mschamschula]
+- Add -fno-strict-aliasing to Makefile for gcc 4.1, 4.2, and 4.3 qset segfault
+- Remove user_eg.exe and user_eg2.exe from Windows distribution
+- Order object files by frequency of execution for better locality.
+
+Changes to source
+- Remove ptr_intT from qh_matchvertices.  It was int since the beginning.
+- user.h requires <time.h> for CLOCKS_PER_SEC
+- Move ostream<<QhullFacetList from inline to compiled.
 - Removed ConvexHull/ from git.  Not used.
  
+------------
 qhull 2009.1.1 2010/01/09
 - Patch release of 2009.1. 
   qh_gethash allowed a negative result, causing overwrite or segfault
   See git:qhull/project/patch/qhull-2003.1/poly.c-qh_gethash.patch
   Compared results of q_test, q_eg, and q_egtest with patched poly.c, qhull-2003.1 
 
+------------
 qhull 2010.1 2010/01/07
 - Assign type to qh.old_qhstat and memT.tempstack [amorilia]
 - Replace tabs with spaces.
@@ -140,8 +152,8 @@ qhull 2010.1 2010/01/06
   Combined vcproj/ and qtproj/ into project/
   vcproj will be replaced by qmake generated files
  
+------------
 qhull 2010.0.3 2010/01/05
-
 Fixed bugs
 - 'QJn' (joggle): Fix qh.STOPcone in qh_build_withrestart().  It was not cleared. 
 - qh_initqhull_outputflags [global.c]: warn about Qc only if QHULLfinished, otherwise set if needed
@@ -294,6 +306,7 @@ Documentation:
  - Proposed project: computing Voronoi volumes
  - Replaced tabs with spaces in qhull.txt and rbox.txt
 
+------------
 qhull 2009.1  2009/6/11
 
 This is a maintenance release done by Rafael Laboissiere <rafael@debian.org>.
@@ -307,6 +320,7 @@ This is a maintenance release done by Rafael Laboissiere <rafael@debian.org>.
    automake/aclocal (1.10.2), and libtool (2.2.6)
  - Some character issues in the man pages are fixed
 
+------------
 qhull 2003.1  2003/12/30
 
 New Features:
@@ -369,6 +383,7 @@ Changes to examples
  - Fixed options for eg/eg.t23.voronoi.imprecise [B. Pearlmutter]
 
 
+------------
 qhull 2002.1  2002/8/20
 
 Changes to distribution:
@@ -409,6 +424,7 @@ URL updates:
  - Changed URL for locate/cglist to software/cglist
  - Used site relative links for qh-home.htm
 
+------------
 qhull 3.1 2001/10/04
 
 New features
@@ -519,6 +535,7 @@ Changes to Qhull library
         'FP' may not print the nearest vertex for coplanar points
         Use option 'Q11' when adding points after qh_triangulate()
 
+------------
 qhull 3.0 2001/02/11
 
 Changes to distribution
@@ -584,6 +601,7 @@ Changes to FAQ
  - added FAQ item on meshing non-convex objects
  - added FAQ item on MATLAB and Mathematica interface
 
+------------
 qhull 2.6 1999/04/19
  - fixed memory overwrite (no effect) in qh_initstatistics() [K. Ford]
  - added zdoc11 to qh-stat.h#ZZdef for !qh_KEEPstatistics [K. Ford]
@@ -597,6 +615,7 @@ qhull 2.6 1999/04/19
  - added FAQ item about on-line processing with the Qhull library [O. Skare]
  - changed name of option 'Error-roundoff' to 'Distance-roundoff'
 
+------------
 qhull 2.6 1998/12/30
  - for the unbounded rays of the Voronoi diagram, use a large box [Schmidt]
      e.g., 'rbox P4,4,4 P4,2,4 P2,4,4 P4,4,2 10 | qhull v Fv' fails for point 0
@@ -616,6 +635,7 @@ qhull 2.6 1998/12/30
  - the DOS window in Windows NT is better than the DOS window in Windows 95
  - removed obsolete qh_findfacet() from qh-c.htm [Sminchisescu]
 
+------------
 qhull 2.6 1998/8/12
  new and modified features
  - rbox: added option Mn,m,r to generate a rotated lattice or mesh
@@ -652,6 +672,7 @@ qhull 2.6 1998/8/12
  - removed 'qh rand_seed' since random number generator is independent of qhull
  - dropt 'qhull-PPC.sit.bin' from the distribution (out-of-date) [M. Harris]
 
+------------
 qhull 2.5 1998/5/4
 
  fixed errors
@@ -669,6 +690,7 @@ qhull 2.5 1998/5/4
  - added example of 3-d Delaunay triangulation to q-faq.htm
  - added Delaunay and Voronoi examples to qh-optv.htm
  
+------------
 qhull 2.5 1998/2/4
  - added option 'v Fi' for separating hyperplanes of bounded Voronoi regions
  - added option 'v Fo' for separating hyperplanes of unbounded Voronoi regions
@@ -770,6 +792,7 @@ Other changes to Qhull functions
  - separated qh_distround and qh_detroundoff from qh_maxmin
 
 
+------------
 qhull 2.4 97/4/2
 
 New or modified features
@@ -829,6 +852,7 @@ Changes to the Qhull library
  - added request for unbounded Voronoi rays to Enhancements
     please let me know if you try this
 
+------------
 qhull V2.3 96/6/5
  - fixed total area of Delaunay triangulation. [A. Enge]  
       It should ignore facets on the upper-envelope.
@@ -868,6 +892,7 @@ qhull V2.3 96/6/5
  - fixed qh_projectinput for furthest-site Delaunay (qh PROJECTdelaunay 'd Qu')
  - added voids to procedure declarations with empty parameter lists
 
+------------
 qhull V2.3 96/3/25
  - fixed missing qh_check_maxout when coplanar points and no merged facets.
  - fixed qh_freeqhull/allmem (e.g., if qh_NOmem) [only custom code] [E. Voth]
@@ -883,6 +908,7 @@ qhull V2.3 96/3/25
  - moved 'FO' print of options to just before qh_buildhull
  - changed 'FO' to list difference from -1 for _narrow-hull
 
+------------
 qhull V2.2 96/2/15
  - detect narrow initial hulls (cosine of min angle < qh_MAXnarrow in user.h).
    Write warning if cosine < qh_WARNnarrow in user.h.  If narrow (qh NARROWhull), 
@@ -902,6 +928,7 @@ qhull V2.2 96/2/15
  - added option 'Q9' to always process furthest of furthest outside points.
  - removed option 'Pp' from q_eg and qh-eg.html.
 
+------------
 qhull V2.2 95/12/28
  - added option 'Qbb' to scale the last coordinate to [0,m] (max prev coord).
    This reduces roundoff errors for Delaunay triangulations with integer coordinates.
@@ -1039,6 +1066,7 @@ qhull V2.2 95/12/4
  - reorganized split between poly/poly2.c and geom/geom2.c
  - reordered object files in Makefile
 
+------------
 qhull V2.1 95/9/25
  - converted qhull.man to html format, many edits
  - referenced Shewchuk's triangle program and Schneiders' Mesh Generation page
@@ -1075,6 +1103,7 @@ qhull V2.1 95/9/25
  - 'make install' renames qhull.man to qhull.1 for Unix [M. Phillips]
  - renamed README, etc. to *.txt to match WWW conventions [D. Cervone]
 
+------------
 qhull V2.1 7/10/95
   - in 2-d, 'v o' lists the vertex at infinity in order [R. Critchlow]
   -   it used to always list the vertex at infinity ("0") first
@@ -1237,6 +1266,7 @@ qhull V2.1 beta 5/15/95
   - removed horizon preference in qh_merge_nonconvex (qh AVOIDold)
   - facet->keepcentrum if qh WIDEfacet or qh_MAXnewcentrum extra vertices
 
+------------
 qhull V2.02 1/25/95
   - rbox 'z' prints integer coordinates, use 'Bn' to change range
   - fixed rare bug in qh_check_maxout when qh_bestfacet returns NULL
@@ -1253,6 +1283,7 @@ qhull V2.02 1/25/95
   - added options for qh_RANDOMint in qhull_a.h
   - changed time format for 'TFn' to %02d
 
+------------
 qhull V2.01 6/20/94
   - fixed bug in qh_matchnewfacets that occured when memory alignment makes
     facet->neighbors larger than necessary.
@@ -1320,6 +1351,7 @@ qhull V2.01 6/2/94
   - updated manual on 'Qg' with coplanar facets and no merging ('rbox c D7')
       'Qg Pg' and 'Pg' produce different results because of precision problems
 
+------------
 Converting from qhull 1.01 to qhull 2.00
   - 'qhull An' is now 'qhull Wn'
         option 'Wn Po' is faster but it doesn't check coplanars

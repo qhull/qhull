@@ -7,8 +7,8 @@
    see qh-qhull.htm, qhull_a.h
 
    copyright (c) 1993-2010 The Geometry Center.
-   $Id: //product/qhull/main/rel/src/libqhull.h#7 $$Change: 1167 $
-   $DateTime: 2010/01/08 19:03:17 $$Author: bbarber $
+   $Id: //product/qhull/main/rel/src/libqhull.h#9 $$Change: 1172 $
+   $DateTime: 2010/01/09 21:42:16 $$Author: bbarber $
 
    NOTE: access to qh_qh is via the 'qh' macro.  This allows
    qh_qh to be either a pointer or a structure.  An example

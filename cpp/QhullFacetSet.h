@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullFacetSet.h#21 $$Change: 1167 $
-** $DateTime: 2010/01/08 19:03:17 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullFacetSet.h#23 $$Change: 1172 $
+** $DateTime: 2010/01/09 21:42:16 $$Author: bbarber $
 **
 ****************************************************************************/
 
