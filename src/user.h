@@ -20,7 +20,7 @@ Sections:
 
 Code flags --
   NOerrors -- the code does not call qh_errexit()
-  WARN64 -- the code maybe incompatible with 64-bit pointers
+  WARN64 -- the code may be incompatible with 64-bit pointers
 
 */
 

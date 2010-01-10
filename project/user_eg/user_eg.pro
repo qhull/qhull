@@ -7,15 +7,16 @@ TEMPLATE = app
 CONFIG += console warn_on
 CONFIG -= app_bundle
 LIBS += -L../..
+DEFINES += qh_QHpointer
 QMAKE_CFLAGS += -Wall -Wextra -Wshadow -Wcast-qual -Wwrite-strings
 QMAKE_CFLAGS += -Wno-sign-conversion # Many size_t vs. int errors
 build_pass:CONFIG(debug, debug|release):{
-   LIBS += libqhulld
-   PRE_TARGETDEPS += ../../libqhulld.a
+   LIBS += libqhullpd
+   PRE_TARGETDEPS += ../../libqhullpd.a
    OBJECTS_DIR = ../../tmp/user_eg/Debug
 }else:build_pass:CONFIG(release, debug|release):{
-   LIBS += libqhull
-   PRE_TARGETDEPS += ../../libqhull.a
+   LIBS += libqhullp
+   PRE_TARGETDEPS += ../../libqhullp.a
    OBJECTS_DIR = ../../tmp/user_eg/Release
 }
 QT -= gui

@@ -23,8 +23,9 @@ build_pass:CONFIG(debug, debug|release):{
 MOC_DIR = ../../tmp/moc
 RCC_DIR = ../../tmp/rcc
 
-# libqhull.pro and libqhullp.pro are the same
+# libqhull.pro and libqhullp.pro are the same for SOURCES and HEADERS
 # Order object files by frequency of execution.  Small files at end.
+VPATH = ../..
 SOURCES += src/rboxlib.c
 SOURCES += src/user.c
 SOURCES += src/global.c

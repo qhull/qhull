@@ -22,7 +22,38 @@ build_pass:CONFIG(debug, debug|release):{
 MOC_DIR = ../../tmp/moc
 RCC_DIR = ../../tmp/rcc
 
+# libqhull.pro and libqhullp.pro are the same for SOURCES and HEADERS
+# Order object files by frequency of execution.  Small files at end.
 VPATH= ../..
+SOURCES += src/rboxlib.c
+SOURCES += src/user.c
+SOURCES += src/global.c
+SOURCES += src/stat.c
+SOURCES += src/io.c
+SOURCES += src/geom2.c
+SOURCES += src/poly2.c
+SOURCES += src/merge.c
+SOURCES += src/libqhull.c
+SOURCES += src/geom.c
+SOURCES += src/poly.c
+SOURCES += src/qset.c
+SOURCES += src/mem.c
+SOURCES += src/usermem.c
+SOURCES += src/userprintf.c
+SOURCES += src/random.c
+HEADERS += src/geom.h
+HEADERS += src/io.h
+HEADERS += src/libqhull.h
+HEADERS += src/mem.h
+HEADERS += src/merge.h
+HEADERS += src/poly.h
+HEADERS += src/random.h
+# qhull.h is for backwards compatibility
+HEADERS += src/qhull_a.h
+HEADERS += src/qset.h
+HEADERS += src/stat.h
+HEADERS += src/user.h
+
 OTHER_FILES += Announce.txt
 OTHER_FILES += CMakeLists.txt
 OTHER_FILES += COPYING.txt
@@ -74,33 +105,3 @@ OTHER_FILES += src/qh-set.htm
 OTHER_FILES += src/qh-stat.htm
 OTHER_FILES += src/qh-user.htm
 
-# libqhull.pro and libqhullp.pro are the same
-# Order object files by frequency of execution.  Small files at end.
-SOURCES += src/rboxlib.c
-SOURCES += src/user.c
-SOURCES += src/global.c
-SOURCES += src/stat.c
-SOURCES += src/io.c
-SOURCES += src/geom2.c
-SOURCES += src/poly2.c
-SOURCES += src/merge.c
-SOURCES += src/libqhull.c
-SOURCES += src/geom.c
-SOURCES += src/poly.c
-SOURCES += src/qset.c
-SOURCES += src/mem.c
-SOURCES += src/usermem.c
-SOURCES += src/userprintf.c
-SOURCES += src/random.c
-HEADERS += src/geom.h
-HEADERS += src/io.h
-HEADERS += src/libqhull.h
-HEADERS += src/mem.h
-HEADERS += src/merge.h
-HEADERS += src/poly.h
-HEADERS += src/random.h
-# qhull.h is for backwards compatibility
-HEADERS += src/qhull_a.h
-HEADERS += src/qset.h
-HEADERS += src/stat.h
-HEADERS += src/user.h
