@@ -72,11 +72,11 @@ Qhull cpp questions
 
 To do
  - Measure performance of Qhull, seconds per point by dimension
+ - Investigate flipped facet -- rbox 100 s D3 t1263080158 | qhull R1e-3 Tcv Qc
  - qhulltest --all added to output
  - Add test of user_eg3, etc.
  - Check for wraparound of 64-bit ints -- e.g., a large set or points
  - Add config directory to Qhull
- - Remove user_eg and user_eg2 from distribution
  - Add md5sum
  - Generate vcproj from qtpro files
    cd qtpro && qmake -spec win32-msvc2005 -tp vc -recursive
@@ -86,19 +86,16 @@ To do
  - Make distribution -- remove tmp, news, .git, leftovers from project, change CRLF
  -   search for 2010.1, Dates
  - update http://compgeom.cs.uiuc.edu/~jeffe/compgeom/code.html#topes
- - Notify geom discussion list
- - Develop patch for qh_gethash
  - update FAQ and date.
- - Notify Wolfram
+ - Notify Wolfram, geom discussion list
  - Review Warn64
  - review all #pragma
  - review all FIXUP [^0-9]
  - Number the FIXUPS
  - clean up warnings for libqhullcpp
- - get copy of unused and news
+ - get copy of unused
  
 Need help
- - Remove ConvexHull from git.  It appears to be a submodule.
  - Set up debian build.  
    Branch 'debian' is from http://savannah.nongnu.org/cvs/?group=qhull
    Please keep files in config/ or project/debian/
@@ -108,27 +105,27 @@ Need help
  - Verify -fno-strict-aliasing needed for gcc 4.1, 4.2, and 4.3 (qset segfault)
 
 qhull 2010.1 2010/01/09
- - Patched qh_gethash.  See project/patch/qhull-2003.1 with patched poly.c and patch.
-     Compared results of q_test, q_eg, and q_egtest with patched poly.c, qhull-2003.1 
- - Remove user_eg.exe and user_eg2.exe from Windows distribution
- - Remove ptr_intT from qh_matchvertices.  It was int since the beginning.
- - Use qh_QHpointer=0 for libqhull.a, qhull, rbox, etc.
-   Use -Dqh_QHpointer for libqhullp.a, qhullcpp.dll, etc.
-   Cost of qh_QHpointer: [2003, msvc] 8% time 2% space, [2010, gcc] 4% time 4% space
- - user.h requires <time.h> for CLOCKS_PER_SEC
- - Add CMakeLists.txt [kwilliams]
- - Order object files by frequency of execution for better locality.
- - Fix tabs in Makefile.txt [mschamschula]
+- Remove user_eg.exe and user_eg2.exe from Windows distribution
+- Remove ptr_intT from qh_matchvertices.  It was int since the beginning.
+- Use qh_QHpointer=0 for libqhull.a, qhull, rbox, etc.
+  Use -Dqh_QHpointer for libqhullp.a, qhullcpp.dll, etc.
+  Cost of qh_QHpointer: [2003, msvc] 8% time 2% space, [2010, gcc] 4% time 4% space
+- user.h requires <time.h> for CLOCKS_PER_SEC
+- Add CMakeLists.txt [kwilliams]
+- Order object files by frequency of execution for better locality.
+- Fix tabs in Makefile.txt [mschamschula]
+- Removed ConvexHull/ from git.  Not used.
  
 qhull 2009.1.1 2010/01/09
-
-Patch release of 2009.1 with poly.c-qh_gethash.patch from gitorious.org/qhull
-qh_gethash allowed a negative result, causing overwrite or segfault
+- Patch release of 2009.1. 
+  qh_gethash allowed a negative result, causing overwrite or segfault
+  See git:qhull/project/patch/qhull-2003.1/poly.c-qh_gethash.patch
+  Compared results of q_test, q_eg, and q_egtest with patched poly.c, qhull-2003.1 
 
 qhull 2010.1 2010/01/07
- - Assign type to qh.old_qhstat and memT.tempstack [amorilia]
- - Replace tabs with spaces.
- - Fix qh_pointid in case ptr_intT is unsigned
+- Assign type to qh.old_qhstat and memT.tempstack [amorilia]
+- Replace tabs with spaces.
+- Fix qh_pointid in case ptr_intT is unsigned
 
 qhull 2010.1 2010/01/06
 - Fixed serious bug in qh_gethash [poly.c] 
@@ -150,12 +147,12 @@ Fixed bugs
 
 qhull 2010.0.2 2010/01/04
 
-- Reviewed output of q_test and compared to results from 2003.1
-
 Fixed bugs
-- qh_gethash [poly.c]: fix sign conversion.  Previously, the result may be negative, leading to a segfault.  
+- qh_gethash [poly.c]: fix sign conversion.  
+    Previously, the result may be negative, leading to a segfault.  
     The bug is more likely with large address spaces
     Reviewed all uses of %(modulo) for remainder with negative arguments
+- Reviewed output of q_test and compared to results from 2003.1
 
 Breaking code changes
 - Return type of qh_gethash changed from unsigned to int.  Matches 'size'
