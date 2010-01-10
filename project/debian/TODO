@@ -1,0 +1,14 @@
+[This file was originally written by Barak Pearlmutter <bap@cs.unm.edu>]
+
+The random number generator in src/geom2.c makes me suspicious.
+Maybe it would be better to switch to random(3).
+
+The include files used in user code have lots of stuff in them that
+really only the library needs.  These could be split out.
+
+Hook into that debian library-switches gizmo.
+
+Separate versions of all functions for various floating point
+precisions.  Perhaps via multiple #include's.
+
+Convert executables to getopt and --help, and stop using isatty.

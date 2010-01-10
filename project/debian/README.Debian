@@ -1,0 +1,30 @@
+qhull for Debian
+================
+
+Usage
+-----
+
+The library's functionality can be accessed from the command line
+using the executable "qhull".  Random distributions of points can be
+drawn for testing and experimentation using "rbox".
+
+
+Registering
+-----------
+
+The upstream authors would like to find out how you are using their
+software.  Look at /usr/share/doc/qhull/REGISTER.txt to know how to send
+them feedback.
+
+
+Documentation
+-------------
+
+Documentation in HTML format is available starting in the file
+/usr/share/doc/qhull/qh-man.htm.  There are also some exemples in the
+directory /usr/share/doc/qhull/examples.
+
+
+
+ -- Rafael Laboissiere <rafael@debian.org>, Mon Dec  3 20:20:07 CET 2001
+
