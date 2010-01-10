@@ -120,6 +120,11 @@ qhull 2010.1 2010/01/09
  - Order object files by frequency of execution for better locality.
  - Fix tabs in Makefile.txt [mschamschula]
  
+qhull 2009.1.1 2010/01/09
+
+Patch release of 2009.1 with poly.c-qh_gethash.patch from gitorious.org/qhull
+qh_gethash allowed a negative result, causing overwrite or segfault
+
 qhull 2010.1 2010/01/07
  - Assign type to qh.old_qhstat and memT.tempstack [amorilia]
  - Replace tabs with spaces.
