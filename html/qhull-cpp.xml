@@ -6,8 +6,8 @@
    xmlns:rf="http://schemas.roadintranet.org/road-faq-1"
  title=" C++ interface to Qhull"
  file="qhull-cpp.xml"
- fileid="$Id: //product/qhull/main/rel/html/qhull-cpp.xml#23 $$Change: 1139 $"
- fileChange="$DateTime: 2010/01/03 11:20:29 $$Author: bbarber $">
+ fileid="$Id: //product/qhull/main/rel/html/qhull-cpp.xml#24 $$Change: 1174 $"
+ fileChange="$DateTime: 2010/01/10 22:34:05 $$Author: bbarber $">
     <div><h4>Qhull C++  -- C++ interface to Qhull</h4></div>
     <rf:copyright>
         <a href="../cpp/COPYING.txt">Copyright</a> (c) 2009-2010, C.B. Barber
@@ -25,16 +25,11 @@
            <div class="col leftcol">
                Help
                <ul><li>
-                   C++ In a Nutshell [<a href="#liscR_2003">liscR_2003</a>,
-                   <a href="http://www.tempest-sw.com/cpp/draft/">online</a>] -- 
-                   Concise and complete description of C++.
-               </li><li>
-                   <a href="http://codeidol.com/">CodeIdol</a> -- free, on-line books on coding and IT
+                </li><li>
                </li><li>
                </li></ul>
            </div>
            <div class="col rightcol">
-             C++ usage
              <ul><li>
              </li><li>
              </li></ul>
@@ -101,7 +96,7 @@ See <rf:iref item="cpp-collection-api"/>.
              </li><li>
                  Read-write for sets/maps -- insertMulti, squeeze, take, unite
              </li><li>
-                 Search -- contains(const T &), count(const T &amp;), indexOf, lastIndexOf
+                 Search -- contains(const T &amp;), count(const T &amp;), indexOf, lastIndexOf
              </li><li>
                  Search for sets/maps -- constFind, lowerBound, upperBound
              </li><li>
@@ -195,7 +190,7 @@ See <rf:iref item="cpp-collection-api"/>.
             </li><li>
                toClass -- Convert into a Class object (makes a deep copy)
             </li><li>
-                qRunId -- Requires Qh installed.  Some routines allow 0 for limited info (e.g., operator<<)
+                qRunId -- Requires Qh installed.  Some routines allow 0 for limited info (e.g., operator&lt;&lt;)
             </li><li>
                 Disable methods in derived classes -- If the default constructor, copy constructor, or copy assignment is disabled, it should be also disabled in derived classes (better error messages).
             </li><li>
@@ -203,11 +198,4 @@ See <rf:iref item="cpp-collection-api"/>.
             </li></ul>
         </rf:item>
     </rf:section>
-     <rf:section id="cpp-ref" title="C++ References" order="sorted">
-         <rf:item id="bulkD_2000" title="[bulkD_2000] Efficient C++: Performance Programming
-             Techniques" date="Dec 2008" author="bbarber">
-             <p>Bulka, Mayhew, Addison-Wesley, 2000, ISBN 0-201-37950-3</p>
-             <p>Efficient C++ programming with timing comparisons.</p>
-         </rf:item>
-     </rf:section>
 </rf:topic>

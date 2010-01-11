@@ -107,6 +107,10 @@ Need help
  - Verify -fno-strict-aliasing needed for gcc 4.1, 4.2, and 4.3 (qset segfault)
 
 ------------
+qhull 2010.1 2010/01/10
+- Test for NULL fp in qh_eachvoronoi [D. Szczerba]
+
+------------
 qhull 2010.1 2010/01/09
 
 Changes to build and distribution

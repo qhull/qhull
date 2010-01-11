@@ -42,15 +42,3 @@ SOURCES += src/mem.c
 SOURCES += src/usermem.c
 SOURCES += src/userprintf.c
 SOURCES += src/random.c
-HEADERS += src/geom.h
-HEADERS += src/io.h
-HEADERS += src/libqhull.h
-HEADERS += src/mem.h
-HEADERS += src/merge.h
-HEADERS += src/poly.h
-# qhull.h is for backwards compatibility
-HEADERS += src/qhull_a.h
-HEADERS += src/qset.h
-HEADERS += src/random.h
-HEADERS += src/stat.h
-HEADERS += src/user.h
