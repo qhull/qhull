@@ -10,7 +10,7 @@ CONFIG -= app_bundle qt
 # Appears to be needed for gcc 4.1, 4.2, and 4.3 with -O2
 #QMAKE_CFLAGS += -fno-strict-aliasing
 QMAKE_CFLAGS += -Wall -Wextra -Wshadow -Wcast-qual -Wwrite-strings
-QMAKE_CFLAGS += -Wno-sign-conversion # Many size_t vs. int errors
+QMAKE_CFLAGS += -Wstrict-aliasing -Wno-sign-conversion # Many size_t vs. int errors
 #QMAKE_CFLAGS_DEBUG += -Wconversion # no workaround for bit-field conversion errors
 build_pass:CONFIG(debug, debug|release):{
     TARGET = qhulld

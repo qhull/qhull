@@ -42,6 +42,8 @@ surface areas, and approximations to the convex hull.</p>
 triangulations, triangulation of non-convex surfaces, mesh
 generation of non-convex objects, or medium-sized inputs in 9-D
 and higher. </p>
+
+<p>A serious bug was found in Qhull 2003.1. Please upgrade to 2010.1 or apply <a href="download/poly.c-qh_gethash.patch">poly.c-qh_gethash.patch</a>.</p>
 </td></tr></table>
 
 <hr>
@@ -51,13 +53,13 @@ and higher. </p>
 <ul>
     <li><a href="http://www.qhull.org/news">News</a> and
         <a href="http://www.qhull.org/news/qhull-news.html#bugs">Bugs</a>
-        about Qhull 2010.1 2010/01/09</li>
+        about Qhull 2010.1 2010/01/10</li>
     <li><a href="http://www.qhull.org/download">Download</a>
         Qhull</li>
     <li><a
         href="http://www.geom.uiuc.edu/graphics/pix/Special_Topics/Computational_Geometry/welcome.html">Examples
         </a>of Qhull output </li>
-        <li><a href=http://gitorious.org/qhull/>Development</a> at Gitorious
+        <li><a href=http://gitorious.org/qhull/>Gitorious</a> C++ interface to Qhull (<a href="http://gitorious.org/qhull/pages/Home">wiki</a>)
         <li><input name=as_q size=10 value="">
                 <input type="submit" value="Search">
                 www.qhull.org
@@ -82,9 +84,12 @@ and higher. </p>
     <a href=http://www.mathworks.com/access/helpdesk/help/techdoc/ref/voronoin.shtml>voronoin</a>.  MATLAB R14 upgraded
         to Qhull 2002.1 and triangulated output ('Qt').
     </li>
+    <!-- Appears to have been removed
         <li><a href=http://www.octave.org/>GNU Octave</a> uses Qhull for their
         <a href=http://octave.sourceforge.net/index/analysis.html#Geometry>computational geometry</a> functions.
-        <li><a href=http://www.wolfram.com/products/mathematica/>Mathematica</a>'s Delaunay interface: <a href=http://library.wolfram.com/infocenter/MathSource/1160/>qh-math</a>
+      -->
+        <li><a href=http://www.wolfram.com/products/mathematica/>Mathematica</a>'s Delaunay interface <a href=http://library.wolfram.com/infocenter/MathSource/1160/>qh-math</a>
+        and <a href="http://www.imtek.uni-freiburg.de/simulation/mathematica/IMSweb/imsTOC/Interfaces/QHullInterfaceDocu.html">QHullInterface</a>
         <li><a href=http://www.geomview.org>Geomview</a> for 3-D and 4-D visualization of Qhull output
 </ul>
 </form>
@@ -166,8 +171,6 @@ and algorithms,
     <li><a href=http://www.algorithmic-solutions.com/enleda.htm>Leda</a>
 and <a href=http://www.cgal.org/>CGAL</a> libraries for writing computational
 geometry programs and other combinatorial algorithms
-        <li><a href=http://www.magic-software.com>Magic Software</a> source code for computer
-        graphics, image analysis, and numerical methods
         <li><a href=http://www.mathtools.net/>Mathtools.net</a> of scientific and engineering
         software
     <li><a href="http://www.andrew.cmu.edu/user/sowen/mesh.html">Owen's Meshing</a> Research Corner
@@ -176,9 +179,8 @@ geometry programs and other combinatorial algorithms
         Finite Element</a> Mesh Generation page</li>
     <li><a href="http://www.cs.cmu.edu/~quake/triangle.html">Shewchuk's
         triangle </a>program for 2-d Delaunay</li>
-        <li><a href=ftp://ftp.zib.de/pub/Packages/mathprog/index.html>Skorobohatyj's Mathprog@ZIB</a> for
-        mathematical software
         <li><a href=http://www.voronoi.com>Voronoi Web Site</a> for all things Voronoi
+        <li>Young's <a href="http://homepage.usask.ca/~ijm451/finite/fe_resources/">Internet Finite Element Resources</a>
         <li><a href="http://www.uic.nnov.ru/~zny/skeleton/">Zolotykh's Skeleton</a> generates all extreme rays of a polyhedral cone using the Double Description Method</li>
 </ul>
 

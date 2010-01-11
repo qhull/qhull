@@ -14,8 +14,8 @@
    This allows the user to avoid loading io.o from qhull.a
 
    copyright (c) 1993-2010 The Geometry Center.
-   $Id: //product/qhull/main/rel/src/io.c#36 $$Change: 1167 $
-   $DateTime: 2010/01/08 19:03:17 $$Author: bbarber $
+   $Id: //product/qhull/main/rel/src/io.c#37 $$Change: 1174 $
+   $DateTime: 2010/01/10 22:34:05 $$Author: bbarber $
 */
 
 #include "qhull_a.h"
@@ -667,7 +667,7 @@ int qh_eachvoronoi(FILE *fp, printvridgeT printvridge, vertexT *atvertex, boolT 
             totridges++;
             trace4((qh ferr, 4017, "qh_eachvoronoi: Voronoi ridge of %d vertices between sites %d and %d\n",
                   count, qh_pointid(atvertex->point), qh_pointid(vertex->point)));
-            if (printvridge) {
+            if (printvridge && fp) {
               if (inorder && qh hull_dim == 3+1) /* 3-d Voronoi diagram */
                 centers= qh_detvridge3 (atvertex, vertex);
               else
