@@ -24,8 +24,8 @@ RCC_DIR = ../../tmp/rcc
 INCLUDEPATH = ../../cpp;../../cpp/road;../../tmp
 PRECOMPILED_HEADER = cpp/road/RoadTest.h
 
-# MAKEFILE = Makefile.qhulltest -- does  not work (it's ignored)
 VPATH = ../..
+SOURCES += cpp/qt-qhull.cpp
 SOURCES += cpp/road/RoadTest.cpp
 SOURCES += cpp/qhulltest/Coordinates_test.cpp
 SOURCES += cpp/qhulltest/PointCoordinates_test.cpp
@@ -42,7 +42,6 @@ SOURCES += cpp/qhulltest/QhullRidge_test.cpp
 SOURCES += cpp/qhulltest/QhullSet_test.cpp
 SOURCES += cpp/qhulltest/qhulltest.cpp
 SOURCES += cpp/qhulltest/QhullVertex_test.cpp
-SOURCES += cpp/qhulltest/qt-qhull.cpp
 SOURCES += cpp/qhulltest/UsingLibQhull_test.cpp
 SOURCES += cpp/qhulltest/RboxPoints_test.cpp
 HEADERS += cpp/Coordinates.h
