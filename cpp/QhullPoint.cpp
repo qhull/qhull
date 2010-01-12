@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2009-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullPoint.cpp#27 $$Change: 1167 $
-** $DateTime: 2010/01/08 19:03:17 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullPoint.cpp#28 $$Change: 1176 $
+** $DateTime: 2010/01/11 19:40:05 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -41,6 +41,23 @@ id(int qhRunId, int dimension, const coordT *c)
     long long i=(long long)c;
     return (int)i; // WARN64
 }//id
+
+#//Conversion
+
+// See qt-qhull.cpp for QList conversion
+
+#ifndef QHULL_NO_STL
+std::vector<coordT> QhullPoint::
+toStdVector() const
+{
+    QhullPointIterator i(*this);
+    std::vector<coordT> vs;
+    while(i.hasNext()){
+        vs.push_back(i.next());
+    }
+    return vs;
+}//toStdVector
+#endif //QHULL_NO_STL
 
 #//Operator
 

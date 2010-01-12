@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2009-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/qhulltest/Coordinates_test.cpp#17 $$Change: 1164 $
-** $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/qhulltest/Coordinates_test.cpp#18 $$Change: 1176 $
+** $DateTime: 2010/01/11 19:40:05 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -97,7 +97,7 @@ t_convert()
         QCOMPARE(qc[k], c[k]);
     }
     Coordinates c4;
-    c4= std::vector<double>(2, 0.0); //FIXUP move to Coordinates_test
+    c4= std::vector<double>(2, 0.0);
     QCOMPARE(c4.back(), 0.0);
     Coordinates c5(std::vector<double>(2, 0.0));
     QCOMPARE(c4.size(), c5.size());
@@ -528,24 +528,6 @@ t_io()
     QString s= QString::fromStdString(os.str());
     QCOMPARE(s.count("2"), 2);
 }//t_io
-
-#//Conversions
-
-//FIXUP -- Move conditional, Coordinates code to Coordinates.cpp
-
-#ifdef QHULL_USES_QT
-QList<coordT> Coordinates::
-toQList() const
-{
-    CoordinatesIterator i(*this);
-    QList<coordT> cs;
-    while(i.hasNext()){
-        cs.append(i.next());
-    }
-    return cs;
-}//toQList
-#endif //QHULL_USES_QT
-
 
 }//orgQhull
 

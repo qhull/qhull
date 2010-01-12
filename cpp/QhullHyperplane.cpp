@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2009-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullHyperplane.cpp#10 $$Change: 1167 $
-** $DateTime: 2010/01/08 19:03:17 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullHyperplane.cpp#11 $$Change: 1176 $
+** $DateTime: 2010/01/11 19:40:05 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -11,10 +11,29 @@
 
 #include <iostream>
 
+
 #ifdef _MSC_VER  // Microsoft Visual C++ -- warning level 4
 #endif
 
 namespace orgQhull {
+
+#//Conversion
+
+// See qt-qhull.cpp for QList conversions
+
+#ifndef QHULL_NO_STL
+std::vector<coordT> QhullHyperplane::
+toStdVector() const
+{
+    QhullHyperplaneIterator i(*this);
+    std::vector<coordT> fs;
+    while(i.hasNext()){
+        fs.push_back(i.next());
+    }
+    fs.push_back(hyperplane_offset);
+    return fs;
+}//toStdVector
+#endif //QHULL_NO_STL
 
 #//Value
 

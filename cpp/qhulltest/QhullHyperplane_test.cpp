@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2009-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/qhulltest/QhullHyperplane_test.cpp#11 $$Change: 1164 $
-** $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/qhulltest/QhullHyperplane_test.cpp#12 $$Change: 1176 $
+** $DateTime: 2010/01/11 19:40:05 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -406,35 +406,6 @@ t_io()
     }
 }//t_io
 
-
-//FIXUP -- Move conditional, QhullHyperplane code to QhullHyperplane.cpp
-#ifndef QHULL_NO_STL
-std::vector<coordT> QhullHyperplane::
-toStdVector() const
-{
-    QhullHyperplaneIterator i(*this);
-    std::vector<coordT> fs;
-    while(i.hasNext()){
-        fs.push_back(i.next());
-    }
-    fs.push_back(hyperplane_offset);
-    return fs;
-}//toStdVector
-#endif //QHULL_NO_STL
-
-#ifdef QHULL_USES_QT
-QList<coordT> QhullHyperplane::
-toQList() const
-{
-    QhullHyperplaneIterator i(*this);
-    QList<coordT> fs;
-    while(i.hasNext()){
-        fs.append(i.next());
-    }
-    fs.append(hyperplane_offset);
-    return fs;
-}//toQList
-#endif //QHULL_USES_QT
 
 }//orgQhull
 

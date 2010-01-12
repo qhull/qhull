@@ -231,6 +231,14 @@ build systems.
         - set the library file (use the same for debug and release)
         - build the project
 
+    - create a "Win32 static library" called "libqhullp"
+        - move these files from "qhull source"
+            geom.c geom2.c global.c io.c mem.c merge.c poly.c poly2.c libqhull.c
+                qset.c random.c rboxlib.c stat.c user.c usermem.c userprintf.c
+        - define qh_QHpointer=1
+        - set the library file (use the same for debug and release)
+        - build the project
+
     - create a "Win32 console application" called "qhull"
         - Move unix.c from "qhull source"
         - Add the library file created by "libqhull"
@@ -239,21 +247,30 @@ build systems.
     - create a "Win32 console application" called "qconvex"
         - Move qconvex.c from "qhull source"
         - Copy the library file from "libqhull"
+        - build the project
 
     - do the same for qdelaun.c, qhalf, qvoronoi.c, user_eg.c, user_eg2.c
 
     - create a "Win32 dynamic library" called "libqhullcpp"
         - Move cpp sources in cpp/*.cpp from "qhull source"
           Do not move cpp/qhulltest, road/RoadTest.cpp, or user_eg3.cpp
+        - define qh_QHpointer=1
+        - Add the library file created by "libqhullp"
+        - build the project
     
     - create a "Win32 console application" called "user_eg3"
         - Move user_eg3 from "qhull source"
+        - define qh_QHpointer=1
         - Add the library file created by "libqhullcpp"
+        - build the project
 
     - create a "Win32 console application" called "qhulltest"
         - Install Qt for DevStudio (http://qt.nokia.com/downloads)
         - Add everything in cpp/qhulltest
         - Add road/RoadTest.cpp
+        - define qh_QHpointer=1
+        - Add the library file created by "libqhullcpp"
+        - build the project
 
     - use Project:Settings to make any changes
     - use batch build to rebuild everything

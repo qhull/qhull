@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/qhulltest/QhullFacetSet_test.cpp#13 $$Change: 1164 $
-** $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/qhulltest/QhullFacetSet_test.cpp#14 $$Change: 1176 $
+** $DateTime: 2010/01/11 19:40:05 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -147,39 +147,6 @@ t_io()
         QCOMPARE(facets.count(QRegExp(" f[0-9]")), 2+13*2);
     }
 }//t_io
-
-//FIXUP -- Move conditional, QhullFacetSet code to QhullFacetSet.cpp
-#ifndef QHULL_NO_STL
-std::vector<QhullFacet> QhullFacetSet::
-toStdVector() const
-{
-    QhullSetIterator<QhullFacet> i(*this);
-    std::vector<QhullFacet> vs;
-    while(i.hasNext()){
-        QhullFacet f= i.next();
-        if(isSelectAll() || f.isGood()){
-            vs.push_back(f);
-        }
-    }
-    return vs;
-}//toStdVector
-#endif //QHULL_NO_STL
-
-#ifdef QHULL_USES_QT
-QList<QhullFacet> QhullFacetSet::
-toQList() const
-{
-    QhullSetIterator<QhullFacet> i(*this);
-    QList<QhullFacet> vs;
-    while(i.hasNext()){
-        QhullFacet f= i.next();
-        if(isSelectAll() || f.isGood()){
-            vs.append(f);
-        }
-    }
-    return vs;
-}//toQList
-#endif //QHULL_USES_QT
 
 }//orgQhull
 

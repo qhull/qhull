@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2009-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/qhulltest/PointCoordinates_test.cpp#15 $$Change: 1164 $
-** $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/qhulltest/PointCoordinates_test.cpp#16 $$Change: 1176 $
+** $DateTime: 2010/01/11 19:40:05 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -391,10 +391,6 @@ t_io()
     QCOMPARE(s.count("0"), 3);
     QCOMPARE(s.count("2"), 4);
 }//t_io
-
-#//Conversions
-
-//FIXUP -- Move conditional, PointCoordinates code to PointCoordinates.cpp
 
 }//orgQhull
 

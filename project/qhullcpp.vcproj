@@ -121,7 +121,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="..\cpp,..\..\cpp,..\src,..\..\src,..\tmp,..\..\tmp"
-				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
+				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;qh_QHpointer=1"
 				GeneratePreprocessedFile="0"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -276,6 +276,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\libqhull.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\mem.h"
 				>
 			</File>
@@ -317,10 +321,6 @@
 			</File>
 			<File
 				RelativePath="..\cpp\QhullIterator.h"
-				>
-			</File>
-			<File
-				RelativePath="..\src\libqhull.h"
 				>
 			</File>
 			<File

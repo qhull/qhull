@@ -209,11 +209,11 @@
 			Filter="h;hpp;hxx;hm;inl"
 			>
 			<File
-				RelativePath="..\src\mem.h"
+				RelativePath="..\src\libqhull.h"
 				>
 			</File>
 			<File
-				RelativePath="..\src\libqhull.h"
+				RelativePath="..\src\mem.h"
 				>
 			</File>
 			<File

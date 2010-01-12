@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2009-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/Coordinates.h#33 $$Change: 1167 $
-** $DateTime: 2010/01/08 19:03:17 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/Coordinates.h#34 $$Change: 1176 $
+** $DateTime: 2010/01/11 19:40:05 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -180,7 +180,7 @@ public:
         bool            operator>(const Coordinates::const_iterator &other) const { return *this>reinterpret_cast<const iterator &>(other); }
         bool            operator>=(const Coordinates::const_iterator &other) const { return *this>=reinterpret_cast<const iterator &>(other); }
 
-        iterator        operator++() { return iterator(++i); } //FIXUP QH10000 Should return reference, but get reference to temporary
+        iterator        operator++() { return iterator(++i); } //FIXUP QH10012 Should return reference, but get reference to temporary
         iterator        operator++(int) { return iterator(i++); }
         iterator        operator--() { return iterator(--i); }
         iterator        operator--(int) { return iterator(i--); }

@@ -42,6 +42,7 @@ SOURCES += cpp/qhulltest/QhullRidge_test.cpp
 SOURCES += cpp/qhulltest/QhullSet_test.cpp
 SOURCES += cpp/qhulltest/qhulltest.cpp
 SOURCES += cpp/qhulltest/QhullVertex_test.cpp
+SOURCES += cpp/qhulltest/qt-qhull.cpp
 SOURCES += cpp/qhulltest/UsingLibQhull_test.cpp
 SOURCES += cpp/qhulltest/RboxPoints_test.cpp
 HEADERS += cpp/Coordinates.h

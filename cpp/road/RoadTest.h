@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/road/RoadTest.h#15 $$Change: 1164 $
-** $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/road/RoadTest.h#16 $$Change: 1176 $
+** $DateTime: 2010/01/11 19:40:05 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -10,10 +10,9 @@
 #define ROADTEST_H
 
 //pre-compiled with RoadTest.h
-#include <QObject>
+#include <QObject>    // Qt C++ Framework
 #include <QtTest/QtTest>
 
-//FIXUP -- test that compiler sets QHULL_USES_QT.
 #define QHULL_USES_QT 1
 
 namespace orgQhull {

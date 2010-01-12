@@ -40,7 +40,8 @@ To do for suggestions
  - Fix doc comments
 
 Qhull cpp questions
- - iterator Coordinates::operator++() { return iterator(++i); } //FIXUP Should return reference, but get reference to temporary
+ - iterator Coordinates::operator++() { return iterator(++i); }
+ -  //FIXUP QH10012 Should return reference, but get reference to temporary
  - size() as size_t, size_type, or int
  - Should all containers have a reserve()?
  - Qhull.feasiblePoint interface
@@ -97,7 +98,6 @@ To do
 
 ------------
 Need help
- - git has an empty ConvexHull submodule on master or next.  How to remove it?  
  - The C++ interface needs work.  Give it a try and make it better.
  - Set up debian build. 
    Please keep debian files in config/ and project/debian/
@@ -106,6 +106,13 @@ Need help
  - Add CMakeLists.txt for qhullcpp, user_eg3, cpp/, and cpp/road
    If practical, please move to project/
  - Verify -fno-strict-aliasing needed for gcc 4.1, 4.2, and 4.3 (qset segfault)
+
+------------
+Qhull next branch
+
+- Add qt-qhull.cpp with Qt conditional code
+- Fix qhull.sln and project files for qh_QHpointer
+- Add libqhullp.proj
 
 ------------
 qhull 2010.1 2010/01/10

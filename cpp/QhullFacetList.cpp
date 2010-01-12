@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullFacetList.cpp#23 $$Change: 1171 $
-** $DateTime: 2010/01/09 10:11:25 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullFacetList.cpp#24 $$Change: 1176 $
+** $DateTime: 2010/01/11 19:40:05 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -23,6 +23,41 @@ using std::vector;
 #endif
 
 namespace orgQhull {
+
+#//Conversion
+
+// See qt_qhull.cpp for QList conversions
+
+#ifndef QHULL_NO_STL
+std::vector<QhullFacet> QhullFacetList::
+toStdVector() const
+{
+    QhullLinkedListIterator<QhullFacet> i(*this);
+    std::vector<QhullFacet> vs;
+    while(i.hasNext()){
+        QhullFacet f= i.next();
+        if(isSelectAll() || f.isGood()){
+            vs.push_back(f);
+        }
+    }
+    return vs;
+}//toStdVector
+#endif //QHULL_NO_STL
+
+#ifndef QHULL_NO_STL
+//! Same as PrintVertices
+std::vector<QhullVertex> QhullFacetList::
+vertices_toStdVector(int qhRunId) const
+{
+    std::vector<QhullVertex> vs;
+    QhullVertexSet qvs(qhRunId, first().getFacetT(), NULL, isSelectAll());
+
+    for(QhullVertexSet::iterator i=qvs.begin(); i!=qvs.end(); ++i){
+        vs.push_back(*i);
+    }
+    return vs;
+}//vertices_toStdVector
+#endif //QHULL_NO_STL
 
 #//Read-only
 

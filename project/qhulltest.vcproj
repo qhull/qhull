@@ -46,7 +46,7 @@
 				AdditionalOptions="-Zm200 -EHsc -w34100 -w34189"
 				Optimization="4"
 				AdditionalIncludeDirectories=".,..\cpp,..\..\cpp,..\src,..\..\src,..\tmp,..\..\tmp,&quot;$(QTDIR)\include\QtCore&quot;,&quot;$(QTDIR)\include&quot;,&quot;$(QTDIR)\include\QtTest&quot;,$(QTDIR)\mkspecs\win32-msvc2005"
-				PreprocessorDefinitions="UNICODE,WIN32,QT_LARGEFILE_SUPPORT,QT_DLL,QT_CORE_LIB,QT_THREAD_SUPPORT"
+				PreprocessorDefinitions="qh_QHpointer=1;QHULL_USES_QT;UNICODE,WIN32,QT_LARGEFILE_SUPPORT,QT_DLL,QT_CORE_LIB,QT_THREAD_SUPPORT"
 				GeneratePreprocessedFile="0"
 				RuntimeLibrary="3"
 				BufferSecurityCheck="false"
@@ -275,6 +275,18 @@
 				>
 			</File>
 			<File
+				RelativePath="..\cpp\qt-qhull.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\cpp\qhulltest\RboxPoints_test.cpp"
 				>
 			</File>
@@ -301,7 +313,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Moc&apos;ing RoadTest.h..."
-						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_CORE_LIB -DQT_THREAD_SUPPORT  -I&quot;.\.&quot; -I&quot;.\..\cpp\.&quot; -I&quot;.\..\..\cpp\.&quot; -I&quot;.\..\src\.&quot; -I&quot;.\..\..\src\.&quot; -I&quot;.\..\tmp\.&quot; -I&quot;.\..\..\tmp\.&quot; -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\QtTest\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2005\.&quot; &quot;..\cpp\road\RoadTest.h&quot; -o &quot;.\..\tmp\moc\moc_RoadTest.cpp&quot; &quot;-f../road/RoadTest.h&quot; &quot;-f..\..\cpp\road\RoadTest.h&quot;&#x0D;&#x0A;"
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -Dqh_QHpointer=1 -DQHULL_USES_QT -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_CORE_LIB -DQT_THREAD_SUPPORT  -I&quot;.\.&quot; -I&quot;.\..\cpp\.&quot; -I&quot;.\..\..\cpp\.&quot; -I&quot;.\..\src\.&quot; -I&quot;.\..\..\src\.&quot; -I&quot;.\..\tmp\.&quot; -I&quot;.\..\..\tmp\.&quot; -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\QtTest\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2005\.&quot; &quot;..\cpp\road\RoadTest.h&quot; -o &quot;.\..\tmp\moc\moc_RoadTest.cpp&quot; &quot;-f../road/RoadTest.h&quot; &quot;-f..\..\cpp\road\RoadTest.h&quot;&#x0D;&#x0A;"
 						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;..\cpp\road\RoadTest.h"
 						Outputs="&quot;.\..\tmp\moc\moc_RoadTest.cpp&quot;"
 					/>
@@ -333,7 +345,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Moc&apos;ing Coordinates_test.cpp..."
-						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_CORE_LIB -DQT_THREAD_SUPPORT  -I&quot;.\.&quot; -I&quot;.\..\cpp\.&quot; -I&quot;.\..\..\cpp\.&quot; -I&quot;.\..\src\.&quot; -I&quot;.\..\..\src\.&quot; -I&quot;.\..\tmp\.&quot; -I&quot;.\..\..\tmp\.&quot; -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\QtTest\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2005\.&quot; &quot;..\cpp\qhulltest\Coordinates_test.cpp&quot; -o &quot;.\..\tmp\moc\Coordinates_test.moc&quot;&#x0D;&#x0A;"
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -Dqh_QHpointer=1 -DQHULL_USES_QT -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_CORE_LIB -DQT_THREAD_SUPPORT  -I&quot;.\.&quot; -I&quot;.\..\cpp\.&quot; -I&quot;.\..\..\cpp\.&quot; -I&quot;.\..\src\.&quot; -I&quot;.\..\..\src\.&quot; -I&quot;.\..\tmp\.&quot; -I&quot;.\..\..\tmp\.&quot; -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\QtTest\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2005\.&quot; &quot;..\cpp\qhulltest\Coordinates_test.cpp&quot; -o &quot;.\..\tmp\moc\Coordinates_test.moc&quot;&#x0D;&#x0A;"
 						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;..\cpp\qhulltest\Coordinates_test.cpp"
 						Outputs="&quot;.\..\tmp\moc\Coordinates_test.moc&quot;"
 					/>
@@ -355,7 +367,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Moc&apos;ing PointCoordinates_test.cpp..."
-						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_CORE_LIB -DQT_THREAD_SUPPORT  -I&quot;.\.&quot; -I&quot;.\..\cpp\.&quot; -I&quot;.\..\..\cpp\.&quot; -I&quot;.\..\src\.&quot; -I&quot;.\..\..\src\.&quot; -I&quot;.\..\tmp\.&quot; -I&quot;.\..\..\tmp\.&quot; -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\QtTest\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2005\.&quot; &quot;..\cpp\qhulltest\PointCoordinates_test.cpp&quot; -o &quot;.\..\tmp\moc\PointCoordinates_test.moc&quot;&#x0D;&#x0A;"
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -Dqh_QHpointer=1 -DQHULL_USES_QT -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_CORE_LIB -DQT_THREAD_SUPPORT  -I&quot;.\.&quot; -I&quot;.\..\cpp\.&quot; -I&quot;.\..\..\cpp\.&quot; -I&quot;.\..\src\.&quot; -I&quot;.\..\..\src\.&quot; -I&quot;.\..\tmp\.&quot; -I&quot;.\..\..\tmp\.&quot; -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\QtTest\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2005\.&quot; &quot;..\cpp\qhulltest\PointCoordinates_test.cpp&quot; -o &quot;.\..\tmp\moc\PointCoordinates_test.moc&quot;&#x0D;&#x0A;"
 						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;..\cpp\qhulltest\PointCoordinates_test.cpp"
 						Outputs="&quot;.\..\tmp\moc\PointCoordinates_test.moc&quot;"
 					/>
@@ -381,7 +393,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Moc&apos;ing Qhull_test.cpp..."
-						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_CORE_LIB -DQT_THREAD_SUPPORT  -I&quot;.\.&quot; -I&quot;.\..\cpp\.&quot; -I&quot;.\..\..\cpp\.&quot; -I&quot;.\..\src\.&quot; -I&quot;.\..\..\src\.&quot; -I&quot;.\..\tmp\.&quot; -I&quot;.\..\..\tmp\.&quot; -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\QtTest\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2005\.&quot; &quot;..\cpp\qhulltest\Qhull_test.cpp&quot; -o &quot;.\..\tmp\moc\Qhull_test.moc&quot;&#x0D;&#x0A;"
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -Dqh_QHpointer=1 -DQHULL_USES_QT -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_CORE_LIB -DQT_THREAD_SUPPORT  -I&quot;.\.&quot; -I&quot;.\..\cpp\.&quot; -I&quot;.\..\..\cpp\.&quot; -I&quot;.\..\src\.&quot; -I&quot;.\..\..\src\.&quot; -I&quot;.\..\tmp\.&quot; -I&quot;.\..\..\tmp\.&quot; -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\QtTest\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2005\.&quot; &quot;..\cpp\qhulltest\Qhull_test.cpp&quot; -o &quot;.\..\tmp\moc\Qhull_test.moc&quot;&#x0D;&#x0A;"
 						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;..\cpp\qhulltest\Qhull_test.cpp"
 						Outputs="&quot;.\..\tmp\moc\Qhull_test.moc&quot;"
 					/>
@@ -403,7 +415,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Moc&apos;ing QhullFacet_test.cpp..."
-						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_CORE_LIB -DQT_THREAD_SUPPORT  -I&quot;.\.&quot; -I&quot;.\..\cpp\.&quot; -I&quot;.\..\..\cpp\.&quot; -I&quot;.\..\src\.&quot; -I&quot;.\..\..\src\.&quot; -I&quot;.\..\tmp\.&quot; -I&quot;.\..\..\tmp\.&quot; -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\QtTest\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2005\.&quot; &quot;..\cpp\qhulltest\QhullFacet_test.cpp&quot; -o &quot;.\..\tmp\moc\QhullFacet_test.moc&quot;&#x0D;&#x0A;"
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -Dqh_QHpointer=1 -DQHULL_USES_QT -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_CORE_LIB -DQT_THREAD_SUPPORT  -I&quot;.\.&quot; -I&quot;.\..\cpp\.&quot; -I&quot;.\..\..\cpp\.&quot; -I&quot;.\..\src\.&quot; -I&quot;.\..\..\src\.&quot; -I&quot;.\..\tmp\.&quot; -I&quot;.\..\..\tmp\.&quot; -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\QtTest\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2005\.&quot; &quot;..\cpp\qhulltest\QhullFacet_test.cpp&quot; -o &quot;.\..\tmp\moc\QhullFacet_test.moc&quot;&#x0D;&#x0A;"
 						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;..\cpp\qhulltest\QhullFacet_test.cpp"
 						Outputs="&quot;.\..\tmp\moc\QhullFacet_test.moc&quot;"
 					/>
@@ -425,7 +437,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Moc&apos;ing QhullFacetList_test.cpp..."
-						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_CORE_LIB -DQT_THREAD_SUPPORT  -I&quot;.\.&quot; -I&quot;.\..\cpp\.&quot; -I&quot;.\..\..\cpp\.&quot; -I&quot;.\..\src\.&quot; -I&quot;.\..\..\src\.&quot; -I&quot;.\..\tmp\.&quot; -I&quot;.\..\..\tmp\.&quot; -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\QtTest\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2005\.&quot; &quot;..\cpp\qhulltest\QhullFacetList_test.cpp&quot; -o &quot;.\..\tmp\moc\QhullFacetList_test.moc&quot;&#x0D;&#x0A;"
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -Dqh_QHpointer=1 -DQHULL_USES_QT -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_CORE_LIB -DQT_THREAD_SUPPORT  -I&quot;.\.&quot; -I&quot;.\..\cpp\.&quot; -I&quot;.\..\..\cpp\.&quot; -I&quot;.\..\src\.&quot; -I&quot;.\..\..\src\.&quot; -I&quot;.\..\tmp\.&quot; -I&quot;.\..\..\tmp\.&quot; -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\QtTest\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2005\.&quot; &quot;..\cpp\qhulltest\QhullFacetList_test.cpp&quot; -o &quot;.\..\tmp\moc\QhullFacetList_test.moc&quot;&#x0D;&#x0A;"
 						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;..\cpp\qhulltest\QhullFacetList_test.cpp"
 						Outputs="&quot;.\..\tmp\moc\QhullFacetList_test.moc&quot;"
 					/>
@@ -447,7 +459,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Moc&apos;ing QhullFacetSet_test.cpp..."
-						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_CORE_LIB -DQT_THREAD_SUPPORT  -I&quot;.\.&quot; -I&quot;.\..\cpp\.&quot; -I&quot;.\..\..\cpp\.&quot; -I&quot;.\..\src\.&quot; -I&quot;.\..\..\src\.&quot; -I&quot;.\..\tmp\.&quot; -I&quot;.\..\..\tmp\.&quot; -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\QtTest\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2005\.&quot; &quot;..\cpp\qhulltest\QhullFacetSet_test.cpp&quot; -o &quot;.\..\tmp\moc\QhullFacetSet_test.moc&quot;&#x0D;&#x0A;"
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -Dqh_QHpointer=1 -DQHULL_USES_QT -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_CORE_LIB -DQT_THREAD_SUPPORT  -I&quot;.\.&quot; -I&quot;.\..\cpp\.&quot; -I&quot;.\..\..\cpp\.&quot; -I&quot;.\..\src\.&quot; -I&quot;.\..\..\src\.&quot; -I&quot;.\..\tmp\.&quot; -I&quot;.\..\..\tmp\.&quot; -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\QtTest\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2005\.&quot; &quot;..\cpp\qhulltest\QhullFacetSet_test.cpp&quot; -o &quot;.\..\tmp\moc\QhullFacetSet_test.moc&quot;&#x0D;&#x0A;"
 						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;..\cpp\qhulltest\QhullFacetSet_test.cpp"
 						Outputs="&quot;.\..\tmp\moc\QhullFacetSet_test.moc&quot;"
 					/>
@@ -469,7 +481,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Moc&apos;ing QhullHyperplane_test.cpp..."
-						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_CORE_LIB -DQT_THREAD_SUPPORT  -I&quot;.\.&quot; -I&quot;.\..\cpp\.&quot; -I&quot;.\..\..\cpp\.&quot; -I&quot;.\..\src\.&quot; -I&quot;.\..\..\src\.&quot; -I&quot;.\..\tmp\.&quot; -I&quot;.\..\..\tmp\.&quot; -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\QtTest\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2005\.&quot; &quot;..\cpp\qhulltest\QhullHyperplane_test.cpp&quot; -o &quot;.\..\tmp\moc\QhullHyperplane_test.moc&quot;&#x0D;&#x0A;"
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -Dqh_QHpointer=1 -DQHULL_USES_QT -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_CORE_LIB -DQT_THREAD_SUPPORT  -I&quot;.\.&quot; -I&quot;.\..\cpp\.&quot; -I&quot;.\..\..\cpp\.&quot; -I&quot;.\..\src\.&quot; -I&quot;.\..\..\src\.&quot; -I&quot;.\..\tmp\.&quot; -I&quot;.\..\..\tmp\.&quot; -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\QtTest\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2005\.&quot; &quot;..\cpp\qhulltest\QhullHyperplane_test.cpp&quot; -o &quot;.\..\tmp\moc\QhullHyperplane_test.moc&quot;&#x0D;&#x0A;"
 						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;..\cpp\qhulltest\QhullHyperplane_test.cpp"
 						Outputs="&quot;.\..\tmp\moc\QhullHyperplane_test.moc&quot;"
 					/>
@@ -495,7 +507,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Moc&apos;ing QhullLinkedList_test.cpp..."
-						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_CORE_LIB -DQT_THREAD_SUPPORT  -I&quot;.\.&quot; -I&quot;.\..\cpp\.&quot; -I&quot;.\..\..\cpp\.&quot; -I&quot;.\..\src\.&quot; -I&quot;.\..\..\src\.&quot; -I&quot;.\..\tmp\.&quot; -I&quot;.\..\..\tmp\.&quot; -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\QtTest\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2005\.&quot; &quot;..\cpp\qhulltest\QhullLinkedList_test.cpp&quot; -o &quot;.\..\tmp\moc\QhullLinkedList_test.moc&quot;&#x0D;&#x0A;"
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -Dqh_QHpointer=1 -DQHULL_USES_QT -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_CORE_LIB -DQT_THREAD_SUPPORT  -I&quot;.\.&quot; -I&quot;.\..\cpp\.&quot; -I&quot;.\..\..\cpp\.&quot; -I&quot;.\..\src\.&quot; -I&quot;.\..\..\src\.&quot; -I&quot;.\..\tmp\.&quot; -I&quot;.\..\..\tmp\.&quot; -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\QtTest\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2005\.&quot; &quot;..\cpp\qhulltest\QhullLinkedList_test.cpp&quot; -o &quot;.\..\tmp\moc\QhullLinkedList_test.moc&quot;&#x0D;&#x0A;"
 						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;..\cpp\qhulltest\QhullLinkedList_test.cpp"
 						Outputs="&quot;.\..\tmp\moc\QhullLinkedList_test.moc&quot;"
 					/>
@@ -517,7 +529,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Moc&apos;ing QhullPoint_test.cpp..."
-						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_CORE_LIB -DQT_THREAD_SUPPORT  -I&quot;.\.&quot; -I&quot;.\..\cpp\.&quot; -I&quot;.\..\..\cpp\.&quot; -I&quot;.\..\src\.&quot; -I&quot;.\..\..\src\.&quot; -I&quot;.\..\tmp\.&quot; -I&quot;.\..\..\tmp\.&quot; -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\QtTest\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2005\.&quot; &quot;..\cpp\qhulltest\QhullPoint_test.cpp&quot; -o &quot;.\..\tmp\moc\QhullPoint_test.moc&quot;&#x0D;&#x0A;"
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -Dqh_QHpointer=1 -DQHULL_USES_QT -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_CORE_LIB -DQT_THREAD_SUPPORT  -I&quot;.\.&quot; -I&quot;.\..\cpp\.&quot; -I&quot;.\..\..\cpp\.&quot; -I&quot;.\..\src\.&quot; -I&quot;.\..\..\src\.&quot; -I&quot;.\..\tmp\.&quot; -I&quot;.\..\..\tmp\.&quot; -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\QtTest\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2005\.&quot; &quot;..\cpp\qhulltest\QhullPoint_test.cpp&quot; -o &quot;.\..\tmp\moc\QhullPoint_test.moc&quot;&#x0D;&#x0A;"
 						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;..\cpp\qhulltest\QhullPoint_test.cpp"
 						Outputs="&quot;.\..\tmp\moc\QhullPoint_test.moc&quot;"
 					/>
@@ -539,7 +551,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Moc&apos;ing QhullPoints_test.cpp..."
-						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_CORE_LIB -DQT_THREAD_SUPPORT  -I&quot;.\.&quot; -I&quot;.\..\cpp\.&quot; -I&quot;.\..\..\cpp\.&quot; -I&quot;.\..\src\.&quot; -I&quot;.\..\..\src\.&quot; -I&quot;.\..\tmp\.&quot; -I&quot;.\..\..\tmp\.&quot; -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\QtTest\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2005\.&quot; &quot;..\cpp\qhulltest\QhullPoints_test.cpp&quot; -o &quot;.\..\tmp\moc\QhullPoints_test.moc&quot;&#x0D;&#x0A;"
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -Dqh_QHpointer=1 -DQHULL_USES_QT -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_CORE_LIB -DQT_THREAD_SUPPORT  -I&quot;.\.&quot; -I&quot;.\..\cpp\.&quot; -I&quot;.\..\..\cpp\.&quot; -I&quot;.\..\src\.&quot; -I&quot;.\..\..\src\.&quot; -I&quot;.\..\tmp\.&quot; -I&quot;.\..\..\tmp\.&quot; -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\QtTest\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2005\.&quot; &quot;..\cpp\qhulltest\QhullPoints_test.cpp&quot; -o &quot;.\..\tmp\moc\QhullPoints_test.moc&quot;&#x0D;&#x0A;"
 						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;..\cpp\qhulltest\QhullPoints_test.cpp"
 						Outputs="&quot;.\..\tmp\moc\QhullPoints_test.moc&quot;"
 					/>
@@ -561,7 +573,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Moc&apos;ing QhullPointSet_test.cpp..."
-						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_CORE_LIB -DQT_THREAD_SUPPORT  -I&quot;.\.&quot; -I&quot;.\..\cpp\.&quot; -I&quot;.\..\..\cpp\.&quot; -I&quot;.\..\src\.&quot; -I&quot;.\..\..\src\.&quot; -I&quot;.\..\tmp\.&quot; -I&quot;.\..\..\tmp\.&quot; -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\QtTest\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2005\.&quot; &quot;..\cpp\qhulltest\QhullPointSet_test.cpp&quot; -o &quot;.\..\tmp\moc\QhullPointSet_test.moc&quot;&#x0D;&#x0A;"
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -Dqh_QHpointer=1 -DQHULL_USES_QT -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_CORE_LIB -DQT_THREAD_SUPPORT  -I&quot;.\.&quot; -I&quot;.\..\cpp\.&quot; -I&quot;.\..\..\cpp\.&quot; -I&quot;.\..\src\.&quot; -I&quot;.\..\..\src\.&quot; -I&quot;.\..\tmp\.&quot; -I&quot;.\..\..\tmp\.&quot; -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\QtTest\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2005\.&quot; &quot;..\cpp\qhulltest\QhullPointSet_test.cpp&quot; -o &quot;.\..\tmp\moc\QhullPointSet_test.moc&quot;&#x0D;&#x0A;"
 						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;..\cpp\qhulltest\QhullPointSet_test.cpp"
 						Outputs="&quot;.\..\tmp\moc\QhullPointSet_test.moc&quot;"
 					/>
@@ -583,7 +595,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Moc&apos;ing QhullRidge_test.cpp..."
-						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_CORE_LIB -DQT_THREAD_SUPPORT  -I&quot;.\.&quot; -I&quot;.\..\cpp\.&quot; -I&quot;.\..\..\cpp\.&quot; -I&quot;.\..\src\.&quot; -I&quot;.\..\..\src\.&quot; -I&quot;.\..\tmp\.&quot; -I&quot;.\..\..\tmp\.&quot; -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\QtTest\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2005\.&quot; &quot;..\cpp\qhulltest\QhullRidge_test.cpp&quot; -o &quot;.\..\tmp\moc\QhullRidge_test.moc&quot;&#x0D;&#x0A;"
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -Dqh_QHpointer=1 -DQHULL_USES_QT -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_CORE_LIB -DQT_THREAD_SUPPORT  -I&quot;.\.&quot; -I&quot;.\..\cpp\.&quot; -I&quot;.\..\..\cpp\.&quot; -I&quot;.\..\src\.&quot; -I&quot;.\..\..\src\.&quot; -I&quot;.\..\tmp\.&quot; -I&quot;.\..\..\tmp\.&quot; -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\QtTest\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2005\.&quot; &quot;..\cpp\qhulltest\QhullRidge_test.cpp&quot; -o &quot;.\..\tmp\moc\QhullRidge_test.moc&quot;&#x0D;&#x0A;"
 						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;..\cpp\qhulltest\QhullRidge_test.cpp"
 						Outputs="&quot;.\..\tmp\moc\QhullRidge_test.moc&quot;"
 					/>
@@ -605,7 +617,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Moc&apos;ing QhullSet_test.cpp..."
-						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_CORE_LIB -DQT_THREAD_SUPPORT  -I&quot;.\.&quot; -I&quot;.\..\cpp\.&quot; -I&quot;.\..\..\cpp\.&quot; -I&quot;.\..\src\.&quot; -I&quot;.\..\..\src\.&quot; -I&quot;.\..\tmp\.&quot; -I&quot;.\..\..\tmp\.&quot; -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\QtTest\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2005\.&quot; &quot;..\cpp\qhulltest\QhullSet_test.cpp&quot; -o &quot;.\..\tmp\moc\QhullSet_test.moc&quot;&#x0D;&#x0A;"
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -Dqh_QHpointer=1 -DQHULL_USES_QT -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_CORE_LIB -DQT_THREAD_SUPPORT  -I&quot;.\.&quot; -I&quot;.\..\cpp\.&quot; -I&quot;.\..\..\cpp\.&quot; -I&quot;.\..\src\.&quot; -I&quot;.\..\..\src\.&quot; -I&quot;.\..\tmp\.&quot; -I&quot;.\..\..\tmp\.&quot; -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\QtTest\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2005\.&quot; &quot;..\cpp\qhulltest\QhullSet_test.cpp&quot; -o &quot;.\..\tmp\moc\QhullSet_test.moc&quot;&#x0D;&#x0A;"
 						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;..\cpp\qhulltest\QhullSet_test.cpp"
 						Outputs="&quot;.\..\tmp\moc\QhullSet_test.moc&quot;"
 					/>
@@ -627,7 +639,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Moc&apos;ing QhullVertex_test.cpp..."
-						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_CORE_LIB -DQT_THREAD_SUPPORT  -I&quot;.\.&quot; -I&quot;.\..\cpp\.&quot; -I&quot;.\..\..\cpp\.&quot; -I&quot;.\..\src\.&quot; -I&quot;.\..\..\src\.&quot; -I&quot;.\..\tmp\.&quot; -I&quot;.\..\..\tmp\.&quot; -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\QtTest\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2005\.&quot; &quot;..\cpp\qhulltest\QhullVertex_test.cpp&quot; -o &quot;.\..\tmp\moc\QhullVertex_test.moc&quot;&#x0D;&#x0A;"
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -Dqh_QHpointer=1 -DQHULL_USES_QT -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_CORE_LIB -DQT_THREAD_SUPPORT  -I&quot;.\.&quot; -I&quot;.\..\cpp\.&quot; -I&quot;.\..\..\cpp\.&quot; -I&quot;.\..\src\.&quot; -I&quot;.\..\..\src\.&quot; -I&quot;.\..\tmp\.&quot; -I&quot;.\..\..\tmp\.&quot; -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\QtTest\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2005\.&quot; &quot;..\cpp\qhulltest\QhullVertex_test.cpp&quot; -o &quot;.\..\tmp\moc\QhullVertex_test.moc&quot;&#x0D;&#x0A;"
 						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;..\cpp\qhulltest\QhullVertex_test.cpp"
 						Outputs="&quot;.\..\tmp\moc\QhullVertex_test.moc&quot;"
 					/>
@@ -649,7 +661,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Moc&apos;ing RboxPoints_test.cpp..."
-						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_CORE_LIB -DQT_THREAD_SUPPORT  -I&quot;.\.&quot; -I&quot;.\..\cpp\.&quot; -I&quot;.\..\..\cpp\.&quot; -I&quot;.\..\src\.&quot; -I&quot;.\..\..\src\.&quot; -I&quot;.\..\tmp\.&quot; -I&quot;.\..\..\tmp\.&quot; -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\QtTest\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2005\.&quot; &quot;..\cpp\qhulltest\RboxPoints_test.cpp&quot; -o &quot;.\..\tmp\moc\RboxPoints_test.moc&quot;&#x0D;&#x0A;"
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -Dqh_QHpointer=1 -DQHULL_USES_QT -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_CORE_LIB -DQT_THREAD_SUPPORT  -I&quot;.\.&quot; -I&quot;.\..\cpp\.&quot; -I&quot;.\..\..\cpp\.&quot; -I&quot;.\..\src\.&quot; -I&quot;.\..\..\src\.&quot; -I&quot;.\..\tmp\.&quot; -I&quot;.\..\..\tmp\.&quot; -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\QtTest\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2005\.&quot; &quot;..\cpp\qhulltest\RboxPoints_test.cpp&quot; -o &quot;.\..\tmp\moc\RboxPoints_test.moc&quot;&#x0D;&#x0A;"
 						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;..\cpp\qhulltest\RboxPoints_test.cpp"
 						Outputs="&quot;.\..\tmp\moc\RboxPoints_test.moc&quot;"
 					/>
@@ -671,7 +683,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Moc&apos;ing UsingLibQhull_test.cpp..."
-						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_CORE_LIB -DQT_THREAD_SUPPORT  -I&quot;.\.&quot; -I&quot;.\..\cpp\.&quot; -I&quot;.\..\..\cpp\.&quot; -I&quot;.\..\src\.&quot; -I&quot;.\..\..\src\.&quot; -I&quot;.\..\tmp\.&quot; -I&quot;.\..\..\tmp\.&quot; -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\QtTest\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2005\.&quot; &quot;..\cpp\qhulltest\UsingLibQhull_test.cpp&quot; -o &quot;.\..\tmp\moc\UsingLibQhull_test.moc&quot;&#x0D;&#x0A;"
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -Dqh_QHpointer=1 -DQHULL_USES_QT -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_CORE_LIB -DQT_THREAD_SUPPORT  -I&quot;.\.&quot; -I&quot;.\..\cpp\.&quot; -I&quot;.\..\..\cpp\.&quot; -I&quot;.\..\src\.&quot; -I&quot;.\..\..\src\.&quot; -I&quot;.\..\tmp\.&quot; -I&quot;.\..\..\tmp\.&quot; -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\QtTest\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2005\.&quot; &quot;..\cpp\qhulltest\UsingLibQhull_test.cpp&quot; -o &quot;.\..\tmp\moc\UsingLibQhull_test.moc&quot;&#x0D;&#x0A;"
 						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;..\cpp\qhulltest\UsingLibQhull_test.cpp"
 						Outputs="&quot;.\..\tmp\moc\UsingLibQhull_test.moc&quot;"
 					/>

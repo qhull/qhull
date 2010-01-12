@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/qhulltest/UsingLibQhull_test.cpp#5 $$Change: 1139 $
-** $DateTime: 2010/01/03 11:20:29 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/qhulltest/UsingLibQhull_test.cpp#6 $$Change: 1176 $
+** $DateTime: 2010/01/11 19:40:05 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -202,8 +202,6 @@ t_cleanuptestcase()
 {
     UsingLibQhull::unsetGlobals();
 }//t_cleanuptestcase
-
-
 
 }//orgQhull
 

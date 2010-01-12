@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2009-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullPointSet.cpp#10 $$Change: 1164 $
-** $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullPointSet.cpp#11 $$Change: 1176 $
+** $DateTime: 2010/01/11 19:40:05 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -15,6 +15,23 @@
 #endif
 
 namespace orgQhull {
+
+#// Conversion
+
+// See qt-qhull.cpp for QList conversion
+
+#ifndef QHULL_NO_STL
+std::vector<QhullPoint> QhullPointSet::
+toStdVector() const
+{
+    QhullPointSetIterator i(*this);
+    std::vector<QhullPoint> vs;
+    while(i.hasNext()){
+        vs.push_back(i.next());
+    }
+    return vs;
+}//toStdVector
+#endif //QHULL_NO_STL
 
 #//Element-access
 //! Derived from QhullSet::value

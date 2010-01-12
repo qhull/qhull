@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/qhulltest/QhullPoint_test.cpp#16 $$Change: 1164 $
-** $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/qhulltest/QhullPoint_test.cpp#17 $$Change: 1176 $
+** $DateTime: 2010/01/11 19:40:05 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -391,33 +391,6 @@ t_io()
         // QCOMPARE(s.count(QRegExp("f\\d")), 3*7 + 13*3*2);
     }
 }//t_io
-
-//FIXUP -- Move conditional, QhullPoint code to QhullPoint.cpp
-#ifndef QHULL_NO_STL
-std::vector<coordT> QhullPoint::
-toStdVector() const
-{
-    QhullPointIterator i(*this);
-    std::vector<coordT> vs;
-    while(i.hasNext()){
-        vs.push_back(i.next());
-    }
-    return vs;
-}//toStdVector
-#endif //QHULL_NO_STL
-
-#ifdef QHULL_USES_QT
-QList<coordT> QhullPoint::
-toQList() const
-{
-    QhullPointIterator i(*this);
-    QList<coordT> vs;
-    while(i.hasNext()){
-        vs.append(i.next());
-    }
-    return vs;
-}//toQList
-#endif //QHULL_USES_QT
 
 }//orgQhull
 
