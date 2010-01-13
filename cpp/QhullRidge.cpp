@@ -21,7 +21,8 @@ namespace orgQhull {
 
 #//class statics
 ridgeT QhullRidge::
-s_empty_ridge= {};
+s_empty_ridge= {0,0,0,0,0,
+                0,0};
 
 #//Constructor, destructor, etc.
 

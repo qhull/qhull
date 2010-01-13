@@ -50,7 +50,7 @@ precision errors while constructing the hull. </p>
 
 <hr>
 
-<h2><a href="#TOP">»</a><a name="TOC">Qhull
+<h2><a href="#TOP">&#187;</a><a name="TOC">Qhull
 imprecision: Table of Contents </a></h2>
 
 <ul>
@@ -68,7 +68,7 @@ imprecision: Table of Contents </a></h2>
 
 <hr>
 
-<h2><a href="#TOC">»</a><a name="prec">Precision problems</a></h2>
+<h2><a href="#TOC">&#187;</a><a name="prec">Precision problems</a></h2>
 
 <p>Since Qhull uses floating point arithmetic, roundoff error
 occurs with each calculation. This causes problems for
@@ -153,7 +153,7 @@ convex hull of the input set.  Like Qhull, it is an incremental algorithm that
 processes points furthest from the intermediate result and ignores
 points that are close to the intermediate result.
 
-<h2><a href="#TOC">»</a><a name="joggle">Merged facets or joggled input</a></h2>
+<h2><a href="#TOC">&#187;</a><a name="joggle">Merged facets or joggled input</a></h2>
 
 <p>This section discusses the choice between merged facets and joggled input.
 By default, Qhull uses merged facets to handle
@@ -217,7 +217,7 @@ Since all precision problems in Qhull are associated with one or
 more facets, Qhull will either fix the problem or attempt to merge the
 last remaining facets. </p>
 
-<h2><a href="#TOC">»</a><a name="delaunay">Delaunay
+<h2><a href="#TOC">&#187;</a><a name="delaunay">Delaunay
 triangulations </a></h2>
 
 <p>Programs that use Delaunay triangulations traditionally assume
@@ -250,7 +250,7 @@ particularly interesting.  It is similar to facet merging in Qhull.
 simplification with bounded error [<i>Computers and Graphics</i>, 22.5:565-585, 1998].
 It remove nodes using front propagation and multiple remeshing.
 
-<h2><a href="#TOC">»</a><a name="halfspace">Halfspace intersection</a></h2>
+<h2><a href="#TOC">&#187;</a><a name="halfspace">Halfspace intersection</a></h2>
 
 <p>
 The identity pipe for Qhull reveals some precision questions for
@@ -268,7 +268,7 @@ For example, compare the first results with the later two results:  [T. Abraham]
 </blockquote>
 
 
-<h2><a href="#TOC">»</a><a name="imprecise">Merged facets </a></h2>
+<h2><a href="#TOC">&#187;</a><a name="imprecise">Merged facets </a></h2>
 
 <p>Qhull detects precision
 problems when computing distances. A precision problem occurs if
@@ -325,7 +325,7 @@ below simplex <i>bcd </i>, and vertex <i>d</i> is clearly below
 simplex <i>abc</i>. When building the hull, Qhull tests vertices
 if the horizon is simplicial and no merges occur. </p>
 
-<h2><a href="#TOC">»</a><a name="how">How Qhull merges facets</a></h2>
+<h2><a href="#TOC">&#187;</a><a name="how">How Qhull merges facets</a></h2>
 
 <p>If two facets are not clearly convex, then Qhull removes one
 or the other facet by merging the facet into a neighbor. It
@@ -353,7 +353,7 @@ occurred (qh_WIDEcoplanar) and the number of extra vertices is
 smaller than a constant (qh_MAXnewcentrum).</p>
 
 
-<h2><a href="#TOC">»</a><a name="limit">Limitations of merged
+<h2><a href="#TOC">&#187;</a><a name="limit">Limitations of merged
 facets</a></h2>
 
 <ul>
@@ -541,7 +541,7 @@ try a strong convexity constraint:
 
 </ul>
 
-<h2><a href="#TOC">»</a><a name="injoggle">Joggled input</a></h2>
+<h2><a href="#TOC">&#187;</a><a name="injoggle">Joggled input</a></h2>
 
 <p>Joggled input is a simple work-around for precision problems
 in computational geometry [&quot;joggle: to shake or jar
@@ -713,7 +713,7 @@ distance computation. This is about 2,000 times better than
 joggled input. Most applications though will not notice the
 difference. </p>
 
-<h2><a href="#TOC">»</a><a name="exact">Exact arithmetic</a></h2>
+<h2><a href="#TOC">&#187;</a><a name="exact">Exact arithmetic</a></h2>
 
 <p>Exact arithmetic may be used instead of floating point.
 Singularities such as coplanar points can either be handled
@@ -734,7 +734,7 @@ This reduces the number of nearly singular computations. When a
 determinant is nearly singular, he uses exact arithmetic to
 compute a precise result.</p>
 
-<h2><a href="#TOC">»</a><a name="approximate">Approximating a
+<h2><a href="#TOC">&#187;</a><a name="approximate">Approximating a
 convex hull</a></h2>
 
 <p>Qhull may be used for approximating a convex hull. This is

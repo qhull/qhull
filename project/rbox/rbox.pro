@@ -6,8 +6,9 @@ DESTDIR = ../..
 TEMPLATE = app
 CONFIG += console warn_on
 LIBS += -L../..
-QMAKE_CFLAGS += -Wall -Wextra -Wshadow -Wcast-qual -Wwrite-strings
-QMAKE_CFLAGS += -Wno-sign-conversion # Many size_t vs. int errors
+QMAKE_CFLAGS_WARN_ON += -Werror -Wall -Wcast-qual -Wextra -Wshadow -Wwrite-strings
+QMAKE_CFLAGS_WARN_ON += -Wno-sign-conversion # Many size_t vs. int errors
+#QMAKE_CFLAGS_WARN_ON += -Wconversion # no workaround for bit-field conversion errors
 build_pass:CONFIG(debug, debug|release):{
    LIBS += libqhulld
    PRE_TARGETDEPS += ../../libqhulld.a

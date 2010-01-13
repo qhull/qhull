@@ -33,7 +33,14 @@ namespace orgQhull {
 
 #//class statics
 facetT QhullFacet::
-s_empty_facet= {};
+        s_empty_facet= {0,0,0,0,{0},
+                0,0,0,0,0,
+                0,0,0,0,0,
+                0,0,0,0,0,
+                0,0,0,0,0,
+                0,0,0,0,0,
+                0,0,0,0,0,
+                0,0,0,0};
 
 #//GetSet
 

@@ -110,6 +110,8 @@ UsingLibQhull(Qhull *q, int noThrow)
 : my_qhull(0)  // Fail by default
 , qh_exitcode(0)
 {
+    QHULL_UNUSED(noThrow);
+
     QhullQh *qhullqh= q->qhullQh();
     if(s_using_libqhull){
         QhullError e(10050, "Qhull error: UsingLibQhull already in use");

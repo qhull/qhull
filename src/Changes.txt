@@ -1,99 +1,10 @@
 
 .............This file lists all changes to qhull and rbox.....................
 
-To do for documentation
-- Qhull::addPoint().  Problems with qh_findbestfacet and otherpoints see
-   qh-code.htm#inc on-line construction with qh_addpoint()
-- How to handle 64-bit possible loss of data.  WARN64, ptr_intT, size_t/int
-- Show custom of qh_fprintf
-- grep 'qh_mem ' x | sort | awk '{ print $2; }' | uniq -c | grep -vE ' (2|4|6|8|10|12|14|16|20|64|162)[^0-9]'
-- qtpro/qhulltest contains .pro and Makefile.  Remove Makefiles by setting shadow directory to ../../tmp/projectname
-- Rules for use of qh_qh and multi processes
-    UsingQhull
-    errorIfAnotherUser
-    ~QhullPoints() needs ownership of qh_qh
-    Does !qh_pointer work?
-    When is qh_qh required?  Minimize the time.
-   qhmem, qhstat.ferr
-   qhull_inuse==1 when qhull globals active [not useful?]
-   rbox_inuse==1 when rbox globals active
-   - Multithreaded -- call largest dimension for infinityPoint() and origin()
- - Better documentation for qhmem totshort, freesize, etc.
- - Clean up qhull-news.html XML
- - how to change .h, .c, and .cpp to text/html.  OK in Opera
- - Set up wiki for Qhull.  Include error and warning codes (QHnnnn).
- - QhullVertex.dimension() is not quite correct, epensive
- - Check globalAngleEpsilon
- - Deprecate save_qhull()
-
-To do for suggestions
-   C++ class for access to statistics, accumulate vs. add
-   Add dialog box to RoadError-- a virtual function?
- - Gt does not make visible all facets of the mesh example, rbox 32 M1,0,1 | qhull d Gt
- - Option to select bounded Voronoi regions [A. Uzunovic]
- - Merge small volume boundary cells into unbounded regions [Dominik Szczerba]
- - Postmerge with merge options
- - Add const to C code
- - Add modify operators and MutablePointCoordinateIterator to PointCoordinates
- - Add Qtest::toString() functions for QhullPoint and others.  QByteArray and qstrdup()
- - Fix option Qt for conformant triangulations
- - Fix doc comments
-
-Qhull cpp questions
- - iterator Coordinates::operator++() { return iterator(++i); }
- -  //FIXUP QH10012 Should return reference, but get reference to temporary
- - size() as size_t, size_type, or int
- - Should all containers have a reserve()?
- - Qhull.feasiblePoint interface
- - How to avoid copy constructor while logging, maybeThrowQhullMessage()
- - How to configure Qhull output.  Trace and results should go to stdout/stderr
- - Qhull and RboxPoints messaging.  e.g., ~Qhull, hasQhullMessage()
- -  rename as QhullErrorMessage?  How to add additional output, e.g., qh_setprint
- - Is idx the best name for an index?  It's rather cryptic, but BSD strings.h defines index().
- - Qhull::feasiblePoint Qhull::useOutputStream as field or getter?
- - Define virtual functions for user customization of Qhull (e.g., qh_fprintf, qh_memfree,etc.)
- - Figure out RoadError::global_log.  clearQhullMessage currently clearGlobalLog
- - Should the false QhullFacet be NULL or empty?  e.g., QhullFacet::tricoplanarOwner() and QhullFacetSet::end()
- - Should output format for floats be predefined (qh_REAL_1, 2.2g, 10.7g) or as currently set for stream
- - Should cout << !point.defined() be blank or 'undefined'
- - Interface for UsingLibQhull::globalAngleEpsilon(), globalDistanceEpsilon, etc.
- - Interface for UsingLibQhull::globalDimension
- - Infinite point as !defined()
- - qlist and qlinkedlist define pointer, reference, size_type, difference_type, const_pointer, const_reference for the class but not for iterator and const_iterator
-      vector.h -- reference operator[](difference_type _Off) const
- - Is Q_GLOBAL_STATIC non-threaded/threaded, needed for Qhull?
- - When forwarding an implementation is base() an approriate name (e.g., Coordinates::iterator::base() as std::vector<coordT>::iterator).
- - When forwarding an implementation, does not work "returning address of temporary"
- - Also --, +=, and -=
-        iterator       &operator++() { return iterator(i++); }
- - if vector<coordT> inheritance is bad, is QhullVertexSet OK?
- - Should QhullPointSet define pointer and reference data types?
- - Allow UsingQhullLib to work with static allocation of qh_qh
-
 To do
- - Measure performance of Qhull, seconds per point by dimension
- - Investigate flipped facet -- rbox 100 s D3 t1263080158 | qhull R1e-3 Tcv Qc
- - qhulltest --all added to output
- - Add test of user_eg3, etc.
- - Check for wraparound of 64-bit ints -- e.g., a large set or points
- - Add md5sum
- - Set up globals for thread-private storage
- - Generate vcproj from qtpro files
-   cd qtpro && qmake -spec win32-msvc2005 -tp vc -recursive
-   sed -i 's/C\:\/bash\/local\/qhull\/qtpro\///' qhull-all.sln
-   Change qhullcpp to libqhull.dll
-   Allow both builds on same host (keep /tmp separate)
- - Make distribution -- remove tmp, news, .git, leftovers from project, change CRLF
- -   search for 2010.1, Dates
- - update http://compgeom.cs.uiuc.edu/~jeffe/compgeom/code.html#topes
- - update FAQ and date.
  - Notify Wolfram, geom discussion list
- - Review Warn64
- - clean up warnings for libqhullcpp
- - rereview -Wconversion
  - get copy of unused
  - Review email archives for doc changes
- - Add libqhull5 to Readme, Announce, download
  - QtTestD4.dll did not include MSVCP80D.dll and MSVCR80D.dll
 
 ------------
@@ -108,19 +19,23 @@ Need help
  - Verify -fno-strict-aliasing needed for gcc 4.1, 4.2, and 4.3 (qset segfault)
 
 ------------
-Qhull done
-
+Qhull gitorious.org/qhull next
 - Add qt-qhull.cpp with Qt conditional code
 - Fix qhull.sln and project files for qh_QHpointer
 - Add libqhullp.proj
+- Add libqhull5 to Readme, Announce, download
 - Reviewed #pragma
 - Reviewed FIXUP and assigned QH tags
+- All projects compile with warnings enabled
+- Replaced 'up' glyphs with &#187;
+- Moved cpp questions to http://www.qhull.org/html/qh-code.htm#questions-cpp 
+- Moved suggestions to http://www.qhull.org/html/qh-code.htm#enhance 
+- Moved documentation requests to http://www.qhull.org/html/qh-code.htm#enhance 
 
 ------------
 qhull 2010.1 2010/01/10
 - Test for NULL fp in qh_eachvoronoi [D. Szczerba]
 
-------------
 qhull 2010.1 2010/01/09
 
 Changes to build and distribution

@@ -33,7 +33,7 @@ indicated by an upper-case letter followed by a number.
 
 <hr>
 
-<p><a href="index.htm#TOC">»</a> <a href="qh-quick.htm#programs">Programs</a>
+<p><a href="index.htm#TOC">&#187;</a> <a href="qh-quick.htm#programs">Programs</a>
 <a name="prec">&#149;</a> <a href="qh-quick.htm#options">Options</a>
 &#149; <a href="qh-opto.htm#output">Output</a>
 &#149; <a href="qh-optf.htm#format">Formats</a>
@@ -95,7 +95,7 @@ href="qh-impre.htm">Imprecision in Qhull</a>.</p>
 
 <hr>
 
-<h3><a href="#prec">»</a><a name="An">A-n - cosine of maximum
+<h3><a href="#prec">&#187;</a><a name="An">A-n - cosine of maximum
 angle for pre-merging.</a></h3>
 
 <p>Pre-merging occurs while Qhull constructs the hull. It is
@@ -119,7 +119,7 @@ along with 'A-n'. It skips merges of coplanar facets until after
 the hull is constructed and before '<a href="#An2">An</a>' and '<a
 href="#Cn2">Cn</a>' are checked. </p>
 
-<h3><a href="#prec">»</a><a name="An2">An - cosine of maximum angle for
+<h3><a href="#prec">&#187;</a><a name="An2">An - cosine of maximum angle for
 post-merging.</a></h3>
 
 <p>Post merging occurs after the hull is constructed. For
@@ -130,7 +130,7 @@ maximum roundoff error.</p>
 <p>If 'An' is set without '<a href="#Cn2">Cn</a>', then '<a
 href="#Cn2">C0</a>' is automatically set. </p>
 
-<h3><a href="#prec">»</a><a name="C0">C-0 - handle all precision
+<h3><a href="#prec">&#187;</a><a name="C0">C-0 - handle all precision
 errors </a></h3>
 
 <p>Qhull handles precision errors by merging facets. The 'C-0'
@@ -150,7 +150,7 @@ processed points. The optimization may be turned off by setting a
 small value such as 'C-1e-30'. See <a href="qh-impre.htm">How
 Qhull handles imprecision</a>.</p>
 
-<h3><a href="#prec">»</a><a name="Cn">C-n - centrum radius for
+<h3><a href="#prec">&#187;</a><a name="Cn">C-n - centrum radius for
 pre-merging</a></h3>
 
 <p>Pre-merging occurs while Qhull constructs the hull. It is
@@ -176,7 +176,7 @@ along with 'C-n'. It skips merges of coplanar facets until after
 the hull is constructed and before '<a href="#An2">An</a>' and '<a
 href="#Cn2">Cn</a>' are checked. </p>
 
-<h3><a href="#prec">»</a><a name="Cn2">Cn - centrum radius for
+<h3><a href="#prec">&#187;</a><a name="Cn2">Cn - centrum radius for
 post-merging</a></h3>
 
 <p>Post-merging occurs after Qhull constructs the hull. It is
@@ -192,7 +192,7 @@ post-merging is used ('<a href="qh-optq.htm#Q0">Q0</a>' with
 'Cn'), Qhull may fail to produce a hull due to precision errors
 during the hull's construction.</p>
 
-<h3><a href="#prec">»</a><a name="En">En - max roundoff error
+<h3><a href="#prec">&#187;</a><a name="En">En - max roundoff error
 for distance computations</a></h3>
 
 <p>This allows the user to change the maximum roundoff error
@@ -202,7 +202,7 @@ convex. The statistic &quot;max. distance of a new vertex to a
 facet&quot; (from option '<a href="qh-optt.htm#Ts">Ts</a>') is a
 reasonable upper bound for the actual roundoff error. </p>
 
-<h3><a href="#prec">»</a><a name="Rn">Rn - randomly perturb
+<h3><a href="#prec">&#187;</a><a name="Rn">Rn - randomly perturb
 computations </a></h3>
 
 <p>This option perturbs every distance, hyperplane, and angle
@@ -216,7 +216,7 @@ href="qh-eg.htm#merge">Examples </a>section for an example.</p>
 and '<a href="#Cn">C-2n</a>'. To use time as the random number
 seed, use option '<a href="qh-optq.htm#QRn">QR-1</a>'.</p>
 
-<h3><a href="#prec">»</a><a name="Un">Un - max distance for a
+<h3><a href="#prec">&#187;</a><a name="Un">Un - max distance for a
 new, coplanar point </a></h3>
 
 <p>This allows the user to set coplanarity. When pre-merging ('<a
@@ -224,7 +224,7 @@ href="#Cn">C-n </a>', '<a href="#An">A-n</a>' or '<a
 href="qh-optq.htm#Qx">Qx</a>'), Qhull merges a new point into any
 coplanar facets. The default value for 'Un' is '<a href="#Vn">Vn</a>'.</p>
 
-<h3><a href="#prec">»</a><a name="Vn">Vn - min distance for a
+<h3><a href="#prec">&#187;</a><a name="Vn">Vn - min distance for a
 visible facet </a></h3>
 
 <p>This allows the user to set facet visibility. When adding a
@@ -244,7 +244,7 @@ furthest outside ('<a href="qh-optq.htm#Qf">Qf</a>') is not
 selected; this combination usually results in flipped facets
 (i.e., reversed normals).</p>
 
-<h3><a href="#prec">»</a><a name="Wn">Wn - min distance above
+<h3><a href="#prec">&#187;</a><a name="Wn">Wn - min distance above
 plane for outside points</a></h3>
 
 <p>Points are added to the convex hull only if they are clearly

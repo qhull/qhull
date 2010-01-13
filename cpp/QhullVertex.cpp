@@ -24,7 +24,9 @@ namespace orgQhull {
 
 #//class statics
 vertexT QhullVertex::
-s_empty_vertex= {};
+s_empty_vertex= {0,0,0,0,0,
+                 0,0,0,0,0,
+                 0,0};
 
 #//ForEach
 QhullFacetSet QhullVertex::

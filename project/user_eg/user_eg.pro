@@ -8,8 +8,9 @@ CONFIG += console warn_on
 CONFIG -= app_bundle
 LIBS += -L../..
 DEFINES += qh_QHpointer
-QMAKE_CFLAGS += -Wall -Wextra -Wshadow -Wcast-qual -Wwrite-strings
-QMAKE_CFLAGS += -Wno-sign-conversion # Many size_t vs. int errors
+QMAKE_CFLAGS_WARN_ON += -Werror -Wall -Wcast-qual -Wextra -Wshadow -Wwrite-strings
+QMAKE_CFLAGS_WARN_ON += -Wno-sign-conversion # Many size_t vs. int errors
+#QMAKE_CFLAGS_WARN_ON += -Wconversion # no workaround for bit-field conversion errors
 build_pass:CONFIG(debug, debug|release):{
    LIBS += libqhullpd
    PRE_TARGETDEPS += ../../libqhullpd.a

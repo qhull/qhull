@@ -33,7 +33,7 @@ indicated by 'T' followed by a letter.
 
 <hr>
 
-<p><a href="index.htm#TOC">»</a> <a href="qh-quick.htm#programs">Programs</a>
+<p><a href="index.htm#TOC">&#187;</a> <a href="qh-quick.htm#programs">Programs</a>
 <a name="trace">&#149;</a> <a href="qh-quick.htm#options">Options</a>
 &#149; <a href="qh-opto.htm#output">Output</a>
 &#149; <a href="qh-optf.htm#format">Formats</a>
@@ -86,7 +86,7 @@ indicated by 'T' followed by a letter.
 
 <hr>
 
-<h3><a href="#trace">»</a><a name="Tc">Tc - check frequently
+<h3><a href="#trace">&#187;</a><a name="Tc">Tc - check frequently
 during execution </a></h3>
 
 <p>Qhull includes frequent checks of its data structures. Option
@@ -94,7 +94,7 @@ during execution </a></h3>
 not be used for production runs. Option '<a href="#Tv">Tv</a>'
 performs the same checks after the hull is constructed.</p>
 
-<h3><a href="#trace">»</a><a name="TCn">TCn - stop qhull after
+<h3><a href="#trace">&#187;</a><a name="TCn">TCn - stop qhull after
 building cone for point n</a></h3>
 
 <p>Qhull builds a cone from the point to its horizon facets.
@@ -102,7 +102,7 @@ Option 'TCn' stops Qhull just after building the cone. The output
 for '<a href="qh-opto.htm#f">f</a>' includes the cone and the old
 hull.'. </p>
 
-<h3><a href="#trace">»</a><a name="TFn">TFn - report summary
+<h3><a href="#trace">&#187;</a><a name="TFn">TFn - report summary
 whenever n or more facets created </a></h3>
 
 <p>Option 'TFn' reports progress whenever more than n facets are
@@ -110,19 +110,19 @@ created. The test occurs just before adding a new point to the
 hull. During post-merging, 'TFn' reports progress after more than
 <i>n/2</i> merges. </p>
 
-<h3><a href="#trace">»</a><a name="TI">TI file - input data from file</a></h3>
+<h3><a href="#trace">&#187;</a><a name="TI">TI file - input data from file</a></h3>
 
 <p>Input data from 'file' instead of stdin.  The filename may not
 contain spaces or use single quotes.
 You may use I/O redirection
 instead (e.g., 'rbox 10 | qdelaunay >results').</P>
 
-<h3><a href="#trace">»</a><a name="TMn">TMn - turn on tracing at
+<h3><a href="#trace">&#187;</a><a name="TMn">TMn - turn on tracing at
 merge n </a></h3>
 
 <p>Turn on tracing at n'th merge. </p>
 
-<h3><a href="#trace">»</a><a name="Tn">Tn - trace at level n</a></h3>
+<h3><a href="#trace">&#187;</a><a name="Tn">Tn - trace at level n</a></h3>
 
 <p>Qhull includes full execution tracing. 'T-1' traces events.
 'T1' traces the overall execution of the program. 'T2' and 'T3'
@@ -142,7 +142,7 @@ to match ridges of non-simplicial facets.  For performance reasons,
 the hash computation uses
 memory addresses which may change across executions.
 
-<h3><a href="#trace">»</a><a name="TO">TO file - output results to file</a></h3>
+<h3><a href="#trace">&#187;</a><a name="TO">TO file - output results to file</a></h3>
 
 <p>Redirect stdout to 'file'.  The filename may be enclosed in
 single quotes.  Unix and Windows NT users may use I/O redirection
@@ -154,7 +154,7 @@ of double quotes because a missing double quote can
 freeze Windows95 (e.g., do not run, rbox 10 | qhull TO &quot;x)</p>
 <p>
 
-<h3><a href="#trace">»</a><a name="TPn">TPn - turn on tracing
+<h3><a href="#trace">&#187;</a><a name="TPn">TPn - turn on tracing
 when point n added to hull </a></h3>
 
 <p>Option 'TPn' turns on tracing when point n is added to
@@ -172,7 +172,7 @@ Use options 'TPn TWn' to
 trace the addition of point n to the convex hull, partitions
 of point n, and wide merges.</p>
 
-<h3><a href="#trace">»</a><a name="TRn">TRn - rerun qhull n times</a></h3>
+<h3><a href="#trace">&#187;</a><a name="TRn">TRn - rerun qhull n times</a></h3>
 
 <p>Option 'TRn' reruns Qhull n times.  It is usually used
 with '<a href="qh-optq.htm#QJn">QJn</a>' to determine the probability
@@ -187,13 +187,13 @@ run.  An event trace, '<a href="#Tn">T-1</a>' reports events for all runs.
 is reported, the options list the run number as "_run".
 To trace this run, set 'TRn' to the same value.</p>
 
-<h3><a href="#trace">»</a><a name="Ts">Ts - print statistics </a></h3>
+<h3><a href="#trace">&#187;</a><a name="Ts">Ts - print statistics </a></h3>
 
 <p>Option 'Ts' collects statistics and prints them to stderr. For
 Delaunay triangulations, the angle statistics are restricted to
 the lower or upper envelope.</p>
 
-<h3><a href="#trace">»</a><a name="Tv">Tv - verify result:
+<h3><a href="#trace">&#187;</a><a name="Tv">Tv - verify result:
 structure, convexity, and point inclusion </a></h3>
 
 <p>Option 'Tv' checks the topological structure, convexity, and
@@ -223,7 +223,7 @@ option 'Tv' collects statistics that verify all Voronoi vertices lie
 on the separating hyperplane, and for bounded regions, all
 separating hyperplanes are perpendicular bisectors.
 
-<h3><a href="#trace">»</a><a name="TVn">TV-n - stop qhull before
+<h3><a href="#trace">&#187;</a><a name="TVn">TV-n - stop qhull before
 adding point n</a></h3>
 
 <p>Qhull adds one point at a time to the convex hull. See <a
@@ -231,18 +231,18 @@ href="qh-eg.htm#how">how Qhull adds a point</a>. Option 'TV-n'
 stops Qhull just before adding a new point. Output shows the hull
 at this time.</p>
 
-<h3><a href="#trace">»</a><a name="TVn2">TVn - stop qhull after
+<h3><a href="#trace">&#187;</a><a name="TVn2">TVn - stop qhull after
 adding point n</a></h3>
 
 <p>Option 'TVn' stops Qhull after it has added point n. Output
 shows the hull at this time.</p>
 
-<h3><a href="#trace">»</a><a name="TWn">TWn - trace merge facets
+<h3><a href="#trace">&#187;</a><a name="TWn">TWn - trace merge facets
 when width &gt; n </a></h3>
 
 <p>Along with TMn, this option allows the user to determine the
 cause of a wide merge.</p>
-<h3><a href="#trace">»</a><a name="Tz">Tz - send all output to
+<h3><a href="#trace">&#187;</a><a name="Tz">Tz - send all output to
 stdout </a></h3>
 
 <p>Redirect stderr to stdout. </p>

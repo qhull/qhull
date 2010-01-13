@@ -11,6 +11,7 @@ Convex hull, Delaunay triangulation, Voronoi diagrams, Halfspace intersection
       Available from:
         <http://www.qhull.org>
         <git@gitorious.org:qhull/qhull.git>
+        <http://packages.debian.org/sid/libqhull5>
  
       News and a paper:
         <http://www.qhull.org/news>

@@ -23,6 +23,8 @@ namespace orgQhull {
 int QhullPoint::
 id(int qhRunId, int dimension, const coordT *c)
 {
+    QHULL_UNUSED(dimension);
+
     if(UsingLibQhull::hasPoints()){
         if(qhRunId==UsingLibQhull::NOqhRunId){
             const coordT *pointsEnd;
