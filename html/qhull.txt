@@ -45,13 +45,13 @@ SYNOPSIS
         - html manual:    index.htm
         - installation:   README.txt
         - see also:       COPYING.txt, REGISTER.txt, Changes.txt
-        - WWW:  <http://www.qhull.org>
-        - CVS:  <http://savannah.nongnu.org/projects/qhull/>
-        - mirror: <http://www6.uniovi.es/ftp/pub/mirrors/geom.umn.edu/software/ghindex.html>
-        - news: <http://www.qhull.org/news>
-        - Geomview:  <http://www.geomview.org>
+        - WWW:            <http://www.qhull.org>
+        - GIT:            <git@gitorious.org:qhull/qhull.git>
+        - mirror:         <http://www6.uniovi.es/ftp/pub/mirrors/geom.umn.edu/software/ghindex.html>
+        - news:           <http://www.qhull.org/news>
+        - Geomview:       <http://www.geomview.org>
         - news group:     <news:comp.graphics.algorithms>
-        - FAQ:       <http://exaflop.org/docs/cgafaq/cga6.html>
+        - FAQ:            <http://exaflop.org/docs/cgafaq/cga6.html>
         - email:          qhull@qhull.org
         - bug reports:    qhull_bug@qhull.org
 
@@ -928,7 +928,7 @@ qhull(1)                                                 qhull(1)
 
        Qs     Search all points for the initial simplex.
 
-       Qt     Triangulated output.  Triangulate non-simplicial 
+       Qt     Triangulated output.  Triangulate non-simplicial
               facets.
 
        Qv     Test  vertex  neighbors  for  convexity after post-
@@ -1009,10 +1009,10 @@ qhull(1)                                                 qhull(1)
        Q9     With 'Q9', Qhull processes the furthest of all out-
               side sets at each iteration.
 
-       Q10    With 'Q10', Qhull does not use special processing 
+       Q10    With 'Q10', Qhull does not use special processing
               for narrow distributions.
 
-       Q11    With 'Q11', Qhull copies normals and recomputes 
+       Q11    With 'Q11', Qhull copies normals and recomputes
               centrums for tricoplanar facets.
 
        Trace options
@@ -1025,7 +1025,7 @@ qhull(1)                                                 qhull(1)
               includes  information  about  memory allocation and
               Gaussian elimination.
 
-       Ta     Annotate output with codes that identify the 
+       Ta     Annotate output with codes that identify the
               corresponding qh_fprintf() statement.
 
        Tc     Check frequently during execution.  This will catch
@@ -1040,7 +1040,7 @@ qhull(1)                                                 qhull(1)
               after more than n/2 merges.
 
        TI file
-              Input data from 'file'.  The filename may not include 
+              Input data from 'file'.  The filename may not include
                   spaces or quotes.
 
        TO file
@@ -1187,8 +1187,8 @@ ACKNOWLEDGEMENTS
        Geometry Center, Harvard University, and Endocardial Solu-
        tions, Inc. for supporting this work.
 
-       Qhull 1.0 and 2.0 were developed under National Science Foundation 
-       grants NSF/DMS-8920161 and NSF-CCR-91-15793 750-7504.  David Dobkin 
+       Qhull 1.0 and 2.0 were developed under National Science Foundation
+       grants NSF/DMS-8920161 and NSF-CCR-91-15793 750-7504.  David Dobkin
 
 
 
@@ -1201,9 +1201,9 @@ Geometry Center              2003/12/30                18
 qhull(1)                                                 qhull(1)
 
 
-       guided the original work at Princeton University.  If you find it 
+       guided the original work at Princeton University.  If you find it
        useful, please let us know.
-       
+
        The Geometry Center was supported by grant DMS-8920161 from the National
        Science Foundation, by grant DOE/DE-FG02-92ER25137 from the Department
        of Energy, by the University of Minnesota, and by Minnesota Technology, Inc.

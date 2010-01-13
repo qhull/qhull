@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2009-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullPoint.h#33 $$Change: 1167 $
-** $DateTime: 2010/01/08 19:03:17 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullPoint.h#34 $$Change: 1179 $
+** $DateTime: 2010/01/12 19:53:15 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -124,7 +124,7 @@ QHULL_DECLARE_SEQUENTIAL_ITERATOR(QhullPoint, coordT)
 #//Global functions
 
 std::ostream &operator<<(std::ostream &os, const orgQhull::QhullPoint::PrintPoint &pr);
-std::ostream &operator<<(std::ostream &os, const orgQhull::QhullPoint &p); // FIXUP QH10000 OK in c program but not inline { os << p.print(orgQhull::UsingLibQhull::NOqhRunId, ""); return os; }
+std::ostream &operator<<(std::ostream &os, const orgQhull::QhullPoint &p); // FIXUP QH10017 OK in c program but not inline { os << p.print(orgQhull::UsingLibQhull::NOqhRunId, ""); return os; }
 
 #endif // QHPOINT_H
 

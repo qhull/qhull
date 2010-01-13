@@ -25,9 +25,8 @@
 #include <stdlib.h>
 
 #ifdef _MSC_VER  /* Microsoft Visual C++ */
-#pragma warning( disable : 4244)  /* conversion from double to int */
 #pragma warning( disable : 4706)  /* assignment within conditional expression. */
-#pragma warning( disable : 4996)  /* this function or variable may be unsafe. */
+#pragma warning( disable : 4996)  /* this function (strncat) or variable may be unsafe. */
 #endif
 
 #define MAXdim 200
@@ -346,7 +345,7 @@ int qh_rboxpoints(FILE* fout, FILE* ferr, char* rbox_command) {
       seed= 11*seed + i;
     }
   }else if (israndom) {
-    seed= time(&timedata);
+    seed= (int)time(&timedata);
     sprintf(seedbuf, " t%d", seed);  /* appends an extra t, not worth removing */
     strncat(command, seedbuf, sizeof(command));
     t= strstr(command, " t ");

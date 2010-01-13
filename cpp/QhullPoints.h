@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2009-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullPoints.h#30 $$Change: 1167 $
-** $DateTime: 2010/01/08 19:03:17 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullPoints.h#31 $$Change: 1179 $
+** $DateTime: 2010/01/12 19:53:15 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -158,7 +158,7 @@ public:
         difference_type operator-(iterator other) const { QHULL_ASSERT(dimension()==other.dimension()); return (coordinates()-other.coordinates())/dimension(); }
     };//QhullPoints::iterator
 
-#//QhullPoints::const_iterator -- FIXUP QH10000 const_iterator same as iterator
+#//QhullPoints::const_iterator -- FIXUP QH10018 const_iterator same as iterator
     class const_iterator : public QhullPoint {
 
     public:

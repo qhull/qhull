@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2009-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullPointSet.h#19 $$Change: 1167 $
-** $DateTime: 2010/01/08 19:03:17 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullPointSet.h#20 $$Change: 1179 $
+** $DateTime: 2010/01/12 19:53:15 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -45,7 +45,7 @@ public:
     typedef QhullPoint  value_type;
     typedef ptrdiff_t   difference_type;
     typedef int         size_type;
-    //typedef const value_type *const_pointer;    // FIXUP QH10000: QhullPointSet does not define pointer or reference due to point_dimension
+    //typedef const value_type *const_pointer;    // FIXUP QH10019: QhullPointSet does not define pointer or reference due to point_dimension
     //typedef const value_type &const_reference;
     //typedef value_type *pointer;
     //typedef value_type &reference;
@@ -223,7 +223,7 @@ public:
 };//QhullPointSet
 
 //derived from qiterator.h
-class QhullPointSetIterator { // FiXUP QH10000 define QhullMutablePointSetIterator
+class QhullPointSetIterator { // FiXUP QH10020 define QhullMutablePointSetIterator
     typedef QhullPointSet::const_iterator const_iterator;
     const QhullPointSet *c;
     const_iterator      i;

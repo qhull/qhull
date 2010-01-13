@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2009-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullHyperplane.h#12 $$Change: 1167 $
-** $DateTime: 2010/01/08 19:03:17 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullHyperplane.h#13 $$Change: 1179 $
+** $DateTime: 2010/01/12 19:53:15 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -116,7 +116,7 @@ QHULL_DECLARE_SEQUENTIAL_ITERATOR(QhullHyperplane, coordT)
 #//Global functions
 
 std::ostream &operator<<(std::ostream &os, const orgQhull::QhullHyperplane::PrintHyperplane &pr);
-std::ostream &operator<<(std::ostream &os, const orgQhull::QhullHyperplane &p); //FIXUP QH10000 -- multiple instances if define here
+std::ostream &operator<<(std::ostream &os, const orgQhull::QhullHyperplane &p); //FIXUP QH10015 -- multiple instances if define here
 
 #endif // QHHYPERPLANE_H
 

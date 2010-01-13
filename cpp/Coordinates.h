@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2009-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/Coordinates.h#34 $$Change: 1176 $
-** $DateTime: 2010/01/11 19:40:05 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/Coordinates.h#35 $$Change: 1179 $
+** $DateTime: 2010/01/12 19:53:15 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -221,7 +221,7 @@ public:
         bool            operator>(const const_iterator &other) const { return i>other.i; }
         bool            operator>=(const const_iterator &other) const { return i>=other.i; }
 
-        const_iterator  operator++() { return const_iterator(++i); } //FIXUP QH10000 -- too much copying
+        const_iterator  operator++() { return const_iterator(++i); } //FIXUP QH10014 -- too much copying
         const_iterator  operator++(int) { return const_iterator(i++); }
         const_iterator  operator--() { return const_iterator(--i); }
         const_iterator  operator--(int) { return const_iterator(i--); }

@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (f) 2009-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/qhulltest/QhullSet_test.cpp#20 $$Change: 1164 $
-** $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/qhulltest/QhullSet_test.cpp#21 $$Change: 1179 $
+** $DateTime: 2010/01/12 19:53:15 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -11,6 +11,7 @@
 #include <QtCore/QList>
 #include "../road/RoadTest.h" // QT_VERSION
 
+#include "QhullRidge.h"
 #include "QhullFacetSet.h"
 #include "Qhull.h"
 
@@ -50,16 +51,19 @@ cleanup()
     RoadTest::cleanup();
 }
 
+// Test QhullFacetSet and QhullSet.
+// Use QhullRidgeSet to test methods overloaded by QhullFacetSet
+
 void QhullSet_test::
 t_qhullsetbase()
 {
     RboxPoints rcube("c");
     {
-        Qhull q(rcube,"Qt QR0");  // triangulation of rotated unit cube
+        Qhull q(rcube,"QR0");  // triangulation of rotated unit cube
         // Fake an empty set.  Default constructor not defined.  No memory allocation.
         QhullFacet f4 = q.beginFacet();
         QhullFacetSet fs = f4.neighborFacets();
-        fs.defineAs(q.qhullQh()->other_points);
+        fs.defineAs(q.qhullQh()->other_points); // Force an empty set
         QVERIFY(fs.isEmpty());
         QVERIFY(fs.empty());
         QCOMPARE(fs.count(), 0);
@@ -67,11 +71,22 @@ t_qhullsetbase()
         QCOMPARE(fs.begin(), fs.end()); // beginPointer(), endPointer()
         QVERIFY(QhullSetBase::isEmpty(fs.getSetT()));
 
-        QCOMPARE(q.facetCount(), 12);
+        QhullRidgeSet rs = f4.ridges();
+        QVERIFY(!rs.isEmpty());
+        QVERIFY(!rs.empty());
+        QCOMPARE(rs.count(), 4);
+        QCOMPARE(rs.size(), 4u);
+        QVERIFY(rs.begin()!=rs.end());
+        QVERIFY(!QhullSetBase::isEmpty(rs.getSetT()));
+        QhullRidgeSet rs2= rs; // copy constructor
+        // rs= rs2; // disabled.  Would not copy ridges
+        QCOMPARE(rs2, rs);
+
+        QCOMPARE(q.facetCount(), 6);
         QhullFacet f = q.beginFacet();
         QhullFacetSet fs2 = f.neighborFacets();
-        QCOMPARE(fs2.count(), 3);
-        QCOMPARE(fs2.size(), 3u);
+        QCOMPARE(fs2.count(), 4);
+        QCOMPARE(fs2.size(), 4u);
         QVERIFY(!fs2.isEmpty());
         QVERIFY(!QhullSetBase::isEmpty(fs2.getSetT()));
         QVERIFY(!fs2.empty());
@@ -82,7 +97,7 @@ t_qhullsetbase()
         QCOMPARE(fs[1], fs2[1]); // elementPointer
         QhullFacetSet fs3(fs2);
         QVERIFY(fs3==fs);
-        // fs= fs2; // private (compiler error)
+        // fs= fs2; // disabled.  Would not copy facets
         QhullFacetSet fs4= fs2; // copy constructor
         QVERIFY(fs4==fs2);
     }
@@ -95,10 +110,25 @@ t_convert()
 {
     RboxPoints rcube("c");
     {
-        Qhull q(rcube,"Qt QR0");  // triangulation of rotated unit cube
-        QCOMPARE(q.facetCount(), 12);
-        QhullFacet f = q.beginFacet();
-        QhullFacetSet fs = f.neighborFacets();
+        Qhull q(rcube,"QR0");  // rotated unit cube
+        QhullFacet f= q.firstFacet();
+        f= f.next();
+        QhullRidgeSet rs= f.ridges();
+        QCOMPARE(rs.count(),4);
+        std::vector<QhullRidge> rv= rs.toStdVector();
+        QCOMPARE(rv.size(), 4u);
+        QList<QhullRidge> rv2= rs.toQList();
+        QCOMPARE(rv2.size(), 4);
+        std::vector<QhullRidge>::iterator i= rv.begin();
+        foreach(QhullRidge r, rv2){  // Qt only
+            QhullRidge r2= *i++;
+            QCOMPARE(r, r2);
+        }
+
+        Qhull q2(rcube,"Qt QR0");  // triangulation of rotated unit cube
+        QCOMPARE(q2.facetCount(), 12);
+        QhullFacet f2 = q2.beginFacet();
+        QhullFacetSet fs = f2.neighborFacets();
         QCOMPARE(fs.size(), 3U);
         std::vector<QhullFacet> vs= fs.toStdVector();
         QCOMPARE(vs.size(), fs.size());
@@ -386,14 +416,18 @@ t_io()
     RboxPoints rcube("c");
     Qhull q(rcube,"QR0");  // rotated unit cube
     // Fake an empty set.  Default constructor not defined.  No memory allocation.
-    QhullFacet f = q.beginFacet();
-    QhullFacetSet fs = f.neighborFacets();
+    QhullFacet f= q.beginFacet();
+    QhullFacetSet fs= f.neighborFacets();
     fs.defineAs(q.qhullQh()->other_points);
     cout << "INFO:     empty set" << fs << std::endl;
-    QhullFacet f2 = q.beginFacet();
-    QhullFacetSet fs2 = f2.neighborFacets();
-    cout << "INFO:   " << fs2 << std::endl;
-    //FIXUP do not use QhullFacetSet to test set
+    QhullFacet f2= q.beginFacet();
+    QhullFacetSet fs2= f2.neighborFacets();
+    cout << "INFO:   Neighboring facets\n";
+    cout << fs2 << std::endl;
+
+    QhullRidgeSet rs= f.ridges();
+    cout << "INFO:   Ridges for a facet\n";
+    cout << rs << std::endl;
 }//t_io
 
 }//namespace orgQhull

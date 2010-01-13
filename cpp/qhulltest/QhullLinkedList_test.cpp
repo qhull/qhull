@@ -1,14 +1,14 @@
 /****************************************************************************
 **
 ** Copyright (f) 2009-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/qhulltest/QhullLinkedList_test.cpp#15 $$Change: 1164 $
-** $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/qhulltest/QhullLinkedList_test.cpp#16 $$Change: 1179 $
+** $DateTime: 2010/01/12 19:53:15 $$Author: bbarber $
 **
 ****************************************************************************/
 
 //pre-compiled headers
 #include <QtCore/QList>
-#include "../road/RoadTest.h"// FIXUP First for QHULL_USES_QT
+#include "../road/RoadTest.h"
 
 #include "QhullLinkedList.h"
 #include "Qhull.h"
@@ -54,7 +54,6 @@ t_construct()
     {
         Qhull q(rcube,"Qt QR0");  // triangulation of rotated unit cube
         QCOMPARE(q.facetCount(), 12);
-        // FIXUP -- iterator or vertex for vertexList?
         QhullVertexList vs = QhullVertexList(q.beginVertex(), q.endVertex());
         QCOMPARE(vs.count(), 8);
         QCOMPARE(vs.size(), 8u);
@@ -65,7 +64,7 @@ t_construct()
         QVERIFY(!vs2.isEmpty());
         QVERIFY(!vs2.empty());
         QVERIFY(vs==vs2);
-        // vs= vs2; // private (compiler error)
+        // vs= vs2; // disabled.  Would not copy the vertices
         QhullVertexList vs3= vs2; // copy constructor
         QVERIFY(vs3==vs2);
     }

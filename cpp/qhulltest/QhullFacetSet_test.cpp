@@ -1,14 +1,14 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/qhulltest/QhullFacetSet_test.cpp#14 $$Change: 1176 $
-** $DateTime: 2010/01/11 19:40:05 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/qhulltest/QhullFacetSet_test.cpp#15 $$Change: 1179 $
+** $DateTime: 2010/01/12 19:53:15 $$Author: bbarber $
 **
 ****************************************************************************/
 
 //pre-compiled headers
 #include <iostream>
-#include "../road/RoadTest.h" // FIXUP First for QHULL_USES_QT
+#include "../road/RoadTest.h"
 
 #include "QhullFacetSet.h"
 #include "QhullError.h"
@@ -70,9 +70,9 @@ void QhullFacetSet_test::
 t_convert()
 {
     RboxPoints rcube("c");
-    Qhull q(rcube,"QR0 QV2");  // rotated unit cube
-    QhullFacet f= q.firstFacet();
-    QhullFacetSet fs2= f.neighborFacets();
+    Qhull q2(rcube,"QR0 QV2");  // rotated unit cube
+    QhullFacet f2= q2.firstFacet();
+    QhullFacetSet fs2= f2.neighborFacets();
     QVERIFY(!fs2.isSelectAll());
     QCOMPARE(fs2.count(),2);
     std::vector<QhullFacet> fv= fs2.toStdVector();

@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/qhulltest/Qhull_test.cpp#37 $$Change: 1164 $
-** $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/qhulltest/Qhull_test.cpp#38 $$Change: 1179 $
+** $DateTime: 2010/01/12 19:53:15 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -137,11 +137,11 @@ t_message()
             const char *s= e.what();
             cout << "INFO   : Caught " << s;
             QCOMPARE(QString::fromStdString(s).left(6), QString("QH6029"));
-            // Cleared when copied to QhullError
+            // FIXUP QH10025 -- review decision to clearQhullMessage at QhullError()            // Cleared when copied to QhullError
             QVERIFY(!q.hasQhullMessage());
             // QCOMPARE(q.qhullMessage(), QString::fromStdString(s).remove(0, 7));
             // QCOMPARE(q.qhullStatus(), 6029);
-            q.clearQhullMessage();  // FIXUP -- review decision to clearQhullMessage at QhullError()
+            q.clearQhullMessage();  
             QVERIFY(!q.hasQhullMessage());
         }
         q.appendQhullMessage("Append 1");
@@ -300,7 +300,7 @@ t_foreach()
         QCOMPARE(ps.count(), 8);
         QhullPointSet ps2= q.otherPoints();
         QCOMPARE(ps2.count(), 0);
-        // ps2= q.otherPoints(); //FIXUP disabled OK?
+        // ps2= q.otherPoints(); //disabled, would not copy the points 
         QCOMPARE(q.facetCount(), 6);
         QCOMPARE(q.vertexCount(), 8);
         coordT *c= q.pointCoordinateBegin(); // of q.points()

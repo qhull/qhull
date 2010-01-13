@@ -2,7 +2,7 @@
 .............This file lists all changes to qhull and rbox.....................
 
 To do for documentation
-- Qhull::addPoint().  Problems with qh_findbestfacet and otherpoints see 
+- Qhull::addPoint().  Problems with qh_findbestfacet and otherpoints see
    qh-code.htm#inc on-line construction with qh_addpoint()
 - How to handle 64-bit possible loss of data.  WARN64, ptr_intT, size_t/int
 - Show custom of qh_fprintf
@@ -13,7 +13,7 @@ To do for documentation
     errorIfAnotherUser
     ~QhullPoints() needs ownership of qh_qh
     Does !qh_pointer work?
-    When is qh_qh required?  Minimize the time. 
+    When is qh_qh required?  Minimize the time.
    qhmem, qhstat.ferr
    qhull_inuse==1 when qhull globals active [not useful?]
    rbox_inuse==1 when rbox globals active
@@ -89,17 +89,17 @@ To do
  - update FAQ and date.
  - Notify Wolfram, geom discussion list
  - Review Warn64
- - review all #pragma
- - review all FIXUP [^0-9]
- - Number the FIXUPS
  - clean up warnings for libqhullcpp
+ - rereview -Wconversion
  - get copy of unused
  - Review email archives for doc changes
+ - Add libqhull5 to Readme, Announce, download
+ - QtTestD4.dll did not include MSVCP80D.dll and MSVCR80D.dll
 
 ------------
 Need help
  - The C++ interface needs work.  Give it a try and make it better.
- - Set up debian build. 
+ - Set up debian build.
    Please keep debian files in config/ and project/debian/
    Branch 'debian' is from http://savannah.nongnu.org/cvs/?group=qhull
    project/debian needs updating for its new location.  It was at qhull's level.
@@ -108,11 +108,13 @@ Need help
  - Verify -fno-strict-aliasing needed for gcc 4.1, 4.2, and 4.3 (qset segfault)
 
 ------------
-Qhull next branch
+Qhull done
 
 - Add qt-qhull.cpp with Qt conditional code
 - Fix qhull.sln and project files for qh_QHpointer
 - Add libqhullp.proj
+- Reviewed #pragma
+- Reviewed FIXUP and assigned QH tags
 
 ------------
 qhull 2010.1 2010/01/10
@@ -138,13 +140,13 @@ Changes to source
 - user.h requires <time.h> for CLOCKS_PER_SEC
 - Move ostream<<QhullFacetList from inline to compiled.
 - Removed ConvexHull/ from git.  Not used.
- 
+
 ------------
 qhull 2009.1.1 2010/01/09
-- Patch release of 2009.1. 
+- Patch release of 2009.1.
   qh_gethash allowed a negative result, causing overwrite or segfault
   See git:qhull/project/patch/qhull-2003.1/poly.c-qh_gethash.patch
-  Compared results of q_test, q_eg, and q_egtest with patched poly.c, qhull-2003.1 
+  Compared results of q_test, q_eg, and q_egtest with patched poly.c, qhull-2003.1
 
 ------------
 qhull 2010.1 2010/01/07
@@ -153,28 +155,28 @@ qhull 2010.1 2010/01/07
 - Fix qh_pointid in case ptr_intT is unsigned
 
 qhull 2010.1 2010/01/06
-- Fixed serious bug in qh_gethash [poly.c] 
+- Fixed serious bug in qh_gethash [poly.c]
 - Documentation and build system are incomplete (see above)
 - First release of C++ interface [qh-code.htm]
-- Development moved to http://gitorious.org/qhull 
+- Development moved to http://gitorious.org/qhull
   git clone git@gitorious.org:qhull/qhull.git
-- Did not fix conformant tesselations for 'Qt'.  
+- Did not fix conformant tesselations for 'Qt'.
   For details, see http://www.qhull.org/news#bugs of May 2007 and Dec 2006.
 - Use g++ builds for Windows distribution (10% faster than msvc2005)
   Combined vcproj/ and qtproj/ into project/
   vcproj will be replaced by qmake generated files
- 
+
 ------------
 qhull 2010.0.3 2010/01/05
 Fixed bugs
-- 'QJn' (joggle): Fix qh.STOPcone in qh_build_withrestart().  It was not cleared. 
+- 'QJn' (joggle): Fix qh.STOPcone in qh_build_withrestart().  It was not cleared.
 - qh_initqhull_outputflags [global.c]: warn about Qc only if QHULLfinished, otherwise set if needed
 
 qhull 2010.0.2 2010/01/04
 
 Fixed bugs
-- qh_gethash [poly.c]: fix sign conversion.  
-    Previously, the result may be negative, leading to a segfault.  
+- qh_gethash [poly.c]: fix sign conversion.
+    Previously, the result may be negative, leading to a segfault.
     The bug is more likely with large address spaces
     Reviewed all uses of %(modulo) for remainder with negative arguments
 - Reviewed output of q_test and compared to results from 2003.1
@@ -207,7 +209,7 @@ Changes to qhull options and results
  - Prefix error messages and warnings with a message code (e.g., QH6012)
  - Fixed rbox ignoring flags that were not separated by spaces
  - Report all hidden options before exiting in qh_checkflags()
- - Defined qh_OPTIONline [user.h] as max length of option line ('FO') 
+ - Defined qh_OPTIONline [user.h] as max length of option line ('FO')
  - Report error if negative arguments to rbox 'G', 'L', 'Z'
  - Unknown rbox flag changed from a warning to an error
  - Set error status 4 qh_ERRmem if rbox runs out of memory
@@ -236,7 +238,7 @@ Bug fixes to C code:
  - Fixed mindist initialization if !testcentrum in io.c findbest_test [Ratcliff]
  - Fixed parentheses around warning for missing 'Qc' [qh_initqhull_outputflags]
  - Fixed rbox buffer overflow of 'command' when appending seedbuf
- - Fixed option string for 'rbox t t999'.  Although seed was correctly set to 999, 
+ - Fixed option string for 'rbox t t999'.  Although seed was correctly set to 999,
    a random seed was appended to the rbox comment (e.g., 'rbox t t999 t32343')
  - Fixed upper bound of sanity check for qh_RANDOMmax in qh_initqhull_globals()
 
@@ -275,7 +277,7 @@ Fixed g++ and devstudio warnings
    Retained int sizes for qset.h and mem.h.  Follows Qt convention
    and is easier to work with.  int can be 64-bits if 2 billion facets
  - Change literal strings to const char* [kwilliams]
- - Added type casts to SETfirst and SETsecond [amorilia+alphax] 
+ - Added type casts to SETfirst and SETsecond [amorilia+alphax]
  - getid_() returns an int [kwilliams]
  - Add missing const annotations [kwilliams]
  - Fixed 64-bit warnings (marked with "WARN64")
@@ -417,7 +419,7 @@ Changes to code:
 Changes to build
  - Makefile.txt works under cygwin
  - Added Make-config.sh to create a Debian build [R. Laboissiere]
- - Added .exe to Makefile.txt#clean.  
+ - Added .exe to Makefile.txt#clean.
  - In README, use -fno-strict-aliasing with gcc-2.95.1 [Karas, Krishnaswami]
  - Fixed chmod in Makefile.txt [B. Karas]
 
@@ -457,16 +459,16 @@ Changes to options
      For non-simplicial regions, 'Ft' does not satisify the Delaunay property.
  - If 'Po' or 'TVn', qhull checks outer planes.  Use 'Q5' to turn off.
  - If 'T4', print facet lists and check polygon after adding each point
- 
+
 Corrections to code
  - rbox: allow 'c' and 'd' with 's r', meshes, etc.
  - qh_findbest: redesigned as directed search. qh_findbesthorizon for coplanar
       qh_findbest is faster for many distributions
  - qh_findbestnew: redesigned to search horizon of coplanar best newfacets
-      needed for distributions with a sharp edge, 
+      needed for distributions with a sharp edge,
           e.g., rbox 1000 s Z1 G1e-13 | qhull Tv
  - qh_findbest/qh_findbestnew: search neighbors of better horizon facets
-      was needed for RBOX 1000 s Z1 G1e-13 t996564279 | qhull Tv  
+      was needed for RBOX 1000 s Z1 G1e-13 t996564279 | qhull Tv
       and RBOX 1000 s W1e-13 P0 t996547055 | QHULL d Qbb Qc Tv
  - qh_findbest with noupper: could return an upperdelaunay facet if dist>qh.MINoutside.
  - qh_findbestnew: allow facet->upperdelaunay if dist > qh.MINoutside
@@ -480,7 +482,7 @@ Changes to prompts, warnings, and statistics
  - For Delaunay & Voronoi, 's' reports deleted vertices due to facet merging.
    They were incorrectly reported as nearly incident points.
  - Warn if recompute centrum after constructing hull
- - Simplified narrow hull warning and print all digits of cosine.  
+ - Simplified narrow hull warning and print all digits of cosine.
      A narrow hull may lead to a point outside of the hull.
  - Print total vertices deleted instead of ave. per iteration (Zdelvertextot)
  - Improved tracing for qh_partitionpoint and qh_partitioncoplanar
@@ -492,7 +494,7 @@ Changes to documentation
  - README.txt: Added quickstart instructions for Visual C++
  - rbox: Added example of edge of narrow lens, rbox 1000 L100000 s G1e-6
  - Added cross references between options 'o' and 'p'.
- - qh-eg.html: added examples comparing 'Qt', 'QJ', and neither 'Qt' nor 'QJ' 
+ - qh-eg.html: added examples comparing 'Qt', 'QJ', and neither 'Qt' nor 'QJ'
         eg.15a.surface, eg.15b.triangle, eg.17a.delaunay.2, etc.
  - Reorganized and enhanced discussion of precision problems in qh_impre.htm
  - Fixed spelling errors [K. Briggs]
@@ -513,10 +515,10 @@ Changes to code
  - qh_checkpolygon: report qh.facet_next error if NARROWhull & dist>MINoutside
  - qh_findbest: renamed "newfacets" parameter to "isnewfacets" since it is boolT
  - qh_findbest/qh_findbestnew: testhorizon even if !MERGING
-        Otherwise qhull c D6 | qhull Q0 Tv assigns coplanar points 
+        Otherwise qhull c D6 | qhull Q0 Tv assigns coplanar points
  - qh_resetlists: add qh_RESETvisible for qh_triangulate
  - qh_findbest: search better facets first.  Rewritten.
- - qh_findbest: increased minminsearch, always check coplanar facets.  
+ - qh_findbest: increased minminsearch, always check coplanar facets.
         See: RBOX 1000 s Z1 G1e-13 t996564279 | QHULL Tv
  - qh_findbestnew: report precision error for deleted cones [rare event]
         e.g.:  RBOX 1000 s W1e-13 P0 t1001034076 | QHULL d Qbb Qc Tv
@@ -525,14 +527,14 @@ Changes to code
  - qh_partitionpoint, Delaunay sites can not be inside.  Otherwise points may
        be outside upperDelaunay facets yet not near-inside Delaunay facets
        See: RBOX s 1000 t993602376 | QHULL C-1e-3 d  Qbb FA Tv
- - qh_partitioncoplanar: call qh_findbest/qh_findbestnew with qh DELAUNAY 
- - qh_printlists: format long lines 
+ - qh_partitioncoplanar: call qh_findbest/qh_findbestnew with qh DELAUNAY
+ - qh_printlists: format long lines
  - qh_printvertex: format long lines
- - user.h: tightened qh_WARNnarrow and qh_MAXnarrow.  Do not see problems 
+ - user.h: tightened qh_WARNnarrow and qh_MAXnarrow.  Do not see problems
        until they are -1.0.
- - user.h: defined qh_DISToutside, qh_SEARCHdist, and qh_USEfindbestnew 
+ - user.h: defined qh_DISToutside, qh_SEARCHdist, and qh_USEfindbestnew
  - qh_checkfacet: in 3-d, allow #ridges > #vertices.  Can get a vertex twice
-   in a ridge list, e.g,  RBOX 1000 s W1e-13 t995849315 D2 | QHULL d Tc Tv 
+   in a ridge list, e.g,  RBOX 1000 s W1e-13 t995849315 D2 | QHULL d Tc Tv
 
 Changes to FAQ
  - Recommended use of triangulated output ('Qt')
@@ -543,7 +545,7 @@ Changes to distribution
 
 Changes to Qhull library
  - Added qh_triangulate() to poly2.c.  It triangulates the output.
- - Added option 'Q11' to copy normals and recompute centrums for tricoplanar facets 
+ - Added option 'Q11' to copy normals and recompute centrums for tricoplanar facets
         'FP' may not print the nearest vertex for coplanar points
         Use option 'Q11' when adding points after qh_triangulate()
 
@@ -553,8 +555,8 @@ qhull 3.0 2001/02/11
 Changes to distribution
  - added qconvex, qdelaunay, qhalf, and qvoronoi
  - added qhull-interface.cpp on calling Qhull from C++ [K. Erleben]
- - renamed to qhull3.0/.   
- - added eg/, html/, and src/ directories 
+ - renamed to qhull3.0/.
+ - added eg/, html/, and src/ directories
 
 Changes to URLs
  - MathLab6 qhull: convhulln, delaunayn, griddatan, tsearchn, vororoin [Z. You]
@@ -572,7 +574,7 @@ Changes to documentation
 Corrections to code
  - fixed type of arg for error message in qh_initqhull_globals [N. Max]
  - fixed incorrect initialization of qh MINdenom_1 for scalepoints
- - fixed drop dim for 'H Qbk:0Bk:0'.  Added qh.feasible_point to qh_projectinput 
+ - fixed drop dim for 'H Qbk:0Bk:0'.  Added qh.feasible_point to qh_projectinput
  - qh_WARNnarrow is angle between facet normals.  Negate for warning message.
  -   statistics for Wangle/etc. concerns facet normals.  Reworded [E. Voth]
  - fixed error message for 'FC v'
@@ -597,8 +599,8 @@ Changes to prompts and warnings
  - ignore warning if options 'v i Pp'.  qvoronoi users may need Delaunay tri.
  - reworded warning if 'Pg' and 'QVn' is not a vertex.
  - reworded warning for 'Qx Tv', qh_check_points() in poly2.c
- - if 'Pp', turn off warning for 'Qbb' without 'd' or 'v' 
- - in qh_printsummary() of Voronoi and Delaunay, distinguish QVn, QGn, Pdn, PDn 
+ - if 'Pp', turn off warning for 'Qbb' without 'd' or 'v'
+ - in qh_printsummary() of Voronoi and Delaunay, distinguish QVn, QGn, Pdn, PDn
 
 Changes to FAQ
  - added FAQ item for nearly flat Delaunay triangles [Z. You]
@@ -619,8 +621,8 @@ qhull 2.6 1999/04/19
  - added zdoc11 to qh-stat.h#ZZdef for !qh_KEEPstatistics [K. Ford]
  - enhanced qh_initqhull_globals() test of qh_RANDOMint and qh_RANDOMmax
  - added debugging option to always return qh_RANDOMmax from qh_rand()
- - fixed option 'Qr', qh_initialvertices(), to allow a broken qh_rand() 
-   fixed option 'Qr', qh_nextfurthest(), to allow narrow hulls  
+ - fixed option 'Qr', qh_initialvertices(), to allow a broken qh_rand()
+   fixed option 'Qr', qh_nextfurthest(), to allow narrow hulls
      Option 'Qr' simulates the random incremental algorithm for convex hulls
  - added note that qh.num_outside includes coplanar points for narrow hulls
  - added FAQ items for triangles/ridges of 3-d Delaunay triangulation[P. Kumar]
@@ -657,7 +659,7 @@ qhull 2.6 1998/8/12
  - added qh_new_qhull() to user.c for calling qhull() from a program [D. Zwick]
    rewrote user_eg.c to use qh_new_qhull().  Added qh_QHpointer example.
  - added qh_CLOCKtype 2 in user.h to call times() for CPU time [B. Hemkemeier]
- - renamed set.c/set.h to avoid conflict with STL's set.h [G. van den Bergen] 
+ - renamed set.c/set.h to avoid conflict with STL's set.h [G. van den Bergen]
    can also use '#include <qhull/qhull_a.h>' for Qhull library
 
  fixed errors
@@ -678,7 +680,7 @@ qhull 2.6 1998/8/12
  - added .c and .h source files to web distribution and qh-c.htm [J. Sands]
  - documented qh_ZEROdelaunay.  Delaunay and Voronoi diagrams do not include
    facets that are coplanar with the convex hull of the input sites.
-  
+
  modified code
  - replaced computed minnorm in qh_sethyperplane_det with distance test
  - removed 'qh rand_seed' since random number generator is independent of qhull
@@ -701,7 +703,7 @@ qhull 2.5 1998/5/4
  - to browse qh-c.htm, set MIME type of .c and .h files to text/html
  - added example of 3-d Delaunay triangulation to q-faq.htm
  - added Delaunay and Voronoi examples to qh-optv.htm
- 
+
 ------------
 qhull 2.5 1998/2/4
  - added option 'v Fi' for separating hyperplanes of bounded Voronoi regions
@@ -711,12 +713,12 @@ qhull 2.5 1998/2/4
  - fixed missing statistics in qh_allstat* [T. Johnson]
  - rearranged qh_printvdiagram.  Use qh_eachvoronoi to iterate Voronoi ridges.
  - added qh_check_points to qh-math.c
- 
+
 qhull 2.5 1998/1/28
  - added option 'Fv' to print the Voronoi diagram
  - added rbox option 'x' to generate random points in a simplex
  - added rbox option 'y' to generate a simplex and random points
- - added rbox option 'On' to offset the output 
+ - added rbox option 'On' to offset the output
  - add unpacking instructions to README.txt
  - updated discussion of forced output, 'Po'
  - sorted the options alphabetically
@@ -725,10 +727,10 @@ qhull 2.5 1998/1/28
  - added facet->seen2 flag for 'Fv'
 
 qhull 2.5 1998/1/16
- - fixed initialization of qh.last_low on restart of 'd QJ' 
+ - fixed initialization of qh.last_low on restart of 'd QJ'
  - renamed qh_JOGGLEmax to qh_JOGGLEmaxincrease
  - updated URL for Fukuda's cdd program
-  
+
 qhull 2.5 1998/1/12
 
 New or modified features
@@ -744,14 +746,14 @@ Corrections
  - for Mathematica 2.2 ('m') changed %10.8g to %16.8f [A. Zhaxybayev]
  - fixed incorrect warning for 'QV0 Qg' in qh_initbuild [B. Wythoff]
  - fixed unaccessible statistic if !qh_KEEPstatistics for Wnewvertexmax
- - fixed overestimate of qh ONEmerge for point sets outside of 
+ - fixed overestimate of qh ONEmerge for point sets outside of
      first quadrant and far from the origin
  - fixed overestimate of 'Qbb' for point sets far from the origin
  - fixed potential overestimate of qh DISTround under 'Qbb'
  - fixed 'p' printing coplanar points of unselected facets
  - fixed 'Ft' printing centrums unnecessarily in 2-d
-  
-Changes to documentation 
+
+Changes to documentation
  - wrote internal design documentation (qh-c.htm)
  - started frequently asked questions (qh-faq.htm)
  - added a section on joggled input to qh-impre.htm
@@ -764,7 +766,7 @@ Changes to documentation
  - added code for printing Delaunay triangles to qh-code.htm [A. Tsui]
  - options 'Pdk' and 'PDk' do not drop on equality
 
-Improvements to the code 
+Improvements to the code
  - reviewed warning messages for Qhull options in qh_initflags
  - added warning to 's' if premature exit from 'TCn' or 'TVn'
  - 's' prints max distance above/below only if qh.MERGING
@@ -774,7 +776,7 @@ Improvements to the code
  - removed qh_check_maxout for 'Wn Q0'
  - reset tracing after 'TPn' adds point in 4-d and higher
 
-Changes for the Qhull library 
+Changes for the Qhull library
  - changed qh_setdelaunay to call qh_scalelast if used with 'Qbb' or 'QJ'
      Delaunay callers to qh_findbestfacet, qh_addpoint, or qh_findfacet_all
      should always use qh_setdelaunay as in user_eg.c
@@ -790,7 +792,7 @@ Changes for the Qhull library
 
 Other changes to Qhull functions
  - report error for !bestfacet in qh_findbest (it shouldn't happen) [H. Meuret]
- - set newbest in qh_findbest only if bestfacet updated 
+ - set newbest in qh_findbest only if bestfacet updated
  - renamed facet parameter for qh_findbest
  - added maxdist argument to qh_checkpoint
  - moved 'FO' output after qh_partitionall
@@ -809,7 +811,7 @@ qhull 2.4 97/4/2
 
 New or modified features
  - made 'C-0' and 'Qx' default options.  Use 'Q0' to not handle roundoff errors
- - removed point-at-infinity from Delaunay/Voronoi.  
+ - removed point-at-infinity from Delaunay/Voronoi.
      you no longer need to use 'Qu PDk'
  - added 'Qz' to add a point-at-infinity to Delaunay and Voronoi constructions
  - added published version of qhull article in ACM Trans Math Software
@@ -819,7 +821,7 @@ New or modified features
  - changed definition of coplanar point in output to qh min_vertex (see 'Qc')
      it was qh MAXcoplanar ('Un') [could make vertices non-coplanar]
  - automatically set 'Qi' for options 'd Qc' and 'v Qc'.
- - reworded summary ('s') for Delaunay/Voronoi/halfspace.  
+ - reworded summary ('s') for Delaunay/Voronoi/halfspace.
      use 'Fs' and 'FS' for summary statistics.
  - for summary 's' of Delaunay/Voronoi, display number of coplanars for facets
      if none, display total number of coplanars (i.e., non-vertices)
@@ -831,8 +833,8 @@ Corrections
  - fixed qh_partitioncoplanar() to not drop interior points if 'Qi' is used
  - fixed 'FP d' to report distance in point set instead of paraboloid
  - fixed qh_findbest() to search all coplanar facets for qh_check_maxout()
-  
-Changes to documentation 
+
+Changes to documentation
  - added example eg.17f.delaunay.3 to show a triangulation of cospherical sites
  - split up qh-opt.htm into multiple pieces
  - split off qh-code.htm for Qhull code
@@ -842,12 +844,12 @@ Changes to documentation
  - removed 'txt' versions of html files
  - added note to 'PDk' about avoiding a 'd' option immediately after a float
  - under option 'd', display the triangulation with 'GrD3', not 'GnrD3'
- 
+
 Changes to the Qhull library
  - added 'format' argument to qh_printfacetNvertex_nonsimplicial() in io.c
  - removed C++ type errors [J. Stern, S. Marino]
- -  created SETelemt, SETfirstt, etc. for specifying data types.  
- -  use SETelem,etc. for assignments. 
+ -  created SETelemt, SETfirstt, etc. for specifying data types.
+ -  use SETelem,etc. for assignments.
  -  changed setT.maxsize to 'int' to prevent type conversion warnings
  -  changed FOREACH.. to a comma expression for better code and less warning
  -  changed qh.vertex_visit and .visit_id to unsigned int to prevent warnings
@@ -866,10 +868,10 @@ Changes to the Qhull library
 
 ------------
 qhull V2.3 96/6/5
- - fixed total area of Delaunay triangulation. [A. Enge]  
+ - fixed total area of Delaunay triangulation. [A. Enge]
       It should ignore facets on the upper-envelope.
  - if 'd Qu FA', the total area is summed over the upper-Delaunay triangles
- - fixed sign of area for Delaunay triangulations. 
+ - fixed sign of area for Delaunay triangulations.
  - fixed cdd input format for Delaunay triangulation. [A. Enge]
  - for cdd input, allow feasible point for halfspaces.
  - warning if cdd output format for centrums, halfspace intersections, or OFF.
@@ -877,7 +879,7 @@ qhull V2.3 96/6/5
  - option 'QR-n' sets random number seed to n without rotating input
  - fixed qh_findbest() to retest coplanar and flipped facets after a restart
  - for 'd Qu Ts' collects angle statistics for upper Delaunay facets
- 
+
  Changes to the Qhull library
  - expanded user_eg.c for incremental constructions and Delaunay triangulation
  - added discussion of incremental construction to qh_man.html#library
@@ -886,9 +888,9 @@ qhull V2.3 96/6/5
          Please set qh ATinfinity if you explicitly add the point "at-infinity"
          Please set qh ATinfinity if you explicitly call qh_projectinput.
          Please set qh UPPERdelaunay if you explicitly cleared qh ATinfinity.
-         Other users do not need to change their code.         
-   Now you can build a Delaunay triangulation without creating a point 
-   "at-infinity".  This removes a potential, hard-to-understand error.  
+         Other users do not need to change their code.
+   Now you can build a Delaunay triangulation without creating a point
+   "at-infinity".  This removes a potential, hard-to-understand error.
    qh_readpoints sets qh ATinfinity for options 'd' or 'v' without 'Qu'.
    qh_initB sets qh ATinfinity for qh PROJECTdelaunay w/o qh UPPERdelaunay.
    qh_projectinput adds a point "at-infinity" only if qh ATinfinity is set.
@@ -923,7 +925,7 @@ qhull V2.3 96/3/25
 ------------
 qhull V2.2 96/2/15
  - detect narrow initial hulls (cosine of min angle < qh_MAXnarrow in user.h).
-   Write warning if cosine < qh_WARNnarrow in user.h.  If narrow (qh NARROWhull), 
+   Write warning if cosine < qh_WARNnarrow in user.h.  If narrow (qh NARROWhull),
    partition coplanar points as outside points and delay coplanar test to end.
    Needed for  RBOX 1000 L100000 s G1e-6 t995127886 | QHULL Tv
    See 'limitations' in qh-impre.html for further discussion.
@@ -946,7 +948,7 @@ qhull V2.2 95/12/28
    This reduces roundoff errors for Delaunay triangulations with integer coordinates.
  - changed option 'Qu d' to print out the furthest-site Delaunay triangulation
    Use options 'Qu d PD2' to compute the normal 2-d Delaunay triangulation without
-   the point at infinity. 
+   the point at infinity.
  - added notes to the documentation of option 'd'
  - added notes to limitations of how Qhull handles imprecision
  - added warning if options 'FP', 'Fc', or 'Gp' without option 'Qc' or 'Qi'
@@ -957,7 +959,7 @@ qhull V2.2 95/12/28
  - fixed option 'QbB' (qh SCALEpoints was not set)
  - fixed minor confusion between 'Gc' (print centrums) and 'Gp' (print points)
  - rewrote qh_findbestnew for upper convex hull, Delaunay facets
- - changed option name for 'Gp' from 'Gcoplanar' to 'Gpoints' 
+ - changed option name for 'Gp' from 'Gcoplanar' to 'Gpoints'
  - changed "nearest" facet for 'Pdk' to threshold - normal
  - reworked qh GOODclosest for 'Qg'
  - added note that 'Qg' does not always work
@@ -965,26 +967,26 @@ qhull V2.2 95/12/28
  - refined qh DISTround in qh_maxmin/geom2.c for Delaunay triangulations
 
 qhull V2.2 95/12/4
- - Version 2.2 fixes an important bug in computing Delaunay triangulations 
-   and convex hulls with edges sharper than ninety degrees.  The problem 
-   occurs when processing a point at a sharp edge.  A directed search can 
-   not be used for partitioning because one side may hide facets from the 
-   other side.  The new lens-shaped distribution for rbox demonstrates the 
+ - Version 2.2 fixes an important bug in computing Delaunay triangulations
+   and convex hulls with edges sharper than ninety degrees.  The problem
+   occurs when processing a point at a sharp edge.  A directed search can
+   not be used for partitioning because one side may hide facets from the
+   other side.  The new lens-shaped distribution for rbox demonstrates the
    problem.  For example, 'rbox 100 L3 G0.5 s | qhull Tv' fails for Version 2.1.
    O. Schramm found the bug when computing the Delaunay triangulation of points
-   near an outside edge.  
+   near an outside edge.
 
-   I rewrote qh_findbest and related functions.  Qh_findbest 
-   uses an exhaustive test for sharp edges (qh_findbest_sharp).  
+   I rewrote qh_findbest and related functions.  Qh_findbest
+   uses an exhaustive test for sharp edges (qh_findbest_sharp).
    Qh_findbest avoids the upper convex hull of Delaunay triangulations.
 
    Options 'd' and 'v' no longer assign coplanar points to the upper convex hull.
-    
+
    Qh_check_maxout tests near-inside points.  It ignores fully inside points.
    When done, it removes near-inside points from the coplanar sets.
 
-   If you use qh_addpoint or qh_findbest, please review the function headers.  
-   They do not work for lens-shaped hulls for arbitrary facets.  They do work for 
+   If you use qh_addpoint or qh_findbest, please review the function headers.
+   They do not work for lens-shaped hulls for arbitrary facets.  They do work for
    Delaunay triangulations.
 
  Changes to options for V2.2
@@ -993,7 +995,7 @@ qhull V2.2 95/12/4
  - added 'FP' to print nearest vertex for coplanar points
  - added coplanar count to 'Fs' and 's'
  - added number of similar points to summary for Delaunay/Voronoi
- - Option 'Qc' is no longer necessary when merging.  
+ - Option 'Qc' is no longer necessary when merging.
  - 'o' format for Voronoi vertices ('v') generates "0" lines for similar points
  - 'QRn' for Delaunay ('d' or 'v') now rotates about the Z axis (see qh_init_B).
    Otherwise Qhull does not identify the upper hull
@@ -1001,7 +1003,7 @@ qhull V2.2 95/12/4
    set for 'd'.  Even though it was a bad idea, it revealed the above bug.
  - for option list ('FO'), added version, values for one-merge, maxpos, maxneg,
    and near-inside, and flags for zero-centrum
- - optimized 'C-0' and 'Qx'.  These options ("zero-centrum") test vertices 
+ - optimized 'C-0' and 'Qx'.  These options ("zero-centrum") test vertices
    instead of centrums for adjacent simplicial facets.
  - if 'Tv', report number of points that are not verified due to qh_findbest
  - Option 'Q8' ignores near-inside points.
@@ -1016,9 +1018,9 @@ qhull V2.2 95/12/4
    and renumbered the examples for q_eg
  - described facet orientation in 'data structure' section [P. Soikkonen]
  - added notes to qh-man.html/"What to do if something goes wrong"
- - added note about using 'Tv' to verify the results [O. Schramm] 
+ - added note about using 'Tv' to verify the results [O. Schramm]
  - expanded definition of f_r in Performance section [S. Grundmann]
- - noted that Geomview display of a Voronoi diagram adds extra edges 
+ - noted that Geomview display of a Voronoi diagram adds extra edges
    for unbounded Voronoi cells
  - rewrote error "convexity constraints may be too strong" [D. Newland]
  - added limitations section to "Imprecision in Qhull"
@@ -1041,7 +1043,7 @@ qhull V2.2 95/12/4
 
  Changes for users of the Qhull library
  - user code needs to define qh_version (see user_eg.c)
- - merged initialization code into qh_init_A and qh_init_B [M. Mazzario] 
+ - merged initialization code into qh_init_A and qh_init_B [M. Mazzario]
    old code works as before.
    qh_initflags also sets qh qhull_command for qh_initthresholds
    redid initialization for user_eg.c
@@ -1082,7 +1084,7 @@ qhull V2.2 95/12/4
 qhull V2.1 95/9/25
  - converted qhull.man to html format, many edits
  - referenced Shewchuk's triangle program and Schneiders' Mesh Generation page
- - added option 'Qa' to force all points outside 
+ - added option 'Qa' to force all points outside
      automatically set for "precise" Delaunay or Voronoi [Salazar & Velez]
      it is turned off by merging, 'Wn', 'Qc' or 'Qi'
  - added coplanar points to option 'FN'
@@ -1110,7 +1112,7 @@ qhull V2.1 95/9/25
  - added note about locating Delaunay triangles to option 'd' [A. Curtis]
  - added note that coplanar vertices correspond to duplicate points for 'd'
  - added note about option 'd' automatically setting 'PDk' (lower convex hull)
- - added note about precision errors to option 'd' [many users] 
+ - added note about precision errors to option 'd' [many users]
  - added note about qh_findbest() to the Qhull library section [L. Lai]
  - 'make install' renames qhull.man to qhull.1 for Unix [M. Phillips]
  - renamed README, etc. to *.txt to match WWW conventions [D. Cervone]
@@ -1139,7 +1141,7 @@ qhull V2.1 6/7/95
   - fixed cast in qh_point and qh_pointid for 64-bit architectures
   - fixed URL for Amenta's list of computational geometry software
   - fixed cast in qh_meminitbuffers for qhmem.freelists
-  - added test for !qh half_space in qh readpoints 
+  - added test for !qh half_space in qh readpoints
   - clarified options for qh_printhelp_singular()
   - discussed non-simplicial facet area under option 'Fa' in qhull.1
 
@@ -1154,7 +1156,7 @@ qhull V2.1 beta 5/15/95
 
                 ======= main changes ========
   - added halfspace intersection ('Hn,n,n')
-  - facet merging is better, especially for high dimensions 
+  - facet merging is better, especially for high dimensions
   -   added 'Qx' for exact merges of coplanar points and precision faults
   - facet merging is faster, especially for high dimensions.
       e.g., convex hull of the 8-d hypercube is seven times faster
@@ -1174,12 +1176,12 @@ qhull V2.1 beta 5/15/95
   - added 'Un' option to set width of facet for coplanar points.
        This replaces the previous rules for determining coplanar points.
   - changed default MINoutside ('Wn') to twice MINvisible ('Vn')
-  - Geomview output adjusts point radii for MINvisible 'Vn' 
+  - Geomview output adjusts point radii for MINvisible 'Vn'
   - the input format allows the number of points to precede the dimension
   - options 'v' 'd' 'FAn' and 'FMn' record good facets ('Pg')
   - added 'Fd' and 'FD' options for homogeneous coordinates in cdd format
   -   in rbox, added 'h' flag to generate homogeneous coordinates in cdd format
-  - option 'PAn' prints out the n facets with the largest area 
+  - option 'PAn' prints out the n facets with the largest area
   - option 'PMn' prints out the n facets with the most merges
   - option 'Po' under tracing ('Tn') no longer tries to write erroneous facets
   - option 'TCn' only prints the old 'visible' facets for 'f'
@@ -1193,12 +1195,12 @@ qhull V2.1 beta 5/15/95
   - added 'Q4' to avoid merges of old facets into new facets (does worse)
   - added 'Q5' to skip qh_check_maxout (faster, but less accurate)
   - added 'Q6' to skip pre-merge of concave and coplanar facets
-  - added 'Qv' for testing vertex neighbors for convexity (needs merge option) 
+  - added 'Qv' for testing vertex neighbors for convexity (needs merge option)
   - added warning if mix Geomview output with other outputs ('Po' turns off)
   - options 'o v' for 3-d and higher sort the Voronoi vertices by index
 
                 ======= documentation =======
-  - rewrote the introduction and precision sections 
+  - rewrote the introduction and precision sections
   - added a section on performance
   - added an example on halfspace intersection
   - installed examples of Qhull in
@@ -1215,7 +1217,7 @@ qhull V2.1 beta 5/15/95
   - option in user.h (qh_NOmerge) to turn off merging in qhull.
   -   use this instead of redefining qh_merge_nonconvex in user.c
   - simplified user_eg.c.  See qh_call_qhull() in user.c for the full version
-  
+
                 ======== bug fixes ============
   - fixed error in number of points for 'rbox 100 r' (odd distribution)
   - fixed performance error in qh_degen_redundant_neighbors
@@ -1238,7 +1240,7 @@ qhull V2.1 beta 5/15/95
   - added facet->f for facet pointers while merging and for facet area
   - added dfacet/dvertex for printing facets/vertices while debugging
   - added qh_produce_output and qh_printsummary
-   
+
                 ======== changes to code ==========
   - moved qh_setfacetplane from qh_makenewfacets to qh_makenewplanes
   - added qh_setfree2, qh_setcompact, and qh_setduplicate to set.c
@@ -1270,7 +1272,7 @@ qhull V2.1 beta 5/15/95
   - removed angle argument from qh_merge_degenredundant and qh_mergefacet
        only used for tracing
   - getmergeset_initial had extra test of neighbor->simplicial
-  - ridge->nonconvex is now set on only one ridge between non-convex facets 
+  - ridge->nonconvex is now set on only one ridge between non-convex facets
   - moved centrum deletion to qh_updatetested
   - qh_isnewmerge(facet) changed to facet->newmerge (removed NEWmerges)
   - qh_findbestneighbor reports correct distance even if testcentrum
@@ -1307,21 +1309,21 @@ qhull V2.01 6/17/94
   - added an input warning to qh_check_points ('Tv') if coplanars and no 'Qc'
   - qh_partitionpoint: always counts coplanar partitions (Zcoplanarpart)
   - rewrote qh_printhelp_degenerate to emphasize option 'C-0'
-  - For Geomview output, roundoff is not needed when printing the inner and 
+  - For Geomview output, roundoff is not needed when printing the inner and
     outer planes.  This improves Geomview output for the 'Rn' option.
-  - For Geomview output without coplanar points or vertices, qh_GEOMepislon 
+  - For Geomview output without coplanar points or vertices, qh_GEOMepislon
     is not needed.  This removes the edge gap when displaying a Voronoi cell.
-  - For Geomview output 'Gp', direct vertices to the interior point 
+  - For Geomview output 'Gp', direct vertices to the interior point
     instead of the arithmetic center of the displayed vertices.
-    
+
 qhull V2.01 6/11/94
-  - if pre-merge, 'Qf' is automatically set.  Otherwise an outside point may 
+  - if pre-merge, 'Qf' is automatically set.  Otherwise an outside point may
         be dropt by qh_findbest().  This slows down partitioning.
   - always use 'Qc' if merging and all facet->maxoutside's must be right.
         Otherwise distributions with many coplanar points may occassionally
-        miss a coplanar point for a facet.  This is because qh_findbest, when 
-        called by qh_check_maxout, can become stuck at a local maximum if 
-        the search is started at an arbitrary facet.  With 'Qc', the search 
+        miss a coplanar point for a facet.  This is because qh_findbest, when
+        called by qh_check_maxout, can become stuck at a local maximum if
+        the search is started at an arbitrary facet.  With 'Qc', the search
         is started from a coplanar facet.  For example,
                 rbox 1000 W8e-6 t | qhull C-0 Tv
         will (rarely) report that a facet->minoutside is incorrect
@@ -1331,7 +1333,7 @@ qhull V2.01 6/11/94
   - 'rbox t' reports random seed in comment line
   - qh_errexit reports rbox_command | qhull_command and 'QR' random seed
   - added additional tracing to bestdist and setfacetplane
-  - in qh_checkconvex, need to test coplanar against 0 instead of -DISTround 
+  - in qh_checkconvex, need to test coplanar against 0 instead of -DISTround
   - in qh_checkconvex, always test centrums if merging.  The opposite
     vertex of a simplicial facet may be coplanar since a vertex of
     a simplicial facet may be above the facet's hyperplane.
@@ -1342,7 +1344,7 @@ qhull V2.01 6/11/94
 qhull V2.01 6/2/94
   - 's' prints summary to stderr
   - multiple output formats printed in order to stdout
-  - added statistic for worst-case distance for merging simplicial facets 
+  - added statistic for worst-case distance for merging simplicial facets
         can not hope for a better "max distance above/below facet"
         print factor for "max distance.."/"merge simplicial" in printsummary
   - fixed error in scaling input with min/max reversed ('Qb0:1B0:-1')
@@ -1379,7 +1381,7 @@ Converting from qhull 1.01 to qhull 2.00
   - all rbox distributions are now scaled to a 0.5 box (use 'Bn' to change)
   - rbox now adds a comment line.  This may be removed by 'rbox n'
   - 'rbox r s Z G' no longer includes the positive pole
-  - no changes to the Macintosh version 
+  - no changes to the Macintosh version
 
 qhull V2.00 5/23/94
   - if force output ('Po'), facet->maxoutside= 'Wn' since coplanars not updated

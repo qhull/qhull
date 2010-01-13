@@ -14,7 +14,7 @@
 .\"
 .TH qhull 1 "2003/12/30" "Geometry Center"
 .SH NAME
-qhull \- convex hull, Delaunay triangulation, Voronoi diagram, 
+qhull \- convex hull, Delaunay triangulation, Voronoi diagram,
 halfspace intersection about a point, hull volume, facet area
 .SH SYNOPSIS
 .nf
@@ -22,7 +22,7 @@ qhull- compute convex hulls and related structures
     input (stdin): dimension, #points, point coordinates
     first comment (non-numeric) is listed in the summary
     halfspace: use dim plus one with offsets after coefficients
-    
+
 options (qh-quick.htm):
     d      - Delaunay triangulation by lifting points to a paraboloid
     v      - Voronoi diagram via the Delaunay triangulation
@@ -33,7 +33,7 @@ options (qh-quick.htm):
     QJ     - Joggle the input to avoid precision problems
     .      - concise list of all options
     -      - one-line description of all options
-    
+
 Output options (subset):
     FA     - compute total area and volume
     Fx     - extreme points (convex hull vertices)
@@ -48,7 +48,7 @@ Output options (subset):
     Tv     - verify result: structure, convexity, and point inclusion
     p      - vertex coordinates (centers for Voronoi)
     i      - vertices incident to each facet
-    
+
 example:
     rbox 1000 s | qhull Tv s FA
 .fi
@@ -56,16 +56,16 @@ example:
  - html manual:    index.htm
  - installation:   README.txt
  - see also:       COPYING.txt, REGISTER.txt, Changes.txt
- - WWW:  <http://www.qhull.org>
- - CVS:  <http://savannah.nongnu.org/projects/qhull/>
- - mirror: <http://www6.uniovi.es/ftp/pub/mirrors/geom.umn.edu/software/ghindex.html>
- - news: <http://www.qhull.org/news>
- - Geomview:  <http://www.geomview.org>
+ - WWW:            <http://www.qhull.org>
+ - GIT:            <git@gitorious.org:qhull/qhull.git>
+ - mirror:         <http://www6.uniovi.es/ftp/pub/mirrors/geom.umn.edu/software/ghindex.html>
+ - news:           <http://www.qhull.org/news>
+ - Geomview:       <http://www.geomview.org>
  - news group:     <news:comp.graphics.algorithms>
- - FAQ:       <http://exaflop.org/docs/cgafaq/cga6.html>
+ - FAQ:            <http://exaflop.org/docs/cgafaq/cga6.html>
  - email:          qhull@qhull.org
  - bug reports:    qhull_bug@qhull.org
- 
+
 The sections are:
  - INTRODUCTION
  - DESCRIPTION, a description of Qhull
@@ -90,10 +90,10 @@ any mismatches with Qhull's html manual (index.htm).
 .PP
 .SH INTRODUCTION
 Qhull is a general dimension code for computing convex hulls, Delaunay
-triangulations, Voronoi diagram, furthest\[hy]site Voronoi diagram, 
-furthest\[hy]site Delaunay triangulations, and 
-halfspace intersections about a point.  It implements the Quickhull algorithm for 
-computing the convex hull.  Qhull handles round\[hy]off errors from floating 
+triangulations, Voronoi diagram, furthest\[hy]site Voronoi diagram,
+furthest\[hy]site Delaunay triangulations, and
+halfspace intersections about a point.  It implements the Quickhull algorithm for
+computing the convex hull.  Qhull handles round\[hy]off errors from floating
 point arithmetic.  It can approximate a convex hull.
 
 The program includes options for hull volume, facet area, partial hulls,
@@ -107,7 +107,7 @@ The format of input is the following: first line contains the dimension,
 second line contains the number of input points, and point coordinates follow.
 The dimension and number of points can be reversed.
 Comments and line breaks are ignored.  A comment starts with a
-non\[hy]numeric character and continues to the end of line.  The first comment 
+non\[hy]numeric character and continues to the end of line.  The first comment
 is reported in summaries and statistics.
 Error reporting is
 better if there is one point per line.
@@ -118,8 +118,8 @@ other output formats.
 Qhull implements the Quickhull algorithm for convex hull. This algorithm combines
 the 2\[hy]d Quickhull algorithm with the n\[hy]d beneath\[hy]beyond algorithm
 [c.f., Preparata & Shamos '85].
-It is similar to the randomized algorithms of Clarkson and 
-others [Clarkson et al. '93].  The main 
+It is similar to the randomized algorithms of Clarkson and
+others [Clarkson et al. '93].  The main
 advantages of Quickhull are output sensitive performance, reduced
 space requirements, and automatic handling of precision problems.
 .PP
@@ -127,26 +127,26 @@ The data structure produced by Qhull consists of vertices, ridges, and facets.
 A vertex is a point of the input set.  A ridge is a set of d vertices
 and two neighboring facets.  For example in 3\[hy]d, a ridge is an edge of the
 polyhedron.  A facet is a set of ridges, a set of neighboring facets, a set
-of incident vertices, and a hyperplane equation.  For simplicial facets, the 
-ridges are defined by the vertices and neighboring facets.  When Qhull 
+of incident vertices, and a hyperplane equation.  For simplicial facets, the
+ridges are defined by the vertices and neighboring facets.  When Qhull
 merges two facets, it produces a non\[hy]simplicial
-facet.  A non\[hy]simplicial facet has more than d neighbors and may share more than 
+facet.  A non\[hy]simplicial facet has more than d neighbors and may share more than
 one ridge with a neighbor.
 .PP
-.SH IMPRECISION 
+.SH IMPRECISION
 .PP
 Since Qhull uses floating point arithmetic, roundoff error may occur for each
 calculation.  This causes  problems
 for most geometric algorithms.
 .PP
-Qhull automatically sets option 'C\-0' in 2\[hy]d, 3\[hy]d, and 4\[hy]d, or 
-option 'Qx' in 5\[hy]d and higher.  These options handle precision problems 
+Qhull automatically sets option 'C\-0' in 2\[hy]d, 3\[hy]d, and 4\[hy]d, or
+option 'Qx' in 5\[hy]d and higher.  These options handle precision problems
 by merging facets.  Alternatively, use option 'QJ' to joggle the
 input.
 .PP
 With 'C\-0', Qhull merges non\[hy]convex
 facets while constructing the hull. The remaining facets are
-clearly convex. With 'Qx', Qhull merges 
+clearly convex. With 'Qx', Qhull merges
 coplanar horizon facets, flipped facets, concave facets and
 duplicated ridges.  It merges coplanar facets after constructing
 the hull.
@@ -154,12 +154,12 @@ With 'Qx', coplanar points may be missed, but it
 appears to be unlikely.
 .PP
 To guarantee triangular output, joggle the input with option 'QJ'.  Facet
-merging will not occur. 
+merging will not occur.
 .SH OPTIONS
 .PP
 To get a list of the most important options, execute 'qhull' by itself.
-To get a complete list of options, 
-execute 'qhull \-'.  
+To get a complete list of options,
+execute 'qhull \-'.
 To get a complete, concise list of options, execute 'qhull .'.
 
 Options can be in any order.
@@ -176,33 +176,33 @@ Compute the convex hull of the input points.  Report a summary of
 the result.
 .TP
 d
-Compute the Delaunay triangulation by lifting the input points to a 
-paraboloid.  The 'o' option prints the input points and facets.  
-The 'QJ' option guarantees triangular output.  The 'Ft' 
+Compute the Delaunay triangulation by lifting the input points to a
+paraboloid.  The 'o' option prints the input points and facets.
+The 'QJ' option guarantees triangular output.  The 'Ft'
 option prints a triangulation.  It adds points (the centrums) to non\[hy]simplicial
-facets.  
+facets.
 .TP
 v
-Compute the Voronoi diagram from the Delaunay triangulation.  
-The 'p' option prints the Voronoi vertices.  
+Compute the Voronoi diagram from the Delaunay triangulation.
+The 'p' option prints the Voronoi vertices.
 The 'o' option prints the Voronoi vertices and the
 vertices in each Voronoi region.  It lists regions in
 site ID order.
 The 'Fv' option prints each ridge of the Voronoi diagram.
 The first or zero'th vertex
-indicates the infinity vertex.  Its coordinates are 
+indicates the infinity vertex.  Its coordinates are
 qh_INFINITE (\-10.101).  It indicates unbounded Voronoi
 regions or degenerate Delaunay triangles.
 .TP
 Hn,n,...
-Compute halfspace intersection about [n,n,0,...].  
+Compute halfspace intersection about [n,n,0,...].
 The input is a set of halfspaces
 defined in the same format as 'n', 'Fo', and 'Fi'.
 Use 'Fp' to print the intersection points.  Use 'Fv'
 to list the intersection points for each halfspace.  The
 other output formats display the dual convex hull.
 
-The point [n,n,n,...] is a feasible point for the halfspaces, i.e.,   
+The point [n,n,n,...] is a feasible point for the halfspaces, i.e.,
 a point that is inside all
 of the halfspaces (Hx+b <= 0).  The default coordinate value is 0.
 
@@ -213,19 +213,19 @@ option produces a feasible point for a convex hull.
 .TP
 d Qu
 Compute the furthest\[hy]site Delaunay triangulation from the upper
-convex hull.  The 'o' option prints the input points and facets.  
+convex hull.  The 'o' option prints the input points and facets.
 The 'QJ' option guarantees triangular otuput.  You can also use 'Ft'
 to triangulate via the centrums of non\[hy]simplicial
-facets.  
+facets.
 .TP
 v Qu
 Compute the furthest\[hy]site Voronoi diagram.
-The 'p' option prints the Voronoi vertices.  
+The 'p' option prints the Voronoi vertices.
 The 'o' option prints the Voronoi vertices and the
 vertices in each Voronoi region.
 The 'Fv' option prints each ridge of the Voronoi diagram.
 The first or zero'th vertex
-indicates the infinity vertex at infinity.  Its coordinates are 
+indicates the infinity vertex at infinity.  Its coordinates are
 qh_INFINITE (\-10.101).  It indicates unbounded Voronoi regions
 and degenerate Delaunay triangles.
 .PP
@@ -237,7 +237,7 @@ Print out all facets and all fields of each facet.
 .TP
 G
 Output the hull in Geomview format.  For imprecise hulls,
-Geomview displays the inner and outer hull.  Geomview can also 
+Geomview displays the inner and outer hull.  Geomview can also
 display points, ridges, vertices, coplanar points, and
 facet intersections.  See below for a list of options.
 
@@ -246,14 +246,14 @@ corresponding paraboloid.  For halfspace intersection, 'G' displays the
 dual polytope.
 .TP
 i
-Output the incident vertices for each facet.  
+Output the incident vertices for each facet.
 Qhull prints the number of facets followed by the
-vertices of each facet.  One facet is printed per line.  The numbers 
+vertices of each facet.  One facet is printed per line.  The numbers
 are the 0\[hy]relative indices of the corresponding input points.
 The facets
-are oriented.  
+are oriented.
 
-In 4d and higher, 
+In 4d and higher,
 Qhull triangulates non\[hy]simplicial facets.  Each apex (the first vertex) is
 a created point that corresponds to the facet's centrum.  Its index is greater
 than the indices of the input points.  Each base
@@ -269,13 +269,13 @@ visualized by "Show[Graphics[list]] ". For 3\[hy]d objects the command is
 "Show[Graphics3D[list]]".
 .TP
 n
-Output the normal equation for each facet.  
+Output the normal equation for each facet.
 Qhull prints the dimension (plus one), the number of facets,
 and the normals for each facet.  The facet's offset follows its
 normal coefficients.
 .TP
 o
-Output the facets in OFF file format.  
+Output the facets in OFF file format.
 Qhull prints the dimension, number of points, number
 of facets, and number of ridges.  Then it prints the coordinates of
 the input points and the vertices for each facet.  Each facet is on
@@ -285,27 +285,27 @@ oriented in 2\[hy]d, 3\[hy]d, and in simplicial facets.
 
 For 2\[hy]d Voronoi diagrams,
 the vertices are sorted by adjacency, but not oriented.  In 3\[hy]d and higher,
-the Voronoi vertices are sorted by index.  
+the Voronoi vertices are sorted by index.
 See the 'v' option for more information.
 .TP
 p
-Output the coordinates of each vertex point.  
+Output the coordinates of each vertex point.
 Qhull prints the dimension, the number of points,
-and the coordinates for each vertex.  
+and the coordinates for each vertex.
 With the 'Gc' and 'Gi' options, it also prints coplanar
 and interior points.  For Voronoi diagrams, it prints the coordinates
-of each Voronoi vertex.  
+of each Voronoi vertex.
 .TP
 s
 Print a summary to stderr.  If no output options
-are specified at all, a summary goes to stdout.  The summary lists 
+are specified at all, a summary goes to stdout.  The summary lists
 the number of input points, the dimension, the number of vertices
-in the convex hull, the number of facets in the convex hull, the 
+in the convex hull, the number of facets in the convex hull, the
 number of good facets (if 'Pg'), and statistics.
 
-The last two statistics (if needed) measure the maximum distance 
+The last two statistics (if needed) measure the maximum distance
 from a point or vertex to a
-facet.  The number in parenthesis (e.g., 2.1x) is the ratio between the 
+facet.  The number in parenthesis (e.g., 2.1x) is the ratio between the
 maximum distance and the worst\[hy]case distance due to merging
 two simplicial facets.
 .PP
@@ -317,9 +317,9 @@ Maximum angle given as a cosine.  If the angle between a pair of facet
 normals
 is greater than n, Qhull merges one of the facets into a neighbor.
 If 'n' is negative, Qhull tests angles after adding
-each point to the hull (pre\[hy]merging).  
+each point to the hull (pre\[hy]merging).
 If 'n' is positive, Qhull tests angles after
-constructing the hull (post\[hy]merging).  
+constructing the hull (post\[hy]merging).
 Both pre\[hy] and post\[hy]merging can be defined.
 
 Option 'C0' or 'C\-0' is set if the corresponding 'Cn' or 'C\-n'
@@ -351,9 +351,9 @@ To use time as the random number seed, use option 'QR\-1'.
 Vn
 Minimum distance for a facet to be visible.
 A facet is visible if the distance from the point to the
-facet is greater than 'Vn'.  
+facet is greater than 'Vn'.
 
-Without merging, the default value for 'Vn' is the round\[hy]off error ('En'). 
+Without merging, the default value for 'Vn' is the round\[hy]off error ('En').
 With merging, the default value is the pre\[hy]merge centrum ('C\-n') in 2\[hy]d or
 3\[hy]d, or three times that in other dimensions.  If the outside width
 is specified ('Wn'), the maximum, default value for 'Vn' is 'Wn'.
@@ -364,7 +364,7 @@ default value is 'Vn'.
 .TP
 Wn
 Minimum outside width of the hull.  Points are added to the convex hull
-only if they are clearly outside of a facet.  A point is outside of a 
+only if they are clearly outside of a facet.  A point is outside of a
 facet if its distance to the facet is greater than 'Wn'.  The normal
 value for 'Wn' is 'En'.  If the user specifies pre\[hy]merging and
 does not set 'Wn', than 'Wn' is set
@@ -374,15 +374,15 @@ to the premerge 'Cn' and maxcoord*(1\-An).
 Additional input/output formats
 .TP
 Fa
-Print area for each facet.  
+Print area for each facet.
 For Delaunay triangulations, the area is the area of the triangle.
-For Voronoi diagrams, the area is the area of the dual facet.   
+For Voronoi diagrams, the area is the area of the dual facet.
 Use 'PAn' for printing the n largest facets, and option 'PFn' for
 printing facets larger than 'n'.
 
 The area for non\[hy]simplicial facets is the sum of the
 areas for each ridge to the centrum.   Vertices far below
-the facet's hyperplane are ignored.  
+the facet's hyperplane are ignored.
 The reported area may be significantly less than the actual area.
 .TP
 FA
@@ -391,20 +391,20 @@ for non\[hy]simplicial facets (see 'Fa').
 .TP
 Fc
 Print coplanar points for each facet.  The output starts with the
-number of facets.  Then each facet is printed one per line.  Each line 
-is the number of coplanar points followed by the point ids. 
+number of facets.  Then each facet is printed one per line.  Each line
+is the number of coplanar points followed by the point ids.
 Option 'Qi' includes the interior points.  Each coplanar point (interior point) is
-assigned to the facet it is furthest above (resp., least below). 
+assigned to the facet it is furthest above (resp., least below).
 .TP
 FC
 Print centrums for each facet.  The output starts with the
-dimension followed by the number of facets.  
+dimension followed by the number of facets.
 Then each facet centrum is printed, one per line.
 .TP
 Fd
 Read input in cdd format with homogeneous points.
 The input starts with comments.  The first comment is reported in
-the summary.  
+the summary.
 Data starts after a "begin" line.  The next line is the number of points
 followed by the dimension+1 and "real" or "integer".  Then the points
 are listed  with a leading "1" or "1.0".  The data ends with an "end" line.
@@ -419,7 +419,7 @@ The first line is the command line that invoked Qhull.
 Data starts with a "begin" line.  The next line is the number of normals or points
 followed by the dimension+1 and "real".  Then the normals or points
 are listed  with the offset before the coefficients.  The offset for points is
-1.0.  The offset for normals has the opposite sign.  
+1.0.  The offset for normals has the opposite sign.
 The data ends with an "end" line.
 .TP
 FF
@@ -429,15 +429,15 @@ Fi
 Print inner planes for each facet.  The inner plane is below all vertices.
 .TP
 Fi
-Print separating hyperplanes for bounded, inner regions of the Voronoi 
+Print separating hyperplanes for bounded, inner regions of the Voronoi
 diagram.  The first line is the number
 of ridges.  Then each hyperplane is printed, one per line.  A line starts
-with the number of indices and floats.  The first pair lists 
+with the number of indices and floats.  The first pair lists
 adjacent input
 sites, the next d floats are the normalized coefficients for the hyperplane,
 and the last float is the offset.  The hyperplane is oriented toward 'QVn'
 (if defined), or the first input site of the pair.  Use 'Tv' to
-verify that the hyperplanes are perpendicular bisectors.  Use 'Fo' for 
+verify that the hyperplanes are perpendicular bisectors.  Use 'Fo' for
 unbounded regions, and 'Fv' for the corresponding Voronoi vertices.
 .TP
 FI
@@ -454,19 +454,19 @@ convex hulls and for 2\[hy]d Delaunay triangulations.   Qhull produces a '.mpl'
 file for displaying with display3d().
 .TP
 Fn
-Print neighbors for each facet.  The output starts with the number of facets.  
-Then each facet is printed one per line.  Each line 
+Print neighbors for each facet.  The output starts with the number of facets.
+Then each facet is printed one per line.  Each line
 is the number of neighbors followed by an index for each neighbor.  The indices
-match the other facet output formats.  
+match the other facet output formats.
 
 A negative index indicates an unprinted
 facet due to printing only good facets ('Pg').  It is the negation of the facet's
-ID (option 'FI').   
+ID (option 'FI').
 For example, negative indices are used for facets
 "at infinity" in the Delaunay triangulation.
 .TP
 FN
-Print vertex neighbors or coplanar facet for each point.  
+Print vertex neighbors or coplanar facet for each point.
 The first line is the number
 of points.  Then each point is printed, one per line.  If the
 point is coplanar, the line is "1" followed by the facet's ID.
@@ -476,19 +476,19 @@ Otherwise, each line is the number of
 neighbors followed by the corresponding facet indices (see 'Fn').
 .TP
 Fo
-Print outer planes for each facet in the same format as 'n'.  
+Print outer planes for each facet in the same format as 'n'.
 The outer plane is above all points.
 .TP
 Fo
-Print separating hyperplanes for unbounded, outer regions of the Voronoi 
+Print separating hyperplanes for unbounded, outer regions of the Voronoi
 diagram.  The first line is the number
 of ridges.  Then each hyperplane is printed, one per line.  A line starts
-with the number of indices and floats.  The first pair lists 
+with the number of indices and floats.  The first pair lists
 adjacent input
 sites, the next d floats are the normalized coefficients for the hyperplane,
 and the last float is the offset.  The hyperplane is oriented toward 'QVn'
 (if defined), or the first input site of the pair.  Use 'Tv' to
-verify that the hyperplanes are perpendicular bisectors.  Use 'Fi' for 
+verify that the hyperplanes are perpendicular bisectors.  Use 'Fi' for
 bounded regions, and 'Fv' for the corresponding Voronoi vertices.
 .TP
 FO
@@ -509,26 +509,26 @@ FQ
 Print command used for qhull and input.
 .TP
 Fs
-Print a summary.  The first line consists of the number of integers ("8"), 
-followed by the dimension, the number of points, the number of vertices, 
+Print a summary.  The first line consists of the number of integers ("8"),
+followed by the dimension, the number of points, the number of vertices,
 the number of facets, the number of vertices selected for output, the
 number of facets selected for output, the number of coplanar points selected
 for output, number of simplicial, unmerged facets in output
 
 The second line consists of the number of reals ("2"),
-followed by the maxmimum offset to an outer plane and and minimum offset to 
+followed by the maxmimum offset to an outer plane and and minimum offset to
 an inner plane.  Roundoff is included.  Later
 versions of Qhull may produce additional integers or reals.
 .TP
 FS
-Print the size of the hull.  The first line consists of the number of integers ("0").  
+Print the size of the hull.  The first line consists of the number of integers ("0").
 The second line consists of the number of reals ("2"),
-followed by the total facet area, and the total volume.  
+followed by the total facet area, and the total volume.
 Later
 versions of Qhull may produce additional integers or reals.
 
 The total volume measures the volume
-of the intersection of the halfspaces defined by each facet.   
+of the intersection of the halfspaces defined by each facet.
 Both area and volume are
 approximations for non\[hy]simplicial facets.  See option 'Fa'.
 .TP
@@ -554,8 +554,8 @@ the vertex\[hy]at\[hy]infinity (i.e., an unbounded ray).  In 3\[hy]d, the vertic
 are listed in order.  See 'Fi' and 'Fo' for separating hyperplanes.
 .TP
 FV
-Print average vertex.  The average vertex is a feasible point 
-for halfspace intersection. 
+Print average vertex.  The average vertex is a feasible point
+for halfspace intersection.
 .TP
 Fx
 List extreme points (vertices) of the convex hull.  The first line
@@ -571,9 +571,9 @@ Geomview options
 G
 Produce a file for viewing with Geomview.  Without other options,
 Qhull displays edges in 2\[hy]d, outer planes in 3\[hy]d, and ridges in 4\[hy]d.
-A ridge can be 
+A ridge can be
 explicit or implicit.  An explicit ridge is a dim\-1 dimensional simplex
-between two facets.  
+between two facets.
 In 4\[hy]d, the explicit ridges are triangles.
 When displaying a ridge in 4\[hy]d, Qhull projects the ridge's vertices to
 one of its facets' hyperplanes.
@@ -586,11 +586,11 @@ Display all input points as dots.
 Gc
 Display the centrum for each facet in 3\[hy]d.  The centrum is defined by a
 green radius sitting on a blue plane.  The plane corresponds to the
-facet's hyperplane.  
+facet's hyperplane.
 The radius is defined by 'C\-n' or 'Cn'.
 .TP
 GDn
-Drop dimension n in 3\[hy]d or 4\[hy]d.  The result is a 2\[hy]d or 3\[hy]d object.  
+Drop dimension n in 3\[hy]d or 4\[hy]d.  The result is a 2\[hy]d or 3\[hy]d object.
 .TP
 Gh
 Display hyperplane intersections in 3\[hy]d and 4\[hy]d.   In 3\[hy]d, the
@@ -605,7 +605,7 @@ The inner plane's color is the opposite (1\-r,1\-g,1\-b) of the outer
 plane.  Its edges are determined by the vertices.
 .TP
 Gn
-Do not display inner or outer planes.  By default, 
+Do not display inner or outer planes.  By default,
 Geomview displays the precise plane (no merging) or both
 inner and output planes (merging).  Under merging, Geomview does
 not display the inner plane if the
@@ -614,14 +614,14 @@ the difference between inner and outer is too small.
 Go
 Display outer planes in 2\[hy]d and 3\[hy]d.  The outer plane of a facet
 is above all input points.  It is parallel to the facet's hyperplane.
-Its color is determined by the facet's normal, and its 
+Its color is determined by the facet's normal, and its
 edges are determined by the vertices.
 .TP
 Gp
 Display coplanar points and vertices as radii.  A radius defines a ball
-which corresponds to the imprecision of the point.  The imprecision is 
+which corresponds to the imprecision of the point.  The imprecision is
 the maximum of the roundoff error, the centrum radius, and maxcoord *
-(1\-An).  It is at least 1/20'th of the maximum coordinate, 
+(1\-An).  It is at least 1/20'th of the maximum coordinate,
 and ignores post\[hy]merging if pre\[hy]merging is done.
 .TP
 Gr
@@ -641,8 +641,8 @@ the imprecision of the data.  See 'Gp' for determining the radius.
 Print options
 .TP
 PAn
-Only the n largest facets are marked good for printing.  
-Unless 'PG' is set, 'Pg' is automatically set. 
+Only the n largest facets are marked good for printing.
+Unless 'PG' is set, 'Pg' is automatically set.
 .TP
 Pdk:n
 Drop facet from output if normal[k] <= n.  The option 'Pdk' uses the
@@ -653,8 +653,8 @@ Drop facet from output if normal[k] >= n.  The option 'PDk' uses the
 default value of 0 for n.
 .TP
 PFn
-Only facets with area at least 'n' are marked good for printing.  
-Unless 'PG' is set, 'Pg' is automatically set. 
+Only facets with area at least 'n' are marked good for printing.
+Unless 'PG' is set, 'Pg' is automatically set.
 .TP
 Pg
 Print only good facets.  A good facet is either visible from a point
@@ -667,13 +667,13 @@ Print neighbors of good facets.
 .TP
 PMn
 Only the n facets with the most merges are marked good for printing.
-Unless 'PG' is set, 'Pg' is automatically set. 
+Unless 'PG' is set, 'Pg' is automatically set.
 .TP
 Po
 Force output despite precision problems.  Verify ('Tv') does not check
 coplanar points.
-Flipped facets are reported and concave facets are counted.  
-If 'Po' is used, points are not 
+Flipped facets are reported and concave facets are counted.
+If 'Po' is used, points are not
 partitioned into flipped facets and a flipped facet is always visible
 to a point.
 Also, if an error occurs before the completion of Qhull and tracing is
@@ -687,7 +687,7 @@ Do not report precision problems.
 Qhull control options
 .TP
 Qbk:0Bk:0
-Drop dimension k from the input points.  This allows the user to 
+Drop dimension k from the input points.  This allows the user to
 take convex hulls of sub\[hy]dimensional objects.  It happens before
 the Delaunay and Voronoi transformation.
 .TP
@@ -697,7 +697,7 @@ bound will be \-0.5 and the upper bound +0.5 in all dimensions.
 For Delaunay and
 Voronoi diagrams, scaling happens after projection to the paraboloid.
 Under precise
-arithmetic, scaling does not change the topology of the convex hull.  
+arithmetic, scaling does not change the topology of the convex hull.
 .TP
 Qbb
 Scale the last coordinate to [0, m] where m is the maximum absolute
@@ -705,38 +705,38 @@ value of the other coordinates.  For Delaunay and
 Voronoi diagrams, scaling happens after projection to the paraboloid.
 It reduces roundoff error for inputs with integer coordinates.
 Under precise
-arithmetic, scaling does not change the topology of the convex hull.  
+arithmetic, scaling does not change the topology of the convex hull.
 .TP
 Qbk:n
 Scale the k'th coordinate of the input points.  After scaling, the lower
-bound of the input points will be n.  'Qbk' scales to \-0.5.  
+bound of the input points will be n.  'Qbk' scales to \-0.5.
 .TP
 QBk:n
 Scale the k'th coordinate of the input points.  After scaling, the upper
 bound will be n.  'QBk' scales to +0.5.
 .TP
 Qc
-Keep coplanar points with the nearest facet.  Output 
-formats 'p', 'f', 'Gp', 'Fc', 'FN', and 'FP' will print the points.  
+Keep coplanar points with the nearest facet.  Output
+formats 'p', 'f', 'Gp', 'Fc', 'FN', and 'FP' will print the points.
 .TP
 Qf
 Partition points to the furthest outside facet.
 .TP
 Qg
-Only build good facets.  With the 'Qg' option, Qhull will only build 
+Only build good facets.  With the 'Qg' option, Qhull will only build
 those facets that it needs to determine the good facets in the output.
-See 'QGn', 'QVn', and 'PdD' for defining good facets, and 'Pg' and 'PG' 
+See 'QGn', 'QVn', and 'PdD' for defining good facets, and 'Pg' and 'PG'
 for printing good facets and their neighbors.
 .TP
 QGn
 A facet is good (see 'Qg' and 'Pg') if it is visible from point n.  If n < 0, a facet is
 good if it is not visible from point n.  Point n is not added to the
-hull (unless 'TCn' or 'TPn').  
+hull (unless 'TCn' or 'TPn').
 With rbox, use the 'Pn,m,r' option to define your point; it
-will be point 0 (QG0).  
+will be point 0 (QG0).
 .TP
 Qi
-Keep interior points with the nearest facet.  
+Keep interior points with the nearest facet.
 Output formats 'p', 'f', 'Gp', 'FN', 'FP', and 'Fc' will print the points.
 .TP
 QJn
@@ -752,7 +752,7 @@ Qm
 Only process points that would otherwise increase max_outside.  Other
 points are treated as coplanar or interior points.
 .TP
-Qr 
+Qr
 Process random outside points instead of furthest ones.  This makes
 Qhull equivalent to the randomized incremental algorithms.  CPU time
 is not reported since the randomization is inefficient.
@@ -788,7 +788,7 @@ are not performed.  Concavity testing is delayed until a merge occurs.
 
 After
 the hull is built, all coplanar merges are performed (defined by 'C\-n'
-and 'A\-n'), then post\[hy]merges are performed 
+and 'A\-n'), then post\[hy]merges are performed
 (defined by 'Cn' and 'An').
 .TP
 Qz
@@ -796,15 +796,15 @@ Add a point "at infinity" that is above the paraboloid for Delaunay triangulatio
 and Voronoi diagrams.  This reduces precision problems and allows the triangulation
 of cospherical points.
 .PP
-.TP 
+.TP
 Qhull experiments and speedups
 .TP
 Q0
-Turn off pre\[hy]merging as a default option.  
-With 'Q0'/'Qx' and without explicit pre\[hy]merge options, Qhull 
+Turn off pre\[hy]merging as a default option.
+With 'Q0'/'Qx' and without explicit pre\[hy]merge options, Qhull
 ignores precision issues while constructing the convex hull.  This
 may lead to precision errors.  If so, a descriptive warning is
-generated.  
+generated.
 .TP
 Q1
 With 'Q1', Qhull sorts merges by type (coplanar, angle coplanar, concave)
@@ -857,7 +857,7 @@ algorithm.  'T5' includes information about memory allocation and
 Gaussian elimination.
 .TP
 Ta
-Annotate output with codes that identify the 
+Annotate output with codes that identify the
 corresponding qh_fprintf() statement.
 .TP
 Tc
@@ -866,12 +866,12 @@ errors.
 .TP
 TCn
 Stop Qhull after building the cone of new facets for point n.  The
-output for 'f' includes the cone and the old hull.  
+output for 'f' includes the cone and the old hull.
 See also 'TVn'.
 .TP
 TFn
 Report progress whenever more than n facets are created
-During post\[hy]merging, 'TFn' 
+During post\[hy]merging, 'TFn'
 reports progress after more than n/2 merges.
 .TP
 TI file
@@ -896,8 +896,8 @@ Collect statistics and print to stderr at the end of execution.
 .TP
 Tv
 Verify the convex hull.  This checks the topological structure, facet
-convexity, and point inclusion.  
-If precision problems occurred, facet convexity is tested whether or 
+convexity, and point inclusion.
+If precision problems occurred, facet convexity is tested whether or
 not 'Tv' is selected.
 Option 'Tv' does not check point inclusion if forcing output with 'Po',
 or if 'Q5' is set.
@@ -906,9 +906,9 @@ For point inclusion testing, Qhull verifies that all points are below
 all outer planes (facet\->maxoutside).  Point inclusion is exhaustive
 if merging or if the facet\[hy]point product is small enough;
 otherwise Qhull verifies each point with a directed
-search (qh_findbest).  
+search (qh_findbest).
 
-Point inclusion testing occurs after producing output.  It prints 
+Point inclusion testing occurs after producing output.  It prints
 a message to stderr unless option 'Pp' is used.  This
 allows the user to interrupt Qhull without changing the output.
 .TP
@@ -926,7 +926,7 @@ Tz
 Redirect stderr to stdout.
 .PP
 .SH BUGS
-Please report bugs to Brad Barber at qhull_bug@qhull.org.  
+Please report bugs to Brad Barber at qhull_bug@qhull.org.
 
 If Qhull does not compile, it is due to an incompatibility between your
 system and ours.  The first thing to check is that your compiler is
@@ -937,7 +937,7 @@ please send email since it might help others.
 If Qhull compiles but crashes on the test case (rbox D4), there's
 still incompatibility between your system and ours.  Typically it's
 been due to mem.c and memory alignment.  You can use qh_NOmem in mem.h
-to turn off memory management.  Please let us know if you figure out 
+to turn off memory management.  Please let us know if you figure out
 how to fix these problems.
 
 If you do find a problem, try to simplify it before reporting the
@@ -958,7 +958,7 @@ mention it in a paper, please send the reference and an abstract.
 If you would like to get Qhull announcements (e.g., a new version)
 and news (any bugs that get fixed, etc.), let us know and we will add you to
 our mailing list.  If you would like to communicate with other
-Qhull users, we will add you to the qhull_users alias.  
+Qhull users, we will add you to the qhull_users alias.
 For Internet news about geometric algorithms and convex hulls, look at
 comp.graphics.algorithms and sci.math.num\-analysis
 
@@ -971,7 +971,7 @@ Trans. on Mathematical Software, 22(4):469\[en]483, Dec. 1996.
 http://portal.acm.org/citation.cfm?doid=235815.235821
 http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.117.405
 
-Clarkson, K.L., K. Mehlhorn, and R. Seidel, "Four results on randomized 
+Clarkson, K.L., K. Mehlhorn, and R. Seidel, "Four results on randomized
 incremental construction," Computational Geometry: Theory and Applications,
 vol. 3, p. 185\[en]211, 1993.
 
@@ -983,7 +983,7 @@ Geometry, Springer\[hy]Verlag, New York, 1985.
 .nf
   C. Bradford Barber                    Hannu Huhdanpaa
   bradb@shore.net                       hannu@qhull.org
-  
+
  .fi
 
 .SH ACKNOWLEDGEMENTS
@@ -991,13 +991,13 @@ Geometry, Springer\[hy]Verlag, New York, 1985.
 A special thanks to Albert Marden, Victor Milenkovic, the Geometry Center,
 Harvard University, and Endocardial Solutions, Inc. for supporting this work.
 
-Qhull 1.0 and 2.0 were developed under National Science Foundation 
-grants NSF/DMS\[hy]8920161 and NSF\[hy]CCR\[hy]91\[hy]15793 750\[hy]7504.  David Dobkin 
-guided the original work at Princeton University.  
+Qhull 1.0 and 2.0 were developed under National Science Foundation
+grants NSF/DMS\[hy]8920161 and NSF\[hy]CCR\[hy]91\[hy]15793 750\[hy]7504.  David Dobkin
+guided the original work at Princeton University.
 If you find it useful, please let us know.
 
-The Geometry Center is supported by grant DMS\[hy]8920161 from the National 
-Science Foundation, by grant DOE/DE\[hy]FG02\[hy]92ER25137 from the Department 
+The Geometry Center is supported by grant DMS\[hy]8920161 from the National
+Science Foundation, by grant DOE/DE\[hy]FG02\[hy]92ER25137 from the Department
 of Energy, by the University of Minnesota, and by Minnesota Technology, Inc.
 
 Qhull is available from http://www.qhull.org
