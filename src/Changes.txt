@@ -2,7 +2,7 @@
 .............This file lists all changes to qhull and rbox.....................
 
 To do
- - Notify Wolfram, geom discussion list
+ - Notify geom discussion list
  - get copy of unused
  - Review email archives for doc changes
  - QtTestD4.dll did not include MSVCP80D.dll and MSVCR80D.dll
@@ -10,16 +10,17 @@ To do
 ------------
 Need help
  - The C++ interface needs work.  Give it a try and make it better.
- - Set up debian build.
-   Please keep debian files in config/ and project/debian/
-   Branch 'debian' is from http://savannah.nongnu.org/cvs/?group=qhull
-   project/debian needs updating for its new location.  It was at qhull's level.
+   http://gitorious.org/qhull/
  - Add CMakeLists.txt for qhullcpp, user_eg3, cpp/, and cpp/road
    If practical, please move to project/
  - Verify -fno-strict-aliasing needed for gcc 4.1, 4.2, and 4.3 (qset segfault)
+ - Set up debian build [Pkg-octave-devel]
+   Please keep debian files in config/ and project/debian/
+   Branch 'debian' is from http://savannah.nongnu.org/cvs/?group=qhull
+   project/debian needs updating for its new location.  It was at qhull's level.
 
 ------------
-Qhull gitorious.org/qhull next
+Qhull gitorious.org/qhull next 2010/01/12
 - Add qt-qhull.cpp with Qt conditional code
 - Fix qhull.sln and project files for qh_QHpointer
 - Add libqhullp.proj
