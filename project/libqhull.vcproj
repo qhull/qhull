@@ -46,6 +46,7 @@
 				AdditionalIncludeDirectories="../"
 				PreprocessorDefinitions="_LIB;UNICODE=1;WIN32;NDEBUG"
 				StringPooling="true"
+				ExceptionHandling="0"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
 				PrecompiledHeaderFile="..\tmp\libqhull\Release/libqhull.pch"
@@ -74,6 +75,7 @@
 				Name="VCLibrarianTool"
 				OutputFile="..\tmp\libqhull\Release\qhull.lib"
 				SuppressStartupBanner="true"
+				IgnoreDefaultLibraryNames=""
 			/>
 			<Tool
 				Name="VCALinkTool"

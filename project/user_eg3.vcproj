@@ -44,7 +44,7 @@
 				Optimization="2"
 				InlineFunctionExpansion="1"
 				AdditionalIncludeDirectories="../"
-				PreprocessorDefinitions="_LIB;UNICODE=1;WIN32;NDEBUG"
+				PreprocessorDefinitions="qh_QHpointer;_LIB;UNICODE=1;WIN32;NDEBUG"
 				StringPooling="true"
 				ExceptionHandling="1"
 				RuntimeLibrary="0"
@@ -75,9 +75,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="&quot;..\tmp\libqhull\Release\qhull.lib&quot; &quot;..\tmp\qhullcpp\Release\qhullcpp.lib&quot; "
+				AdditionalOptions=" "
 				OutputFile="..\user_eg3.exe"
 				LinkIncremental="0"
+				IgnoreDefaultLibraryNames="LIBCMT"
 			/>
 			<Tool
 				Name="VCALinkTool"

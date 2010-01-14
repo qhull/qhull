@@ -12,8 +12,8 @@
    see qhull_a.h for internal functions
 
    copyright (c) 1993-2010 The Geometry Center.
-   $Id: //product/qhull/main/rel/src/global.c#59 $$Change: 1174 $
-   $DateTime: 2010/01/10 22:34:05 $$Author: bbarber $
+   $Id: //product/qhull/main/rel/src/global.c#60 $$Change: 1183 $
+   $DateTime: 2010/01/13 20:59:32 $$Author: bbarber $
  */
 
 #include "qhull_a.h"
@@ -39,15 +39,15 @@ qhT qh_qh;              /* all global variables.
     the revision increases on code changes only
 
   notes:
-    change date:    Changes.txt, Announce.txt, README.txt,
-                    qhull.man, qhull.txt, qhull-news.html, Eudora signatures,
+    change date:    Changes.txt, Announce.txt, index.htm, README.txt,
+                    qhull-news.html, Eudora signatures,
     change version: README.txt, qh-get.htm, File_id.diz, Makefile.txt
     change year:    Copying.txt
     check download size
     recompile user_eg.c, rbox.c, libqhull.c, qconvex.c, qdelaun.c qvoronoi.c, qhalf.c
 */
 
-const char *qh_version = "2010.1 2010/01/10";
+const char *qh_version = "2010.1 2010/01/14";
 
 /*-<a                             href="qh-globa.htm#TOC"
   >-------------------------------</a><a name="appendprint">-</a>

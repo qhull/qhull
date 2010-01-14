@@ -1,6 +1,6 @@
 Name
 
-      qhull, rbox         2010.1    2010/01/10
+      qhull, rbox         2010.1     2010/01/14
   
 Convex hull, Delaunay triangulation, Voronoi diagrams, Halfspace intersection
  
@@ -240,14 +240,16 @@ build systems.
         - set the library file (use the same for debug and release)
         - build the project
 
-    - create a "Win32 console application" called "qhull"
+    - create a "Win32 console application, empty project" called "qhull"
         - Move unix.c from "qhull source"
-        - Add the library file created by "libqhull"
+        - Project Dependency on libqhull (or copy the library file)
+        - Linker->Input->Ignore LIBCMT
         - Qhull does not use other libraries
 
-    - create a "Win32 console application" called "qconvex"
+    - create a "Win32 console application, empty project" called "qconvex"
         - Move qconvex.c from "qhull source"
-        - Copy the library file from "libqhull"
+        - Project Dependency on libqhull (or copy the library file)
+        - Linker->Input->Ignore LIBCMT
         - build the project
 
     - do the same for qdelaun.c, qhalf, qvoronoi.c, user_eg.c, user_eg2.c
@@ -323,6 +325,7 @@ Distributed files
   CMakeLists.txt       // CMake file
   File_id.diz          // package descriptor
   index.htm            // Home page 
+  qhull*.md5sum        // md5sum for all files
   html/qh-faq.htm      // Frequently asked questions
   html/qh-get.htm      // Download page
   html/index.htm       // Manual
@@ -355,8 +358,6 @@ src/
      qdelaunay.exe
      qhalf.exe
      qvoronoi.exe
-     qhullcpp.dll
-     user_eg3.exe      // C++ demonstration program 
      eg/qhull-go.bat   // DOS window
      qconvex.htm       // html manuals
      qdelaun.htm
@@ -416,7 +417,7 @@ project/
      qhull.sln          // Solution for Visual C++ 2005 and higher
      qhull-all.pro      // Project for Qt
      */*.pro            // Qt projects for each component
-     *.vcproj           // Temporary Visual C++ projects 
+     *.vcproj           // Visual C++ projects 
      
 cpp/      
   cpp interface to Qhull

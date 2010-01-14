@@ -1,16 +1,11 @@
 
 .............This file lists all changes to qhull and rbox.....................
 
-To do
- - Notify geom discussion list
- - get copy of unused
- - Review email archives for doc changes
- - QtTestD4.dll did not include MSVCP80D.dll and MSVCR80D.dll
-
 ------------
 Need help
  - The C++ interface needs work.  Give it a try and make it better.
    http://gitorious.org/qhull/
+ - Produce conformant triangulations for merged facets using option 'Qt' 
  - Add CMakeLists.txt for qhullcpp, user_eg3, cpp/, and cpp/road
    If practical, please move to project/
  - Verify -fno-strict-aliasing needed for gcc 4.1, 4.2, and 4.3 (qset segfault)
@@ -19,19 +14,27 @@ Need help
    Branch 'debian' is from http://savannah.nongnu.org/cvs/?group=qhull
    project/debian needs updating for its new location.  It was at qhull's level.
 
+To do
+ - Review email for doc changes
+ - RMP build of Qhull
+
 ------------
-Qhull gitorious.org/qhull next 2010/01/12
+qhull 2010.1 2010/01/14
 - Add qt-qhull.cpp with Qt conditional code
-- Fix qhull.sln and project files for qh_QHpointer
 - Add libqhullp.proj
 - Add libqhull5 to Readme, Announce, download
 - Reviewed #pragma
 - Reviewed FIXUP and assigned QH tags
 - All projects compile with warnings enabled
 - Replaced 'up' glyphs with &#187;
-- Moved cpp questions to http://www.qhull.org/html/qh-code.htm#questions-cpp 
-- Moved suggestions to http://www.qhull.org/html/qh-code.htm#enhance 
-- Moved documentation requests to http://www.qhull.org/html/qh-code.htm#enhance 
+- Moved cpp questions to qh-code.htm#questions-cpp 
+- Moved suggestions to qh-code.htm#enhance 
+- Moved documentation requests to qh-code.htm#enhance
+- Add md5sum file to distributions
+- Switched to DevStudio builds to avoid dependent libraries, 10% slower
+  Removed user_eg3.exe and qhullcpp.dll from Windows build 
+  Fix qhull.sln and project files for qh_QHpointer
+- Add eg/qhull-zip.sh to build qhull distribution files
 
 ------------
 qhull 2010.1 2010/01/10

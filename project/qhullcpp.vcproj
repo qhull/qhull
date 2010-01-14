@@ -45,10 +45,12 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
+				PreprocessorDefinitions="qh_QHpointer;WIN32;NDEBUG;_CONSOLE"
 				StringPooling="true"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
+				DisableLanguageExtensions="true"
+				RuntimeTypeInfo="false"
 				PrecompiledHeaderFile="..\tmp\qhullcpp\Release/qhullcpp.pch"
 				AssemblerListingLocation="..\tmp\qhullcpp\Release/"
 				ObjectFile="..\tmp\qhullcpp\Release/"
@@ -71,7 +73,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\tmp\qhullcpp\Release\qhullcpp.lib"
+				OutputFile="..\qhullcpp.lib"
 				SuppressStartupBanner="true"
 			/>
 			<Tool

@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullFacet.cpp#35 $$Change: 1167 $
-** $DateTime: 2010/01/08 19:03:17 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullFacet.cpp#37 $$Change: 1184 $
+** $DateTime: 2010/01/13 22:44:48 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -78,7 +78,7 @@ getCenter(int qhRunId, qh_PRINT printFormat)
             return QhullPoint(qh hull_dim-1, qh_facet->center);
         }
     }else if(qh CENTERtype==qh_AScentrum){
-        int numCoords= qh hull_dim;
+        volatile int numCoords= qh hull_dim;
         if(printFormat==qh_PRINTtriangles && qh DELAUNAY){
             numCoords--;
         }
