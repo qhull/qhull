@@ -20,6 +20,7 @@ To do
 
 ------------
 qhull 2010.1 2010/01/14
+- Fixed quote for #include in qhull.h [U.Hergenhahn, K.Roland]
 - Add qt-qhull.cpp with Qt conditional code
 - Add libqhullp.proj
 - Add libqhull5 to Readme, Announce, download
