@@ -6,3 +6,4 @@ endif(COMMAND cmake_policy)
 
 add_subdirectory(src)
 
+install(DIRECTORY html DESTINATION share/doc/qhull)

@@ -74,9 +74,9 @@ HFILES= user.h libqhull.h qhull_a.h geom.h io.h mem.h merge.h poly.h random.h qs
 TXTFILES= ../Announce.txt ../REGISTER.txt ../COPYING.txt ../README.txt Changes.txt
 DOCFILES= ../html/rbox.txt ../html/qhull.txt
 FILES=	Makefile rbox.c user_eg.c ../eg/q_test ../eg/q_egtest ../eg/q_eg
-HTMFILES= qhull.man rbox.man qh-code.htm qh-optg.htm qh-optt.htm qh-optp.htm \
+HTMFILES= ../html/qhull.man ../html/rbox.man qh-code.htm qh-optg.htm qh-optt.htm \
 		index.htm qh-quick.htm qh-impre.htm qh-eg.htm \
-		qh-optc.htm qh-opto.htm qh-optf.htm qh-optq.htm \
+                qh-optc.htm qh-opto.htm qh-optf.htm  qh-optp.htm qh-optq.htm \
 		qh-c.htm qh-faq.htm qhull.htm qconvex.htm qdelaun.htm \
 		qh-geom.htm qh-globa.htm qh-io.htm qh-mem.htm qh-merge.htm \
 		qh-poly.htm qh-qhull.htm qh-set.htm qh-stat.htm qh-user.htm \
