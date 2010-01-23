@@ -8,8 +8,8 @@ CONFIG += console warn_on
 LIBS += -L../..
 DEFINES += qh_QHpointer
 QMAKE_CXXFLAGS_WARN_ON += -Werror -Wall -Wcast-qual -Wextra -Wwrite-strings
-QMAKE_CXXFLAGS_WARN_ON += -Wno-sign-conversion # Many size_t vs. int errors
-#QMAKE_CXXFLAGS_WARN_ON += -Wconversion # no workaround for bit-field conversion errors
+QMAKE_CXXFLAGS_WARN_ON += -Wno-sign-conversion # Many size_t vs. int warnings
+#QMAKE_CXXFLAGS_WARN_ON += -Wconversion # No workaround for bit-field conversions
 build_pass:CONFIG(debug, debug|release):{
    LIBS += libqhullcppd
    PRE_TARGETDEPS += ../../libqhullcppd.a

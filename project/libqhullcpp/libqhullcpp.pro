@@ -24,8 +24,8 @@ MOC_DIR = ../../tmp/moc
 RCC_DIR = ../../tmp/rcc
 INCLUDEPATH = ../../cpp;../../cpp/road;../../tmp
 QMAKE_CXXFLAGS_WARN_ON += -Werror -Wall -Wcast-qual -Wextra -Wwrite-strings
-QMAKE_CXXFLAGS_WARN_ON += -Wno-sign-conversion # Many size_t vs. int errors
-#QMAKE_CXXFLAGS_WARN_ON += -Wconversion # no workaround for bit-field conversion errors
+QMAKE_CXXFLAGS_WARN_ON += -Wno-sign-conversion # Many size_t vs. int warnings
+#QMAKE_CXXFLAGS_WARN_ON += -Wconversion # No workaround for bit-field conversions
 
 VPATH = ../..
 SOURCES += cpp/Coordinates.cpp
