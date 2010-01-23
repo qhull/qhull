@@ -71,19 +71,28 @@ Installing Qhull on Windows
   - Unzip the files into a directory.  You may use WinZip32 <www.hotfiles.com>
   - Click on QHULL-GO
     
-  - If you use qhull a lot, consider using 
-    Road Bash (www.qhull.org/bash) or Cygwin (www.cygwin.com),
-  - In Windows 95, the DOS window needs improvement.
-      - Increase the size of the screen font to 8x12.
-      - If the text is too dim, fix the screen colors with shareware (e.g., crt.exe)
-
   To learn about Qhull:
   - Execute 'qconvex' for a synopsis and examples.
   - Execute 'rbox 10 | qconvex' to compute the convex hull of 10 random points.
-  - Execute 'rbox 10 | qconvex i TO file' to write results to 'file'. 
+  - Execute 'rbox 10 | qconvex i TO file' to write results to 'file'.
   - Browse the documentation: qhull\html\index.htm
-  - If an error occurs, Windows sends the error to stdout instead of stderr. 
+  - If an error occurs, Windows sends the error to stdout instead of stderr.
     Use 'TO xxx' to send normal output to xxx and error output to stdout
+
+  Improve the DOS window
+  - Right-click the window bar
+  - Select Properties
+  - Check QuickEdit Mode
+    Select text with right-click or Enter
+    Paste text with right-click
+  - Change Font to Lucinda Console
+  - Change Layout to Screen Buffer Height 999, Window Size Height 55
+  - Change Colors to Screen Background White, Screen Text Black
+  - Click OK
+  - Select 'Modify shortcut that started this window', then OK
+
+  If you use qhull a lot, install MSYS (www.mingw.org),
+    Road Bash (www.qhull.org/bash), or Cygwin (www.cygwin.com).
 
 -----------------
 Installing Qhull on Unix with gcc
@@ -94,13 +103,15 @@ Installing Qhull on Unix with gcc
   - Extract the files
   - cd qhull/src
   - make
-  - or, make -f Makefile.txt
+  - Use 'make -f Makefile.txt' in the Windows distribution.
 
 -----------------
 Installing Qhull with Autoconf
 
   The tar.gz tarball contains documentation, source files, 
   and a config directory [R. Laboissiere].
+
+  [Jan 2010] Qhull 2009.1.1 does not include the C++ interface
   
   To install Qhull
   - Extract the files
@@ -109,17 +120,33 @@ Installing Qhull with Autoconf
   - make install
 
 -----------------
+Compiling the C++ interface
+
+  Clone Qhull from http://gitorious.org/qhull
+
+  Compile Qhull with Qt (see following)
+
+  To compile user_eg3.cpp on your own
+  - Set qh_QHpointer in src/usr.h
+    or, compile with -Dqh_QHpointer
+  - Include the C sources in project/libqhullp/libqhullp.pro
+  - Include the C++ sources in project/libqhullcpp/libqhullcpp.pro
+  - See "Compiling a custom build" below
+
+-----------------
 Compiling Qhull with Qt 
 
-  Qt is a C++ framework for Windows, Linux, and Macintosh
+  Qt (http://qt.nokia.com) is a C++ framework for Windows, Linux, and Macintosh
 
-  Qhull includes a C++ test using Qt's QTestLib
+  Qhull includes tests for qhull (eg/q_test) and C++ (cpp/qhulltest, QTestLib)
 
   To compile Qhull  
   - Download the Qt SDK from Nokia (http://qt.nokia.com/downloads)
   - Start Qt Creator
   - Load project/qhull-all.pro
   - Build all
+  - If your compiler does not support g++ warnings,
+    remove 'CONFIG += warn_on' or QMAKE_CXXFLAGS_WARN_ON from *.pro
 
 -----------------
 Compiling Qhull on Windows.
@@ -136,17 +163,17 @@ Compiling Qhull on Windows.
   - Install MINGW (http://www.mingw.org/)
   - cd src
   - make 
-  - or, make -f Makefile.txt
+  - Use 'make -f Makefile.txt' in the Windows distribution.
 
   To compile Qhull with cygwin
   - Install cygwin (http://www.cygwin.com)
   - Include packages for gcc, make, ar, and ln
   - cd src
   - make
-  - or, make -f Makefile.txt
+  - Use 'make -f Makefile.txt' in the Windows distribution.
 
 -----------------
-Compiling the source distribution
+Compiling src/Makfile without gcc
 
   The gzip file, qhull-src.tgz, contains documentation and source files for
   qhull and rbox.  
@@ -197,6 +224,9 @@ Compiling the source distribution
   - to install the programs and their man pages:
       - define MANDIR and BINDIR
       - type 'make install'
+
+-----------------
+Compiling a custom build
 
 If you need to create a custom build, create projects as follows.
 These instructions assume Visual C++, but similar ones apply to other
@@ -278,7 +308,10 @@ build systems.
     - use Project:Settings to make any changes
     - use batch build to rebuild everything
     - delete "qhull sources" since it is no longer needed
-  
+
+------------------
+Compiling on other machines and compilers
+
   Qhull compiles with Borland C++ 5.0 bcc32.  A Makefile is included.
   Execute 'make -f Mborland'.  If you use the Borland IDE, set the ANSI
   option in Options:Project:Compiler:Source:Language-compliance.
@@ -289,30 +322,22 @@ build systems.
   Use the same options for Qhull 1.0. [D. Zwick]
   
   Qhull compiles with Metrowerks C++ 1.7 with the ANSI option.
-
   If you turn on full warnings, the compiler will report a number of 
   unused variables, variables set but not used, and dead code.  These are
   intentional.  For example, variables may be initialized (unnecessarily)
   to prevent warnings about possible use of uninitialized variables.  
 
-Compiling on the Power Macintosh
-
   Qhull compiles on the Power Macintosh with Metrowerk's C compiler.
   It uses the SIOUX interface to read point coordinates and return output.
-  There is no graphical output.  For project files, see 'Compiling for
-  Windows 95'.  Instead of using SIOUX, Qhull may be embedded within an 
+  There is no graphical output.  For project files, see 'Compiling a
+  custom build'.  Instead of using SIOUX, Qhull may be embedded within an
   application.  
 
-Compiling on other machines
- 
   Some users have reported problems with compiling Qhull under Irix 5.1.  It
   compiles under other versions of Irix. 
   
   If you have troubles with the memory manager, you can turn it off by
   defining qh_NOmem in mem.h.
-
-  You may compile Qhull with a C++ compiler.  
-
 
 -----------------
 Distributed files
