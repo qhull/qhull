@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullVertex.h#26 $$Change: 1164 $
-** $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullVertex.h#27 $$Change: 1193 $
+** $DateTime: 2010/01/23 11:31:35 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -54,8 +54,9 @@ public:
 
 #//Constructors
                         QhullVertex() : qh_vertex(&s_empty_vertex) {}
-                        //! Shallow copy
+                        // Creates an alias.  Does not copy QhullVertex.  Needed for return by value and parameter passing
                         QhullVertex(const QhullVertex &o) : qh_vertex(o.qh_vertex) {}
+                        // Creates an alias.  Does not copy QhullVertex.  Needed for vector<QhullVertex>
     QhullVertex        &operator=(const QhullVertex &o) { qh_vertex= o.qh_vertex; return *this; }
                        ~QhullVertex() {}
 

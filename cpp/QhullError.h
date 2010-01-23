@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullError.h#33 $$Change: 1139 $
-** $DateTime: 2010/01/03 11:20:29 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullError.h#34 $$Change: 1193 $
+** $DateTime: 2010/01/23 11:31:35 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -26,8 +26,8 @@ class QhullError : public RoadError {
 public:
 #//Constants
     enum {
-        QHULLfirstError= 10000, //Larger than msgcode in Qhull's user.h
-        QHULLlastError= 10067,
+        QHULLfirstError= 10000, //MSG_QHULL_ERROR in Qhull's user.h
+        QHULLlastError= 10070,
         NOthrow= 1 //! For flag to UsingLibQhull()
     };
 

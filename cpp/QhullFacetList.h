@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullFacetList.h#25 $$Change: 1172 $
-** $DateTime: 2010/01/09 21:42:16 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullFacetList.h#26 $$Change: 1193 $
+** $DateTime: 2010/01/23 11:31:35 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -35,12 +35,12 @@ private:
 #//Constructors
 public:
                         QhullFacetList(QhullFacet b, QhullFacet e) : QhullLinkedList<QhullFacet>(b, e), select_all(false) {}
-                        //Copy constructor copies pointer but not contents.  Needed for return by value.
+                        //Copy constructor copies pointer but not contents.  Needed for return by value and parameter passing.
                         QhullFacetList(const QhullFacetList &o) : QhullLinkedList<QhullFacet>(*o.begin(), *o.end()), select_all(o.select_all) {}
                        ~QhullFacetList() {}
 
 private:
-                        //!Disable default constructor and copy assignment.  See QhullSetBase
+                        //!Disable default constructor and copy assignment.  See QhullLinkedList
                         QhullFacetList();
     QhullFacetList     &operator=(const QhullFacetList &);
 public:

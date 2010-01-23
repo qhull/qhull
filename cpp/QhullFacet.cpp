@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullFacet.cpp#37 $$Change: 1184 $
-** $DateTime: 2010/01/13 22:44:48 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullFacet.cpp#38 $$Change: 1193 $
+** $DateTime: 2010/01/23 11:31:35 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -131,7 +131,7 @@ tricoplanarOwner() const
         }
         return qh_facet->f.triowner;
     }
-    return 0; // FIXUP QH10009 Should false be the NULL facet or empty facet
+    return 0; // FIXUP QH11009 Should false be the NULL facet or empty facet
 }//tricoplanarOwner
 
 QhullPoint QhullFacet::
@@ -258,11 +258,11 @@ operator<<(ostream &os, const QhullFacet::PrintCenter &pr)
                 f->center= qh_facetcenter(f->vertices);
             }
             for(int k=0; k<numCoords; k++){
-                os << f->center[k] << " "; // FIXUP QH10010 qh_REAL_1
+                os << f->center[k] << " "; // FIXUP QH11010 qh_REAL_1
             }
         }else{
             for(int k=0; k<numCoords; k++){
-                os << qh_INFINITE << " "; // FIXUP QH10010 qh_REAL_1
+                os << qh_INFINITE << " "; // FIXUP QH11010 qh_REAL_1
             }
         }
     }else{ // qh CENTERtype==qh_AScentrum
@@ -274,7 +274,7 @@ operator<<(ostream &os, const QhullFacet::PrintCenter &pr)
             f->center= qh_getcentrum(f);
         }
         for(int k=0; k<numCoords; k++){
-            os << f->center[k] << " "; // FIXUP QH10010 qh_REAL_1
+            os << f->center[k] << " "; // FIXUP QH11010 qh_REAL_1
         }
     }
     if(pr.print_format==qh_PRINTgeom && numCoords==2){
@@ -364,7 +364,7 @@ operator<<(ostream &os, const QhullFacet::PrintHeader &pr)
     os << "- f" << facet.id() << endl;
     os << facet.printFlags("    - flags:");
     if(f->isarea){
-        os << "    - area: " << f->f.area << endl; //FIXUP QH10010 2.2g
+        os << "    - area: " << f->f.area << endl; //FIXUP QH11010 2.2g
     }else if(qh NEWfacets && f->visible && f->f.replace){
         os << "    - replacement: f" << f->f.replace->id << endl;
     }else if(f->newfacet){
@@ -381,13 +381,13 @@ operator<<(ostream &os, const QhullFacet::PrintHeader &pr)
     if(f->nummerge){
         os << "    - merges: " << f->nummerge << endl;
     }
-    os << facet.hyperplane().print("    - normal: ", "\n    - offset: "); // FIXUP QH10010 %10.7g
+    os << facet.hyperplane().print("    - normal: ", "\n    - offset: "); // FIXUP QH11010 %10.7g
     if(qh CENTERtype==qh_ASvoronoi || f->center){
         os << facet.printCenter(pr.run_id, qh_PRINTfacets, "    - center: ");
     }
 #if qh_MAXoutside
     if(f->maxoutside > qh DISTround){
-        os << "    - maxoutside: " << f->maxoutside << endl; //FIXUP QH10010 %10.7g
+        os << "    - maxoutside: " << f->maxoutside << endl; //FIXUP QH11010 %10.7g
     }
 #endif
     QhullPointSet ps= facet.outsidePoints();
@@ -406,7 +406,7 @@ operator<<(ostream &os, const QhullFacet::PrintHeader &pr)
             os << furthest.print(pr.run_id, "  Furthest");
         }
 #if !qh_COMPUTEfurthest
-        os << "    - furthest distance= " << f->furthestdist << endl; //FIXUP QH10010%2.2g
+        os << "    - furthest distance= " << f->furthestdist << endl; //FIXUP QH11010 %2.2g
 #endif
     }
     QhullPointSet cs= facet.coplanarPoints();

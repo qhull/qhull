@@ -7,16 +7,35 @@ Need help
    http://gitorious.org/qhull/
  - Produce conformant triangulations for merged facets using option 'Qt' 
  - Add CMakeLists.txt for qhullcpp, user_eg3, cpp/, and cpp/road
-   If practical, please move to project/
- - Verify -fno-strict-aliasing needed for gcc 4.1, 4.2, and 4.3 (qset segfault)
+   If practical, please move CMakeLists.txt to project/
+ - Verify -fno-strict-aliasing needed for gcc 4.1, 4.2, 4.3 (qset segfault)
  - Set up debian build [Pkg-octave-devel]
    Please keep debian files in config/ and project/debian/
    Branch 'debian' is from http://savannah.nongnu.org/cvs/?group=qhull
-   project/debian needs updating for its new location.  It was at qhull's level.
+   project/debian needs updating for its new location.
 
 To do
  - Review email for doc changes
  - RMP build of Qhull
+
+------------
+gitorious.org/qhull 2010/01/23
+- Reviewed all copy constructors and copy assignments.  Updated comments.
+   Defined Qhull copy constructor and copy assignment [G. Rivet-Sabourin]
+   Disabled UsingQhullLib default constructor, copy construct, and copy assign 
+- Add #error to Qhull.h if qh_QHpointer is not defined
+- Define MSG_QHULL_ERROR in user.h
+- Move MSG_FIXUP to 11000 and updated FIXUP QH11...
+- Add patch for old builds in qh-get.htm
+- Add eg/q_test to libqhull.pro
+  Add note to q_test than R1e-3 may error (qh-code.htm, Enhancements)
+- Added C++ compiling instructions to README.txt
+  Add instructions for fixing the DOS window
+- Updated CMakeLists.txt to compile shared and static libraries and link the 
+   command line utilities to the shared one.  Allows install of 
+   targets, libqhull.h, and html docs.  [M. Moll]
+- Fixed location of qhull.man and rbox.man in src/Makefile.txt [M. Moll]
+- Copy HEADER and OTHERFILES from libqhull.pro to libqhullp.pro
 
 ------------
 qhull 2010.1 2010/01/14
@@ -46,7 +65,7 @@ qhull 2010.1 2010/01/09
 Changes to build and distribution
 - Use qh_QHpointer=0 for libqhull.a, qhull, rbox, etc.
   Use -Dqh_QHpointer for libqhullp.a, qhullcpp.dll, etc.
-  qh_QHpointer costs: [2010, gcc] 4% time 4% space, [2003, msvc] 8% time 2% space
+  qh_QHpointer [2010, gcc] 4% time 4% space, [2003, msvc] 8% time 2% space
 - Add config/ and project/debian/ for Autoconf build [R. Laboissiere]
   from debian branch in git and http://savannah.nongnu.org/cvs/?group=qhull
 - Add CMakeLists.txt [kwilliams]
@@ -66,7 +85,7 @@ qhull 2009.1.1 2010/01/09
 - Patch release of 2009.1.
   qh_gethash allowed a negative result, causing overwrite or segfault
   See git:qhull/project/patch/qhull-2003.1/poly.c-qh_gethash.patch
-  Compared results of q_test, q_eg, and q_egtest with patched poly.c, qhull-2003.1
+  Compared results of q_test, q_eg, q_egtest with patched poly.c, qhull-2003.1
 
 ------------
 qhull 2010.1 2010/01/07
@@ -89,8 +108,9 @@ qhull 2010.1 2010/01/06
 ------------
 qhull 2010.0.3 2010/01/05
 Fixed bugs
-- 'QJn' (joggle): Fix qh.STOPcone in qh_build_withrestart().  It was not cleared.
-- qh_initqhull_outputflags [global.c]: warn about Qc only if QHULLfinished, otherwise set if needed
+- 'QJn': Fix qh.STOPcone in qh_build_withrestart().  It was not cleared.
+- qh_initqhull_outputflags [global.c]: warn about Qc only if QHULLfinished
+    otherwise set if needed
 
 qhull 2010.0.2 2010/01/04
 

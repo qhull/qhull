@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/road/RoadError.h#22 $$Change: 1179 $
-** $DateTime: 2010/01/12 19:53:15 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/road/RoadError.h#23 $$Change: 1193 $
+** $DateTime: 2010/01/23 11:31:35 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -70,7 +70,7 @@ public:
 #//GetSet
     bool                defined() const { return log_event.defined(); }
     int                 errorCode() const { return error_code; };
-   // FIXUP QH10021 should RoadError provide errorMessage().  Currently what()
+   // FIXUP QH11021 should RoadError provide errorMessage().  Currently what()
     RoadLogEvent        roadLogEvent() const { return log_event; };
 
 #//Update

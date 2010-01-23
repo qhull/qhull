@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2009-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullPoint.h#34 $$Change: 1179 $
-** $DateTime: 2010/01/12 19:53:15 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullPoint.h#35 $$Change: 1193 $
+** $DateTime: 2010/01/23 11:31:35 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -52,7 +52,7 @@ public:
                         QhullPoint() : point_coordinates(0), point_dimension(0) {};
                         QhullPoint(int dimension, coordT *c) : point_coordinates(c), point_dimension(dimension) {}
     explicit            QhullPoint(Coordinates &c) : point_coordinates(c.data()), point_dimension(c.count()) {}
-                        // Creates an alias.  Does not copy the point.  Needed for parameter passing
+                        // Creates an alias.  Does not copy the point.  Needed for return by value and parameter passing.
                         QhullPoint(const QhullPoint &other)  : point_coordinates(other.point_coordinates), point_dimension(other.point_dimension) {}
                         // Creates an alias.  Does not copy the point.  Needed for vector<QhullPoint>
     QhullPoint         &operator=(const QhullPoint &other) { point_coordinates= other.point_coordinates; point_dimension= other.point_dimension; return *this; }
@@ -124,7 +124,7 @@ QHULL_DECLARE_SEQUENTIAL_ITERATOR(QhullPoint, coordT)
 #//Global functions
 
 std::ostream &operator<<(std::ostream &os, const orgQhull::QhullPoint::PrintPoint &pr);
-std::ostream &operator<<(std::ostream &os, const orgQhull::QhullPoint &p); // FIXUP QH10017 OK in c program but not inline { os << p.print(orgQhull::UsingLibQhull::NOqhRunId, ""); return os; }
+std::ostream &operator<<(std::ostream &os, const orgQhull::QhullPoint &p); // FIXUP QH11017 OK in c program but not inline { os << p.print(orgQhull::UsingLibQhull::NOqhRunId, ""); return os; }
 
 #endif // QHPOINT_H
 

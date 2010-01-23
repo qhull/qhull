@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullLinkedList.h#33 $$Change: 1179 $
-** $DateTime: 2010/01/12 19:53:15 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullLinkedList.h#34 $$Change: 1193 $
+** $DateTime: 2010/01/23 11:31:35 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -59,6 +59,7 @@ public:
 
 #//Constructors
                         QhullLinkedList<T>(T b, T e) : begin_node(b), end_node(e) {}
+                        //Copy constructor copies pointer but not contents.  Needed for return by value and parameter passing.
                         QhullLinkedList<T>(const QhullLinkedList<T> &o) : begin_node(o.begin_node), end_node(o.end_node) {}
                        ~QhullLinkedList<T>() {}
 
@@ -177,7 +178,7 @@ public:
 };//QhullLinkedList
 
 template <typename T>
-class QhullLinkedListIterator // FiXUP QH10016 define QhullMutableLinkedListIterator
+class QhullLinkedListIterator // FIXUP QH11016 define QhullMutableLinkedListIterator
 {
     typedef typename QhullLinkedList<T>::const_iterator const_iterator;
     const QhullLinkedList<T> *c;

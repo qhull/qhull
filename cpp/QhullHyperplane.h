@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2009-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullHyperplane.h#13 $$Change: 1179 $
-** $DateTime: 2010/01/12 19:53:15 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullHyperplane.h#14 $$Change: 1193 $
+** $DateTime: 2010/01/23 11:31:35 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -46,9 +46,9 @@ public:
 #//Construct
                         QhullHyperplane() : hyperplane_coordinates(0), hyperplane_dimension(0), hyperplane_offset(0.0) {};
                         QhullHyperplane(int dimension, coordT *c, coordT offset) : hyperplane_coordinates(c), hyperplane_dimension(dimension), hyperplane_offset(offset) {}
-                        // Creates an alias.  Does not copy the point.  Needed for parameter passing
+                        // Creates an alias.  Does not copy the hyperplane's coordinates.  Needed for return by value and parameter passing.
                         QhullHyperplane(const QhullHyperplane &other)  : hyperplane_coordinates(other.hyperplane_coordinates), hyperplane_dimension(other.hyperplane_dimension), hyperplane_offset(other.hyperplane_offset) {}
-                        // Creates an alias.  Does not copy the point.  Needed for vector<QhullHyperplane>
+                        // Creates an alias.  Does not copy the hyperplane's coordinates.  Needed for vector<QhullHyperplane>
     QhullHyperplane    &operator=(const QhullHyperplane &other) { hyperplane_coordinates= other.hyperplane_coordinates; hyperplane_dimension= other.hyperplane_dimension; hyperplane_offset= other.hyperplane_offset; return *this; }
                        ~QhullHyperplane() {}
 
@@ -116,7 +116,7 @@ QHULL_DECLARE_SEQUENTIAL_ITERATOR(QhullHyperplane, coordT)
 #//Global functions
 
 std::ostream &operator<<(std::ostream &os, const orgQhull::QhullHyperplane::PrintHyperplane &pr);
-std::ostream &operator<<(std::ostream &os, const orgQhull::QhullHyperplane &p); //FIXUP QH10015 -- multiple instances if define here
+std::ostream &operator<<(std::ostream &os, const orgQhull::QhullHyperplane &p); //FIXUP QH11015 -- multiple instances if define here
 
 #endif // QHHYPERPLANE_H
 

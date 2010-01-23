@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullRidge.h#24 $$Change: 1167 $
-** $DateTime: 2010/01/08 19:03:17 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullRidge.h#25 $$Change: 1193 $
+** $DateTime: 2010/01/23 11:31:35 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -62,8 +62,9 @@ public:
 
 #//Constructors
                         QhullRidge() : qh_ridge(&s_empty_ridge) {}
-                        //! Shallow copy
+                        // Creates an alias.  Does not copy QhullRidge.  Needed for return by value and parameter passing
                         QhullRidge(const QhullRidge &o) : qh_ridge(o.qh_ridge) {}
+                        // Creates an alias.  Does not copy QhullRidge.  Needed for vector<QhullRidge>
     QhullRidge         &operator=(const QhullRidge &o) { qh_ridge= o.qh_ridge; return *this; }
                        ~QhullRidge() {}
 

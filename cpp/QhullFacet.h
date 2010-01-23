@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullFacet.h#37 $$Change: 1167 $
-** $DateTime: 2010/01/08 19:03:17 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullFacet.h#38 $$Change: 1193 $
+** $DateTime: 2010/01/23 11:31:35 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -50,8 +50,9 @@ public:
 
 #//Constructors
                         QhullFacet() : qh_facet(&s_empty_facet) {}
-                        //! Shallow copy
+                        // Creates an alias.  Does not copy QhullFacet.  Needed for return by value and parameter passing
                         QhullFacet(const QhullFacet &o) : qh_facet(o.qh_facet ? o.qh_facet : &s_empty_facet) {}
+                        // Creates an alias.  Does not copy QhullFacet.  Needed for vector<QhullFacet>
     QhullFacet         &operator=(const QhullFacet &o) { qh_facet= o.qh_facet ? o.qh_facet : &s_empty_facet; return *this; }
                        ~QhullFacet() {}
 

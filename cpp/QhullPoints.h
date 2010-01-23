@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2009-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullPoints.h#31 $$Change: 1179 $
-** $DateTime: 2010/01/12 19:53:15 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullPoints.h#32 $$Change: 1193 $
+** $DateTime: 2010/01/23 11:31:35 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -46,6 +46,7 @@ public:
                         QhullPoints() : point_first(0), point_end(0), point_dimension(0) {};
                         QhullPoints(int dimension) : point_first(0), point_end(0), point_dimension(dimension) { QHULL_ASSERT(dimension>=0); }
                         QhullPoints(int dimension, int coordinateCount, coordT *c) : point_first(c), point_end(c+coordinateCount), point_dimension(dimension) { QHULL_ASSERT(dimension>=0 && coordinateCount>=0 ); }
+                        //Copy constructor copies pointers but not contents.  Needed for return by value and parameter passing.
                         QhullPoints(const QhullPoints &other)  : point_first(other.point_first), point_end(other.point_end), point_dimension(other.point_dimension) {}
                        ~QhullPoints() {}
 
@@ -158,7 +159,7 @@ public:
         difference_type operator-(iterator other) const { QHULL_ASSERT(dimension()==other.dimension()); return (coordinates()-other.coordinates())/dimension(); }
     };//QhullPoints::iterator
 
-#//QhullPoints::const_iterator -- FIXUP QH10018 const_iterator same as iterator
+#//QhullPoints::const_iterator -- FIXUP QH11018 const_iterator same as iterator
     class const_iterator : public QhullPoint {
 
     public:

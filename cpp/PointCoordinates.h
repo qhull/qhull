@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2009-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/PointCoordinates.h#16 $$Change: 1167 $
-** $DateTime: 2010/01/08 19:03:17 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/PointCoordinates.h#17 $$Change: 1193 $
+** $DateTime: 2010/01/23 11:31:35 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -88,7 +88,7 @@ public:
     PointCoordinates    operator+(const PointCoordinates &other) const;
 
 #//Modify
-    //FIXUP QH10001: Add clear() and other modify operators from Coordinates.h.  Include QhullPoint::operator=()
+    //FIXUP QH11001: Add clear() and other modify operators from Coordinates.h.  Include QhullPoint::operator=()
     void                append(int count, const coordT *c);  //! Dimension previously defined
     void                append(const coordT &c) { append(1, &c); } //! Dimension previously defined
     void                append(const QhullPoint &p);
@@ -138,7 +138,7 @@ class PointCoordinatesIterator
     return false;  }
 };//CoordinatesIterator
 
-// FIXUP QH10002:  Add MutablePointCoordinatesIterator after adding modify operators
+// FIXUP QH11002:  Add MutablePointCoordinatesIterator after adding modify operators
 \
 }//namespace orgQhull
 

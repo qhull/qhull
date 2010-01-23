@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/qhulltest/UsingLibQhull_test.cpp#6 $$Change: 1176 $
-** $DateTime: 2010/01/11 19:40:05 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/qhulltest/UsingLibQhull_test.cpp#7 $$Change: 1194 $
+** $DateTime: 2010/01/23 12:14:35 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -172,6 +172,7 @@ t_UsingLibQhull()
     }
     Qhull q3;
     UsingLibQhull uq3(&q3);
+    // UsingLibQhull uq4; // Default constructors disabled.
 }//t_UsingLibQhull
 
 void UsingLibQhull_test::

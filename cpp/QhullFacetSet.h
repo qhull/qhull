@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullFacetSet.h#23 $$Change: 1172 $
-** $DateTime: 2010/01/09 21:42:16 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullFacetSet.h#24 $$Change: 1193 $
+** $DateTime: 2010/01/23 11:31:35 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -34,7 +34,7 @@ public:
 #//Constructor
                         //Conversion from setT* is not type-safe.  Implicit conversion for void* to T
    explicit             QhullFacetSet(setT *s) : QhullSet<QhullFacet>(s), select_all(false) {}
-                        //Copy constructor copies pointer but not contents.  Needed for return by value.
+                        //Copy constructor copies pointer but not contents.  Needed for return by value and parameter passing.
                         QhullFacetSet(const QhullFacetSet &o) : QhullSet<QhullFacet>(o), select_all(o.select_all) {}
 
 private:

@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2009-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/Coordinates.h#35 $$Change: 1179 $
-** $DateTime: 2010/01/12 19:53:15 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/Coordinates.h#36 $$Change: 1193 $
+** $DateTime: 2010/01/23 11:31:35 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -180,7 +180,7 @@ public:
         bool            operator>(const Coordinates::const_iterator &other) const { return *this>reinterpret_cast<const iterator &>(other); }
         bool            operator>=(const Coordinates::const_iterator &other) const { return *this>=reinterpret_cast<const iterator &>(other); }
 
-        iterator        operator++() { return iterator(++i); } //FIXUP QH10012 Should return reference, but get reference to temporary
+        iterator        operator++() { return iterator(++i); } //FIXUP QH11012 Should return reference, but get reference to temporary
         iterator        operator++(int) { return iterator(i++); }
         iterator        operator--() { return iterator(--i); }
         iterator        operator--(int) { return iterator(i--); }
@@ -221,7 +221,7 @@ public:
         bool            operator>(const const_iterator &other) const { return i>other.i; }
         bool            operator>=(const const_iterator &other) const { return i>=other.i; }
 
-        const_iterator  operator++() { return const_iterator(++i); } //FIXUP QH10014 -- too much copying
+        const_iterator  operator++() { return const_iterator(++i); } //FIXUP QH11014 -- too much copying
         const_iterator  operator++(int) { return const_iterator(i++); }
         const_iterator  operator--() { return const_iterator(--i); }
         const_iterator  operator--(int) { return const_iterator(i--); }

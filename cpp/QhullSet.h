@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullSet.h#38 $$Change: 1167 $
-** $DateTime: 2010/01/08 19:03:17 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullSet.h#39 $$Change: 1193 $
+** $DateTime: 2010/01/23 11:31:35 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -56,7 +56,7 @@ public:
 
 
 #//Constructors
-                        //! Copy constructor copies the pointer but not the set.  Needed for return by value.
+                        //! Copy constructor copies the pointer but not the set.  Needed for return by value and parameter passing.
                         QhullSetBase(const QhullSetBase &o) : qh_set(o.qh_set) {}
     explicit            QhullSetBase(setT *s) : qh_set(s ? s : &s_empty_set) {}
                        ~QhullSetBase() {}

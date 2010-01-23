@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/qhulltest/Qhull_test.cpp#38 $$Change: 1179 $
-** $DateTime: 2010/01/12 19:53:15 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/qhulltest/Qhull_test.cpp#40 $$Change: 1194 $
+** $DateTime: 2010/01/23 12:14:35 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -70,6 +70,10 @@ t_construct()
         }catch (const std::exception &e) {
             cout << "INFO   : Caught " << e.what();
         }
+        Qhull q2(q);  // Copy constructor and copy assignment OK if not q.initialized()
+        QCOMPARE(q2.dimension(),0);
+        q= q2;
+        QCOMPARE(q.dimension(),0);
     }
     {
         RboxPoints rbox("10000");
@@ -77,6 +81,28 @@ t_construct()
         QCOMPARE(q.dimension(),3);
         QVERIFY(q.volume() < 1.0);
         QVERIFY(q.volume() > 0.99);
+        try{
+            Qhull q2(q);
+            QFAIL("Copy constructor did not fail for initialized Qhull.");
+        }catch (const std::exception &e) {
+            cout << "INFO   : Caught " << e.what();
+        }
+        try{
+            Qhull q3;
+            q3= q;
+            QFAIL("Copy assignment did not fail for initialized Qhull source.");
+        }catch (const std::exception &e) {
+            cout << "INFO   : Caught " << e.what();
+        }
+        QCOMPARE(q.dimension(),3);
+        try{
+            Qhull q4;
+            q= q4;
+            QFAIL("Copy assignment did not fail for initialized Qhull destination.");
+        }catch (const std::exception &e) {
+            cout << "INFO   : Caught " << e.what();
+        }
+        QCOMPARE(q.dimension(),3);
     }
     {
         double points[] = {
@@ -137,7 +163,7 @@ t_message()
             const char *s= e.what();
             cout << "INFO   : Caught " << s;
             QCOMPARE(QString::fromStdString(s).left(6), QString("QH6029"));
-            // FIXUP QH10025 -- review decision to clearQhullMessage at QhullError()            // Cleared when copied to QhullError
+            // FIXUP QH11025 -- review decision to clearQhullMessage at QhullError()            // Cleared when copied to QhullError
             QVERIFY(!q.hasQhullMessage());
             // QCOMPARE(q.qhullMessage(), QString::fromStdString(s).remove(0, 7));
             // QCOMPARE(q.qhullStatus(), 6029);

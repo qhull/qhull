@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/Qhull.cpp#44 $$Change: 1180 $
-** $DateTime: 2010/01/12 21:45:49 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/Qhull.cpp#46 $$Change: 1194 $
+** $DateTime: 2010/01/23 12:14:35 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -96,6 +96,40 @@ Qhull(const char *rboxCommand, int pointDimension, int pointCount, const realT *
     runQhull(rboxCommand, pointDimension, pointCount, points, qhullCommand);
 }//Qhull points
 
+Qhull::
+Qhull(const Qhull &other)
+: qhull_qh(0)
+, qhull_run_id(UsingLibQhull::NOqhRunId)
+, origin_point()
+, qhull_status(qh_ERRnone)
+, qhull_dimension(0)
+, run_called(false)
+, qh_active(false)
+, qhull_message(other.qhull_message)
+, error_stream(other.error_stream)
+, output_stream(other.output_stream)
+, feasiblePoint(other.feasiblePoint)
+, useOutputStream(other.useOutputStream)
+{
+    if(other.initialized()){
+        throw QhullError(10069, "Qhull error: can not use Qhull copy constructor if initialized() is true");
+    }
+    initializeQhull();
+}//copy constructor
+
+Qhull & Qhull::
+operator=(const Qhull &other)
+{
+    if(other.initialized() || initialized()){
+        throw QhullError(10070, "Qhull error: can not use Qhull copy assignment if initialized() is true");
+    }
+    qhull_message= other.qhull_message;
+    error_stream= other.error_stream;
+    output_stream= other.output_stream;
+    feasiblePoint= other.feasiblePoint;
+    useOutputStream= other.useOutputStream;
+    return *this;
+}//copy constructor
 
 void Qhull::
 initializeQhull()
@@ -134,7 +168,7 @@ Qhull::
             qhull_run_id= UsingLibQhull::NOqhRunId;
             // Except for cerr, does not throw errors
             if(hasQhullMessage()){
-                cerr<< "\nQhull output at end\n"; //FIXUP QH10005: where should error and log messages go on ~Qhull?
+                cerr<< "\nQhull output at end\n"; //FIXUP QH11005: where should error and log messages go on ~Qhull?
                 cerr<<qhullMessage();
                 clearQhullMessage();
             }
@@ -172,7 +206,7 @@ bool Qhull::
 hasQhullMessage() const
 {
     return (!qhull_message.empty() || qhull_status!=qh_ERRnone);
-    //FIXUP QH10006 -- inconsistent usage with Rbox.  hasRboxMessage just tests rbox_status.  No appendRboxMessage()
+    //FIXUP QH11006 -- inconsistent usage with Rbox.  hasRboxMessage just tests rbox_status.  No appendRboxMessage()
 }
 
 //! qhullMessage does not throw errors (~Qhull)
@@ -417,7 +451,7 @@ maybeThrowQhullMessage(int exitCode)
     if(qhull_status!=qh_ERRnone){
         QhullError e(qhull_status, qhull_message);
         clearQhullMessage();
-        throw e; // FIXUP QH10007: copy constructor is expensive if logging
+        throw e; // FIXUP QH11007: copy constructor is expensive if logging
     }
 }//maybeThrowQhullMessage
 
@@ -482,7 +516,7 @@ void qh_fprintf(FILE *fp, int msgcode, const char *fmt, ... ) {
         va_end(args);
         return;
     }
-    // FIXUP QH10008: how do users trap messages and handle input?  A callback?
+    // FIXUP QH11008: how do users trap messages and handle input?  A callback?
     char newMessage[MSG_MAXLEN];
     vsnprintf(newMessage, sizeof(newMessage), fmt, args);
     out->appendQhullMessage(newMessage);

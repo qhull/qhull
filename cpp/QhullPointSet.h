@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2009-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullPointSet.h#20 $$Change: 1179 $
-** $DateTime: 2010/01/12 19:53:15 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullPointSet.h#21 $$Change: 1193 $
+** $DateTime: 2010/01/23 11:31:35 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -45,7 +45,7 @@ public:
     typedef QhullPoint  value_type;
     typedef ptrdiff_t   difference_type;
     typedef int         size_type;
-    //typedef const value_type *const_pointer;    // FIXUP QH10019: QhullPointSet does not define pointer or reference due to point_dimension
+    //typedef const value_type *const_pointer;    // FIXUP QH11019: QhullPointSet does not define pointer or reference due to point_dimension
     //typedef const value_type &const_reference;
     //typedef value_type *pointer;
     //typedef value_type &reference;
@@ -53,11 +53,11 @@ public:
 #//Construct
                         //Conversion from setT* is not type-safe.  Implicit conversion for void* to T
                         QhullPointSet(int dimension, setT *s) : QhullSet<coordT *>(s), point_dimension(dimension) {}
-                        //Copy constructor copies pointer but not contents.  Needed for return by value.
+                        //Copy constructor copies pointer but not contents.  Needed for return by value and parameter passing.
                         QhullPointSet(const QhullPointSet &o) : QhullSet<coordT *>(o), point_dimension(o.point_dimension) {}
                        ~QhullPointSet() {}
 
-//disabled since p= p2 is ambiguous (coord* vs coord)
+//Default constructor and copy assignment disabled since p= p2 is ambiguous (coord* vs coord)
 private:
                         QhullPointSet();
     QhullPointSet      &operator=(const QhullPointSet &);
@@ -223,7 +223,7 @@ public:
 };//QhullPointSet
 
 //derived from qiterator.h
-class QhullPointSetIterator { // FiXUP QH10020 define QhullMutablePointSetIterator
+class QhullPointSetIterator { // FIXUP QH11020 define QhullMutablePointSetIterator
     typedef QhullPointSet::const_iterator const_iterator;
     const QhullPointSet *c;
     const_iterator      i;

@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2009-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/QhullPoint.cpp#29 $$Change: 1180 $
-** $DateTime: 2010/01/12 21:45:49 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/QhullPoint.cpp#30 $$Change: 1193 $
+** $DateTime: 2010/01/23 11:31:35 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -166,9 +166,9 @@ operator<<(ostream &os, const QhullPoint::PrintPoint &pr)
     for(int k=p.dimension(); k--; ){
         realT r= *c++;
         if(pr.point_message){
-            os << " " << r; // FIXUP QH10010 %8.4g
+            os << " " << r; // FIXUP QH11010 %8.4g
         }else{
-            os << " " << r; // FIXUP QH10010 qh_REAL_1
+            os << " " << r; // FIXUP QH11010 qh_REAL_1
         }
     }
     os << std::endl;

@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/UsingLibQhull.h#6 $$Change: 1164 $
-** $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/UsingLibQhull.h#7 $$Change: 1193 $
+** $DateTime: 2010/01/23 11:31:35 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -99,6 +99,12 @@ public:
                         UsingLibQhull(Qhull *p, int noThrow);
                         UsingLibQhull(int qhRunId);
                        ~UsingLibQhull();
+
+private:                //! disable default constructor, copy constructor, and copy assignment
+                        UsingLibQhull();
+                        UsingLibQhull(const UsingLibQhull &);
+   UsingLibQhull       &operator=(const UsingLibQhull &);
+public:
 
 #//Methods
 #//Access
