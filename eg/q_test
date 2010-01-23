@@ -332,6 +332,7 @@ echo === this should generate an error ${d:-`date`}
 rbox 1000 s D3 | qhull C-0.01 Q6 FO Po Tcv Qc
 rbox 1000 s D3 | qhull C-0.01 Q7 FO Tcv Qc
 rbox 1000 s D3 | qhull C-0.01 Qx Tcv Qc
+echo === this may generate an error e.g., t1263080158 ${d:-`date`}
 rbox 100 s D3 t | qhull R1e-3 Tcv Qc
 rbox 100 s D3 t | qhull R1e-2 Tcv Qc
 rbox 500 s D3 t | qhull R0.05 A-1 Tcv Qc
