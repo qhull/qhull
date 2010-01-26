@@ -373,6 +373,12 @@ is printed one per line. Each line is the number of neighbors
 followed by an index for each neighbor. The indices match the
 other facet output formats.</p>
 
+<p>For simplicial facets, each neighbor is opposite
+the corresponding vertex (option '<A href="#Fv">Fv</a>').
+Do not compare to option '<A href="qh_opto.htm#i">i</a>'.  Option 'i'
+orients facets by reversing the order of two vertices.  For non-simplicial facets,
+the neighbors are unordered.
+
 <p>A negative index indicates an unprinted facet due to printing
 only good facets ('<A href="qh-optp.htm#Pg">Pg</a>', <A href="qdelaun.htm" >qdelaunay</a>,
 <A href="qvoronoi.htm" >qvoronoi</a>). It
@@ -620,7 +626,13 @@ each facet</a></h3>
 printed, one per line. Each line is the number of vertices
 followed by the corresponding point ids. Vertices are listed in
 the order they were added to the hull (the last one added is the
-first listed). Similar to option '<A href="qh-opto.htm#i">i</a>'.</p>
+first listed).
+</p>
+<p>Option '<A href="qh-opto.htm#i">i</a>' also lists the vertices,
+but it orients facets by reversing the order of two
+vertices.  Option 'i' triangulates non-simplicial, 4-d and higher facets by
+adding vertices for the centrums.
+</p>
 
 <h3><A href="#format">&#187;</a><a name="Fv2">Fv - print Voronoi
 diagram</a></h3>

@@ -17,6 +17,17 @@ Need help
 To do
  - Review email for doc changes
  - RMP build of Qhull
+ - Create signed tags for Qhull versions
+ - Add FIXUP for known problems and update wiki
+ - Notes to compgeom on conformant triangulation and Voronoi volume
+ 
+
+------------
+gitorious.org/qhull 2010/01/25
+- qh-optf.htm: Add note about order of 'Fn' matching 'Fv' order [Q. Pan]
+- Fixed src/CMakeLists.txt [M. Moll]
+- Add .gitignore with ignored files and directories.  
+-   Use .git/info/exclude for locally excluded files.
 
 ------------
 gitorious.org/qhull 2010/01/23
