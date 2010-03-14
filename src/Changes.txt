@@ -24,6 +24,8 @@ To do
 
 ------------
 gitorious.org/qhull 2010/03/14
+- Fixed bug reported by renangms.  Vertex output throws error QH10034
+  and defineVertexNeighbors() does not exist.
 - Add Qhull::defineVertexFacetNeighbors() for facetNeighbors of vertices.
   Automatically called for facet merging and Voronoi diagrams
   Do not print QhullVertex::facetNeighbors is !facetNeighborsDefined()
