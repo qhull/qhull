@@ -3443,7 +3443,7 @@ void qh_printvoronoi(FILE *fp, qh_PRINT format, facetT *facetlist, setT *facets,
       if (qh hull_dim == 3)
         qh_order_vertexneighbors(vertex);
       else if (qh hull_dim >= 4)
-        qsort(SETaddr_(vertex->neighbors, vertexT),
+        qsort(SETaddr_(vertex->neighbors, facetT),
              (size_t)qh_setsize(vertex->neighbors),
              sizeof(facetT *), qh_compare_facetvisit);
       FOREACHneighbor_(vertex) {
@@ -3456,11 +3456,9 @@ void qh_printvoronoi(FILE *fp, qh_PRINT format, facetT *facetlist, setT *facets,
     if (format == qh_PRINTgeom) {
       if (vertex) {
         qh_fprintf(fp, 9262, "%d", numneighbors);
-        if (vertex) {
-          FOREACHneighbor_(vertex) {
-            if (neighbor->visitid && neighbor->visitid < numfacets)
-              qh_fprintf(fp, 9263, " %d", neighbor->visitid);
-          }
+        FOREACHneighbor_(vertex) {
+          if (neighbor->visitid && neighbor->visitid < numfacets)
+            qh_fprintf(fp, 9263, " %d", neighbor->visitid);
         }
         qh_fprintf(fp, 9264, " # p%d(v%d)\n", vertex_i, vertex->id);
       }else

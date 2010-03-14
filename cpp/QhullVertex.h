@@ -72,6 +72,8 @@ public:
     int                 dimension() const { return (qh_vertex->dim || !isDefined()) ? qh_vertex->dim : UsingLibQhull::globalVertexDimension(); }
     int                 id() const { return qh_vertex->id; }
     bool                isDefined() const { return qh_vertex != &s_empty_vertex; }
+                        //! True if defineVertexNeighborFacets() already called.  Auotomatically set for facet merging, Voronoi diagrams
+    bool                neighborFacetsDefined() const { return qh_vertex->neighbors != 0; }
     QhullVertex         next() const { return qh_vertex->next; }
     bool                operator==(const QhullVertex &o) const { return qh_vertex==o.qh_vertex; }
     bool                operator!=(const QhullVertex &o) const { return !operator==(o); }

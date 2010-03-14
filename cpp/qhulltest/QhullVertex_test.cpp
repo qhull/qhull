@@ -150,6 +150,32 @@ t_io()
         cout << os.str();
         QString s= QString::fromStdString(os.str());
         QCOMPARE(s.count("(v"), 10);
+        QCOMPARE(s.count(": f"), 2);
+    }
+    RboxPoints r10("10 D3");  // Without QhullVertex::facetNeighbors
+    {
+        Qhull q(r10, "");
+        QhullVertex v= q.beginVertex();
+        ostringstream os;
+        os << "\nTry again with simplicial facets.  No neighboring facets listed for vertices.\n";
+        os << "Vertex and vertices w/o runId:\n";
+        os << v;
+        q.defineVertexNeighborFacets();
+        os << "This time with neighborFacets() defined for all vertices:\n";
+        os << v;
+        cout << os.str();
+        QString s= QString::fromStdString(os.str());
+        QCOMPARE(s.count(": f"), 1);
+
+        Qhull q2(r10, "v"); // Voronoi diagram
+        QhullVertex v2= q2.beginVertex();
+        ostringstream os2;
+        os2 << "\nTry again with Voronoi diagram of simplicial facets.  Neighboring facets automatically defined for vertices.\n";
+        os2 << "Vertex and vertices w/o runId:\n";
+        os2 << v2;
+        cout << os2.str();
+        QString s2= QString::fromStdString(os2.str());
+        QCOMPARE(s2.count(": f"), 1);
     }
 }//t_io
 

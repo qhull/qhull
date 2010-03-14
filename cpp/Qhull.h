@@ -116,6 +116,7 @@ public:
 #//ForEach
     QhullFacet          beginFacet() const { return QhullFacet(qhull_qh->facet_list); }
     QhullVertex         beginVertex() const { return QhullVertex(qhull_qh->vertex_list); }
+    void                defineVertexNeighborFacets(); //!< Automatically called if merging facets or Voronoi diagram
     QhullFacet          endFacet() const { return QhullFacet(qhull_qh->facet_tail); }
     QhullVertex         endVertex() const { return QhullVertex(qhull_qh->vertex_tail); }
     QhullFacetList      facetList() const;

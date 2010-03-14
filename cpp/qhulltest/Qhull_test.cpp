@@ -316,6 +316,8 @@ t_foreach()
         q.runQhull(rcube, "");
         QCOMPARE(q.facetList().count(), 6);
 
+        // defineVertexNeighborFacets() tested in QhullVertex_test::t_io()
+
         QhullFacetList facets(q.beginFacet(), q.endFacet());
         QCOMPARE(facets.count(), 6);
         QCOMPARE(q.firstFacet(), q.beginFacet());

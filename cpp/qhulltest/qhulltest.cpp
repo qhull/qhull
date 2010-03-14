@@ -22,7 +22,7 @@ namespace orgQhull {
 
 void addQhullTests(QStringList &args)
 {
-    TESTadd_(add_QhullSet_test); //copy
+    TESTadd_(add_QhullVertex_test); //copy
 
     if(args.contains("--all")){
         args.removeAll("--all");

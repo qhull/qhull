@@ -292,6 +292,23 @@ volume(){
 }//volume
 
 #//ForEach
+
+//! Define QhullVertex::neighborFacets().
+//! Automatically called if merging facets or computing the Voronoi diagram.
+//! Noop if called multiple times.
+void Qhull::
+defineVertexNeighborFacets(){
+    checkIfQhullInitialized();
+    UsingLibQhull q(this);
+    if(!qh hasAreaVolume){
+        int exitCode = setjmp(qh errexit);
+        if(!exitCode){ // no object creation -- destructors skipped on longjmp()
+            qh_vertexneighbors();
+        }
+        maybeThrowQhullMessage(exitCode);
+    }
+}//defineVertexNeighborFacets
+
 QhullFacetList Qhull::
 facetList() const{
     return QhullFacetList(beginFacet(), endFacet());
@@ -309,6 +326,7 @@ otherPoints() const
     return QhullPointSet(hullDimension(), qhull_qh->other_points);
 }//otherPoints
 
+//! Return vertices of the convex hull.
 QhullVertexList Qhull::
 vertexList() const{
     return QhullVertexList(beginVertex(), endVertex());

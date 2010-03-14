@@ -5,6 +5,7 @@
 Need help
  - The C++ interface needs work.  Give it a try and make it better.
    http://gitorious.org/qhull/
+ - Document with Qt conventions using Doxygen (//! and //!<)
  - Produce conformant triangulations for merged facets using option 'Qt' 
  - Add CMakeLists.txt for qhullcpp, user_eg3, cpp/, and cpp/road
    If practical, please move CMakeLists.txt to project/
@@ -20,12 +21,19 @@ To do
  - Create signed tags for Qhull versions
  - Add FIXUP for known problems and update wiki
  - Notes to compgeom on conformant triangulation and Voronoi volume
- 
+
+------------
+gitorious.org/qhull 2010/03/14
+- Add Qhull::defineVertexFacetNeighbors() for facetNeighbors of vertices.
+  Automatically called for facet merging and Voronoi diagrams
+  Do not print QhullVertex::facetNeighbors is !facetNeighborsDefined()
+- Fixed type of vertex->neighbors in qh_printvoronoi [no effect on results]
+- Removed unnecessary if statement in qh_printvoronoi
 
 ------------
 gitorious.org/qhull 2010/01/25
-- qh-optf.htm: Add note about order of 'Fn' matching 'Fv' order [Q. Pan]
 - Fixed src/CMakeLists.txt [M. Moll]
+- qh-optf.htm: Add note about order of 'Fn' matching 'Fv' order [Q. Pan]
 - Add .gitignore with ignored files and directories.  
 -   Use .git/info/exclude for locally excluded files.
 

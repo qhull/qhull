@@ -29,11 +29,14 @@ s_empty_vertex= {0,0,0,0,0,
                  0,0};
 
 #//ForEach
+
+//! Return neighboring facets for a vertex
+//! If neither merging nor Voronoi diagram, requires Qhull::defineVertexNeighborFacets() beforehand.
 QhullFacetSet QhullVertex::
 neighborFacets() const
 {
-    if(!qh_vertex->neighbors){
-        throw QhullError(10034, "Qhull error: neighbors of vertex %d not defined.  Need to call defineVertexNeighbors().", id());
+    if(!neighborFacetsDefined()){
+        throw QhullError(10034, "Qhull error: neighboring facets of vertex %d not defined.  Please call Qhull::defineVertexNeighborFacets() beforehand.", id());
     }
     return QhullFacetSet(qh_vertex->neighbors);
 }//neighborFacets
@@ -71,18 +74,20 @@ operator<<(ostream &os, const QhullVertex::PrintVertex &pr)
         os << " ridgedeleted";
     }
     os << endl;
-    QhullFacetSetIterator i= v.neighborFacets();
-    if(i.hasNext()){
-        os << " neighborFacets:";
-        int count= 0;
-        while(i.hasNext()){
-            if(++count % 100 == 0){
-                os << endl << "     ";
+    if(v.neighborFacetsDefined()){
+        QhullFacetSetIterator i= v.neighborFacets();
+        if(i.hasNext()){
+            os << " neighborFacets:";
+            int count= 0;
+            while(i.hasNext()){
+                if(++count % 100 == 0){
+                    os << endl << "     ";
+                }
+                QhullFacet f= i.next();
+                os << " f" << f.id();
             }
-            QhullFacet f= i.next();
-            os << " f" << f.id();
+            os << endl;
         }
-        os << endl;
     }
     return os;
 }//<< PrintVertex
