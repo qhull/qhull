@@ -14,8 +14,8 @@
    This allows the user to avoid loading io.o from qhull.a
 
    copyright (c) 1993-2010 The Geometry Center.
-   $Id: //product/qhull/main/rel/src/io.c#39 $$Change: 1193 $
-   $DateTime: 2010/01/23 11:31:35 $$Author: bbarber $
+   $Id: //product/qhull/main/rel/src/io.c#40 $$Change: 1213 $
+   $DateTime: 2010/03/14 19:09:59 $$Author: bbarber $
 */
 
 #include "qhull_a.h"

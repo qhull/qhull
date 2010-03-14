@@ -29,6 +29,7 @@ gitorious.org/qhull 2010/03/14
   Do not print QhullVertex::facetNeighbors is !facetNeighborsDefined()
 - Fixed type of vertex->neighbors in qh_printvoronoi [no effect on results]
 - Removed unnecessary if statement in qh_printvoronoi
+- index.htm: Add Google Scholar references
 
 ------------
 gitorious.org/qhull 2010/01/25
