@@ -8,6 +8,10 @@
 
 #include <QList>
 
+#ifndef QHULL_USES_QT
+#define QHULL_USES_QT 1
+#endif
+
 #include "Coordinates.h"
 #include "QhullFacetList.h"
 #include "QhullFacetSet.h"
@@ -21,10 +25,6 @@
 namespace orgQhull {
 
 #//Conversions
-
-#ifndef QHULL_USES_QT
-#error Compile with QHULL_USES_QT defined
-#endif
 
 QList<coordT> Coordinates::
 toQList() const

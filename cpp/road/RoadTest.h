@@ -13,7 +13,9 @@
 #include <QObject>    // Qt C++ Framework
 #include <QtTest/QtTest>
 
+#ifndef QHULL_USES_QT
 #define QHULL_USES_QT 1
+#endif
 
 namespace orgQhull {
 

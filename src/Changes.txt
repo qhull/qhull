@@ -21,6 +21,11 @@ To do
  - Create signed tags for Qhull versions
  - Add FIXUP for known problems and update wiki
  - Notes to compgeom on conformant triangulation and Voronoi volume
+ - How to set debug or release mode if not using QtCreator
+
+------------
+gitorious.org/qhull 2010/03/17
+ - Define QHULL_USES_QT for qt-qhull.cpp [renangms]
 
 ------------
 gitorious.org/qhull 2010/03/14
