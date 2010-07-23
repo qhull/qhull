@@ -28,10 +28,10 @@ target_link_libraries(qhull m)
 if(UNIX)
 	if(APPLE)
 		set_target_properties(qhull PROPERTIES 
-			INSTALL_NAME_DIR "${CMAKE_INSTALL_PREFIX}/lib")
+			INSTALL_NAME_DIR "${LIB_INSTALL_DIR}")
 	else(APPLE)
 		set_target_properties(qhull PROPERTIES 
-			INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib"
+			INSTALL_RPATH "${LIB_INSTALL_DIR}"
 			INSTALL_RPATH_USE_LINK_PATH TRUE
 			BUILD_WITH_INSTALL_RPATH FALSE)
 	endif(APPLE)
@@ -67,7 +67,7 @@ add_executable(qhalf ${qhalf_SOURCES})
 target_link_libraries(qhalf qhull)
 
 install(TARGETS qhull qhullstatic qhullcmd rbox qconvex qdelaunay qvoronoi qhalf
-	RUNTIME DESTINATION bin
-	LIBRARY DESTINATION lib
-	ARCHIVE DESTINATION lib)
-install(FILES libqhull.h DESTINATION include)
+	RUNTIME DESTINATION ${BIN_INSTALL_DIR} 
+	LIBRARY DESTINATION ${LIB_INSTALL_DIR}
+	ARCHIVE DESTINATION ${LIB_INSTALL_DIR})
+install(FILES libqhull.h DESTINATION ${INCLUDE_INSTALL_DIR})
