@@ -17,20 +17,24 @@ r?
 *.rej
 
 # Build products
+bin/*
+lib/*
+build/*
 tmp/*
-project/Makefile*
-project/*/Makefile*
-project/*/object_script*
-project/*/Release/*
-project/*/Debug/*
-project/*/release/*
-project/*/debug/*
 *.a
 *.dll
 *.lib
 *.exe
 *.o
 *.md5sum
+*.vcproj
+
+# Out-of-date directories
+config/*
+project/*
+working/*
+working/*/*
+
 
 # Qt files
 *.pro.user

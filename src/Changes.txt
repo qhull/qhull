@@ -61,6 +61,7 @@ gitorious.org/qhull 2011/03/06
  - qhull-cpp.xml: Add naming conventions, try, Temporarily, p, end, private, error
  - Changes.txt: More to do.  Links to build systems
  - Delete src/MBorland
+ - Renamed RoadError::defined() to RoadError::isDefined()
 
 ------------
 gitorious.org/qhull 2010/03/17
