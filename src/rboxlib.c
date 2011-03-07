@@ -347,7 +347,7 @@ int qh_rboxpoints(FILE* fout, FILE* ferr, char* rbox_command) {
   }else if (israndom) {
     seed= (int)time(&timedata);
     sprintf(seedbuf, " t%d", seed);  /* appends an extra t, not worth removing */
-    strncat(command, seedbuf, sizeof(command));
+    strncat(command, seedbuf, sizeof(command)-strlen(command)-1);
     t= strstr(command, " t ");
     if (t)
       strcpy(t+1, t+3); /* remove " t " */

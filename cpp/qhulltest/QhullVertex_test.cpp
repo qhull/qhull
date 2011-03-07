@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2010 C.B. Barber. All rights reserved.
-** $Id: //product/qhull/main/rel/cpp/qhulltest/QhullVertex_test.cpp#12 $$Change: 1164 $
-** $DateTime: 2010/01/07 21:52:00 $$Author: bbarber $
+** $Id: //product/qhull/main/rel/cpp/qhulltest/QhullVertex_test.cpp#13 $$Change: 1213 $
+** $DateTime: 2010/03/14 19:09:59 $$Author: bbarber $
 **
 ****************************************************************************/
 //pre-compiled headers

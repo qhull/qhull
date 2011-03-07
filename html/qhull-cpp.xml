@@ -6,8 +6,8 @@
    xmlns:rf="http://schemas.roadintranet.org/road-faq-1"
  title=" C++ interface to Qhull"
  file="qhull-cpp.xml"
- fileid="$Id: //product/qhull/main/rel/html/qhull-cpp.xml#24 $$Change: 1174 $"
- fileChange="$DateTime: 2010/01/10 22:34:05 $$Author: bbarber $">
+ fileid="$Id: //product/qhull/main/rel/html/qhull-cpp.xml#25 $$Change: 1327 $"
+ fileChange="$DateTime: 2011/03/06 18:21:13 $$Author: bbarber $">
     <div><h4>Qhull C++  -- C++ interface to Qhull</h4></div>
     <rf:copyright>
         <a href="../cpp/COPYING.txt">Copyright</a> (c) 2009-2010, C.B. Barber
@@ -184,7 +184,19 @@ See <rf:iref item="cpp-collection-api"/>.
          </rf:item>
         <rf:item id="class-api" title="API for Qhull collections" date="Feb 2009" author="bbarber">
             <ul><li>
-               check... -- Throw error on failure
+                check... -- Throw error on failure
+            </li><li>
+                try... -- Return false on failure.  Do not throw errors.
+            </li><li>
+                ...Temporarily -- lifetime depends on source. e.g., toByteArrayTemporarily
+            </li><li>
+                ...p -- indicates pointer-to.
+            </li><li>
+                end... -- points to one beyond the last available
+            </li><li>
+                private functions -- No syntactic indication.  They may become public later on.
+            </li><li>
+                Error messages -- Preceed error messages with the name of the class throwing the error (e.g. "ClassName: ...").  If this is an internal error, use "ClassName inconsistent: ..."
             </li><li>
                parameter order -- qhRunId, dimension, coordinates, count.
             </li><li>

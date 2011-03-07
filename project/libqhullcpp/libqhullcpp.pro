@@ -23,9 +23,11 @@ QT -= gui
 MOC_DIR = ../../tmp/moc
 RCC_DIR = ../../tmp/rcc
 INCLUDEPATH = ../../cpp;../../cpp/road;../../tmp
-QMAKE_CXXFLAGS_WARN_ON += -Werror -Wall -Wcast-qual -Wextra -Wwrite-strings
-QMAKE_CXXFLAGS_WARN_ON += -Wno-sign-conversion # Many size_t vs. int warnings
-#QMAKE_CXXFLAGS_WARN_ON += -Wconversion # No workaround for bit-field conversions
+!win32-msvc2003:!win32-msvc2005:!win32-msvc2008:!win32-msvc2010 {
+    QMAKE_CXXFLAGS_WARN_ON += -Werror -Wall -Wcast-qual -Wextra -Wwrite-strings
+    QMAKE_CXXFLAGS_WARN_ON += -Wno-sign-conversion # Many size_t vs. int warnings
+    #QMAKE_CXXFLAGS_WARN_ON += -Wconversion # No workaround for bit-field conversions
+}
 
 VPATH = ../..
 SOURCES += cpp/Coordinates.cpp

@@ -6,9 +6,11 @@ DESTDIR = ../..
 TEMPLATE = app
 CONFIG += console warn_on
 LIBS += -L../..
-QMAKE_CFLAGS_WARN_ON += -Werror -Wall -Wcast-qual -Wextra -Wshadow -Wwrite-strings
-QMAKE_CFLAGS_WARN_ON += -Wno-sign-conversion # Many size_t vs. int warnings
-#QMAKE_CFLAGS_WARN_ON += -Wconversion # No workaround for bit-field conversions
+!win32-msvc2003:!win32-msvc2005:!win32-msvc2008:!win32-msvc2010 {
+    QMAKE_CFLAGS_WARN_ON += -Werror -Wall -Wcast-qual -Wextra -Wshadow -Wwrite-strings
+    QMAKE_CFLAGS_WARN_ON += -Wno-sign-conversion # Many size_t vs. int warnings
+    #QMAKE_CFLAGS_WARN_ON += -Wconversion # No workaround for bit-field conversions
+}
 build_pass:CONFIG(debug, debug|release):{
    LIBS += libqhulld
    PRE_TARGETDEPS += ../../libqhulld.a

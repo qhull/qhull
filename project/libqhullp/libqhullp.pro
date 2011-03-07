@@ -8,11 +8,13 @@ TEMPLATE = lib
 CONFIG += staticlib warn_on
 CONFIG -= app_bundle qt
 DEFINES += qh_QHpointer
-# Appears to be needed for gcc 4.1, 4.2, and 4.3 with -O2
-#QMAKE_CFLAGS += -fno-strict-aliasing
-QMAKE_CFLAGS_WARN_ON += -Werror -Wall -Wcast-qual -Wextra -Wshadow -Wwrite-strings
-QMAKE_CFLAGS_WARN_ON += -Wno-sign-conversion # Many size_t vs. int warnings
-#QMAKE_CFLAGS_WARN_ON += -Wconversion # No workaround for bit-field conversions
+!win32-msvc2003:!win32-msvc2005:!win32-msvc2008:!win32-msvc2010 {
+    # Appears to be needed for gcc 4.1, 4.2, and 4.3 with -O2
+    #QMAKE_CFLAGS += -fno-strict-aliasing
+    QMAKE_CFLAGS_WARN_ON += -Werror -Wall -Wcast-qual -Wextra -Wshadow -Wwrite-strings
+    QMAKE_CFLAGS_WARN_ON += -Wno-sign-conversion # Many size_t vs. int warnings
+    #QMAKE_CFLAGS_WARN_ON += -Wconversion # No workaround for bit-field conversions
+}
 build_pass:CONFIG(debug, debug|release):{
     TARGET = qhullpd
     OBJECTS_DIR = ../../tmp/libqhullp/Debug

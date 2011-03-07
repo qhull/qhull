@@ -22,6 +22,43 @@ To do
  - Add FIXUP for known problems and update wiki
  - Notes to compgeom on conformant triangulation and Voronoi volume
  - How to set debug or release mode if not using QtCreator
+ - Add copy constructor and assignment to QhullError
+ - Avoid using 'Qt' with qvoronoi.  It triangulates the Delaunay result that is used to generate the voronoi vertices. It should be deprecated.
+ - Add toporient to QhullFacet.  Figure out vertice. 
+    bool                topOrient() const { return qh_facet->toporient; }
+ - Add a Makefile.txt for building libqhullcpp with gcc
+ - Add a CMake build for everying
+ - Add an Autotools build for everything
+ - Change the Qt build for shadow directory
+ - Fix use of strncat.  The limits are wrong
+ - Fix warnings reported by gcc 4.4
+ - Remove -frtti from gcc build
+ - Qhull-go.bat does not work in Windows 7
+
+Links on build systems
+   http://www.murrayc.com/blog/permalink/2009/10/28/trying-qmake-and-cmake/
+   autotools book (available online and in print) is fairly useful, though of course not perfect:
+   http://sources.redhat.com/autobook/
+   http://www.openismus.com/documents/linux/automake/automake.shtml
+   http://www.openismus.com/documents/linux/using_libraries/using_libraries.shtml
+   http://www.openismus.com/documents/linux/building_libraries/building_libraries.shtml
+   http://www.cmake.org/cmake/help/cmake2.6docs.html#module:FindPkgConfig
+   http://www.cmake.org/cmake/help/cmake2.6docs.html#module:UsePkgConfig
+   http://www.itk.org/Wiki/CMake_HowToDoPlatformChecks
+   http://www.cmake.org/cmake/help/cmake-2-8-docs.html#command:configure_file
+   http://www.freesoftwaremagazine.com/books/autotools_a_guide_to_autoconf_automake_libtool
+   http://www.lrde.epita.fr/~adl/autotools.html
+   http://www.flameeyes.eu/autotools-mythbuster/
+
+------------
+gitorious.org/qhull 2011/03/06
+ - Fix strncat limit in rboxlib.c
+ - Qt project files: Remove gcc options from DevStudio builds
+ - libqhull.pro: Comment out -Wno-sign-conversion
+ - qt-qhull.cpp: Move QHULL_USES_QT before the includes
+ - qvoronoi.htm: Remove quotes from qvoronoi example
+ - qhull-cpp.xml: Add naming conventions, try, Temporarily, p, end, private, error
+ - Changes.txt: More to do.  Links to build systems
 
 ------------
 gitorious.org/qhull 2010/03/17
