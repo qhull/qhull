@@ -50,6 +50,7 @@ Links on build systems
    http://www.lrde.epita.fr/~adl/autotools.html
    http://www.flameeyes.eu/autotools-mythbuster/
 
+
 ------------
 gitorious.org/qhull 2011/03/06
  - Fix strncat limit in rboxlib.c
@@ -59,6 +60,7 @@ gitorious.org/qhull 2011/03/06
  - qvoronoi.htm: Remove quotes from qvoronoi example
  - qhull-cpp.xml: Add naming conventions, try, Temporarily, p, end, private, error
  - Changes.txt: More to do.  Links to build systems
+ - Delete src/MBorland
 
 ------------
 gitorious.org/qhull 2010/03/17
