@@ -124,7 +124,7 @@ int qh_rboxpoints(FILE* fout, FILE* ferr, char* rbox_command) {
   }
 
   *command= '\0';
-  strncat(command, rbox_command, sizeof(command));
+  strncat(command, rbox_command, sizeof(command)-strlen(command)-1);
 
   while (*s && !isspace(*s))  /* skip program name */
     s++;
