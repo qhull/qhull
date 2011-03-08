@@ -54,7 +54,7 @@ Links on build systems
 
 
 ------------
-gitorious.org/qhull 2011/03/06
+gitorious.org/qhull 2011/03/07
  - Merged changes from J. Obermayr in gitorious/jobermayrs-qhull:next
  -   Fix strncat limit in rboxlib.c and global.c
  -   Changes to CMakeLists.txt for openSUSE.  Needs reorganizing

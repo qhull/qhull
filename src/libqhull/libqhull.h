@@ -6,9 +6,9 @@
 
    see qh-qhull.htm, qhull_a.h
 
-   copyright (c) 1993-2010 The Geometry Center.
-   $Id: //main/2011/qhull/src/libqhull/libqhull.h#1 $$Change: 1330 $
-   $DateTime: 2011/03/06 21:30:00 $$Author: bbarber $
+   Copyright (c) 1993-2011 The Geometry Center.
+   $Id: //main/2011/qhull/src/libqhull/libqhull.h#2 $$Change: 1342 $
+   $DateTime: 2011/03/07 21:55:47 $$Author: bbarber $
 
    NOTE: access to qh_qh is via the 'qh' macro.  This allows
    qh_qh to be either a pointer or a structure.  An example

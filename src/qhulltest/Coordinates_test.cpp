@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (C) 2009-2010 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/qhulltest/Coordinates_test.cpp#1 $$Change: 1330 $
-** $DateTime: 2011/03/06 21:30:00 $$Author: bbarber $
+** Copyright (c) 2009-2011 C.B. Barber. All rights reserved.
+** $Id: //main/2011/qhull/src/qhulltest/Coordinates_test.cpp#2 $$Change: 1342 $
+** $DateTime: 2011/03/07 21:55:47 $$Author: bbarber $
 **
 ****************************************************************************/
 

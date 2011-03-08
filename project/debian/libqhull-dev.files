@@ -1,8 +1,0 @@
-usr/lib/libqhull.a
-usr/lib/libqhull.la
-usr/lib/libqhull.so
-usr/include
-usr/share/doc/libqhull5/examples
-usr/share/doc/libqhull5/*htm*
-usr/share/doc/libqhull5/src
-usr/share/doc/libqhull5/*.txt
