@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2009-2010 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/PointCoordinates.h#1 $$Change: 1330 $
-** $DateTime: 2011/03/06 21:30:00 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullcpp/PointCoordinates.h#2 $$Change: 1341 $
+** $DateTime: 2011/03/07 21:13:54 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -12,7 +12,7 @@
 #include "QhullPoints.h"
 #include "Coordinates.h"
 extern "C" {
-    #include "../src/qhull_a.h"
+    #include "libqhull/qhull_a.h"
 };
 
 #include <ostream>
@@ -35,10 +35,10 @@ private:
 public:
 #//Construct
                         PointCoordinates();
-    explicit            PointCoordinates(int dimension);
+    explicit            PointCoordinates(int pointDimension);
     explicit            PointCoordinates(const std::string &comment);
-                        PointCoordinates(int dimension, const std::string &comment);
-                        PointCoordinates(int dimension, const std::string &comment, int coordinateCount, const coordT *c); // may be invalid
+                        PointCoordinates(int pointDimension, const std::string &comment);
+                        PointCoordinates(int pointDimension, const std::string &comment, int coordinatesCount, const coordT *c); // may be invalid
                         //! Use append() and appendPoints() for Coordinates and vector<coordT>
                         PointCoordinates(const PointCoordinates &other);
     PointCoordinates   &operator=(const PointCoordinates &other);
@@ -47,7 +47,7 @@ public:
 #//Convert
     //! QhullPoints coordinates, constData, data, count, size
 #ifndef QHULL_NO_STL
-    void                append(const std::vector<coordT> &coordinates) { if(!coordinates.empty()){ append((int)coordinates.size(), &coordinates[0]); } }
+    void                append(const std::vector<coordT> &otherCoordinates) { if(!otherCoordinates.empty()){ append((int)otherCoordinates.size(), &otherCoordinates[0]); } }
     std::vector<coordT> toStdVector() const { return point_coordinates.toStdVector(); }
 #endif //QHULL_NO_STL
 #ifdef QHULL_USES_QT
@@ -65,7 +65,7 @@ public:
     void                setDimension(int i);
 
 private:
-    void                defineAs(int coordinateCount, coordT *c) { QhullPoints::defineAs(coordinateCount, c); }
+    void                defineAs(int coordinatesCount, coordT *c) { QhullPoints::defineAs(coordinatesCount, c); }
     //! defineAs() otherwise disabled
 public:
 

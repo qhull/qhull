@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2010 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/qhulltest/qhulltest.cpp#1 $$Change: 1330 $
-** $DateTime: 2011/03/06 21:30:00 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/qhulltest/qhulltest.cpp#2 $$Change: 1341 $
+** $DateTime: 2011/03/07 21:13:54 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -52,6 +52,7 @@ int main(int argc, char *argv[])
 {
     QCoreApplication app(argc, argv);
     QStringList args= app.arguments();
+    bool isAll= args.contains("--all");
     addQhullTests(args);
     int status=1010;
     try{
@@ -67,6 +68,11 @@ int main(int argc, char *argv[])
     if(!RoadError::emptyGlobalLog()){
         cout << RoadError::stringGlobalLog() << endl;
         RoadError::clearGlobalLog();
+    }
+    if(isAll){
+        cout << "Finished test of libqhullcpp.  Test libqhull with eg/q_test" << endl;
+    }else{
+        cout << "Finished test of one class.  Test all classes with 'qhulltest --all'" << endl;
     }
     return status;
 }

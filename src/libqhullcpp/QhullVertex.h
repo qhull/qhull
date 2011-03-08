@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2010 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/QhullVertex.h#1 $$Change: 1330 $
-** $DateTime: 2011/03/06 21:30:00 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullcpp/QhullVertex.h#2 $$Change: 1341 $
+** $DateTime: 2011/03/07 21:13:54 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -14,7 +14,7 @@
 #include "QhullLinkedList.h"
 #include "QhullSet.h"
 extern "C" {
-    #include "../src/qhull_a.h"
+    #include "libqhull/qhull_a.h"
 };
 
 #include <ostream>

@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2010 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/functionObjects.h#1 $$Change: 1330 $
-** $DateTime: 2011/03/06 21:30:00 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullcpp/functionObjects.h#2 $$Change: 1341 $
+** $DateTime: 2011/03/07 21:13:54 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -10,7 +10,7 @@
 #define QHFUNCTIONOBJECTS_H
 
 #include <stdlib.h>
-#include <math.h> // abs()
+#include <math.h>
 
 namespace orgQhull {
 #//Type
@@ -31,7 +31,7 @@ private:
     double sum;
 public:
     inline AbsoluteSumOf() : sum(0.0) {}
-    inline void operator()(double v) { sum += abs(v); }
+    inline void operator()(double v) { sum += fabs(v); }
     inline operator double() { return sum; }
 };//AbsoluteSumOf
 

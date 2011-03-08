@@ -1,15 +1,15 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2011 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/road/RoadTest.cpp#1 $$Change: 1330 $
-** $Date: 2011/03/06 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/road/RoadTest.cpp#2 $$Change: 1341 $
+** $Date: 2011/03/07 $$Author: bbarber $
 **
 ****************************************************************************/
 
 //pre-compiled headers
 #include <iostream>
 #include <stdexcept>
-#include "../road/RoadTest.h"
+#include "RoadTest.h"
 
 using std::cout;
 using std::endl;
@@ -81,4 +81,4 @@ runTests(QStringList arguments)
 
 }//orgQhull
 
-//! \todo -- got duplicate definitions #include "moc/moc_RoadTest.cpp"
+#include "moc/moc_RoadTest.cpp"

@@ -2,79 +2,72 @@
 # libqhullcpp.pro -- Qt project for Qhull cpp shared library
 # -------------------------------------------------
 
-DESTDIR = ../..
+
+DESTDIR = ../../lib
 TEMPLATE = lib
-CONFIG += shared warn_on
-CONFIG -= app_bundle
-LIBS += -L../..
-DEFINES += qh_QHpointer
+CONFIG += staticlib warn_on
+CONFIG -= qt
 build_pass:CONFIG(debug, debug|release):{
-   TARGET = qhullcppd
-   LIBS += libqhullpd  # qh_QHpointer
-   PRE_TARGETDEPS += ../../libqhullpd.a
-   OBJECTS_DIR = ../../tmp/libqhullcpp/Debug
+   TARGET = qhullcpp-d
+   OBJECTS_DIR = Debug
 }else:build_pass:CONFIG(release, debug|release):{
    TARGET = qhullcpp
-   LIBS += libqhullp
-   PRE_TARGETDEPS += ../../libqhullp.a
-   OBJECTS_DIR = ../../tmp/libqhullcpp/Release
+   OBJECTS_DIR = Release
 }
-QT -= gui
-MOC_DIR = ../../tmp/moc
-RCC_DIR = ../../tmp/rcc
-INCLUDEPATH = ../../cpp;../../cpp/road;../../tmp
-!win32-msvc2003:!win32-msvc2005:!win32-msvc2008:!win32-msvc2010 {
-    QMAKE_CXXFLAGS_WARN_ON += -Werror -Wall -Wcast-qual -Wextra -Wwrite-strings
-    QMAKE_CXXFLAGS_WARN_ON += -Wno-sign-conversion # Many size_t vs. int warnings
-    #QMAKE_CXXFLAGS_WARN_ON += -Wconversion # No workaround for bit-field conversions
+MOC_DIR = moc
+
+DEFINES += qh_QHpointer
+INCLUDEPATH += ../../src
+INCLUDEPATH += $PWD # for MOC_DIR
+*xxg++ {
+    QMAKE_CXXFLAGS_WARN_ON += -Werror -Wcast-qual -Wextra -Wwrite-strings
+    QMAKE_CXXFLAGS_WARN_ON += -Wno-sign-conversion
+    QMAKE_CXXFLAGS_WARN_ON += -Wconversion
+    QMAKE_CXXFLAGS_WARN_ON += -pedantic
 }
 
-VPATH = ../..
-SOURCES += cpp/Coordinates.cpp
-SOURCES += cpp/QhullVertexSet.cpp
-SOURCES += cpp/QhullHyperplane.cpp
-SOURCES += cpp/PointCoordinates.cpp
-SOURCES += cpp/Qhull.cpp
-SOURCES += cpp/QhullError.cpp
-SOURCES += cpp/QhullEvent.cpp
-SOURCES += cpp/QhullFacet.cpp
-SOURCES += cpp/QhullFacetList.cpp
-SOURCES += cpp/QhullFacetSet.cpp
-SOURCES += cpp/QhullPoint.cpp
-SOURCES += cpp/QhullPoints.cpp
-SOURCES += cpp/QhullPointSet.cpp
-SOURCES += cpp/QhullQh.cpp
-SOURCES += cpp/QhullRidge.cpp
-SOURCES += cpp/QhullSet.cpp
-SOURCES += cpp/QhullStat.cpp
-SOURCES += cpp/QhullVertex.cpp
-SOURCES += cpp/RboxPoints.cpp
-SOURCES += cpp/UsingLibQhull.cpp
-SOURCES += cpp/road/RoadError.cpp
-SOURCES += cpp/road/RoadLogEvent.cpp
-HEADERS += cpp/Coordinates.h
-HEADERS += cpp/QhullHyperplane.h
-HEADERS += cpp/functionObjects.h
-HEADERS += cpp/PointCoordinates.h
-HEADERS += cpp/Qhull.h
-HEADERS += cpp/QhullError.h
-HEADERS += cpp/QhullEvent.h
-HEADERS += cpp/QhullFacet.h
-HEADERS += cpp/QhullFacetList.h
-HEADERS += cpp/QhullFacetSet.h
-HEADERS += cpp/QhullIterator.h
-HEADERS += cpp/QhullLinkedList.h
-HEADERS += cpp/QhullPoint.h
-HEADERS += cpp/QhullPoints.h
-HEADERS += cpp/QhullPointSet.h
-HEADERS += cpp/QhullQh.h
-HEADERS += cpp/QhullRidge.h
-HEADERS += cpp/QhullSet.h
-HEADERS += cpp/QhullSets.h
-HEADERS += cpp/QhullStat.h
-HEADERS += cpp/QhullVertex.h
-HEADERS += cpp/RboxPoints.h
-HEADERS += cpp/UsingLibQhull.h
-HEADERS += cpp/road/RoadError.h
-HEADERS += cpp/road/RoadLogEvent.h
+SOURCES += ../road/RoadError.cpp
+SOURCES += ../road/RoadLogEvent.cpp
+SOURCES += Coordinates.cpp
+SOURCES += QhullVertexSet.cpp
+SOURCES += QhullHyperplane.cpp
+SOURCES += PointCoordinates.cpp
+SOURCES += Qhull.cpp
+SOURCES += QhullFacet.cpp
+SOURCES += QhullFacetList.cpp
+SOURCES += QhullFacetSet.cpp
+SOURCES += QhullPoint.cpp
+SOURCES += QhullPoints.cpp
+SOURCES += QhullPointSet.cpp
+SOURCES += QhullQh.cpp
+SOURCES += QhullRidge.cpp
+SOURCES += QhullSet.cpp
+SOURCES += QhullStat.cpp
+SOURCES += QhullVertex.cpp
+SOURCES += RboxPoints.cpp
+SOURCES += UsingLibQhull.cpp
 
+HEADERS += ../road/RoadError.h
+HEADERS += ../road/RoadLogEvent.h
+HEADERS += Coordinates.h
+HEADERS += QhullHyperplane.h
+HEADERS += functionObjects.h
+HEADERS += PointCoordinates.h
+HEADERS += Qhull.h
+HEADERS += QhullError.h
+HEADERS += QhullFacet.h
+HEADERS += QhullFacetList.h
+HEADERS += QhullFacetSet.h
+HEADERS += QhullIterator.h
+HEADERS += QhullLinkedList.h
+HEADERS += QhullPoint.h
+HEADERS += QhullPoints.h
+HEADERS += QhullPointSet.h
+HEADERS += QhullQh.h
+HEADERS += QhullRidge.h
+HEADERS += QhullSet.h
+HEADERS += QhullSets.h
+HEADERS += QhullStat.h
+HEADERS += QhullVertex.h
+HEADERS += RboxPoints.h
+HEADERS += UsingLibQhull.h

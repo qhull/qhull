@@ -32,6 +32,7 @@ extern "C" {
 #elif _MSC_VER
 #include <io.h>
 #define isatty _isatty
+int _isatty(int);
 
 #else
 int isatty(int);  /* returns 1 if stdin is a tty

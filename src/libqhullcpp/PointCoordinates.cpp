@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2009-2010 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/PointCoordinates.cpp#1 $$Change: 1330 $
-** $DateTime: 2011/03/06 21:30:00 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullcpp/PointCoordinates.cpp#2 $$Change: 1341 $
+** $DateTime: 2011/03/07 21:13:54 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -36,8 +36,8 @@ PointCoordinates()
 
 #//Construct
 PointCoordinates::
-PointCoordinates(int dimension)
-: QhullPoints(dimension)
+PointCoordinates(int pointDimension)
+: QhullPoints(pointDimension)
 , point_coordinates()
 , point_comment()
 {
@@ -55,8 +55,8 @@ PointCoordinates(const std::string &comment)
 }
 
 PointCoordinates::
-PointCoordinates(int dimension, const std::string &comment)
-: QhullPoints(dimension)
+PointCoordinates(int pointDimension, const std::string &comment)
+: QhullPoints(pointDimension)
 , point_coordinates()
 , point_comment()
 {
@@ -65,12 +65,12 @@ PointCoordinates(int dimension, const std::string &comment)
 }
 
 PointCoordinates::
-PointCoordinates(int dimension, const std::string &comment, int coordinateCount, const coordT *c)
-: QhullPoints(dimension)
+PointCoordinates(int pointDimension, const std::string &comment, int coordinatesCount, const coordT *c)
+: QhullPoints(pointDimension)
 , point_coordinates()
 , point_comment(comment)
 {
-    append(coordinateCount, c);
+    append(coordinatesCount, c);
 }
 
 PointCoordinates::

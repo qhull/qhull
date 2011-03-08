@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2009-2010 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/QhullPoints.h#1 $$Change: 1330 $
-** $DateTime: 2011/03/06 21:30:00 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullcpp/QhullPoints.h#2 $$Change: 1341 $
+** $DateTime: 2011/03/07 21:13:54 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -11,7 +11,7 @@
 
 #include "QhullPoint.h"
 extern "C" {
-    #include "../src/qhull_a.h"
+    #include "libqhull/qhull_a.h"
 };
 
 #include <ostream>
@@ -44,8 +44,8 @@ public:
 
 #//Construct
                         QhullPoints() : point_first(0), point_end(0), point_dimension(0) {};
-                        QhullPoints(int dimension) : point_first(0), point_end(0), point_dimension(dimension) { QHULL_ASSERT(dimension>=0); }
-                        QhullPoints(int dimension, int coordinateCount, coordT *c) : point_first(c), point_end(c+coordinateCount), point_dimension(dimension) { QHULL_ASSERT(dimension>=0 && coordinateCount>=0 ); }
+                        QhullPoints(int pointDimension) : point_first(0), point_end(0), point_dimension(pointDimension) { QHULL_ASSERT(pointDimension>=0); }
+                        QhullPoints(int pointDimension, int coordinateCount2, coordT *c) : point_first(c), point_end(c+coordinateCount2), point_dimension(pointDimension) { QHULL_ASSERT(pointDimension>=0 && coordinateCount2>=0 ); }
                         //Copy constructor copies pointers but not contents.  Needed for return by value and parameter passing.
                         QhullPoints(const QhullPoints &other)  : point_first(other.point_first), point_end(other.point_end), point_dimension(other.point_dimension) {}
                        ~QhullPoints() {}

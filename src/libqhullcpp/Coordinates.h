@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2009-2010 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/Coordinates.h#1 $$Change: 1330 $
-** $DateTime: 2011/03/06 21:30:00 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullcpp/Coordinates.h#2 $$Change: 1341 $
+** $DateTime: 2011/03/07 21:13:54 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -12,7 +12,7 @@
 #include "QhullError.h"
 #include "QhullIterator.h"
 extern "C" {
-    #include "../src/qhull_a.h"
+    #include "libqhull/qhull_a.h"
 };
 
 
@@ -111,7 +111,7 @@ public:
     void                append(const coordT &c) { push_back(c); }
     void                clear() { coordinate_array.clear(); }
     iterator            erase(iterator idx) { return iterator(coordinate_array.erase(idx.base())); }
-    iterator            erase(iterator begin, iterator end) { return iterator(coordinate_array.erase(begin.base(), end.base())); }
+    iterator            erase(iterator beginIterator, iterator endIterator) { return iterator(coordinate_array.erase(beginIterator.base(), endIterator.base())); }
     void                insert(int before, const coordT &c) { insert(begin()+before, c); }
     iterator            insert(iterator before, const coordT &c) { return iterator(coordinate_array.insert(before.base(), c)); }
     void                move(int from, int to) { insert(to, takeAt(from)); }

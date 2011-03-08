@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2010 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/UsingLibQhull.cpp#1 $$Change: 1330 $
-** $DateTime: 2011/03/06 21:30:00 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullcpp/UsingLibQhull.cpp#2 $$Change: 1341 $
+** $DateTime: 2011/03/07 21:13:54 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -171,7 +171,7 @@ UsingLibQhull::
 ~UsingLibQhull()
 {
     QhullError e= checkRunId();
-    if(e.defined()){
+    if(e.isDefined()){
         e.logError();
     }else{
 #if qh_QHpointer
@@ -319,7 +319,7 @@ maybeThrowQhullMessage(int exitCode) const
 {
     my_qhull->maybeThrowQhullMessage(exitCode);
     QhullError e= checkRunId(); // Check for qhRunId after libqhull returns. For convenience, ought to be at end of libqhull try block
-    if(e.defined()){
+    if(e.isDefined()){
         throw e;
     }
 }//maybeThrowQhullMessage
@@ -329,7 +329,7 @@ maybeThrowQhullMessage(int exitCode, int noThrow) const
 {
     my_qhull->maybeThrowQhullMessage(exitCode, noThrow);
     QhullError e= checkRunId(); // Check for qhRunId after libqhull returns. For convenience, ought to be at end of libqhull try block
-    if(e.defined()){
+    if(e.isDefined()){
         e.logError();
     }
 }//maybeThrowQhullMessage

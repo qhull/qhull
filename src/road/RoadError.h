@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2008-2010 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/road/RoadError.h#2 $$Change: 1334 $
-** $DateTime: 2011/03/06 22:46:44 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/road/RoadError.h#3 $$Change: 1341 $
+** $DateTime: 2011/03/07 21:13:54 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -68,7 +68,7 @@ public:
     virtual const char *what() const throw();
 
 #//GetSet
-    bool                defined() const { return log_event.defined(); }
+    bool                isDefined() const { return log_event.isDefined(); }
     int                 errorCode() const { return error_code; };
    // FIXUP QH11021 should RoadError provide errorMessage().  Currently what()
     RoadLogEvent        roadLogEvent() const { return log_event; };

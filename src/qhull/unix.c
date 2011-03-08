@@ -8,8 +8,8 @@
    see qh-qhull.htm
 
    copyright (c) 1993-2010 The Geometry Center.
-   $Id: //main/2011/qhull/src/qhull/unix.c#1 $$Change: 1330 $
-   $DateTime: 2011/03/06 21:30:00 $$Author: bbarber $
+   $Id: //main/2011/qhull/src/qhull/unix.c#2 $$Change: 1341 $
+   $DateTime: 2011/03/07 21:13:54 $$Author: bbarber $
 */
 
 #include "mem.h"
@@ -36,6 +36,7 @@ extern "C" {
 #elif _MSC_VER
 #include <io.h>
 #define isatty _isatty
+int _isatty(int);
 
 #else
 int isatty(int);  /* returns 1 if stdin is a tty

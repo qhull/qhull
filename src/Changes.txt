@@ -29,10 +29,12 @@ To do
  - Add a Makefile.txt for building libqhullcpp with gcc
  - Add a CMake build for everying
  - Add an Autotools build for everything
+ - Update debian build
  - Change the Qt build for shadow directory
  - Fix use of strncat.  The limits are wrong
  - Fix warnings reported by gcc 4.4
  - Remove -frtti from gcc build
+ - Is -fno-strict-aliasing always used, but not always the default?
  - Qhull-go.bat does not work in Windows 7
 
 Links on build systems
@@ -53,15 +55,32 @@ Links on build systems
 
 ------------
 gitorious.org/qhull 2011/03/06
- - Fix strncat limit in rboxlib.c
- - Qt project files: Remove gcc options from DevStudio builds
- - libqhull.pro: Comment out -Wno-sign-conversion
+ - Merged changes from J. Obermayr in gitorious/jobermayrs-qhull:next
+ -   Fix strncat limit in rboxlib.c and global.c
+ -   Changes to CMakeLists.txt for openSUSE.  Needs reorganizing
+ - Renamed RoadError::defined() to RoadError::isDefined()
+ - Renamed RoadEvent::defined() to RoadEvent::isDefined()
+ - Use fabs() instead of abs() to avoid accidental conversions to int
+ - qconvex.c,etc.: Define prototype for _isatty
+ - Rename parameters to avoid overriding other methods
  - qt-qhull.cpp: Move QHULL_USES_QT before the includes
+ - qhulltest.cpp: Add closing prompt.
+ - Moved projects/debian to src/debian.  Needs reorganizing
+ - Moved Qt project files into src
+ -   Use shadow build directory instead of tmp (QtCreator's default)
+ -   Moved targets to bin and lib
+ -   Build static libraries for ease of distribution
+ -   Remove VPATH
+ -   Remove gcc options from DevStudio builds
+ -   Remove QhullError.cpp and QhullEvent.cpp (empty files)
+ -   Do not remove app_bundle from CONFIG
+ -   Make -fno-strict-aliasing conditional on gcc version
+ -   Added src/qhull-app-cpp.pri and src/qhull-app-c.pri for common settings
+ -   libqhull.pro: Comment out -Wno-sign-conversion
+ -   gcc warnings need fixing.  Does not build with gcc 4.4 and warn_on
  - qvoronoi.htm: Remove quotes from qvoronoi example
  - qhull-cpp.xml: Add naming conventions, try, Temporarily, p, end, private, error
- - Changes.txt: More to do.  Links to build systems
- - Delete src/MBorland
- - Renamed RoadError::defined() to RoadError::isDefined()
+ - Changes.txt: Links to build systems
 
 ------------
 gitorious.org/qhull 2010/03/17

@@ -12,8 +12,8 @@
    see qhull_a.h for internal functions
 
    copyright (c) 1993-2010 The Geometry Center.
-   $Id: //main/2011/qhull/src/libqhull/global.c#1 $$Change: 1330 $
-   $DateTime: 2011/03/06 21:30:00 $$Author: bbarber $
+   $Id: //main/2011/qhull/src/libqhull/global.c#2 $$Change: 1341 $
+   $DateTime: 2011/03/07 21:13:54 $$Author: bbarber $
  */
 
 #include "qhull_a.h"

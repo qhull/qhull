@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (C) 2009-2010 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/QhullPoint.h#1 $$Change: 1330 $
-** $DateTime: 2011/03/06 21:30:00 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullcpp/QhullPoint.h#2 $$Change: 1341 $
+** $DateTime: 2011/03/07 21:13:54 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -14,7 +14,7 @@
 #include "UsingLibQhull.h"
 #include "Coordinates.h"
 extern "C" {
-    #include "../src/qhull_a.h"
+    #include "libqhull/qhull_a.h"
 };
 
 #include <ostream>
@@ -50,7 +50,7 @@ public:
 
 #//Construct
                         QhullPoint() : point_coordinates(0), point_dimension(0) {};
-                        QhullPoint(int dimension, coordT *c) : point_coordinates(c), point_dimension(dimension) {}
+                        QhullPoint(int pointDimension, coordT *c) : point_coordinates(c), point_dimension(pointDimension) {}
     explicit            QhullPoint(Coordinates &c) : point_coordinates(c.data()), point_dimension(c.count()) {}
                         // Creates an alias.  Does not copy the point.  Needed for return by value and parameter passing.
                         QhullPoint(const QhullPoint &other)  : point_coordinates(other.point_coordinates), point_dimension(other.point_dimension) {}
@@ -78,11 +78,11 @@ public:
 
 #//Define
     void                advancePoint(int idx) { point_coordinates += idx*point_dimension; }
-    void                defineAs(int dimension, coordT *c) { QHULL_ASSERT(dimension>=0); point_coordinates= c; point_dimension= dimension; }
+    void                defineAs(int pointDimension, coordT *c) { QHULL_ASSERT(pointDimension>=0); point_coordinates= c; point_dimension= pointDimension; }
     //! Creates an alias to other
     void                defineAs(QhullPoint &other) { point_coordinates= other.coordinates(); point_dimension= other.dimension(); }
     void                setCoordinates(coordT *c) { point_coordinates= c; }
-    void                setDimension(int dimension) { point_dimension= dimension; }
+    void                setDimension(int pointDimension) { point_dimension= pointDimension; }
 
 #//value
     double              distance(const QhullPoint &p) const;
