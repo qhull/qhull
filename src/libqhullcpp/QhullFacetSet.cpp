@@ -128,7 +128,7 @@ operator<<(ostream &os, const QhullFacetSet::PrintFacetSet &pr)
 ostream &
 operator<<(ostream &os, const QhullFacetSet::PrintIdentifiers &p)
 {
-    os << p.message;
+    os << p.print_message;
     for(QhullFacetSet::const_iterator i=p.facet_set->begin(); i!=p.facet_set->end(); ++i){
         const QhullFacet f= *i;
         if(f.getFacetT()==qh_MERGEridge){

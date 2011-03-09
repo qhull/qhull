@@ -12,7 +12,7 @@
 #include "QhullError.h"
 extern "C" {
     #include "libqhull/qhull_a.h"
-};
+}
 
 
 #ifndef QHULL_NO_STL

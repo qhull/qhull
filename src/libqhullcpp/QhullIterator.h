@@ -11,7 +11,7 @@
 
 extern "C" {
     #include "libqhull/qhull_a.h"
-};
+}
 
 #include <assert.h>
 #include <string>

@@ -6,7 +6,7 @@
 DESTDIR = ../../lib
 TEMPLATE = lib
 CONFIG += staticlib warn_on
-CONFIG -= qt
+CONFIG -= qt rtti
 build_pass:CONFIG(debug, debug|release):{
    TARGET = qhullcpp-d
    OBJECTS_DIR = Debug
@@ -18,12 +18,12 @@ MOC_DIR = moc
 
 DEFINES += qh_QHpointer
 INCLUDEPATH += ../../src
-INCLUDEPATH += $PWD # for MOC_DIR
-*xxg++ {
-    QMAKE_CXXFLAGS_WARN_ON += -Werror -Wcast-qual -Wextra -Wwrite-strings
+INCLUDEPATH += $$PWD # for MOC_DIR
+*g++ {
+    #QMAKE_CXXFLAGS_WARN_ON += -Wconversion # Qt conversion errors in qbitarray and qpalette
+    QMAKE_CXXFLAGS_WARN_ON += -Werror # Treat warnings as errors
+    QMAKE_CXXFLAGS_WARN_ON += -Wcast-qual -Wextra -Wwrite-strings
     QMAKE_CXXFLAGS_WARN_ON += -Wno-sign-conversion
-    QMAKE_CXXFLAGS_WARN_ON += -Wconversion
-    QMAKE_CXXFLAGS_WARN_ON += -pedantic
 }
 
 SOURCES += ../road/RoadError.cpp

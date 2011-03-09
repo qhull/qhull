@@ -78,8 +78,8 @@ using orgQhull::UsingLibQhull;
 ostream &
 operator<<(ostream &os, const QhullVertexSet::PrintIdentifiers &pr)
 {
-    if(pr.message && *pr.message){
-        os << pr.message;
+    if(pr.print_message && *pr.print_message){
+        os << pr.print_message;
     }
     for(QhullVertexSet::const_iterator i=pr.Vertex_set->begin(); i!=pr.Vertex_set->end(); ++i){
         const QhullVertex v= *i;
@@ -94,7 +94,7 @@ operator<<(ostream &os, const QhullVertexSet::PrintIdentifiers &pr)
 ostream &
 operator<<(ostream &os, const QhullVertexSet::PrintVertexSet &pr){
 
-    os << pr.message;
+    os << pr.print_message;
     const QhullVertexSet *vs= pr.Vertex_set;
     QhullVertexSetIterator i= *vs;
     while(i.hasNext()){

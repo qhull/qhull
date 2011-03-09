@@ -189,9 +189,9 @@ t_element()
     QCOMPARE(ps.value(3), p8);
     QCOMPARE(ps.value(3, p), p);
     QVERIFY(ps.value(1, p)!=p);
-    foreach(QhullPoint p, ps){  // Qt only
-        QCOMPARE(p.dimension(), 2);
-        QVERIFY(p[0]==0.0 || p[0]==2.0 || p[0]==4.0);
+    foreach(QhullPoint p9, ps){  // Qt only
+        QCOMPARE(p9.dimension(), 2);
+        QVERIFY(p9[0]==0.0 || p9[0]==2.0 || p9[0]==4.0);
     }
 }//t_element
 

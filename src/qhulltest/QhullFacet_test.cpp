@@ -136,9 +136,9 @@ t_getSet()
             cout << "OuterPlane: " << ho << "outerOffset+0.5 " << outerOffset << endl;
             QVERIFY(outerOffset <= 0.0);
             QVERIFY(outerOffset-innerOffset < 1e-7);
-            for(int i= 0; i<3; i++){
-                QVERIFY(ho[i]==hi[i]);
-                QVERIFY(ho[i]==h[i]);
+            for(int k= 0; k<3; k++){
+                QVERIFY(ho[k]==hi[k]);
+                QVERIFY(ho[k]==h[k]);
             }
             QhullPoint center= f.getCenter(q.runId());
             cout << "Center: " << center << endl;
@@ -157,8 +157,8 @@ t_getSet()
         QCOMPARE(center3.dimension(), 3);
         QhullPoint center4= f2.getCenter(q.runId());
         QCOMPARE(center4.dimension(), 3);
-        for(int i= 0; i<3; i++){
-            QVERIFY(center4[i]==center3[i]);
+        for(int k= 0; k<3; k++){
+            QVERIFY(center4[k]==center3[k]);
         }
         Qhull q3(rcube,"v Qz QR0");  // Voronoi diagram of a cube (one vertex)
 

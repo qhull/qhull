@@ -131,9 +131,9 @@ t_element()
     QVERIFY(ps.value(1, p)!=p);
     QhullPointSet ps8= f.coplanarPoints();
     QhullPointSet::Iterator i= ps8.begin();
-    foreach(QhullPoint p, ps){  // Qt only
-        QCOMPARE(p.dimension(), 3);
-        QCOMPARE(p, *i++);
+    foreach(QhullPoint p9, ps){  // Qt only
+        QCOMPARE(p9.dimension(), 3);
+        QCOMPARE(p9, *i++);
     }
 }//t_element
 

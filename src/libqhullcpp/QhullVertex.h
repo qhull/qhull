@@ -15,7 +15,7 @@
 #include "QhullSet.h"
 extern "C" {
     #include "libqhull/qhull_a.h"
-};
+}
 
 #include <ostream>
 

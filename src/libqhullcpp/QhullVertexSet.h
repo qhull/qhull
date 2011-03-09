@@ -53,16 +53,16 @@ public:
 #//IO
     struct PrintVertexSet{
         const QhullVertexSet *Vertex_set;
-        const char     *message;
+        const char     *print_message;
         int             run_id;
-                        PrintVertexSet(int qhRunId, const char *message, const QhullVertexSet *s) : Vertex_set(s), message(message), run_id(qhRunId) {}
+                        PrintVertexSet(int qhRunId, const char *message, const QhullVertexSet *s) : Vertex_set(s), print_message(message), run_id(qhRunId) {}
     };//PrintVertexSet
     const PrintVertexSet       print(int qhRunId, const char *message) const { return PrintVertexSet(qhRunId, message, this); }
 
     struct PrintIdentifiers{
         const QhullVertexSet *Vertex_set;
-        const char     *message;
-                        PrintIdentifiers(const char *message, const QhullVertexSet *s) : Vertex_set(s), message(message) {}
+        const char     *print_message;
+                        PrintIdentifiers(const char *message, const QhullVertexSet *s) : Vertex_set(s), print_message(message) {}
     };//PrintIdentifiers
     PrintIdentifiers    printIdentifiers(const char *message) const { return PrintIdentifiers(message, this); }
 

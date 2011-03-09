@@ -13,7 +13,7 @@
 #include "QhullPoint.h"
 extern "C" {
     #include "libqhull/qhull_a.h"
-};
+}
 
 #include <ostream>
 
@@ -52,7 +52,7 @@ public:
 
 #//Construct
                         //Conversion from setT* is not type-safe.  Implicit conversion for void* to T
-                        QhullPointSet(int dimension, setT *s) : QhullSet<coordT *>(s), point_dimension(dimension) {}
+                        QhullPointSet(int pointDimension, setT *s) : QhullSet<coordT *>(s), point_dimension(pointDimension) {}
                         //Copy constructor copies pointer but not contents.  Needed for return by value and parameter passing.
                         QhullPointSet(const QhullPointSet &o) : QhullSet<coordT *>(o), point_dimension(o.point_dimension) {}
                        ~QhullPointSet() {}
@@ -205,17 +205,17 @@ public:
 #//IO
     struct PrintIdentifiers{
         const QhullPointSet *point_set;
-        const char     *message;
+        const char     *print_message;
         int             run_id;
-        PrintIdentifiers(const char *message, const QhullPointSet *s) : point_set(s), message(message) {}
+        PrintIdentifiers(const char *message, const QhullPointSet *s) : point_set(s), print_message(message) {}
     };//PrintIdentifiers
     PrintIdentifiers printIdentifiers(const char *message) const { return PrintIdentifiers(message, this); }
 
     struct PrintPointSet{
         const QhullPointSet *point_set;
-        const char     *message;
+        const char     *print_message;
         int             run_id;
-        PrintPointSet(int qhRunId, const char *message, const QhullPointSet &s) : point_set(&s), message(message), run_id(qhRunId) {}
+        PrintPointSet(int qhRunId, const char *message, const QhullPointSet &s) : point_set(&s), print_message(message), run_id(qhRunId) {}
     };//PrintPointSet
     PrintPointSet       print(int qhRunId) const { return PrintPointSet(qhRunId, 0, *this); }
     PrintPointSet       print(int qhRunId, const char *message) const { return PrintPointSet(qhRunId, message, *this); }

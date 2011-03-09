@@ -12,7 +12,7 @@
 #include "QhullError.h"
 extern "C" {
 #include "libqhull/libqhull.h"
-};
+}
 
 namespace orgQhull {
 

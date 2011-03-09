@@ -143,13 +143,13 @@ ostream &
 operator<<(ostream &os, const QhullHyperplane::PrintHyperplane &pr)
 {
     QhullHyperplane p= *pr.hyperplane;
-    if(pr.hyperplane_message){
-        os << pr.hyperplane_message;
+    if(pr.print_message){
+        os << pr.print_message;
     }
     const realT *c= p.coordinates();
     for(int k=p.dimension(); k--; ){
         realT r= *c++;
-        if(pr.hyperplane_message){
+        if(pr.print_message){
             os << " " << r; // FIXUP QH11010 %8.4g
         }else{
             os << " " << r; // FIXUP QH11010 qh_REAL_1

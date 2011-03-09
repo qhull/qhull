@@ -109,9 +109,9 @@ t_getSet()
         // test point()
         foreach (QhullVertex v, q.vertexList()){  // Qt only
             QhullPoint p= v.point();
-            int i= p.id(q.runId());
-            cout << "Point " << i << ":\n" << p.print(q.runId()) << endl;
-            QVERIFY(i>=0 && i<8);
+            int j= p.id(q.runId());
+            cout << "Point " << j << ":\n" << p.print(q.runId()) << endl;
+            QVERIFY(j>=0 && j<8);
         }
     }
 }//t_getSet

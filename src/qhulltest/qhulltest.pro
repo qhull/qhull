@@ -6,7 +6,7 @@ TARGET = qhulltest
 include(../qhull-app-cpp.pri)
 CONFIG += qtestlib
 MOC_DIR = moc
-INCLUDEPATH += $PWD  # for MOC_DIR
+INCLUDEPATH += ..  # for MOC_DIR
 
 PRECOMPILED_HEADER = ../road/RoadTest.h
 

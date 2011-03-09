@@ -124,8 +124,8 @@ t_readonly()
             const coordT *c3= h.begin();
             QCOMPARE(c, c3);
             QCOMPARE(h.offset(), -0.5);
-            int i= h.end()-h.begin();
-            QCOMPARE(i, 3);
+            int j= h.end()-h.begin();
+            QCOMPARE(j, 3);
             double squareNorm= std::inner_product(h.begin(), h.end(), h.begin(), 0.0);
             QCOMPARE(squareNorm, 1.0);
         }

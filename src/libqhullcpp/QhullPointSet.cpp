@@ -185,8 +185,8 @@ ostream &
 operator<<(ostream &os, const QhullPointSet::PrintIdentifiers &pr)
 {
     const QhullPointSet s= *pr.point_set;
-    if (pr.message) {
-        os << pr.message;
+    if (pr.print_message) {
+        os << pr.print_message;
     }
     for(QhullPointSet::const_iterator i=s.begin(); i != s.end(); ++i){
         if(i!=s.begin()){
@@ -204,8 +204,8 @@ ostream &
 operator<<(ostream &os, const QhullPointSet::PrintPointSet &pr)
 {
     const QhullPointSet s= *pr.point_set;
-    if (pr.message) {
-        os << pr.message;
+    if (pr.print_message) {
+        os << pr.print_message;
     }
     for(QhullPointSet::const_iterator i=s.begin(); i != s.end(); ++i){
         const QhullPoint point= *i;

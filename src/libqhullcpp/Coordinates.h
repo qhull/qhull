@@ -13,7 +13,7 @@
 #include "QhullIterator.h"
 extern "C" {
     #include "libqhull/qhull_a.h"
-};
+}
 
 
 #include <cstddef> // ptrdiff_t, size_t

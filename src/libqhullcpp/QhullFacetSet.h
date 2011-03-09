@@ -68,16 +68,16 @@ public:
 
     struct PrintFacetSet{
         const QhullFacetSet *facet_set;
-        const char     *message;
+        const char     *print_message;
         int             run_id;
-                        PrintFacetSet(int qhRunId, const char *message, const QhullFacetSet *s) : facet_set(s), message(message), run_id(qhRunId) {}
+                        PrintFacetSet(int qhRunId, const char *message, const QhullFacetSet *s) : facet_set(s), print_message(message), run_id(qhRunId) {}
     };//PrintFacetSet
     const PrintFacetSet       print(int qhRunId, const char *message) const { return PrintFacetSet(qhRunId, message, this); }
 
     struct PrintIdentifiers{
         const QhullFacetSet *facet_set;
-        const char     *message;
-                        PrintIdentifiers(const char *message, const QhullFacetSet *s) : facet_set(s), message(message) {}
+        const char     *print_message;
+                        PrintIdentifiers(const char *message, const QhullFacetSet *s) : facet_set(s), print_message(message) {}
     };//PrintIdentifiers
     PrintIdentifiers    printIdentifiers(const char *message) const { return PrintIdentifiers(message, this); }
 

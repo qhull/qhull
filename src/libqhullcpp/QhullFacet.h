@@ -16,7 +16,7 @@
 #include "QhullPointSet.h"
 extern "C" {
     #include "libqhull/qhull_a.h"
-};
+}
 
 #include <string>
 #include <vector>

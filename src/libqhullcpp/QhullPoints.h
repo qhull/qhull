@@ -12,7 +12,7 @@
 #include "QhullPoint.h"
 extern "C" {
     #include "libqhull/qhull_a.h"
-};
+}
 
 #include <ostream>
 
@@ -71,18 +71,18 @@ public:
     coordT             *coordinates() const { return point_first; }
     int                 coordinateCount() const { return (int)(point_end-point_first); } // WARN64
     int                 count() const { return (int)size(); } // WARN64
-    void                defineAs(int dimension, int coordinateCount, coordT *c) { QHULL_ASSERT(dimension>=0 && coordinateCount>=0 && c!=0); point_first= c; point_end= c+coordinateCount; point_dimension= dimension; }
-    void                defineAs(int coordinateCount, coordT *c) { QHULL_ASSERT((coordinateCount>=0 && c!=0) || (c==0 && coordinateCount==0)); point_first= c; point_end= c+coordinateCount; }
+    void                defineAs(int pointDimension, int coordinatesCount, coordT *c) { QHULL_ASSERT(pointDimension>=0 && coordinatesCount>=0 && c!=0); point_first= c; point_end= c+coordinatesCount; point_dimension= pointDimension; }
+    void                defineAs(int coordinatesCount, coordT *c) { QHULL_ASSERT((coordinatesCount>=0 && c!=0) || (c==0 && coordinatesCount==0)); point_first= c; point_end= c+coordinatesCount; }
     void                defineAs(const QhullPoints &other) { point_first= other.point_first; point_end= other.point_end; point_dimension= other.point_dimension; }
     int                 dimension() const { return point_dimension; }
     bool                empty() const { return point_end==point_first; }
     coordT             *extraCoordinates() const { return extraCoordinatesCount() ? (point_end-extraCoordinatesCount()) : 0; }
     int                 extraCoordinatesCount() const { return point_dimension>0 ? (int)((point_end-point_first)%(size_t)point_dimension) : 0; }  // WARN64
-    bool                includesCoordinates(const coordT *coordinates) const { return coordinates>=point_first && coordinates<point_end; }
+    bool                includesCoordinates(const coordT *c) const { return c>=point_first && c<point_end; }
     bool                isEmpty() const { return empty(); }
     bool                operator==(const QhullPoints &other) const;
     bool                operator!=(const QhullPoints &other) const { return !operator==(other); }
-    void                setDimension(int dimension) { QHULL_ASSERT(dimension>=0); point_dimension= dimension; }
+    void                setDimension(int pointDimension) { QHULL_ASSERT(pointDimension>=0); point_dimension= pointDimension; }
     size_t              size() const { return (point_dimension ? (point_end-point_first)/point_dimension : 0); }
 
 #//ElementAccess -- can not return references to QhullPoint
@@ -129,7 +129,7 @@ public:
                         iterator() : QhullPoint() {}
                         iterator(const iterator &other): QhullPoint(*other) {}
         explicit        iterator(const QhullPoints &ps) : QhullPoint(ps.dimension(), ps.coordinates()) {}
-        explicit        iterator(int dimension, coordT *c): QhullPoint(dimension, c) {}
+        explicit        iterator(int pointDimension, coordT *c): QhullPoint(pointDimension, c) {}
         iterator       &operator=(const iterator &other) { defineAs( const_cast<iterator &>(other)); return *this; }
         QhullPoint     *operator->() { return this; }
         // value instead of reference since advancePoint() modifies self
@@ -173,7 +173,7 @@ public:
                         const_iterator(const const_iterator &other) : QhullPoint(*other) {}
                         const_iterator(const QhullPoints::iterator &other) : QhullPoint(*other) {}
         explicit        const_iterator(const QhullPoints &ps) : QhullPoint(ps.dimension(), ps.coordinates()) {}
-        explicit        const_iterator(int dimension, coordT *c): QhullPoint(dimension, c) {}
+        explicit        const_iterator(int pointDimension, coordT *c): QhullPoint(pointDimension, c) {}
         const_iterator &operator=(const const_iterator &other) { defineAs(const_cast<const_iterator &>(other)); return *this; }
         // value/non-const since advancePoint(1), etc. modifies self
         QhullPoint      operator*() const { return *this; }

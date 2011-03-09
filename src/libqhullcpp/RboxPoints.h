@@ -13,7 +13,7 @@
 #include "PointCoordinates.h"
 extern "C" {
 #include "libqhull/libqhull.h"
-};
+}
 
 #include <stdarg.h>
 #include <string>

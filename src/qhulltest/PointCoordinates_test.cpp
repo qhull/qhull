@@ -219,9 +219,9 @@ t_foreach()
     i2= pc2.end();
     QVERIFY(i2-1!=i3);
     QCOMPARE(*(i2-1), *i3);
-    foreach(QhullPoint p, pc){ //Qt only
-        QVERIFY(p[0]>=0.0);
-        QVERIFY(p[0]<=5.0);
+    foreach(QhullPoint p3, pc){ //Qt only
+        QVERIFY(p3[0]>=0.0);
+        QVERIFY(p3[0]<=5.0);
     }
     Coordinates::ConstIterator i4= pc.beginCoordinates();
     QCOMPARE(*i4, 0.0);

@@ -18,7 +18,7 @@
 #include "Qhull.h"
 extern "C" {
     #include "libqhull/qhull_a.h"
-};
+}
 
 #include <iostream>
 

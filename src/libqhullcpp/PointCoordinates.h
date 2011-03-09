@@ -13,7 +13,7 @@
 #include "Coordinates.h"
 extern "C" {
     #include "libqhull/qhull_a.h"
-};
+}
 
 #include <ostream>
 #include <vector>
@@ -51,7 +51,7 @@ public:
     std::vector<coordT> toStdVector() const { return point_coordinates.toStdVector(); }
 #endif //QHULL_NO_STL
 #ifdef QHULL_USES_QT
-    void                append(const QList<coordT> &coordinates) { if(!coordinates.isEmpty()){ append(coordinates.count(), &coordinates[0]); } }
+    void                append(const QList<coordT> &pointCoordinates) { if(!pointCoordinates.isEmpty()){ append(pointCoordinates.count(), &pointCoordinates[0]); } }
     QList<coordT>       toQList() const { return point_coordinates.toQList(); }
 #endif //QHULL_USES_QT
 
