@@ -1,6 +1,12 @@
 #!/bin/sh
 #
 #  NOTE:  all tests duplicated in q_test.bat
+if [ -d bin ]; then
+   PATH=bin:$PATH
+else
+   echo Run eg/q_test from the Qhull directory
+   exit
+fi
 set -v
 echo === errors if 'user_eg' and 'user_eg2' not found ===
 echo === check user_eg ${d:-`date`} =====================

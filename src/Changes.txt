@@ -30,10 +30,7 @@ To do
  - Add a CMake build for everying
  - Add an Autotools build for everything
  - Update debian build
- - Change the Qt build for shadow directory
  - Fix use of strncat.  The limits are wrong
- - Fix warnings reported by gcc 4.4
- - Remove -frtti from gcc build
  - Is -fno-strict-aliasing always used, but not always the default?
  - Qhull-go.bat does not work in Windows 7
 
@@ -54,6 +51,20 @@ Links on build systems
 
 
 ------------
+
+gitorious.org/qhull 2011/03/25
+ - Moved src/libqhull/Makefile.txt to Makefile
+ - Makefile: Added libqhullp, libqhullcpp, user_eg3, qhulltest
+ - Build: Removed -frtti from gcc build
+ - Build: Comment out -Werror
+ - Removed semicolon after extern "C" {...}
+ - Renamed parameters, locals, and fields to avoid shadowing
+
+gitorious.org/qhull 2011/03/09
+ - Compiles gcc with all warnings except for -Wno-sign-conversion and -Wconversion
+ - Compiles g++ with all warnings except for -Wshadow and -Wconversion in Qt
+ - Needed to turn off -Wshadow and -Wconversion warnings due to Qt warnings
+
 gitorious.org/qhull 2011/03/07
  - Merged changes from J. Obermayr in gitorious/jobermayrs-qhull:next
  -   Fix strncat limit in rboxlib.c and global.c

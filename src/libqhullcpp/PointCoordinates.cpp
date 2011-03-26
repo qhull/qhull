@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2009-2011 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/PointCoordinates.cpp#3 $$Change: 1342 $
-** $DateTime: 2011/03/07 21:55:47 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullcpp/PointCoordinates.cpp#4 $$Change: 1348 $
+** $DateTime: 2011/03/25 23:54:58 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -45,30 +45,28 @@ PointCoordinates(int pointDimension)
 }
 
 PointCoordinates::
-PointCoordinates(const std::string &comment)
+PointCoordinates(const std::string &aComment)
 : QhullPoints()
 , point_coordinates()
-, point_comment()
+, point_comment(aComment)
 {
-    appendComment(comment);
     makeValid();
 }
 
 PointCoordinates::
-PointCoordinates(int pointDimension, const std::string &comment)
+PointCoordinates(int pointDimension, const std::string &aComment)
 : QhullPoints(pointDimension)
 , point_coordinates()
-, point_comment()
+, point_comment(aComment)
 {
-    appendComment(comment);
     makeValid();
 }
 
 PointCoordinates::
-PointCoordinates(int pointDimension, const std::string &comment, int coordinatesCount, const coordT *c)
+PointCoordinates(int pointDimension, const std::string &aComment, int coordinatesCount, const coordT *c)
 : QhullPoints(pointDimension)
 , point_coordinates()
-, point_comment(comment)
+, point_comment(aComment)
 {
     append(coordinatesCount, c);
 }
@@ -136,16 +134,16 @@ beginCoordinates(int pointIndex)
 #//Modify
 
 void PointCoordinates::
-append(int count, const coordT *c)
+append(int coordinatesCount, const coordT *c)
 {
-    if(count<=0){
+    if(coordinatesCount<=0){
         return;
     }
     if(includesCoordinates(c)){
         throw QhullError(10065, "Qhull error: can not append a subset of PointCoordinates to itself.  The coordinates for point %d may move.", indexOf(c, QhullError::NOthrow));
     }
-    reserveCoordinates(count);
-    std::copy(c, c+count, std::back_inserter(point_coordinates));
+    reserveCoordinates(coordinatesCount);
+    std::copy(c, c+coordinatesCount, std::back_inserter(point_coordinates));
     makeValid();
 }//append coordT
 
@@ -208,7 +206,7 @@ appendPoints(istream &in)
     }
     setDimension(inDimension);
     reserveCoordinates(inCount*inDimension);
-    int coordinateCount= 0;
+    int coordinatesCount= 0;
     while(!in.eof()){
         realT p;
         in >> p >> ws;
@@ -216,17 +214,17 @@ appendPoints(istream &in)
             in.clear();
             string remainder;
             getline(in, remainder);
-            throw QhullError(10008, "Qhull error: failed to read coordinate %d  of point %d\n   %s", coordinateCount % inDimension, coordinateCount/inDimension, 0, remainder.c_str());
+            throw QhullError(10008, "Qhull error: failed to read coordinate %d  of point %d\n   %s", coordinatesCount % inDimension, coordinatesCount/inDimension, 0, remainder.c_str());
         }else{
             point_coordinates.push_back(p);
-            coordinateCount++;
+            coordinatesCount++;
         }
     }
-    if(coordinateCount != inCount*inDimension){
-        if(coordinateCount%inDimension==0){
-            throw QhullError(10006, "Qhull error: expected %d %d-d PointCoordinates but read %i PointCoordinates", int(inCount), inDimension, 0.0, int(coordinateCount/inDimension));
+    if(coordinatesCount != inCount*inDimension){
+        if(coordinatesCount%inDimension==0){
+            throw QhullError(10006, "Qhull error: expected %d %d-d PointCoordinates but read %i PointCoordinates", int(inCount), inDimension, 0.0, int(coordinatesCount/inDimension));
         }else{
-            throw QhullError(10012, "Qhull error: expected %d %d-d PointCoordinates but read %i PointCoordinates plus %f extra coordinates", inCount, inDimension, float(coordinateCount%inDimension), coordinateCount/inDimension);
+            throw QhullError(10012, "Qhull error: expected %d %d-d PointCoordinates but read %i PointCoordinates plus %f extra coordinates", inCount, inDimension, float(coordinatesCount%inDimension), coordinatesCount/inDimension);
         }
     }
     makeValid();
@@ -253,9 +251,9 @@ reserveCoordinates(int newCoordinates)
 int PointCoordinates::
 indexOffset(int i) const {
     int n= i*dimension();
-    int coordinateCount= point_coordinates.count();
-    if(i<0 || n>coordinateCount){
-        throw QhullError(10061, "Qhull error: point_coordinates is too short (%d) for point %d", coordinateCount, i);
+    int coordinatesCount= point_coordinates.count();
+    if(i<0 || n>coordinatesCount){
+        throw QhullError(10061, "Qhull error: point_coordinates is too short (%d) for point %d", coordinatesCount, i);
     }
     return n;
 }

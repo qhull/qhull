@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2011 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/Qhull.cpp#3 $$Change: 1342 $
-** $DateTime: 2011/03/07 21:55:47 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullcpp/Qhull.cpp#4 $$Change: 1348 $
+** $DateTime: 2011/03/25 23:54:58 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -59,7 +59,7 @@ Qhull()
 }//Qhull
 
 Qhull::
-Qhull(const RboxPoints &points, const char *qhullCommand)
+Qhull(const RboxPoints &rboxPoints, const char *qhullCommand2)
 : qhull_qh(0)
 , qhull_run_id(UsingLibQhull::NOqhRunId)
 , origin_point()
@@ -74,11 +74,11 @@ Qhull(const RboxPoints &points, const char *qhullCommand)
 , useOutputStream(false)
 {
     initializeQhull();
-    runQhull(points, qhullCommand);
+    runQhull(rboxPoints, qhullCommand2);
 }//Qhull rbox
 
 Qhull::
-Qhull(const char *rboxCommand, int pointDimension, int pointCount, const realT *points, const char *qhullCommand)
+Qhull(const char *rboxCommand2, int pointDimension, int pointCount, const realT *pointCoordinates, const char *qhullCommand2)
 : qhull_qh(0)
 , qhull_run_id(UsingLibQhull::NOqhRunId)
 , origin_point()
@@ -93,7 +93,7 @@ Qhull(const char *rboxCommand, int pointDimension, int pointCount, const realT *
 , useOutputStream(false)
 {
     initializeQhull();
-    runQhull(rboxCommand, pointDimension, pointCount, points, qhullCommand);
+    runQhull(rboxCommand2, pointDimension, pointCount, pointCoordinates, qhullCommand2);
 }//Qhull points
 
 Qhull::
@@ -381,22 +381,22 @@ outputQhull(const char *outputflags)
 }//outputQhull
 
 void Qhull::
-runQhull(const RboxPoints &points, const char *qhullCommand)
+runQhull(const RboxPoints &rboxPoints, const char *qhullCommand2)
 {
-    runQhull(points.comment().c_str(), points.dimension(), points.count(), &*points.coordinates(), qhullCommand);
+    runQhull(rboxPoints.comment().c_str(), rboxPoints.dimension(), rboxPoints.count(), &*rboxPoints.coordinates(), qhullCommand2);
 }//runQhull, RboxPoints
 
 //! points is a array of points, input sites ('d' or 'v'), or halfspaces with offset last ('H')
 //! Derived from qh_new_qhull [user.c]
 void Qhull::
-runQhull(const char *rboxCommand, int pointDimension, int pointCount, const realT *points, const char *qhullCommand)
+runQhull(const char *rboxCommand2, int pointDimension, int pointCount, const realT *rboxPoints, const char *qhullCommand2)
 {
     if(run_called){
         throw QhullError(10027, "Qhull error: runQhull called twice.  Only one call allowed.");
     }
     run_called= true;
     string s("qhull ");
-    s += qhullCommand;
+    s += qhullCommand2;
     char *command= const_cast<char*>(s.c_str());
     UsingLibQhull q(this);
     int exitCode = setjmp(qh errexit);
@@ -404,11 +404,11 @@ runQhull(const char *rboxCommand, int pointDimension, int pointCount, const real
         qh_checkflags(command, s_unsupported_options);
         qh_initflags(command);
         *qh rbox_command= '\0';
-        strncat( qh rbox_command, rboxCommand, sizeof( qh rbox_command));
+        strncat( qh rbox_command, rboxCommand2, sizeof( qh rbox_command));
         if(qh DELAUNAY){
             qh PROJECTdelaunay= True;   // qh_init_B() calls qh_projectinput()
         }
-        pointT *newPoints= const_cast<pointT*>(points);
+        pointT *newPoints= const_cast<pointT*>(rboxPoints);
         int newDimension= pointDimension;
         int newIsMalloc= False;
         if(qh HALFspace){

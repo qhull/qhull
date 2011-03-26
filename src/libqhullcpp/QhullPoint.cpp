@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2009-2011 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/QhullPoint.cpp#2 $$Change: 1342 $
-** $DateTime: 2011/03/07 21:55:47 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullcpp/QhullPoint.cpp#3 $$Change: 1348 $
+** $DateTime: 2011/03/25 23:54:58 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -28,11 +28,11 @@ id(int qhRunId, int dimension, const coordT *c)
     if(UsingLibQhull::hasPoints()){
         if(qhRunId==UsingLibQhull::NOqhRunId){
             const coordT *pointsEnd;
-            int dimension;
-            const coordT *points= UsingLibQhull::globalPoints(&dimension, &pointsEnd);
+            int dim;
+            const coordT *points= UsingLibQhull::globalPoints(&dim, &pointsEnd);
             if(c>=points && c<pointsEnd){
                 int offset= (int)(c-points); // WARN64
-                return offset/dimension;
+                return offset/dim;
             }
         }else{
             UsingLibQhull q(qhRunId);

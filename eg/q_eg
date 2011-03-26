@@ -1,6 +1,12 @@
 #! /bin/sh
 #   writes examples to eg/
 #   see html/qh_eg.htm
+if [ -d bin ]; then
+   PATH=bin:$PATH
+else
+   echo Run eg/q_eg from the Qhull directory
+   exit
+fi
 set -v
 rbox c D3 | qconvex s G >eg/eg.01.cube
 rbox c d G2.0 | qconvex s G >eg/eg.02.diamond.cube

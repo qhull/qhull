@@ -20,10 +20,43 @@ DEFINES += qh_QHpointer
 INCLUDEPATH += ../../src
 INCLUDEPATH += $$PWD # for MOC_DIR
 *g++ {
-    #QMAKE_CXXFLAGS_WARN_ON += -Wconversion # Qt conversion errors in qbitarray and qpalette
     QMAKE_CXXFLAGS_WARN_ON += -Werror # Treat warnings as errors
-    QMAKE_CXXFLAGS_WARN_ON += -Wcast-qual -Wextra -Wwrite-strings
+    QMAKE_CXXFLAGS_WARN_ON += -Wshadow -Wconversion
+    QMAKE_CXXFLAGS_WARN_ON += -Wcast-qual -Wextra -Wshadow -Wwrite-strings
     QMAKE_CXXFLAGS_WARN_ON += -Wno-sign-conversion
+QMAKE_CXXFLAGS_WARN_ON += -Waddress
+QMAKE_CXXFLAGS_WARN_ON += -Warray-bounds
+QMAKE_CXXFLAGS_WARN_ON += -Wc++0x-compat
+QMAKE_CXXFLAGS_WARN_ON += -Wchar-subscripts
+QMAKE_CXXFLAGS_WARN_ON += -Wclobbered
+QMAKE_CXXFLAGS_WARN_ON += -Wcomment
+QMAKE_CXXFLAGS_WARN_ON += -Wempty-body
+QMAKE_CXXFLAGS_WARN_ON += -Wenum-compare
+QMAKE_CXXFLAGS_WARN_ON += -Wformat
+QMAKE_CXXFLAGS_WARN_ON += -Wignored-qualifiers
+QMAKE_CXXFLAGS_WARN_ON += -Wmain
+QMAKE_CXXFLAGS_WARN_ON += -Wmissing-braces
+QMAKE_CXXFLAGS_WARN_ON += -Wmissing-field-initializers
+QMAKE_CXXFLAGS_WARN_ON += -Wparentheses
+QMAKE_CXXFLAGS_WARN_ON += -Wreorder
+QMAKE_CXXFLAGS_WARN_ON += -Wreturn-type
+QMAKE_CXXFLAGS_WARN_ON += -Wsequence-point
+QMAKE_CXXFLAGS_WARN_ON += -Wsign-compare
+QMAKE_CXXFLAGS_WARN_ON += -Wsign-compare
+QMAKE_CXXFLAGS_WARN_ON += -Wstrict-aliasing
+QMAKE_CXXFLAGS_WARN_ON += -Wstrict-overflow=1
+QMAKE_CXXFLAGS_WARN_ON += -Wswitch
+QMAKE_CXXFLAGS_WARN_ON += -Wtrigraphs
+QMAKE_CXXFLAGS_WARN_ON += -Wtype-limits
+QMAKE_CXXFLAGS_WARN_ON += -Wuninitialized
+QMAKE_CXXFLAGS_WARN_ON += -Wuninitialized
+QMAKE_CXXFLAGS_WARN_ON += -Wunknown-pragmas
+QMAKE_CXXFLAGS_WARN_ON += -Wunused-function
+QMAKE_CXXFLAGS_WARN_ON += -Wunused-label
+QMAKE_CXXFLAGS_WARN_ON += -Wunused-parameter
+QMAKE_CXXFLAGS_WARN_ON += -Wunused-value
+QMAKE_CXXFLAGS_WARN_ON += -Wunused-variable
+QMAKE_CXXFLAGS_WARN_ON += -Wvolatile-register-var
 }
 
 SOURCES += ../road/RoadError.cpp

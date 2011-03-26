@@ -17,9 +17,11 @@ build_pass:CONFIG(debug, debug|release):{
 *g++ {
     COMPVER = $$system(gcc -v)
     contains(COMPVER, 4.1)|contains(COMPVER, 4.2)|contains(COMPVER, 4.3) {
-        QMAKE_CFLAGS += -fno-strict-aliasing # Avoid core dumps in qset.c with -O2
+        QMAKE_CFLAGS += -fno-strict-aliasing # Avoids core dumps in qset.c with -O2
     }
-    QMAKE_CFLAGS_WARN_ON += -Werror -Wcast-qual -Wextra -Wshadow -Wwrite-strings
+    # QMAKE_CFLAGS_WARN_ON += -Werror # Treat warnings as errors
+    QMAKE_CFLAGS_WARN_ON += -Wcast-qual -Wextra -Wshadow -Wwrite-strings
+
     #QMAKE_CFLAGS_WARN_ON += -Wno-sign-conversion # Many size_t vs. int warnings
     #QMAKE_CFLAGS_WARN_ON += -Wconversion # No workaround for bit-field conversions
 }

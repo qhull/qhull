@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2011 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/Qhull.h#2 $$Change: 1342 $
-** $DateTime: 2011/03/07 21:55:47 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullcpp/Qhull.h#3 $$Change: 1348 $
+** $DateTime: 2011/03/25 23:54:58 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -70,8 +70,8 @@ public:
 
 #//constructor, assignment, destructor, invariant
                         Qhull();      //! Qhull::runQhull() must be called next
-                        Qhull(const RboxPoints &points, const char *qhullCommand);
-                        Qhull(const char *rboxCommand, int pointDimension, int pointCount, const realT *points, const char *qhullCommand);
+                        Qhull(const RboxPoints &rboxPoints, const char *qhullCommand2);
+                        Qhull(const char *rboxCommand2, int pointDimension, int pointCount, const realT *pointCoordinates, const char *qhullCommand2);
                         // Throws error if other.initialized().  Needed for return by value and parameter passing
                         Qhull(const Qhull &other);
                         // Throws error if initialized() or other.initialized().  Needed for vector<Qhull>
@@ -132,8 +132,8 @@ public:
 #//Modify
     void                outputQhull();
     void                outputQhull(const char * outputflags);
-    void                runQhull(const RboxPoints &points, const char *qhullCommand);
-    void                runQhull(const char *rboxCommand, int pointDimension, int pointCount, const realT *points, const char *qhullCommand);
+    void                runQhull(const RboxPoints &rboxPoints, const char *qhullCommand2);
+    void                runQhull(const char *rboxCommand2, int pointDimension, int pointCount, const realT *rboxPoints, const char *qhullCommand2);
 
 private:
 #//Helpers

@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2009-2011 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/QhullPoints.h#3 $$Change: 1342 $
-** $DateTime: 2011/03/07 21:55:47 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullcpp/QhullPoints.h#4 $$Change: 1348 $
+** $DateTime: 2011/03/25 23:54:58 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -109,8 +109,8 @@ public:
 #//Search
     bool                contains(const QhullPoint &t) const;
     int                 count(const QhullPoint &t) const;
-    int                 indexOf(const coordT *coordinates) const;
-    int                 indexOf(const coordT *coordinates, int noThrow) const;
+    int                 indexOf(const coordT *pointCoordinates) const;
+    int                 indexOf(const coordT *pointCoordinates, int noThrow) const;
     int                 indexOf(const QhullPoint &t) const;
     int                 lastIndexOf(const QhullPoint &t) const;
 

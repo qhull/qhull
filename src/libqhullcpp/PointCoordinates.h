@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2009-2011 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/PointCoordinates.h#3 $$Change: 1342 $
-** $DateTime: 2011/03/07 21:55:47 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullcpp/PointCoordinates.h#4 $$Change: 1348 $
+** $DateTime: 2011/03/25 23:54:58 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -36,9 +36,9 @@ public:
 #//Construct
                         PointCoordinates();
     explicit            PointCoordinates(int pointDimension);
-    explicit            PointCoordinates(const std::string &comment);
-                        PointCoordinates(int pointDimension, const std::string &comment);
-                        PointCoordinates(int pointDimension, const std::string &comment, int coordinatesCount, const coordT *c); // may be invalid
+    explicit            PointCoordinates(const std::string &aComment);
+                        PointCoordinates(int pointDimension, const std::string &aComment);
+                        PointCoordinates(int pointDimension, const std::string &aComment, int coordinatesCount, const coordT *c); // may be invalid
                         //! Use append() and appendPoints() for Coordinates and vector<coordT>
                         PointCoordinates(const PointCoordinates &other);
     PointCoordinates   &operator=(const PointCoordinates &other);
@@ -89,7 +89,7 @@ public:
 
 #//Modify
     //FIXUP QH11001: Add clear() and other modify operators from Coordinates.h.  Include QhullPoint::operator=()
-    void                append(int count, const coordT *c);  //! Dimension previously defined
+    void                append(int coordinatesCount, const coordT *c);  //! Dimension previously defined
     void                append(const coordT &c) { append(1, &c); } //! Dimension previously defined
     void                append(const QhullPoint &p);
     //! See convert for std::vector and QList

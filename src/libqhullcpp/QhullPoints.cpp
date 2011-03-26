@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2009-2011 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/QhullPoints.cpp#2 $$Change: 1342 $
-** $DateTime: 2011/03/07 21:55:47 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullcpp/QhullPoints.cpp#3 $$Change: 1348 $
+** $DateTime: 2011/03/25 23:54:58 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -118,31 +118,31 @@ count(const QhullPoint &t) const
 }//count
 
 int QhullPoints::
-indexOf(const coordT *coordinates) const
+indexOf(const coordT *pointCoordinates) const
 {
-    if(!includesCoordinates(coordinates) || dimension()==0){
+    if(!includesCoordinates(pointCoordinates) || dimension()==0){
         return -1;
     }
-    size_t offset= coordinates-point_first;
+    size_t offset= pointCoordinates-point_first;
     int idx= (int)(offset/(size_t)dimension()); // int for error reporting
     int extra= (int)(offset%(size_t)dimension());
     if(extra!=0){
-        throw QhullError(10066, "Qhull error: coordinates %x are not at point boundary (extra %d at index %d)", extra, idx, 0.0, coordinates);
+        throw QhullError(10066, "Qhull error: coordinates %x are not at point boundary (extra %d at index %d)", extra, idx, 0.0, pointCoordinates);
     }
     return idx;
 }//indexOf coordT
 
 int QhullPoints::
-indexOf(const coordT *coordinates, int noThrow) const
+indexOf(const coordT *pointCoordinates, int noThrow) const
 {
     size_t extra= 0;
     if(noThrow){
-        if(!includesCoordinates(coordinates)||dimension()==0){
+        if(!includesCoordinates(pointCoordinates) || dimension()==0){
             return -1;
         }
-        extra= (coordinates-point_first)%(size_t)dimension();
+        extra= (pointCoordinates-point_first)%(size_t)dimension();
     }
-    return indexOf(coordinates-extra);
+    return indexOf(pointCoordinates-extra);
 }//indexOf coordT noThrow
 
 int QhullPoints::
