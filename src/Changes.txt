@@ -50,7 +50,20 @@ Links on build systems
    http://www.flameeyes.eu/autotools-mythbuster/
 
 
+To do
+ - Move OTHER_FILES from qhull-all.pro
+ - Ship sln/proj files under build directory
+ - What is minimum Qt version?
+ staticlib not in Qt doc index
+
 ------------
+
+gitorious.org/qhull 2011/03/26
+ - Pull out gcc warnings into qhull-warn.pri
+ - Pull out libqhull files into qhull-libsrc.pri
+ - Document location of qh_QHpointer
+ - Use CONFIG incremental instead of vc option
+ - user_eg2 links with shared library (project will be added later after rename)
 
 gitorious.org/qhull 2011/03/25
  - Moved src/libqhull/Makefile.txt to Makefile
@@ -59,6 +72,7 @@ gitorious.org/qhull 2011/03/25
  - Build: Comment out -Werror
  - Removed semicolon after extern "C" {...}
  - Renamed parameters, locals, and fields to avoid shadowing
+ - Removed experimental QhullEvent/QhullLog
 
 gitorious.org/qhull 2011/03/09
  - Compiles gcc with all warnings except for -Wno-sign-conversion and -Wconversion

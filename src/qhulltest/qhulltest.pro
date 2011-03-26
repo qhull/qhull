@@ -3,10 +3,11 @@
 # -------------------------------------------------
 
 TARGET = qhulltest
-include(../qhull-app-cpp.pri)
 CONFIG += qtestlib
 MOC_DIR = moc
 INCLUDEPATH += ..  # for MOC_DIR
+
+include(../qhull-app-cpp.pri)
 
 PRECOMPILED_HEADER = ../road/RoadTest.h
 

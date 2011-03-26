@@ -14,19 +14,16 @@ build_pass:CONFIG(debug, debug|release):{
     TARGET = qhull
     OBJECTS_DIR = Release
 }
+include(../qhull-warn.pri)
+
+# Duplicated from ../qhull-libsrc.pri  Otherwise QtCreator makes hierarchy too deep
+# qset.c requires -fno-script-aliasing for gcc 4.1 to 4.3
 *g++ {
     COMPVER = $$system(gcc -v)
-    contains(COMPVER, 4.1)|contains(COMPVER, 4.2)|contains(COMPVER, 4.3) {
-        QMAKE_CFLAGS += -fno-strict-aliasing # Avoids core dumps in qset.c with -O2
+    contains(COMPVER,4.1)|contains(COMPVER,4.2)|contains(COMPVER,4.3) {
+        QMAKE_CFLAGS += -fno-strict-aliasing # Avoid core dumps in qset.c with -O2
     }
-    # QMAKE_CFLAGS_WARN_ON += -Werror # Treat warnings as errors
-    QMAKE_CFLAGS_WARN_ON += -Wcast-qual -Wextra -Wshadow -Wwrite-strings
-
-    #QMAKE_CFLAGS_WARN_ON += -Wno-sign-conversion # Many size_t vs. int warnings
-    #QMAKE_CFLAGS_WARN_ON += -Wconversion # No workaround for bit-field conversions
 }
-
-# libqhull.pro and libqhullp.pro are the same for SOURCES and HEADERS
 # Order object files by frequency of execution.  Small files at end.
 SOURCES += rboxlib.c
 SOURCES += user.c
@@ -52,13 +49,12 @@ HEADERS += mem.h
 HEADERS += merge.h
 HEADERS += poly.h
 HEADERS += random.h
-# The file, qhull.h, is for backwards compatibility.
+# The file, libqhull/qhull.h, is for backwards compatibility.
 HEADERS += qhull_a.h
 HEADERS += qset.h
 HEADERS += stat.h
 HEADERS += user.h
 
-OTHER_FILES += Makefile.txt
 OTHER_FILES += Mborland
 OTHER_FILES += qh-geom.htm
 OTHER_FILES += qh-globa.htm
