@@ -52,11 +52,22 @@ Links on build systems
 
 To do
  - Move OTHER_FILES from qhull-all.pro
- - Ship sln/proj files under build directory
  - What is minimum Qt version?
  staticlib not in Qt doc index
+ incremental did not work
 
 ------------
+
+gitorious.org/qhull 2011/03/27
+ - Fixed QhullFacet::PrintRidges to check hasNextRidge3d()
+ - Cleaned up project files
+ - Fixed Makefile for shared libraries
+ - Moved libqhull to libqhullstatic, as done in CMakeLists
+ - Made libqhull a shared library
+   The msvc build does not generate a valid dll
+ - Restored /INCREMENTAL:NO since CONFIG -= incremental did not work
+ - Added 'facets' argument to user_eg3.cpp
+ - Added DevStudio solution and vcproj files.  The shared library build did not work.
 
 gitorious.org/qhull 2011/03/26
  - Pull out gcc warnings into qhull-warn.pri

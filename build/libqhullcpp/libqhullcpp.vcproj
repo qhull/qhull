@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioProject
+	ProjectType="Visual C++"
+	Version="8,00"
+	Name="libqhullcpp"
+	ProjectGUID="{3C2137D0-8304-3117-90B6-E2383A8580EE}"
+	Keyword="Qt4VSv1.0">
+	<Platforms>
+		<Platform
+			Name="Win32" />
+	</Platforms>
+	<Configurations>
+		<Configuration
+			Name="Debug|Win32"
+			OutputDirectory="."
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			ConfigurationType="4"
+			IntermediateDirectory="Debug\"
+			UseOfMfc="0">
+			<Tool
+				Name="VCCLCompilerTool"
+				AdditionalIncludeDirectories="&quot;..\..\src&quot;,&quot;..\..\src\libqhullcpp&quot;,&quot;..\..\src\libqhullcpp&quot;,&quot;.&quot;,c:\Qt\4.7.1\mkspecs\win32-msvc2005"
+				AdditionalOptions="-Zm200 -w34100 -w34189"
+				AssemblerListingLocation="Debug\"
+				BufferSecurityCheck="false"
+				DebugInformationFormat="3"
+				ExceptionHandling="1"
+				GeneratePreprocessedFile="0"
+				ObjectFile="Debug\"
+				Optimization ="4"
+				PreprocessorDefinitions="UNICODE,WIN32,QT_LARGEFILE_SUPPORT,qh_QHpointer,QT_NO_DYNAMIC_CAST"
+				ProgramDataBaseFileName=".\"
+				RuntimeLibrary="3"
+				SuppressStartupBanner="true"
+				TreatWChar_tAsBuiltInType="false"
+				WarningLevel="3" />
+			<Tool
+				Name="VCCustomBuildTool" />
+			<Tool
+				Name="VCLibrarianTool"
+				OutputFile="..\..\lib\qhullcpp-d.lib"
+				SuppressStartupBanner="true" />
+			<Tool
+				Name="VCMIDLTool"
+				DefaultCharType="0"
+				EnableErrorChecks="1"
+				WarningLevel="0" />
+			<Tool
+				Name="VCPostBuildEventTool" />
+			<Tool
+				Name="VCPreBuildEventTool" />
+			<Tool
+				Name="VCPreLinkEventTool" />
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="UNICODE,WIN32,QT_LARGEFILE_SUPPORT,qh_QHpointer,QT_NO_DYNAMIC_CAST,_DEBUG"
+				ResourceOutputFileName="..\..\lib\/$(InputName).res" />
+		</Configuration>
+		<Configuration
+			Name="Release|Win32"
+			OutputDirectory="."
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			ConfigurationType="4"
+			IntermediateDirectory="Release\"
+			UseOfMfc="0">
+			<Tool
+				Name="VCCLCompilerTool"
+				AdditionalIncludeDirectories="&quot;..\..\src&quot;,&quot;..\..\src\libqhullcpp&quot;,&quot;..\..\src\libqhullcpp&quot;,&quot;.&quot;,c:\Qt\4.7.1\mkspecs\win32-msvc2005"
+				AdditionalOptions="-Zm200 -w34100 -w34189"
+				AssemblerListingLocation="Release\"
+				BufferSecurityCheck="false"
+				DebugInformationFormat="0"
+				ExceptionHandling="1"
+				GeneratePreprocessedFile="0"
+				ObjectFile="Release\"
+				Optimization ="2"
+				PreprocessorDefinitions="QT_NO_DEBUG,NDEBUG,UNICODE,WIN32,QT_LARGEFILE_SUPPORT,qh_QHpointer,QT_NO_DYNAMIC_CAST,NDEBUG"
+				ProgramDataBaseFileName=".\"
+				RuntimeLibrary="2"
+				SuppressStartupBanner="true"
+				TreatWChar_tAsBuiltInType="false"
+				WarningLevel="3" />
+			<Tool
+				Name="VCCustomBuildTool" />
+			<Tool
+				Name="VCLibrarianTool"
+				OutputFile="..\..\lib\qhullcpp.lib"
+				SuppressStartupBanner="true" />
+			<Tool
+				Name="VCMIDLTool"
+				DefaultCharType="0"
+				EnableErrorChecks="1"
+				WarningLevel="0" />
+			<Tool
+				Name="VCPostBuildEventTool" />
+			<Tool
+				Name="VCPreBuildEventTool" />
+			<Tool
+				Name="VCPreLinkEventTool" />
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="QT_NO_DEBUG,NDEBUG,UNICODE,WIN32,QT_LARGEFILE_SUPPORT,qh_QHpointer,QT_NO_DYNAMIC_CAST"
+				ResourceOutputFileName="..\..\lib\/$(InputName).res" />
+		</Configuration>
+	</Configurations>
+	<Files>
+		<Filter
+			Name="Source Files"
+			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx"
+			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}">
+			<File
+				RelativePath="..\..\src\libqhullcpp\Coordinates.cpp" />
+			<File
+				RelativePath="..\..\src\libqhullcpp\PointCoordinates.cpp" />
+			<File
+				RelativePath="..\..\src\libqhullcpp\Qhull.cpp" />
+			<File
+				RelativePath="..\..\src\libqhullcpp\QhullFacet.cpp" />
+			<File
+				RelativePath="..\..\src\libqhullcpp\QhullFacetList.cpp" />
+			<File
+				RelativePath="..\..\src\libqhullcpp\QhullFacetSet.cpp" />
+			<File
+				RelativePath="..\..\src\libqhullcpp\QhullHyperplane.cpp" />
+			<File
+				RelativePath="..\..\src\libqhullcpp\QhullPoint.cpp" />
+			<File
+				RelativePath="..\..\src\libqhullcpp\QhullPointSet.cpp" />
+			<File
+				RelativePath="..\..\src\libqhullcpp\QhullPoints.cpp" />
+			<File
+				RelativePath="..\..\src\libqhullcpp\QhullQh.cpp" />
+			<File
+				RelativePath="..\..\src\libqhullcpp\QhullRidge.cpp" />
+			<File
+				RelativePath="..\..\src\libqhullcpp\QhullSet.cpp" />
+			<File
+				RelativePath="..\..\src\libqhullcpp\QhullStat.cpp" />
+			<File
+				RelativePath="..\..\src\libqhullcpp\QhullVertex.cpp" />
+			<File
+				RelativePath="..\..\src\libqhullcpp\QhullVertexSet.cpp" />
+			<File
+				RelativePath="..\..\src\libqhullcpp\RboxPoints.cpp" />
+			<File
+				RelativePath="..\..\src\road\RoadError.cpp" />
+			<File
+				RelativePath="..\..\src\road\RoadLogEvent.cpp" />
+			<File
+				RelativePath="..\..\src\libqhullcpp\UsingLibQhull.cpp" />
+		</Filter>
+		<Filter
+			Name="Header Files"
+			Filter="h;hpp;hxx;hm;inl;inc;xsd"
+			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}">
+			<File
+				RelativePath="Coordinates.h" />
+			<File
+				RelativePath="PointCoordinates.h" />
+			<File
+				RelativePath="Qhull.h" />
+			<File
+				RelativePath="QhullError.h" />
+			<File
+				RelativePath="QhullFacet.h" />
+			<File
+				RelativePath="QhullFacetList.h" />
+			<File
+				RelativePath="QhullFacetSet.h" />
+			<File
+				RelativePath="QhullHyperplane.h" />
+			<File
+				RelativePath="QhullIterator.h" />
+			<File
+				RelativePath="QhullLinkedList.h" />
+			<File
+				RelativePath="QhullPoint.h" />
+			<File
+				RelativePath="QhullPointSet.h" />
+			<File
+				RelativePath="QhullPoints.h" />
+			<File
+				RelativePath="QhullQh.h" />
+			<File
+				RelativePath="QhullRidge.h" />
+			<File
+				RelativePath="QhullSet.h" />
+			<File
+				RelativePath="QhullSets.h" />
+			<File
+				RelativePath="QhullStat.h" />
+			<File
+				RelativePath="QhullVertex.h" />
+			<File
+				RelativePath="RboxPoints.h" />
+			<File
+				RelativePath="..\road\RoadError.h" />
+			<File
+				RelativePath="..\road\RoadLogEvent.h" />
+			<File
+				RelativePath="UsingLibQhull.h" />
+			<File
+				RelativePath="functionObjects.h" />
+		</Filter>
+	</Files>
+	<Globals>
+	</Globals>
+</VisualStudioProject>

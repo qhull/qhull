@@ -36,11 +36,12 @@ user_eg3 -- demonstrate calling rbox and qhull from C++.\n\
   rbox \"200 D4\" ...          Generate points from rbox\n\
   qhull \"d p\" ...            Run qhull and produce output\n\
   qhull-cout \"o\" ...         Run qhull and produce output to cout\n\
+  facets                       Print facets when done\n\
 \n\
 For example\n\
   user_eg3 rbox qhull\n\
   user_eg3 rbox qhull d\n\
-  user_eg3 rbox \"10 D2\"  \"2 D2\" qhull  \"s p\"\n\
+  user_eg3 rbox \"10 D2\"  \"2 D2\" qhull  \"s p\" facets\n\
 \n\
 ";
 
@@ -64,6 +65,7 @@ int main(int argc, char **argv) {
 
 int user_eg3(int argc, char **argv)
 {
+    bool facets= false;
     if(strcmp(argv[1], "eg-100")==0){
         RboxPoints rbox;
         rbox.appendPoints("100");
@@ -95,6 +97,8 @@ int user_eg3(int argc, char **argv)
             if(strcmp(argv[i], "qhull-cout")==0){
                 qhull.setOutputStream(&cout);
             }
+        }else if(strcmp(argv[i], "facets")==0){
+            facets= true;
         }else if(readingRbox){
             readingRbox++;
             cerr << "rbox " << argv[i] << endl;
@@ -142,8 +146,10 @@ int user_eg3(int argc, char **argv)
     if(qhull.useOutputStream){
         return 0;
     }
-    QhullFacetList facets= qhull.facetList();
-    cout << "\nFacets created by Qhull::runQhull()\n" << facets;
+    if(facets){
+        QhullFacetList facets= qhull.facetList();
+        cout << "\nFacets created by Qhull::runQhull()\n" << facets;
+    }
     return 0;
 }//user_eg3
 

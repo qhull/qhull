@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2011 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/QhullRidge.h#3 $$Change: 1342 $
-** $DateTime: 2011/03/07 21:55:47 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullcpp/QhullRidge.h#5 $$Change: 1352 $
+** $DateTime: 2011/03/27 18:16:41 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -87,6 +87,7 @@ public:
     QhullFacet          topFacet() const { return QhullFacet(qh_ridge->top); }
 
 #//forEach
+    bool                hasNextRidge3d(const QhullFacet f) const;
     QhullRidge          nextRidge3d(const QhullFacet f) const { return nextRidge3d(f, 0); }
     QhullRidge          nextRidge3d(const QhullFacet f, QhullVertex *nextVertex) const;
     QhullVertexSet      vertices() const { return QhullVertexSet(qh_ridge->vertices); }

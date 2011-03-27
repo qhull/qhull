@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioProject
+	ProjectType="Visual C++"
+	Version="8,00"
+	Name="libqhullstatic"
+	ProjectGUID="{4F62D4AB-CE06-3751-BFB9-70AB40956875}"
+	Keyword="Qt4VSv1.0">
+	<Platforms>
+		<Platform
+			Name="Win32" />
+	</Platforms>
+	<Configurations>
+		<Configuration
+			Name="Debug|Win32"
+			OutputDirectory="."
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			ConfigurationType="4"
+			IntermediateDirectory="Debug\"
+			UseOfMfc="0">
+			<Tool
+				Name="VCCLCompilerTool"
+				AdditionalIncludeDirectories="&quot;..\..\src\libqhullstatic&quot;,&quot;.&quot;,c:\Qt\4.7.1\mkspecs\win32-msvc2005"
+				AdditionalOptions="-Zm200 -w34100 -w34189"
+				AssemblerListingLocation="Debug\"
+				BufferSecurityCheck="false"
+				DebugInformationFormat="3"
+				ExceptionHandling="1"
+				GeneratePreprocessedFile="0"
+				ObjectFile="Debug\"
+				Optimization ="4"
+				PreprocessorDefinitions="UNICODE,WIN32,QT_LARGEFILE_SUPPORT"
+				ProgramDataBaseFileName=".\"
+				RuntimeLibrary="3"
+				RuntimeTypeInfo="true"
+				SuppressStartupBanner="true"
+				TreatWChar_tAsBuiltInType="false"
+				WarningLevel="3" />
+			<Tool
+				Name="VCCustomBuildTool" />
+			<Tool
+				Name="VCLibrarianTool"
+				OutputFile="..\..\lib\qhullstatic-d.lib"
+				SuppressStartupBanner="true" />
+			<Tool
+				Name="VCMIDLTool"
+				DefaultCharType="0"
+				EnableErrorChecks="1"
+				WarningLevel="0" />
+			<Tool
+				Name="VCPostBuildEventTool" />
+			<Tool
+				Name="VCPreBuildEventTool" />
+			<Tool
+				Name="VCPreLinkEventTool" />
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="UNICODE,WIN32,QT_LARGEFILE_SUPPORT,_DEBUG"
+				ResourceOutputFileName="..\..\lib\/$(InputName).res" />
+		</Configuration>
+		<Configuration
+			Name="Release|Win32"
+			OutputDirectory="."
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			ConfigurationType="4"
+			IntermediateDirectory="Release\"
+			UseOfMfc="0">
+			<Tool
+				Name="VCCLCompilerTool"
+				AdditionalIncludeDirectories="&quot;..\..\src\libqhullstatic&quot;,&quot;.&quot;,c:\Qt\4.7.1\mkspecs\win32-msvc2005"
+				AdditionalOptions="-Zm200 -w34100 -w34189"
+				AssemblerListingLocation="Release\"
+				BufferSecurityCheck="false"
+				DebugInformationFormat="0"
+				ExceptionHandling="1"
+				GeneratePreprocessedFile="0"
+				ObjectFile="Release\"
+				Optimization ="2"
+				PreprocessorDefinitions="QT_NO_DEBUG,NDEBUG,UNICODE,WIN32,QT_LARGEFILE_SUPPORT,NDEBUG"
+				ProgramDataBaseFileName=".\"
+				RuntimeLibrary="2"
+				RuntimeTypeInfo="true"
+				SuppressStartupBanner="true"
+				TreatWChar_tAsBuiltInType="false"
+				WarningLevel="3" />
+			<Tool
+				Name="VCCustomBuildTool" />
+			<Tool
+				Name="VCLibrarianTool"
+				OutputFile="..\..\lib\qhullstatic.lib"
+				SuppressStartupBanner="true" />
+			<Tool
+				Name="VCMIDLTool"
+				DefaultCharType="0"
+				EnableErrorChecks="1"
+				WarningLevel="0" />
+			<Tool
+				Name="VCPostBuildEventTool" />
+			<Tool
+				Name="VCPreBuildEventTool" />
+			<Tool
+				Name="VCPreLinkEventTool" />
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="QT_NO_DEBUG,NDEBUG,UNICODE,WIN32,QT_LARGEFILE_SUPPORT"
+				ResourceOutputFileName="..\..\lib\/$(InputName).res" />
+		</Configuration>
+	</Configurations>
+	<Files>
+		<Filter
+			Name="Source Files"
+			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx"
+			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}">
+			<File
+				RelativePath="..\..\src\libqhull\geom.c" />
+			<File
+				RelativePath="..\..\src\libqhull\geom2.c" />
+			<File
+				RelativePath="..\..\src\libqhull\global.c" />
+			<File
+				RelativePath="..\..\src\libqhull\io.c" />
+			<File
+				RelativePath="..\..\src\libqhull\libqhull.c" />
+			<File
+				RelativePath="..\..\src\libqhull\mem.c" />
+			<File
+				RelativePath="..\..\src\libqhull\merge.c" />
+			<File
+				RelativePath="..\..\src\libqhull\poly.c" />
+			<File
+				RelativePath="..\..\src\libqhull\poly2.c" />
+			<File
+				RelativePath="..\..\src\libqhull\qset.c" />
+			<File
+				RelativePath="..\..\src\libqhull\random.c" />
+			<File
+				RelativePath="..\..\src\libqhull\rboxlib.c" />
+			<File
+				RelativePath="..\..\src\libqhull\stat.c" />
+			<File
+				RelativePath="..\..\src\libqhull\user.c" />
+			<File
+				RelativePath="..\..\src\libqhull\usermem.c" />
+			<File
+				RelativePath="..\..\src\libqhull\userprintf.c" />
+		</Filter>
+		<Filter
+			Name="Header Files"
+			Filter="h;hpp;hxx;hm;inl;inc;xsd"
+			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}">
+			<File
+				RelativePath="..\libqhull\geom.h" />
+			<File
+				RelativePath="..\libqhull\io.h" />
+			<File
+				RelativePath="..\libqhull\libqhull.h" />
+			<File
+				RelativePath="..\libqhull\mem.h" />
+			<File
+				RelativePath="..\libqhull\merge.h" />
+			<File
+				RelativePath="..\libqhull\poly.h" />
+			<File
+				RelativePath="..\libqhull\qhull_a.h" />
+			<File
+				RelativePath="..\libqhull\qset.h" />
+			<File
+				RelativePath="..\libqhull\random.h" />
+			<File
+				RelativePath="..\libqhull\stat.h" />
+			<File
+				RelativePath="..\libqhull\user.h" />
+		</Filter>
+	</Files>
+	<Globals>
+	</Globals>
+</VisualStudioProject>

@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2011 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/QhullRidge.cpp#2 $$Change: 1342 $
-** $DateTime: 2011/03/07 21:55:47 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullcpp/QhullRidge.cpp#3 $$Change: 1352 $
+** $DateTime: 2011/03/27 18:16:41 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -27,8 +27,21 @@ s_empty_ridge= {0,0,0,0,0,
 #//Constructor, destructor, etc.
 
 #//Accessors
+
+//! Return True if nextRidge3d
+//! Simplicial facets may have incomplete ridgeSets
+//! Does not use qh_qh or qh_errexit()
+bool QhullRidge::
+hasNextRidge3d(const QhullFacet f) const
+{
+    vertexT *v= 0;
+    ridgeT *ridge= qh_nextridge3d(getRidgeT(), f.getFacetT(), &v);
+    return (ridge!=0);
+}//hasNextRidge3d
+
+
+
 //! Return next ridge and optional vertex for a 3d facet and ridge
-//! Returns !isDefined() if no more ridges
 //! Does not use qh_qh or qh_errexit()
 QhullRidge QhullRidge::
 nextRidge3d(const QhullFacet f, QhullVertex *nextVertex) const

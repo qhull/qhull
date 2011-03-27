@@ -19,7 +19,6 @@ r?
 # Build products
 bin/*
 lib/*
-build/*
 tmp/*
 *.a
 *.dll
@@ -27,7 +26,6 @@ tmp/*
 *.exe
 *.o
 *.md5sum
-*.vcproj
 
 # Out-of-date directories
 config/*

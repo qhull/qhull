@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2011 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/qhulltest/QhullRidge_test.cpp#2 $$Change: 1342 $
-** $DateTime: 2011/03/07 21:55:47 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/qhulltest/QhullRidge_test.cpp#3 $$Change: 1352 $
+** $DateTime: 2011/03/27 18:16:41 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -128,6 +128,7 @@ t_foreach()
         while(!count || r2!=r){
             ++count;
             QhullVertex v;
+            QVERIFY2(r2.hasNextRidge3d(f),"A cube should only have non-simplicial facets.");
             QhullRidge r3= r2.nextRidge3d(f, &v);
             QVERIFY(!vs.contains(v));
             vs << v;

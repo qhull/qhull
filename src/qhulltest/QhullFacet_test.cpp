@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2011 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/qhulltest/QhullFacet_test.cpp#2 $$Change: 1342 $
-** $DateTime: 2011/03/07 21:55:47 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/qhulltest/QhullFacet_test.cpp#4 $$Change: 1352 $
+** $DateTime: 2011/03/27 18:16:41 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -199,7 +199,7 @@ t_value()
 void QhullFacet_test::
 t_foreach()
 {
-    RboxPoints rcube("c W0 300");  // 300 points on surface of cube
+    RboxPoints rcube("c W0 300");  // cube plus 300 points on its surface
     {
         Qhull q(rcube, "QR0 Qc"); // keep coplanars, thick facet, and rotate the cube
         int coplanarCount= 0;
@@ -218,6 +218,9 @@ t_foreach()
             QhullRidge r= ridges.first();
             for(int r0= r.id(); ridgeCount==0 || r.id()!=r0; r= r.nextRidge3d(f)){
                 ++ridgeCount;
+                if(!r.hasNextRidge3d(f)){
+                    QFAIL("Unexpected simplicial facet.  They only have ridges to non-simplicial neighbors.");
+                }
             }
             QCOMPARE(ridgeCount, 4);
         }

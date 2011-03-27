@@ -3,9 +3,9 @@
 #   Built with qh_QHpointer=0.  See libqhullp.pro
 # -------------------------------------------------
 
-DESTDIR = ../../lib
+DESTDIR = ../../bin
 TEMPLATE = lib
-CONFIG += staticlib warn_on
+CONFIG += shared warn_on
 CONFIG -= qt
 build_pass:CONFIG(debug, debug|release):{
     TARGET = qhull-d
@@ -14,6 +14,7 @@ build_pass:CONFIG(debug, debug|release):{
     TARGET = qhull
     OBJECTS_DIR = Release
 }
+win32-msvc* : QMAKE_LFLAGS += /INCREMENTAL:NO
 include(../qhull-warn.pri)
 
 # Duplicated from ../qhull-libsrc.pri  Otherwise QtCreator makes hierarchy too deep

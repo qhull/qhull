@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2011 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/QhullFacet.cpp#2 $$Change: 1342 $
-** $DateTime: 2011/03/07 21:55:47 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullcpp/QhullFacet.cpp#3 $$Change: 1352 $
+** $DateTime: 2011/03/27 18:16:41 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -449,62 +449,67 @@ operator<<(ostream &os, const QhullFacet::PrintRidges &pr)
     const QhullFacet facet= *pr.facet;
     facetT *f= facet.getFacetT();
     QhullRidgeSet rs= facet.ridges();
-    if(pr.run_id!=UsingLibQhull::NOqhRunId){
-        UsingLibQhull q(pr.run_id);
-        // No calls to libqhull
-        if(f->visible && qh NEWfacets){
-            os << "    - ridges(ids may be garbage):";
+    if(!rs.isEmpty()){
+        if(pr.run_id!=UsingLibQhull::NOqhRunId){
+            UsingLibQhull q(pr.run_id);
+            // No calls to libqhull
+            if(f->visible && qh NEWfacets){
+                os << "    - ridges(ids may be garbage):";
+                for(QhullRidgeSet::iterator i=rs.begin(); i!=rs.end(); ++i){
+                    QhullRidge r= *i;
+                    os << " r" << r.id();
+                }
+                os << endl;
+            }else{
+                os << "    - ridges:" << endl;
+            }
+        }else{
+            os << "    - ridges:" << endl;
+        }
+
+        // Keep track of printed ridges
+        for(QhullRidgeSet::iterator i=rs.begin(); i!=rs.end(); ++i){
+            QhullRidge r= *i;
+            r.getRidgeT()->seen= false;
+        }
+        int ridgeCount= 0;
+        if(facet.dimension()==3){
+            for(QhullRidge r= rs.first(); !r.getRidgeT()->seen; r= r.nextRidge3d(facet)){
+                r.getRidgeT()->seen= true;
+                os << r.print(pr.run_id);
+                ++ridgeCount;
+                if(!r.hasNextRidge3d(facet)){
+                    break;
+                }
+            }
+        }else {
+            QhullFacetSet ns(facet.neighborFacets());
+            for(QhullFacetSet::iterator i=ns.begin(); i!=ns.end(); ++i){
+                QhullFacet neighbor= *i;
+                QhullRidgeSet nrs(neighbor.ridges());
+                for(QhullRidgeSet::iterator j=nrs.begin(); j!=nrs.end(); ++j){
+                    QhullRidge r= *j;
+                    if(r.otherFacet(neighbor)==facet){
+                        r.getRidgeT()->seen= true;
+                        os << r.print(pr.run_id);
+                        ridgeCount++;
+                    }
+                }
+            }
+        }
+        if(ridgeCount!=rs.count()){
+            os << "     - all ridges:";
             for(QhullRidgeSet::iterator i=rs.begin(); i!=rs.end(); ++i){
                 QhullRidge r= *i;
                 os << " r" << r.id();
             }
             os << endl;
-        }else{
-            os << "    - ridges:" << endl;
         }
-    }else{
-        os << "    - ridges:" << endl;
-    }
-
-    // Keep track of printed ridges
-    for(QhullRidgeSet::iterator i=rs.begin(); i!=rs.end(); ++i){
-        QhullRidge r= *i;
-        r.getRidgeT()->seen= false;
-    }
-    int ridgeCount= 0;
-    if(facet.dimension()==3){
-        for(QhullRidge r= rs.first(); !r.getRidgeT()->seen; r= r.nextRidge3d(facet)){
-            r.getRidgeT()->seen= true;
-            os << r.print(pr.run_id);
-            ++ridgeCount;
-        }
-    }else {
-        QhullFacetSet ns(facet.neighborFacets());
-        for(QhullFacetSet::iterator i=ns.begin(); i!=ns.end(); ++i){
-            QhullFacet neighbor= *i;
-            QhullRidgeSet nrs(neighbor.ridges());
-            for(QhullRidgeSet::iterator j=nrs.begin(); j!=nrs.end(); ++j){
-                QhullRidge r= *j;
-                if(r.otherFacet(neighbor)==facet){
-                    r.getRidgeT()->seen= true;
-                    os << r.print(pr.run_id);
-                    ridgeCount++;
-                }
-            }
-        }
-    }
-    if(ridgeCount!=rs.count()){
-        os << "     - all ridges:";
         for(QhullRidgeSet::iterator i=rs.begin(); i!=rs.end(); ++i){
             QhullRidge r= *i;
-            os << " r" << r.id();
-        }
-        os << endl;
-    }
-    for(QhullRidgeSet::iterator i=rs.begin(); i!=rs.end(); ++i){
-        QhullRidge r= *i;
-        if(!r.getRidgeT()->seen){
-            os << r.print(pr.run_id);
+            if(!r.getRidgeT()->seen){
+                os << r.print(pr.run_id);
+            }
         }
     }
     return os;
