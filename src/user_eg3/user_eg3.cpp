@@ -65,7 +65,7 @@ int main(int argc, char **argv) {
 
 int user_eg3(int argc, char **argv)
 {
-    bool facets= false;
+    bool printFacets= false;
     if(strcmp(argv[1], "eg-100")==0){
         RboxPoints rbox;
         rbox.appendPoints("100");
@@ -98,7 +98,7 @@ int user_eg3(int argc, char **argv)
                 qhull.setOutputStream(&cout);
             }
         }else if(strcmp(argv[i], "facets")==0){
-            facets= true;
+            printFacets= true;
         }else if(readingRbox){
             readingRbox++;
             cerr << "rbox " << argv[i] << endl;
@@ -146,7 +146,7 @@ int user_eg3(int argc, char **argv)
     if(qhull.useOutputStream){
         return 0;
     }
-    if(facets){
+    if(printFacets){
         QhullFacetList facets= qhull.facetList();
         cout << "\nFacets created by Qhull::runQhull()\n" << facets;
     }

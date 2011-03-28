@@ -61,7 +61,7 @@ To do
 gitorious.org/qhull 2011/03/27
  - Fixed QhullFacet::PrintRidges to check hasNextRidge3d()
  - Cleaned up project files
- - Fixed Makefile for shared libraries
+ - Fixed Makefile for shared libraries, but does not work on all platforms
  - Moved libqhull to libqhullstatic, as done in CMakeLists
  - Made libqhull a shared library
    The msvc build does not generate a valid dll

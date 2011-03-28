@@ -24,11 +24,13 @@ SUBDIRS += qhalf
 SUBDIRS += qvoronoi
 SUBDIRS += rbox
 SUBDIRS += user_eg         #user program linked to libqhullstatic
-SUBDIRS += user_eg2        #user program linked to libqhull
 
 SUBDIRS += libqhullcpp     #static library for C++ interface to libqhullstaticp
 SUBDIRS += user_eg3        #user program with libqhullcpp and libqhullstaticp
 SUBDIRS += qhulltest       #test program with Qt, libqhullcpp, and libqhullstaticp
+
+# user_eg2 does not link in DevStudio 2005 -lqhull not found
+SUBDIRS += user_eg2        #user program linked to libqhull
 
 OTHER_FILES += CMakeLists.txt
 OTHER_FILES += Make-config.sh

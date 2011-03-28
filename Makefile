@@ -74,12 +74,13 @@ PRINTC = enscript -2r
 #   -fno-strict-aliasing not needed for gcc 4.4+ (segfault in qset.c)
 #for CXX_OPTS1, libqhullcpp must be before libqhull
 CC        = gcc
-CC_OPTS1  = -O2 -ansi -fno-strict-aliasing -Isrc/libqhull $(CC_WARNINGS)
+CC_OPTS1  = -O2 -fPIC -ansi -fno-strict-aliasing -Isrc/libqhull $(CC_WARNINGS)
 CXX       = g++
 CXX_OPTS1 = -O2 -Dqh_QHpointer -Isrc/ -Isrc/libqhullcpp -Isrc/libqhull $(CXX_WARNINGS)
-SO	  = so  # Extension for shared libraries
+CC_OPTS3  = 
+SO  = so.5.1
 # On MinGW, 
-#   SO= dll  # make SO=dll
+#   SO = 5.1.dll
 #   CC_OPTS3= -Wl,-s -Wl,--out-implib,bin/libqhull.a -Wl,-enable-stdcall-fixup -Wl,-enable-auto-import -Wl,-enable-runtime-pseudo-reloc
 
 # for Sun's cc compiler, -fast or O2 for optimization, -g for debugging, -Xc for ANSI
@@ -114,9 +115,12 @@ CXX_WARNINGS = -Wall -Wcast-qual -Wextra -Wwrite-strings -Wno-sign-conversion -W
 
 # Default targets for make
      
-all: bin/rbox bin/qconvex bin/qdelaunay bin/qhalf bin/qvoronoi bin/qhull qtest \
-     bin/user_eg bin/user_eg2 bin/user_eg3 bin/qhull-p.$(SO) qhull-prompt
+all: bin-lib bin/rbox bin/qconvex bin/qdelaunay bin/qhalf bin/qvoronoi bin/qhull qtest \
+     bin/user_eg bin/user_eg3 bin/user_eg2 bin/qhull-p.$(SO) qhull-prompt
 
+bin-lib:
+	mkdir -p bin lib
+     
 # LIBQHULL_OBJS ordered by frequency of execution with small files at end.  Better locality.
 
 L=    src/libqhull
@@ -405,6 +409,7 @@ clean:
 	rm -f src/libqhullstatic/*.o src/libqhullstaticp/*.o src/qconvex/*.o
 	rm -f src/qdelaunay/*.o src/qhalf/*.o src/qvoronoi/*.o src/qhull/*.o src/rbox/*.o
 	rm -f src/road/*.o src/user_eg/*.o src/user_eg2/*.o src/user_eg3/*.o
+	rm -f src/road/RoadTest.h.cpp
 
 cleanall: clean
 	rm -f bin/qconvex bin/qdelaunay bin/qhalf bin/qvoronoi bin/qhull bin/*.exe
@@ -452,11 +457,13 @@ lib/libqhullstatic-p.a: $(LIBQHULLP_OBJS)
 	ar -rs $@ $^
 	#ranlib $@
 
-bin/qhull.$(SO): $(LIBQHULL_OBJS)
+bin/libqhull.$(SO): $(LIBQHULL_OBJS)
 	$(CC) -shared -o $@ $(CC_OPTS2) $^
+	ln $@ bin/libqhull.so
 
-bin/qhull-p.$(SO): $(LIBQHULLP_OBJS)
+bin/libqhull-p.$(SO): $(LIBQHULLP_OBJS)
 	$(CC) -shared -o $@ $(CC_OPTS2) $^
+	ln $@ bin/libqhull-p.so
 
 lib/libqhullcpp.a: $(LIBQHULLCPP_OBJS)
 	ar -rs $@ $^
@@ -485,7 +492,8 @@ bin/rbox: src/rbox/rbox.o lib/libqhullstatic.a
 bin/user_eg: src/user_eg/user_eg.o lib/libqhullstatic.a 
 	$(CC) -o $@ $< $(CC_OPTS2) -Llib -lqhullstatic -lm
 
-bin/user_eg2: src/user_eg2/user_eg2.o bin/qhull.$(SO)
+bin/user_eg2: src/user_eg2/user_eg2.o bin/libqhull.$(SO)
+	echo -e '\n== If user_eg2 fails to link, switch to -lqhullstatic.\n== On MinGW/Cygwin, use "make SO=dll"'
 	$(CC) -o $@ $< $(CC_OPTS2) -Lbin -lqhull -lm
 
 bin/user_eg3: src/user_eg3/user_eg3.o lib/libqhullstatic-p.a lib/libqhullcpp.a

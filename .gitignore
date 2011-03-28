@@ -20,12 +20,14 @@ r?
 bin/*
 lib/*
 tmp/*
+build/*
 *.a
 *.dll
 *.lib
 *.exe
 *.o
 *.md5sum
+src/road/RoadTest.h.cpp
 
 # Out-of-date directories
 config/*
@@ -44,6 +46,8 @@ working/*/*
 *.suo
 *.user
 *.ilk
+!build/*.sln
+!build/*/*.vcproj
 
 # CVS files
 CVS/*
