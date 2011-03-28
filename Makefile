@@ -115,8 +115,9 @@ CXX_WARNINGS = -Wall -Wcast-qual -Wextra -Wwrite-strings -Wno-sign-conversion -W
 
 # Default targets for make
      
-all: bin-lib bin/rbox bin/qconvex bin/qdelaunay bin/qhalf bin/qvoronoi bin/qhull qtest \
-     bin/user_eg bin/user_eg3 bin/user_eg2 bin/qhull-p.$(SO) qhull-prompt
+all: bin-lib bin/rbox bin/qconvex bin/qdelaunay bin/qhalf bin/qvoronoi \
+     bin/qhull qtest bin/user_eg bin/user_eg3 bin/user_eg2 \
+     bin/libqhull-p.$(SO) qhull-prompt
 
 bin-lib:
 	mkdir -p bin lib
@@ -459,11 +460,11 @@ lib/libqhullstatic-p.a: $(LIBQHULLP_OBJS)
 
 bin/libqhull.$(SO): $(LIBQHULL_OBJS)
 	$(CC) -shared -o $@ $(CC_OPTS2) $^
-	ln $@ bin/libqhull.so
+	ln -s -f libqhull.$(SO) bin/libqhull.so
 
 bin/libqhull-p.$(SO): $(LIBQHULLP_OBJS)
 	$(CC) -shared -o $@ $(CC_OPTS2) $^
-	ln $@ bin/libqhull-p.so
+	ln -s -f libqhull-p.$(SO) bin/libqhull-p.so
 
 lib/libqhullcpp.a: $(LIBQHULLCPP_OBJS)
 	ar -rs $@ $^

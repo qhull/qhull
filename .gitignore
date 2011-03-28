@@ -27,6 +27,7 @@ build/*
 *.exe
 *.o
 *.md5sum
+.Makefile*
 src/road/RoadTest.h.cpp
 
 # Out-of-date directories
