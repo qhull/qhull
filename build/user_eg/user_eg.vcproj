@@ -28,7 +28,7 @@
 				GeneratePreprocessedFile="0"
 				ObjectFile="Debug\"
 				Optimization ="4"
-				PreprocessorDefinitions="UNICODE,WIN32,QT_LARGEFILE_SUPPORT"
+				PreprocessorDefinitions="UNICODE,WIN32,QT_LARGEFILE_SUPPORT,qh_QHpointer"
 				ProgramDataBaseFileName=".\"
 				RuntimeLibrary="3"
 				RuntimeTypeInfo="true"
@@ -39,7 +39,7 @@
 				Name="VCCustomBuildTool" />
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="../../lib\qhullstatic-d.lib"
+				AdditionalDependencies="qhull-d6.lib"
 				AdditionalLibraryDirectories="../../lib"
 				GenerateDebugInformation="true"
 				IgnoreImportLibrary="true"
@@ -48,7 +48,8 @@
 				OutputFile="..\..\bin\user_eg.exe"
 				ProgramDatabaseFile=""
 				SubSystem="1"
-				SuppressStartupBanner="true" />
+				SuppressStartupBanner="true"
+				Version="6.00" />
 			<Tool
 				Name="VCMIDLTool"
 				DefaultCharType="0"
@@ -62,7 +63,7 @@
 				Name="VCPreLinkEventTool" />
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="UNICODE,WIN32,QT_LARGEFILE_SUPPORT,_DEBUG" />
+				PreprocessorDefinitions="UNICODE,WIN32,QT_LARGEFILE_SUPPORT,qh_QHpointer,_DEBUG" />
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
@@ -82,7 +83,7 @@
 				GeneratePreprocessedFile="0"
 				ObjectFile="Release\"
 				Optimization ="2"
-				PreprocessorDefinitions="QT_NO_DEBUG,NDEBUG,UNICODE,WIN32,QT_LARGEFILE_SUPPORT,NDEBUG"
+				PreprocessorDefinitions="QT_NO_DEBUG,NDEBUG,UNICODE,WIN32,QT_LARGEFILE_SUPPORT,qh_QHpointer,NDEBUG"
 				ProgramDataBaseFileName=".\"
 				RuntimeLibrary="2"
 				RuntimeTypeInfo="true"
@@ -93,7 +94,7 @@
 				Name="VCCustomBuildTool" />
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="../../lib\qhullstatic.lib"
+				AdditionalDependencies="qhull6.lib"
 				AdditionalLibraryDirectories="../../lib"
 				GenerateDebugInformation="false"
 				IgnoreImportLibrary="true"
@@ -102,7 +103,8 @@
 				OutputFile="..\..\bin\user_eg.exe"
 				ProgramDatabaseFile=""
 				SubSystem="1"
-				SuppressStartupBanner="true" />
+				SuppressStartupBanner="true"
+				Version="6.00" />
 			<Tool
 				Name="VCMIDLTool"
 				DefaultCharType="0"
@@ -116,7 +118,7 @@
 				Name="VCPreLinkEventTool" />
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="QT_NO_DEBUG,NDEBUG,UNICODE,WIN32,QT_LARGEFILE_SUPPORT" />
+				PreprocessorDefinitions="QT_NO_DEBUG,NDEBUG,UNICODE,WIN32,QT_LARGEFILE_SUPPORT,qh_QHpointer" />
 		</Configuration>
 	</Configurations>
 	<Files>
@@ -127,6 +129,25 @@
 			<File
 				RelativePath="..\..\src\user_eg\user_eg.c" />
 		</Filter>
+		<Filter
+			Name="Generated Files"
+			Filter="cpp;c;cxx;moc;h;def;odl;idl;res;"
+			UniqueIdentifier="{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}">
+			<File
+				RelativePath="Debug\user_eg_resource.res">
+				<FileConfiguration
+					Name="Release|Win32"
+					ExcludedFromBuild="true" />
+			</File>
+			<File
+				RelativePath="Release\user_eg_resource.res">
+				<FileConfiguration
+					Name="Debug|Win32"
+					ExcludedFromBuild="true" />
+			</File>
+		</Filter>
+		<File
+			RelativePath="c:\bash\local\qhull\build\user_eg\user_eg_resource.rc" />
 	</Files>
 	<Globals>
 	</Globals>

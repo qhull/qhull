@@ -6,6 +6,8 @@
 #   CONFIG += qhull_warn_shadow     # Warn in Qt about shadowing of functions and fields
 # -------------------------------------------------
 
+VERSION = 6.0.0
+
 # Uncomment to report warnings as errors
 #CONFIG += qhull_warn_error
 

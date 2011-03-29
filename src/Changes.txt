@@ -55,8 +55,13 @@ To do
  - What is minimum Qt version?
  staticlib not in Qt doc index
  incremental did not work
+ $$VER_MAJ did not work
 
 ------------
+gitorious.org/qhull 2011/03/28
+ - Produce one shared library, version 6.0.0, from libqhullstatic-p
+ - user_eg links with shared library instead of user_eg2
+ - Reorganized Makefile.  Fixed LIBQHULLSP_OBJS.  Moved shared library to lib/...
 
 gitorious.org/qhull 2011/03/27
  - Fixed QhullFacet::PrintRidges to check hasNextRidge3d()

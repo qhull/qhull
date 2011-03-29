@@ -38,7 +38,7 @@
 				Name="VCCustomBuildTool" />
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="qhullcpp-d.lib ../../lib\qhullstatic-pd.lib"
+				AdditionalDependencies="qhullcpp-d.lib qhullstatic-pd.lib"
 				AdditionalLibraryDirectories="../../lib"
 				GenerateDebugInformation="true"
 				IgnoreImportLibrary="true"
@@ -47,7 +47,8 @@
 				OutputFile="..\..\bin\user_eg3.exe"
 				ProgramDatabaseFile=""
 				SubSystem="1"
-				SuppressStartupBanner="true" />
+				SuppressStartupBanner="true"
+				Version="6.00" />
 			<Tool
 				Name="VCMIDLTool"
 				DefaultCharType="0"
@@ -91,7 +92,7 @@
 				Name="VCCustomBuildTool" />
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="qhullcpp.lib ../../lib\qhullstatic-p.lib"
+				AdditionalDependencies="qhullcpp.lib qhullstatic-p.lib"
 				AdditionalLibraryDirectories="../../lib"
 				GenerateDebugInformation="false"
 				IgnoreImportLibrary="true"
@@ -100,7 +101,8 @@
 				OutputFile="..\..\bin\user_eg3.exe"
 				ProgramDatabaseFile=""
 				SubSystem="1"
-				SuppressStartupBanner="true" />
+				SuppressStartupBanner="true"
+				Version="6.00" />
 			<Tool
 				Name="VCMIDLTool"
 				DefaultCharType="0"
@@ -125,6 +127,25 @@
 			<File
 				RelativePath="..\..\src\user_eg3\user_eg3.cpp" />
 		</Filter>
+		<Filter
+			Name="Generated Files"
+			Filter="cpp;c;cxx;moc;h;def;odl;idl;res;"
+			UniqueIdentifier="{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}">
+			<File
+				RelativePath="Debug\user_eg3_resource.res">
+				<FileConfiguration
+					Name="Release|Win32"
+					ExcludedFromBuild="true" />
+			</File>
+			<File
+				RelativePath="Release\user_eg3_resource.res">
+				<FileConfiguration
+					Name="Debug|Win32"
+					ExcludedFromBuild="true" />
+			</File>
+		</Filter>
+		<File
+			RelativePath="c:\bash\local\qhull\build\user_eg3\user_eg3_resource.rc" />
 	</Files>
 	<Globals>
 	</Globals>

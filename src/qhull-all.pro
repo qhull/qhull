@@ -13,8 +13,7 @@
 TEMPLATE = subdirs
 CONFIG += ordered
 
-SUBDIRS += libqhull        #shared library
-SUBDIRS += libqhullp       #shared library with qh_QHpointer (libqhull/user.h)
+SUBDIRS += libqhull        #shared library with qh_QHpointer (libqhull/user.h)
 SUBDIRS += libqhullstatic  #static library
 SUBDIRS += libqhullstaticp #static library with qh_QHpointer
 SUBDIRS += qhull           #qhull programs linked to libqhullstatic
@@ -23,14 +22,14 @@ SUBDIRS += qdelaunay
 SUBDIRS += qhalf
 SUBDIRS += qvoronoi
 SUBDIRS += rbox
-SUBDIRS += user_eg         #user program linked to libqhullstatic
+SUBDIRS += user_eg2        #user program linked to libqhullstatic
 
 SUBDIRS += libqhullcpp     #static library for C++ interface to libqhullstaticp
 SUBDIRS += user_eg3        #user program with libqhullcpp and libqhullstaticp
 SUBDIRS += qhulltest       #test program with Qt, libqhullcpp, and libqhullstaticp
 
-# user_eg2 does not link in DevStudio 2005 -lqhull not found
-SUBDIRS += user_eg2        #user program linked to libqhull
+# user_eg does not link in DevStudio 2005 -lqhull not found
+SUBDIRS += user_eg         #user program linked to libqhull
 
 OTHER_FILES += CMakeLists.txt
 OTHER_FILES += Make-config.sh

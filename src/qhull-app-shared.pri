@@ -7,15 +7,17 @@ TEMPLATE = app
 CONFIG += console warn_on
 CONFIG -= qt
 
-LIBS += -L../../bin
+LIBS += -L../../lib
 build_pass:CONFIG(debug, debug|release){
-   LIBS += -lqhull-d
+   LIBS += -lqhull-d6
    OBJECTS_DIR = Debug
 }else:build_pass:CONFIG(release, debug|release){
-   LIBS += -lqhull
+   LIBS += -lqhull6
    OBJECTS_DIR = Release
 }
 win32-msvc* : QMAKE_LFLAGS += /INCREMENTAL:NO
+
+DEFINES += qh_QHpointer # libqhull/user.h
 
 INCLUDEPATH += ../libqhull
 CONFIG += qhull_warn_conversion

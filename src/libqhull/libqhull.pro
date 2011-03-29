@@ -1,9 +1,10 @@
 # -------------------------------------------------
-# libqhull.pro -- Qt project for Qhull static library
-#   Built with qh_QHpointer=0.  See libqhullp.pro
+# libqhull.pro -- Qt project for Qhull shared library
+#   Built with qh_QHpointer=1.
 # -------------------------------------------------
 
-DESTDIR = ../../bin
+DESTDIR = ../../lib
+DLLDESTDIR = ../../bin
 TEMPLATE = lib
 CONFIG += shared warn_on
 CONFIG -= qt
@@ -16,6 +17,8 @@ build_pass:CONFIG(debug, debug|release):{
 }
 win32-msvc* : QMAKE_LFLAGS += /INCREMENTAL:NO
 include(../qhull-warn.pri)
+
+DEFINES += qh_QHpointer # libqhull/user.h
 
 # Duplicated from ../qhull-libsrc.pri  Otherwise QtCreator makes hierarchy too deep
 # qset.c requires -fno-script-aliasing for gcc 4.1 to 4.3

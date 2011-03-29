@@ -2,65 +2,31 @@ Microsoft Visual Studio Solution File, Format Version 9.00
 # Visual Studio 2005
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libqhull", "libqhull\libqhull.vcproj", "{F4A7288D-86FF-3A06-A9BB-4C67FA8DFB18}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libqhullp", "libqhullp\libqhullp.vcproj", "{49C1C73C-0B22-3081-AC26-AD7A3F0FB985}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libqhullstatic", "libqhullstatic\libqhullstatic.vcproj", "{4F62D4AB-CE06-3751-BFB9-70AB40956875}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libqhullstaticp", "libqhullstaticp\libqhullstaticp.vcproj", "{E92FA891-63CF-32BB-BDCD-6FA4F2808D8C}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "qhull", "qhull\qhull.vcproj", "{5A1F602D-B5D3-3A40-92B9-0D0533D06132}"
-	ProjectSection(ProjectDependencies) = postProject
-		{4F62D4AB-CE06-3751-BFB9-70AB40956875} = {4F62D4AB-CE06-3751-BFB9-70AB40956875}
-	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "qconvex", "qconvex\qconvex.vcproj", "{9839B4D4-21DC-3824-A83E-B2F13EF34499}"
-	ProjectSection(ProjectDependencies) = postProject
-		{4F62D4AB-CE06-3751-BFB9-70AB40956875} = {4F62D4AB-CE06-3751-BFB9-70AB40956875}
-	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "qdelaunay", "qdelaunay\qdelaunay.vcproj", "{C3622BCA-01B2-3739-84B3-BFF572DBF1BF}"
-	ProjectSection(ProjectDependencies) = postProject
-		{4F62D4AB-CE06-3751-BFB9-70AB40956875} = {4F62D4AB-CE06-3751-BFB9-70AB40956875}
-	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "qhalf", "qhalf\qhalf.vcproj", "{DB06E73E-B2E2-37A8-8F2C-494C99839C5C}"
-	ProjectSection(ProjectDependencies) = postProject
-		{4F62D4AB-CE06-3751-BFB9-70AB40956875} = {4F62D4AB-CE06-3751-BFB9-70AB40956875}
-	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "qvoronoi", "qvoronoi\qvoronoi.vcproj", "{3558B306-B0DA-346B-BE21-8E90A2D64F44}"
-	ProjectSection(ProjectDependencies) = postProject
-		{4F62D4AB-CE06-3751-BFB9-70AB40956875} = {4F62D4AB-CE06-3751-BFB9-70AB40956875}
-	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "rbox", "rbox\rbox.vcproj", "{B892F92E-1105-3D22-A9D5-3CA930A638EB}"
-	ProjectSection(ProjectDependencies) = postProject
-		{4F62D4AB-CE06-3751-BFB9-70AB40956875} = {4F62D4AB-CE06-3751-BFB9-70AB40956875}
-	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "user_eg", "user_eg\user_eg.vcproj", "{F3C260DB-813C-38AA-8CF8-4FC0C9A8D0F1}"
-	ProjectSection(ProjectDependencies) = postProject
-		{4F62D4AB-CE06-3751-BFB9-70AB40956875} = {4F62D4AB-CE06-3751-BFB9-70AB40956875}
-	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "user_eg2", "user_eg2\user_eg2.vcproj", "{1FAFC4B1-6B4C-37B0-B60E-30A27CC99B7D}"
-	ProjectSection(ProjectDependencies) = postProject
-		{4F62D4AB-CE06-3751-BFB9-70AB40956875} = {4F62D4AB-CE06-3751-BFB9-70AB40956875}
-	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libqhullcpp", "libqhullcpp\libqhullcpp.vcproj", "{3C2137D0-8304-3117-90B6-E2383A8580EE}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "user_eg3", "user_eg3\user_eg3.vcproj", "{1E88570B-9809-35B6-827D-2ACB1D5B05D4}"
-	ProjectSection(ProjectDependencies) = postProject
-		{3C2137D0-8304-3117-90B6-E2383A8580EE} = {3C2137D0-8304-3117-90B6-E2383A8580EE}
-		{E92FA891-63CF-32BB-BDCD-6FA4F2808D8C} = {E92FA891-63CF-32BB-BDCD-6FA4F2808D8C}
-	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "qhulltest", "qhulltest\qhulltest.vcproj", "{6C67B226-76EC-37B9-BF05-3E04681EFA41}"
-	ProjectSection(ProjectDependencies) = postProject
-		{E92FA891-63CF-32BB-BDCD-6FA4F2808D8C} = {E92FA891-63CF-32BB-BDCD-6FA4F2808D8C}
-		{3C2137D0-8304-3117-90B6-E2383A8580EE} = {3C2137D0-8304-3117-90B6-E2383A8580EE}
-	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "user_eg", "user_eg\user_eg.vcproj", "{F3C260DB-813C-38AA-8CF8-4FC0C9A8D0F1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -72,10 +38,6 @@ Global
 		{F4A7288D-86FF-3A06-A9BB-4C67FA8DFB18}.Debug|Win32.Build.0 = Debug|Win32
 		{F4A7288D-86FF-3A06-A9BB-4C67FA8DFB18}.Release|Win32.ActiveCfg = Release|Win32
 		{F4A7288D-86FF-3A06-A9BB-4C67FA8DFB18}.Release|Win32.Build.0 = Release|Win32
-		{49C1C73C-0B22-3081-AC26-AD7A3F0FB985}.Debug|Win32.ActiveCfg = Debug|Win32
-		{49C1C73C-0B22-3081-AC26-AD7A3F0FB985}.Debug|Win32.Build.0 = Debug|Win32
-		{49C1C73C-0B22-3081-AC26-AD7A3F0FB985}.Release|Win32.ActiveCfg = Release|Win32
-		{49C1C73C-0B22-3081-AC26-AD7A3F0FB985}.Release|Win32.Build.0 = Release|Win32
 		{4F62D4AB-CE06-3751-BFB9-70AB40956875}.Debug|Win32.ActiveCfg = Debug|Win32
 		{4F62D4AB-CE06-3751-BFB9-70AB40956875}.Debug|Win32.Build.0 = Debug|Win32
 		{4F62D4AB-CE06-3751-BFB9-70AB40956875}.Release|Win32.ActiveCfg = Release|Win32
@@ -108,10 +70,6 @@ Global
 		{B892F92E-1105-3D22-A9D5-3CA930A638EB}.Debug|Win32.Build.0 = Debug|Win32
 		{B892F92E-1105-3D22-A9D5-3CA930A638EB}.Release|Win32.ActiveCfg = Release|Win32
 		{B892F92E-1105-3D22-A9D5-3CA930A638EB}.Release|Win32.Build.0 = Release|Win32
-		{F3C260DB-813C-38AA-8CF8-4FC0C9A8D0F1}.Debug|Win32.ActiveCfg = Debug|Win32
-		{F3C260DB-813C-38AA-8CF8-4FC0C9A8D0F1}.Debug|Win32.Build.0 = Debug|Win32
-		{F3C260DB-813C-38AA-8CF8-4FC0C9A8D0F1}.Release|Win32.ActiveCfg = Release|Win32
-		{F3C260DB-813C-38AA-8CF8-4FC0C9A8D0F1}.Release|Win32.Build.0 = Release|Win32
 		{1FAFC4B1-6B4C-37B0-B60E-30A27CC99B7D}.Debug|Win32.ActiveCfg = Debug|Win32
 		{1FAFC4B1-6B4C-37B0-B60E-30A27CC99B7D}.Debug|Win32.Build.0 = Debug|Win32
 		{1FAFC4B1-6B4C-37B0-B60E-30A27CC99B7D}.Release|Win32.ActiveCfg = Release|Win32
@@ -128,6 +86,10 @@ Global
 		{6C67B226-76EC-37B9-BF05-3E04681EFA41}.Debug|Win32.Build.0 = Debug|Win32
 		{6C67B226-76EC-37B9-BF05-3E04681EFA41}.Release|Win32.ActiveCfg = Release|Win32
 		{6C67B226-76EC-37B9-BF05-3E04681EFA41}.Release|Win32.Build.0 = Release|Win32
+		{F3C260DB-813C-38AA-8CF8-4FC0C9A8D0F1}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F3C260DB-813C-38AA-8CF8-4FC0C9A8D0F1}.Debug|Win32.Build.0 = Debug|Win32
+		{F3C260DB-813C-38AA-8CF8-4FC0C9A8D0F1}.Release|Win32.ActiveCfg = Release|Win32
+		{F3C260DB-813C-38AA-8CF8-4FC0C9A8D0F1}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

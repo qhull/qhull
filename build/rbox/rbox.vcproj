@@ -39,7 +39,7 @@
 				Name="VCCustomBuildTool" />
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="../../lib\qhullstatic-d.lib"
+				AdditionalDependencies="qhullstatic-d.lib"
 				AdditionalLibraryDirectories="../../lib"
 				GenerateDebugInformation="true"
 				IgnoreImportLibrary="true"
@@ -48,7 +48,8 @@
 				OutputFile="..\..\bin\rbox.exe"
 				ProgramDatabaseFile=""
 				SubSystem="1"
-				SuppressStartupBanner="true" />
+				SuppressStartupBanner="true"
+				Version="6.00" />
 			<Tool
 				Name="VCMIDLTool"
 				DefaultCharType="0"
@@ -93,7 +94,7 @@
 				Name="VCCustomBuildTool" />
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="../../lib\qhullstatic.lib"
+				AdditionalDependencies="qhullstatic.lib"
 				AdditionalLibraryDirectories="../../lib"
 				GenerateDebugInformation="false"
 				IgnoreImportLibrary="true"
@@ -102,7 +103,8 @@
 				OutputFile="..\..\bin\rbox.exe"
 				ProgramDatabaseFile=""
 				SubSystem="1"
-				SuppressStartupBanner="true" />
+				SuppressStartupBanner="true"
+				Version="6.00" />
 			<Tool
 				Name="VCMIDLTool"
 				DefaultCharType="0"
@@ -127,6 +129,25 @@
 			<File
 				RelativePath="..\..\src\rbox\rbox.c" />
 		</Filter>
+		<Filter
+			Name="Generated Files"
+			Filter="cpp;c;cxx;moc;h;def;odl;idl;res;"
+			UniqueIdentifier="{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}">
+			<File
+				RelativePath="Debug\rbox_resource.res">
+				<FileConfiguration
+					Name="Release|Win32"
+					ExcludedFromBuild="true" />
+			</File>
+			<File
+				RelativePath="Release\rbox_resource.res">
+				<FileConfiguration
+					Name="Debug|Win32"
+					ExcludedFromBuild="true" />
+			</File>
+		</Filter>
+		<File
+			RelativePath="c:\bash\local\qhull\build\rbox\rbox_resource.rc" />
 	</Files>
 	<Globals>
 	</Globals>

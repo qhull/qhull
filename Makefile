@@ -7,13 +7,12 @@
 #	qhull 		 Computes convex hulls and related structures (libqhullstatic)
 #       qconvex, qdelaunay, qhalf, qvoronoi
 #                        Specializations of qhull for each geometric structure (libqhullstatic)
-#       qhull.so  (or, SO=dll)   Shared library with a static qh_qh struct
-#       qhull-p.so  (or, SO=dll) Shared library with a malloc'd qh_qh struct
+#       libqhull.so  (or, SO=dll) Shared library with a malloc'd qh_qh struct
 #       libqhullstatic.a         Static library with a static qh_qh struct
 #       libqhullstatic-p.a       Static library with a malloc'd qh_qh struct
 #       libqhullcpp.a            Static library using a malloc'd qh_qh struct
-#	user_eg	         An example of calling qhull from a program (libqhullstatic)
-#       user_eg2	 Another example (libqhull)
+#	user_eg	         An example of calling qhull from a program with libqhullstatic
+#       user_eg2	 Another example with the shared library, libqhull
 #	user_eg3	 An example of the C++ interface to qhull (libqhullcpp, libqhullstatic-p)
 #
 # Make targets
@@ -72,15 +71,17 @@ PRINTC = enscript -2r
 
 #for Gnu's gcc compiler, -O2 for optimization, -g for debugging
 #   -fno-strict-aliasing not needed for gcc 4.4+ (segfault in qset.c)
-#for CXX_OPTS1, libqhullcpp must be before libqhull
 CC        = gcc
 CC_OPTS1  = -O2 -fPIC -ansi -fno-strict-aliasing -Isrc/libqhull $(CC_WARNINGS)
 CXX       = g++
+# libqhullcpp must be before libqhull
 CXX_OPTS1 = -O2 -Dqh_QHpointer -Isrc/ -Isrc/libqhullcpp -Isrc/libqhull $(CXX_WARNINGS)
-CC_OPTS3  = 
-SO  = so.5.1
+# for shared library link
+CC_OPTS3  =
+VER_MAJ=6
+SO  = so.$(VER_MAJ).0.0
 # On MinGW, 
-#   SO = 5.1.dll
+#   SO = 6.dll
 #   CC_OPTS3= -Wl,-s -Wl,--out-implib,bin/libqhull.a -Wl,-enable-stdcall-fixup -Wl,-enable-auto-import -Wl,-enable-runtime-pseudo-reloc
 
 # for Sun's cc compiler, -fast or O2 for optimization, -g for debugging, -Xc for ANSI
@@ -95,7 +96,7 @@ SO  = so.5.1
 #CC       = cc
 #CC_OPTS1 = -ansi -O2 -arch m68k -arch i386 -arch hppa
 
-# for loader, ld
+# For loader, ld, 
 CC_OPTS2 = $(CC_OPTS1)
 CXX_OPTS2 = $(CXX_OPTS1)
 
@@ -116,53 +117,90 @@ CXX_WARNINGS = -Wall -Wcast-qual -Wextra -Wwrite-strings -Wno-sign-conversion -W
 # Default targets for make
      
 all: bin-lib bin/rbox bin/qconvex bin/qdelaunay bin/qhalf bin/qvoronoi \
-     bin/qhull qtest bin/user_eg bin/user_eg3 bin/user_eg2 \
-     bin/libqhull-p.$(SO) qhull-prompt
+     bin/qhull qtest bin/user_eg2 bin/user_eg3 bin/user_eg qhull-prompt
 
 bin-lib:
 	mkdir -p bin lib
      
+clean:
+	rm -f src/*/*.o src/road/RoadTest.h.cpp
+
+cleanall: clean
+	rm -f bin/qconvex bin/qdelaunay bin/qhalf bin/qvoronoi bin/qhull bin/*.exe
+	rm -f core bin/core bin/user_eg bin/user_eg2 bin/user_eg3 lib/qhull*.dll
+	rm -f bin/libqhull* lib/libqhull* bin/qhull*.dll lib/qhull*.lib bin/*.pdb
+
+doc: 
+	$(PRINTMAN) $(TXTFILES) $(DOCFILES)
+
+install:  
+	cp bin/qconvex $(BINDIR)/qconvex
+	cp bin/qdelaunay $(BINDIR)/qdelaunay
+	cp bin/qhalf $(BINDIR)/qhalf
+	cp bin/qhull $(BINDIR)/qhull
+	cp bin/qvoronoi $(BINDIR)/qvoronoi
+	cp bin/rbox $(BINDIR)/rbox
+	cp html/qhull.man $(MANDIR)/qhull.1
+	cp html/rbox.man $(MANDIR)/rbox.1
+
+new:	cleanall all
+
+printall: doc printh printc printf
+
+printh:
+	$(PRINTC) $(LIBQHULL_HDRS)
+	$(PRINTC) $(LIBQHULLCPP_HDRS)
+
+printc:
+	$(PRINTC) $(CFILES)
+	$(PRINTC) $(CXXFILES)
+	$(PRINTC) $(TESTFILES)
+
+printf:
+	$(PRINTC) $(FILES)
+
+# compile qhull without using bin/libqhull.a
+qhullx: src/qconvex/qconvex.o src/qdelaunay/qdelaun.o src/qhalf/qhalf.o \
+            src/qvoronoi/qvoronoi.o src/qhull/unix.o src/rbox/rbox.o $(LIBQHULLS_OBJS)
+	$(CC) -o bin/qconvex $(CC_OPTS2) -lm $(LIBQHULLS_OBJS) src/qconvex/qconvex.o 
+	$(CC) -o bin/qdelaunay $(CC_OPTS2) -lm $(LIBQHULLS_OBJS) src/qdelaunay/qdelaun.o
+	$(CC) -o bin/qhalf $(CC_OPTS2) -lm $(LIBQHULLS_OBJS) src/qhalf/qhalf.o 
+	$(CC) -o bin/qvoronoi $(CC_OPTS2) -lm $(LIBQHULLS_OBJS) src/qvoronoi/qvoronoi.o 
+	$(CC) -o bin/qhull $(CC_OPTS2) -lm $(LIBQHULLS_OBJS) src/qhull/unix.o 
+	$(CC) -o bin/rbox $(CC_OPTS2) -lm $(LIBQHULLS_OBJS) src/rbox/rbox.o 
+
+qtest:
+	-bin/rbox D4 | bin/qhull
+	
+test:
+	-eg/q_eg
+	-eg/q_egtest
+	-eg/q_test
+
+qhull-prompt:
+	-bin/qhull
+
 # LIBQHULL_OBJS ordered by frequency of execution with small files at end.  Better locality.
 
 L=    src/libqhull
-LP=   src/libqhullp
 LS=   src/libqhullstatic
 LSP=  src/libqhullstaticp
 LCPP= src/libqhullcpp
 TCPP= src/qhulltest
 
-LIBQHULL_OBJS = $(L)/rboxlib.o $(L)/user.o $(L)/global.o $(L)/stat.o \
-	$(L)/io.o $(L)/geom2.o $(L)/poly2.o $(L)/merge.o \
-	$(L)/libqhull.o $(L)/geom.o $(L)/poly.o $(L)/qset.o \
-	$(L)/mem.o $(L)/usermem.o $(L)/userprintf.o $(L)/random.o
-
 LIBQHULL_HDRS = $(L)/user.h $(L)/libqhull.h $(L)/qhull_a.h $(L)/geom.h \
         $(L)/io.h $(L)/mem.h $(L)/merge.h $(L)/poly.h $(L)/random.h \
         $(L)/qset.h $(L)/stat.h
-
-LIBQHULLP_OBJS = $(LP)/rboxlib.o $(LP)/user.o $(LP)/global.o $(LP)/stat.o \
-	$(LP)/io.o $(LP)/geom2.o $(LP)/poly2.o $(LP)/merge.o \
-	$(LP)/libqhull.o $(LP)/geom.o $(LP)/poly.o $(LP)/qset.o \
-	$(LP)/mem.o $(LP)/usermem.o $(LP)/userprintf.o $(LP)/random.o
 
 LIBQHULLS_OBJS = $(LS)/rboxlib.o $(LS)/user.o $(LS)/global.o $(LS)/stat.o \
         $(LS)/io.o $(LS)/geom2.o $(LS)/poly2.o $(LS)/merge.o \
         $(LS)/libqhull.o $(LS)/geom.o $(LS)/poly.o $(LS)/qset.o \
         $(LS)/mem.o $(LS)/usermem.o $(LS)/userprintf.o $(LS)/random.o
 
-LIBQHULLSP_OBJS = $(LS)/rboxlib.o $(LS)/user.o $(LS)/global.o $(LS)/stat.o \
-        $(LS)/io.o $(LS)/geom2.o $(LS)/poly2.o $(LS)/merge.o \
-        $(LS)/libqhull.o $(LS)/geom.o $(LS)/poly.o $(LS)/qset.o \
-        $(LS)/mem.o $(LS)/usermem.o $(LS)/userprintf.o $(LS)/random.o
-
-LIBQHULLCPP_OBJS = src/road/RoadError.o src/road/RoadLogEvent.o $(LCPP)/Coordinates.o \
-	$(LCPP)/PointCoordinates.o $(LCPP)/Qhull.o $(LCPP)/QhullFacet.o \
-	$(LCPP)/QhullFacetList.o $(LCPP)/QhullFacetSet.o \
-	$(LCPP)/QhullHyperplane.o $(LCPP)/QhullPoint.o \
-	$(LCPP)/QhullPoints.o $(LCPP)/QhullPointSet.o $(LCPP)/QhullQh.o \
-	$(LCPP)/QhullRidge.o $(LCPP)/QhullSet.o $(LCPP)/QhullStat.o \
-	$(LCPP)/QhullVertex.o $(LCPP)/QhullVertexSet.o $(LCPP)/RboxPoints.o \
-	$(LCPP)/UsingLibQhull.o src/user_eg3/user_eg3.o 
+LIBQHULLSP_OBJS = $(LSP)/rboxlib.o $(LSP)/user.o $(LSP)/global.o $(LSP)/stat.o \
+        $(LSP)/io.o $(LSP)/geom2.o $(LSP)/poly2.o $(LSP)/merge.o \
+        $(LSP)/libqhull.o $(LSP)/geom.o $(LSP)/poly.o $(LSP)/qset.o \
+        $(LSP)/mem.o $(LSP)/usermem.o $(LSP)/userprintf.o $(LSP)/random.o
 
 LIBQHULLCPP_HDRS = src/road/RoadError.h src/road/RoadLogEvent.h $(LCPP)/Coordinates.h \
 	$(LCPP)/QhullHyperplane.h $(LCPP)/functionObjects.h $(LCPP)/PointCoordinates.h \
@@ -173,6 +211,15 @@ LIBQHULLCPP_HDRS = src/road/RoadError.h src/road/RoadLogEvent.h $(LCPP)/Coordina
 	$(LCPP)/QhullSet.h $(LCPP)/QhullSets.h $(LCPP)/QhullStat.h \
 	$(LCPP)/QhullVertex.h $(LCPP)/RboxPoints.h $(LCPP)/UsingLibQhull.h
        
+LIBQHULLCPP_OBJS = src/road/RoadError.o src/road/RoadLogEvent.o $(LCPP)/Coordinates.o \
+	$(LCPP)/PointCoordinates.o $(LCPP)/Qhull.o $(LCPP)/QhullFacet.o \
+	$(LCPP)/QhullFacetList.o $(LCPP)/QhullFacetSet.o \
+	$(LCPP)/QhullHyperplane.o $(LCPP)/QhullPoint.o \
+	$(LCPP)/QhullPoints.o $(LCPP)/QhullPointSet.o $(LCPP)/QhullQh.o \
+	$(LCPP)/QhullRidge.o $(LCPP)/QhullSet.o $(LCPP)/QhullStat.o \
+	$(LCPP)/QhullVertex.o $(LCPP)/QhullVertexSet.o $(LCPP)/RboxPoints.o \
+	$(LCPP)/UsingLibQhull.o src/user_eg3/user_eg3.o 
+
 # CFILES ordered alphabetically after libqhull.c 
 CFILES= src/qhull/unix.c $(L)/libqhull.c $(L)/geom.c $(L)/geom2.c $(L)/global.c $(L)/io.c \
 	$(L)/mem.c $(L)/merge.c $(L)/poly.c $(L)/poly2.c $(L)/random.c $(L)/rboxlib.c \
@@ -214,36 +261,6 @@ qconvex/qconvex.o:       $(L)/libqhull.h $(L)/user.h $(L)/mem.h
 qdelanay/qdelaun.o:      $(L)/libqhull.h $(L)/user.h $(L)/mem.h
 qhalf/qhalf.o:           $(L)/libqhull.h $(L)/user.h $(L)/mem.h
 qvoronoi/qvoronoi.o:     $(L)/libqhull.h $(L)/user.h $(L)/mem.h
-$(L)/libqhull.o:  $(LIBQHULL_HDRS)
-$(L)/geom.o:      $(LIBQHULL_HDRS)
-$(L)/geom2.o:     $(LIBQHULL_HDRS)
-$(L)/global.o:    $(LIBQHULL_HDRS)
-$(L)/io.o:        $(LIBQHULL_HDRS)
-$(L)/mem.o:       $(L)/mem.h 
-$(L)/merge.o:     $(LIBQHULL_HDRS)
-$(L)/poly.o:      $(LIBQHULL_HDRS)
-$(L)/poly2.o:     $(LIBQHULL_HDRS)
-$(L)/random.o:    $(L)/libqhull.h $(L)/random.h
-$(L)/rboxlib.o:   $(L)/libqhull.h $(L)/random.h $(L)/user.h
-$(L)/qset.o:      $(L)/qset.h $(L)/mem.h 
-$(L)/stat.o:      $(LIBQHULL_HDRS)
-$(L)/user.o:      $(LIBQHULL_HDRS)
-$(L)/usermem.o:   $(L)/libqhull.h $(L)/user.h
-$(L)/userprintf.o: $(L)/libqhull.h $(L)/user.h
-$(LP)/libqhull.o: $(LIBQHULL_HDRS)
-$(LP)/geom.o:     $(LIBQHULL_HDRS)
-$(LP)/geom2.o:    $(LIBQHULL_HDRS)
-$(LP)/global.o:   $(LIBQHULL_HDRS)
-$(LP)/io.o:       $(LIBQHULL_HDRS)
-$(LP)/mem.o:      $(L)/mem.h 
-$(LP)/merge.o:    $(LIBQHULL_HDRS)
-$(LP)/poly.o:     $(LIBQHULL_HDRS)
-$(LP)/poly2.o:    $(LIBQHULL_HDRS)
-$(LP)/random.o:   $(L)/libqhull.h $(L)/random.h
-$(LP)/rboxlib.o:  $(L)/libqhull.h $(L)/random.h $(L)/user.h
-$(LP)/qset.o:     $(L)/qset.h $(L)/mem.h 
-$(LP)/stat.o:     $(LIBQHULL_HDRS)
-$(LP)/user.o:     $(LIBQHULL_HDRS)
 $(LS)/libqhull.o: $(LIBQHULL_HDRS)
 $(LS)/geom.o:     $(LIBQHULL_HDRS)
 $(LS)/geom2.o:    $(LIBQHULL_HDRS)
@@ -299,41 +316,6 @@ $(LCPP)/UsingLibQhull.o:    $(LIBQHULLCPP_HDRS) $(LIBQHULL_HDRS)
 .cpp.o:
 	$(CXX) -c $(CXX_OPTS1) -o $@ $<
 
-# The shared library, qhull-p.$(SO), is defined with qh_QHpointer (user.h).
-
-$(LP)/libqhull.o: $(L)/libqhull.c
-	$(CC) -c -Dqh_QHpointer $(CC_OPTS1) -o $@ $<
-$(LP)/geom.o:     $(L)/geom.c
-	$(CC) -c -Dqh_QHpointer $(CC_OPTS1) -o $@ $<
-$(LP)/geom2.o:    $(L)/geom2.c
-	$(CC) -c -Dqh_QHpointer $(CC_OPTS1) -o $@ $<
-$(LP)/global.o:   $(L)/global.c
-	$(CC) -c -Dqh_QHpointer $(CC_OPTS1) -o $@ $<
-$(LP)/io.o:       $(L)/io.c
-	$(CC) -c -Dqh_QHpointer $(CC_OPTS1) -o $@ $<
-$(LP)/mem.o:      $(L)/mem.c
-	$(CC) -c -Dqh_QHpointer $(CC_OPTS1) -o $@ $<
-$(LP)/merge.o:    $(L)/merge.c
-	$(CC) -c -Dqh_QHpointer $(CC_OPTS1) -o $@ $<
-$(LP)/poly.o:     $(L)/poly.c
-	$(CC) -c -Dqh_QHpointer $(CC_OPTS1) -o $@ $<
-$(LP)/poly2.o:    $(L)/poly2.c
-	$(CC) -c -Dqh_QHpointer $(CC_OPTS1) -o $@ $<
-$(LP)/random.o:   $(L)/random.c
-	$(CC) -c -Dqh_QHpointer $(CC_OPTS1) -o $@ $<
-$(LP)/rboxlib.o:   $(L)/rboxlib.c
-	$(CC) -c -Dqh_QHpointer $(CC_OPTS1) -o $@ $<
-$(LP)/qset.o:     $(L)/qset.c
-	$(CC) -c -Dqh_QHpointer $(CC_OPTS1) -o $@ $<
-$(LP)/stat.o:     $(L)/stat.c
-	$(CC) -c -Dqh_QHpointer $(CC_OPTS1) -o $@ $<
-$(LP)/user.o:     $(L)/user.c
-	$(CC) -c -Dqh_QHpointer $(CC_OPTS1) -o $@ $<
-$(LP)/usermem.o:     $(L)/usermem.c
-	$(CC) -c -Dqh_QHpointer $(CC_OPTS1) -o $@ $<
-$(LP)/userprintf.o:     $(L)/userprintf.c
-	$(CC) -c -Dqh_QHpointer $(CC_OPTS1) -o $@ $<
-
 # The static library, libqhullstatic, is defined without qh_QHpointer.
 
 $(LS)/libqhull.o: $(L)/libqhull.c
@@ -368,7 +350,6 @@ $(LS)/usermem.o:     $(L)/usermem.c
 	$(CC) -c $(CC_OPTS1) -o $@ $<
 $(LS)/userprintf.o:  $(L)/userprintf.c
 	$(CC) -c $(CC_OPTS1) -o $@ $<
-
 
 # The static library, libqhullstatic-p, is defined with qh_QHpointer (user.h).
 
@@ -405,48 +386,7 @@ $(LSP)/usermem.o:     $(L)/usermem.c
 $(LSP)/userprintf.o:     $(L)/userprintf.c
 	$(CC) -c -Dqh_QHpointer $(CC_OPTS1) -o $@ $<
 
-clean:
-	rm -f src/libqhull/*.o src/libqhullp/*.o src/libqhullcpp/*.o 
-	rm -f src/libqhullstatic/*.o src/libqhullstaticp/*.o src/qconvex/*.o
-	rm -f src/qdelaunay/*.o src/qhalf/*.o src/qvoronoi/*.o src/qhull/*.o src/rbox/*.o
-	rm -f src/road/*.o src/user_eg/*.o src/user_eg2/*.o src/user_eg3/*.o
-	rm -f src/road/RoadTest.h.cpp
-
-cleanall: clean
-	rm -f bin/qconvex bin/qdelaunay bin/qhalf bin/qvoronoi bin/qhull bin/*.exe
-	rm -f core bin/core bin/user_eg bin/user_eg2 bin/user_eg3 
-	rm -f bin/libqhull* bin/qhull*.so bin/qhull*.dll lib/libqhull* lib/qhull*.lib 
-
-doc: 
-	$(PRINTMAN) $(TXTFILES) $(DOCFILES)
-
-install:  
-	cp bin/qconvex $(BINDIR)/qconvex
-	cp bin/qdelaunay $(BINDIR)/qdelaunay
-	cp bin/qhalf $(BINDIR)/qhalf
-	cp bin/qhull $(BINDIR)/qhull
-	cp bin/qvoronoi $(BINDIR)/qvoronoi
-	cp bin/rbox $(BINDIR)/rbox
-	cp html/qhull.man $(MANDIR)/qhull.1
-	cp html/rbox.man $(MANDIR)/rbox.1
-
-new:	cleanall all
-
-printall: doc printh printc printf
-
-printh:
-	$(PRINTC) $(LIBQHULL_HDRS)
-	$(PRINTC) $(LIBQHULLCPP_HDRS)
-
-printc:
-	$(PRINTC) $(CFILES)
-	$(PRINTC) $(CXXFILES)
-	$(PRINTC) $(TESTFILES)
-
-printf:
-	$(PRINTC) $(FILES)
-
-lib/libqhullstatic.a: $(LIBQHULL_OBJS)
+lib/libqhullstatic.a: $(LIBQHULLS_OBJS)
 	@echo ==========================================
 	@echo ==== If 'ar' fails, try 'make qhullx' ====
 	@echo ==========================================
@@ -454,21 +394,17 @@ lib/libqhullstatic.a: $(LIBQHULL_OBJS)
 	#If 'ar -rs' fails try using 'ar -s' with 'ranlib'
 	#ranlib $@
 
-lib/libqhullstatic-p.a: $(LIBQHULLP_OBJS)
+lib/libqhullstatic-p.a: $(LIBQHULLSP_OBJS)
 	ar -rs $@ $^
 	#ranlib $@
-
-bin/libqhull.$(SO): $(LIBQHULL_OBJS)
-	$(CC) -shared -o $@ $(CC_OPTS2) $^
-	ln -s -f libqhull.$(SO) bin/libqhull.so
-
-bin/libqhull-p.$(SO): $(LIBQHULLP_OBJS)
-	$(CC) -shared -o $@ $(CC_OPTS2) $^
-	ln -s -f libqhull-p.$(SO) bin/libqhull-p.so
 
 lib/libqhullcpp.a: $(LIBQHULLCPP_OBJS)
 	ar -rs $@ $^
 	#ranlib $@
+
+lib/libqhull.$(SO): $(LIBQHULLSP_OBJS)
+	$(CC) -shared -o $@ $(CC_OPTS3) $^
+	cd lib && ln -f -s libqhull.$(SO) libqhull.so
 
 # don't use ../qconvex.	 Does not work on Red Hat Linux
 bin/qconvex: src/qconvex/qconvex.o lib/libqhullstatic.a
@@ -490,35 +426,14 @@ bin/qhull: src/qhull/unix.o lib/libqhullstatic.a
 bin/rbox: src/rbox/rbox.o lib/libqhullstatic.a
 	$(CC) -o $@ $< $(CC_OPTS2) -Llib -lqhullstatic -lm
 
-bin/user_eg: src/user_eg/user_eg.o lib/libqhullstatic.a 
-	$(CC) -o $@ $< $(CC_OPTS2) -Llib -lqhullstatic -lm
+bin/user_eg: src/user_eg/user_eg.c lib/libqhull.$(SO)
+	echo -e '\n== If user_eg fails to link, switch to -lqhullstatic-p.\n== On MinGW/Cygwin, use "make SO=dll"'
+	$(CC) -o $@ $< -Dqh_QHpointer  $(CC_OPTS1) $(CC_OPTS3) -Llib -lqhull -lm
 
-bin/user_eg2: src/user_eg2/user_eg2.o bin/libqhull.$(SO)
-	echo -e '\n== If user_eg2 fails to link, switch to -lqhullstatic.\n== On MinGW/Cygwin, use "make SO=dll"'
-	$(CC) -o $@ $< $(CC_OPTS2) -Lbin -lqhull -lm
+bin/user_eg2: src/user_eg2/user_eg2.o lib/libqhullstatic.a 
+	$(CC) -o $@ $< $(CC_OPTS2) -Llib -lqhullstatic -lm
 
 bin/user_eg3: src/user_eg3/user_eg3.o lib/libqhullstatic-p.a lib/libqhullcpp.a
 	$(CXX) -o $@ $< $(CXX_OPTS2) -Llib -lqhullcpp -lqhullstatic-p -lm
 
-# compile qhull without using bin/libqhull.a
-qhullx: src/qconvex/qconvex.o src/qdelaunay/qdelaun.o src/qhalf/qhalf.o \
-            src/qvoronoi/qvoronoi.o src/qhull/unix.o src/rbox/rbox.o $(LIBQHULLS_OBJS)
-	$(CC) -o bin/qconvex $(CC_OPTS2) -lm $(LIBQHULLS_OBJS) src/qconvex/qconvex.o 
-	$(CC) -o bin/qdelaunay $(CC_OPTS2) -lm $(LIBQHULLS_OBJS) src/qdelaunay/qdelaun.o
-	$(CC) -o bin/qhalf $(CC_OPTS2) -lm $(LIBQHULLS_OBJS) src/qhalf/qhalf.o 
-	$(CC) -o bin/qvoronoi $(CC_OPTS2) -lm $(LIBQHULLS_OBJS) src/qvoronoi/qvoronoi.o 
-	$(CC) -o bin/qhull $(CC_OPTS2) -lm $(LIBQHULLS_OBJS) src/qhull/unix.o 
-	$(CC) -o bin/rbox $(CC_OPTS2) -lm $(LIBQHULLS_OBJS) src/rbox/rbox.o 
-
-qtest:
-	-bin/rbox D4 | bin/qhull
-	
-test:
-	-eg/q_eg
-	-eg/q_egtest
-	-eg/q_test
-
-qhull-prompt:
-	-bin/qhull
-	
 # end of Makefile

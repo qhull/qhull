@@ -28,7 +28,7 @@
 				GeneratePreprocessedFile="0"
 				ObjectFile="Debug\"
 				Optimization ="4"
-				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,QT_LARGEFILE_SUPPORT"
+				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,QT_LARGEFILE_SUPPORT,qh_QHpointer"
 				ProgramDataBaseFileName=".\"
 				RuntimeLibrary="3"
 				RuntimeTypeInfo="true"
@@ -43,24 +43,27 @@
 				IgnoreImportLibrary="true"
 				LinkIncremental="1"
 				LinkTimeCodeGeneration="0"
-				OutputFile="..\..\bin\qhull-d.dll"
+				OutputFile="..\..\lib\qhull-d6.dll"
 				ProgramDatabaseFile=""
 				SubSystem="0"
-				SuppressStartupBanner="true" />
+				SuppressStartupBanner="true"
+				Version="6.00" />
 			<Tool
 				Name="VCMIDLTool"
 				DefaultCharType="0"
 				EnableErrorChecks="1"
 				WarningLevel="0" />
 			<Tool
-				Name="VCPostBuildEventTool" />
+				Name="VCPostBuildEventTool"
+				CommandLine="copy  &quot;$(TargetPath)&quot; &quot;..\..\bin&quot;"
+				Description="Copy qhull-d6.dll to ..\..\bin" />
 			<Tool
 				Name="VCPreBuildEventTool" />
 			<Tool
 				Name="VCPreLinkEventTool" />
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,QT_LARGEFILE_SUPPORT,_DEBUG" />
+				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,QT_LARGEFILE_SUPPORT,qh_QHpointer,_DEBUG" />
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
@@ -80,7 +83,7 @@
 				GeneratePreprocessedFile="0"
 				ObjectFile="Release\"
 				Optimization ="2"
-				PreprocessorDefinitions="QT_NO_DEBUG,NDEBUG,_WINDOWS,UNICODE,WIN32,QT_LARGEFILE_SUPPORT,NDEBUG"
+				PreprocessorDefinitions="QT_NO_DEBUG,NDEBUG,_WINDOWS,UNICODE,WIN32,QT_LARGEFILE_SUPPORT,qh_QHpointer,NDEBUG"
 				ProgramDataBaseFileName=".\"
 				RuntimeLibrary="2"
 				RuntimeTypeInfo="true"
@@ -95,24 +98,27 @@
 				IgnoreImportLibrary="true"
 				LinkIncremental="1"
 				LinkTimeCodeGeneration="0"
-				OutputFile="..\..\bin\qhull.dll"
+				OutputFile="..\..\lib\qhull6.dll"
 				ProgramDatabaseFile=""
 				SubSystem="0"
-				SuppressStartupBanner="true" />
+				SuppressStartupBanner="true"
+				Version="6.00" />
 			<Tool
 				Name="VCMIDLTool"
 				DefaultCharType="0"
 				EnableErrorChecks="1"
 				WarningLevel="0" />
 			<Tool
-				Name="VCPostBuildEventTool" />
+				Name="VCPostBuildEventTool"
+				CommandLine="copy  &quot;$(TargetPath)&quot; &quot;..\..\bin&quot;"
+				Description="Copy qhull6.dll to ..\..\bin" />
 			<Tool
 				Name="VCPreBuildEventTool" />
 			<Tool
 				Name="VCPreLinkEventTool" />
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="QT_NO_DEBUG,NDEBUG,_WINDOWS,UNICODE,WIN32,QT_LARGEFILE_SUPPORT" />
+				PreprocessorDefinitions="QT_NO_DEBUG,NDEBUG,_WINDOWS,UNICODE,WIN32,QT_LARGEFILE_SUPPORT,qh_QHpointer" />
 		</Configuration>
 	</Configurations>
 	<Files>
@@ -180,6 +186,35 @@
 			<File
 				RelativePath="user.h" />
 		</Filter>
+		<Filter
+			Name="Generated Files"
+			Filter="cpp;c;cxx;moc;h;def;odl;idl;res;"
+			UniqueIdentifier="{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}">
+			<File
+				RelativePath="Debug\qhull-d_resource.res">
+				<FileConfiguration
+					Name="Release|Win32"
+					ExcludedFromBuild="true" />
+			</File>
+			<File
+				RelativePath="Release\qhull_resource.res">
+				<FileConfiguration
+					Name="Debug|Win32"
+					ExcludedFromBuild="true" />
+			</File>
+		</Filter>
+		<File
+			RelativePath="c:\bash\local\qhull\build\libqhull\qhull-d_resource.rc">
+			<FileConfiguration
+				Name="Release|Win32"
+				ExcludedFromBuild="true" />
+		</File>
+		<File
+			RelativePath="c:\bash\local\qhull\build\libqhull\qhull_resource.rc">
+			<FileConfiguration
+				Name="Debug|Win32"
+				ExcludedFromBuild="true" />
+		</File>
 	</Files>
 	<Globals>
 	</Globals>
