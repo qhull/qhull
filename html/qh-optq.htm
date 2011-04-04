@@ -329,11 +329,13 @@ href="qh-optq.htm#Qc">Qc</a>') require an additional <i>sqrt(d)*n</i>
 since vertices and coplanar points may be joggled in opposite
 directions. </p>
 
-<p>For Delaunay triangulations (<a href=qdelaun.htm>qdelaunay</a>)
-and Voronoi diagrams (<a href=qvoronoi.htm>qvoronoi</a>), joggle
+<p>For Delaunay triangulations (<a href=qdelaun.htm>qdelaunay</a>), joggle
 happens before lifting the input sites to a paraboloid.  Instead of
 'QJ', you may use triangulated output ('<a
 href="qh-optq.htm#Qt">Qt</a>')</p>
+
+<p>This option is deprecated for Voronoi diagrams (<a href=qvoronoi.htm>qvoronoi</a>).
+It triangulates cospherical points, leading to duplicated Voronoi vertices.</p>
 
 <p>By default, 'QJn' uses a fixed random number seed. To use time
 as the random number seed, select '<a href="qh-optq.htm#QRn">QR-1</a>'.
@@ -419,6 +421,13 @@ facets).  Each facet is non-simplicial because it has four vertices.
 results.  Alternatively, use joggled input ('<a href="#QJn">QJ</a>') to
 prevent non-simplical facets.  Unless '<a href="qh-optp.htm#Pp">Pp</a>' is set,
 qhull produces a warning if 'QJ' and 'Qt' are used together.
+
+<p>For Delaunay triangulations (<a href=qdelaun.htm>qdelaunay</a>), triangulation
+occurs after lifting the input sites to a paraboloid and computing the convex hull.
+</p>
+
+<p>Option 'Qt' is deprecated for Voronoi diagrams (<a href=qvoronoi.htm>qvoronoi</a>).
+It triangulates cospherical points, leading to duplicated Voronoi vertices.</p>
 
 <p>Option 'Qt' may produce degenerate facets with zero area.</p>
 

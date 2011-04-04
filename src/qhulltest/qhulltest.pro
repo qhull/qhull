@@ -2,12 +2,12 @@
 # qhulltest.pro -- Qt project for qhulltest.exe (QTestLib)
 # -------------------------------------------------
 
+include(../qhull-app-cpp.pri)
+
 TARGET = qhulltest
 CONFIG += qtestlib
 MOC_DIR = moc
 INCLUDEPATH += ..  # for MOC_DIR
-
-include(../qhull-app-cpp.pri)
 
 PRECOMPILED_HEADER = ../road/RoadTest.h
 

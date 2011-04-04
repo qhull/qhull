@@ -2,6 +2,9 @@
 # libqhullstaticp.pro -- Qhull static library with qh_qhPointer
 # -------------------------------------------------
 
+include(../qhull-warn.pri)
+include(../qhull-libsrc.pri)
+
 DESTDIR = ../../lib
 TEMPLATE = lib
 CONFIG += staticlib warn_on
@@ -16,5 +19,3 @@ build_pass:CONFIG(debug, debug|release) {
 
 DEFINES += qh_QHpointer # libqhull/user.h
 
-include(../qhull-warn.pri)
-include(../qhull-libsrc.pri)

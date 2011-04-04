@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2011 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/QhullFacet.cpp#3 $$Change: 1352 $
-** $DateTime: 2011/03/27 18:16:41 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullcpp/QhullFacet.cpp#4 $$Change: 1360 $
+** $DateTime: 2011/04/03 22:26:01 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -426,7 +426,7 @@ operator<<(ostream &os, const QhullFacet::PrintHeader &pr)
         }
         zinc_(Zdistio);
         double d= facet.distance(furthest);
-        os << "      furthest distance= " << d << endl; //FIXUP %2.2g
+        os << "      furthest distance= " << d << endl; //FIXUP QH11010 %2.2g
     }
     QhullVertexSet vs= facet.vertices();
     if(!vs.isEmpty()){

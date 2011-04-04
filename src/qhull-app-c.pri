@@ -2,6 +2,8 @@
 # qhull-app-c.pri -- Qt include project for C qhull applications linked to libqhull
 # -------------------------------------------------
 
+include(qhull-warn.pri)
+
 DESTDIR = ../../bin
 TEMPLATE = app
 CONFIG += console warn_on
@@ -19,5 +21,4 @@ win32-msvc* : QMAKE_LFLAGS += /INCREMENTAL:NO
 
 INCLUDEPATH += ../libqhull
 CONFIG += qhull_warn_conversion
-include(qhull-warn.pri)
 

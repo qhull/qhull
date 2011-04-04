@@ -3,20 +3,22 @@
 #   Built with qh_QHpointer=1.
 # -------------------------------------------------
 
+include(../qhull-warn.pri)
+
 DESTDIR = ../../lib
 DLLDESTDIR = ../../bin
 TEMPLATE = lib
 CONFIG += shared warn_on
 CONFIG -= qt
+
 build_pass:CONFIG(debug, debug|release):{
-    TARGET = qhull-d
+    TARGET = qhull$$VER_MAJ-d
     OBJECTS_DIR = Debug
 }else:build_pass:CONFIG(release, debug|release):{
-    TARGET = qhull
+    TARGET = qhull$$VER_MAJ
     OBJECTS_DIR = Release
 }
 win32-msvc* : QMAKE_LFLAGS += /INCREMENTAL:NO
-include(../qhull-warn.pri)
 
 DEFINES += qh_QHpointer # libqhull/user.h
 

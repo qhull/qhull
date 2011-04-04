@@ -43,8 +43,8 @@ Environment requirements
   self-contained.  It comes with examples and test scripts.
   
   Qhull's C++ interface uses the STL.  The C++ test program uses QTestLib 
-  from Nokia's Qt Framework.  For 2010, Qhull's C++ interface 
-  may change without notice.
+  from Nokia's Qt Framework.  Qhull's C++ interface may change without 
+  notice.  Eventually, it will move into the qhull shared library.
   
   Qhull is copyrighted software.  Please read COPYING.txt and REGISTER.txt
   before using or distributing Qhull.
@@ -124,7 +124,7 @@ Compiling the C++ interface
 
   Clone Qhull from http://gitorious.org/qhull
 
-  Compile Qhull with Qt (see following)
+  Compile Qhull with Qt 4.4 or later (see following)
 
   To compile user_eg3.cpp on your own
   - Set qh_QHpointer in src/usr.h

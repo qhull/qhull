@@ -2,6 +2,8 @@
 # qhull-app-cpp.pri -- Qt include project for static CPP qhull applications using Qt
 # -------------------------------------------------
 
+include(qhull-warn.pri)
+
 DESTDIR = ../../bin
 TEMPLATE = app
 CONFIG += console warn_on
@@ -19,8 +21,6 @@ build_pass:CONFIG(debug, debug|release){
 win32-msvc* : QMAKE_LFLAGS += /INCREMENTAL:NO
 
 DEFINES += qh_QHpointer # libqhull/user.h
-
-include(qhull-warn.pri)
 
 INCLUDEPATH += ../libqhullcpp
 INCLUDEPATH += ../../src # e.g., "road/RoadError.h"

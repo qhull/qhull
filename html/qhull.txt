@@ -895,8 +895,8 @@ qhull(1)                                                 qhull(1)
               Option 'QJ' selects a default  value  for  n.   The
               output will be simplicial.  For Delaunay triangula-
               tions, 'QJn' sets 'Qbb' to scale the  last  coordi-
-              nate (not if 'Qbk:n' or 'QBk:n' is set).  See also
-              'Qt'.
+              nate (not if 'Qbk:n' or 'QBk:n' is set).  'QJn' is
+              deprecated for Voronoi diagrams.  See also 'Qt'.
 
        Qm     Only  process  points that would otherwise increase
               max_outside.  Other points are treated as  coplanar
@@ -929,7 +929,8 @@ qhull(1)                                                 qhull(1)
        Qs     Search all points for the initial simplex.
 
        Qt     Triangulated output.  Triangulate non-simplicial
-              facets.
+              facets. 'Qt' is deprecated for Voronoi diagrams.
+              See also 'QJn'
 
        Qv     Test  vertex  neighbors  for  convexity after post-
               merging.  To use the 'Qv' option, you also need  to

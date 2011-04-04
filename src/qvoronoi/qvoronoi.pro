@@ -2,7 +2,8 @@
 # qvoronoi.pro -- Qt project file for qvoronoi.exe
 # -------------------------------------------------
 
-TARGET = qvoronoi
 include(../qhull-app-c.pri)
+
+TARGET = qvoronoi
 
 SOURCES += qvoronoi.c

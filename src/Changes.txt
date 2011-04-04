@@ -7,8 +7,6 @@ Need help
    http://gitorious.org/qhull/
  - Document with Qt conventions using Doxygen (//! and //!<)
  - Produce conformant triangulations for merged facets using option 'Qt' 
- - Add CMakeLists.txt for qhullcpp, user_eg3, cpp/, and cpp/road
-   If practical, please move CMakeLists.txt to project/
  - Verify -fno-strict-aliasing needed for gcc 4.1, 4.2, 4.3 (qset segfault)
  - Set up debian build [Pkg-octave-devel]
    Please keep debian files in config/ and project/debian/
@@ -17,22 +15,14 @@ Need help
 
 To do
  - Review email for doc changes
- - RMP build of Qhull
- - Create signed tags for Qhull versions
- - Add FIXUP for known problems and update wiki
+ - Git: Create signed tags for Qhull versions
+ - Wiki: Add FIXUP to QH11026 for known problems
  - Notes to compgeom on conformant triangulation and Voronoi volume
- - How to set debug or release mode if not using QtCreator
- - Add copy constructor and assignment to QhullError
- - Avoid using 'Qt' with qvoronoi.  It triangulates the Delaunay result that is used to generate the voronoi vertices. It should be deprecated.
  - Add toporient to QhullFacet.  Figure out vertice. 
     bool                topOrient() const { return qh_facet->toporient; }
- - Add a Makefile.txt for building libqhullcpp with gcc
- - Add a CMake build for everying
  - Add an Autotools build for everything
  - Update debian build
- - Fix use of strncat.  The limits are wrong
- - Is -fno-strict-aliasing always used, but not always the default?
- - Qhull-go.bat does not work in Windows 7
+ - RMP build of Qhull
 
 Links on build systems
    http://www.murrayc.com/blog/permalink/2009/10/28/trying-qmake-and-cmake/
@@ -51,13 +41,26 @@ Links on build systems
 
 
 To do
- - Move OTHER_FILES from qhull-all.pro
- - What is minimum Qt version?
- staticlib not in Qt doc index
  incremental did not work
- $$VER_MAJ did not work
-
+ -rtti did not turn off run-time type info in DevStudio
+ Fix up cpp_command
+ Set File Ver and Product Ver in dll
+ Remove absolute path from project files C:\... and C:/...
+ 
 ------------
+gitorious.org/qhull 2011/04/03
+ - Rewrote CMakeLists.txt to build qhull targets
+ - qvoronoi: Deprecated 'Qt' and 'QJn'.  Removed from documentation and prompts.
+   These options produce duplicate Voronoi vertices for cospherical data.
+ - QhullError: Add copy constructor, assignment operator, and destructor
+ - Add throw() specifiers to RoadError and QhullError
+ - Fixed additional uses of strncat
+ - Removed doskey from Qhull-go.bat.  It is incompatible with Windows 7
+ - mem.h: Define ptr_intT as 'long long' for Microsoft Windows _win64 builds.
+   On Linux and Mac, 'long' is 64-bits on a 64-bit host
+ - Moved include's to top of Qt .pro files.  Define $VERSION before $VER_MAJ.
+ - Name shared library with $VER_MAJ
+
 gitorious.org/qhull 2011/03/28
  - Produce one shared library, version 6.0.0, from libqhullstatic-p
  - user_eg links with shared library instead of user_eg2

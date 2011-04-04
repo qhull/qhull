@@ -79,12 +79,6 @@ region corresponds to a vertex of the Delaunay triangulation
 <p>See <a href="http://www.qhull.org/html/qh-faq.htm#TOC">Qhull FAQ</a> - Delaunay and
 Voronoi diagram questions.</p>
 
-<p>Options '<a href="qh-optq.htm#Qt">Qt</a>' (triangulated output)
-and '<a href="qh-optq.htm#QJn">QJ</a>' (joggled input), may produce
-unexpected results.   Cocircular and cospherical input sites will
-produce duplicate or nearly duplicate furthest-site Voronoi vertices.  See also <a
-href="qh-impre.htm#joggle">Merged facets or joggled input</a>. </p>
-
 <p>The 'qvonoroi' program is equivalent to
 '<a href=qhull.htm#outputs>qhull v</a> <a href=qh-optq.htm#Qbb>Qbb</a>' in 2-d to 3-d, and
 '<a href=qhull.htm#outputs>qhull v</a> <a href=qh-optq.htm#Qbb>Qbb</a> <a href=qh-optq.htm#Qx>Qx</a>'
@@ -270,14 +264,6 @@ controls</a></h3>
 <dl compact>
    <dt><a href="qh-optq.htm#Qu">Qu</a></dt>
     <dd>must be used.</dd>
-    <dt><a href="qh-optq.htm#Qt">Qt</a></dt>
-    <dd>triangulated output.  If a furthest-site Voronoi vertex is defined by cospherical data, Qhull
-    duplicates the vertex.  For example, if 2-d data is contained in a square, the output
-    will contain two, identical furthest-site Voronoi vertices.</dd>
-    <dt><a href="qh-optq.htm#QJn">QJ</a></dt>
-    <dd>joggle the input to avoid furthest-site Voronoi vertices defined by more
-        than <i>dim+1</i> points.    It is less accurate than triangulated output ('Qt').
-    </dd>
     <dt><a href="qh-optq.htm#QVn">QVn</a></dt>
     <dd>select furthest-site Voronoi vertices for input site <em>n</em> </dd>
     <dt><a href="qh-optt.htm#Tv">Tv</a></dt>

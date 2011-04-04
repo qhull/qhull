@@ -2,7 +2,8 @@
 # qdelaunay.pro -- Qt project file for qvoronoi.exe
 # -------------------------------------------------
 
-TARGET = qdelaunay
 include(../qhull-app-c.pri)
+
+TARGET = qdelaunay
 
 SOURCES += qdelaun.c

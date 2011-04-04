@@ -2,6 +2,7 @@
 # libqhullcpp.pro -- Qt project for Qhull cpp shared library
 # -------------------------------------------------
 
+include(../qhull-warn.pri)
 
 DESTDIR = ../../lib
 TEMPLATE = lib
@@ -22,7 +23,6 @@ INCLUDEPATH += ../../src
 INCLUDEPATH += $$PWD # for MOC_DIR
 
 CONFIG += qhull_warn_shadow qhull_warn_conversion
-include(../qhull-warn.pri)
 
 SOURCES += ../road/RoadError.cpp
 SOURCES += ../road/RoadLogEvent.cpp

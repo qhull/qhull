@@ -12,8 +12,8 @@
      qh_errexit(qhmem_ERRqhull, NULL, NULL) otherwise
 
    Copyright (c) 1993-2011 The Geometry Center.
-   $Id: //main/2011/qhull/src/libqhull/mem.h#2 $$Change: 1342 $
-   $DateTime: 2011/03/07 21:55:47 $$Author: bbarber $
+   $Id: //main/2011/qhull/src/libqhull/mem.h#3 $$Change: 1356 $
+   $DateTime: 2011/04/03 09:01:22 $$Author: bbarber $
 */
 
 #ifndef qhDEFmem
@@ -73,13 +73,16 @@ Trace short and quick memory allocations at T5
     WARN64 -- these notes indicate 64-bit issues
     On 64-bit machines, a pointer may be larger than an 'int'.
     qh_meminit()/mem.c checks that 'ptr_intT' holds a 'void*'
-    ptr_intT is not defined as 'long long' for portability to older compilers
     ptr_intT is typically a signed value, but not necessarily so
     size_t is typically unsigned, but should match the parameter type
     Qhull uses int instead of size_t except for system calls such as malloc, qsort, qh_malloc, etc.
     This matches Qt convention and is easier to work with.  
 */
+#if _MSC_VER && defined(_WIN64)
+typedef long long ptr_intT;
+#else
 typedef long ptr_intT;
+#endif
 
 /*-<a                             href="qh-mem.htm#TOC"
   >--------------------------------</a><a name="qhmemT">-</a>

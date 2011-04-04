@@ -53,7 +53,9 @@ int isatty(int);  /* returns 1 if stdin is a tty
     concise prompt below
 */
 
-/* duplicated in qvoron_f.htm and qvoronoi.htm */
+/* duplicated in qvoron_f.htm and qvoronoi.htm
+   QJ and Qt are deprecated, but allowed for backwards compatibility
+*/
 char hidden_options[]=" d n m v H U Qb QB Qc Qf Qg Qi Qm Qr QR Qv Qx TR E V Fa FA FC Fp FS Ft FV Pv Gt Q0 Q1 Q2 Q3 Q4 Q5 Q6 Q7 Q8 Q9 ";
 
 char qh_prompta[]= "\n\
@@ -67,12 +69,9 @@ input (stdin):\n\
 \n\
 options:\n\
     Qu   - compute furthest-site Voronoi diagram\n\
-    Qt   - triangulated output\n\
-    QJ   - joggled input instead of merged facets\n\
 \n\
 Qhull control options:\n\
     Qz   - add point-at-infinity to Voronoi diagram\n\
-    QJn  - randomly joggle input in range [-n,n]\n\
 %s%s%s%s";  /* split up qh_prompt for Visual C++ */
 char qh_promptb[]= "\
     Qs   - search all points for the initial simplex\n\
@@ -176,8 +175,6 @@ qvoronoi- compute the Voronoi diagram.  Qhull %s\n\
 \n\
 options (qvoronoi.htm):\n\
     Qu   - compute furthest-site Voronoi diagram\n\
-    Qt   - triangulated output\n\
-    QJ   - joggled input instead of merged facets\n\
     Tv   - verify result: structure, convexity, and in-circle test\n\
     .    - concise list of all options\n\
     -    - one-line description of all options\n\
@@ -197,8 +194,7 @@ examples:\n\
 rbox c P0 D2 | qvoronoi s o         rbox c P0 D2 | qvoronoi Fi\n\
 rbox c P0 D2 | qvoronoi Fo          rbox c P0 D2 | qvoronoi Fv\n\
 rbox c P0 D2 | qvoronoi s Qu Fv     rbox c P0 D2 | qvoronoi Qu Fo\n\
-rbox c G1 d D2 | qvoronoi s p       rbox c G1 d D2 | qvoronoi QJ s p\n\
-rbox c P0 D2 | qvoronoi s Fv QV0\n\
+rbox c G1 d D2 | qvoronoi s p       rbox c P0 D2 | qvoronoi s Fv QV0\n\
 \n\
 ";
 /* for opts, don't assign 'e' or 'E' to a flag (already used for exponent) */
@@ -226,9 +222,7 @@ Except for 'F.' and 'PG', upper-case options take an argument.\n\
  PArea_keep     Pdrop d0:0D0   Pgood          PFacet_area_keep\n\
  PGood_neighbors PMerge_keep   Poutput_forced Pprecision_not\n\
 \n\
- QG_vertex_good QJoggle        Qsearch_1st    Qtriangulate   Qupper_voronoi\n\
- QV_point_good  Qzinfinite\n\
-\n\
+ QG_vertex_good Qsearch_1st    Qupper_voronoi QV_point_good  Qzinfinite\n\
  T4_trace       Tcheck_often   Tstatistics    Tverify        Tz_stdout\n\
  TFacet_log     TInput_file    TPoint_trace   TMerge_trace   TOutput_file\n\
  TWide_trace    TVertex_stop   TCone_stop\n\

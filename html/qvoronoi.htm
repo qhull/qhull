@@ -102,12 +102,6 @@ for further processing [see <a href="#graphics">graphics</a>].</p>
 <p>See <a href="http://www.qhull.org/html/qh-faq.htm#TOC">Qhull FAQ</a> - Delaunay and
 Voronoi diagram questions.</p>
 
-<p>Options '<a href="qh-optq.htm#Qt">Qt</a>' (triangulated output)
-and '<a href="qh-optq.htm#QJn">QJ</a>' (joggled input) may produce
-unexpected results.   Cocircular and cospherical input sites will
-produce duplicate or nearly duplicate Voronoi vertices.  See also <a
-href="qh-impre.htm#joggle">Merged facets or joggled input</a>. </p>
-
 <p>The 'qvonoroi' program is equivalent to
 '<a href=qhull.htm#outputs>qhull v</a> <a href=qh-optq.htm#Qbb>Qbb</a>' in 2-d to 3-d, and
 '<a href=qhull.htm#outputs>qhull v</a> <a href=qh-optq.htm#Qbb>Qbb</a> <a href=qh-optq.htm#Qx>Qx</a>'
@@ -129,8 +123,6 @@ qvoronoi- compute the Voronoi diagram.
 
 options (qh-voron.htm):
     Qu   - compute furthest-site Voronoi diagram
-    Qt   - triangulated output
-    QJ   - joggle input instead of merging facets
     Tv   - verify result: structure, convexity, and in-circle test
     .    - concise list of all options
     -    - one-line description of all options
@@ -150,8 +142,7 @@ examples:
 rbox c P0 D2 | qvoronoi s o         rbox c P0 D2 | qvoronoi Fi
 rbox c P0 D2 | qvoronoi Fo          rbox c P0 D2 | qvoronoi Fv
 rbox c P0 D2 | qvoronoi s Qu Fv     rbox c P0 D2 | qvoronoi Qu Fo
-rbox c G1 d D2 | qvoronoi s p       rbox c G1 d D2 | qvoronoi Qt s p
-rbox c P0 D2 | qvoronoi s Fv QV0
+rbox c G1 d D2 | qvoronoi s p       rbox c P0 D2 | qvoronoi s Fv QV0
 </pre>
 
 <h3><a href="#TOP">&#187;</a><a name="input">qvoronoi input</a></h3>
@@ -342,14 +333,6 @@ controls</a></h3>
 <blockquote>
 
 <dl compact>
-    <dt><a href="qh-optq.htm#Qt">Qt</a></dt>
-    <dd>triangulated output.  If a Voronoi vertex is defined by cospherical data, Qhull
-    duplicates the vertex.  For example, if the data contains a square, the output
-    will contain two copies of the Voronoi vertex.</dd>
-    <dt><a href="qh-optq.htm#QJn">QJ</a></dt>
-    <dd>joggle the input to avoid Voronoi vertices defined by more
-        than <i>dim+1</i> points.    It is less accurate than triangulated output ('Qt').
-    </dd>
    <dt><a href="qh-optq.htm#Qu">Qu</a></dt>
     <dd>compute the <a href="qvoron_f.htm">furthest-site Voronoi diagram</a>.</dd>
     <dt><a href="qh-optq.htm#QVn">QVn</a></dt>
@@ -494,6 +477,12 @@ the cube. Each edge generates an unbounded ray through the
 midpoint. The corresponding separating planes ('Fo') follow each
 pair of coordinate axes. </p>
 
+<p>Options '<a href="qh-optq.htm#Qt">Qt</a>' (triangulated output)
+and '<a href="qh-optq.htm#QJn">QJ</a>' (joggled input) are deprecated.  They may produce
+unexpected results.   If you use these options, cocircular and cospherical input sites will
+produce duplicate or nearly duplicate Voronoi vertices.  See also <a
+href="qh-impre.htm#joggle">Merged facets or joggled input</a>. </p>
+
 </blockquote>
 <h3><a href="#TOP">&#187;</a><a name="conventions">qvoronoi conventions</a></h3>
 <blockquote>
@@ -555,8 +544,6 @@ input (stdin):
 
 options:
     Qu   - compute furthest-site Voronoi diagram
-    Qt   - triangulated output
-    QJ   - joggle input instead of merging facets
 
 Qhull control options:
     QJn  - randomly joggle input in range [-n,n]

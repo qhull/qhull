@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2011 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/QhullError.h#2 $$Change: 1342 $
-** $DateTime: 2011/03/07 21:55:47 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullcpp/QhullError.h#3 $$Change: 1356 $
+** $DateTime: 2011/04/03 09:01:22 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -34,6 +34,7 @@ public:
 #//Constructors
     // default constructors
     QhullError() : RoadError() {};
+    QhullError(const QhullError &other) : RoadError(other) {}
     QhullError(int code, const std::string &message) : RoadError(code, message) {};
     QhullError(int code, const char *fmt) : RoadError(code, fmt) {};
     QhullError(int code, const char *fmt, int d) : RoadError(code, fmt, d) {};
@@ -44,6 +45,8 @@ public:
     QhullError(int code, const char *fmt, int d, int d2, float f, int i) : RoadError(code, fmt, d, d2, f, i) {};
     QhullError(int code, const char *fmt, int d, int d2, float f, long long i) : RoadError(code, fmt, d, d2, f, i) {};
     QhullError(int code, const char *fmt, int d, int d2, float f, double e) : RoadError(code, fmt, d, d2, f, e) {};
+    QhullError &operator=(const QhullError &other) { this->RoadError::operator=(other); return *this; }
+    ~QhullError() throw() {}
 
 };//class QhullError
 

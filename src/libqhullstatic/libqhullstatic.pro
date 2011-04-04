@@ -3,6 +3,9 @@
 #   Built with qh_QHpointer=0.  See libqhullp.pro
 # -------------------------------------------------
 
+include(../qhull-warn.pri)
+include(../qhull-libsrc.pri)
+
 DESTDIR = ../../lib
 TEMPLATE = lib
 CONFIG += staticlib warn_on
@@ -14,5 +17,3 @@ build_pass:CONFIG(debug, debug|release):{
     TARGET = qhullstatic
     OBJECTS_DIR = Release
 }
-include(../qhull-warn.pri)
-include(../qhull-libsrc.pri)

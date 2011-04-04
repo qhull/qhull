@@ -1,7 +1,9 @@
 # -------------------------------------------------
 # user_eg.pro -- Qt project for Qhull demonstration
 # -------------------------------------------------
-TARGET = user_eg
+
 include(../qhull-app-shared.pri)
+
+TARGET = user_eg
 
 SOURCES += user_eg.c

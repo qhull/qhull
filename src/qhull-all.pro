@@ -8,6 +8,7 @@
 # To build DevStudio sln and proj files
 # qmake is in Qt's bin directory
 # ../build> qmake -tp vc -r ../src/qhull-all.pro
+#  Add Build Dependencies, disable rtti
 # -------------------------------------------------
 
 TEMPLATE = subdirs
@@ -31,10 +32,10 @@ SUBDIRS += qhulltest       #test program with Qt, libqhullcpp, and libqhullstati
 # user_eg does not link in DevStudio 2005 -lqhull not found
 SUBDIRS += user_eg         #user program linked to libqhull
 
+OTHER_FILES += Changes.txt
 OTHER_FILES += CMakeLists.txt
 OTHER_FILES += Make-config.sh
 OTHER_FILES += ../Announce.txt
-OTHER_FILES += ../Changes.txt
 OTHER_FILES += ../CMakeLists.txt
 OTHER_FILES += ../COPYING.txt
 OTHER_FILES += ../File_id.diz

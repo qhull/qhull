@@ -16,5 +16,4 @@ echo       If full-screen, use alt-enter to return to Windows
 echo.
 echo       Type 'qconvex' for synopsis and examples.
 echo.
-doskey /insert
 %comspec%

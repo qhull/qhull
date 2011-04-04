@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2011 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/Qhull.cpp#4 $$Change: 1348 $
-** $DateTime: 2011/03/25 23:54:58 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullcpp/Qhull.cpp#5 $$Change: 1356 $
+** $DateTime: 2011/04/03 09:01:22 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -358,7 +358,7 @@ outputQhull(const char *outputflags)
     if(!exitCode){ // no object creation -- destructors skipped on longjmp()
         qh_clear_outputflags();
         char *s = qh qhull_command + strlen(qh qhull_command) + 1; //space
-        strncat(qh qhull_command, command, sizeof(qh qhull_command));
+        strncat(qh qhull_command, command, sizeof(qh qhull_command)-strlen(qh qhull_command)-1);
         qh_checkflags(command, s_not_output_options);
         qh_initflags(s);
         qh_initqhull_outputflags();
@@ -404,7 +404,7 @@ runQhull(const char *rboxCommand2, int pointDimension, int pointCount, const rea
         qh_checkflags(command, s_unsupported_options);
         qh_initflags(command);
         *qh rbox_command= '\0';
-        strncat( qh rbox_command, rboxCommand2, sizeof( qh rbox_command));
+        strncat( qh rbox_command, rboxCommand2, sizeof(qh rbox_command)-1);
         if(qh DELAUNAY){
             qh PROJECTdelaunay= True;   // qh_init_B() calls qh_projectinput()
         }
