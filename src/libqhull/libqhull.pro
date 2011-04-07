@@ -12,15 +12,17 @@ CONFIG += shared warn_on
 CONFIG -= qt
 
 build_pass:CONFIG(debug, debug|release):{
-    TARGET = qhull$$VER_MAJ-d
+    TARGET = qhull-d
     OBJECTS_DIR = Debug
 }else:build_pass:CONFIG(release, debug|release):{
-    TARGET = qhull$$VER_MAJ
+    TARGET = qhull
     OBJECTS_DIR = Release
 }
 win32-msvc* : QMAKE_LFLAGS += /INCREMENTAL:NO
 
 DEFINES += qh_QHpointer # libqhull/user.h
+
+win32-msvc* : DEF_FILE += ../../src/libqhull/qhull-exports.def
 
 # Duplicated from ../qhull-libsrc.pri  Otherwise QtCreator makes hierarchy too deep
 # qset.c requires -fno-script-aliasing for gcc 4.1 to 4.3

@@ -45,9 +45,15 @@ To do
  -rtti did not turn off run-time type info in DevStudio
  Fix up cpp_command
  Set File Ver and Product Ver in dll
- Remove absolute path from project files C:\... and C:/...
+ Decide on qhullstatic-p or qhullstatic_p
+ Move files to lib and bin directories
  
 ------------
+gitorious.org/qhull 2011/04/06
+ - Redo vcproj and sln using eg/make-vcproj.sh
+ - Add Fixup identifiers
+ - Use qhull_d6 instead of qhull_d
+
 gitorious.org/qhull 2011/04/03
  - Rewrote CMakeLists.txt to build qhull targets
  - qvoronoi: Deprecated 'Qt' and 'QJn'.  Removed from documentation and prompts.

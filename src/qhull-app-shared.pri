@@ -11,10 +11,10 @@ CONFIG -= qt
 
 LIBS += -L../../lib
 build_pass:CONFIG(debug, debug|release){
-   LIBS += -lqhull$$VERS_MAJ-d
+   LIBS += -lqhull-d
    OBJECTS_DIR = Debug
 }else:build_pass:CONFIG(release, debug|release){
-   LIBS += -lqhull$$VERS_MAJ
+   LIBS += -lqhull
    OBJECTS_DIR = Release
 }
 win32-msvc* : QMAKE_LFLAGS += /INCREMENTAL:NO

@@ -48,7 +48,7 @@ working/*/*
 *.user
 *.ilk
 !build/*.sln
-!build/*/*.vcproj
+!build/*.vcproj
 
 # CVS files
 CVS/*

@@ -9,14 +9,14 @@
 # Visual Studio builds includes debug and release targets
 #   Please rename library debug targets to ..._d... (e.g., qhullstatic_d.lib)
 #
-# $Id: //main/2011/qhull/CMakeLists.txt#4 $$Change: 1359 $
-# $DateTime: 2011/04/03 22:25:03 $$Author: bbarber $
+# $Id: //main/2011/qhull/CMakeLists.txt#5 $$Change: 1364 $
+# $DateTime: 2011/04/06 23:02:11 $$Author: bbarber $
 
 project(qhull)
 cmake_minimum_required(VERSION 2.6)
 
 string(REGEX REPLACE ".* ([0-9]+) .*"
-    "6.0.0.\\1"  qhull_VERSION "$Change: 1359 $")
+    "6.0.0.\\1"  qhull_VERSION "$Change: 1364 $")
 
 if(INCLUDE_INSTALL_DIR)
 else()
@@ -152,7 +152,7 @@ include_directories(${CMAKE_SOURCE_DIR}/src ${CMAKE_SOURCE_DIR}/src/libqhull)
 string(REGEX MATCH "[^.]+" qhull_MAJOR "${qhull_VERSION}")
 if(CMAKE_BUILD_TYPE MATCHES "[dD]ebug")
     set(qhull_CPP qhullcpp_d)
-    set(qhull_SHARED qhull${qhull_MAJOR}_d)
+    set(qhull_SHARED qhull_d${qhull_MAJOR})
     set(qhull_STATIC qhullstatic_d)
     set(qhull_STATICP qhullstatic_pd)
 else()
