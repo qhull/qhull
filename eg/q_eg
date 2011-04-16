@@ -7,6 +7,10 @@ else
    echo Run eg/q_eg from the Qhull directory
    exit
 fi
+if [ ! -e bin/qconvex -a ! -e bin/qconvex.exe ]; then
+    echo Build qhull first.  Executables are missing.
+    exit
+fi
 set -v
 rbox c D3 | qconvex s G >eg/eg.01.cube
 rbox c d G2.0 | qconvex s G >eg/eg.02.diamond.cube

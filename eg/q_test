@@ -7,6 +7,10 @@ else
    echo Run eg/q_test from the Qhull directory
    exit
 fi
+if [ ! -e bin/qconvex -a ! -e bin/qconvex.exe ]; then
+    echo Build qhull first.  Executables are missing.
+    exit
+fi
 set -v
 echo === errors if 'user_eg' and 'user_eg2' not found ===
 echo === check user_eg ${d:-`date`} =====================

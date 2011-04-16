@@ -45,6 +45,7 @@
    see libqhull.h for data structures, macros, and user-callable functions.
 */
 
+#define qh_QHimport
 #include "qhull_a.h"
 
 /*-------------------------------------------------
@@ -197,9 +198,18 @@ int main (int argc, char *argv[]) {
   int i;
 
   printf ("This is the output from user_eg.c\n\n\
-It shows how qhull() may be called from an application.  It is not part\n\
-of qhull itself.  If it appears accidently, please remove user_eg.c from\n\
-your project.\n\n");
+It shows how qhull() may be called from an application using the qhull\n\
+shared library.  It is not part of qhull itself.  If it appears accidently,\n\
+please remove user_eg.c from your project.\n\n");
+
+#if qh_QHpointer  /* see user.h */
+  if (qh_qh){
+      printf ("QH6233: Qhull link error.  The global variable qh_qh was not initialized\n\
+to NULL by global.c.  Please compile user_eg.c with -Dqh_QHpointer_dllimport\n\
+as well as -Dqh_QHpointer, or use libqhullstatic, or use a different tool chain.\n\n");
+      return -1;
+  }
+#endif
 
   /*
     Run 1: convex hull

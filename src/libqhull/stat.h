@@ -7,8 +7,8 @@
    see qh-stat.htm and stat.c
 
    Copyright (c) 1993-2011 The Geometry Center.
-   $Id: //main/2011/qhull/src/libqhull/stat.h#2 $$Change: 1342 $
-   $DateTime: 2011/03/07 21:55:47 $$Author: bbarber $
+   $Id: //main/2011/qhull/src/libqhull/stat.h#3 $$Change: 1368 $
+   $DateTime: 2011/04/16 08:12:32 $$Author: bbarber $
 
    recompile qhull if you change this file
 
@@ -484,7 +484,10 @@ union intrealT {
 typedef struct qhstatT qhstatT;
 #endif
 
-#if qh_QHpointer
+#if qh_QHpointer_dllimport
+#define qhstat qh_qhstat->
+__declspec(dllimport) extern qhstatT *qh_qhstat;
+#elif qh_QHpointer
 #define qhstat qh_qhstat->
 extern qhstatT *qh_qhstat;
 #else

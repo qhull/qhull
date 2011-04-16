@@ -2,9 +2,13 @@
 ;
 ;   Generated from depends.exe by cut-and-paste of exported symbols by mingw gcc
 ;   [mar'11] 399 symbols 
+;   Annotate as DATA qh_qh qh_qhstat qhmem qhull_inuse rbox_inuse
 ;
-; $Id: //main/2011/qhull/src/libqhull/qhull-exports.def#1 $$Change: 1356 $
-; $DateTime: 2011/04/03 09:01:22 $$Author: bbarber $
+; $Id: //main/2011/qhull/src/libqhull/qhull-exports.def#2 $$Change: 1368 $
+; $DateTime: 2011/04/16 08:12:32 $$Author: bbarber $
+;
+; Define qhull_VERSION in CMakeLists.txt, Makefile, qhull-exports.def, and qhull-warn.pri
+VERSION 6.2
 EXPORTS
 dfacet
 dvertex
@@ -301,8 +305,9 @@ qh_projectdim3
 qh_projectinput
 qh_projectpoint
 qh_projectpoints
-qh_qh
-qh_qhstat
+; Mark as DATA, otherwise links a separate qh_qh.  Requires __dcelspec
+qh_qh               DATA
+qh_qhstat           DATA
 qh_qhull
 qh_rand
 qh_rand_seed
@@ -400,8 +405,9 @@ qh_vertexridges_facet
 qh_vertexsubset
 qh_voronoi_center
 qh_willdelete
-qhmem
-qhull_inuse
+; Mark as DATA, otherwise links a separate qhmem.  Requires __dcelspec
+qhmem                   DATA
+qhull_inuse             DATA
 rbox
-rbox_inuse
+rbox_inuse              DATA
 roundi

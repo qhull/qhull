@@ -7,8 +7,8 @@
    see qh-qhull.htm, qhull_a.h
 
    Copyright (c) 1993-2011 The Geometry Center.
-   $Id: //main/2011/qhull/src/libqhull/libqhull.h#2 $$Change: 1342 $
-   $DateTime: 2011/03/07 21:55:47 $$Author: bbarber $
+   $Id: //main/2011/qhull/src/libqhull/libqhull.h#3 $$Change: 1368 $
+   $DateTime: 2011/04/16 08:12:32 $$Author: bbarber $
 
    NOTE: access to qh_qh is via the 'qh' macro.  This allows
    qh_qh to be either a pointer or a structure.  An example
@@ -403,14 +403,16 @@ struct vertexT {
    qhmem may be shared across multiple instances of Qhull.
    Rbox uses global variables rbox_inuse and rbox, but does not persist data across calls.
 
-   notes:
    Qhull is not multithreaded.  Global state could be stored in thread-local storage.
 */
 
 extern int qhull_inuse;
 
 typedef struct qhT qhT;
-#if qh_QHpointer
+#if qh_QHpointer_dllimport
+#define qh qh_qh->
+__declspec(dllimport) extern qhT *qh_qh;     /* allocated in global.c */
+#elif qh_QHpointer
 #define qh qh_qh->
 extern qhT *qh_qh;     /* allocated in global.c */
 #else

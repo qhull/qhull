@@ -76,6 +76,7 @@ rboxT rbox;
 
   notes:
     To avoid stdio, redefine qh_malloc, qh_free, and qh_fprintf_rbox (user.c)
+    Rbox is not multithreaded.
 
   design:
     Straight line code (consider defining a struct and functions):

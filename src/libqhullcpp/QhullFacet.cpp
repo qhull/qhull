@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2011 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/QhullFacet.cpp#4 $$Change: 1360 $
-** $DateTime: 2011/04/03 22:26:01 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullcpp/QhullFacet.cpp#5 $$Change: 1367 $
+** $DateTime: 2011/04/08 22:21:11 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -293,14 +293,14 @@ operator<<(ostream &os, const QhullFacet::PrintFlags &p)
         os << p.message;
     }
 
-    os << (f->toporient ? " top" : " bottom");
-    if(f->simplicial){
+    os << (p.facet->isTopOrient() ? " top" : " bottom");
+    if(p.facet->isSimplicial()){
         os << " simplicial";
     }
-    if(f->tricoplanar){
+    if(p.facet->isTriCoplanar()){
         os << " tricoplanar";
     }
-    if(f->upperdelaunay){
+    if(p.facet->isUpperDelaunay()){
         os << " upperDelaunay";
     }
     if(f->visible){

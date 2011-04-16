@@ -1,6 +1,6 @@
 Name
 
-      qhull, rbox         2010.1     2010/01/14
+      qhull, rbox         2011.1     2011/04/08
   
 Convex hull, Delaunay triangulation, Voronoi diagrams, Halfspace intersection
  
@@ -11,7 +11,7 @@ Convex hull, Delaunay triangulation, Voronoi diagrams, Halfspace intersection
       Available from:
         <http://www.qhull.org>
         <git@gitorious.org:qhull/qhull.git>
-        <http://packages.debian.org/sid/libqhull5>
+        <http://packages.debian.org/sid/libqhull5> [out-of-date]
  
       News and a paper:
         <http://www.qhull.org/news>
@@ -65,11 +65,11 @@ To contribute to Qhull
 Installing Qhull on Windows
 
   The zip file contains rbox.exe, qhull.exe, qconvex.exe, qdelaunay.exe, 
-  qhalf.exe, qvoronoi.exe, user_eg3.exe, documentation files, and source files.
+  qhalf.exe, qvoronoi.exe, user_eg*.exe, documentation files, and source files.
   
   To install Qhull:
   - Unzip the files into a directory.  You may use WinZip32 <www.hotfiles.com>
-  - Click on QHULL-GO
+  - Click on QHULL-GO or open a command window into Qhull's bin directory.
     
   To learn about Qhull:
   - Execute 'qconvex' for a synopsis and examples.
@@ -79,7 +79,7 @@ Installing Qhull on Windows
   - If an error occurs, Windows sends the error to stdout instead of stderr.
     Use 'TO xxx' to send normal output to xxx and error output to stdout
 
-  Improve the DOS window
+  To improve the DOS window
   - Right-click the window bar
   - Select Properties
   - Check QuickEdit Mode
@@ -99,12 +99,32 @@ Installing Qhull on Unix with gcc
 
   The tgz tarball contains documentation and source files.
   
-  To install Qhull
+  To build Qhull, static libraries, shared library, and C++ interface
   - Extract the files
-  - cd qhull/src
   - make
-  - Use 'make -f Makefile.txt' in the Windows distribution.
 
+-----------------
+Installing Qhull with CMake
+
+  The tgz tarball contains documentation and source files.
+  
+  To build Qhull, static libraries, shared library, and C++ interface
+  - Extract the files
+  - cd build
+  - cmake ..
+
+-----------------
+Installing Qhull with Qt
+
+  The tar.gz tarball contains documentation, source files.
+
+  To build Qhull, static libraries, shared library, and C++ interface
+  - Extract the files
+  - cd src
+  - qmake
+  - make
+  - make install
+  
 -----------------
 Installing Qhull with Autoconf
 
@@ -119,71 +139,69 @@ Installing Qhull with Autoconf
   - make
   - make install
 
+-------------------
+Compiling with Qhull's C++ interface
+
+  Qhull's C++ interface is likely to change. 
+
+  Clone Qhull's next branch from http://gitorious.org/qhull
+    git init
+    git clone git://gitorious.org/qhull/qhull.git
+    git checkout next
+    ...
+    git pull origin next
+
+------------------
+Compiling Qhull with Microsoft Visual C++
+
+  Extract qhull from either zip file or tar.gz tarball
+  - Load build/qhull.sln 
+  - Build
+  - Project qhulltest requires Qt for DevStudio (http://qt.nokia.com/downloads)
+
 -----------------
-Compiling the C++ interface
-
-  Clone Qhull from http://gitorious.org/qhull
-
-  Compile Qhull with Qt 4.4 or later (see following)
-
-  To compile user_eg3.cpp on your own
-  - Set qh_QHpointer in src/usr.h
-    or, compile with -Dqh_QHpointer
-  - Include the C sources in project/libqhullp/libqhullp.pro
-  - Include the C++ sources in project/libqhullcpp/libqhullcpp.pro
-  - See "Compiling a custom build" below
-
------------------
-Compiling Qhull with Qt 
+Compiling Qhull with Qt Creator
 
   Qt (http://qt.nokia.com) is a C++ framework for Windows, Linux, and Macintosh
 
-  Qhull includes tests for qhull (eg/q_test) and C++ (cpp/qhulltest, QTestLib)
+  Qhull uses Qt's QTestLib to test qhull's C++ interface (qhulltest)
+  
+  The tar.gz tarball contains documentation and source files.
 
-  To compile Qhull  
+  To build Qhull, static libraries, shared library, and C++ interface
   - Download the Qt SDK from Nokia (http://qt.nokia.com/downloads)
   - Start Qt Creator
-  - Load project/qhull-all.pro
-  - Build all
-  - If your compiler does not support g++ warnings,
-    remove 'CONFIG += warn_on' or QMAKE_CXXFLAGS_WARN_ON from *.pro
+  - Load src/qhull-all.pro
+  - Build
 
 -----------------
-Compiling Qhull on Windows.
-
-  To compile Qhull with Visual C++
-  - Load solution project/qhull.sln
-  - For project qhulltest, 
-    install Qt for DevStudio (http://qt.nokia.com/downloads)
-  - Build->Build all
+Compiling Qhull with mingw on Windows
 
   To compile Qhull with MINGW
   - Install Road Bash (http://www.qhull.org/bash)
-  - or install MSYS (http://www.mingw.org/wiki/msys)
+    or install MSYS (http://www.mingw.org/wiki/msys)
   - Install MINGW (http://www.mingw.org/)
-  - cd src
-  - make 
-  - Use 'make -f Makefile.txt' in the Windows distribution.
+  - mingw-make
+  
+-----------------
+Compiling Qhull with cygwin on Windows
 
   To compile Qhull with cygwin
   - Install cygwin (http://www.cygwin.com)
   - Include packages for gcc, make, ar, and ln
-  - cd src
   - make
-  - Use 'make -f Makefile.txt' in the Windows distribution.
 
 -----------------
-Compiling src/Makfile without gcc
+Compiling from Makfile without gcc
 
-  The gzip file, qhull-src.tgz, contains documentation and source files for
+  The file, qhull-src.tgz, contains documentation and source files for
   qhull and rbox.  
   
   To unpack the gzip file
   - tar zxf qhull-src.tgz
   - cd qhull
   
-  Compiling qhull and rbox with Makefile (i.e., Makefile.txt)   
-  - cd src
+  Compiling qhull and rbox with Makefile
   - in Makefile, check the CC, CCOPTS1, PRINTMAN, and PRINTC defines
       - the defaults are gcc and enscript
       - CCOPTS1 should include the ANSI flag.  It defines __STDC__
@@ -218,96 +236,13 @@ Compiling src/Makfile without gcc
       - You can turn off the Qhull memory manager with qh_NOmem in mem.h
       - You can turn off compiler optimization (-O2 in Makefile)
       - If you find the source of the problem, please let us know
-  - if you have Geomview (www.geomview.org)
-       - try  'rbox 100 | qconvex G >a' and load 'a' into Geomview
-       - run 'q_eg' for Geomview examples of Qhull output (see qh-eg.htm)
   - to install the programs and their man pages:
       - define MANDIR and BINDIR
       - type 'make install'
 
------------------
-Compiling a custom build
-
-If you need to create a custom build, create projects as follows.
-These instructions assume Visual C++, but similar ones apply to other
-build systems.
-
-  For qhull.exe and rbox.exe only:
-    - create a "console application" called "qhull"
-        - add the following files:
-            geom.c geom2.c global.c io.c libqhull.c mem.c merge.c 
-            poly.c poly2.c qset.c random.c stat.c unix.c 
-            user.c usermem.c userprintf.c
-    - create a "console application" called "rbox" 
-        - add rbox.c rboxlib.c
-
-  For all projects
-    - To simplify setting up lots of projects, 
-        - create a temporary "Win32 console application" called "source"
-        - add all .c files from .../src/...
-        - add all .cpp files from .../cpp/...
-        - In Tools::Options::Tab
-          Set tab size to 8 and indent size to 2
-
-    - create a "Win32 console application" called "rbox"
-        - move rbox.c rboxlib.c from "qhull source"
-        - for Project:Settings..., Link
-          you only need the default libraries
-        - build the project
-
-    - create a "Win32 static library" called "libqhull"
-        - move these files from "qhull source"
-            geom.c geom2.c global.c io.c mem.c merge.c poly.c poly2.c libqhull.c
-                qset.c random.c rboxlib.c stat.c user.c usermem.c userprintf.c
-        - set the library file (use the same for debug and release)
-        - build the project
-
-    - create a "Win32 static library" called "libqhullp"
-        - move these files from "qhull source"
-            geom.c geom2.c global.c io.c mem.c merge.c poly.c poly2.c libqhull.c
-                qset.c random.c rboxlib.c stat.c user.c usermem.c userprintf.c
-        - define qh_QHpointer=1
-        - set the library file (use the same for debug and release)
-        - build the project
-
-    - create a "Win32 console application, empty project" called "qhull"
-        - Move unix.c from "qhull source"
-        - Project Dependency on libqhull (or copy the library file)
-        - Linker->Input->Ignore LIBCMT
-        - Qhull does not use other libraries
-
-    - create a "Win32 console application, empty project" called "qconvex"
-        - Move qconvex.c from "qhull source"
-        - Project Dependency on libqhull (or copy the library file)
-        - Linker->Input->Ignore LIBCMT
-        - build the project
-
-    - do the same for qdelaun.c, qhalf, qvoronoi.c, user_eg.c, user_eg2.c
-
-    - create a "Win32 dynamic library" called "libqhullcpp"
-        - Move cpp sources in cpp/*.cpp from "qhull source"
-          Do not move cpp/qhulltest, road/RoadTest.cpp, or user_eg3.cpp
-        - define qh_QHpointer=1
-        - Add the library file created by "libqhullp"
-        - build the project
-    
-    - create a "Win32 console application" called "user_eg3"
-        - Move user_eg3 from "qhull source"
-        - define qh_QHpointer=1
-        - Add the library file created by "libqhullcpp"
-        - build the project
-
-    - create a "Win32 console application" called "qhulltest"
-        - Install Qt for DevStudio (http://qt.nokia.com/downloads)
-        - Add everything in cpp/qhulltest
-        - Add road/RoadTest.cpp
-        - define qh_QHpointer=1
-        - Add the library file created by "libqhullcpp"
-        - build the project
-
-    - use Project:Settings to make any changes
-    - use batch build to rebuild everything
-    - delete "qhull sources" since it is no longer needed
+  - if you have Geomview (www.geomview.org)
+       - try  'rbox 100 | qconvex G >a' and load 'a' into Geomview
+       - run 'q_eg' for Geomview examples of Qhull output (see qh-eg.htm)
 
 ------------------
 Compiling on other machines and compilers
@@ -350,191 +285,194 @@ Distributed files
   CMakeLists.txt       // CMake file
   File_id.diz          // package descriptor
   index.htm            // Home page 
+  Makefile             // Makefile for gcc and other compilers
   qhull*.md5sum        // md5sum for all files
+  bin/*		       // Qhull executables and dll
+  build/*              // DevStudio solution and project files
+  eg/*                 // Test scripts and geomview files from q_eg
+  html/index.htm       // Manual
   html/qh-faq.htm      // Frequently asked questions
   html/qh-get.htm      // Download page
-  html/index.htm       // Manual
-  src/Changes.txt      // change history for Qhull and rbox 
-  src/CMakeLists.txt   // CMake file
-  src/Makefile.txt     // Makefile for Unix or cygwin 'make' 
-  src/Mborland         // Makefile for Borland C++/Win32
-  src/Make-config.sh   // Create Debian configure and automake
-  project/qhull-all.pro  // Qt project with Visual C++ vcproj files
+  lib/*                // Qhull static and link libraries
+  src/Changes.txt      // Change history for Qhull and rbox 
+  src/qhull-all.pro    // Qt project
 
 eg/ 
-  q_eg                 // shell script for Geomview examples
+  q_eg                 // shell script for Geomview examples (eg.01.cube)
   q_egtest             // shell script for Geomview test examples
   q_test               // shell script to test qhull
   q_test-ok.txt        // output from q_test
   qhulltest-ok.txt     // output from qhulltest (Qt only)
 
-src/      
-  rbox consists of:
-     rbox.exe          // Win32 executable (.zip only) 
-     rbox.htm          // html manual 
-     rbox.man          // Unix man page 
-     rbox.txt
-     rbox.c            // source program 
-     rboxlib.c
+rbox consists of:
+  rbox.exe             // Win32 executable (.zip only) 
+  rbox.htm             // html manual 
+  rbox.man             // Unix man page 
+  rbox.txt
+  rbox.c               // source program 
+  rboxlib.c
+
+qhull consists of:
+  qhull.exe            // Win32 executables and dll (.zip only) 
+  qconvex.exe
+  qdelaunay.exe
+  qhalf.exe
+  qvoronoi.exe
+  qhull6.dll
+  qhull-go.bat         // DOS window
+  qconvex.htm          // html manuals
+  qdelaun.htm
+  qdelau_f.htm        
+  qhalf.htm
+  qvoronoi.htm
+  qvoron_f.htm
+  qh-eg.htm
+  qh-code.htm
+  qh-impre.htm
+  index.htm
+  qh-opt*.htm
+  qh-quick.htm
+  qh--4d.gif,etc.      // images for manual 
+  qhull.man            // Unix man page 
+  qhull.txt
+
+build/
+  qhull.sln            // Visual C++ solution file (2005 or higher)
+  *.vcproj             // Visual C++ project files
+
+src/
+  qhull/unix.c         // Unix front end to qhull 
+  qconvex/qconvex.c    
+  qhalf/qhalf.c
+  qdelaunay/qdelaunay.c
+  qvoronoi/qvoronoi.c
+
+  user_eg/user_eg.c    // example of calling qhull.dll from a user program 
+  user_eg2/user_eg2.c  // example of qhull from a user program (static link)
+  user_eg3/user_eg3.cpp // example of Qhull's C++ interface
+  qhulltest/qhulltest.cpp // Test of Qhull's C++ interface using Qt's QTestLib
+
+src/libqhull
+  libqhull.pro         // Qt project for shared dll and library
+  index.htm            // design documentation for libqhull (qhull.dll)
+  qh-*.htm   
+
+  libqhull.h           // header file for qhull
+  user.h               // header file of user definable constants 
+  libqhull.c           // Quickhull algorithm with partitioning
+  user.c               // user re-definable functions 
+  usermem.c
+  userprintf.c
+
+  qhull_a.h            // include files for libqhull/*.c 
+  geom.c               // geometric routines 
+  geom2.c
+  geom.h     
+  global.c             // global variables 
+  io.c                 // input-output routines 
+  io.h   
+  mem.c                // memory routines, this is stand-alone code 
+  mem.h
+  merge.c              // merging of non-convex facets 
+  merge.h
+  poly.c               // polyhedron routines 
+  poly2.c
+  poly.h 
+  qset.c               // set routines, this only depends on mem.c 
+  qset.h
+  stat.c               // statistics 
+  stat.h
+
+src/libqhullstatic/
+  libqhullstatic.pro   // Qt project for static library     
      
-  qhull consists of:
-     qhull.exe         // Win32 executables (.zip only) 
-     qconvex.exe
-     qdelaunay.exe
-     qhalf.exe
-     qvoronoi.exe
-     eg/qhull-go.bat   // DOS window
-     qconvex.htm       // html manuals
-     qdelaun.htm
-     qdelau_f.htm        
-     qhalf.htm
-     qvoronoi.htm
-     qvoron_f.htm
-     qh-eg.htm
-     qh-code.htm
-     qh-impre.htm
-     index.htm
-     qh-opt*.htm
-     qh-quick.htm
-     qh--4d.gif,etc.   // images for manual 
-     qhull.man         // Unix man page 
-     qhull.txt
+src/libqhullstaticp/
+  libqhullstaticp.pro  // Qt project for static library with qh_QHpointer
+     
+src/libqhullcpp/
+  libqhullcpp.pro      // Qt project for static C++ library     
+  Qhull.cpp            // Call libqhull.c from C++
+  Qhull.h
+    
+  Coordinates.cpp      // input classes
+  Coordinates.h
+  PointCoordinates.cpp
+  PointCoordinates.h
+  PointIterator.h
+  RboxPoints.cpp       // call rboxlib.c from C++
+  RboxPoints.h
+
+  QhullFacet.cpp       // data structure classes
+  QhullFacet.h
+  QhullHyperplane.cpp
+  QhullHyperplane.h
+  QhullPoint.cpp
+  QhullPoint.h
+  QhullQh.cpp
+  QhullQh.h
+  QhullStat.cpp
+  QhullStat.h
   
-  top-level source files:
-     src/index.htm     // index to source files 
-     qh-...htm         //   specific files
-     user.h            // header file of user definable constants 
-     libqhull.h        // header file for qhull
-     unix.c            // Unix front end to qhull 
-     qconvex.c    
-     qhalf.c
-     qdelaunay.c
-     qvoronoi.c
-     libqhull.c        // Quickhull algorithm with partitioning
-     user.c            // user re-definable functions 
-     usermem.c
-     userprintf.c
-     user_eg.c         // example of incorporating qhull into a user program 
-     user_eg2.c        // more complex example 
+  QhullFacetList.cpp   // collection classes
+  QhullFacetList.h
+  QhullFacetSet.cpp
+  QhullFacetSet.h
+  QhullIterator.h
+  QhullLinkedList.h
+  QhullPoints.cpp
+  QhullPoints.h
+  QhullPointSet.cpp
+  QhullPointSet.h
+  QhullRidge.cpp
+  QhullRidge.h
+  QhullSet.cpp
+  QhullSet.h
+  QhullSets.h
 
-  other source files:
-     qhull_a.h         // include file for *.c 
-     geom.c            // geometric routines 
-     geom2.c
-     geom.h     
-     global.c          // global variables 
-     io.c              // input-output routines 
-     io.h
-     mem.c             // memory routines, this is stand-alone code 
-     mem.h
-     merge.c           // merging of non-convex facets 
-     merge.h
-     poly.c            // polyhedron routines 
-     poly2.c
-     poly.h 
-     qset.c            // set routines, this only depends on mem.c 
-     qset.h
-     stat.c            // statistics 
-     stat.h
+  functionObjects.h    // supporting classes
+  QhullError.cpp
+  QhullError.h
+  QhullEvent.cpp
+  QhullEvent.h
+  QhullLog.cpp
+  QhullLog.h
+  UsingLibQhull.cpp
+  UsingLibQhull.h
 
-project/
-  projects for building Qhull
-     qhull.sln          // Solution for Visual C++ 2005 and higher
-     qhull-all.pro      // Project for Qt
-     */*.pro            // Qt projects for each component
-     *.vcproj           // Visual C++ projects 
-     
-cpp/      
-  cpp interface to Qhull
-    Qhull.cpp           // calls libqhull.c
-    Qhull.h
-    user_eg3.cpp        // sample program
-    
-  input classes
-    Coordinates.cpp
-    Coordinates.h
-    PointCoordinates.cpp
-    PointCoordinates.h
-    PointIterator.h
-    RboxPoints.cpp      // calls rboxlib.c
-    RboxPoints.h
+src/qhulltest/
+  qhulltest.cpp        // Test of Qhull's C++ interface
+  Coordinates_test.cpp // Tests for each class
+  PointCoordinates_test.cpp
+  Point_test.cpp
+  QhullFacetList_test.cpp
+  QhullFacetSet_test.cpp
+  QhullFacet_test.cpp
+  QhullHyperplane_test.cpp
+  QhullLinkedList_test.cpp
+  QhullPointSet_test.cpp
+  QhullPoints_test.cpp
+  QhullPoint_test.cpp
+  QhullRidge_test.cpp
+  QhullSet_test.cpp
+  QhullVertexSet_test.cpp
+  QhullVertex_test.cpp
+  Qhull_test.cpp
+  RboxPoints_test.cpp
+  UsingLibQhull_test.cpp
 
-  data structure classes  
-    QhullFacet.cpp
-    QhullFacet.h
-    QhullHyperplane.cpp
-    QhullHyperplane.h
-    QhullPoint.cpp
-    QhullPoint.h
-    QhullQh.cpp
-    QhullQh.h
-    QhullStat.cpp
-    QhullStat.h
-    
-  collection classes
-    QhullFacetList.cpp
-    QhullFacetList.h
-    QhullFacetSet.cpp
-    QhullFacetSet.h
-    QhullIterator.h
-    QhullLinkedList.h
-    QhullPoints.cpp
-    QhullPoints.h
-    QhullPointSet.cpp
-    QhullPointSet.h
-    QhullRidge.cpp
-    QhullRidge.h
-    QhullSet.cpp
-    QhullSet.h
-    QhullSets.h
-
-  supporting classes
-    functionObjects.h
-    QhullError.cpp
-    QhullError.h
-    QhullEvent.cpp
-    QhullEvent.h
-    QhullLog.cpp
-    QhullLog.h
-    UsingLibQhull.cpp
-    UsingLibQhull.h
-
-cpp/qhulltest/
-  Tests for each class
-    Coordinates_test.cpp
-    PointCoordinates_test.cpp
-    Point_test.cpp
-    QhullFacetList_test.cpp
-    QhullFacetSet_test.cpp
-    QhullFacet_test.cpp
-    QhullHyperplane_test.cpp
-    QhullLinkedList_test.cpp
-    QhullPointSet_test.cpp
-    QhullPoints_test.cpp
-    QhullPoint_test.cpp
-    QhullRidge_test.cpp
-    QhullSet_test.cpp
-    qhulltest.cpp
-    QhullVertexSet_test.cpp
-    QhullVertex_test.cpp
-    Qhull_test.cpp
-    RboxPoints_test.cpp
-    UsingLibQhull_test.cpp
-
-cpp/road/
-  Supporting base classes
-    RoadError.cpp
-    RoadError.h
-    RoadLogEvent.cpp
-    RoadLogEvent.h
-    RoadTest.cpp
-    RoadTest.h
-
+src/road/
+  RoadError.cpp        // Supporting base classes
+  RoadError.h
+  RoadLogEvent.cpp
+  RoadLogEvent.h
+  RoadTest.cpp
+  RoadTest.h
+  
 -----------------
 Authors:
 
-  C. Bradford Barber                    Hannu Huhdanpaa
-  bradb@shore.net                       hannu@qhull.org
+  C. Bradford Barber                  Hannu Huhdanpaa (Version 1.0)
+  bradb@shore.net                     hannu@qhull.org
   
   Qhull 1.0 and 2.0 were developed under NSF grants NSF/DMS-8920161 
   and NSF-CCR-91-15793 750-7504 at the Geometry Center and Harvard 

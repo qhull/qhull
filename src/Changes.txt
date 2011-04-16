@@ -12,166 +12,113 @@ Need help
    Please keep debian files in config/ and project/debian/
    Branch 'debian' is from http://savannah.nongnu.org/cvs/?group=qhull
    project/debian needs updating for its new location.
+ - Qhull-go.bat: How to add $PWD/bin to PATH from QHULL-GO
 
 To do
  - Review email for doc changes
  - Git: Create signed tags for Qhull versions
  - Wiki: Add FIXUP to QH11026 for known problems
  - Notes to compgeom on conformant triangulation and Voronoi volume
- - Add toporient to QhullFacet.  Figure out vertice. 
-    bool                topOrient() const { return qh_facet->toporient; }
  - Add an Autotools build for everything
  - Update debian build
  - RMP build of Qhull
+ - Fix up cpp_command
+ - Set File Ver and Product Ver in dll
+ - Fix MBorland
 
-Links on build systems
-   http://www.murrayc.com/blog/permalink/2009/10/28/trying-qmake-and-cmake/
-   autotools book (available online and in print) is fairly useful, though of course not perfect:
-   http://sources.redhat.com/autobook/
-   http://www.openismus.com/documents/linux/automake/automake.shtml
-   http://www.openismus.com/documents/linux/using_libraries/using_libraries.shtml
-   http://www.openismus.com/documents/linux/building_libraries/building_libraries.shtml
-   http://www.cmake.org/cmake/help/cmake2.6docs.html#module:FindPkgConfig
-   http://www.cmake.org/cmake/help/cmake2.6docs.html#module:UsePkgConfig
-   http://www.itk.org/Wiki/CMake_HowToDoPlatformChecks
-   http://www.cmake.org/cmake/help/cmake-2-8-docs.html#command:configure_file
-   http://www.freesoftwaremagazine.com/books/autotools_a_guide_to_autoconf_automake_libtool
-   http://www.lrde.epita.fr/~adl/autotools.html
-   http://www.flameeyes.eu/autotools-mythbuster/
-
-
-To do
- incremental did not work
- -rtti did not turn off run-time type info in DevStudio
- Fix up cpp_command
- Set File Ver and Product Ver in dll
- Decide on qhullstatic-p or qhullstatic_p
- Move files to lib and bin directories
+-----------------
+Gitorious 2010/04/16
+ Rewrote README.txt
+ Redid vcproj for DevStudio builds
+ - Updated files for 2011.1
+ - Rename libqhull to libqhull6 in accord with qhull6.dll
+ - Added qh_QHpointer_dllimport to work around MSVC problem
+ - user_eg.c: Added test of qh_qh for qh_QHpointer_dllimport
+ - qhull-exports.def: Identify data items
+ - qhull-exports.def: Add VERSION
+ - Add test for executables to q_eg, etc.
+ - Add explanation of user_eg* to user_eg prompts
+ - index.htm: Fix MATLAB links
+ - QhullFacet: Added isSimplicial, isTopOrient, isTriCoplanar, isUpperDelaunay
  
 ------------
-gitorious.org/qhull 2011/04/06
- - Redo vcproj and sln using eg/make-vcproj.sh
- - Add Fixup identifiers
- - Use qhull_d6 instead of qhull_d
+Qhull 2011.0  2010/04/08 6.2.0 
 
-gitorious.org/qhull 2011/04/03
- - Rewrote CMakeLists.txt to build qhull targets
- - qvoronoi: Deprecated 'Qt' and 'QJn'.  Removed from documentation and prompts.
-   These options produce duplicate Voronoi vertices for cospherical data.
- - QhullError: Add copy constructor, assignment operator, and destructor
- - Add throw() specifiers to RoadError and QhullError
- - Fixed additional uses of strncat
+Changes to deliverables
+ - qvoronoi: Deprecated 'Qt' and 'QJn'. Removed from documentation and prompts.
+   These options produced duplicate Voronoi vertices for cospherical data.
  - Removed doskey from Qhull-go.bat.  It is incompatible with Windows 7
+ - Added 'facets' argument to user_eg3.cpp
+ - user_eg links with shared library
+ - qhulltest.cpp: Add closing prompt.
+
+Changes to documentation
+ - qvoronoi.htm: Remove quotes from qvoronoi example
+ - qhull-cpp.xml: Add naming conventions
+ - index.htm: Add Google Scholar references
+ - qh-optf.htm: Add note about order of 'Fn' matching 'Fv' order [Q. Pan]
+ - Add patch for old builds in qh-get.htm
+ - Added C++ compiling instructions to README.txt
+ - Add instructions for fixing the DOS window
+
+Changes to build system
+ - Reorganized source directories
+ - Moved executables to bin directory
+ - Add CMake build for all targets (CMakeFiles.txt) [M. Moll assisted]
+ - Add gcc build for all targets (Makefile)
+ - Fixed location of qhull.man and rbox.man [M. Moll]
+ - Add DevStudio builds for all targets (build/*.vcproj)
+ - Added shared library (lib/qhull6.dll)
+   Added qh_QHpointer_dllimport to work around problems with MSVC
+ - Added static libraries with and without qh_QHpointer (lib/qhullstatic.lib)
+ - Added eg/make-vcproj.sh to create vcproj/sln files from cmake and qmake
+ - Document location of qh_QHpointer
+ - Use shadow build directory
+ - Made -fno-strict-aliasing conditional on gcc version
+ - Added src/qhull-app-cpp.pri, src/qhull-app-c.pri, etc. for common settings
+ - Add .gitignore with ignored files and directories.  
+ -   Use .git/info/exclude for locally excluded files.
+
+Changes to C code
  - mem.h: Define ptr_intT as 'long long' for Microsoft Windows _win64 builds.
    On Linux and Mac, 'long' is 64-bits on a 64-bit host
- - Moved include's to top of Qt .pro files.  Define $VERSION before $VER_MAJ.
- - Name shared library with $VER_MAJ
+ - qconvex.c,etc.: Define prototype for _isatty
+ - Define MSG_QHULL_ERROR in user.h
+ - Move MSG_FIXUP to 11000 and updated FIXUP QH11...
 
-gitorious.org/qhull 2011/03/28
- - Produce one shared library, version 6.0.0, from libqhullstatic-p
- - user_eg links with shared library instead of user_eg2
- - Reorganized Makefile.  Fixed LIBQHULLSP_OBJS.  Moved shared library to lib/...
+Changes to test code
+ - Add note to q_test than R1e-3 may error (qh-code.htm, Enhancements)
 
-gitorious.org/qhull 2011/03/27
- - Fixed QhullFacet::PrintRidges to check hasNextRidge3d()
- - Cleaned up project files
- - Fixed Makefile for shared libraries, but does not work on all platforms
- - Moved libqhull to libqhullstatic, as done in CMakeLists
- - Made libqhull a shared library
-   The msvc build does not generate a valid dll
- - Restored /INCREMENTAL:NO since CONFIG -= incremental did not work
- - Added 'facets' argument to user_eg3.cpp
- - Added DevStudio solution and vcproj files.  The shared library build did not work.
-
-gitorious.org/qhull 2011/03/26
- - Pull out gcc warnings into qhull-warn.pri
- - Pull out libqhull files into qhull-libsrc.pri
- - Document location of qh_QHpointer
- - Use CONFIG incremental instead of vc option
- - user_eg2 links with shared library (project will be added later after rename)
-
-gitorious.org/qhull 2011/03/25
- - Moved src/libqhull/Makefile.txt to Makefile
- - Makefile: Added libqhullp, libqhullcpp, user_eg3, qhulltest
- - Build: Removed -frtti from gcc build
- - Build: Comment out -Werror
- - Removed semicolon after extern "C" {...}
- - Renamed parameters, locals, and fields to avoid shadowing
- - Removed experimental QhullEvent/QhullLog
-
-gitorious.org/qhull 2011/03/09
- - Compiles gcc with all warnings except for -Wno-sign-conversion and -Wconversion
- - Compiles g++ with all warnings except for -Wshadow and -Wconversion in Qt
- - Needed to turn off -Wshadow and -Wconversion warnings due to Qt warnings
-
-gitorious.org/qhull 2011/03/07
- - Merged changes from J. Obermayr in gitorious/jobermayrs-qhull:next
- -   Fix strncat limit in rboxlib.c and global.c
- -   Changes to CMakeLists.txt for openSUSE.  Needs reorganizing
+Changes to C++ interface
+ - QhullFacet: Added isSimplicial, isTopOrient, isTriCoplanar, isUpperDelaunay
+ - Added Qhull::defineVertexFacetNeighbors() for facetNeighbors of vertices.
+   Automatically called for facet merging and Voronoi diagrams
+   Do not print QhullVertex::facetNeighbors is !facetNeighborsDefined()
+ - Add Fixup identifiers
+ - QhullError: Add copy constructor, assignment operator, and destructor
+ - Add throw() specifiers to RoadError and QhullError
  - Renamed RoadError::defined() to RoadError::isDefined()
  - Renamed RoadEvent::defined() to RoadEvent::isDefined()
- - Use fabs() instead of abs() to avoid accidental conversions to int
- - qconvex.c,etc.: Define prototype for _isatty
- - Rename parameters to avoid overriding other methods
- - qt-qhull.cpp: Move QHULL_USES_QT before the includes
- - qhulltest.cpp: Add closing prompt.
- - Moved projects/debian to src/debian.  Needs reorganizing
- - Moved Qt project files into src
- -   Use shadow build directory instead of tmp (QtCreator's default)
- -   Moved targets to bin and lib
- -   Build static libraries for ease of distribution
- -   Remove VPATH
- -   Remove gcc options from DevStudio builds
- -   Remove QhullError.cpp and QhullEvent.cpp (empty files)
- -   Do not remove app_bundle from CONFIG
- -   Make -fno-strict-aliasing conditional on gcc version
- -   Added src/qhull-app-cpp.pri and src/qhull-app-c.pri for common settings
- -   libqhull.pro: Comment out -Wno-sign-conversion
- -   gcc warnings need fixing.  Does not build with gcc 4.4 and warn_on
- - qvoronoi.htm: Remove quotes from qvoronoi example
- - qhull-cpp.xml: Add naming conventions, try, Temporarily, p, end, private, error
- - Changes.txt: Links to build systems
+ - Add #error to Qhull.h if qh_QHpointer is not defined
 
-------------
-gitorious.org/qhull 2010/03/17
+Changes to C++ code
+ - Fixed bug reported by renangms.  Vertex output throws error QH10034
+   and defineVertexNeighbors() does not exist.
  - Define QHULL_USES_QT for qt-qhull.cpp [renangms]
-
-------------
-gitorious.org/qhull 2010/03/14
-- Fixed bug reported by renangms.  Vertex output throws error QH10034
-  and defineVertexNeighbors() does not exist.
-- Add Qhull::defineVertexFacetNeighbors() for facetNeighbors of vertices.
-  Automatically called for facet merging and Voronoi diagrams
-  Do not print QhullVertex::facetNeighbors is !facetNeighborsDefined()
-- Fixed type of vertex->neighbors in qh_printvoronoi [no effect on results]
-- Removed unnecessary if statement in qh_printvoronoi
-- index.htm: Add Google Scholar references
-
-------------
-gitorious.org/qhull 2010/01/25
-- Fixed src/CMakeLists.txt [M. Moll]
-- qh-optf.htm: Add note about order of 'Fn' matching 'Fv' order [Q. Pan]
-- Add .gitignore with ignored files and directories.  
--   Use .git/info/exclude for locally excluded files.
-
-------------
-gitorious.org/qhull 2010/01/23
-- Reviewed all copy constructors and copy assignments.  Updated comments.
+ - Reviewed all copy constructors and copy assignments.  Updated comments.
    Defined Qhull copy constructor and copy assignment [G. Rivet-Sabourin]
    Disabled UsingQhullLib default constructor, copy construct, and copy assign 
-- Add #error to Qhull.h if qh_QHpointer is not defined
-- Define MSG_QHULL_ERROR in user.h
-- Move MSG_FIXUP to 11000 and updated FIXUP QH11...
-- Add patch for old builds in qh-get.htm
-- Add eg/q_test to libqhull.pro
-  Add note to q_test than R1e-3 may error (qh-code.htm, Enhancements)
-- Added C++ compiling instructions to README.txt
-  Add instructions for fixing the DOS window
-- Updated CMakeLists.txt to compile shared and static libraries and link the 
-   command line utilities to the shared one.  Allows install of 
-   targets, libqhull.h, and html docs.  [M. Moll]
-- Fixed location of qhull.man and rbox.man in src/Makefile.txt [M. Moll]
-- Copy HEADER and OTHERFILES from libqhull.pro to libqhullp.pro
+ - Merged changes from J. Obermayr in gitorious/jobermayrs-qhull:next
+ -   Fix strncat limit in rboxlib.c and global.c
+ -   Changes to CMakeLists.txt for openSUSE
+ - Fixed additional uses of strncat
+ - Fixed QhullFacet::PrintRidges to check hasNextRidge3d()
+ - Removed gcc warnings for shadowing from code (src/qhull-warn.pri)
+ - Removed semicolon after extern "C" {...}
+ - Removed experimental QhullEvent/QhullLog
+ - Use fabs() instead of abs() to avoid accidental conversions to int
+ - Fixed type of vertex->neighbors in qh_printvoronoi [no effect on results]
+ - Removed unnecessary if statement in qh_printvoronoi
 
 ------------
 qhull 2010.1 2010/01/14

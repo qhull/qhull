@@ -108,7 +108,7 @@ md5_zip_file=qhull-$version.zip.md5sum
 md5_tgz_file=qhull-$version-src.tgz.md5sum
 
 # recursive 
-qhull_dirs="qhull/cpp qhull/eg qhull/html qhull/src"
+qhull_dirs="qhull/bin qhull/cpp qhull/eg qhull/html qhull/lib qhull/src"
 qhull_files="qhull/project/*.pro qhull/project/*.sln qhull/project/*/*.vcproj qhull/project/*/*.pro \
     qhull/project/libqhull.vcproj \
     qhull/Announce.txt qhull/CMakeLists.txt qhull/COPYING.txt qhull/File_id.diz qhull/QHULL-GO.pif \

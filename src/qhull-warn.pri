@@ -7,7 +7,8 @@
 # -------------------------------------------------
 
 # [apr'11] VERSION works erratically for msvc builds
-# VERSION = 6.0.0
+# VERSION = 6.2.0
+qhull_VERSION_MAJOR = 6
 
 # Uncomment to report warnings as errors
 #CONFIG += qhull_warn_error

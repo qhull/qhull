@@ -76,13 +76,15 @@ CC_OPTS1  = -O2 -fPIC -ansi -fno-strict-aliasing -Isrc/libqhull $(CC_WARNINGS)
 CXX       = g++
 # libqhullcpp must be before libqhull
 CXX_OPTS1 = -O2 -Dqh_QHpointer -Isrc/ -Isrc/libqhullcpp -Isrc/libqhull $(CXX_WARNINGS)
+
 # for shared library link
 CC_OPTS3  =
-VER_MAJ=6
-SO  = so.$(VER_MAJ).0.0
+# Define qhull_VERSION in CMakeLists.txt, Makefile, qhull-exports.def, and qhull-warn.pri
+qhull_VERSION_MAJOR=6
+SO  = so.6.2.0
 # On MinGW, 
-#   SO = 6.dll
-#   CC_OPTS3= -Wl,-s -Wl,--out-implib,bin/libqhull.a -Wl,-enable-stdcall-fixup -Wl,-enable-auto-import -Wl,-enable-runtime-pseudo-reloc
+#   SO = dll
+#   CC_OPTS3= -Wl,-s -Wl,--out-implib,bin/libqhull$(qhull_VERSION_MAJOR).a -Wl,-enable-stdcall-fixup -Wl,-enable-auto-import -Wl,-enable-runtime-pseudo-reloc
 
 # for Sun's cc compiler, -fast or O2 for optimization, -g for debugging, -Xc for ANSI
 #CC       = cc
@@ -402,9 +404,9 @@ lib/libqhullcpp.a: $(LIBQHULLCPP_OBJS)
 	ar -rs $@ $^
 	#ranlib $@
 
-lib/libqhull.$(SO): $(LIBQHULLSP_OBJS)
+lib/libqhull$(qhull_VERSION_MAJOR).$(SO): $(LIBQHULLSP_OBJS)
 	$(CC) -shared -o $@ $(CC_OPTS3) $^
-	cd lib && ln -f -s libqhull.$(SO) libqhull.so
+	cd lib && ln -f -s libqhull$(qhull_VERSION_MAJOR).$(SO) libqhull$(qhull_VERSION_MAJOR).so
 
 # don't use ../qconvex.	 Does not work on Red Hat Linux
 bin/qconvex: src/qconvex/qconvex.o lib/libqhullstatic.a
@@ -426,9 +428,10 @@ bin/qhull: src/qhull/unix.o lib/libqhullstatic.a
 bin/rbox: src/rbox/rbox.o lib/libqhullstatic.a
 	$(CC) -o $@ $< $(CC_OPTS2) -Llib -lqhullstatic -lm
 
-bin/user_eg: src/user_eg/user_eg.c lib/libqhull.$(SO)
+bin/user_eg: src/user_eg/user_eg.c lib/libqhull$(qhull_VERSION_MAJOR).$(SO)
 	echo -e '\n== If user_eg fails to link, switch to -lqhullstatic-p.\n== On MinGW/Cygwin, use "make SO=dll"'
-	$(CC) -o $@ $< -Dqh_QHpointer  $(CC_OPTS1) $(CC_OPTS3) -Llib -lqhull -lm
+	$(CC) -o $@ $< -Dqh_QHpointer  $(CC_OPTS1) $(CC_OPTS3) -Llib -lqhull$(qhull_VERSION_MAJOR) -lm
+	echo -e "\\n== For mingw, copy lib/libqhull$(qhull_VERSION_MAJOR).$(SO) to bin ==\\n"
 
 bin/user_eg2: src/user_eg2/user_eg2.o lib/libqhullstatic.a 
 	$(CC) -o $@ $< $(CC_OPTS2) -Llib -lqhullstatic -lm

@@ -11,7 +11,7 @@ CONFIG -= qt
 
 LIBS += -L../../lib
 build_pass:CONFIG(debug, debug|release){
-   LIBS += -lqhullstatic-d
+   LIBS += -lqhullstatic_d
    OBJECTS_DIR = Debug
 }else:build_pass:CONFIG(release, debug|release){
    LIBS += -lqhullstatic

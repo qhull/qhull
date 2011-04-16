@@ -6,6 +6,10 @@ else
    echo Run eg/q_egtest from the Qhull directory
    exit
 fi
+if [ ! -e bin/qconvex -a ! -e bin/qconvex.exe ]; then
+    echo Build qhull first.  Executables are missing.
+    exit
+fi
 set -v
 rbox d D3 | qconvex s Gnrv Tc Tv >eg/eg.t01.spheres.3
 rbox d D2 | qconvex s Gnv  Tc Tv >eg/eg.t02.spheres.2

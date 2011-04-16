@@ -9,7 +9,7 @@ TEMPLATE = lib
 CONFIG += staticlib warn_on
 CONFIG -= qt rtti
 build_pass:CONFIG(debug, debug|release):{
-   TARGET = qhullcpp-d
+   TARGET = qhullcpp_d
    OBJECTS_DIR = Debug
 }else:build_pass:CONFIG(release, debug|release):{
    TARGET = qhullcpp

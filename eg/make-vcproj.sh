@@ -40,15 +40,23 @@ for f in buildvc/*.vcproj buildqt/qhulltest/*.vcproj; do
     	-e 's/;CMAKE_INTDIR=..quot;[A-Za-z]*..quot;//' \
     	-e 's/LinkIncremental="2"/LinkIncremental="1"/' \
     	-e 's/RuntimeLibrary[=]/RuntimeTypeInfo="false"  RuntimeLibrary=/' \
-    	-e 's/.*RuntimeTypeInfo."TRUE".*\n//' \
+    	-e 's/.*RuntimeTypeInfo."TRUE".*//' \
     	-e 's/buildvc/build/g' \
     	-e 's/buildqt/build/g' \
     	-e 's/\.\.\\\.\./../g' \
     	-e 's|\.\./\.\.|..|g' \
     	-e 's/c:\\qt\\[0-9]\.[0-9]\.[0-9]/\$(QTDIR)/g' \
+    	-e 's|..\\build\\[a-zA-Z]*[\\/]([_a-z0-9]*.pdb)|..\\bin\\\1|g' \
+    	-e 's|..\\build\\[a-zA-Z]*[\\/]([_a-z0-9]*.exe)|..\\bin\\\1|g' \
+    	-e 's|..\\build\\[a-zA-Z]*[\\/]([_a-z0-9]*.lib)|..\\lib\\\1|g' \
+    	-e 's|..\\build\\[a-zA-Z]*[\\/]([_a-z0-9]*.dll)|..\\bin\\\1|g' \
+    	-e 's| [a-zA-Z]*[\\/]([_a-z0-9]*.lib)| ..\\lib\\\1|g' \
+    	-e 's/"([_a-z0-9]*.exe)/"..\\bin\\\1/g' \
 	$f > $dest
 done
-echo '*.vcproj: Delete empty File in Files section near end of vcproj'
+
+echo 'Except for qhulltest.vcproj, delete empty File in Files section near end of vcproj'
+echo 'Except for qhulltest.vcproj, rename debug targets to qhull_d.dll, etc.'
 
 # If need to rebuild sln
 sed -e '\|Project.*ALL_BUILD|,\|EndProject$| d' \

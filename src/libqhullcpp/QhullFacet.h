@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2011 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/QhullFacet.h#3 $$Change: 1342 $
-** $DateTime: 2011/03/07 21:55:47 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullcpp/QhullFacet.h#5 $$Change: 1367 $
+** $DateTime: 2011/04/08 22:21:11 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -67,20 +67,23 @@ public:
 
 #//getSet
     int                 dimension() const;
-    int                 id() const { return qh_facet ? qh_facet->id : -1; }
-    bool                isDefined() const { return qh_facet && qh_facet != &s_empty_facet; }
-    bool                isGood() const { return qh_facet && qh_facet->good; }
-    QhullFacet          next() const { return qh_facet->next; }
-    bool                operator==(const QhullFacet &o) const { return qh_facet==o.qh_facet; }
-    bool                operator!=(const QhullFacet &o) const { return !operator==(o); }
-    QhullFacet          previous() const { return qh_facet->previous; }
-    QhullFacet          tricoplanarOwner() const;
-
     QhullPoint          getCenter(int qhRunId) { return getCenter(qhRunId, qh_PRINTpoints); }
     QhullPoint          getCenter(int qhRunId, qh_PRINT printFormat);
     QhullHyperplane     hyperplane() const { return QhullHyperplane(dimension(), qh_facet->normal, qh_facet->offset); }
+    int                 id() const { return qh_facet ? qh_facet->id : -1; }
     QhullHyperplane     innerplane(int qhRunId) const;
+    bool                isDefined() const { return qh_facet && qh_facet != &s_empty_facet; }
+    bool                isGood() const { return qh_facet && qh_facet->good; }
+    bool                isSimplicial() const { return qh_facet->simplicial; }
+    bool                isTopOrient() const { return qh_facet->toporient; }
+    bool                isTriCoplanar() const { return qh_facet->tricoplanar; }
+    bool                isUpperDelaunay() const { return qh_facet->upperdelaunay; }
+    QhullFacet          next() const { return qh_facet->next; }
+    bool                operator==(const QhullFacet &o) const { return qh_facet==o.qh_facet; }
+    bool                operator!=(const QhullFacet &o) const { return !operator==(o); }
     QhullHyperplane     outerplane(int qhRunId) const;
+    QhullFacet          previous() const { return qh_facet->previous; }
+    QhullFacet          tricoplanarOwner() const;
     QhullPoint          voronoiVertex(int qhRunId);
 
 #//value

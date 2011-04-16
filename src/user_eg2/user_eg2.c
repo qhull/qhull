@@ -51,7 +51,9 @@
    Defining #if 1, also prevents user.o from being loaded.
 */
 
+extern "C" {
 #include "qhull_a.h"
+}
 
 /*-------------------------------------------------
 -internal function prototypes
@@ -349,9 +351,9 @@ int main (int argc, char *argv[]) {
   char options [2000];
 
   printf ("This is the output from user_eg2.c\n\n\
-It shows how qhull() may be called from an application.  It is not part\n\
-of qhull itself.  If it appears accidently, please remove user_eg2.c from\n\
-your project.\n\n");
+It shows how qhull() may be called from an application in the same way as\n\
+qconvex.  It is not part of qhull itself.  If it appears accidently,\n\
+please remove user_eg2.c from your project.\n\n");
   ismalloc= False;      /* True if qh_freeqhull should 'free(array)' */
   /*
     Run 1: convex hull

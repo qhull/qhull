@@ -9,14 +9,15 @@
 # Visual Studio builds includes debug and release targets
 #   Please rename library debug targets to ..._d... (e.g., qhullstatic_d.lib)
 #
-# $Id: //main/2011/qhull/CMakeLists.txt#5 $$Change: 1364 $
-# $DateTime: 2011/04/06 23:02:11 $$Author: bbarber $
+# $Id: //main/2011/qhull/CMakeLists.txt#7 $$Change: 1368 $
+# $DateTime: 2011/04/16 08:12:32 $$Author: bbarber $
 
 project(qhull)
 cmake_minimum_required(VERSION 2.6)
 
+# Define qhull_VERSION in CMakeLists.txt, Makefile, qhull-exports.def, and qhull-warn.pri
 string(REGEX REPLACE ".* ([0-9]+) .*"
-    "6.0.0.\\1"  qhull_VERSION "$Change: 1364 $")
+    "6.2.0.\\1"  qhull_VERSION "$Change: 1368 $")
 
 if(INCLUDE_INSTALL_DIR)
 else()
@@ -227,6 +228,11 @@ set(qdelaunay_SOURCES   src/qdelaunay/qdelaun.c)
 set(qvoronoi_SOURCES    src/qvoronoi/qvoronoi.c)
 set(qhalf_SOURCES       src/qhalf/qhalf.c)
 set(user_eg2_SOURCES    src/user_eg2/user_eg2.c)
+if(MSVC)
+    set(user_eg_DEFINES qh_QHpointer qh_QHpointer_dllimport)
+else()
+    set(user_eg_DEFINES qh_QHpointer)
+endif()
 
 add_executable(qhull ${qhull_SOURCES})
 target_link_libraries(qhull ${qhull_STATIC})
@@ -270,10 +276,10 @@ set_target_properties(user_eg2 PROPERTIES
 set(user_eg_SOURCES     src/user_eg/user_eg.c)
 
 add_executable(user_eg ${user_eg_SOURCES})
-# If qh_QHpointer is removed, user_eg links to qhullstatic 
+# user_eg may be linked to qhull_STATIC if user_eg_DEFINES is removed
 target_link_libraries(user_eg ${qhull_SHARED})
 set_target_properties(user_eg PROPERTIES
-    COMPILE_DEFINITIONS "qh_QHpointer"
+    COMPILE_DEFINITIONS ${user_eg_DEFINES}
     VERSION ${qhull_VERSION})
 
 # ---------------------------------------

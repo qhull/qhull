@@ -1,774 +1,591 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8.00"
+	Version="8,00"
 	Name="qhulltest"
 	ProjectGUID="{E12E04D0-C11C-36C0-950E-A203DCBFB37C}"
-	Keyword="Qt4VSv1.0"
-	>
+	Keyword="Qt4VSv1.0">
 	<Platforms>
 		<Platform
-			Name="Win32"
-		/>
+			Name="Win32" />
 	</Platforms>
-	<ToolFiles>
-	</ToolFiles>
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
 			OutputDirectory="."
-			IntermediateDirectory="Debug\"
-			ConfigurationType="1"
-			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-				WarningLevel="0"
-				DefaultCharType="0"
-				EnableErrorChecks="1"
-			/>
+			ConfigurationType="1"
+			IntermediateDirectory="Debug\"
+			UseOfMfc="0">
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="-Zm200 -w34100 -w34189"
-				Optimization="4"
 				AdditionalIncludeDirectories="&quot;c:\Qt\4.7.1\include\QtCore&quot;,&quot;c:\Qt\4.7.1\include\QtGui&quot;,&quot;c:\Qt\4.7.1\include&quot;,&quot;c:\Qt\4.7.1\include\QtTest&quot;,&quot;..\src\libqhullcpp&quot;,&quot;..\src&quot;,&quot;..\src&quot;,&quot;c:\Qt\4.7.1\include\ActiveQt&quot;,&quot;moc&quot;,&quot;..\src\qhulltest&quot;,&quot;.&quot;,c:\Qt\4.7.1\mkspecs\win32-msvc2005"
-				PreprocessorDefinitions="UNICODE,WIN32,QT_LARGEFILE_SUPPORT,qh_QHpointer,QT_DLL,QT_GUI_LIB,QT_CORE_LIB,QT_HAVE_MMX,QT_HAVE_3DNOW,QT_HAVE_SSE,QT_HAVE_MMXEXT,QT_HAVE_SSE2,QT_THREAD_SUPPORT,QT_NO_DYNAMIC_CAST"
-				GeneratePreprocessedFile="0"
-				ExceptionHandling="1"
-				RuntimeLibrary="3"
-				BufferSecurityCheck="false"
-				TreatWChar_tAsBuiltInType="false"
-				RuntimeTypeInfo="false"
-				UsePrecompiledHeader="2"
-				PrecompiledHeaderThrough="..\src\road\RoadTest.h"
-				PrecompiledHeaderFile="$(IntDir)\qhulltest.pch"
+				AdditionalOptions="-Zm200 -w34100 -w34189"
 				AssemblerListingLocation="Debug\"
-				ObjectFile="Debug\"
-				ProgramDataBaseFileName=".\"
-				WarningLevel="3"
-				SuppressStartupBanner="true"
+				BufferSecurityCheck="false"
 				DebugInformationFormat="3"
+				ExceptionHandling="1"
 				ForcedIncludeFiles="..\src\road\RoadTest.h"
-			/>
+				GeneratePreprocessedFile="0"
+				ObjectFile="Debug\"
+				Optimization ="4"
+				PrecompiledHeaderFile="$(IntDir)\qhulltest.pch"
+				PrecompiledHeaderThrough="..\src\road\RoadTest.h"
+				PreprocessorDefinitions="UNICODE,WIN32,QT_LARGEFILE_SUPPORT,qh_QHpointer,QT_DLL,QT_GUI_LIB,QT_CORE_LIB,QT_HAVE_MMX,QT_HAVE_3DNOW,QT_HAVE_SSE,QT_HAVE_MMXEXT,QT_HAVE_SSE2,QT_THREAD_SUPPORT,QT_NO_DYNAMIC_CAST"
+				ProgramDataBaseFileName=".\"
+				RuntimeTypeInfo="false"  RuntimeLibrary="3"
+				SuppressStartupBanner="true"
+				TreatWChar_tAsBuiltInType="false"
+				UsePrecompiledHeader="2"
+				WarningLevel="3" />
 			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="UNICODE,WIN32,QT_LARGEFILE_SUPPORT,qh_QHpointer,QT_DLL,QT_GUI_LIB,QT_CORE_LIB,QT_HAVE_MMX,QT_HAVE_3DNOW,QT_HAVE_SSE,QT_HAVE_MMXEXT,QT_HAVE_SSE2,QT_THREAD_SUPPORT,QT_NO_DYNAMIC_CAST,_DEBUG"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
+				Name="VCCustomBuildTool" />
 			<Tool
 				Name="VCLinkerTool"
-				IgnoreImportLibrary="true"
-				AdditionalDependencies="../lib\qhullcpp-d.lib ../lib\qhullstatic-pd.lib c:\Qt\4.7.1\lib\QtTestd4.lib c:\Qt\4.7.1\lib\QtGuid4.lib c:\Qt\4.7.1\lib\QtCored4.lib"
-				OutputFile="qhulltest.exe"
-				LinkIncremental="1"
-				SuppressStartupBanner="true"
+				AdditionalDependencies="qhullcpp_d.lib qhullstatic_pd.lib c:\Qt\4.7.1\lib\QtTestd4.lib c:\Qt\4.7.1\lib\QtGuid4.lib c:\Qt\4.7.1\lib\QtCored4.lib"
 				AdditionalLibraryDirectories="c:\Qt\4.7.1\lib,../lib"
 				GenerateDebugInformation="true"
+				IgnoreImportLibrary="true"
+				LinkIncremental="1"
+				LinkTimeCodeGeneration="0"
+				OutputFile="..\bin\qhulltest.exe"
 				ProgramDatabaseFile=""
 				SubSystem="1"
-				LinkTimeCodeGeneration="0"
-			/>
+				SuppressStartupBanner="true" />
 			<Tool
-				Name="VCALinkTool"
-			/>
+				Name="VCMIDLTool"
+				DefaultCharType="0"
+				EnableErrorChecks="1"
+				WarningLevel="0" />
 			<Tool
-				Name="VCManifestTool"
-			/>
+				Name="VCPostBuildEventTool" />
 			<Tool
-				Name="VCXDCMakeTool"
-			/>
+				Name="VCPreBuildEventTool" />
 			<Tool
-				Name="VCBscMakeTool"
-			/>
+				Name="VCPreLinkEventTool" />
 			<Tool
-				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-			/>
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="UNICODE,WIN32,QT_LARGEFILE_SUPPORT,qh_QHpointer,QT_DLL,QT_GUI_LIB,QT_CORE_LIB,QT_HAVE_MMX,QT_HAVE_3DNOW,QT_HAVE_SSE,QT_HAVE_MMXEXT,QT_HAVE_SSE2,QT_THREAD_SUPPORT,QT_NO_DYNAMIC_CAST,_DEBUG" />
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
 			OutputDirectory="."
-			IntermediateDirectory="Release\"
-			ConfigurationType="1"
-			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-				WarningLevel="0"
-				DefaultCharType="0"
-				EnableErrorChecks="1"
-			/>
+			ConfigurationType="1"
+			IntermediateDirectory="Release\"
+			UseOfMfc="0">
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="-Zm200 -w34100 -w34189"
-				Optimization="2"
 				AdditionalIncludeDirectories="&quot;c:\Qt\4.7.1\include\QtCore&quot;,&quot;c:\Qt\4.7.1\include\QtGui&quot;,&quot;c:\Qt\4.7.1\include&quot;,&quot;c:\Qt\4.7.1\include\QtTest&quot;,&quot;..\src\libqhullcpp&quot;,&quot;..\src&quot;,&quot;..\src&quot;,&quot;c:\Qt\4.7.1\include\ActiveQt&quot;,&quot;moc&quot;,&quot;..\src\qhulltest&quot;,&quot;.&quot;,c:\Qt\4.7.1\mkspecs\win32-msvc2005"
-				PreprocessorDefinitions="QT_NO_DEBUG,NDEBUG,UNICODE,WIN32,QT_LARGEFILE_SUPPORT,qh_QHpointer,QT_DLL,QT_NO_DEBUG,QT_GUI_LIB,QT_CORE_LIB,QT_HAVE_MMX,QT_HAVE_3DNOW,QT_HAVE_SSE,QT_HAVE_MMXEXT,QT_HAVE_SSE2,QT_THREAD_SUPPORT,QT_NO_DYNAMIC_CAST,NDEBUG"
-				GeneratePreprocessedFile="0"
-				ExceptionHandling="1"
-				RuntimeLibrary="2"
-				BufferSecurityCheck="false"
-				TreatWChar_tAsBuiltInType="false"
-				RuntimeTypeInfo="false"
-				UsePrecompiledHeader="2"
-				PrecompiledHeaderThrough="..\src\road\RoadTest.h"
-				PrecompiledHeaderFile="$(IntDir)\qhulltest.pch"
+				AdditionalOptions="-Zm200 -w34100 -w34189"
 				AssemblerListingLocation="Release\"
-				ObjectFile="Release\"
-				ProgramDataBaseFileName=".\"
-				WarningLevel="3"
-				SuppressStartupBanner="true"
+				BufferSecurityCheck="false"
 				DebugInformationFormat="0"
+				ExceptionHandling="1"
 				ForcedIncludeFiles="..\src\road\RoadTest.h"
-			/>
+				GeneratePreprocessedFile="0"
+				ObjectFile="Release\"
+				Optimization ="2"
+				PrecompiledHeaderFile="$(IntDir)\qhulltest.pch"
+				PrecompiledHeaderThrough="..\src\road\RoadTest.h"
+				PreprocessorDefinitions="QT_NO_DEBUG,NDEBUG,UNICODE,WIN32,QT_LARGEFILE_SUPPORT,qh_QHpointer,QT_DLL,QT_NO_DEBUG,QT_GUI_LIB,QT_CORE_LIB,QT_HAVE_MMX,QT_HAVE_3DNOW,QT_HAVE_SSE,QT_HAVE_MMXEXT,QT_HAVE_SSE2,QT_THREAD_SUPPORT,QT_NO_DYNAMIC_CAST,NDEBUG"
+				ProgramDataBaseFileName=".\"
+				RuntimeTypeInfo="false"  RuntimeLibrary="2"
+				SuppressStartupBanner="true"
+				TreatWChar_tAsBuiltInType="false"
+				UsePrecompiledHeader="2"
+				WarningLevel="3" />
 			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="QT_NO_DEBUG,NDEBUG,UNICODE,WIN32,QT_LARGEFILE_SUPPORT,qh_QHpointer,QT_DLL,QT_NO_DEBUG,QT_GUI_LIB,QT_CORE_LIB,QT_HAVE_MMX,QT_HAVE_3DNOW,QT_HAVE_SSE,QT_HAVE_MMXEXT,QT_HAVE_SSE2,QT_THREAD_SUPPORT,QT_NO_DYNAMIC_CAST"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
+				Name="VCCustomBuildTool" />
 			<Tool
 				Name="VCLinkerTool"
-				IgnoreImportLibrary="true"
-				AdditionalDependencies="qhullcpp.lib qhullstatic_p.lib c:\Qt\4.7.1\lib\QtTest4.lib c:\Qt\4.7.1\lib\QtGui4.lib c:\Qt\4.7.1\lib\QtCore4.lib"
-				OutputFile="qhulltest.exe"
-				LinkIncremental="1"
-				SuppressStartupBanner="true"
+				AdditionalDependencies="../lib\qhullcpp.lib ../lib\qhullstatic_p.lib c:\Qt\4.7.1\lib\QtTest4.lib c:\Qt\4.7.1\lib\QtGui4.lib c:\Qt\4.7.1\lib\QtCore4.lib"
 				AdditionalLibraryDirectories="c:\Qt\4.7.1\lib,../lib"
 				GenerateDebugInformation="false"
+				IgnoreImportLibrary="true"
+				LinkIncremental="1"
+				LinkTimeCodeGeneration="0"
+				OutputFile="..\bin\qhulltest.exe"
 				ProgramDatabaseFile=""
 				SubSystem="1"
-				LinkTimeCodeGeneration="0"
-			/>
+				SuppressStartupBanner="true" />
 			<Tool
-				Name="VCALinkTool"
-			/>
+				Name="VCMIDLTool"
+				DefaultCharType="0"
+				EnableErrorChecks="1"
+				WarningLevel="0" />
 			<Tool
-				Name="VCManifestTool"
-			/>
+				Name="VCPostBuildEventTool" />
 			<Tool
-				Name="VCXDCMakeTool"
-			/>
+				Name="VCPreBuildEventTool" />
 			<Tool
-				Name="VCBscMakeTool"
-			/>
+				Name="VCPreLinkEventTool" />
 			<Tool
-				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-			/>
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="QT_NO_DEBUG,NDEBUG,UNICODE,WIN32,QT_LARGEFILE_SUPPORT,qh_QHpointer,QT_DLL,QT_NO_DEBUG,QT_GUI_LIB,QT_CORE_LIB,QT_HAVE_MMX,QT_HAVE_3DNOW,QT_HAVE_SSE,QT_HAVE_MMXEXT,QT_HAVE_SSE2,QT_THREAD_SUPPORT,QT_NO_DYNAMIC_CAST" />
 		</Configuration>
 	</Configurations>
-	<References>
-	</References>
 	<Files>
 		<Filter
 			Name="Source Files"
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx"
-			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
-			>
+			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}">
 			<File
-				RelativePath="..\src\qhulltest\Coordinates_test.cpp"
-				>
-			</File>
+				RelativePath="..\src\qhulltest\Coordinates_test.cpp" />
 			<File
-				RelativePath="..\src\qhulltest\PointCoordinates_test.cpp"
-				>
-			</File>
+				RelativePath="..\src\qhulltest\PointCoordinates_test.cpp" />
 			<File
-				RelativePath="..\src\qhulltest\Qhull_test.cpp"
-				>
-			</File>
+				RelativePath="..\src\qhulltest\QhullFacetList_test.cpp" />
 			<File
-				RelativePath="..\src\qhulltest\QhullFacet_test.cpp"
-				>
-			</File>
+				RelativePath="..\src\qhulltest\QhullFacetSet_test.cpp" />
 			<File
-				RelativePath="..\src\qhulltest\QhullFacetList_test.cpp"
-				>
-			</File>
+				RelativePath="..\src\qhulltest\QhullFacet_test.cpp" />
 			<File
-				RelativePath="..\src\qhulltest\QhullFacetSet_test.cpp"
-				>
-			</File>
+				RelativePath="..\src\qhulltest\QhullHyperplane_test.cpp" />
 			<File
-				RelativePath="..\src\qhulltest\QhullHyperplane_test.cpp"
-				>
-			</File>
+				RelativePath="..\src\qhulltest\QhullLinkedList_test.cpp" />
 			<File
-				RelativePath="..\src\qhulltest\QhullLinkedList_test.cpp"
-				>
-			</File>
+				RelativePath="..\src\qhulltest\QhullPointSet_test.cpp" />
 			<File
-				RelativePath="..\src\qhulltest\QhullPoint_test.cpp"
-				>
-			</File>
+				RelativePath="..\src\qhulltest\QhullPoint_test.cpp" />
 			<File
-				RelativePath="..\src\qhulltest\QhullPoints_test.cpp"
-				>
-			</File>
+				RelativePath="..\src\qhulltest\QhullPoints_test.cpp" />
 			<File
-				RelativePath="..\src\qhulltest\QhullPointSet_test.cpp"
-				>
-			</File>
+				RelativePath="..\src\qhulltest\QhullRidge_test.cpp" />
 			<File
-				RelativePath="..\src\qhulltest\QhullRidge_test.cpp"
-				>
-			</File>
+				RelativePath="..\src\qhulltest\QhullSet_test.cpp" />
 			<File
-				RelativePath="..\src\qhulltest\QhullSet_test.cpp"
-				>
-			</File>
+				RelativePath="..\src\qhulltest\QhullVertex_test.cpp" />
 			<File
-				RelativePath="..\src\qhulltest\qhulltest.cpp"
-				>
-			</File>
+				RelativePath="..\src\qhulltest\Qhull_test.cpp" />
 			<File
-				RelativePath="..\src\qhulltest\QhullVertex_test.cpp"
-				>
-			</File>
+				RelativePath="..\src\qhulltest\RboxPoints_test.cpp" />
 			<File
-				RelativePath="..\src\libqhullcpp\qt-qhull.cpp"
-				>
-			</File>
+				RelativePath="..\src\road\RoadTest.cpp" />
 			<File
-				RelativePath="..\src\qhulltest\RboxPoints_test.cpp"
-				>
-			</File>
+				RelativePath="..\src\qhulltest\UsingLibQhull_test.cpp" />
 			<File
-				RelativePath="..\src\road\RoadTest.cpp"
-				>
-			</File>
+				RelativePath="..\src\qhulltest\qhulltest.cpp" />
 			<File
-				RelativePath="..\src\qhulltest\UsingLibQhull_test.cpp"
-				>
-			</File>
+				RelativePath="..\src\libqhullcpp\qt-qhull.cpp" />
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
-			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
-			>
+			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}">
 			<File
-				RelativePath="..\src\road\RoadTest.h"
-				>
+				RelativePath="..\src\road\RoadTest.h">
 				<FileConfiguration
-					Name="Debug|Win32"
-					>
+					Name="Debug|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						Description="Generating precompiled header source file &apos;..\src\road\RoadTest.h.cpp&apos; ..."
-						CommandLine="C:\Qt\4.7.1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -Dqh_QHpointer -DQT_DLL -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DQT_NO_DYNAMIC_CAST -I&quot;c:\Qt\4.7.1\include\QtCore&quot; -I&quot;c:\Qt\4.7.1\include\QtGui&quot; -I&quot;c:\Qt\4.7.1\include&quot; -I&quot;c:\Qt\4.7.1\include\QtTest&quot; -I&quot;..\src\libqhullcpp&quot; -I&quot;..\src&quot; -I&quot;..\src&quot; -I&quot;c:\Qt\4.7.1\include\ActiveQt&quot; -I&quot;moc&quot; -I&quot;..\src\qhulltest&quot; -I&quot;.&quot; -Ic:\Qt\4.7.1\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 ..\src\road\RoadTest.h -o moc\moc_RoadTest.cpp &amp;&amp; echo /*-------------------------------------------------------------------- &gt;..\src\road\RoadTest.h.cpp &amp;&amp; echo * Precompiled header source file used by Visual Studio.NET to generate&gt;&gt;..\src\road\RoadTest.h.cpp &amp;&amp; echo * the .pch file.&gt;&gt;..\src\road\RoadTest.h.cpp &amp;&amp; echo *&gt;&gt;..\src\road\RoadTest.h.cpp &amp;&amp; echo * Due to issues with the dependencies checker within the IDE, it&gt;&gt;..\src\road\RoadTest.h.cpp &amp;&amp; echo * sometimes fails to recompile the PCH file, if we force the IDE to&gt;&gt;..\src\road\RoadTest.h.cpp &amp;&amp; echo * create the PCH file directly from the header file.&gt;&gt;..\src\road\RoadTest.h.cpp &amp;&amp; echo *&gt;&gt;..\src\road\RoadTest.h.cpp &amp;&amp; echo * This file is auto-generated by qmake since no PRECOMPILED_SOURCE was&gt;&gt;..\src\road\RoadTest.h.cpp &amp;&amp; echo * specified, and is used as the common stdafx.cpp. The file is only&gt;&gt;..\src\road\RoadTest.h.cpp &amp;&amp; echo * generated when creating .vcproj project files, and is not used for&gt;&gt;..\src\road\RoadTest.h.cpp &amp;&amp; echo * command line compilations by nmake.&gt;&gt;..\src\road\RoadTest.h.cpp &amp;&amp; echo *&gt;&gt;..\src\road\RoadTest.h.cpp &amp;&amp; echo * WARNING: All changes made in this file will be lost.&gt;&gt;..\src\road\RoadTest.h.cpp &amp;&amp; echo --------------------------------------------------------------------*/&gt;&gt;..\src\road\RoadTest.h.cpp &amp;&amp; echo #include &quot;RoadTest.h&quot;&gt;&gt;..\src\road\RoadTest.h.cpp&#x0D;&#x0A;"
 						AdditionalDependencies="..\src\road\RoadTest.h;C:\Qt\4.7.1\bin\moc.exe"
+						CommandLine="C:\Qt\4.7.1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -Dqh_QHpointer -DQT_DLL -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DQT_NO_DYNAMIC_CAST -I&quot;c:\Qt\4.7.1\include\QtCore&quot; -I&quot;c:\Qt\4.7.1\include\QtGui&quot; -I&quot;c:\Qt\4.7.1\include&quot; -I&quot;c:\Qt\4.7.1\include\QtTest&quot; -I&quot;..\src\libqhullcpp&quot; -I&quot;..\src&quot; -I&quot;..\src&quot; -I&quot;c:\Qt\4.7.1\include\ActiveQt&quot; -I&quot;moc&quot; -I&quot;..\src\qhulltest&quot; -I&quot;.&quot; -Ic:\Qt\4.7.1\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 ..\src\road\RoadTest.h -o moc\moc_RoadTest.cpp &amp;&amp; echo /*-------------------------------------------------------------------- >..\src\road\RoadTest.h.cpp &amp;&amp; echo * Precompiled header source file used by Visual Studio.NET to generate>>..\src\road\RoadTest.h.cpp &amp;&amp; echo * the .pch file.>>..\src\road\RoadTest.h.cpp &amp;&amp; echo *>>..\src\road\RoadTest.h.cpp &amp;&amp; echo * Due to issues with the dependencies checker within the IDE, it>>..\src\road\RoadTest.h.cpp &amp;&amp; echo * sometimes fails to recompile the PCH file, if we force the IDE to>>..\src\road\RoadTest.h.cpp &amp;&amp; echo * create the PCH file directly from the header file.>>..\src\road\RoadTest.h.cpp &amp;&amp; echo *>>..\src\road\RoadTest.h.cpp &amp;&amp; echo * This file is auto-generated by qmake since no PRECOMPILED_SOURCE was>>..\src\road\RoadTest.h.cpp &amp;&amp; echo * specified, and is used as the common stdafx.cpp. The file is only>>..\src\road\RoadTest.h.cpp &amp;&amp; echo * generated when creating .vcproj project files, and is not used for>>..\src\road\RoadTest.h.cpp &amp;&amp; echo * command line compilations by nmake.>>..\src\road\RoadTest.h.cpp &amp;&amp; echo *>>..\src\road\RoadTest.h.cpp &amp;&amp; echo * WARNING: All changes made in this file will be lost.>>..\src\road\RoadTest.h.cpp &amp;&amp; echo --------------------------------------------------------------------*/>>..\src\road\RoadTest.h.cpp &amp;&amp; echo #include &quot;RoadTest.h&quot;>>..\src\road\RoadTest.h.cpp"
+						Description="Generating precompiled header source file &apos;..\src\road\RoadTest.h.cpp&apos; ..."
 						Outputs="moc\moc_RoadTest.cpp;..\src\road\RoadTest.h.cpp"
-					/>
+						Path="c:\Qt\4.7.1\bin" />
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
-					>
+					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						Description="Generating precompiled header source file &apos;..\src\road\RoadTest.h.cpp&apos; ..."
-						CommandLine="C:\Qt\4.7.1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -Dqh_QHpointer -DQT_DLL -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DQT_NO_DYNAMIC_CAST -I&quot;c:\Qt\4.7.1\include\QtCore&quot; -I&quot;c:\Qt\4.7.1\include\QtGui&quot; -I&quot;c:\Qt\4.7.1\include&quot; -I&quot;c:\Qt\4.7.1\include\QtTest&quot; -I&quot;..\src\libqhullcpp&quot; -I&quot;..\src&quot; -I&quot;..\src&quot; -I&quot;c:\Qt\4.7.1\include\ActiveQt&quot; -I&quot;moc&quot; -I&quot;..\src\qhulltest&quot; -I&quot;.&quot; -Ic:\Qt\4.7.1\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 ..\src\road\RoadTest.h -o moc\moc_RoadTest.cpp &amp;&amp; echo /*-------------------------------------------------------------------- &gt;..\src\road\RoadTest.h.cpp &amp;&amp; echo * Precompiled header source file used by Visual Studio.NET to generate&gt;&gt;..\src\road\RoadTest.h.cpp &amp;&amp; echo * the .pch file.&gt;&gt;..\src\road\RoadTest.h.cpp &amp;&amp; echo *&gt;&gt;..\src\road\RoadTest.h.cpp &amp;&amp; echo * Due to issues with the dependencies checker within the IDE, it&gt;&gt;..\src\road\RoadTest.h.cpp &amp;&amp; echo * sometimes fails to recompile the PCH file, if we force the IDE to&gt;&gt;..\src\road\RoadTest.h.cpp &amp;&amp; echo * create the PCH file directly from the header file.&gt;&gt;..\src\road\RoadTest.h.cpp &amp;&amp; echo *&gt;&gt;..\src\road\RoadTest.h.cpp &amp;&amp; echo * This file is auto-generated by qmake since no PRECOMPILED_SOURCE was&gt;&gt;..\src\road\RoadTest.h.cpp &amp;&amp; echo * specified, and is used as the common stdafx.cpp. The file is only&gt;&gt;..\src\road\RoadTest.h.cpp &amp;&amp; echo * generated when creating .vcproj project files, and is not used for&gt;&gt;..\src\road\RoadTest.h.cpp &amp;&amp; echo * command line compilations by nmake.&gt;&gt;..\src\road\RoadTest.h.cpp &amp;&amp; echo *&gt;&gt;..\src\road\RoadTest.h.cpp &amp;&amp; echo * WARNING: All changes made in this file will be lost.&gt;&gt;..\src\road\RoadTest.h.cpp &amp;&amp; echo --------------------------------------------------------------------*/&gt;&gt;..\src\road\RoadTest.h.cpp &amp;&amp; echo #include &quot;RoadTest.h&quot;&gt;&gt;..\src\road\RoadTest.h.cpp&#x0D;&#x0A;"
 						AdditionalDependencies="..\src\road\RoadTest.h;C:\Qt\4.7.1\bin\moc.exe"
+						CommandLine="C:\Qt\4.7.1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -Dqh_QHpointer -DQT_DLL -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DQT_NO_DYNAMIC_CAST -I&quot;c:\Qt\4.7.1\include\QtCore&quot; -I&quot;c:\Qt\4.7.1\include\QtGui&quot; -I&quot;c:\Qt\4.7.1\include&quot; -I&quot;c:\Qt\4.7.1\include\QtTest&quot; -I&quot;..\src\libqhullcpp&quot; -I&quot;..\src&quot; -I&quot;..\src&quot; -I&quot;c:\Qt\4.7.1\include\ActiveQt&quot; -I&quot;moc&quot; -I&quot;..\src\qhulltest&quot; -I&quot;.&quot; -Ic:\Qt\4.7.1\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 ..\src\road\RoadTest.h -o moc\moc_RoadTest.cpp &amp;&amp; echo /*-------------------------------------------------------------------- >..\src\road\RoadTest.h.cpp &amp;&amp; echo * Precompiled header source file used by Visual Studio.NET to generate>>..\src\road\RoadTest.h.cpp &amp;&amp; echo * the .pch file.>>..\src\road\RoadTest.h.cpp &amp;&amp; echo *>>..\src\road\RoadTest.h.cpp &amp;&amp; echo * Due to issues with the dependencies checker within the IDE, it>>..\src\road\RoadTest.h.cpp &amp;&amp; echo * sometimes fails to recompile the PCH file, if we force the IDE to>>..\src\road\RoadTest.h.cpp &amp;&amp; echo * create the PCH file directly from the header file.>>..\src\road\RoadTest.h.cpp &amp;&amp; echo *>>..\src\road\RoadTest.h.cpp &amp;&amp; echo * This file is auto-generated by qmake since no PRECOMPILED_SOURCE was>>..\src\road\RoadTest.h.cpp &amp;&amp; echo * specified, and is used as the common stdafx.cpp. The file is only>>..\src\road\RoadTest.h.cpp &amp;&amp; echo * generated when creating .vcproj project files, and is not used for>>..\src\road\RoadTest.h.cpp &amp;&amp; echo * command line compilations by nmake.>>..\src\road\RoadTest.h.cpp &amp;&amp; echo *>>..\src\road\RoadTest.h.cpp &amp;&amp; echo * WARNING: All changes made in this file will be lost.>>..\src\road\RoadTest.h.cpp &amp;&amp; echo --------------------------------------------------------------------*/>>..\src\road\RoadTest.h.cpp &amp;&amp; echo #include &quot;RoadTest.h&quot;>>..\src\road\RoadTest.h.cpp"
+						Description="Generating precompiled header source file &apos;..\src\road\RoadTest.h.cpp&apos; ..."
 						Outputs="moc\moc_RoadTest.cpp;..\src\road\RoadTest.h.cpp"
-					/>
+						Path="c:\Qt\4.7.1\bin" />
 				</FileConfiguration>
 			</File>
 		</Filter>
 		<Filter
 			Name="Generated Files"
 			Filter="cpp;c;cxx;moc;h;def;odl;idl;res;"
-			UniqueIdentifier="{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}"
-			>
+			UniqueIdentifier="{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}">
 			<File
-				RelativePath="moc\Coordinates_test.moc"
-				>
+				RelativePath="moc\Coordinates_test.moc">
 				<FileConfiguration
-					Name="Debug|Win32"
-					>
+					Name="Debug|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						Description="MOC ..\src\qhulltest\Coordinates_test.cpp"
-						CommandLine="C:\Qt\4.7.1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -Dqh_QHpointer -DQT_DLL -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DQT_NO_DYNAMIC_CAST -I&quot;c:\Qt\4.7.1\include\QtCore&quot; -I&quot;c:\Qt\4.7.1\include\QtGui&quot; -I&quot;c:\Qt\4.7.1\include&quot; -I&quot;c:\Qt\4.7.1\include\QtTest&quot; -I&quot;..\src\libqhullcpp&quot; -I&quot;..\src&quot; -I&quot;..\src&quot; -I&quot;c:\Qt\4.7.1\include\ActiveQt&quot; -I&quot;moc&quot; -I&quot;..\src\qhulltest&quot; -I&quot;.&quot; -Ic:\Qt\4.7.1\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 ..\src\qhulltest\Coordinates_test.cpp -o moc\Coordinates_test.moc&#x0D;&#x0A;"
 						AdditionalDependencies="..\src\qhulltest\Coordinates_test.cpp;C:\Qt\4.7.1\bin\moc.exe"
-						Outputs="moc\Coordinates_test.moc"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
+						CommandLine="C:\Qt\4.7.1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -Dqh_QHpointer -DQT_DLL -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DQT_NO_DYNAMIC_CAST -I&quot;c:\Qt\4.7.1\include\QtCore&quot; -I&quot;c:\Qt\4.7.1\include\QtGui&quot; -I&quot;c:\Qt\4.7.1\include&quot; -I&quot;c:\Qt\4.7.1\include\QtTest&quot; -I&quot;..\src\libqhullcpp&quot; -I&quot;..\src&quot; -I&quot;..\src&quot; -I&quot;c:\Qt\4.7.1\include\ActiveQt&quot; -I&quot;moc&quot; -I&quot;..\src\qhulltest&quot; -I&quot;.&quot; -Ic:\Qt\4.7.1\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 ..\src\qhulltest\Coordinates_test.cpp -o moc\Coordinates_test.moc"
 						Description="MOC ..\src\qhulltest\Coordinates_test.cpp"
-						CommandLine="C:\Qt\4.7.1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -Dqh_QHpointer -DQT_DLL -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DQT_NO_DYNAMIC_CAST -I&quot;c:\Qt\4.7.1\include\QtCore&quot; -I&quot;c:\Qt\4.7.1\include\QtGui&quot; -I&quot;c:\Qt\4.7.1\include&quot; -I&quot;c:\Qt\4.7.1\include\QtTest&quot; -I&quot;..\src\libqhullcpp&quot; -I&quot;..\src&quot; -I&quot;..\src&quot; -I&quot;c:\Qt\4.7.1\include\ActiveQt&quot; -I&quot;moc&quot; -I&quot;..\src\qhulltest&quot; -I&quot;.&quot; -Ic:\Qt\4.7.1\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 ..\src\qhulltest\Coordinates_test.cpp -o moc\Coordinates_test.moc&#x0D;&#x0A;"
-						AdditionalDependencies="..\src\qhulltest\Coordinates_test.cpp;C:\Qt\4.7.1\bin\moc.exe"
 						Outputs="moc\Coordinates_test.moc"
-					/>
+						Path="c:\Qt\4.7.1\bin" />
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						AdditionalDependencies="..\src\qhulltest\Coordinates_test.cpp;C:\Qt\4.7.1\bin\moc.exe"
+						CommandLine="C:\Qt\4.7.1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -Dqh_QHpointer -DQT_DLL -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DQT_NO_DYNAMIC_CAST -I&quot;c:\Qt\4.7.1\include\QtCore&quot; -I&quot;c:\Qt\4.7.1\include\QtGui&quot; -I&quot;c:\Qt\4.7.1\include&quot; -I&quot;c:\Qt\4.7.1\include\QtTest&quot; -I&quot;..\src\libqhullcpp&quot; -I&quot;..\src&quot; -I&quot;..\src&quot; -I&quot;c:\Qt\4.7.1\include\ActiveQt&quot; -I&quot;moc&quot; -I&quot;..\src\qhulltest&quot; -I&quot;.&quot; -Ic:\Qt\4.7.1\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 ..\src\qhulltest\Coordinates_test.cpp -o moc\Coordinates_test.moc"
+						Description="MOC ..\src\qhulltest\Coordinates_test.cpp"
+						Outputs="moc\Coordinates_test.moc"
+						Path="c:\Qt\4.7.1\bin" />
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="moc\PointCoordinates_test.moc"
-				>
+				RelativePath="moc\PointCoordinates_test.moc">
 				<FileConfiguration
-					Name="Debug|Win32"
-					>
+					Name="Debug|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						Description="MOC ..\src\qhulltest\PointCoordinates_test.cpp"
-						CommandLine="C:\Qt\4.7.1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -Dqh_QHpointer -DQT_DLL -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DQT_NO_DYNAMIC_CAST -I&quot;c:\Qt\4.7.1\include\QtCore&quot; -I&quot;c:\Qt\4.7.1\include\QtGui&quot; -I&quot;c:\Qt\4.7.1\include&quot; -I&quot;c:\Qt\4.7.1\include\QtTest&quot; -I&quot;..\src\libqhullcpp&quot; -I&quot;..\src&quot; -I&quot;..\src&quot; -I&quot;c:\Qt\4.7.1\include\ActiveQt&quot; -I&quot;moc&quot; -I&quot;..\src\qhulltest&quot; -I&quot;.&quot; -Ic:\Qt\4.7.1\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 ..\src\qhulltest\PointCoordinates_test.cpp -o moc\PointCoordinates_test.moc&#x0D;&#x0A;"
 						AdditionalDependencies="..\src\qhulltest\PointCoordinates_test.cpp;C:\Qt\4.7.1\bin\moc.exe"
-						Outputs="moc\PointCoordinates_test.moc"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
+						CommandLine="C:\Qt\4.7.1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -Dqh_QHpointer -DQT_DLL -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DQT_NO_DYNAMIC_CAST -I&quot;c:\Qt\4.7.1\include\QtCore&quot; -I&quot;c:\Qt\4.7.1\include\QtGui&quot; -I&quot;c:\Qt\4.7.1\include&quot; -I&quot;c:\Qt\4.7.1\include\QtTest&quot; -I&quot;..\src\libqhullcpp&quot; -I&quot;..\src&quot; -I&quot;..\src&quot; -I&quot;c:\Qt\4.7.1\include\ActiveQt&quot; -I&quot;moc&quot; -I&quot;..\src\qhulltest&quot; -I&quot;.&quot; -Ic:\Qt\4.7.1\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 ..\src\qhulltest\PointCoordinates_test.cpp -o moc\PointCoordinates_test.moc"
 						Description="MOC ..\src\qhulltest\PointCoordinates_test.cpp"
-						CommandLine="C:\Qt\4.7.1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -Dqh_QHpointer -DQT_DLL -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DQT_NO_DYNAMIC_CAST -I&quot;c:\Qt\4.7.1\include\QtCore&quot; -I&quot;c:\Qt\4.7.1\include\QtGui&quot; -I&quot;c:\Qt\4.7.1\include&quot; -I&quot;c:\Qt\4.7.1\include\QtTest&quot; -I&quot;..\src\libqhullcpp&quot; -I&quot;..\src&quot; -I&quot;..\src&quot; -I&quot;c:\Qt\4.7.1\include\ActiveQt&quot; -I&quot;moc&quot; -I&quot;..\src\qhulltest&quot; -I&quot;.&quot; -Ic:\Qt\4.7.1\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 ..\src\qhulltest\PointCoordinates_test.cpp -o moc\PointCoordinates_test.moc&#x0D;&#x0A;"
-						AdditionalDependencies="..\src\qhulltest\PointCoordinates_test.cpp;C:\Qt\4.7.1\bin\moc.exe"
 						Outputs="moc\PointCoordinates_test.moc"
-					/>
+						Path="c:\Qt\4.7.1\bin" />
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						AdditionalDependencies="..\src\qhulltest\PointCoordinates_test.cpp;C:\Qt\4.7.1\bin\moc.exe"
+						CommandLine="C:\Qt\4.7.1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -Dqh_QHpointer -DQT_DLL -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DQT_NO_DYNAMIC_CAST -I&quot;c:\Qt\4.7.1\include\QtCore&quot; -I&quot;c:\Qt\4.7.1\include\QtGui&quot; -I&quot;c:\Qt\4.7.1\include&quot; -I&quot;c:\Qt\4.7.1\include\QtTest&quot; -I&quot;..\src\libqhullcpp&quot; -I&quot;..\src&quot; -I&quot;..\src&quot; -I&quot;c:\Qt\4.7.1\include\ActiveQt&quot; -I&quot;moc&quot; -I&quot;..\src\qhulltest&quot; -I&quot;.&quot; -Ic:\Qt\4.7.1\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 ..\src\qhulltest\PointCoordinates_test.cpp -o moc\PointCoordinates_test.moc"
+						Description="MOC ..\src\qhulltest\PointCoordinates_test.cpp"
+						Outputs="moc\PointCoordinates_test.moc"
+						Path="c:\Qt\4.7.1\bin" />
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="moc\Qhull_test.moc"
-				>
+				RelativePath="moc\QhullFacetList_test.moc">
 				<FileConfiguration
-					Name="Debug|Win32"
-					>
+					Name="Debug|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						Description="MOC ..\src\qhulltest\Qhull_test.cpp"
-						CommandLine="C:\Qt\4.7.1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -Dqh_QHpointer -DQT_DLL -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DQT_NO_DYNAMIC_CAST -I&quot;c:\Qt\4.7.1\include\QtCore&quot; -I&quot;c:\Qt\4.7.1\include\QtGui&quot; -I&quot;c:\Qt\4.7.1\include&quot; -I&quot;c:\Qt\4.7.1\include\QtTest&quot; -I&quot;..\src\libqhullcpp&quot; -I&quot;..\src&quot; -I&quot;..\src&quot; -I&quot;c:\Qt\4.7.1\include\ActiveQt&quot; -I&quot;moc&quot; -I&quot;..\src\qhulltest&quot; -I&quot;.&quot; -Ic:\Qt\4.7.1\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 ..\src\qhulltest\Qhull_test.cpp -o moc\Qhull_test.moc&#x0D;&#x0A;"
-						AdditionalDependencies="..\src\qhulltest\Qhull_test.cpp;C:\Qt\4.7.1\bin\moc.exe"
-						Outputs="moc\Qhull_test.moc"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="MOC ..\src\qhulltest\Qhull_test.cpp"
-						CommandLine="C:\Qt\4.7.1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -Dqh_QHpointer -DQT_DLL -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DQT_NO_DYNAMIC_CAST -I&quot;c:\Qt\4.7.1\include\QtCore&quot; -I&quot;c:\Qt\4.7.1\include\QtGui&quot; -I&quot;c:\Qt\4.7.1\include&quot; -I&quot;c:\Qt\4.7.1\include\QtTest&quot; -I&quot;..\src\libqhullcpp&quot; -I&quot;..\src&quot; -I&quot;..\src&quot; -I&quot;c:\Qt\4.7.1\include\ActiveQt&quot; -I&quot;moc&quot; -I&quot;..\src\qhulltest&quot; -I&quot;.&quot; -Ic:\Qt\4.7.1\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 ..\src\qhulltest\Qhull_test.cpp -o moc\Qhull_test.moc&#x0D;&#x0A;"
-						AdditionalDependencies="..\src\qhulltest\Qhull_test.cpp;C:\Qt\4.7.1\bin\moc.exe"
-						Outputs="moc\Qhull_test.moc"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="moc\QhullFacet_test.moc"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="MOC ..\src\qhulltest\QhullFacet_test.cpp"
-						CommandLine="C:\Qt\4.7.1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -Dqh_QHpointer -DQT_DLL -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DQT_NO_DYNAMIC_CAST -I&quot;c:\Qt\4.7.1\include\QtCore&quot; -I&quot;c:\Qt\4.7.1\include\QtGui&quot; -I&quot;c:\Qt\4.7.1\include&quot; -I&quot;c:\Qt\4.7.1\include\QtTest&quot; -I&quot;..\src\libqhullcpp&quot; -I&quot;..\src&quot; -I&quot;..\src&quot; -I&quot;c:\Qt\4.7.1\include\ActiveQt&quot; -I&quot;moc&quot; -I&quot;..\src\qhulltest&quot; -I&quot;.&quot; -Ic:\Qt\4.7.1\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 ..\src\qhulltest\QhullFacet_test.cpp -o moc\QhullFacet_test.moc&#x0D;&#x0A;"
-						AdditionalDependencies="..\src\qhulltest\QhullFacet_test.cpp;C:\Qt\4.7.1\bin\moc.exe"
-						Outputs="moc\QhullFacet_test.moc"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="MOC ..\src\qhulltest\QhullFacet_test.cpp"
-						CommandLine="C:\Qt\4.7.1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -Dqh_QHpointer -DQT_DLL -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DQT_NO_DYNAMIC_CAST -I&quot;c:\Qt\4.7.1\include\QtCore&quot; -I&quot;c:\Qt\4.7.1\include\QtGui&quot; -I&quot;c:\Qt\4.7.1\include&quot; -I&quot;c:\Qt\4.7.1\include\QtTest&quot; -I&quot;..\src\libqhullcpp&quot; -I&quot;..\src&quot; -I&quot;..\src&quot; -I&quot;c:\Qt\4.7.1\include\ActiveQt&quot; -I&quot;moc&quot; -I&quot;..\src\qhulltest&quot; -I&quot;.&quot; -Ic:\Qt\4.7.1\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 ..\src\qhulltest\QhullFacet_test.cpp -o moc\QhullFacet_test.moc&#x0D;&#x0A;"
-						AdditionalDependencies="..\src\qhulltest\QhullFacet_test.cpp;C:\Qt\4.7.1\bin\moc.exe"
-						Outputs="moc\QhullFacet_test.moc"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="moc\QhullFacetList_test.moc"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="MOC ..\src\qhulltest\QhullFacetList_test.cpp"
-						CommandLine="C:\Qt\4.7.1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -Dqh_QHpointer -DQT_DLL -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DQT_NO_DYNAMIC_CAST -I&quot;c:\Qt\4.7.1\include\QtCore&quot; -I&quot;c:\Qt\4.7.1\include\QtGui&quot; -I&quot;c:\Qt\4.7.1\include&quot; -I&quot;c:\Qt\4.7.1\include\QtTest&quot; -I&quot;..\src\libqhullcpp&quot; -I&quot;..\src&quot; -I&quot;..\src&quot; -I&quot;c:\Qt\4.7.1\include\ActiveQt&quot; -I&quot;moc&quot; -I&quot;..\src\qhulltest&quot; -I&quot;.&quot; -Ic:\Qt\4.7.1\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 ..\src\qhulltest\QhullFacetList_test.cpp -o moc\QhullFacetList_test.moc&#x0D;&#x0A;"
 						AdditionalDependencies="..\src\qhulltest\QhullFacetList_test.cpp;C:\Qt\4.7.1\bin\moc.exe"
-						Outputs="moc\QhullFacetList_test.moc"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
+						CommandLine="C:\Qt\4.7.1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -Dqh_QHpointer -DQT_DLL -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DQT_NO_DYNAMIC_CAST -I&quot;c:\Qt\4.7.1\include\QtCore&quot; -I&quot;c:\Qt\4.7.1\include\QtGui&quot; -I&quot;c:\Qt\4.7.1\include&quot; -I&quot;c:\Qt\4.7.1\include\QtTest&quot; -I&quot;..\src\libqhullcpp&quot; -I&quot;..\src&quot; -I&quot;..\src&quot; -I&quot;c:\Qt\4.7.1\include\ActiveQt&quot; -I&quot;moc&quot; -I&quot;..\src\qhulltest&quot; -I&quot;.&quot; -Ic:\Qt\4.7.1\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 ..\src\qhulltest\QhullFacetList_test.cpp -o moc\QhullFacetList_test.moc"
 						Description="MOC ..\src\qhulltest\QhullFacetList_test.cpp"
-						CommandLine="C:\Qt\4.7.1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -Dqh_QHpointer -DQT_DLL -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DQT_NO_DYNAMIC_CAST -I&quot;c:\Qt\4.7.1\include\QtCore&quot; -I&quot;c:\Qt\4.7.1\include\QtGui&quot; -I&quot;c:\Qt\4.7.1\include&quot; -I&quot;c:\Qt\4.7.1\include\QtTest&quot; -I&quot;..\src\libqhullcpp&quot; -I&quot;..\src&quot; -I&quot;..\src&quot; -I&quot;c:\Qt\4.7.1\include\ActiveQt&quot; -I&quot;moc&quot; -I&quot;..\src\qhulltest&quot; -I&quot;.&quot; -Ic:\Qt\4.7.1\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 ..\src\qhulltest\QhullFacetList_test.cpp -o moc\QhullFacetList_test.moc&#x0D;&#x0A;"
-						AdditionalDependencies="..\src\qhulltest\QhullFacetList_test.cpp;C:\Qt\4.7.1\bin\moc.exe"
 						Outputs="moc\QhullFacetList_test.moc"
-					/>
+						Path="c:\Qt\4.7.1\bin" />
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						AdditionalDependencies="..\src\qhulltest\QhullFacetList_test.cpp;C:\Qt\4.7.1\bin\moc.exe"
+						CommandLine="C:\Qt\4.7.1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -Dqh_QHpointer -DQT_DLL -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DQT_NO_DYNAMIC_CAST -I&quot;c:\Qt\4.7.1\include\QtCore&quot; -I&quot;c:\Qt\4.7.1\include\QtGui&quot; -I&quot;c:\Qt\4.7.1\include&quot; -I&quot;c:\Qt\4.7.1\include\QtTest&quot; -I&quot;..\src\libqhullcpp&quot; -I&quot;..\src&quot; -I&quot;..\src&quot; -I&quot;c:\Qt\4.7.1\include\ActiveQt&quot; -I&quot;moc&quot; -I&quot;..\src\qhulltest&quot; -I&quot;.&quot; -Ic:\Qt\4.7.1\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 ..\src\qhulltest\QhullFacetList_test.cpp -o moc\QhullFacetList_test.moc"
+						Description="MOC ..\src\qhulltest\QhullFacetList_test.cpp"
+						Outputs="moc\QhullFacetList_test.moc"
+						Path="c:\Qt\4.7.1\bin" />
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="moc\QhullFacetSet_test.moc"
-				>
+				RelativePath="moc\QhullFacetSet_test.moc">
 				<FileConfiguration
-					Name="Debug|Win32"
-					>
+					Name="Debug|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						Description="MOC ..\src\qhulltest\QhullFacetSet_test.cpp"
-						CommandLine="C:\Qt\4.7.1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -Dqh_QHpointer -DQT_DLL -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DQT_NO_DYNAMIC_CAST -I&quot;c:\Qt\4.7.1\include\QtCore&quot; -I&quot;c:\Qt\4.7.1\include\QtGui&quot; -I&quot;c:\Qt\4.7.1\include&quot; -I&quot;c:\Qt\4.7.1\include\QtTest&quot; -I&quot;..\src\libqhullcpp&quot; -I&quot;..\src&quot; -I&quot;..\src&quot; -I&quot;c:\Qt\4.7.1\include\ActiveQt&quot; -I&quot;moc&quot; -I&quot;..\src\qhulltest&quot; -I&quot;.&quot; -Ic:\Qt\4.7.1\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 ..\src\qhulltest\QhullFacetSet_test.cpp -o moc\QhullFacetSet_test.moc&#x0D;&#x0A;"
 						AdditionalDependencies="..\src\qhulltest\QhullFacetSet_test.cpp;C:\Qt\4.7.1\bin\moc.exe"
-						Outputs="moc\QhullFacetSet_test.moc"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
+						CommandLine="C:\Qt\4.7.1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -Dqh_QHpointer -DQT_DLL -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DQT_NO_DYNAMIC_CAST -I&quot;c:\Qt\4.7.1\include\QtCore&quot; -I&quot;c:\Qt\4.7.1\include\QtGui&quot; -I&quot;c:\Qt\4.7.1\include&quot; -I&quot;c:\Qt\4.7.1\include\QtTest&quot; -I&quot;..\src\libqhullcpp&quot; -I&quot;..\src&quot; -I&quot;..\src&quot; -I&quot;c:\Qt\4.7.1\include\ActiveQt&quot; -I&quot;moc&quot; -I&quot;..\src\qhulltest&quot; -I&quot;.&quot; -Ic:\Qt\4.7.1\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 ..\src\qhulltest\QhullFacetSet_test.cpp -o moc\QhullFacetSet_test.moc"
 						Description="MOC ..\src\qhulltest\QhullFacetSet_test.cpp"
-						CommandLine="C:\Qt\4.7.1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -Dqh_QHpointer -DQT_DLL -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DQT_NO_DYNAMIC_CAST -I&quot;c:\Qt\4.7.1\include\QtCore&quot; -I&quot;c:\Qt\4.7.1\include\QtGui&quot; -I&quot;c:\Qt\4.7.1\include&quot; -I&quot;c:\Qt\4.7.1\include\QtTest&quot; -I&quot;..\src\libqhullcpp&quot; -I&quot;..\src&quot; -I&quot;..\src&quot; -I&quot;c:\Qt\4.7.1\include\ActiveQt&quot; -I&quot;moc&quot; -I&quot;..\src\qhulltest&quot; -I&quot;.&quot; -Ic:\Qt\4.7.1\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 ..\src\qhulltest\QhullFacetSet_test.cpp -o moc\QhullFacetSet_test.moc&#x0D;&#x0A;"
-						AdditionalDependencies="..\src\qhulltest\QhullFacetSet_test.cpp;C:\Qt\4.7.1\bin\moc.exe"
 						Outputs="moc\QhullFacetSet_test.moc"
-					/>
+						Path="c:\Qt\4.7.1\bin" />
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						AdditionalDependencies="..\src\qhulltest\QhullFacetSet_test.cpp;C:\Qt\4.7.1\bin\moc.exe"
+						CommandLine="C:\Qt\4.7.1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -Dqh_QHpointer -DQT_DLL -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DQT_NO_DYNAMIC_CAST -I&quot;c:\Qt\4.7.1\include\QtCore&quot; -I&quot;c:\Qt\4.7.1\include\QtGui&quot; -I&quot;c:\Qt\4.7.1\include&quot; -I&quot;c:\Qt\4.7.1\include\QtTest&quot; -I&quot;..\src\libqhullcpp&quot; -I&quot;..\src&quot; -I&quot;..\src&quot; -I&quot;c:\Qt\4.7.1\include\ActiveQt&quot; -I&quot;moc&quot; -I&quot;..\src\qhulltest&quot; -I&quot;.&quot; -Ic:\Qt\4.7.1\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 ..\src\qhulltest\QhullFacetSet_test.cpp -o moc\QhullFacetSet_test.moc"
+						Description="MOC ..\src\qhulltest\QhullFacetSet_test.cpp"
+						Outputs="moc\QhullFacetSet_test.moc"
+						Path="c:\Qt\4.7.1\bin" />
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="moc\QhullHyperplane_test.moc"
-				>
+				RelativePath="moc\QhullFacet_test.moc">
 				<FileConfiguration
-					Name="Debug|Win32"
-					>
+					Name="Debug|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						Description="MOC ..\src\qhulltest\QhullHyperplane_test.cpp"
-						CommandLine="C:\Qt\4.7.1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -Dqh_QHpointer -DQT_DLL -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DQT_NO_DYNAMIC_CAST -I&quot;c:\Qt\4.7.1\include\QtCore&quot; -I&quot;c:\Qt\4.7.1\include\QtGui&quot; -I&quot;c:\Qt\4.7.1\include&quot; -I&quot;c:\Qt\4.7.1\include\QtTest&quot; -I&quot;..\src\libqhullcpp&quot; -I&quot;..\src&quot; -I&quot;..\src&quot; -I&quot;c:\Qt\4.7.1\include\ActiveQt&quot; -I&quot;moc&quot; -I&quot;..\src\qhulltest&quot; -I&quot;.&quot; -Ic:\Qt\4.7.1\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 ..\src\qhulltest\QhullHyperplane_test.cpp -o moc\QhullHyperplane_test.moc&#x0D;&#x0A;"
+						AdditionalDependencies="..\src\qhulltest\QhullFacet_test.cpp;C:\Qt\4.7.1\bin\moc.exe"
+						CommandLine="C:\Qt\4.7.1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -Dqh_QHpointer -DQT_DLL -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DQT_NO_DYNAMIC_CAST -I&quot;c:\Qt\4.7.1\include\QtCore&quot; -I&quot;c:\Qt\4.7.1\include\QtGui&quot; -I&quot;c:\Qt\4.7.1\include&quot; -I&quot;c:\Qt\4.7.1\include\QtTest&quot; -I&quot;..\src\libqhullcpp&quot; -I&quot;..\src&quot; -I&quot;..\src&quot; -I&quot;c:\Qt\4.7.1\include\ActiveQt&quot; -I&quot;moc&quot; -I&quot;..\src\qhulltest&quot; -I&quot;.&quot; -Ic:\Qt\4.7.1\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 ..\src\qhulltest\QhullFacet_test.cpp -o moc\QhullFacet_test.moc"
+						Description="MOC ..\src\qhulltest\QhullFacet_test.cpp"
+						Outputs="moc\QhullFacet_test.moc"
+						Path="c:\Qt\4.7.1\bin" />
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						AdditionalDependencies="..\src\qhulltest\QhullFacet_test.cpp;C:\Qt\4.7.1\bin\moc.exe"
+						CommandLine="C:\Qt\4.7.1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -Dqh_QHpointer -DQT_DLL -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DQT_NO_DYNAMIC_CAST -I&quot;c:\Qt\4.7.1\include\QtCore&quot; -I&quot;c:\Qt\4.7.1\include\QtGui&quot; -I&quot;c:\Qt\4.7.1\include&quot; -I&quot;c:\Qt\4.7.1\include\QtTest&quot; -I&quot;..\src\libqhullcpp&quot; -I&quot;..\src&quot; -I&quot;..\src&quot; -I&quot;c:\Qt\4.7.1\include\ActiveQt&quot; -I&quot;moc&quot; -I&quot;..\src\qhulltest&quot; -I&quot;.&quot; -Ic:\Qt\4.7.1\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 ..\src\qhulltest\QhullFacet_test.cpp -o moc\QhullFacet_test.moc"
+						Description="MOC ..\src\qhulltest\QhullFacet_test.cpp"
+						Outputs="moc\QhullFacet_test.moc"
+						Path="c:\Qt\4.7.1\bin" />
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="moc\QhullHyperplane_test.moc">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
 						AdditionalDependencies="..\src\qhulltest\QhullHyperplane_test.cpp;C:\Qt\4.7.1\bin\moc.exe"
-						Outputs="moc\QhullHyperplane_test.moc"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
+						CommandLine="C:\Qt\4.7.1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -Dqh_QHpointer -DQT_DLL -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DQT_NO_DYNAMIC_CAST -I&quot;c:\Qt\4.7.1\include\QtCore&quot; -I&quot;c:\Qt\4.7.1\include\QtGui&quot; -I&quot;c:\Qt\4.7.1\include&quot; -I&quot;c:\Qt\4.7.1\include\QtTest&quot; -I&quot;..\src\libqhullcpp&quot; -I&quot;..\src&quot; -I&quot;..\src&quot; -I&quot;c:\Qt\4.7.1\include\ActiveQt&quot; -I&quot;moc&quot; -I&quot;..\src\qhulltest&quot; -I&quot;.&quot; -Ic:\Qt\4.7.1\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 ..\src\qhulltest\QhullHyperplane_test.cpp -o moc\QhullHyperplane_test.moc"
 						Description="MOC ..\src\qhulltest\QhullHyperplane_test.cpp"
-						CommandLine="C:\Qt\4.7.1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -Dqh_QHpointer -DQT_DLL -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DQT_NO_DYNAMIC_CAST -I&quot;c:\Qt\4.7.1\include\QtCore&quot; -I&quot;c:\Qt\4.7.1\include\QtGui&quot; -I&quot;c:\Qt\4.7.1\include&quot; -I&quot;c:\Qt\4.7.1\include\QtTest&quot; -I&quot;..\src\libqhullcpp&quot; -I&quot;..\src&quot; -I&quot;..\src&quot; -I&quot;c:\Qt\4.7.1\include\ActiveQt&quot; -I&quot;moc&quot; -I&quot;..\src\qhulltest&quot; -I&quot;.&quot; -Ic:\Qt\4.7.1\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 ..\src\qhulltest\QhullHyperplane_test.cpp -o moc\QhullHyperplane_test.moc&#x0D;&#x0A;"
-						AdditionalDependencies="..\src\qhulltest\QhullHyperplane_test.cpp;C:\Qt\4.7.1\bin\moc.exe"
 						Outputs="moc\QhullHyperplane_test.moc"
-					/>
+						Path="c:\Qt\4.7.1\bin" />
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						AdditionalDependencies="..\src\qhulltest\QhullHyperplane_test.cpp;C:\Qt\4.7.1\bin\moc.exe"
+						CommandLine="C:\Qt\4.7.1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -Dqh_QHpointer -DQT_DLL -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DQT_NO_DYNAMIC_CAST -I&quot;c:\Qt\4.7.1\include\QtCore&quot; -I&quot;c:\Qt\4.7.1\include\QtGui&quot; -I&quot;c:\Qt\4.7.1\include&quot; -I&quot;c:\Qt\4.7.1\include\QtTest&quot; -I&quot;..\src\libqhullcpp&quot; -I&quot;..\src&quot; -I&quot;..\src&quot; -I&quot;c:\Qt\4.7.1\include\ActiveQt&quot; -I&quot;moc&quot; -I&quot;..\src\qhulltest&quot; -I&quot;.&quot; -Ic:\Qt\4.7.1\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 ..\src\qhulltest\QhullHyperplane_test.cpp -o moc\QhullHyperplane_test.moc"
+						Description="MOC ..\src\qhulltest\QhullHyperplane_test.cpp"
+						Outputs="moc\QhullHyperplane_test.moc"
+						Path="c:\Qt\4.7.1\bin" />
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="moc\QhullLinkedList_test.moc"
-				>
+				RelativePath="moc\QhullLinkedList_test.moc">
 				<FileConfiguration
-					Name="Debug|Win32"
-					>
+					Name="Debug|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						Description="MOC ..\src\qhulltest\QhullLinkedList_test.cpp"
-						CommandLine="C:\Qt\4.7.1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -Dqh_QHpointer -DQT_DLL -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DQT_NO_DYNAMIC_CAST -I&quot;c:\Qt\4.7.1\include\QtCore&quot; -I&quot;c:\Qt\4.7.1\include\QtGui&quot; -I&quot;c:\Qt\4.7.1\include&quot; -I&quot;c:\Qt\4.7.1\include\QtTest&quot; -I&quot;..\src\libqhullcpp&quot; -I&quot;..\src&quot; -I&quot;..\src&quot; -I&quot;c:\Qt\4.7.1\include\ActiveQt&quot; -I&quot;moc&quot; -I&quot;..\src\qhulltest&quot; -I&quot;.&quot; -Ic:\Qt\4.7.1\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 ..\src\qhulltest\QhullLinkedList_test.cpp -o moc\QhullLinkedList_test.moc&#x0D;&#x0A;"
 						AdditionalDependencies="..\src\qhulltest\QhullLinkedList_test.cpp;C:\Qt\4.7.1\bin\moc.exe"
-						Outputs="moc\QhullLinkedList_test.moc"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
+						CommandLine="C:\Qt\4.7.1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -Dqh_QHpointer -DQT_DLL -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DQT_NO_DYNAMIC_CAST -I&quot;c:\Qt\4.7.1\include\QtCore&quot; -I&quot;c:\Qt\4.7.1\include\QtGui&quot; -I&quot;c:\Qt\4.7.1\include&quot; -I&quot;c:\Qt\4.7.1\include\QtTest&quot; -I&quot;..\src\libqhullcpp&quot; -I&quot;..\src&quot; -I&quot;..\src&quot; -I&quot;c:\Qt\4.7.1\include\ActiveQt&quot; -I&quot;moc&quot; -I&quot;..\src\qhulltest&quot; -I&quot;.&quot; -Ic:\Qt\4.7.1\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 ..\src\qhulltest\QhullLinkedList_test.cpp -o moc\QhullLinkedList_test.moc"
 						Description="MOC ..\src\qhulltest\QhullLinkedList_test.cpp"
-						CommandLine="C:\Qt\4.7.1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -Dqh_QHpointer -DQT_DLL -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DQT_NO_DYNAMIC_CAST -I&quot;c:\Qt\4.7.1\include\QtCore&quot; -I&quot;c:\Qt\4.7.1\include\QtGui&quot; -I&quot;c:\Qt\4.7.1\include&quot; -I&quot;c:\Qt\4.7.1\include\QtTest&quot; -I&quot;..\src\libqhullcpp&quot; -I&quot;..\src&quot; -I&quot;..\src&quot; -I&quot;c:\Qt\4.7.1\include\ActiveQt&quot; -I&quot;moc&quot; -I&quot;..\src\qhulltest&quot; -I&quot;.&quot; -Ic:\Qt\4.7.1\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 ..\src\qhulltest\QhullLinkedList_test.cpp -o moc\QhullLinkedList_test.moc&#x0D;&#x0A;"
-						AdditionalDependencies="..\src\qhulltest\QhullLinkedList_test.cpp;C:\Qt\4.7.1\bin\moc.exe"
 						Outputs="moc\QhullLinkedList_test.moc"
-					/>
+						Path="c:\Qt\4.7.1\bin" />
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						AdditionalDependencies="..\src\qhulltest\QhullLinkedList_test.cpp;C:\Qt\4.7.1\bin\moc.exe"
+						CommandLine="C:\Qt\4.7.1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -Dqh_QHpointer -DQT_DLL -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DQT_NO_DYNAMIC_CAST -I&quot;c:\Qt\4.7.1\include\QtCore&quot; -I&quot;c:\Qt\4.7.1\include\QtGui&quot; -I&quot;c:\Qt\4.7.1\include&quot; -I&quot;c:\Qt\4.7.1\include\QtTest&quot; -I&quot;..\src\libqhullcpp&quot; -I&quot;..\src&quot; -I&quot;..\src&quot; -I&quot;c:\Qt\4.7.1\include\ActiveQt&quot; -I&quot;moc&quot; -I&quot;..\src\qhulltest&quot; -I&quot;.&quot; -Ic:\Qt\4.7.1\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 ..\src\qhulltest\QhullLinkedList_test.cpp -o moc\QhullLinkedList_test.moc"
+						Description="MOC ..\src\qhulltest\QhullLinkedList_test.cpp"
+						Outputs="moc\QhullLinkedList_test.moc"
+						Path="c:\Qt\4.7.1\bin" />
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="moc\QhullPoint_test.moc"
-				>
+				RelativePath="moc\QhullPointSet_test.moc">
 				<FileConfiguration
-					Name="Debug|Win32"
-					>
+					Name="Debug|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						Description="MOC ..\src\qhulltest\QhullPoint_test.cpp"
-						CommandLine="C:\Qt\4.7.1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -Dqh_QHpointer -DQT_DLL -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DQT_NO_DYNAMIC_CAST -I&quot;c:\Qt\4.7.1\include\QtCore&quot; -I&quot;c:\Qt\4.7.1\include\QtGui&quot; -I&quot;c:\Qt\4.7.1\include&quot; -I&quot;c:\Qt\4.7.1\include\QtTest&quot; -I&quot;..\src\libqhullcpp&quot; -I&quot;..\src&quot; -I&quot;..\src&quot; -I&quot;c:\Qt\4.7.1\include\ActiveQt&quot; -I&quot;moc&quot; -I&quot;..\src\qhulltest&quot; -I&quot;.&quot; -Ic:\Qt\4.7.1\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 ..\src\qhulltest\QhullPoint_test.cpp -o moc\QhullPoint_test.moc&#x0D;&#x0A;"
-						AdditionalDependencies="..\src\qhulltest\QhullPoint_test.cpp;C:\Qt\4.7.1\bin\moc.exe"
-						Outputs="moc\QhullPoint_test.moc"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="MOC ..\src\qhulltest\QhullPoint_test.cpp"
-						CommandLine="C:\Qt\4.7.1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -Dqh_QHpointer -DQT_DLL -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DQT_NO_DYNAMIC_CAST -I&quot;c:\Qt\4.7.1\include\QtCore&quot; -I&quot;c:\Qt\4.7.1\include\QtGui&quot; -I&quot;c:\Qt\4.7.1\include&quot; -I&quot;c:\Qt\4.7.1\include\QtTest&quot; -I&quot;..\src\libqhullcpp&quot; -I&quot;..\src&quot; -I&quot;..\src&quot; -I&quot;c:\Qt\4.7.1\include\ActiveQt&quot; -I&quot;moc&quot; -I&quot;..\src\qhulltest&quot; -I&quot;.&quot; -Ic:\Qt\4.7.1\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 ..\src\qhulltest\QhullPoint_test.cpp -o moc\QhullPoint_test.moc&#x0D;&#x0A;"
-						AdditionalDependencies="..\src\qhulltest\QhullPoint_test.cpp;C:\Qt\4.7.1\bin\moc.exe"
-						Outputs="moc\QhullPoint_test.moc"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="moc\QhullPoints_test.moc"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="MOC ..\src\qhulltest\QhullPoints_test.cpp"
-						CommandLine="C:\Qt\4.7.1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -Dqh_QHpointer -DQT_DLL -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DQT_NO_DYNAMIC_CAST -I&quot;c:\Qt\4.7.1\include\QtCore&quot; -I&quot;c:\Qt\4.7.1\include\QtGui&quot; -I&quot;c:\Qt\4.7.1\include&quot; -I&quot;c:\Qt\4.7.1\include\QtTest&quot; -I&quot;..\src\libqhullcpp&quot; -I&quot;..\src&quot; -I&quot;..\src&quot; -I&quot;c:\Qt\4.7.1\include\ActiveQt&quot; -I&quot;moc&quot; -I&quot;..\src\qhulltest&quot; -I&quot;.&quot; -Ic:\Qt\4.7.1\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 ..\src\qhulltest\QhullPoints_test.cpp -o moc\QhullPoints_test.moc&#x0D;&#x0A;"
-						AdditionalDependencies="..\src\qhulltest\QhullPoints_test.cpp;C:\Qt\4.7.1\bin\moc.exe"
-						Outputs="moc\QhullPoints_test.moc"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="MOC ..\src\qhulltest\QhullPoints_test.cpp"
-						CommandLine="C:\Qt\4.7.1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -Dqh_QHpointer -DQT_DLL -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DQT_NO_DYNAMIC_CAST -I&quot;c:\Qt\4.7.1\include\QtCore&quot; -I&quot;c:\Qt\4.7.1\include\QtGui&quot; -I&quot;c:\Qt\4.7.1\include&quot; -I&quot;c:\Qt\4.7.1\include\QtTest&quot; -I&quot;..\src\libqhullcpp&quot; -I&quot;..\src&quot; -I&quot;..\src&quot; -I&quot;c:\Qt\4.7.1\include\ActiveQt&quot; -I&quot;moc&quot; -I&quot;..\src\qhulltest&quot; -I&quot;.&quot; -Ic:\Qt\4.7.1\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 ..\src\qhulltest\QhullPoints_test.cpp -o moc\QhullPoints_test.moc&#x0D;&#x0A;"
-						AdditionalDependencies="..\src\qhulltest\QhullPoints_test.cpp;C:\Qt\4.7.1\bin\moc.exe"
-						Outputs="moc\QhullPoints_test.moc"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="moc\QhullPointSet_test.moc"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="MOC ..\src\qhulltest\QhullPointSet_test.cpp"
-						CommandLine="C:\Qt\4.7.1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -Dqh_QHpointer -DQT_DLL -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DQT_NO_DYNAMIC_CAST -I&quot;c:\Qt\4.7.1\include\QtCore&quot; -I&quot;c:\Qt\4.7.1\include\QtGui&quot; -I&quot;c:\Qt\4.7.1\include&quot; -I&quot;c:\Qt\4.7.1\include\QtTest&quot; -I&quot;..\src\libqhullcpp&quot; -I&quot;..\src&quot; -I&quot;..\src&quot; -I&quot;c:\Qt\4.7.1\include\ActiveQt&quot; -I&quot;moc&quot; -I&quot;..\src\qhulltest&quot; -I&quot;.&quot; -Ic:\Qt\4.7.1\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 ..\src\qhulltest\QhullPointSet_test.cpp -o moc\QhullPointSet_test.moc&#x0D;&#x0A;"
 						AdditionalDependencies="..\src\qhulltest\QhullPointSet_test.cpp;C:\Qt\4.7.1\bin\moc.exe"
-						Outputs="moc\QhullPointSet_test.moc"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
+						CommandLine="C:\Qt\4.7.1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -Dqh_QHpointer -DQT_DLL -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DQT_NO_DYNAMIC_CAST -I&quot;c:\Qt\4.7.1\include\QtCore&quot; -I&quot;c:\Qt\4.7.1\include\QtGui&quot; -I&quot;c:\Qt\4.7.1\include&quot; -I&quot;c:\Qt\4.7.1\include\QtTest&quot; -I&quot;..\src\libqhullcpp&quot; -I&quot;..\src&quot; -I&quot;..\src&quot; -I&quot;c:\Qt\4.7.1\include\ActiveQt&quot; -I&quot;moc&quot; -I&quot;..\src\qhulltest&quot; -I&quot;.&quot; -Ic:\Qt\4.7.1\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 ..\src\qhulltest\QhullPointSet_test.cpp -o moc\QhullPointSet_test.moc"
 						Description="MOC ..\src\qhulltest\QhullPointSet_test.cpp"
-						CommandLine="C:\Qt\4.7.1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -Dqh_QHpointer -DQT_DLL -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DQT_NO_DYNAMIC_CAST -I&quot;c:\Qt\4.7.1\include\QtCore&quot; -I&quot;c:\Qt\4.7.1\include\QtGui&quot; -I&quot;c:\Qt\4.7.1\include&quot; -I&quot;c:\Qt\4.7.1\include\QtTest&quot; -I&quot;..\src\libqhullcpp&quot; -I&quot;..\src&quot; -I&quot;..\src&quot; -I&quot;c:\Qt\4.7.1\include\ActiveQt&quot; -I&quot;moc&quot; -I&quot;..\src\qhulltest&quot; -I&quot;.&quot; -Ic:\Qt\4.7.1\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 ..\src\qhulltest\QhullPointSet_test.cpp -o moc\QhullPointSet_test.moc&#x0D;&#x0A;"
-						AdditionalDependencies="..\src\qhulltest\QhullPointSet_test.cpp;C:\Qt\4.7.1\bin\moc.exe"
 						Outputs="moc\QhullPointSet_test.moc"
-					/>
+						Path="c:\Qt\4.7.1\bin" />
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						AdditionalDependencies="..\src\qhulltest\QhullPointSet_test.cpp;C:\Qt\4.7.1\bin\moc.exe"
+						CommandLine="C:\Qt\4.7.1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -Dqh_QHpointer -DQT_DLL -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DQT_NO_DYNAMIC_CAST -I&quot;c:\Qt\4.7.1\include\QtCore&quot; -I&quot;c:\Qt\4.7.1\include\QtGui&quot; -I&quot;c:\Qt\4.7.1\include&quot; -I&quot;c:\Qt\4.7.1\include\QtTest&quot; -I&quot;..\src\libqhullcpp&quot; -I&quot;..\src&quot; -I&quot;..\src&quot; -I&quot;c:\Qt\4.7.1\include\ActiveQt&quot; -I&quot;moc&quot; -I&quot;..\src\qhulltest&quot; -I&quot;.&quot; -Ic:\Qt\4.7.1\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 ..\src\qhulltest\QhullPointSet_test.cpp -o moc\QhullPointSet_test.moc"
+						Description="MOC ..\src\qhulltest\QhullPointSet_test.cpp"
+						Outputs="moc\QhullPointSet_test.moc"
+						Path="c:\Qt\4.7.1\bin" />
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="moc\QhullRidge_test.moc"
-				>
+				RelativePath="moc\QhullPoint_test.moc">
 				<FileConfiguration
-					Name="Debug|Win32"
-					>
+					Name="Debug|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						Description="MOC ..\src\qhulltest\QhullRidge_test.cpp"
-						CommandLine="C:\Qt\4.7.1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -Dqh_QHpointer -DQT_DLL -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DQT_NO_DYNAMIC_CAST -I&quot;c:\Qt\4.7.1\include\QtCore&quot; -I&quot;c:\Qt\4.7.1\include\QtGui&quot; -I&quot;c:\Qt\4.7.1\include&quot; -I&quot;c:\Qt\4.7.1\include\QtTest&quot; -I&quot;..\src\libqhullcpp&quot; -I&quot;..\src&quot; -I&quot;..\src&quot; -I&quot;c:\Qt\4.7.1\include\ActiveQt&quot; -I&quot;moc&quot; -I&quot;..\src\qhulltest&quot; -I&quot;.&quot; -Ic:\Qt\4.7.1\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 ..\src\qhulltest\QhullRidge_test.cpp -o moc\QhullRidge_test.moc&#x0D;&#x0A;"
+						AdditionalDependencies="..\src\qhulltest\QhullPoint_test.cpp;C:\Qt\4.7.1\bin\moc.exe"
+						CommandLine="C:\Qt\4.7.1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -Dqh_QHpointer -DQT_DLL -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DQT_NO_DYNAMIC_CAST -I&quot;c:\Qt\4.7.1\include\QtCore&quot; -I&quot;c:\Qt\4.7.1\include\QtGui&quot; -I&quot;c:\Qt\4.7.1\include&quot; -I&quot;c:\Qt\4.7.1\include\QtTest&quot; -I&quot;..\src\libqhullcpp&quot; -I&quot;..\src&quot; -I&quot;..\src&quot; -I&quot;c:\Qt\4.7.1\include\ActiveQt&quot; -I&quot;moc&quot; -I&quot;..\src\qhulltest&quot; -I&quot;.&quot; -Ic:\Qt\4.7.1\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 ..\src\qhulltest\QhullPoint_test.cpp -o moc\QhullPoint_test.moc"
+						Description="MOC ..\src\qhulltest\QhullPoint_test.cpp"
+						Outputs="moc\QhullPoint_test.moc"
+						Path="c:\Qt\4.7.1\bin" />
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						AdditionalDependencies="..\src\qhulltest\QhullPoint_test.cpp;C:\Qt\4.7.1\bin\moc.exe"
+						CommandLine="C:\Qt\4.7.1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -Dqh_QHpointer -DQT_DLL -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DQT_NO_DYNAMIC_CAST -I&quot;c:\Qt\4.7.1\include\QtCore&quot; -I&quot;c:\Qt\4.7.1\include\QtGui&quot; -I&quot;c:\Qt\4.7.1\include&quot; -I&quot;c:\Qt\4.7.1\include\QtTest&quot; -I&quot;..\src\libqhullcpp&quot; -I&quot;..\src&quot; -I&quot;..\src&quot; -I&quot;c:\Qt\4.7.1\include\ActiveQt&quot; -I&quot;moc&quot; -I&quot;..\src\qhulltest&quot; -I&quot;.&quot; -Ic:\Qt\4.7.1\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 ..\src\qhulltest\QhullPoint_test.cpp -o moc\QhullPoint_test.moc"
+						Description="MOC ..\src\qhulltest\QhullPoint_test.cpp"
+						Outputs="moc\QhullPoint_test.moc"
+						Path="c:\Qt\4.7.1\bin" />
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="moc\QhullPoints_test.moc">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						AdditionalDependencies="..\src\qhulltest\QhullPoints_test.cpp;C:\Qt\4.7.1\bin\moc.exe"
+						CommandLine="C:\Qt\4.7.1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -Dqh_QHpointer -DQT_DLL -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DQT_NO_DYNAMIC_CAST -I&quot;c:\Qt\4.7.1\include\QtCore&quot; -I&quot;c:\Qt\4.7.1\include\QtGui&quot; -I&quot;c:\Qt\4.7.1\include&quot; -I&quot;c:\Qt\4.7.1\include\QtTest&quot; -I&quot;..\src\libqhullcpp&quot; -I&quot;..\src&quot; -I&quot;..\src&quot; -I&quot;c:\Qt\4.7.1\include\ActiveQt&quot; -I&quot;moc&quot; -I&quot;..\src\qhulltest&quot; -I&quot;.&quot; -Ic:\Qt\4.7.1\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 ..\src\qhulltest\QhullPoints_test.cpp -o moc\QhullPoints_test.moc"
+						Description="MOC ..\src\qhulltest\QhullPoints_test.cpp"
+						Outputs="moc\QhullPoints_test.moc"
+						Path="c:\Qt\4.7.1\bin" />
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						AdditionalDependencies="..\src\qhulltest\QhullPoints_test.cpp;C:\Qt\4.7.1\bin\moc.exe"
+						CommandLine="C:\Qt\4.7.1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -Dqh_QHpointer -DQT_DLL -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DQT_NO_DYNAMIC_CAST -I&quot;c:\Qt\4.7.1\include\QtCore&quot; -I&quot;c:\Qt\4.7.1\include\QtGui&quot; -I&quot;c:\Qt\4.7.1\include&quot; -I&quot;c:\Qt\4.7.1\include\QtTest&quot; -I&quot;..\src\libqhullcpp&quot; -I&quot;..\src&quot; -I&quot;..\src&quot; -I&quot;c:\Qt\4.7.1\include\ActiveQt&quot; -I&quot;moc&quot; -I&quot;..\src\qhulltest&quot; -I&quot;.&quot; -Ic:\Qt\4.7.1\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 ..\src\qhulltest\QhullPoints_test.cpp -o moc\QhullPoints_test.moc"
+						Description="MOC ..\src\qhulltest\QhullPoints_test.cpp"
+						Outputs="moc\QhullPoints_test.moc"
+						Path="c:\Qt\4.7.1\bin" />
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="moc\QhullRidge_test.moc">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
 						AdditionalDependencies="..\src\qhulltest\QhullRidge_test.cpp;C:\Qt\4.7.1\bin\moc.exe"
-						Outputs="moc\QhullRidge_test.moc"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
+						CommandLine="C:\Qt\4.7.1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -Dqh_QHpointer -DQT_DLL -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DQT_NO_DYNAMIC_CAST -I&quot;c:\Qt\4.7.1\include\QtCore&quot; -I&quot;c:\Qt\4.7.1\include\QtGui&quot; -I&quot;c:\Qt\4.7.1\include&quot; -I&quot;c:\Qt\4.7.1\include\QtTest&quot; -I&quot;..\src\libqhullcpp&quot; -I&quot;..\src&quot; -I&quot;..\src&quot; -I&quot;c:\Qt\4.7.1\include\ActiveQt&quot; -I&quot;moc&quot; -I&quot;..\src\qhulltest&quot; -I&quot;.&quot; -Ic:\Qt\4.7.1\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 ..\src\qhulltest\QhullRidge_test.cpp -o moc\QhullRidge_test.moc"
 						Description="MOC ..\src\qhulltest\QhullRidge_test.cpp"
-						CommandLine="C:\Qt\4.7.1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -Dqh_QHpointer -DQT_DLL -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DQT_NO_DYNAMIC_CAST -I&quot;c:\Qt\4.7.1\include\QtCore&quot; -I&quot;c:\Qt\4.7.1\include\QtGui&quot; -I&quot;c:\Qt\4.7.1\include&quot; -I&quot;c:\Qt\4.7.1\include\QtTest&quot; -I&quot;..\src\libqhullcpp&quot; -I&quot;..\src&quot; -I&quot;..\src&quot; -I&quot;c:\Qt\4.7.1\include\ActiveQt&quot; -I&quot;moc&quot; -I&quot;..\src\qhulltest&quot; -I&quot;.&quot; -Ic:\Qt\4.7.1\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 ..\src\qhulltest\QhullRidge_test.cpp -o moc\QhullRidge_test.moc&#x0D;&#x0A;"
-						AdditionalDependencies="..\src\qhulltest\QhullRidge_test.cpp;C:\Qt\4.7.1\bin\moc.exe"
 						Outputs="moc\QhullRidge_test.moc"
-					/>
+						Path="c:\Qt\4.7.1\bin" />
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						AdditionalDependencies="..\src\qhulltest\QhullRidge_test.cpp;C:\Qt\4.7.1\bin\moc.exe"
+						CommandLine="C:\Qt\4.7.1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -Dqh_QHpointer -DQT_DLL -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DQT_NO_DYNAMIC_CAST -I&quot;c:\Qt\4.7.1\include\QtCore&quot; -I&quot;c:\Qt\4.7.1\include\QtGui&quot; -I&quot;c:\Qt\4.7.1\include&quot; -I&quot;c:\Qt\4.7.1\include\QtTest&quot; -I&quot;..\src\libqhullcpp&quot; -I&quot;..\src&quot; -I&quot;..\src&quot; -I&quot;c:\Qt\4.7.1\include\ActiveQt&quot; -I&quot;moc&quot; -I&quot;..\src\qhulltest&quot; -I&quot;.&quot; -Ic:\Qt\4.7.1\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 ..\src\qhulltest\QhullRidge_test.cpp -o moc\QhullRidge_test.moc"
+						Description="MOC ..\src\qhulltest\QhullRidge_test.cpp"
+						Outputs="moc\QhullRidge_test.moc"
+						Path="c:\Qt\4.7.1\bin" />
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="moc\QhullSet_test.moc"
-				>
+				RelativePath="moc\QhullSet_test.moc">
 				<FileConfiguration
-					Name="Debug|Win32"
-					>
+					Name="Debug|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						Description="MOC ..\src\qhulltest\QhullSet_test.cpp"
-						CommandLine="C:\Qt\4.7.1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -Dqh_QHpointer -DQT_DLL -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DQT_NO_DYNAMIC_CAST -I&quot;c:\Qt\4.7.1\include\QtCore&quot; -I&quot;c:\Qt\4.7.1\include\QtGui&quot; -I&quot;c:\Qt\4.7.1\include&quot; -I&quot;c:\Qt\4.7.1\include\QtTest&quot; -I&quot;..\src\libqhullcpp&quot; -I&quot;..\src&quot; -I&quot;..\src&quot; -I&quot;c:\Qt\4.7.1\include\ActiveQt&quot; -I&quot;moc&quot; -I&quot;..\src\qhulltest&quot; -I&quot;.&quot; -Ic:\Qt\4.7.1\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 ..\src\qhulltest\QhullSet_test.cpp -o moc\QhullSet_test.moc&#x0D;&#x0A;"
 						AdditionalDependencies="..\src\qhulltest\QhullSet_test.cpp;C:\Qt\4.7.1\bin\moc.exe"
-						Outputs="moc\QhullSet_test.moc"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
+						CommandLine="C:\Qt\4.7.1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -Dqh_QHpointer -DQT_DLL -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DQT_NO_DYNAMIC_CAST -I&quot;c:\Qt\4.7.1\include\QtCore&quot; -I&quot;c:\Qt\4.7.1\include\QtGui&quot; -I&quot;c:\Qt\4.7.1\include&quot; -I&quot;c:\Qt\4.7.1\include\QtTest&quot; -I&quot;..\src\libqhullcpp&quot; -I&quot;..\src&quot; -I&quot;..\src&quot; -I&quot;c:\Qt\4.7.1\include\ActiveQt&quot; -I&quot;moc&quot; -I&quot;..\src\qhulltest&quot; -I&quot;.&quot; -Ic:\Qt\4.7.1\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 ..\src\qhulltest\QhullSet_test.cpp -o moc\QhullSet_test.moc"
 						Description="MOC ..\src\qhulltest\QhullSet_test.cpp"
-						CommandLine="C:\Qt\4.7.1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -Dqh_QHpointer -DQT_DLL -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DQT_NO_DYNAMIC_CAST -I&quot;c:\Qt\4.7.1\include\QtCore&quot; -I&quot;c:\Qt\4.7.1\include\QtGui&quot; -I&quot;c:\Qt\4.7.1\include&quot; -I&quot;c:\Qt\4.7.1\include\QtTest&quot; -I&quot;..\src\libqhullcpp&quot; -I&quot;..\src&quot; -I&quot;..\src&quot; -I&quot;c:\Qt\4.7.1\include\ActiveQt&quot; -I&quot;moc&quot; -I&quot;..\src\qhulltest&quot; -I&quot;.&quot; -Ic:\Qt\4.7.1\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 ..\src\qhulltest\QhullSet_test.cpp -o moc\QhullSet_test.moc&#x0D;&#x0A;"
-						AdditionalDependencies="..\src\qhulltest\QhullSet_test.cpp;C:\Qt\4.7.1\bin\moc.exe"
 						Outputs="moc\QhullSet_test.moc"
-					/>
+						Path="c:\Qt\4.7.1\bin" />
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						AdditionalDependencies="..\src\qhulltest\QhullSet_test.cpp;C:\Qt\4.7.1\bin\moc.exe"
+						CommandLine="C:\Qt\4.7.1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -Dqh_QHpointer -DQT_DLL -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DQT_NO_DYNAMIC_CAST -I&quot;c:\Qt\4.7.1\include\QtCore&quot; -I&quot;c:\Qt\4.7.1\include\QtGui&quot; -I&quot;c:\Qt\4.7.1\include&quot; -I&quot;c:\Qt\4.7.1\include\QtTest&quot; -I&quot;..\src\libqhullcpp&quot; -I&quot;..\src&quot; -I&quot;..\src&quot; -I&quot;c:\Qt\4.7.1\include\ActiveQt&quot; -I&quot;moc&quot; -I&quot;..\src\qhulltest&quot; -I&quot;.&quot; -Ic:\Qt\4.7.1\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 ..\src\qhulltest\QhullSet_test.cpp -o moc\QhullSet_test.moc"
+						Description="MOC ..\src\qhulltest\QhullSet_test.cpp"
+						Outputs="moc\QhullSet_test.moc"
+						Path="c:\Qt\4.7.1\bin" />
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="moc\QhullVertex_test.moc"
-				>
+				RelativePath="moc\QhullVertex_test.moc">
 				<FileConfiguration
-					Name="Debug|Win32"
-					>
+					Name="Debug|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						Description="MOC ..\src\qhulltest\QhullVertex_test.cpp"
-						CommandLine="C:\Qt\4.7.1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -Dqh_QHpointer -DQT_DLL -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DQT_NO_DYNAMIC_CAST -I&quot;c:\Qt\4.7.1\include\QtCore&quot; -I&quot;c:\Qt\4.7.1\include\QtGui&quot; -I&quot;c:\Qt\4.7.1\include&quot; -I&quot;c:\Qt\4.7.1\include\QtTest&quot; -I&quot;..\src\libqhullcpp&quot; -I&quot;..\src&quot; -I&quot;..\src&quot; -I&quot;c:\Qt\4.7.1\include\ActiveQt&quot; -I&quot;moc&quot; -I&quot;..\src\qhulltest&quot; -I&quot;.&quot; -Ic:\Qt\4.7.1\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 ..\src\qhulltest\QhullVertex_test.cpp -o moc\QhullVertex_test.moc&#x0D;&#x0A;"
 						AdditionalDependencies="..\src\qhulltest\QhullVertex_test.cpp;C:\Qt\4.7.1\bin\moc.exe"
-						Outputs="moc\QhullVertex_test.moc"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
+						CommandLine="C:\Qt\4.7.1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -Dqh_QHpointer -DQT_DLL -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DQT_NO_DYNAMIC_CAST -I&quot;c:\Qt\4.7.1\include\QtCore&quot; -I&quot;c:\Qt\4.7.1\include\QtGui&quot; -I&quot;c:\Qt\4.7.1\include&quot; -I&quot;c:\Qt\4.7.1\include\QtTest&quot; -I&quot;..\src\libqhullcpp&quot; -I&quot;..\src&quot; -I&quot;..\src&quot; -I&quot;c:\Qt\4.7.1\include\ActiveQt&quot; -I&quot;moc&quot; -I&quot;..\src\qhulltest&quot; -I&quot;.&quot; -Ic:\Qt\4.7.1\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 ..\src\qhulltest\QhullVertex_test.cpp -o moc\QhullVertex_test.moc"
 						Description="MOC ..\src\qhulltest\QhullVertex_test.cpp"
-						CommandLine="C:\Qt\4.7.1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -Dqh_QHpointer -DQT_DLL -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DQT_NO_DYNAMIC_CAST -I&quot;c:\Qt\4.7.1\include\QtCore&quot; -I&quot;c:\Qt\4.7.1\include\QtGui&quot; -I&quot;c:\Qt\4.7.1\include&quot; -I&quot;c:\Qt\4.7.1\include\QtTest&quot; -I&quot;..\src\libqhullcpp&quot; -I&quot;..\src&quot; -I&quot;..\src&quot; -I&quot;c:\Qt\4.7.1\include\ActiveQt&quot; -I&quot;moc&quot; -I&quot;..\src\qhulltest&quot; -I&quot;.&quot; -Ic:\Qt\4.7.1\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 ..\src\qhulltest\QhullVertex_test.cpp -o moc\QhullVertex_test.moc&#x0D;&#x0A;"
-						AdditionalDependencies="..\src\qhulltest\QhullVertex_test.cpp;C:\Qt\4.7.1\bin\moc.exe"
 						Outputs="moc\QhullVertex_test.moc"
-					/>
+						Path="c:\Qt\4.7.1\bin" />
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						AdditionalDependencies="..\src\qhulltest\QhullVertex_test.cpp;C:\Qt\4.7.1\bin\moc.exe"
+						CommandLine="C:\Qt\4.7.1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -Dqh_QHpointer -DQT_DLL -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DQT_NO_DYNAMIC_CAST -I&quot;c:\Qt\4.7.1\include\QtCore&quot; -I&quot;c:\Qt\4.7.1\include\QtGui&quot; -I&quot;c:\Qt\4.7.1\include&quot; -I&quot;c:\Qt\4.7.1\include\QtTest&quot; -I&quot;..\src\libqhullcpp&quot; -I&quot;..\src&quot; -I&quot;..\src&quot; -I&quot;c:\Qt\4.7.1\include\ActiveQt&quot; -I&quot;moc&quot; -I&quot;..\src\qhulltest&quot; -I&quot;.&quot; -Ic:\Qt\4.7.1\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 ..\src\qhulltest\QhullVertex_test.cpp -o moc\QhullVertex_test.moc"
+						Description="MOC ..\src\qhulltest\QhullVertex_test.cpp"
+						Outputs="moc\QhullVertex_test.moc"
+						Path="c:\Qt\4.7.1\bin" />
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="moc\RboxPoints_test.moc"
-				>
+				RelativePath="moc\Qhull_test.moc">
 				<FileConfiguration
-					Name="Debug|Win32"
-					>
+					Name="Debug|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						Description="MOC ..\src\qhulltest\RboxPoints_test.cpp"
-						CommandLine="C:\Qt\4.7.1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -Dqh_QHpointer -DQT_DLL -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DQT_NO_DYNAMIC_CAST -I&quot;c:\Qt\4.7.1\include\QtCore&quot; -I&quot;c:\Qt\4.7.1\include\QtGui&quot; -I&quot;c:\Qt\4.7.1\include&quot; -I&quot;c:\Qt\4.7.1\include\QtTest&quot; -I&quot;..\src\libqhullcpp&quot; -I&quot;..\src&quot; -I&quot;..\src&quot; -I&quot;c:\Qt\4.7.1\include\ActiveQt&quot; -I&quot;moc&quot; -I&quot;..\src\qhulltest&quot; -I&quot;.&quot; -Ic:\Qt\4.7.1\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 ..\src\qhulltest\RboxPoints_test.cpp -o moc\RboxPoints_test.moc&#x0D;&#x0A;"
-						AdditionalDependencies="..\src\qhulltest\RboxPoints_test.cpp;C:\Qt\4.7.1\bin\moc.exe"
-						Outputs="moc\RboxPoints_test.moc"
-					/>
+						AdditionalDependencies="..\src\qhulltest\Qhull_test.cpp;C:\Qt\4.7.1\bin\moc.exe"
+						CommandLine="C:\Qt\4.7.1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -Dqh_QHpointer -DQT_DLL -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DQT_NO_DYNAMIC_CAST -I&quot;c:\Qt\4.7.1\include\QtCore&quot; -I&quot;c:\Qt\4.7.1\include\QtGui&quot; -I&quot;c:\Qt\4.7.1\include&quot; -I&quot;c:\Qt\4.7.1\include\QtTest&quot; -I&quot;..\src\libqhullcpp&quot; -I&quot;..\src&quot; -I&quot;..\src&quot; -I&quot;c:\Qt\4.7.1\include\ActiveQt&quot; -I&quot;moc&quot; -I&quot;..\src\qhulltest&quot; -I&quot;.&quot; -Ic:\Qt\4.7.1\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 ..\src\qhulltest\Qhull_test.cpp -o moc\Qhull_test.moc"
+						Description="MOC ..\src\qhulltest\Qhull_test.cpp"
+						Outputs="moc\Qhull_test.moc"
+						Path="c:\Qt\4.7.1\bin" />
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
-					>
+					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						Description="MOC ..\src\qhulltest\RboxPoints_test.cpp"
-						CommandLine="C:\Qt\4.7.1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -Dqh_QHpointer -DQT_DLL -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DQT_NO_DYNAMIC_CAST -I&quot;c:\Qt\4.7.1\include\QtCore&quot; -I&quot;c:\Qt\4.7.1\include\QtGui&quot; -I&quot;c:\Qt\4.7.1\include&quot; -I&quot;c:\Qt\4.7.1\include\QtTest&quot; -I&quot;..\src\libqhullcpp&quot; -I&quot;..\src&quot; -I&quot;..\src&quot; -I&quot;c:\Qt\4.7.1\include\ActiveQt&quot; -I&quot;moc&quot; -I&quot;..\src\qhulltest&quot; -I&quot;.&quot; -Ic:\Qt\4.7.1\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 ..\src\qhulltest\RboxPoints_test.cpp -o moc\RboxPoints_test.moc&#x0D;&#x0A;"
-						AdditionalDependencies="..\src\qhulltest\RboxPoints_test.cpp;C:\Qt\4.7.1\bin\moc.exe"
-						Outputs="moc\RboxPoints_test.moc"
-					/>
+						AdditionalDependencies="..\src\qhulltest\Qhull_test.cpp;C:\Qt\4.7.1\bin\moc.exe"
+						CommandLine="C:\Qt\4.7.1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -Dqh_QHpointer -DQT_DLL -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DQT_NO_DYNAMIC_CAST -I&quot;c:\Qt\4.7.1\include\QtCore&quot; -I&quot;c:\Qt\4.7.1\include\QtGui&quot; -I&quot;c:\Qt\4.7.1\include&quot; -I&quot;c:\Qt\4.7.1\include\QtTest&quot; -I&quot;..\src\libqhullcpp&quot; -I&quot;..\src&quot; -I&quot;..\src&quot; -I&quot;c:\Qt\4.7.1\include\ActiveQt&quot; -I&quot;moc&quot; -I&quot;..\src\qhulltest&quot; -I&quot;.&quot; -Ic:\Qt\4.7.1\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 ..\src\qhulltest\Qhull_test.cpp -o moc\Qhull_test.moc"
+						Description="MOC ..\src\qhulltest\Qhull_test.cpp"
+						Outputs="moc\Qhull_test.moc"
+						Path="c:\Qt\4.7.1\bin" />
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\src\road\RoadTest.h.cpp"
-				>
+				RelativePath="moc\RboxPoints_test.moc">
 				<FileConfiguration
-					Name="Debug|Win32"
-					>
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						AdditionalDependencies="..\src\qhulltest\RboxPoints_test.cpp;C:\Qt\4.7.1\bin\moc.exe"
+						CommandLine="C:\Qt\4.7.1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -Dqh_QHpointer -DQT_DLL -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DQT_NO_DYNAMIC_CAST -I&quot;c:\Qt\4.7.1\include\QtCore&quot; -I&quot;c:\Qt\4.7.1\include\QtGui&quot; -I&quot;c:\Qt\4.7.1\include&quot; -I&quot;c:\Qt\4.7.1\include\QtTest&quot; -I&quot;..\src\libqhullcpp&quot; -I&quot;..\src&quot; -I&quot;..\src&quot; -I&quot;c:\Qt\4.7.1\include\ActiveQt&quot; -I&quot;moc&quot; -I&quot;..\src\qhulltest&quot; -I&quot;.&quot; -Ic:\Qt\4.7.1\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 ..\src\qhulltest\RboxPoints_test.cpp -o moc\RboxPoints_test.moc"
+						Description="MOC ..\src\qhulltest\RboxPoints_test.cpp"
+						Outputs="moc\RboxPoints_test.moc"
+						Path="c:\Qt\4.7.1\bin" />
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						AdditionalDependencies="..\src\qhulltest\RboxPoints_test.cpp;C:\Qt\4.7.1\bin\moc.exe"
+						CommandLine="C:\Qt\4.7.1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -Dqh_QHpointer -DQT_DLL -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DQT_NO_DYNAMIC_CAST -I&quot;c:\Qt\4.7.1\include\QtCore&quot; -I&quot;c:\Qt\4.7.1\include\QtGui&quot; -I&quot;c:\Qt\4.7.1\include&quot; -I&quot;c:\Qt\4.7.1\include\QtTest&quot; -I&quot;..\src\libqhullcpp&quot; -I&quot;..\src&quot; -I&quot;..\src&quot; -I&quot;c:\Qt\4.7.1\include\ActiveQt&quot; -I&quot;moc&quot; -I&quot;..\src\qhulltest&quot; -I&quot;.&quot; -Ic:\Qt\4.7.1\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 ..\src\qhulltest\RboxPoints_test.cpp -o moc\RboxPoints_test.moc"
+						Description="MOC ..\src\qhulltest\RboxPoints_test.cpp"
+						Outputs="moc\RboxPoints_test.moc"
+						Path="c:\Qt\4.7.1\bin" />
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\src\road\RoadTest.h.cpp">
+				<FileConfiguration
+					Name="Debug|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-						PrecompiledHeaderThrough="$(INHERIT)"
 						ForcedIncludeFiles="$(NOINHERIT)"
-					/>
+						PrecompiledHeaderThrough="$(INHERIT)"
+						UsePrecompiledHeader="1" />
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
-					>
+					Name="Release|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-						PrecompiledHeaderThrough="$(INHERIT)"
 						ForcedIncludeFiles="$(NOINHERIT)"
-					/>
+						PrecompiledHeaderThrough="$(INHERIT)"
+						UsePrecompiledHeader="1" />
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="moc\UsingLibQhull_test.moc"
-				>
+				RelativePath="moc\UsingLibQhull_test.moc">
 				<FileConfiguration
-					Name="Debug|Win32"
-					>
+					Name="Debug|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						Description="MOC ..\src\qhulltest\UsingLibQhull_test.cpp"
-						CommandLine="C:\Qt\4.7.1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -Dqh_QHpointer -DQT_DLL -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DQT_NO_DYNAMIC_CAST -I&quot;c:\Qt\4.7.1\include\QtCore&quot; -I&quot;c:\Qt\4.7.1\include\QtGui&quot; -I&quot;c:\Qt\4.7.1\include&quot; -I&quot;c:\Qt\4.7.1\include\QtTest&quot; -I&quot;..\src\libqhullcpp&quot; -I&quot;..\src&quot; -I&quot;..\src&quot; -I&quot;c:\Qt\4.7.1\include\ActiveQt&quot; -I&quot;moc&quot; -I&quot;..\src\qhulltest&quot; -I&quot;.&quot; -Ic:\Qt\4.7.1\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 ..\src\qhulltest\UsingLibQhull_test.cpp -o moc\UsingLibQhull_test.moc&#x0D;&#x0A;"
 						AdditionalDependencies="..\src\qhulltest\UsingLibQhull_test.cpp;C:\Qt\4.7.1\bin\moc.exe"
+						CommandLine="C:\Qt\4.7.1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -Dqh_QHpointer -DQT_DLL -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DQT_NO_DYNAMIC_CAST -I&quot;c:\Qt\4.7.1\include\QtCore&quot; -I&quot;c:\Qt\4.7.1\include\QtGui&quot; -I&quot;c:\Qt\4.7.1\include&quot; -I&quot;c:\Qt\4.7.1\include\QtTest&quot; -I&quot;..\src\libqhullcpp&quot; -I&quot;..\src&quot; -I&quot;..\src&quot; -I&quot;c:\Qt\4.7.1\include\ActiveQt&quot; -I&quot;moc&quot; -I&quot;..\src\qhulltest&quot; -I&quot;.&quot; -Ic:\Qt\4.7.1\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 ..\src\qhulltest\UsingLibQhull_test.cpp -o moc\UsingLibQhull_test.moc"
+						Description="MOC ..\src\qhulltest\UsingLibQhull_test.cpp"
 						Outputs="moc\UsingLibQhull_test.moc"
-					/>
+						Path="c:\Qt\4.7.1\bin" />
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
-					>
+					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						Description="MOC ..\src\qhulltest\UsingLibQhull_test.cpp"
-						CommandLine="C:\Qt\4.7.1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -Dqh_QHpointer -DQT_DLL -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DQT_NO_DYNAMIC_CAST -I&quot;c:\Qt\4.7.1\include\QtCore&quot; -I&quot;c:\Qt\4.7.1\include\QtGui&quot; -I&quot;c:\Qt\4.7.1\include&quot; -I&quot;c:\Qt\4.7.1\include\QtTest&quot; -I&quot;..\src\libqhullcpp&quot; -I&quot;..\src&quot; -I&quot;..\src&quot; -I&quot;c:\Qt\4.7.1\include\ActiveQt&quot; -I&quot;moc&quot; -I&quot;..\src\qhulltest&quot; -I&quot;.&quot; -Ic:\Qt\4.7.1\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 ..\src\qhulltest\UsingLibQhull_test.cpp -o moc\UsingLibQhull_test.moc&#x0D;&#x0A;"
 						AdditionalDependencies="..\src\qhulltest\UsingLibQhull_test.cpp;C:\Qt\4.7.1\bin\moc.exe"
+						CommandLine="C:\Qt\4.7.1\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -Dqh_QHpointer -DQT_DLL -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DQT_NO_DYNAMIC_CAST -I&quot;c:\Qt\4.7.1\include\QtCore&quot; -I&quot;c:\Qt\4.7.1\include\QtGui&quot; -I&quot;c:\Qt\4.7.1\include&quot; -I&quot;c:\Qt\4.7.1\include\QtTest&quot; -I&quot;..\src\libqhullcpp&quot; -I&quot;..\src&quot; -I&quot;..\src&quot; -I&quot;c:\Qt\4.7.1\include\ActiveQt&quot; -I&quot;moc&quot; -I&quot;..\src\qhulltest&quot; -I&quot;.&quot; -Ic:\Qt\4.7.1\mkspecs\win32-msvc2005 -D_MSC_VER=1400 -DWIN32 ..\src\qhulltest\UsingLibQhull_test.cpp -o moc\UsingLibQhull_test.moc"
+						Description="MOC ..\src\qhulltest\UsingLibQhull_test.cpp"
 						Outputs="moc\UsingLibQhull_test.moc"
-					/>
+						Path="c:\Qt\4.7.1\bin" />
 				</FileConfiguration>
 			</File>
 		</Filter>

@@ -50,7 +50,7 @@ Code flags --
   If add new messages, assign these values and increment.
 
   def counters =  [27, 1047, 2059, 3025, 4068, 5003, 
-     6233, 7079, 8143, 9410, 10000, 11026]
+     6235, 7079, 8143, 9410, 10000, 11026]
 
   See: qh_ERR* [libqhull.h]
 */
@@ -581,6 +581,9 @@ stop after qh_JOGGLEmaxretry attempts
                         only one instance of qhull() can be active at a time
                         default value
 
+  qh_QHpointer_dllimport defines qh_qh as a __declspec(dllimport) [libqhull.h]
+  It is required for msvc-2005.  It is not needed for gcc.
+
   notes:
     all global variables for qhull are in qh, qhmem, and qhstat
     qh is defined in libqhull.h
@@ -590,10 +593,12 @@ stop after qh_JOGGLEmaxretry attempts
 
   see:
     user_eg.c for an example
-  FIXUP need to override for C++ (-Dqh_QHpointer=1)
 */
 #ifndef qh_QHpointer
 #define qh_QHpointer 0
+#if qh_QHpointer_dllimport
+#error QH6234 Qhull error: qh_QHpointer must be defined when using qh_QHpointer_dllimport.
+#endif
 #endif
 #if 0  /* sample code */
     qhT *oldqhA, *oldqhB;
