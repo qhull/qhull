@@ -51,9 +51,7 @@
    Defining #if 1, also prevents user.o from being loaded.
 */
 
-extern "C" {
 #include "qhull_a.h"
-}
 
 /*-------------------------------------------------
 -internal function prototypes

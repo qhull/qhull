@@ -1,9 +1,9 @@
+: Qhull-go.bat invoked as command.com from QHULL-GO
 @echo off
 echo.
 echo ========= Qhull-go.bat, DOS window for Qhull and Rbox ===========
 echo. 
 echo       Use arrow keys to repeat and edit commands.
-echo       If they do not work, invoke doskey.
 echo.
 echo       Use properties button to increase size to 50 lines
 echo.
@@ -19,4 +19,4 @@ echo       Type 'qconvex' for synopsis and examples.
 echo.
 
 cd bin
-%comspec%
+cmd

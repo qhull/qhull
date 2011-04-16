@@ -9,15 +9,15 @@
 # Visual Studio builds includes debug and release targets
 #   Please rename library debug targets to ..._d... (e.g., qhullstatic_d.lib)
 #
-# $Id: //main/2011/qhull/CMakeLists.txt#7 $$Change: 1368 $
-# $DateTime: 2011/04/16 08:12:32 $$Author: bbarber $
+# $Id: //main/2011/qhull/CMakeLists.txt#6 $$Change: 1367 $
+# $DateTime: 2011/04/08 22:21:11 $$Author: bbarber $
 
 project(qhull)
 cmake_minimum_required(VERSION 2.6)
 
 # Define qhull_VERSION in CMakeLists.txt, Makefile, qhull-exports.def, and qhull-warn.pri
 string(REGEX REPLACE ".* ([0-9]+) .*"
-    "6.2.0.\\1"  qhull_VERSION "$Change: 1368 $")
+    "6.2.0.\\1"  qhull_VERSION "$Change: 1367 $")
 
 if(INCLUDE_INSTALL_DIR)
 else()
@@ -279,7 +279,7 @@ add_executable(user_eg ${user_eg_SOURCES})
 # user_eg may be linked to qhull_STATIC if user_eg_DEFINES is removed
 target_link_libraries(user_eg ${qhull_SHARED})
 set_target_properties(user_eg PROPERTIES
-    COMPILE_DEFINITIONS ${user_eg_DEFINES}
+    COMPILE_DEFINITIONS "${user_eg_DEFINES}"
     VERSION ${qhull_VERSION})
 
 # ---------------------------------------
