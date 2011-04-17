@@ -26,13 +26,13 @@ log_step $LINENO "Logging to $err_log\n... and $err_step_log"
 
 log_note $LINENO "Find Qhull directory" 
 if [[ ! -d qhull/eg && ! -d ../qhull/eg && -d ../../qhull/eg ]]; then
-    err_exit $LINENO "qhull/eg directory not found at or above $PWD"
+    exit_err $LINENO "qhull/eg directory not found at or above $PWD"
 fi
 if [[ ! -d qhull/eg ]]; then
     if [[ -d ../qhull/eg ]]; then
         cd ..
     else
-        cd ../..
+        cd ../..  # Tested above
     fi
 fi
 root_dir=$(pwd)
@@ -108,18 +108,36 @@ md5_zip_file=qhull-$version.zip.md5sum
 md5_tgz_file=qhull-$version-src.tgz.md5sum
 
 # recursive 
-qhull_dirs="qhull/bin qhull/cpp qhull/eg qhull/html qhull/lib qhull/src"
-qhull_files="qhull/project/*.pro qhull/project/*.sln qhull/project/*/*.vcproj qhull/project/*/*.pro \
-    qhull/project/libqhull.vcproj \
-    qhull/Announce.txt qhull/CMakeLists.txt qhull/COPYING.txt qhull/File_id.diz qhull/QHULL-GO.pif \
-    qhull/README.txt qhull/REGISTER.txt qhull/index.htm \
-    qhull/qconvex.exe qhull/qdelaunay.exe qhull/qhalf.exe \
-    qhull/qhull.exe qhull/qvoronoi.exe qhull/rbox.exe"
-qhull_ufiles="$qhull_dirs qhull/project/*.pro qhull/project/*.sln qhull/project/*/*.vcproj qhull/project/*/*.pro \
-    qhull/project/libqhull.vcproj \
-    qhull/Announce.txt qhull/CMakeLists.txt qhull/COPYING.txt qhull/File_id.diz qhull/QHULL-GO.pif \
-    qhull/README.txt qhull/REGISTER.txt qhull/index.htm"
+qhull_dirs="qhull/eg qhull/html qhull/src"
+qhull_files="qhull/build/*.sln qhull/build/*.vcproj \
+    qhull/Announce.txt qhull/CMakeLists.txt qhull/COPYING.txt \
+    qhull/File_id.diz qhull/QHULL-GO.pif qhull/README.txt \
+    qhull/REGISTER.txt qhull/index.htm qhull/bin/msvcr80.dll \
+    qhull/bin/qconvex.exe qhull/bin/qdelaunay.exe qhull/bin/qhalf.exe \
+    qhull/bin/qhull.exe qhull/bin/qhull6.dll qhull/bin/qvoronoi.exe \
+    qhull/bin/rbox.exe qhull/bin/user_eg.exe qhull/bin/user_eg2.exe \
+    qhull/bin/user_eg3.exe"
+qhull_ufiles="$qhull_dirs qhull/build/*.sln qhull/build/*.vcproj \
+    qhull/Announce.txt qhull/CMakeLists.txt qhull/COPYING.txt \
+    qhull/File_id.diz qhull/QHULL-GO.pif qhull/README.txt \
+    qhull/REGISTER.txt qhull/index.htm"
 
+#############################
+log_step $LINENO "Clean distribution directories"
+#############################
+
+if [[ -f qhull/src/Make-config.sh || -d qhull/src/debian ]]; then
+    exit_err $LINENO "Remove debian build from src/"
+fi    
+p4 sync -f qhull/build/...
+exit_if_err $LINENO "Can not 'p4 sync -f qhull.sln *.vcproj'"
+cd qhull && make clean
+exit_if_err $LINENO "Can not 'make clean'"
+cd ..
+rm -f qhull/src/qhull-all.pro.user qhull/src/libqhull/BCC32tmp.cfg
+rm -f qhull/eg/eg.* qhull/*.x qhull/x.*
+rm -f qhull/bin/qhulltest.exe
+    
 set noglob
 
 if [[ -e /bin/msysinfo && $(type -p wzzip) && $(type -p wzunzip) ]]; then
@@ -169,7 +187,6 @@ exit_if_fail $LINENO "cp -r -p --parents $qhull_ufiles $TEMP_DIR"
 if [[ $IS_WINDOWS && $(type -p d2u) ]]; then
     convert_to_unix "$TEMP_DIR"
 fi
-exit_if_fail $LINENO "mv $TEMP_DIR/qhull/src/Makefile.txt $TEMP_DIR/qhull/src/Makefile"
 
 #############################
 log_step $LINENO "Write md5sum to $md5_tgz_file"
@@ -202,18 +219,14 @@ log_step $LINENO "Extract zip and tgz files to ($TEMP_DIR)"
 exit_if_fail $LINENO "rm -rf $TEMP_DIR"
 if [[ -r $root_dir/$qhull_zip_file ]]; then
     exit_if_fail $LINENO "mkdir -p $TEMP_DIR/zip && cd $TEMP_DIR/zip"
-    if [[ -r $root_dir/$qhull_zip_file ]]; then
-        exit_if_fail $LINENO "wzunzip -yb -d $root_dir/$qhull_zip_file"
-    fi
-    log_step $LINENO "Search for date stamps to Dates.txt"
+    exit_if_fail $LINENO "wzunzip -yb -d $root_dir/$qhull_zip_file"
+    log_step $LINENO "Search for date stamps to zip/Dates.txt"
     find . -type f | grep -v '/bin/' | xargs grep '\-20' | grep -v -E '(page=|ISBN|sql-2005|utility-2000|written 2002-2003|tail -20|Spinellis|WEBSIDESTORY|D:06-5-2007|server-2005)' >Dates.txt
     find . -type f | grep -v '/bin/' | xargs grep -i 'qhull *20' >>Dates.txt
 fi
 if [[ -r $root_dir/$qhull_tgz_file ]]; then
     exit_if_fail $LINENO "mkdir -p $TEMP_DIR/tgz && cd $TEMP_DIR/tgz"
-    if [[ -r $root_dir/$qhull_tgz_file ]]; then
-        exit_if_fail $LINENO "tar -zxf $root_dir/$qhull_tgz_file"
-    fi
+    exit_if_fail $LINENO "tar -zxf $root_dir/$qhull_tgz_file"
 fi
 
 #############################

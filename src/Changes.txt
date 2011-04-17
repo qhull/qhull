@@ -3,27 +3,44 @@
 
 ------------
 Need help
+ - Qhull needs RPM and Debian builds (CMake's CPackRMP and CPackDeb).   
+ - Add an Autotools build for everything
+ - Set up debian build [Pkg-octave-devel]
+   Please keep debian files in config/ and project/debian/
+   Branch 'debian' is from http://savannah.nongnu.org/cvs/?group=qhull
+   project/debian needs updating for its new location.
  - The C++ interface needs work.  Give it a try and make it better.
    http://gitorious.org/qhull/
  - Document with Qt conventions using Doxygen (//! and //!<)
  - Produce conformant triangulations for merged facets using option 'Qt' 
  - Verify -fno-strict-aliasing needed for gcc 4.1, 4.2, 4.3 (qset segfault)
- - Set up debian build [Pkg-octave-devel]
-   Please keep debian files in config/ and project/debian/
-   Branch 'debian' is from http://savannah.nongnu.org/cvs/?group=qhull
-   project/debian needs updating for its new location.
 
 To do
  - Review email for doc changes
  - Git: Create signed tags for Qhull versions
  - Wiki: Add FIXUP to QH11026 for known problems
  - Notes to compgeom on conformant triangulation and Voronoi volume
- - Add an Autotools build for everything
- - Update debian build
- - RMP build of Qhull
- - Fix up cpp_command
  - Set File Ver and Product Ver in dll
- - Fix MBorland
+ - Locate mirror site for Qhull
+
+-----------------
+Gitorious 2010/04/17
+ - Add headers to CMakeLists SOURCES and *.vcproj
+ - Update date for release
+ - CMakeLists: Fix user_eg target
+ - Redo path for q_eg, etc.
+ - Add user_eg3 to q_test
+ - Update q_test-ok.txt and qhulltest-ok.txt
+ - Fix qhull-zip.sh for new directory structure, and clean step
+ - Change DOS window to command window
+ - Fix html links
+ - Drop the Spanish mirror site.  It was disabled.
+ - qh-get.htm: Update download instructions
+ - Makefile: fix clean/cleanall
+ - Fix name of libqhullstatic_p.a
+ - Updated README.txt
+ - Fixed MBorland.  My install did not have c0x32.obj configured
+ - Fixed includes for qhull_interface.cpp
 
 -----------------
 Gitorious 2010/04/16
@@ -102,7 +119,6 @@ Changes to C++ interface
  - QhullError: Add copy constructor, assignment operator, and destructor
  - Add throw() specifiers to RoadError and QhullError
  - Renamed RoadError::defined() to RoadError::isDefined()
- - Renamed RoadEvent::defined() to RoadEvent::isDefined()
  - Add #error to Qhull.h if qh_QHpointer is not defined
 
 Changes to C++ code

@@ -1,4 +1,4 @@
-/*<html><pre>  -<a                             href="qh-qhull.htm"
+/*<html><pre>  -<a                             href="../libqhull/qh-qhull.htm"
   >-------------------------------</a><a name="TOP">-</a>
 
    qhalf.c
@@ -39,7 +39,7 @@ int isatty(int);  /* returns 1 if stdin is a tty
                    if "Undefined symbol" this can be deleted along with call in main() */
 #endif
 
-/*-<a                             href="qh-qhull.htm#TOC"
+/*-<a                             href="../libqhull/qh-qhull.htm#TOC"
   >-------------------------------</a><a name="prompt">-</a>
 
   qh_prompt
@@ -168,7 +168,7 @@ Print options:\n\
 ";
 /* for opts, don't assign 'e' or 'E' to a flag (already used for exponent) */
 
-/*-<a                             href="qh-qhull.htm#TOC"
+/*-<a                             href="../libqhull/qh-qhull.htm#TOC"
   >-------------------------------</a><a name="prompt2">-</a>
 
   qh_prompt2
@@ -206,7 +206,7 @@ examples:\n\
 ";
 /* for opts, don't assign 'e' or 'E' to a flag (already used for exponent) */
 
-/*-<a                             href="qh-qhull.htm#TOC"
+/*-<a                             href="../libqhull/qh-qhull.htm#TOC"
   >-------------------------------</a><a name="prompt3">-</a>
 
   qh_prompt3
@@ -239,7 +239,7 @@ Except for 'F.' and 'PG', upper_case options take an argument.\n\
  Angle_max      Centrum_size   Random_dist    Ucoplanar_max  Wide_outside\n\
 ";
 
-/*-<a                             href="qh-qhull.htm#TOC"
+/*-<a                             href="../libqhull/qh-qhull.htm#TOC"
   >-------------------------------</a><a name="main">-</a>
 
   main( argc, argv )

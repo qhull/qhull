@@ -12,8 +12,8 @@
    see qhull_a.h for internal functions
 
    Copyright (c) 1993-2011 The Geometry Center.
-   $Id: //main/2011/qhull/src/libqhull/global.c#4 $$Change: 1367 $
-   $DateTime: 2011/04/08 22:21:11 $$Author: bbarber $
+   $Id: //main/2011/qhull/src/libqhull/global.c#5 $$Change: 1372 $
+   $DateTime: 2011/04/17 19:32:21 $$Author: bbarber $
  */
 
 #include "qhull_a.h"
@@ -47,7 +47,7 @@ qhT qh_qh;              /* all global variables.
     recompile user_eg.c, rbox.c, libqhull.c, qconvex.c, qdelaun.c qvoronoi.c, qhalf.c
 */
 
-const char *qh_version = "2011.1 2011/04/08";
+const char *qh_version = "2011.1 2011/04/17";
 
 /*-<a                             href="qh-globa.htm#TOC"
   >-------------------------------</a><a name="appendprint">-</a>

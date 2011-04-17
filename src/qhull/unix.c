@@ -1,4 +1,4 @@
-/*<html><pre>  -<a                             href="qh-qhull.htm"
+/*<html><pre>  -<a                             href="../libqhull/qh-qhull.htm"
   >-------------------------------</a><a name="TOP">-</a>
 
    unix.c
@@ -8,8 +8,8 @@
    see qh-qhull.htm
 
    Copyright (c) 1993-2011 The Geometry Center.
-   $Id: //main/2011/qhull/src/qhull/unix.c#3 $$Change: 1342 $
-   $DateTime: 2011/03/07 21:55:47 $$Author: bbarber $
+   $Id: //main/2011/qhull/src/qhull/unix.c#4 $$Change: 1372 $
+   $DateTime: 2011/04/17 19:32:21 $$Author: bbarber $
 */
 
 #include "mem.h"
@@ -43,7 +43,7 @@ int isatty(int);  /* returns 1 if stdin is a tty
                    if "Undefined symbol" this can be deleted along with call in main() */
 #endif
 
-/*-<a                             href="qh-qhull.htm#TOC"
+/*-<a                             href="../libqhull/qh-qhull.htm#TOC"
   >-------------------------------</a><a name="prompt">-</a>
 
   qh_prompt
@@ -214,7 +214,7 @@ Print options:\n\
 ";
 /* for opts, don't assign 'e' or 'E' to a flag (already used for exponent) */
 
-/*-<a                             href="qh-qhull.htm#TOC"
+/*-<a                             href="../libqhull/qh-qhull.htm#TOC"
   >-------------------------------</a><a name="prompt2">-</a>
 
   qh_prompt2
@@ -264,7 +264,7 @@ examples:\n\
 ";
 /* for opts, don't assign 'e' or 'E' to a flag (already used for exponent) */
 
-/*-<a                             href="qh-qhull.htm#TOC"
+/*-<a                             href="../libqhull/qh-qhull.htm#TOC"
   >-------------------------------</a><a name="prompt3">-</a>
 
   qh_prompt3
@@ -308,7 +308,7 @@ Except for 'F.' and 'PG', upper-case options take an argument.\n\
  Ucoplanar_max  Wide_outside\n\
 ";
 
-/*-<a                             href="qh-qhull.htm#TOC"
+/*-<a                             href="../libqhull/qh-qhull.htm#TOC"
   >-------------------------------</a><a name="main">-</a>
 
   main( argc, argv )

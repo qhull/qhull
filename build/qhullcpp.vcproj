@@ -425,6 +425,85 @@
 				>
 			</File>
 		</Filter>
+		<Filter
+			Name="Header Files"
+			Filter="">
+			<File
+				RelativePath="..\src\libqhullcpp\Coordinates.h">
+			</File>
+			<File
+				RelativePath="..\src\libqhullcpp\functionObjects.h">
+			</File>
+			<File
+				RelativePath="..\src\libqhullcpp\PointCoordinates.h">
+			</File>
+			<File
+				RelativePath="..\src\libqhullcpp\Qhull.h">
+			</File>
+			<File
+				RelativePath="..\src\libqhullcpp\QhullError.h">
+			</File>
+			<File
+				RelativePath="..\src\libqhullcpp\QhullFacet.h">
+			</File>
+			<File
+				RelativePath="..\src\libqhullcpp\QhullFacetList.h">
+			</File>
+			<File
+				RelativePath="..\src\libqhullcpp\QhullFacetSet.h">
+			</File>
+			<File
+				RelativePath="..\src\libqhullcpp\QhullHyperplane.h">
+			</File>
+			<File
+				RelativePath="..\src\libqhullcpp\QhullIterator.h">
+			</File>
+			<File
+				RelativePath="..\src\libqhullcpp\QhullLinkedList.h">
+			</File>
+			<File
+				RelativePath="..\src\libqhullcpp\QhullPoint.h">
+			</File>
+			<File
+				RelativePath="..\src\libqhullcpp\QhullPoints.h">
+			</File>
+			<File
+				RelativePath="..\src\libqhullcpp\QhullPointSet.h">
+			</File>
+			<File
+				RelativePath="..\src\libqhullcpp\QhullQh.h">
+			</File>
+			<File
+				RelativePath="..\src\libqhullcpp\QhullRidge.h">
+			</File>
+			<File
+				RelativePath="..\src\libqhullcpp\QhullSet.h">
+			</File>
+			<File
+				RelativePath="..\src\libqhullcpp\QhullSets.h">
+			</File>
+			<File
+				RelativePath="..\src\libqhullcpp\QhullStat.h">
+			</File>
+			<File
+				RelativePath="..\src\libqhullcpp\QhullVertex.h">
+			</File>
+			<File
+				RelativePath="..\src\libqhullcpp\QhullVertexSet.h">
+			</File>
+			<File
+				RelativePath="..\src\libqhullcpp\RboxPoints.h">
+			</File>
+			<File
+				RelativePath="..\src\libqhullcpp\UsingLibQhull.h">
+			</File>
+			<File
+				RelativePath="..\src\road\RoadError.h">
+			</File>
+			<File
+				RelativePath="..\src\road\RoadLogEvent.h">
+			</File>
+		</Filter>
 	</Files>
 	<Globals>
 	</Globals>

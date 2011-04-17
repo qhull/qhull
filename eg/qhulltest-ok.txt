@@ -1025,14 +1025,14 @@ INFO   : Caught QH6029 qhull error: option 'Fd' is not used with this program.
              It may be used with qhull.
 
 While executing:  | 
-Options selected for Qhull 2011.1 2011/04/08:
+Options selected for Qhull 2011.1 2011/04/17:
   run-id 1277321349
 INFO   : Error stream without output stream
 qhull error: option 'Fd' is not used with this program.
              It may be used with qhull.
 
 While executing:  | 
-Options selected for Qhull 2011.1 2011/04/08:
+Options selected for Qhull 2011.1 2011/04/17:
   run-id 1277321349
 INFO   : Caught QH6029 
 INFO   : Error output sent to output stream without error stream
@@ -1043,7 +1043,7 @@ feasible point:      0      0
 The halfspace was at index 1
 
 While executing: rbox "c" | qhull Tz H0
-Options selected for Qhull 2011.1 2011/04/08:
+Options selected for Qhull 2011.1 2011/04/17:
   run-id 1277321349  Tz-stdout  Halfspace-about  0
 INFO   : Caught QH6023 
 INFO   : No error stream or output stream
@@ -1051,7 +1051,7 @@ INFO   : Caught QH6029 qhull error: option 'Fd' is not used with this program.
              It may be used with qhull.
 
 While executing:  | 
-Options selected for Qhull 2011.1 2011/04/08:
+Options selected for Qhull 2011.1 2011/04/17:
   run-id 1277321349
 PASS   : orgQhull::Qhull_test::t_message()
 

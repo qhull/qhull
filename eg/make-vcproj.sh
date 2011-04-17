@@ -55,8 +55,8 @@ for f in buildvc/*.vcproj buildqt/qhulltest/*.vcproj; do
 	$f > $dest
 done
 
-echo 'Except for qhulltest.vcproj, delete empty File in Files section near end of vcproj'
-echo 'Except for qhulltest.vcproj, rename debug targets to qhull_d.dll, etc.'
+echo -e '\nExcept for qhulltest.vcproj,\n*.vcproj: delete empty File in Files section near end of vcproj'
+echo -e '\nExcept for qhulltest.vcproj,\n*.vcproj: rename debug targets to qhull_d6.dll, etc.'
 
 # If need to rebuild sln
 sed -e '\|Project.*ALL_BUILD|,\|EndProject$| d' \

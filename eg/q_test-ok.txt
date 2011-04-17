@@ -589,7 +589,7 @@ date
 qconvex -
 
 qconvex- compute the convex hull
-    http://www.qhull.org  2011.1 2011/04/08
+    http://www.qhull.org  2011.1 2011/04/17
 
 input (stdin):
     first lines: dimension and number of points (or vice-versa).
@@ -702,7 +702,7 @@ Print options:
     -    - one line descriptions of all options
 qconvex .
 
-Qhull 2011.1 2011/04/08.
+Qhull 2011.1 2011/04/17.
 Except for 'F.' and 'PG', upper-case options take an argument.
 
  incidences     mathematica    normals        OFF_format     points
@@ -731,7 +731,7 @@ Except for 'F.' and 'PG', upper-case options take an argument.
  Angle_max      Centrum_size   Random_dist    Ucoplanar_max  Wide_outside
 qconvex
 
-qconvex- compute the convex hull.  Qhull 2011.1 2011/04/08
+qconvex- compute the convex hull.  Qhull 2011.1 2011/04/17
     input (stdin): dimension, number of points, point coordinates
     comments start with a non-numeric character
 
@@ -1057,12 +1057,12 @@ QH6029 qhull error: option 'Q0' is not used with this program.
              It may be used with qhull.
 
 While executing:  | qconvex Q0
-Options selected for Qhull 2011.1 2011/04/08:
+Options selected for Qhull 2011.1 2011/04/17:
   run-id 1277102858
 qvoronoi -
 
 qvoronoi- compute the Voronoi diagram
-    http://www.qhull.org  2011.1 2011/04/08
+    http://www.qhull.org  2011.1 2011/04/17
 
 input (stdin):
     first lines: dimension and number of points (or vice-versa).
@@ -1155,7 +1155,7 @@ Print options:
     -    - one line descriptions of all options
 qvoronoi .
 
-Qhull 2011.1 2011/04/08.
+Qhull 2011.1 2011/04/17.
 Except for 'F.' and 'PG', upper-case options take an argument.
 
  OFF_format     p_vertices     i_delaunay     summary        facet_dump
@@ -1179,7 +1179,7 @@ Except for 'F.' and 'PG', upper-case options take an argument.
  Angle_max      Centrum_size   Random_dist    Wide_outside
 qvoronoi
 
-qvoronoi- compute the Voronoi diagram.  Qhull 2011.1 2011/04/08
+qvoronoi- compute the Voronoi diagram.  Qhull 2011.1 2011/04/17
     input (stdin): dimension, number of points, point coordinates
     comments start with a non-numeric character
 
@@ -1408,7 +1408,7 @@ Statistics for: rbox P0 c D2 | qvoronoi s Fv QV0
 qdelaunay -
 
 qdelaunay- compute the Delaunay triangulation
-    http://www.qhull.org  2011.1 2011/04/08
+    http://www.qhull.org  2011.1 2011/04/17
 
 input (stdin):
     first lines: dimension and number of points (or vice-versa).
@@ -1510,7 +1510,7 @@ Print options:
     -    - one line descriptions of all options
 qdelaunay .
 
-Qhull 2011.1 2011/04/08.
+Qhull 2011.1 2011/04/17.
 Except for 'F.' and 'PG', upper-case options take an argument.
 
  incidences     mathematica    OFF_format     points_lifted  summary
@@ -1538,7 +1538,7 @@ Except for 'F.' and 'PG', upper-case options take an argument.
  Angle_max      Centrum_size   Random_dist    Wide_outside
 qdelaunay
 
-qdelaunay- compute the Delaunay triangulation.  Qhull 2011.1 2011/04/08
+qdelaunay- compute the Delaunay triangulation.  Qhull 2011.1 2011/04/17
     input (stdin): dimension, number of points, point coordinates
     comments start with a non-numeric character
 
@@ -1813,7 +1813,7 @@ Statistics for: rbox P0 P0 c D2 | qdelaunay s FP QV0
 qhalf -
 
 qhalf- compute the intersection of halfspaces about a point
-    http://www.qhull.org  2011.1 2011/04/08
+    http://www.qhull.org  2011.1 2011/04/17
 
 input (stdin):
     optional interior point: dimension, 1, coordinates
@@ -1915,7 +1915,7 @@ Print options:
     -    - one line descriptions of all options
 qhalf .
 
-Qhull 2011.1 2011/04/08.
+Qhull 2011.1 2011/04/17.
 Except for 'F.' and 'PG', upper_case options take an argument.
 
  incidences     Geomview       mathematica    OFF_format     point_dual
@@ -1941,7 +1941,7 @@ Except for 'F.' and 'PG', upper_case options take an argument.
  Angle_max      Centrum_size   Random_dist    Ucoplanar_max  Wide_outside
 qhalf
 
-qhalf- halfspace intersection about a point.  Qhull 2011.1 2011/04/08
+qhalf- halfspace intersection about a point.  Qhull 2011.1 2011/04/17
     input (stdin): [dim, 1, interior point], dim+1, n, coefficients+offset
     comments start with a non-numeric character
 
@@ -2419,7 +2419,7 @@ point, line 1 is the first comment, line 2 is the first long line.  Continue wit
 QH6013 qhull input error: input is less than 2-dimensional since it has the same x coordinate
 
 While executing: #;laskdjf | qhull
-Options selected for Qhull 2011.1 2011/04/08:
+Options selected for Qhull 2011.1 2011/04/17:
   run-id 1277136472  _pre-merge  _zero-centrum  _max-width  2
   Error-roundoff 1.7e-015  _one-merge 8.6e-015  _near-inside 4.3e-014
   Visible-distance 3.4e-015  U-coplanar-distance 3.4e-015
@@ -2432,7 +2432,7 @@ line, line 4 is the first long line.  Continue with 3 points.
 QH6013 qhull input error: input is less than 2-dimensional since it has the same x coordinate
 
 While executing: #;laskdjf | qhull
-Options selected for Qhull 2011.1 2011/04/08:
+Options selected for Qhull 2011.1 2011/04/17:
   run-id 1277136472  _pre-merge  _zero-centrum  _max-width  2
   Error-roundoff 1.7e-015  _one-merge 8.6e-015  _near-inside 4.3e-014
   Visible-distance 3.4e-015  U-coplanar-distance 3.4e-015
@@ -4634,7 +4634,7 @@ rbox 6 s D3 | qhull C-0.1 Qc FF s FQ Fi n Fo FQ FI Fm Fn FN FO FO FQ Fs FS FV Fv
 1 1
 3 2 0 1
 3 3 0 1
-Options selected for Qhull 2011.1 2011/04/08:
+Options selected for Qhull 2011.1 2011/04/17:
   run-id 1277203700  Centrum-premerge- 0.1  Qcoplanar-keep  FFacets-xridge
   summary  FQhull  Finner  normals  Fouter  FQhull  FIDs  Fmerges  Fneighbors
   FNeighbors-vertex  FOptions  FQhull  Fsummary  FSize  FVertex-average
@@ -4654,7 +4654,7 @@ rbox 6 s D3 | qhull C-0.1 Qc FF s FQ Fi n Fo FQ FI Fm Fn FN FO FO FQ Fs FS FV Fv
 3 2 5 4
 3 2 1 4
 3 2 1 5
-Options selected for Qhull 2011.1 2011/04/08:
+Options selected for Qhull 2011.1 2011/04/17:
   run-id 1277203700  Centrum-premerge- 0.1  Qcoplanar-keep  FFacets-xridge
   summary  FQhull  Finner  normals  Fouter  FQhull  FIDs  Fmerges  Fneighbors
   FNeighbors-vertex  FOptions  FQhull  Fsummary  FSize  FVertex-average
@@ -5310,7 +5310,7 @@ rbox c | qhull Qt C-0.1 Qc FF s FQ Fi n Fo FQ FI Fm Fn FN FO FO FQ Fs FS FV Fv T
 6 11 5 4 2 3 10
 6 9 5 4 1 0 8
 3 11 5 9
-Options selected for Qhull 2011.1 2011/04/08:
+Options selected for Qhull 2011.1 2011/04/17:
   run-id 1277203700  Qtriangulate  Centrum-premerge- 0.1  Qcoplanar-keep
   FFacets-xridge  summary  FQhull  Finner  normals  Fouter  FQhull  FIDs
   Fmerges  Fneighbors  FNeighbors-vertex  FOptions  FQhull  Fsummary  FSize
@@ -5338,7 +5338,7 @@ rbox c | qhull Qt C-0.1 Qc FF s FQ Fi n Fo FQ FI Fm Fn FN FO FO FQ Fs FS FV Fv T
 3 3 6 7
 3 3 5 1
 3 3 5 7
-Options selected for Qhull 2011.1 2011/04/08:
+Options selected for Qhull 2011.1 2011/04/17:
   run-id 1277203700  Qtriangulate  Centrum-premerge- 0.1  Qcoplanar-keep
   FFacets-xridge  summary  FQhull  Finner  normals  Fouter  FQhull  FIDs
   Fmerges  Fneighbors  FNeighbors-vertex  FOptions  FQhull  Fsummary  FSize
@@ -5371,7 +5371,7 @@ all facets.  Will make 96 distance computations.
 rbox 6 r s c G0.1 D2 P0.1,0.1 | qhull s FP d FO Qt
 1
 0 10 36      0 
-Options selected for Qhull 2011.1 2011/04/08:
+Options selected for Qhull 2011.1 2011/04/17:
   run-id 1277203700  summary  FPoint-nearest  delaunay  Qtriangulate
   _pre-merge  _zero-centrum  Pgood  Qcoplanar  _max-width  1
   Error-roundoff 6.9e-016  _one-merge 4.9e-015  _near-inside 2.4e-014
@@ -5519,7 +5519,7 @@ Output completed.  Verifying that all points are below outer planes of
 all facets.  Will make 8000 distance computations.
 rbox 10 | qhull FO Tz TO q_test.log.1
 cat q_test.log.1
-Options selected for Qhull 2011.1 2011/04/08:
+Options selected for Qhull 2011.1 2011/04/17:
   run-id 1277203700  Tz-stdout  TOutput-file  q_test.log.1  _pre-merge
   _zero-centrum  _max-width 0.92  Error-roundoff 6.8e-016  _one-merge 4.8e-015
   _near-inside 2.4e-014  Visible-distance 1.4e-015
@@ -6387,7 +6387,7 @@ rbox 1000 D3 | qhull Tcvs
 
 
  qhull invoked by: rbox 1000 D3 | qhull Tcvs
-2011.1 2011/04/08 with options:
+2011.1 2011/04/17 with options:
   run-id 1277237314  Tcheck-frequently  Tverify  Tstatistics  _pre-merge
   _zero-centrum  _max-width  1  Error-roundoff 6.9e-016  _one-merge 4.9e-015
   _near-inside 2.4e-014  Visible-distance 1.4e-015
@@ -6607,7 +6607,7 @@ qh_readpoints: read in 100 3-dimensional points
 qh_initqhull_globals: for rbox 100 s D3 | qhull T1cvV2P2
 
 Trace level 1 for rbox 100 s D3 | qhull T1cvV2P2
-Options selected for Qhull 2011.1 2011/04/08:
+Options selected for Qhull 2011.1 2011/04/17:
   run-id 1277237314  Tcheck-frequently  Tverify  TV-stop-after-point 2
   Trace-point 2  _pre-merge  _zero-centrum  _max-width 0.94
   Error-roundoff 6.7e-016  _one-merge 4.7e-015  _near-inside 2.3e-014
@@ -7025,7 +7025,7 @@ Statistics for: rbox 100 D3 | qhull QbB FO Tcv
   Number of distance tests for qhull: 1164
   CPU seconds to compute hull (after input):  0
 
-Options selected for Qhull 2011.1 2011/04/08:
+Options selected for Qhull 2011.1 2011/04/17:
   run-id 1277237314  QbBound-unit-box 0.5  Tcheck-frequently  Tverify
   _pre-merge  _zero-centrum  _max-width  1  Error-roundoff 6.9e-016
   _one-merge 4.9e-015  _near-inside 2.4e-014  Visible-distance 1.4e-015
@@ -7048,7 +7048,7 @@ Statistics for: rbox 1000 D2 B1e6 | qhull d Qbb FO Tcv
   Number of distance tests for qhull: 27767
   CPU seconds to compute hull (after input): 0.015
 
-Options selected for Qhull 2011.1 2011/04/08:
+Options selected for Qhull 2011.1 2011/04/17:
   run-id 1277237314  delaunay  Qbbound-last  Tcheck-frequently  Tverify
   _pre-merge  _zero-centrum  Pgood  _max-width 2e+006  Error-roundoff 2.8e-009
   _one-merge 1.9e-008  _near-inside 9.7e-008  Visible-distance 5.5e-009
@@ -7211,7 +7211,7 @@ ERRONEOUS FACET:
     - neighboring facets: f2 f3
 
 While executing: rbox 10 D2 | qhull Qb1:1B1:1 Tcv
-Options selected for Qhull 2011.1 2011/04/08:
+Options selected for Qhull 2011.1 2011/04/17:
   run-id 1277254121  Qbound-dim-low 1  1  QBound-dim-high 1  1
   Tcheck-frequently  Tverify  _pre-merge  _zero-centrum  _max-width 0.81
   Error-roundoff 8.6e-016  _one-merge 4.3e-015  _near-inside 2.1e-014
@@ -7279,7 +7279,7 @@ Statistics for: rbox 200 L20 D2 t1302978997 | qhull FO Tcv C-0
   Number of distance tests for qhull: 2123
   CPU seconds to compute hull (after input):  0
 
-Options selected for Qhull 2011.1 2011/04/08:
+Options selected for Qhull 2011.1 2011/04/17:
   run-id 1277254121  Tcheck-frequently  Tverify  Centrum-premerge-  0
   _zero-centrum  _max-width 0.99  Error-roundoff 3.4e-016  _one-merge 1.7e-015
   _near-inside 8.5e-015  Visible-distance 6.8e-016
@@ -7301,7 +7301,7 @@ Statistics for: rbox 1000 L20 t1302978997 | qhull FO Tcv C-0
   Number of distance tests for qhull: 12346
   CPU seconds to compute hull (after input):  0
 
-Options selected for Qhull 2011.1 2011/04/08:
+Options selected for Qhull 2011.1 2011/04/17:
   run-id 1277254121  Tcheck-frequently  Tverify  Centrum-premerge-  0
   _zero-centrum  _max-width  1  Error-roundoff 6.9e-016  _one-merge 4.9e-015
   _near-inside 2.4e-014  Visible-distance 1.4e-015
@@ -7323,7 +7323,7 @@ Statistics for: rbox 200 L20 D4 t1302978997 | qhull FO Tcv C-0
   Number of distance tests for qhull: 5257
   CPU seconds to compute hull (after input):  0
 
-Options selected for Qhull 2011.1 2011/04/08:
+Options selected for Qhull 2011.1 2011/04/17:
   run-id 1277254121  Tcheck-frequently  Tverify  Centrum-premerge-  0
   _zero-centrum  _max-width 0.99  Error-roundoff 1e-015  _one-merge 9.1e-015
   _near-inside 4.5e-014  Visible-distance 6e-015  U-coplanar-distance 6e-015
@@ -7345,7 +7345,7 @@ Statistics for: rbox 200 L20 D5 t1302978997 | qhull FO Tcv Qx
   Number of distance tests for qhull: 14416
   CPU seconds to compute hull (after input):  0
 
-Options selected for Qhull 2011.1 2011/04/08:
+Options selected for Qhull 2011.1 2011/04/17:
   run-id 1277254121  Tcheck-frequently  Tverify  Qxact-merge  _zero-centrum
   _max-width  1  Error-roundoff 1.4e-015  _one-merge 1.5e-014
   _near-inside 7.5e-014  Visible-distance 8.2e-015
@@ -7370,7 +7370,7 @@ Statistics for: rbox 1000 W1e-3 s D2 t1302978997 | qhull d FO Tcv Qu Q0
   Number of distance tests for qhull: 25195
   CPU seconds to compute hull (after input):  0
 
-Options selected for Qhull 2011.1 2011/04/08:
+Options selected for Qhull 2011.1 2011/04/17:
   run-id 1277254121  delaunay  Tcheck-frequently  Tverify  QupperDelaunay
   Q0-no-premerge  Pgood  _max-width  1  Error-roundoff 6.9e-016
   Visible-distance 6.9e-016  U-coplanar-distance 6.9e-016
@@ -7393,7 +7393,7 @@ Statistics for: rbox 1000 W1e-3 s D2 t1302978997 | qhull d FO Tcv Qu C-0
   Number of distance tests for qhull: 25195
   CPU seconds to compute hull (after input):  0
 
-Options selected for Qhull 2011.1 2011/04/08:
+Options selected for Qhull 2011.1 2011/04/17:
   run-id 1277254121  delaunay  Tcheck-frequently  Tverify  QupperDelaunay
   Centrum-premerge-  0  _zero-centrum  Pgood  _max-width  1
   Error-roundoff 6.9e-016  _one-merge 4.9e-015  _near-inside 2.4e-014
@@ -7528,7 +7528,7 @@ Statistics for: rbox 100 | qhull d QJ Qb0:1e4 QB0:1e5 Qb1:1e4 QB1:1e6 Qb2:1e5 QB
   CPU seconds to compute hull (after input):  0
   Input joggled by: 6.7e+003
 
-Options selected for Qhull 2011.1 2011/04/08:
+Options selected for Qhull 2011.1 2011/04/17:
   run-id 1277254121  delaunay  Qbound-dim-low 0 1e+004
   QBound-dim-high 0 1e+005  Qbound-dim-low 1 1e+004  QBound-dim-high 1 1e+006
   Qbound-dim-low 2 1e+005  QBound-dim-high 2 1e+007  Tverify  Pgood  _run 1
@@ -7562,7 +7562,7 @@ Statistics for: rbox 100 D3 s | qhull E0.01 Qx Tcv FO
   Maximum distance of point above facet: 0.048 (0.6x)
   Maximum distance of vertex below facet: -0.072 (0.9x)
 
-Options selected for Qhull 2011.1 2011/04/08:
+Options selected for Qhull 2011.1 2011/04/17:
   run-id 1277254121  Distance-roundoff 0.01  Qxact-merge  Tcheck-frequently
   Tverify  _zero-centrum  _max-width 0.98  _one-merge 0.07  _near-inside 0.35
   Visible-distance 0.02  U-coplanar-distance 0.02  Width-outside 0.04
@@ -7827,7 +7827,7 @@ Statistics for: rbox 1000 s D3 | qhull C-0.01 Q1 FO Tcv Qc
   Maximum distance of point above facet: 0.02 (0.7x)
   Maximum distance of vertex below facet: -0.035 (1.2x)
 
-Options selected for Qhull 2011.1 2011/04/08:
+Options selected for Qhull 2011.1 2011/04/17:
   run-id 1277270928  Centrum-premerge- 0.01  Q1-no-angle-sort
   Tcheck-frequently  Tverify  Qcoplanar-keep  _max-width  1
   Error-roundoff 6.9e-016  _one-merge 0.03  _near-inside 0.15
@@ -7857,7 +7857,7 @@ Statistics for: rbox 1000 s D3 | qhull C-0.01 Q2 FO Tcv Qc
   Maximum distance of point above facet: 0.02 (0.7x)
   Maximum distance of vertex below facet: -0.049 (1.6x)
 
-Options selected for Qhull 2011.1 2011/04/08:
+Options selected for Qhull 2011.1 2011/04/17:
   run-id 1277270928  Centrum-premerge- 0.01  Q2-no-merge-independent
   Tcheck-frequently  Tverify  Qcoplanar-keep  _max-width  1
   Error-roundoff 6.9e-016  _one-merge 0.03  _near-inside 0.15
@@ -7887,7 +7887,7 @@ Statistics for: rbox 1000 s D3 | qhull C-0.01 Q3 FO Tcv Qc
   Maximum distance of point above facet: 0.02 (0.7x)
   Maximum distance of vertex below facet: -0.035 (1.2x)
 
-Options selected for Qhull 2011.1 2011/04/08:
+Options selected for Qhull 2011.1 2011/04/17:
   run-id 1277270928  Centrum-premerge- 0.01  Q3-no-merge-vertices
   Tcheck-frequently  Tverify  Qcoplanar-keep  _max-width  1
   Error-roundoff 6.9e-016  _one-merge 0.03  _near-inside 0.15
@@ -7917,7 +7917,7 @@ Statistics for: rbox 1000 s D3 | qhull C-0.01 Q4 FO Tcv Qc
   Maximum distance of point above facet: 0.02 (0.7x)
   Maximum distance of vertex below facet: -0.035 (1.2x)
 
-Options selected for Qhull 2011.1 2011/04/08:
+Options selected for Qhull 2011.1 2011/04/17:
   run-id 1277270928  Centrum-premerge- 0.01  Q4-avoid-old-into-new
   Tcheck-frequently  Tverify  Qcoplanar-keep  _max-width  1
   Error-roundoff 6.9e-016  _one-merge 0.03  _near-inside 0.15
@@ -7949,7 +7949,7 @@ Statistics for: rbox 1000 s D3 | qhull C-0.01 Q5 FO Tcv
   Maximum distance of point above facet: 0.022 (0.7x)
   Maximum distance of vertex below facet: -0.035 (1.2x)
 
-Options selected for Qhull 2011.1 2011/04/08:
+Options selected for Qhull 2011.1 2011/04/17:
   run-id 1277270928  Centrum-premerge- 0.01  Q5-no-check-outer
   Tcheck-frequently  Tverify  _max-width  1  Error-roundoff 6.9e-016
   _one-merge 0.03  Visible-distance 0.01  U-coplanar-distance 0.01
@@ -7984,7 +7984,7 @@ Statistics for: rbox 1000 s D3 | qhull C-0.01 Q6 FO Po Tcv Qc
   Maximum distance of point above facet: 0.02 (0.7x)
   Maximum distance of vertex below facet: -0.009 (0.3x)
 
-Options selected for Qhull 2011.1 2011/04/08:
+Options selected for Qhull 2011.1 2011/04/17:
   run-id 1277270928  Centrum-premerge- 0.01  Q6-no-concave-merge
   Poutput-forced  Tcheck-frequently  Tverify  Qcoplanar-keep  _max-width  1
   Error-roundoff 6.9e-016  _one-merge 0.03  _near-inside 0.15
@@ -8013,7 +8013,7 @@ Statistics for: rbox 1000 s D3 | qhull C-0.01 Q7 FO Tcv Qc
   Maximum distance of point above facet: 0.02 (0.7x)
   Maximum distance of vertex below facet: -0.042 (1.4x)
 
-Options selected for Qhull 2011.1 2011/04/08:
+Options selected for Qhull 2011.1 2011/04/17:
   run-id 1277270928  Centrum-premerge- 0.01  Q7-no-breadth-first
   Tcheck-frequently  Tverify  Qcoplanar-keep  _max-width  1
   Error-roundoff 6.9e-016  _one-merge 0.03  _near-inside 0.15
@@ -8859,7 +8859,7 @@ A flipped facet occurs when its distance to the interior point is
 greater than -0.024, the maximum roundoff error.
 
 While executing: rbox 100 s D3 | qhull Q0 R0.05 Tc
-Options selected for Qhull 2011.1 2011/04/08:
+Options selected for Qhull 2011.1 2011/04/17:
   run-id 1277321349  Q0-no-premerge  Random_perturb 0.05  Tcheck-frequently
   _max-width 0.94  Error-roundoff 0.024  Visible-distance 0.024
   U-coplanar-distance 0.024  Width-outside 0.048  _wide-facet 0.15
@@ -9083,7 +9083,7 @@ ERRONEOUS OTHER FACET:
 ERRONEOUS and NEIGHBORING FACETS to output
 
 While executing: rbox 100 s D5 | qhull Q0 R1e-2 Tc Po
-Options selected for Qhull 2011.1 2011/04/08:
+Options selected for Qhull 2011.1 2011/04/17:
   run-id 1277321349  Q0-no-premerge  Random_perturb 0.01  Tcheck-frequently
   Poutput-forced  _max-width 0.88  Error-roundoff 0.0045
   Visible-distance 0.0045  U-coplanar-distance 0.0045  Width-outside 0.009
@@ -9128,7 +9128,7 @@ To guarantee simplicial output:
   - use exact arithmetic (see "Imprecision in Qhull", qh-impre.htm)
 qhull
 
-qhull- compute convex hulls and related structures.  Qhull 2011.1 2011/04/08
+qhull- compute convex hulls and related structures.  Qhull 2011.1 2011/04/17
     input (stdin): dimension, n, point coordinates
     comments start with a non-numeric character
     halfspace: use dim+1 and put offsets after coefficients
@@ -9170,7 +9170,7 @@ examples:
 
 qhull .
 
-Qhull 2011.1 2011/04/08.
+Qhull 2011.1 2011/04/17.
 Except for 'F.' and 'PG', upper-case options take an argument.
 
  delaunay       voronoi        Geomview       Halfspace      facet_dump
@@ -9208,7 +9208,7 @@ Except for 'F.' and 'PG', upper-case options take an argument.
 qhull -
 
 qhull- compute convex hulls and related structures.
-    http://www.qhull.org  2011.1 2011/04/08
+    http://www.qhull.org  2011.1 2011/04/17
 
 input (stdin):
     first lines: dimension and number of points (or vice-versa).

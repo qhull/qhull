@@ -1,4 +1,4 @@
-/*<html><pre>  -<a                             href="qh-qhull.htm"
+/*<html><pre>  -<a                             href="../libqhull/qh-user.htm"
   >-------------------------------</a><a name="TOP">-</a>
 
   user_eg2.c

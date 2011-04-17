@@ -1,4 +1,4 @@
-/*<html><pre>  -<a                             href="index.htm#TOC"
+/*<html><pre>  -<a                             href="../libqhull/index.htm#TOC"
   >-------------------------------</a><a name="TOP">-</a>
 
    rbox.c

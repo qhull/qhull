@@ -1,7 +1,7 @@
 : Qhull-go.bat invoked as command.com from QHULL-GO
 @echo off
 echo.
-echo ========= Qhull-go.bat, DOS window for Qhull and Rbox ===========
+echo ========= Qhull-go.bat, command window for Qhull and Rbox ===========
 echo. 
 echo       Use arrow keys to repeat and edit commands.
 echo.

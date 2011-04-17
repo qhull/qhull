@@ -24,7 +24,7 @@ Contents</a><br>
 &#149; <a href="qh-optt.htm#trace">Trace</a><br>
 <b>To:</b> <a href="#TOC">Qhull code</a>: Table of Contents
 (please wait while loading) <br>
-<b>Dn:</b> <a href="../src/index.htm">Qhull functions</a>, macros, and data
+<b>Dn:</b> <a href="../src/libqhull/index.htm">Qhull functions</a>, macros, and data
 structures
 </p>
 
@@ -86,7 +86,7 @@ Contents </a></h2>
         </ul>
     </li>
     <li><a href="#enhance">Enhancements</a> to Qhull</li>
-    <li><a href="../src/index.htm">Qhull functions</a>, macros, and data
+    <li><a href="../src/libqhull/index.htm">Qhull functions</a>, macros, and data
         structures </li>
 </ul>
 
@@ -221,7 +221,7 @@ git://gitorious.org/qhull/qhull.git
 <p>
 Qhull's C++ interface provides wrapper classes for Qhull and Rbox.  It provides access to Qhull's data structures.
 Most of the classes derive from the corresponding qhull data structure.
-For example, <a href="#facet-cpp">QhullFacet</a> is an instance of Qhull's <a href="../src/libqhull.h#facetT">facetT</a>.
+For example, <a href="#facet-cpp">QhullFacet</a> is an instance of Qhull's <a href="../src/libqhull/libqhull.h#facetT">facetT</a>.
 </p>
 
 The main methods are
@@ -234,7 +234,7 @@ The main methods are
 </li></ul>
 
 The sample program,
-<a href=../cpp/user_eg3.cpp>user_eg3.cpp</a>, duplicates Qhull's facet dump (option 'f').
+<a href=../src/user_eg3/user_eg3.cpp>user_eg3.cpp</a>, duplicates Qhull's facet dump (option 'f').
 
 Example (c.f., <code>user_eg3 eg-100</code>)
 <pre>
@@ -473,16 +473,17 @@ Most users will find it easier to call Qhull as an external
 command.
 
 <p>For examples of calling Qhull, see GNU Octave's
-<a href=http://octave.sourceforge.net/index/analysis.html#Geometry>computational geometry code</a>,
+<a href=http://www.gnu.org/software/octave/doc/interpreter/Geometry.html>computational geometry code</a>,
 and Qhull's
-<a href=../src/user_eg.c>user_eg.c</a>,
-<a href=../src/user_eg2.c>user_eg2.c</a>, and
-<a href=../src/user.c>user.c</a>.  To see how Qhull calls its library, read
-<a href=../src/unix.c>unix.c</a>,
-<a href=../src/qconvex.c>qconvex.c</a>,
-<a href=../src/qdelaun.c>qdelaun.c</a>,
-<a href=../src/qhalf.c>qhalf.c</a>, and
-<a href=../src/qvoronoi.c>qvoronoi.c</a>.
+<a href=../src/user_eg/user_eg.c>user_eg.c</a>,
+<a href=../src/user_eg2/user_eg2.c>user_eg2.c</a>,
+<a href=../src/user_eg3/user_eg3.cpp>user_eg3.cpp</a>, and
+<a href=../src/libqhull/user.c>user.c</a>.  To see how Qhull calls its library, read
+<a href=../src/qhull/unix.c>unix.c</a>,
+<a href=../src/qconvex/qconvex.c>qconvex.c</a>,
+<a href=../src/qdelaunay/qdelaun.c>qdelaun.c</a>,
+<a href=../src/qhalf/qhalf.c>qhalf.c</a>, and
+<a href=../src/qvoronoi/qvoronoi.c>qvoronoi.c</a>.
 
 <p>The <a href=http://www.boost.org/libs/graph/doc/table_of_contents.html>BGL</a>
 Boost Graph Library [aka GGCL] provides C++ classes for graph data structures
@@ -491,7 +492,7 @@ Standard Template Library.  It would provide a good interface to Qhull.
 If you are interested in adapting BGL to Qhull, please contact
 <a href="mailto:bradb@shore.net">bradb@shore.net</a>.
 
-<p>See <a href="../src/index.htm">Qhull functions, macros, and data
+<p>See <a href="../src/libqhull/index.htm">Qhull functions, macros, and data
 structures</a> for internal documentation of Qhull. The
 documentation provides an overview and index. To use the library
 you will need to read and understand the code. For most users, it
@@ -708,7 +709,7 @@ either visit all neighbors of the apex or recursively visit
 all neighbors of a tricoplanar facet.  The tricoplanar facets
 will have the same facet->center.</p>
 
-<p>See <a href=../src/io.c#detvridge>qh_detvridge</a> for an example of ignoring tricoplanar facets.</p>
+<p>See <a href=../src/libqhull/io.c#detvridge>qh_detvridge</a> for an example of ignoring tricoplanar facets.</p>
 
 <h3><a href="#TOC">&#187;</a><a name="vertices">Voronoi vertices of a
 region</a></h3>
@@ -930,7 +931,7 @@ Contents</a><br>
 &#149; <a href="qh-optc.htm#prec">Precision</a>
 &#149; <a href="qh-optt.htm#trace">Trace</a><br>
 <b>To:</b> <a href="#TOC">Qhull code</a>: Table of Contents <br>
-<b>Dn:</b> <a href="../src/index.htm">Qhull functions</a>, macros, and data
+<b>Dn:</b> <a href="../src/libqhull/index.htm">Qhull functions</a>, macros, and data
 structures <!-- GC common information -->
 
 <hr>

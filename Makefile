@@ -127,12 +127,14 @@ bin-lib:
      
 clean:
 	rm -f src/*/*.o src/road/RoadTest.h.cpp build/*/*/*.o  build/*/*.o
+	rm -f src/*/*.obj build/*/*/*.obj  build/*/*.obj
+	rm -f bin/*.idb bin/*.pdb
 
 cleanall: clean
 	rm -f bin/qconvex bin/qdelaunay bin/qhalf bin/qvoronoi bin/qhull
 	rm -f core bin/core bin/user_eg bin/user_eg2 bin/user_eg3
 	rm -f lib/libqhull* lib/qhull*.lib lib/qhull*.exp  lib/qhull*.dll
-	rm -f bin/libqhull* bin/qhull*.dll bin/*.pdb bin/*.exe bin/*.idb
+	rm -f bin/libqhull* bin/qhull*.dll bin/*.exe
 
 doc: 
 	$(PRINTMAN) $(TXTFILES) $(DOCFILES)

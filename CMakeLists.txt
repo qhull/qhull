@@ -7,15 +7,15 @@
 #   cd build && cmake -G "MSYS Makefiles" .. && cmake ..
 #   make
 #
-# $Id: //main/2011/qhull/CMakeLists.txt#6 $$Change: 1367 $
-# $DateTime: 2011/04/08 22:21:11 $$Author: bbarber $
+# $Id: //main/2011/qhull/CMakeLists.txt#8 $$Change: 1372 $
+# $DateTime: 2011/04/17 19:32:21 $$Author: bbarber $
 
 project(qhull)
 cmake_minimum_required(VERSION 2.6)
 
 # Define qhull_VERSION in CMakeLists.txt, Makefile, qhull-exports.def, and qhull-warn.pri
 string(REGEX REPLACE ".* ([0-9]+) .*"
-    "6.2.0.\\1"  qhull_VERSION "$Change: 1367 $")
+    "6.2.0.\\1"  qhull_VERSION "$Change: 1372 $")
 
 if(INCLUDE_INSTALL_DIR)
 else()
@@ -61,6 +61,20 @@ message(STATUS)
 
 # Order libqhull object files by frequency of execution.  Small files at end.
 set(
+    libqhull_HEADERS
+        src/libqhull/libqhull.h
+        src/libqhull/geom.h
+        src/libqhull/io.h
+        src/libqhull/mem.h
+        src/libqhull/merge.h
+        src/libqhull/poly.h
+        src/libqhull/qhull_a.h
+        src/libqhull/qset.h
+        src/libqhull/random.h
+        src/libqhull/stat.h
+        src/libqhull/user.h
+)
+set(
     libqhull_SOURCES
         src/libqhull/rboxlib.c
         src/libqhull/user.c
@@ -78,46 +92,10 @@ set(
         src/libqhull/usermem.c
         src/libqhull/userprintf.c
         src/libqhull/random.c
-)
-set(
-    libqhull_HEADERS
-        src/libqhull/libqhull.h
-        src/libqhull/geom.h
-        src/libqhull/io.h
-        src/libqhull/mem.h
-        src/libqhull/merge.h
-        src/libqhull/poly.h
-        src/libqhull/qhull_a.h
-        src/libqhull/qset.h
-        src/libqhull/random.h
-        src/libqhull/stat.h
-        src/libqhull/user.h
+        ${libqhull_HEADERS}
 )
 
 
-set(
-    libqhullcpp_SOURCES
-        src/libqhullcpp/Coordinates.cpp
-        src/libqhullcpp/PointCoordinates.cpp
-        src/libqhullcpp/Qhull.cpp
-        src/libqhullcpp/QhullFacet.cpp
-        src/libqhullcpp/QhullFacetList.cpp
-        src/libqhullcpp/QhullFacetSet.cpp
-        src/libqhullcpp/QhullHyperplane.cpp
-        src/libqhullcpp/QhullPoint.cpp
-        src/libqhullcpp/QhullPointSet.cpp
-        src/libqhullcpp/QhullPoints.cpp
-        src/libqhullcpp/QhullQh.cpp
-        src/libqhullcpp/QhullRidge.cpp
-        src/libqhullcpp/QhullSet.cpp
-        src/libqhullcpp/QhullStat.cpp
-        src/libqhullcpp/QhullVertex.cpp
-        src/libqhullcpp/QhullVertexSet.cpp
-        src/libqhullcpp/RboxPoints.cpp
-        src/libqhullcpp/UsingLibQhull.cpp
-        src/road/RoadError.cpp
-        src/road/RoadLogEvent.cpp
-)
 set(
     libqhullcpp_HEADERS
         src/libqhullcpp/Coordinates.h
@@ -148,6 +126,32 @@ set(
     road_HEADERS
         src/road/RoadError.h
         src/road/RoadLogEvent.h
+)
+
+set(
+    libqhullcpp_SOURCES
+        src/libqhullcpp/Coordinates.cpp
+        src/libqhullcpp/PointCoordinates.cpp
+        src/libqhullcpp/Qhull.cpp
+        src/libqhullcpp/QhullFacet.cpp
+        src/libqhullcpp/QhullFacetList.cpp
+        src/libqhullcpp/QhullFacetSet.cpp
+        src/libqhullcpp/QhullHyperplane.cpp
+        src/libqhullcpp/QhullPoint.cpp
+        src/libqhullcpp/QhullPointSet.cpp
+        src/libqhullcpp/QhullPoints.cpp
+        src/libqhullcpp/QhullQh.cpp
+        src/libqhullcpp/QhullRidge.cpp
+        src/libqhullcpp/QhullSet.cpp
+        src/libqhullcpp/QhullStat.cpp
+        src/libqhullcpp/QhullVertex.cpp
+        src/libqhullcpp/QhullVertexSet.cpp
+        src/libqhullcpp/RboxPoints.cpp
+        src/libqhullcpp/UsingLibQhull.cpp
+        src/road/RoadError.cpp
+        src/road/RoadLogEvent.cpp
+        ${libqhullcpp_HEADERS}
+        ${road_HEADERS}
 )
 
 include_directories(${CMAKE_SOURCE_DIR}/src ${CMAKE_SOURCE_DIR}/src/libqhull)
