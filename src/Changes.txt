@@ -27,10 +27,13 @@ To do
 
 -----------------
 Gitorious 2010/04/16
+ Fixup test scripts and check results
+ CMakeLists: Change Win32 doc install to doc/ 
  Rewrote README.txt
  Redid vcproj for DevStudio builds
  - Fixed Qhull-go.bat.  QHULL-GO invokes it with command.com,
- - Fixed CMakeLists for user_eg2 build
+ - user_eg2.c: Removed extern wrapper
+ - Fixed CMakeLists for user_eg build
  - Updated files for 2011.1
  - Rename libqhull to libqhull6 in accord with qhull6.dll
  - Added qh_QHpointer_dllimport to work around MSVC problem

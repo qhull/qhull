@@ -147,6 +147,7 @@ Compiling with Qhull's C++ interface
   Clone Qhull's next branch from http://gitorious.org/qhull
     git init
     git clone git://gitorious.org/qhull/qhull.git
+    cd qhull
     git checkout next
     ...
     git pull origin next

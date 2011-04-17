@@ -1,15 +1,16 @@
 #! /bin/sh
 #   writes examples to eg/
 #   see html/qh_eg.htm
-if [ -d bin ]; then
-   PATH=bin:$PATH
-else
-   echo Run eg/q_eg from the Qhull directory
-   exit
+if [ ! -d bin ]; then
+    echo Run eg/q_eg from the Qhull directory
+    exit
 fi
 if [ ! -e bin/qconvex -a ! -e bin/qconvex.exe ]; then
-    echo Build qhull first.  Executables are missing.
+    echo Build qhull first.  Executables are missing from bin directory
     exit
+fi
+if ! qconvex >/dev/null 2>&1; then
+    PATH=$PWD/bin:$PATH
 fi
 set -v
 rbox c D3 | qconvex s G >eg/eg.01.cube

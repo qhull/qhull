@@ -1,13 +1,11 @@
 # CMakeLists.txt -- CMake configuration file for qhull, qhull6, and related programs
 #
-# To build Qhull, run cmake twice
-#   cd build && cmake .. && cmake ..
-#   make
-#   make install
-#   make help
-#
-# Visual Studio builds includes debug and release targets
+# To build Qhull Visual Studio projects, run cmake twice
+#   cd build && cmake -G "Visual Studio 8 2005" .. && cmake ..
 #   Please rename library debug targets to ..._d... (e.g., qhullstatic_d.lib)
+# or
+#   cd build && cmake -G "MSYS Makefiles" .. && cmake ..
+#   make
 #
 # $Id: //main/2011/qhull/CMakeLists.txt#6 $$Change: 1367 $
 # $DateTime: 2011/04/08 22:21:11 $$Author: bbarber $
@@ -33,7 +31,11 @@ set(BIN_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/bin)
 endif()
 if(DOC_INSTALL_DIR)
 else()
-set(DOC_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/share/doc/packages/qhull)
+    if(WIN32)
+        set(DOC_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/doc)
+    else()
+        set(DOC_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/share/doc/packages/qhull)
+    endif()
 endif()
 
 message(STATUS)

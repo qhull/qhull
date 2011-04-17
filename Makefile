@@ -9,11 +9,11 @@
 #                        Specializations of qhull for each geometric structure (libqhullstatic)
 #       libqhull.so  (or, SO=dll) Shared library with a malloc'd qh_qh struct
 #       libqhullstatic.a         Static library with a static qh_qh struct
-#       libqhullstatic-p.a       Static library with a malloc'd qh_qh struct
+#       libqhullstatic_p.a       Static library with a malloc'd qh_qh struct
 #       libqhullcpp.a            Static library using a malloc'd qh_qh struct
 #	user_eg	         An example of calling qhull from a program with libqhullstatic
 #       user_eg2	 Another example with the shared library, libqhull
-#	user_eg3	 An example of the C++ interface to qhull (libqhullcpp, libqhullstatic-p)
+#	user_eg3	 An example of the C++ interface to qhull (libqhullcpp, libqhullstatic_p)
 #
 # Make targets
 #       make             Produce all of the results
@@ -82,9 +82,10 @@ CC_OPTS3  =
 # Define qhull_VERSION in CMakeLists.txt, Makefile, qhull-exports.def, and qhull-warn.pri
 qhull_VERSION_MAJOR=6
 SO  = so.6.2.0
+
 # On MinGW, 
-#   SO = dll
-#   CC_OPTS3= -Wl,-s -Wl,--out-implib,bin/libqhull$(qhull_VERSION_MAJOR).a -Wl,-enable-stdcall-fixup -Wl,-enable-auto-import -Wl,-enable-runtime-pseudo-reloc
+#   make SO=dll
+#   Copy lib/libqhull6.dll to bin/
 
 # for Sun's cc compiler, -fast or O2 for optimization, -g for debugging, -Xc for ANSI
 #CC       = cc
@@ -125,12 +126,13 @@ bin-lib:
 	mkdir -p bin lib
      
 clean:
-	rm -f src/*/*.o src/road/RoadTest.h.cpp
+	rm -f src/*/*.o src/road/RoadTest.h.cpp build/*/*/*.o  build/*/*.o
 
 cleanall: clean
-	rm -f bin/qconvex bin/qdelaunay bin/qhalf bin/qvoronoi bin/qhull bin/*.exe
-	rm -f core bin/core bin/user_eg bin/user_eg2 bin/user_eg3 lib/qhull*.dll
-	rm -f bin/libqhull* lib/libqhull* bin/qhull*.dll lib/qhull*.lib bin/*.pdb
+	rm -f bin/qconvex bin/qdelaunay bin/qhalf bin/qvoronoi bin/qhull
+	rm -f core bin/core bin/user_eg bin/user_eg2 bin/user_eg3
+	rm -f lib/libqhull* lib/qhull*.lib lib/qhull*.exp  lib/qhull*.dll
+	rm -f bin/libqhull* bin/qhull*.dll bin/*.pdb bin/*.exe bin/*.idb
 
 doc: 
 	$(PRINTMAN) $(TXTFILES) $(DOCFILES)
@@ -353,7 +355,7 @@ $(LS)/usermem.o:     $(L)/usermem.c
 $(LS)/userprintf.o:  $(L)/userprintf.c
 	$(CC) -c $(CC_OPTS1) -o $@ $<
 
-# The static library, libqhullstatic-p, is defined with qh_QHpointer (user.h).
+# The static library, libqhullstatic_p, is defined with qh_QHpointer (user.h).
 
 $(LSP)/libqhull.o: $(L)/libqhull.c
 	$(CC) -c -Dqh_QHpointer $(CC_OPTS1) -o $@ $<
@@ -396,7 +398,7 @@ lib/libqhullstatic.a: $(LIBQHULLS_OBJS)
 	#If 'ar -rs' fails try using 'ar -s' with 'ranlib'
 	#ranlib $@
 
-lib/libqhullstatic-p.a: $(LIBQHULLSP_OBJS)
+lib/libqhullstatic_p.a: $(LIBQHULLSP_OBJS)
 	ar -rs $@ $^
 	#ranlib $@
 
@@ -429,14 +431,14 @@ bin/rbox: src/rbox/rbox.o lib/libqhullstatic.a
 	$(CC) -o $@ $< $(CC_OPTS2) -Llib -lqhullstatic -lm
 
 bin/user_eg: src/user_eg/user_eg.c lib/libqhull$(qhull_VERSION_MAJOR).$(SO)
-	echo -e '\n== If user_eg fails to link, switch to -lqhullstatic-p.\n== On MinGW/Cygwin, use "make SO=dll"'
+	echo -e '\n== If user_eg fails to link, switch to -lqhullstatic_p.\n== On MinGW/Cygwin, use "make SO=dll"'
+	echo -e "\\n==  and copy lib/libqhull$(qhull_VERSION_MAJOR).$(SO) to bin\\n\\n"
 	$(CC) -o $@ $< -Dqh_QHpointer  $(CC_OPTS1) $(CC_OPTS3) -Llib -lqhull$(qhull_VERSION_MAJOR) -lm
-	echo -e "\\n== For mingw, copy lib/libqhull$(qhull_VERSION_MAJOR).$(SO) to bin ==\\n"
 
 bin/user_eg2: src/user_eg2/user_eg2.o lib/libqhullstatic.a 
 	$(CC) -o $@ $< $(CC_OPTS2) -Llib -lqhullstatic -lm
 
-bin/user_eg3: src/user_eg3/user_eg3.o lib/libqhullstatic-p.a lib/libqhullcpp.a
-	$(CXX) -o $@ $< $(CXX_OPTS2) -Llib -lqhullcpp -lqhullstatic-p -lm
+bin/user_eg3: src/user_eg3/user_eg3.o lib/libqhullstatic_p.a lib/libqhullcpp.a
+	$(CXX) -o $@ $< $(CXX_OPTS2) -Llib -lqhullcpp -lqhullstatic_p -lm
 
 # end of Makefile
