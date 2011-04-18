@@ -7,10 +7,10 @@
 #	qhull 		 Computes convex hulls and related structures (libqhullstatic)
 #       qconvex, qdelaunay, qhalf, qvoronoi
 #                        Specializations of qhull for each geometric structure (libqhullstatic)
-#       libqhull.so  (or, SO=dll) Shared library with a malloc'd qh_qh struct
-#       libqhullstatic.a         Static library with a static qh_qh struct
-#       libqhullstatic_p.a       Static library with a malloc'd qh_qh struct
-#       libqhullcpp.a            Static library using a malloc'd qh_qh struct
+#       libqhull6.so (SO=dll) Shared library with a malloc'd qh_qh struct
+#       libqhullstatic.a      Static library with a static qh_qh struct
+#       libqhullstatic_p.a    Static library with a malloc'd qh_qh struct
+#       libqhullcpp.a         Static library using a malloc'd qh_qh struct
 #	user_eg	         An example of calling qhull from a program with libqhullstatic
 #       user_eg2	 Another example with the shared library, libqhull
 #	user_eg3	 An example of the C++ interface to qhull (libqhullcpp, libqhullstatic_p)
@@ -26,7 +26,7 @@
 #       make new         Rebuild qhull and rbox from source
 #
 #       make printall    Print all files
-#       make clean       Remove object files and core
+#       make clean       Remove object files
 #       make cleanall    Remove generated files
 #
 #       BINDIR           directory where to copy executables
@@ -120,7 +120,7 @@ CXX_WARNINGS = -Wall -Wcast-qual -Wextra -Wwrite-strings -Wno-sign-conversion -W
 # Default targets for make
      
 all: bin-lib bin/rbox bin/qconvex bin/qdelaunay bin/qhalf bin/qvoronoi \
-     bin/qhull qtest bin/user_eg2 bin/user_eg3 bin/user_eg qhull-prompt
+     bin/qhull qtest bin/user_eg2 bin/user_eg3 bin/user_eg qconvex-prompt
 
 bin-lib:
 	mkdir -p bin lib
@@ -183,8 +183,9 @@ test:
 	-eg/q_egtest
 	-eg/q_test
 
-qhull-prompt:
-	-bin/qhull
+qconvex-prompt:
+	-bin/qconvex
+	@echo 'For libqhull6.so -- export LD_LIBRARY_PATH=$$PWD/lib:$$LD_LIBRARY_PATH'
 
 # LIBQHULL_OBJS ordered by frequency of execution with small files at end.  Better locality.
 

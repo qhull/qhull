@@ -35,7 +35,7 @@ href="http://www.qhull.org">Home page</a> for Qhull<br>
 <blockquote>
 <p>The following sections provide an overview and index to
 Qhull's functions, macros, and data structures. Each
-section starts with an introduction. If you use Opera, source code links to this documentation.
+section starts with an introduction. If you use Opera, the source code links back to this documentation.
 See also <a href=../../html/qh-code.htm#library>Calling
 Qhull from C programs</a> and <a href="../../html/qh-code.htm#cpp">Calling Qhull from C++ programs</a>.</p>
 
@@ -82,9 +82,6 @@ Opera does not always work since it treats '&lt;' characters as HTML tags.
 <p>
 Please report documentation and link errors
 to <a href="mailto:qhull-bug@qhull.org">qhull-bug@qhull.org</a>.
-<p>
-<i>Brad Barber, Cambridge MA, June 1, 2002</i>
-</p>
 </blockquote>
 
 <p><b>Copyright &copy; 1997-2011 C.B. Barber</b></p>
@@ -99,8 +96,15 @@ refer to these files for detailed information.</p>
 <blockquote>
 
 <dl>
+<dt><a href="../../Makefile"><b>Makefile</b></a><b>, </b><a href="../../CMakeLists.txt"><b>CMakeLists.txt</b></a></dt>
+<dd><tt>Makefile</tt> is preconfigured for gcc.  <tt>CMakeLists.txt</tt> supports multiple
+platforms with <a href=http://www.cmake.org/>CMake</a>.
+Qhull includes project files for Visual Studio and Qt.
+</dd>
+
+<dt>&nbsp;</dt>
 <dt><a href="libqhull.h"><b>libqhull.h</b></a> </dt>
-<dd>Include file for the Qhull library, <tt>qhull.a</tt>.
+<dd>Include file for the Qhull library (<tt>libqhull.so</tt>, <tt>qhull.dll</tt>, <tt>libqhullstatic.a</tt>).
 Data structures are documented under <a href="qh-poly.htm">Poly</a>.
 Global variables are documented under <a href="qh-globa.htm">Global</a>.
 Other data structures and variables are documented under

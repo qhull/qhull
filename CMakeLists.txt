@@ -7,15 +7,16 @@
 #   cd build && cmake -G "MSYS Makefiles" .. && cmake ..
 #   make
 #
-# $Id: //main/2011/qhull/CMakeLists.txt#8 $$Change: 1372 $
-# $DateTime: 2011/04/17 19:32:21 $$Author: bbarber $
+# $Id: //main/2011/qhull/CMakeLists.txt#9 $$Change: 1373 $
+# $DateTime: 2011/04/17 22:20:48 $$Author: bbarber $
 
 project(qhull)
 cmake_minimum_required(VERSION 2.6)
 
 # Define qhull_VERSION in CMakeLists.txt, Makefile, qhull-exports.def, and qhull-warn.pri
 string(REGEX REPLACE ".* ([0-9]+) .*"
-    "6.2.0.\\1"  qhull_VERSION "$Change: 1372 $")
+    "6.2.0.\\1"  qhull_VERSION "$Change: 1373 $")
+set(qhull_VERSION2 "2011.1 2011/04/17")
 
 if(INCLUDE_INSTALL_DIR)
 else()

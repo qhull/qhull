@@ -100,6 +100,7 @@ Installing Qhull on Unix with gcc
   To build Qhull, static libraries, shared library, and C++ interface
   - Extract Qhull from qhull...tgz or qhull...zip
   - make
+  - export LD_LIBRARY_PATH=$PWD/lib:$LD_LIBRARY_PATH
 
   The Makefile compiles with -fno-strict-aliasing.  It is needed for
   qset.c with gcc 2.95.1, 4.1, 4.2, and 4.3 [Karas, Krishnaswami].

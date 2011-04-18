@@ -104,23 +104,23 @@ function create_md5sum #md5_file -- create md5sum of current directory
 log_step $LINENO "Configure $0 for $(pwd)/qhull"
 #############################
 
-md5_zip_file=qhull-$version.zip.md5sum
-md5_tgz_file=qhull-$version-src.tgz.md5sum
+md5_zip_file=qhull-$version-zip.md5sum
+md5_tgz_file=qhull-$version-src-tgz.md5sum
 
 # recursive 
 qhull_dirs="qhull/eg qhull/html qhull/src"
 qhull_files="qhull/build/*.sln qhull/build/*.vcproj \
     qhull/Announce.txt qhull/CMakeLists.txt qhull/COPYING.txt \
     qhull/File_id.diz qhull/QHULL-GO.pif qhull/README.txt \
-    qhull/REGISTER.txt qhull/index.htm qhull/bin/msvcr80.dll \
+    qhull/REGISTER.txt qhull/index.htm qhull/Makefile \
     qhull/bin/qconvex.exe qhull/bin/qdelaunay.exe qhull/bin/qhalf.exe \
     qhull/bin/qhull.exe qhull/bin/qhull6.dll qhull/bin/qvoronoi.exe \
     qhull/bin/rbox.exe qhull/bin/user_eg.exe qhull/bin/user_eg2.exe \
-    qhull/bin/user_eg3.exe"
+    qhull/bin/user_eg3.exe qhull/bin/msvcr80.dll"
 qhull_ufiles="$qhull_dirs qhull/build/*.sln qhull/build/*.vcproj \
     qhull/Announce.txt qhull/CMakeLists.txt qhull/COPYING.txt \
     qhull/File_id.diz qhull/QHULL-GO.pif qhull/README.txt \
-    qhull/REGISTER.txt qhull/index.htm"
+    qhull/REGISTER.txt qhull/index.htm qhull/Makefile"
 
 #############################
 log_step $LINENO "Clean distribution directories"
@@ -136,7 +136,7 @@ exit_if_err $LINENO "Can not 'make clean'"
 cd ..
 rm -f qhull/src/qhull-all.pro.user qhull/src/libqhull/BCC32tmp.cfg
 rm -f qhull/eg/eg.* qhull/*.x qhull/x.*
-rm -f qhull/bin/qhulltest.exe
+rm -f qhull/bin/qhulltest.exe qhull/bin/qhulltest
     
 set noglob
 
@@ -159,7 +159,8 @@ if [[ -e /bin/msysinfo && $(type -p wzzip) && $(type -p wzunzip) ]]; then
 
     exit_if_fail $LINENO "pushd $TEMP_DIR/qhull"
     create_md5sum $md5_zip_file
-
+    exit_if_fail $LINENO "cp -p $md5_zip_file $root_dir"
+    
     #############################
     log_step $LINENO "Write $qhull_zip_file"
     #############################
@@ -194,6 +195,7 @@ log_step $LINENO "Write md5sum to $md5_tgz_file"
 
 exit_if_fail $LINENO "pushd $TEMP_DIR && cd qhull"
 create_md5sum $md5_tgz_file
+exit_if_fail $LINENO "cp -p $md5_tgz_file $root_dir"
 
 exit_if_fail $LINENO "cd .. && mv qhull qhull-$version && md5sum qhull-$version/$md5_tgz_file >>$root_dir/$qhullmd5_file"
 
@@ -232,6 +234,7 @@ fi
 #############################
 log_step $LINENO "Compare previous zip release, Dates.txt, and md5sum.  Check for virus."
 log_step $LINENO "Search xml files for UNDEFINED. Check page links"
+log_step $LINENO "Extract zip to Qhull/ and compare directories"
 log_step $LINENO "Finished successfully"
 #############################
         

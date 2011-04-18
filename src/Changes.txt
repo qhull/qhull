@@ -23,47 +23,8 @@ To do
  - Set File Ver and Product Ver in dll
  - Locate mirror site for Qhull
 
------------------
-Gitorious 2010/04/17
- - Add headers to CMakeLists SOURCES and *.vcproj
- - Update date for release
- - CMakeLists: Fix user_eg target
- - Redo path for q_eg, etc.
- - Add user_eg3 to q_test
- - Update q_test-ok.txt and qhulltest-ok.txt
- - Fix qhull-zip.sh for new directory structure, and clean step
- - Change DOS window to command window
- - Fix html links
- - Drop the Spanish mirror site.  It was disabled.
- - qh-get.htm: Update download instructions
- - Makefile: fix clean/cleanall
- - Fix name of libqhullstatic_p.a
- - Updated README.txt
- - Fixed MBorland.  My install did not have c0x32.obj configured
- - Fixed includes for qhull_interface.cpp
-
------------------
-Gitorious 2010/04/16
- Fixup test scripts and check results
- CMakeLists: Change Win32 doc install to doc/ 
- Rewrote README.txt
- Redid vcproj for DevStudio builds
- - Fixed Qhull-go.bat.  QHULL-GO invokes it with command.com,
- - user_eg2.c: Removed extern wrapper
- - Fixed CMakeLists for user_eg build
- - Updated files for 2011.1
- - Rename libqhull to libqhull6 in accord with qhull6.dll
- - Added qh_QHpointer_dllimport to work around MSVC problem
- - user_eg.c: Added test of qh_qh for qh_QHpointer_dllimport
- - qhull-exports.def: Identify data items
- - qhull-exports.def: Add VERSION
- - Add test for executables to q_eg, etc.
- - Add explanation of user_eg* to user_eg prompts
- - index.htm: Fix MATLAB links
- - QhullFacet: Added isSimplicial, isTopOrient, isTriCoplanar, isUpperDelaunay
- 
 ------------
-Qhull 2011.0  2010/04/08 6.2.0 
+Qhull 2011.1  2010/04/17 6.2.0.1373
 
 Changes to deliverables
  - qvoronoi: Deprecated 'Qt' and 'QJn'. Removed from documentation and prompts.
@@ -72,15 +33,6 @@ Changes to deliverables
  - Added 'facets' argument to user_eg3.cpp
  - user_eg links with shared library
  - qhulltest.cpp: Add closing prompt.
-
-Changes to documentation
- - qvoronoi.htm: Remove quotes from qvoronoi example
- - qhull-cpp.xml: Add naming conventions
- - index.htm: Add Google Scholar references
- - qh-optf.htm: Add note about order of 'Fn' matching 'Fv' order [Q. Pan]
- - Add patch for old builds in qh-get.htm
- - Added C++ compiling instructions to README.txt
- - Add instructions for fixing the DOS window
 
 Changes to build system
  - Reorganized source directories
@@ -99,16 +51,32 @@ Changes to build system
  - Added src/qhull-app-cpp.pri, src/qhull-app-c.pri, etc. for common settings
  - Add .gitignore with ignored files and directories.  
  -   Use .git/info/exclude for locally excluded files.
+ - Fixed MBorland for new directory structure
+
+Changes to documentation
+ - qvoronoi.htm: Remove quotes from qvoronoi example
+ - qhull-cpp.xml: Add naming conventions
+ - index.htm: Add Google Scholar references
+ - qh-optf.htm: Add note about order of 'Fn' matching 'Fv' order [Q. Pan]
+ - Add patch for old builds in qh-get.htm
+ - Added C++ compiling instructions to README.txt
+ - Add instructions for fixing the DOS window
+ - Changed DOS window to command window
+ - Fixed html links
+ - qh-get.htm: Dropped the Spanish mirror site.  It was disabled.
 
 Changes to C code
  - mem.h: Define ptr_intT as 'long long' for Microsoft Windows _win64 builds.
    On Linux and Mac, 'long' is 64-bits on a 64-bit host
+ - Added qh_QHpointer_dllimport to work around MSVC problem
  - qconvex.c,etc.: Define prototype for _isatty
  - Define MSG_QHULL_ERROR in user.h
  - Move MSG_FIXUP to 11000 and updated FIXUP QH11...
 
 Changes to test code
  - Add note to q_test than R1e-3 may error (qh-code.htm, Enhancements)
+ - Add test for executables to q_eg, etc.
+ - Fixed Qhull-go.bat.  QHULL-GO invokes it with command.com,
 
 Changes to C++ interface
  - QhullFacet: Added isSimplicial, isTopOrient, isTriCoplanar, isUpperDelaunay
