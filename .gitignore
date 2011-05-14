@@ -17,25 +17,20 @@ r?
 *.rej
 
 # Build products
-bin/*
-lib/*
 tmp/*
-build/*
+project/Makefile*
+project/*/Makefile*
+project/*/object_script*
+project/*/Release/*
+project/*/Debug/*
+project/*/release/*
+project/*/debug/*
 *.a
 *.dll
 *.lib
 *.exe
 *.o
 *.md5sum
-.Makefile*
-src/road/RoadTest.h.cpp
-
-# Out-of-date directories
-config/*
-project/*
-working/*
-working/*/*
-
 
 # Qt files
 *.pro.user
@@ -47,8 +42,6 @@ working/*/*
 *.suo
 *.user
 *.ilk
-!build/*.sln
-!build/*.vcproj
 
 # CVS files
 CVS/*
@@ -56,4 +49,7 @@ CVS/*
 */*/CVS/*
 */*/*/CVS/*
 *.cvsignore
+
+# Other files
+working/
 

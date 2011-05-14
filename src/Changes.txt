@@ -24,7 +24,24 @@ To do
  - Locate mirror site for Qhull
 
 ------------
-Qhull 2011.1  2010/04/17 6.2.0.1373
+Qhull 2011.1  2011/05/14 6.2.0.1383 (exe/dll files unchanged)
+ - PointCoordinates.cpp: Add #include <iterator> [R. Richter, S. Pasko]
+ - Remove deprecated libqhull/qhull.h
+   Use libqhull/libqhull.h instead.  It avoids confusion with libqhullcpp/Qhull.h
+ - Makefile: Add LIBDIR, INCDIR, and DESTDIR to install [L.H. de Mello]
+     Separate MAN install from DOC install
+     Create install directories
+     Installs headers to include/libqhull, include/libqhullcpp, include/road
+ - CMakeLists.txt: Add MAN_INSTALL_DIR for qhull.1 and rbox.1 man pages
+     Add RoadTest.h to include/road for Qt users (road_HEADERS)
+ - Renamed md5sum files to avoid two extensions
+ - qh-get.htm: Add Readme links and 2009.1 note.
+ - qh-optf.htm: Fix link
+ - index.htm: Updated Google Scholar link
+ - qhull-zip.sh: Improved error message.
+
+------------
+Qhull 2011.1  2011/04/17 6.2.0.1373
 
 Changes to deliverables
  - qvoronoi: Deprecated 'Qt' and 'QJn'. Removed from documentation and prompts.

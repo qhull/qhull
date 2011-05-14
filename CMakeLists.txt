@@ -7,15 +7,17 @@
 #   cd build && cmake -G "MSYS Makefiles" .. && cmake ..
 #   make
 #
-# $Id: //main/2011/qhull/CMakeLists.txt#9 $$Change: 1373 $
-# $DateTime: 2011/04/17 22:20:48 $$Author: bbarber $
+# For qhulltest, use Qt build (src/qhull-all.pro)
+#
+# $Id: //main/2011/qhull/CMakeLists.txt#11 $$Change: 1383 $
+# $DateTime: 2011/05/14 13:04:47 $$Author: bbarber $
 
 project(qhull)
 cmake_minimum_required(VERSION 2.6)
 
 # Define qhull_VERSION in CMakeLists.txt, Makefile, qhull-exports.def, and qhull-warn.pri
 string(REGEX REPLACE ".* ([0-9]+) .*"
-    "6.2.0.\\1"  qhull_VERSION "$Change: 1373 $")
+    "6.2.0.\\1"  qhull_VERSION "$Change: 1383 $")
 set(qhull_VERSION2 "2011.1 2011/04/17")
 
 if(INCLUDE_INSTALL_DIR)
@@ -30,6 +32,10 @@ if(BIN_INSTALL_DIR)
 else()
 set(BIN_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/bin)
 endif()
+if(MAN_INSTALL_DIR)
+else()
+set(MAN_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/man/man1)
+endif()
 if(DOC_INSTALL_DIR)
 else()
     if(WIN32)
@@ -38,7 +44,6 @@ else()
         set(DOC_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/share/doc/packages/qhull)
     endif()
 endif()
-
 message(STATUS)
 message(STATUS "========== qhull Build Information ==========")
 message(STATUS "Build Version: 				   ${qhull_VERSION}")
@@ -47,8 +52,9 @@ message(STATUS "Binary Directory (BIN_INSTALL_DIR):        ${BIN_INSTALL_DIR}")
 message(STATUS "Library Directory (LIB_INSTALL_DIR):       ${LIB_INSTALL_DIR}")
 message(STATUS "Include Directory (INCLUDE_INSTALL_DIR):   ${INCLUDE_INSTALL_DIR}")
 message(STATUS "Documentation Directory (DOC_INSTALL_DIR): ${DOC_INSTALL_DIR}")
+message(STATUS "Man Pages Directory (MAN_INSTALL_DIR):     ${MAN_INSTALL_DIR}")
 message(STATUS "Build Type (CMAKE_BUILD_TYPE):             ${CMAKE_BUILD_TYPE}")
-message(STATUS "To override these options, add -D{OPTION_NAME}=... to the commandline")
+message(STATUS "To override these options, add -D{OPTION_NAME}=... to the cmake command")
 message(STATUS)
 message(STATUS "To build and install qhull, enter \"make\" and \"make install\"")
 message(STATUS)
@@ -127,6 +133,7 @@ set(
     road_HEADERS
         src/road/RoadError.h
         src/road/RoadLogEvent.h
+        src/road/RoadTest.h
 )
 
 set(
@@ -318,5 +325,6 @@ install(TARGETS ${qhull_TARGETS}
 install(FILES ${libqhull_HEADERS} DESTINATION ${INCLUDE_INSTALL_DIR}/libqhull)
 install(FILES ${libqhullcpp_HEADERS} DESTINATION ${INCLUDE_INSTALL_DIR}/libqhullcpp)
 install(FILES ${road_HEADERS} DESTINATION ${INCLUDE_INSTALL_DIR}/road)
-
+install(FILES html/qhull.man DESTINATION ${MAN_INSTALL_DIR} RENAME qhull.1)
+install(FILES html/rbox.man DESTINATION ${MAN_INSTALL_DIR} RENAME rbox.1)
 install(DIRECTORY html/ DESTINATION ${DOC_INSTALL_DIR})

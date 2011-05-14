@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2009-2011 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/PointCoordinates.cpp#4 $$Change: 1348 $
-** $DateTime: 2011/03/25 23:54:58 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullcpp/PointCoordinates.cpp#5 $$Change: 1382 $
+** $DateTime: 2011/05/14 10:45:42 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -10,6 +10,7 @@
 #include "QhullPoint.h"
 #include "PointCoordinates.h"
 
+#include <iterator>
 #include <iostream>
 
 using std::istream;

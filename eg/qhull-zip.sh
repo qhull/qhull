@@ -127,7 +127,7 @@ log_step $LINENO "Clean distribution directories"
 #############################
 
 if [[ -f qhull/src/Make-config.sh || -d qhull/src/debian ]]; then
-    exit_err $LINENO "Remove debian build from src/"
+    exit_err $LINENO "Before continuing, remove debian build from src/"
 fi    
 p4 sync -f qhull/build/...
 exit_if_err $LINENO "Can not 'p4 sync -f qhull.sln *.vcproj'"

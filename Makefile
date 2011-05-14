@@ -1,7 +1,7 @@
 # Unix Makefile for qhull and rbox (default gcc/g++)
 #
 #       see README.txt  
-#       Qt project file at src/qhull-all.pro
+#       For qhulltest, use Qt project file at src/qhull-all.pro
 #       
 # Results
 #	qhull 		 Computes convex hulls and related structures (libqhullstatic)
@@ -30,6 +30,10 @@
 #       make cleanall    Remove generated files
 #
 #       BINDIR           directory where to copy executables
+#       DESTDIR          destination directory
+#       DOCDIR           directory where to copy html documentation
+#       INCDIR           directory where to copy headers
+#       LIBDIR           directory where to copy libraries
 #       MANDIR           directory where to copy manual pages
 #       PRINTMAN         command for printing manual pages
 #       PRINTC           command for printing C files
@@ -60,8 +64,12 @@
 # You may build the qhull programs without using a library
 # make qhullx
 
-BINDIR	= /usr/local/bin
-MANDIR	= /usr/local/man/man1
+DESTDIR = /usr/local
+BINDIR	= $(DESTDIR)/bin
+DOCDIR	= $(DESTDIR)/share/doc/packages/qhull
+INCDIR	= $(DESTDIR)/include
+LIBDIR	= $(DESTDIR)/lib
+MANDIR	= $(DESTDIR)/man/man1
 
 # if you do not have enscript, try a2ps or just use lpr.  The files are text.
 PRINTMAN = enscript -2rl
@@ -139,15 +147,27 @@ cleanall: clean
 doc: 
 	$(PRINTMAN) $(TXTFILES) $(DOCFILES)
 
-install:  
-	cp bin/qconvex $(BINDIR)/qconvex
-	cp bin/qdelaunay $(BINDIR)/qdelaunay
-	cp bin/qhalf $(BINDIR)/qhalf
-	cp bin/qhull $(BINDIR)/qhull
-	cp bin/qvoronoi $(BINDIR)/qvoronoi
-	cp bin/rbox $(BINDIR)/rbox
+install:
+	mkdir -p $(BINDIR)
+	mkdir -p $(DOCDIR)
+	mkdir -p $(INCDIR)/libqhull
+	mkdir -p $(INCDIR)/libqhullcpp
+	mkdir -p $(INCDIR)/road
+	mkdir -p $(LIBDIR)
+	mkdir -p $(MANDIR)
+	cp bin/qconvex $(BINDIR)
+	cp bin/qdelaunay $(BINDIR)
+	cp bin/qhalf $(BINDIR)
+	cp bin/qhull $(BINDIR)
+	cp bin/qvoronoi $(BINDIR)
+	cp bin/rbox $(BINDIR)
 	cp html/qhull.man $(MANDIR)/qhull.1
 	cp html/rbox.man $(MANDIR)/rbox.1
+	cp html/* $(DOCDIR)
+	cp -P lib/* $(LIBDIR)
+	cp src/libqhull/*.h $(INCDIR)/libqhull
+	cp src/libqhullcpp/*.h $(INCDIR)/libqhullcpp
+	cp src/road/*.h $(INCDIR)/road
 
 new:	cleanall all
 
@@ -254,8 +274,9 @@ TESTFILES= $(TCPP)/qhulltest.cpp $(TCPP)/Coordinates_test.cpp $(TCPP)/Point_test
 TXTFILES= Announce.txt REGISTER.txt COPYING.txt README.txt src/Changes.txt
 DOCFILES= html/rbox.txt html/qhull.txt
 FILES=	Makefile src/rbox/rbox.c src/user_eg/user_eg.c src/user_eg2/user_eg2.c eg/q_test eg/q_egtest eg/q_eg
-HTMFILES= html/qhull.man html/rbox.man $(L)/qh-code.htm $(L)/qh-optg.htm $(L)/qh-optt.htm \
-	html/index.htm html/qh-quick.htm html/qh-impre.htm html/qh-eg.htm \
+MANFILES= html/qhull.man html/rbox.man 
+# Source code is documented by src/libqhull/*.htm
+HTMFILES= html/index.htm html/qh-quick.htm html/qh-impre.htm html/qh-eg.htm \
 	html/qh-optc.htm html/qh-opto.htm html/qh-optf.htm  html/qh-optp.htm html/qh-optq.htm \
 	html/qh-c.htm html/qh-faq.htm html/qhull.htm html/qconvex.htm html/qdelaun.htm \
 	html/qh-geom.htm html/qh-globa.htm html/qh-io.htm html/qh-mem.htm html/qh-merge.htm \

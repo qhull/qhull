@@ -188,7 +188,7 @@ int main (int argc, char *argv[]) {
   coordT points[(DIM+1)*TOTpoints]; /* array of coordinates for each point */
   coordT *rows[TOTpoints];
   boolT ismalloc= False;    /* True if qhull should free points in qh_freeqhull() or reallocation */
-  char flags[250];          /* option flags for qhull, see qh_opt.htm */
+  char flags[250];          /* option flags for qhull, see qh-quick.htm */
   FILE *outfile= stdout;    /* output from qh_produce_output()
                                use NULL to skip qh_produce_output() */
   FILE *errfile= stderr;    /* error messages from qhull code */
