@@ -237,4 +237,3 @@ log_step $LINENO "Search xml files for UNDEFINED. Check page links"
 log_step $LINENO "Extract zip to Qhull/ and compare directories"
 log_step $LINENO "Finished successfully"
 #############################
-        

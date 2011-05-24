@@ -24,10 +24,17 @@ To do
  - Locate mirror site for Qhull
 
 ------------
+Qhull 2011.1  2011/05/23 6.2.0.1385 (exe/dll files unchanged)
+ - delaunay.vcproj: Fixed qhullstatic_d.lib for debug and minrelsize builds
+ - Did not redate the distribution
+
+Qhull 2011.1  2011/05/18 6.2.0.1385 (exe/dll files unchanged)
+ - Add 'm' library to shared and static targets on Unix [A. Bouchard]
+
 Qhull 2011.1  2011/05/14 6.2.0.1383 (exe/dll files unchanged)
  - PointCoordinates.cpp: Add #include <iterator> [R. Richter, S. Pasko]
  - Remove deprecated libqhull/qhull.h
-   Use libqhull/libqhull.h instead.  It avoids confusion with libqhullcpp/Qhull.h
+   Use libqhull/libqhull.h instead.  Avoids confusion with libqhullcpp/Qhull.h
  - Makefile: Add LIBDIR, INCDIR, and DESTDIR to install [L.H. de Mello]
      Separate MAN install from DOC install
      Create install directories

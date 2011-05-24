@@ -18,13 +18,16 @@ r?
 
 # Build products
 tmp/*
-project/Makefile*
-project/*/Makefile*
-project/*/object_script*
-project/*/Release/*
-project/*/Debug/*
-project/*/release/*
-project/*/debug/*
+build/Makefile*
+build/CMakeFiles
+build/CMakeCache.txt
+build/*/Makefile*
+build/*/object_script*
+build/*/Release/*
+build/*/Debug/*
+build/*/MinSizeRel/*
+build/*/RelWithDebInfo/*
+lib
 *.a
 *.dll
 *.lib

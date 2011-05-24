@@ -9,16 +9,16 @@
 #
 # For qhulltest, use Qt build (src/qhull-all.pro)
 #
-# $Id: //main/2011/qhull/CMakeLists.txt#11 $$Change: 1383 $
-# $DateTime: 2011/05/14 13:04:47 $$Author: bbarber $
+# $Id: //main/2011/qhull/CMakeLists.txt#12 $$Change: 1385 $
+# $DateTime: 2011/05/18 22:02:35 $$Author: bbarber $
 
 project(qhull)
 cmake_minimum_required(VERSION 2.6)
 
 # Define qhull_VERSION in CMakeLists.txt, Makefile, qhull-exports.def, and qhull-warn.pri
 string(REGEX REPLACE ".* ([0-9]+) .*"
-    "6.2.0.\\1"  qhull_VERSION "$Change: 1383 $")
-set(qhull_VERSION2 "2011.1 2011/04/17")
+    "6.2.0.\\1"  qhull_VERSION "$Change: 1385 $")
+set(qhull_VERSION2 "2011.1 2011/05/18")
 
 if(INCLUDE_INSTALL_DIR)
 else()
@@ -195,9 +195,8 @@ set_target_properties(${qhull_SHARED} PROPERTIES
     COMPILE_DEFINITIONS "qh_QHpointer"
     VERSION ${qhull_VERSION})
 
-#target_link_libraries(${qhull_SHARED} m)
-
 if(UNIX)
+    target_link_libraries(${qhull_SHARED} m)
     if(APPLE)
         set_target_properties(${qhull_SHARED} PROPERTIES 
             INSTALL_NAME_DIR "${LIB_INSTALL_DIR}")
@@ -221,6 +220,11 @@ add_library(${qhull_STATICP} STATIC ${libqhull_SOURCES})
 set_target_properties(${qhull_STATICP} PROPERTIES
     COMPILE_DEFINITIONS "qh_QHpointer"
     VERSION ${qhull_VERSION})
+
+if(UNIX)
+    target_link_libraries(${qhull_STATIC} m)
+    target_link_libraries(${qhull_STATICP} m)
+endif(UNIX)
 
 # ---------------------------------------
 # Define C++ static library qhullcpp (qh_QHpointer)
