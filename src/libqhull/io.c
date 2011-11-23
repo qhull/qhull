@@ -2240,7 +2240,7 @@ void qh_printfacet3math(FILE *fp, facetT *facet, qh_PRINT format, int notfirst) 
     qh_memfree(point, qh normal_size);
   qh_settempfree(&points);
   qh_settempfree(&vertices);
-  qh_fprintf(fp, 9110, endfmt);
+  qh_fprintf(fp, 9110, "%s", endfmt);
 } /* printfacet3math */
 
 
