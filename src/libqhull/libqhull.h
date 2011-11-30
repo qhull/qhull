@@ -7,8 +7,8 @@
    see qh-qhull.htm, qhull_a.h
 
    Copyright (c) 1993-2011 The Geometry Center.
-   $Id: //main/2011/qhull/src/libqhull/libqhull.h#3 $$Change: 1368 $
-   $DateTime: 2011/04/16 08:12:32 $$Author: bbarber $
+   $Id: //main/2011/qhull/src/libqhull/libqhull.h#5 $$Change: 1441 $
+   $DateTime: 2011/11/23 22:39:03 $$Author: bbarber $
 
    NOTE: access to qh_qh is via the 'qh' macro.  This allows
    qh_qh to be either a pointer or a structure.  An example
@@ -97,6 +97,7 @@ extern const char *qh_version; /* defined in global.c */
 
   notes:
     needed for portability
+    Use qh_False/qh_True as synonyms
 */
 #define boolT unsigned int
 #ifdef False
@@ -107,6 +108,8 @@ extern const char *qh_version; /* defined in global.c */
 #endif
 #define False 0
 #define True 1
+#define qh_False 0
+#define qh_True 1
 
 /*-<a                             href="qh-qhull.htm#TOC"
   >--------------------------------</a><a name="CENTERtype">-</a>
@@ -268,7 +271,7 @@ struct facetT {
   setT    *vertices;    /* vertices for this facet, inverse sorted by ID
                            if simplicial, 1st vertex was apex/furthest */
   setT    *ridges;      /* explicit ridges for nonsimplicial facets.
-                           for simplicial facets, neighbors defines ridge */
+                           for simplicial facets, neighbors define the ridges */
   setT    *neighbors;   /* neighbors of the facet.  If simplicial, the kth
                            neighbor is opposite the kth vertex, and the first
                            neighbor is the horizon facet for the first vertex*/
@@ -1006,7 +1009,7 @@ void    qh_exit(int exitcode);
 void    qh_free(void *mem);
 void   *qh_malloc(size_t size);
 
-/********* -userprintf.c prototypes (alphabetical) **********************/
+/********* -userprintf.c and userprintf_rbox.c prototypes **********************/
 void    qh_fprintf(FILE *fp, int msgcode, const char *fmt, ... );
 void    qh_fprintf_rbox(FILE *fp, int msgcode, const char *fmt, ... );
 

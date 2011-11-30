@@ -7,8 +7,8 @@
    see qh-set.htm and qset.h
 
    Copyright (c) 1993-2011 The Geometry Center.
-   $Id: //main/2011/qhull/src/libqhull/qset.c#2 $$Change: 1342 $
-   $DateTime: 2011/03/07 21:55:47 $$Author: bbarber $
+   $Id: //main/2011/qhull/src/libqhull/qset.c#3 $$Change: 1440 $
+   $DateTime: 2011/11/22 22:22:37 $$Author: bbarber $
 */
 
 #include "qset.h"
@@ -893,7 +893,7 @@ setT *qh_setnew(int setsize) {
   if (!setsize)
     setsize++;
   size= sizeof(setT) + setsize * SETelemsize;
-  if (size <= qhmem.LASTsize) {
+  if (size>0 && size <= qhmem.LASTsize) {
     qh_memalloc_(size, freelistp, set, setT);
 #ifndef qh_NOmem
     sizereceived= qhmem.sizetable[ qhmem.indextable[size]];

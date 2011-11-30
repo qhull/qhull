@@ -30,8 +30,8 @@
     global.c (qh_initbuffers) for an example of using mem.c
 
   Copyright (c) 1993-2011 The Geometry Center.
-  $Id: //main/2011/qhull/src/libqhull/mem.c#2 $$Change: 1342 $
-  $DateTime: 2011/03/07 21:55:47 $$Author: bbarber $
+  $Id: //main/2011/qhull/src/libqhull/mem.c#3 $$Change: 1440 $
+  $DateTime: 2011/11/22 22:22:37 $$Author: bbarber $
 */
 
 #include "mem.h"
@@ -114,7 +114,11 @@ void *qh_memalloc(int insize) {
   int outsize, bufsize;
   void *object;
 
-  if (insize <= qhmem.LASTsize) {
+  if (insize<0) {
+      qh_fprintf(qhmem.ferr, 6235, "qhull error (qh_memalloc): negative request size (%d).  Did int overflow due to high-D?\n", insize); /* WARN64 */
+      qh_errexit(qhmem_ERRmem, NULL, NULL);
+  }
+  if (insize>=0 && insize <= qhmem.LASTsize) {
     idx= qhmem.indextable[insize];
     outsize= qhmem.sizetable[idx];
     qhmem.totshort += outsize;

@@ -664,6 +664,7 @@ a rectangular corner (e.g.,
 Both cases miss unbounded rays at the corners.
 To determine these ridges, surround the points with a
 large cube (e.g., 'rbox 10 s c G2.0 | qvoronoi Fv Qz').
+The cube needs to be large enough to bound all Voronoi regions of the original point set.
 Please report any other cases that are missed. If you
 can formally describe these cases or
 write code to handle them, please send email to <A

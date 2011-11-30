@@ -10,8 +10,8 @@
    (all but top 50 and their callers 12/3/95)
 
    Copyright (c) 1993-2011 The Geometry Center.
-   $Id: //main/2011/qhull/src/libqhull/poly.c#2 $$Change: 1342 $
-   $DateTime: 2011/03/07 21:55:47 $$Author: bbarber $
+   $Id: //main/2011/qhull/src/libqhull/poly.c#3 $$Change: 1440 $
+   $DateTime: 2011/11/22 22:22:37 $$Author: bbarber $
 */
 
 #include "qhull_a.h"
@@ -852,6 +852,7 @@ void qh_matchnewfacets(void /* qh newfacet_list */) {
       memset((char *)SETelemaddr_(neighbors, 1, void), 0, dim * SETelemsize);
     }
   }
+
   qh_newhashtable(numnew*(qh hull_dim-1)); /* twice what is normally needed,
                                      but every ridge could be DUPLICATEridge */
   hashsize= qh_setsize(qh hash_table);

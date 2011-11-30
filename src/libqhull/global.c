@@ -12,8 +12,8 @@
    see qhull_a.h for internal functions
 
    Copyright (c) 1993-2011 The Geometry Center.
-   $Id: //main/2011/qhull/src/libqhull/global.c#6 $$Change: 1385 $
-   $DateTime: 2011/05/18 22:02:35 $$Author: bbarber $
+   $Id: //main/2011/qhull/src/libqhull/global.c#9 $$Change: 1446 $
+   $DateTime: 2011/11/29 20:37:41 $$Author: bbarber $
  */
 
 #include "qhull_a.h"
@@ -47,7 +47,7 @@ qhT qh_qh;              /* all global variables.
     recompile user_eg.c, rbox.c, libqhull.c, qconvex.c, qdelaun.c qvoronoi.c, qhalf.c
 */
 
-const char *qh_version = "2011.1 2011/05/18";
+const char *qh_version = "2011.2 2011/11/29";
 
 /*-<a                             href="qh-globa.htm#TOC"
   >-------------------------------</a><a name="appendprint">-</a>
@@ -572,6 +572,9 @@ void qh_init_B(coordT *points, int numpoints, int dim, boolT ismalloc) {
 void qh_init_qhull_command(int argc, char *argv[]) {
 
   if (!qh_argv_to_command(argc, argv, qh qhull_command, (int)sizeof(qh qhull_command))){
+    /* Assumes qh.ferr is defined. */
+    qh_fprintf(qh ferr, 6033, "qhull input error: more than %d characters in command line\n",
+          (int)sizeof(qh qhull_command));
     qh_exit(qh_ERRinput);  /* error reported, can not use qh_errexit */
   }
 } /* init_qhull_command */

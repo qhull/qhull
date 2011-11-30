@@ -5,7 +5,7 @@
 Need help
  - Qhull needs RPM and Debian builds (CMake's CPackRMP and CPackDeb).   
  - Add an Autotools build for everything
- - Set up debian build [Pkg-octave-devel]
+ - Set up debian build [octave-maintainers]
    Please keep debian files in config/ and project/debian/
    Branch 'debian' is from http://savannah.nongnu.org/cvs/?group=qhull
    project/debian needs updating for its new location.
@@ -13,17 +13,81 @@ Need help
    http://gitorious.org/qhull/
  - Document with Qt conventions using Doxygen (//! and //!<)
  - Produce conformant triangulations for merged facets using option 'Qt' 
- - Verify -fno-strict-aliasing needed for gcc 4.1, 4.2, 4.3 (qset segfault)
 
 To do
- - Review email for doc changes
+ - Review email for doc changes before nov'10
  - Git: Create signed tags for Qhull versions
  - Wiki: Add FIXUP to QH11026 for known problems
  - Notes to compgeom on conformant triangulation and Voronoi volume
  - Set File Ver and Product Ver in dll
  - Locate mirror site for Qhull
+ - Compute the convex hull of each Voronoi or Delaunay region
 
 ------------
+Qhull 2011.2  2011/11/29 6.2.1.1446
+
+Update news
+check 2009.1.2
+check build on Unix
+update ACM link for news
+Announce plan for rewrite
+Check git on Unix
+
+Bug fixes
+ - qh_new_qhull: Call qh_prepare_output if !outfile [A. Aldoma]
+   No effect on qhull users since qh_prepare_output is always called.
+ - Replace Qhull-go.pif with Qhull-go.lnk for Windows 7 64-bit [lots]
+ - Error if qh_newhashtable, qh_setnew, or qh_memalloc overflows [X. Cheng]
+   For example, 'rbox 64 D32' overflows hash table for qh_matchnewfacets
+   Qhull uses 32-bit ints for identifiers, counts, and sizes. See "WARN64"
+ - q_eg, q_test: change tail +3 to tail -n +3 [N. Dubray, M. Atzeri]
+ - Qhull-go.bat: Changed 'cmd' to '%comspec%'
+
+Remove from git
+#       build/Debug/
+#       build/Release/
+#       build/moc/
+#       build/qhulltest/
+#       build/vc80.idb
+
+Build changes
+ - Added src/libqhull/Makefile for simple gcc build of executables and lib
+ - qhulltest.vcproj: Replaced full path to QT with $QTDIR (e.g., c:/qt/4.7.4)
+ - Split userprintf_rbox.c from userprintf.c,  
+   Otherwise qhull brings in rboxlib and rbox brings in libqhull
+ - Makefile: qhullx target must be after LIBQHULLS_OBJS
+ - Makefile: Explicitly list rbox dependencies for qhullx target
+ - MBorland: Fixed tabs
+ - Placed $LIBQHULLS_OBJS in same order.  Frequently called ones together. 
+ - Update file lists for Make-config.sh [O. Lahaye]
+ - CMakeLists: add README.txt,etc. to DOC_INSTALL_DIR [M. Atzeri]
+ - Restored qhull.h-deprecated.  
+   qhull.h conflicts with Qhull.h on Windows systems [C. Abela]
+ - make-config.sh: Add warning that it is out-of-date
+ - Remove extra space in '#! /bin/sh' in q_eg, etc. [P. Cheeseman]
+
+Source changes
+ - libqhull.h: Added qh_True and qh_False for True/False [A. Mutzel]
+   Did not remove or replace True/False since it is used everywhere
+ - Moved error message from qh_argv_to_command to caller.  Avoids dependency.
+ - user_eg3.c: Use '10 D2' as default rbox (e.g., 'user_eg3 rbox qhull d')
+ - user.c, user_eg2.c: Add test of qh_qh as done in user_eg.c
+ - q_test: Removed duplicate test of qhull C-0.02
+
+Documentation
+ - index.html: Added ACM Authorizer link to ACM Trans. Math. Software
+ - Split Delaunay and Voronoi FAQs
+ - FAQ: How to compute the volume of a Voronoi region [C, Brinch]
+ - Add 'FS' to qconvex prompt (total area and volume) 
+ - Add clarification to 'Fv' about corner input sites [O. Can]
+ - Qhull-go.bat: Removed out-of-date advice.  Added title.
+ - qh-code.htm: Updated the discussion of multi-threading for C++ [I. Pirwani]
+ 
+Qhull 2009.1.2 2011/11/21
+ - Revert to LF line endings [P. Cheeseman]
+ - Remove out-of-date material from qhull-go.bat
+ - Replaced QHULL-GO with a lnk file
+
 Qhull 2011.1  2011/05/23 6.2.0.1385 (exe/dll files unchanged)
  - delaunay.vcproj: Fixed qhullstatic_d.lib for debug and minrelsize builds
  - Did not redate the distribution

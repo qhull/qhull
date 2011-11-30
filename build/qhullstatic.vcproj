@@ -408,6 +408,10 @@
 				RelativePath="..\src\libqhull\userprintf.c"
 				>
 			</File>
+			<File
+				RelativePath="..\src\libqhull\userprintf_rbox.c"
+				>
+			</File>
 		</Filter>
 	</Files>
 	<Globals>

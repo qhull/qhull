@@ -116,8 +116,6 @@ echo "rbox 500 s D4 t | qhull C0.01 Qc Tv" >>q_test.x
 rbox 500 s D4 t | qhull C0.01 Qc Tv >>q_test.x
 echo "rbox 1000 s t | qhull C-0.02 Qc Tv" >>q_test.x
 rbox 1000 s t | qhull C-0.02 Qc Tv >>q_test.x
-echo "rbox 1000 s t | qhull C-0.02 Qc Tv" >>q_test.x
-rbox 1000 s t | qhull C-0.02 Qc Tv >>q_test.x
 echo "rbox 1000 s D4 t | qhull C-0.01 Qc Tv" >>q_test.x
 rbox 1000 s D4 t | qhull C-0.01 Qc Tv >>q_test.x
 echo "rbox 200 s D5 t | qhull C-0.01 Qx Qc Tv" >>q_test.x

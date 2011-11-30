@@ -267,11 +267,19 @@ define a constructor of <a href="#vertexset-cpp">QhullVertexSet</a>
 that takes a QhullFacet as a parameter.
 </p>
 <p>
-With care, you may create multiple Qhull instances, but only one instance may be active at time.
-The Qhull library refers to Qhull's data structures through a global pointer <code>qh_qh</code> that
-points to <a href="#qh-cpp">QhullQh</a>.  The class <a href="#usingqhull-cpp">UsingLibQhull</a> checks
-that qh_qh is correct.  The QhullQh functions <code>startQhullAccess()</code> and <code>stopQhullAccess()</code> acquire and release the
-<code>qh_qh</code> pointer.
+With care, you may create multiple Qhull instances, but only one thread may use qh_qh,
+qh_qhstat, and qhmem at a time (i.e., most of libqhull, the original C program).
+only one instance may be active at time.  The global pointer <code>qh_qh</code>
+points to Qhull's data structure, <a href="#qh-cpp">QhullQh</a>.  The class
+<a href="#usingqhull-cpp">UsingLibQhull</a> checks that qh_qh is correct.
+</p>
+<p>
+Qhull objects have the entire qhull data structure, so they can explore this data structure independent of
+libqhull.  You can use any method that does not refer to UsingLibQhull, or invoke methods that refer to UsingLibQhull.
+You may also use any method in libqhull that does not reference qh_qh, qh_qhstat (i.e., does not include the macro 'qh',
+zinc_, etc) and does not allocate or deallocate memory via mem.c.
+In particular, you can call most of the qset macros and functions, allowing you to explore the data structure
+with 'foreachFacet_(), etc.'   You can call all of the qset.h functions if you turn off Qhull's memory manager (qh_NOmem in mem.h)
 </p>
 
 <h3><a href="#TOC">&#187;</a><a name="questions-cpp">Cpp questions for Qhull</a></h3>

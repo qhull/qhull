@@ -95,15 +95,9 @@ first.
         <li><A href="#dup">How</A> do I report duplicate
             vertices? </li>
         </ul>
-    <li>Delaunay and Voronoi diagram questions<ul>
-        <li><a href="#maxsphere">How</a> do I get the radii of the empty
-                spheres for each Voronoi vertex?
-
+    <li>Delaunay triangulation questions<ul>
                 <li><A href="#flat">How</A> do I get rid of nearly flat Delaunay
     triangles?
-
-                <li><A href="#square">What</A> is the Voronoi diagram of a square?
-
                 <li><A href="#vclosest">How</A> do I find the Delaunay triangle or Voronoi
     region that is closest to a point?
 
@@ -118,15 +112,26 @@ first.
 
                 <li><A href="#dridges">For</A> 3-d Delaunay triangulations, how do I
     report the triangles of each tetrahedron?
-        <li><A href="#vsphere">How</A> do I construct the Voronoi diagram of
-    cospherical points?
+
         <li><A href="#3dd">How</A> do I construct a 3-d Delaunay triangulation?
         <li><A href="#2d">How</A> do I get the triangles for a 2-d Delaunay
     triangulation and the vertices of its Voronoi diagram?
-        <li><A href="#rays">Can</A> Qhull compute the unbounded rays of the
-    Voronoi diagram?
         <li><A href="#big">Can </A>Qhull triangulate a
             hundred 16-d points?</li>
+        </ul>
+
+    <li>Voronoi diagram questions<ul>
+        <li>See also "Delaunay diagram questions".  Qhull computes the Voronoi diagram from the Delaunay triagulation.
+        <li><a href="#volume">How</a> do I compute the volume of a Voronoi region?
+        <li><a href="#maxsphere">How</a> do I get the radii of the empty
+                spheres for each Voronoi vertex?
+
+                <li><A href="#square">What</A> is the Voronoi diagram of a square?
+
+        <li><A href="#vsphere">How</A> do I construct the Voronoi diagram of
+    cospherical points?
+        <li><A href="#rays">Can</A> Qhull compute the unbounded rays of the
+    Voronoi diagram?
         </ul>
     <li>Approximation questions<ul>
         <li><A href="#simplex">How</A> do I approximate data
@@ -468,17 +473,7 @@ adding a small random quantity to each input coordinate, it
 prevents coincident input sites. </p>
 
 </blockquote>
-<h2><A href="#TOC">&#187;</A><a name="delaunay">Delaunay and Voronoi
-diagram questions</a></h2>
-
-<h4><A href="#TOC">&#187;</A><a name="maxsphere">How</a> do I get the radii of the empty
-                spheres for each Voronoi vertex?</h4><blockquote>
-
-Use option '<A href="qh-optf.htm#Fi">Fi</A>' to list each bisector (i.e. Delaunay ridge).  Then compute the
-minimum distance for each Voronoi vertex.
-
-<p>There's other ways to get the same information.   Let me know if you
-find a better method.
+<h2><A href="#TOC">&#187;</A><a name="delaunay">Delaunay triangulation questions</a></h2>
 
 <h4><A href="#TOC">&#187;</A><a name="flat">How</a> do I get rid of
 nearly flat Delaunay triangles?</h4><blockquote>
@@ -531,147 +526,6 @@ rbox c P0 P0 D2 | qdelaunay Fc).
 Joggle removes all coincident, cocircular, and cospherical points
 before running Qhull.  Instead use facet merging (the default)
 or triangulated output ('<A href="qh-optq.htm#Qt">Qt</A>').
-
-
-</blockquote>
-<h4><A href="#TOC">&#187;</A><a name="square">What</a> is the Voronoi diagram
-                            of a square?</h4><blockquote>
-
-<p>
-Consider a square,
-<blockquote><pre>
-C:\qhull&gt;rbox c D2
-2 RBOX c D2
-4
-  -0.5   -0.5
-  -0.5    0.5
-   0.5   -0.5
-   0.5    0.5
-</pre></blockquote>
-
-<p>There's two ways to compute the Voronoi diagram: with facet merging
-or with joggle.  With facet merging, the
-result is:
-
-<blockquote><pre>
-C:\qhull&gt;rbox c D2 | qvoronoi Qz
-
-Voronoi diagram by the convex hull of 5 points in 3-d:
-
-  Number of Voronoi regions and at-infinity: 5
-  Number of Voronoi vertices: 1
-  Number of facets in hull: 5
-
-Statistics for: RBOX c D2 | QVORONOI Qz
-
-  Number of points processed: 5
-  Number of hyperplanes created: 7
-  Number of distance tests for qhull: 8
-  Number of merged facets: 1
-  Number of distance tests for merging: 29
-  CPU seconds to compute hull (after input):  0
-
-C:\qhull&gt;rbox c D2 | qvoronoi Qz o
-2
-2 5 1
--10.101 -10.101
-     0      0
-2 0 1
-2 0 1
-2 0 1
-2 0 1
-0
-
-C:\qhull&gt;rbox c D2 | qvoronoi Qz Fv
-4
-4 0 1 0 1
-4 0 2 0 1
-4 1 3 0 1
-4 2 3 0 1
-</pre></blockquote>
-
-<p>There is one Voronoi vertex at the origin and rays from the origin
-along each of the coordinate axes.
-The last line '4 2 3 0 1' means that there is
-a ray that bisects input points #2 and #3 from infinity (vertex 0) to
-the origin (vertex 1).
-Option 'Qz' adds an artificial point since the input is cocircular.
-Coordinates -10.101 indicate the
-vertex at infinity.
-
-<p>With triangulated output, the Voronoi vertex is
-duplicated:
-
-<blockquote><pre>
-C:\qhull3.1>rbox c D2 | qvoronoi Qt Qz
-
-Voronoi diagram by the convex hull of 5 points in 3-d:
-
-  Number of Voronoi regions and at-infinity: 5
-  Number of Voronoi vertices: 2
-  Number of triangulated facets: 1
-
-Statistics for: RBOX c D2 | QVORONOI Qt Qz
-
-  Number of points processed: 5
-  Number of hyperplanes created: 7
-  Number of facets in hull: 6
-  Number of distance tests for qhull: 8
-  Number of distance tests for merging: 33
-  Number of distance tests for checking: 30
-  Number of merged facets: 1
-  CPU seconds to compute hull (after input): 0.05
-
-C:\qhull3.1>rbox c D2 | qvoronoi Qt Qz o
-2
-3 5 1
--10.101 -10.101
-     0      0
-     0      0
-3 2 0 1
-2 1 0
-2 2 0
-3 2 0 1
-0
-
-C:\qhull3.1>rbox c D2 | qvoronoi Qt Qz Fv
-4
-4 0 2 0 2
-4 0 1 0 1
-4 1 3 0 1
-4 2 3 0 2
-</pre></blockquote>
-
-
-<p>With joggle, the input is no longer cocircular and the Voronoi vertex is
-split into two:
-
-<blockquote><pre>
-C:\qhull&gt;rbox c D2 | qvoronoi Qt Qz
-
-C:\qhull&gt;rbox c D2 | qvoronoi QJ o
-2
-3 4 1
--10.101 -10.101
--4.71511718558304e-012 -1.775812830118184e-011
-9.020340030474472e-012 -4.02267108512433e-012
-2 0 1
-3 2 1 0
-3 2 0 1
-2 2 0
-
-C:\qhull&gt;rbox c D2 | qvoronoi QJ Fv
-5
-4 0 2 0 1
-4 0 1 0 1
-4 1 2 1 2
-4 1 3 0 2
-4 2 3 0 2
-</pre></blockquote>
-
-<p>Note that the Voronoi diagram includes the same rays as
-  before plus a short edge between the two vertices.</p>
-
 
 </blockquote><h4><A href="#TOC">&#187;</A><a name="mesh">How</a> do I compute
 the Delaunay triangulation of a non-convex object?</h4><blockquote>
@@ -749,105 +603,6 @@ tetrahedron 2 9 5 8. </p>
 <p>You can also use the Qhull library to generate the triangles.
 See "<A href="#ridges2">How</A> do I visit the ridges of a
 Delaunay triangulation?"</p>
-
-</blockquote><h4><A href="#TOC">&#187;</A><a name="vsphere">How</a> do I construct
-the Voronoi diagram of cospherical points?</h4><blockquote>
-
-<p>Three-d terrain data can be approximated with cospherical
-points. The Delaunay triangulation of cospherical points is the
-same as their convex hull. If the points lie on the unit sphere,
-the facet normals are the Voronoi vertices [via S. Fortune]. </p>
-
-<p>For example, consider the points {[1,0,0], [-1,0,0], [0,1,0],
-...}. Their convex hull is: </p>
-
-<pre>
-rbox d G1 | qconvex o
-3
-6 8 12
-     0      0     -1
-     0      0      1
-     0     -1      0
-     0      1      0
-    -1      0      0
-     1      0      0
-3 3 1 4
-3 1 3 5
-3 0 3 4
-3 3 0 5
-3 2 1 5
-3 1 2 4
-3 2 0 4
-3 0 2 5
-</pre>
-
-<p>The facet normals are: </p>
-
-<pre>
-rbox d G1 | qconvex n
-4
-8
--0.5773502691896258  0.5773502691896258  0.5773502691896258 -0.5773502691896258
- 0.5773502691896258  0.5773502691896258  0.5773502691896258 -0.5773502691896258
--0.5773502691896258  0.5773502691896258 -0.5773502691896258 -0.5773502691896258
- 0.5773502691896258  0.5773502691896258 -0.5773502691896258 -0.5773502691896258
- 0.5773502691896258 -0.5773502691896258  0.5773502691896258 -0.5773502691896258
--0.5773502691896258 -0.5773502691896258  0.5773502691896258 -0.5773502691896258
--0.5773502691896258 -0.5773502691896258 -0.5773502691896258 -0.5773502691896258
- 0.5773502691896258 -0.5773502691896258 -0.5773502691896258 -0.5773502691896258
-</pre>
-
-<p>If you drop the offset from each line (the last number), each
-line is the Voronoi vertex for the corresponding facet. The
-neighboring facets for each point define the Voronoi region for
-each point. For example: </p>
-
-<pre>
-rbox d G1 | qconvex FN
-6
-4 7 3 2 6
-4 5 0 1 4
-4 7 4 5 6
-4 3 1 0 2
-4 6 2 0 5
-4 7 3 1 4
-</pre>
-
-<p>The Voronoi vertices {7, 3, 2, 6} define the Voronoi region
-for point 0. Point 0 is [0,0,-1]. Its Voronoi vertices are </p>
-
-<pre>
--0.5773502691896258  0.5773502691896258 -0.5773502691896258
- 0.5773502691896258  0.5773502691896258 -0.5773502691896258
--0.5773502691896258 -0.5773502691896258 -0.5773502691896258
- 0.5773502691896258 -0.5773502691896258 -0.5773502691896258
-</pre>
-
-<p>In this case, the Voronoi vertices are oriented, but in
-general they are unordered. </p>
-
-<p>By taking the dual of the Delaunay triangulation, you can
-construct the Voronoi diagram. For cospherical points, the convex
-hull vertices for each facet, define the input sites for each
-Voronoi vertex. In 3-d, the input sites are oriented. For
-example: </p>
-
-<pre>
-rbox d G1 | qconvex i
-8
-3 1 4
-1 3 5
-0 3 4
-3 0 5
-2 1 5
-1 2 4
-2 0 4
-0 2 5
-</pre>
-
-<p>The convex hull vertices for facet 0 are {3, 1, 4}. So Voronoi
-vertex 0 (i.e., [-0.577, 0.577, 0.577]) is the Voronoi vertex for
-input sites {3, 1, 4} (i.e., {[0,1,0], [0,0,1], [-1,0,0]}). </p>
 
 </blockquote><h4><A href="#TOC">&#187;</A><a name="3dd">How</a> do I construct a
 3-d Delaunay triangulation?</h4><blockquote>
@@ -1008,6 +763,286 @@ or
     <p>rbox 10 D2 | qconvex Fx </p>
 </blockquote>
 
+</blockquote><h4><A href="#TOC">&#187;</A><a name="big">Can </a>Qhull triangulate
+a hundred 16-d points?</h4><blockquote>
+
+<p>No. This is an immense structure. A triangulation of 19, 16-d
+points has 43 simplices. If you add one point at a time, the
+triangulation increased as follows: 43, 189, 523, 1289, 2830,
+6071, 11410, 20487. The last triangulation for 26 points used 13
+megabytes of memory. When Qhull uses virtual memory, it becomes
+too slow to use. </p>
+
+</blockquote>
+<h2><A href="#TOC">&#187;</A><a name="voronoi">Voronoi
+diagram questions</a></h2>
+
+<h4><A href="#TOC">&#187;</A><a name="volume">How</a> do I compute the volume of a Voronoi region?</h4><blockquote>
+
+For each Voronoi region, compute the convex hull of regions Voronoi vertices.  The volume of the convex hull is the volume
+of the Vornoi region.  This is rather slow if you're using the command line.  A faster approcach is to call Qhull from
+a program.  The fastest method is Clarkson's <a href="http://www.netlib.org/voronoi/hull.html">hull</a> program.
+It computes the volume for all Voronoi regions.
+
+An unbounded Voronoi region does not have a volume.
+
+For example, to compute the volume of the bounded Voronoi region about [0,0,0], output its Voronoi vertices, and
+compute the volume of their convex hull.  The second number from option '<A href="qh-optf.htm#FS">FS</A>' is the volume.
+
+<blockquote>
+    <p>rbox P0 10 | qvoronoi QV0 p | qhull FS</p>
+</blockquote>
+
+For another example, see <A href="#2d">How</A> do I get the triangles for a 2-d Delaunay
+    triangulation and the vertices of its Voronoi diagram?
+
+</blockquote><h4><A href="#TOC">&#187;</A><a name="maxsphere">How</a> do I get the radii of the empty
+                spheres for each Voronoi vertex?</h4><blockquote>
+
+Use option '<A href="qh-optf.htm#Fi">Fi</A>' to list each bisector (i.e. Delaunay ridge).  Then compute the
+minimum distance for each Voronoi vertex.
+
+<p>There's other ways to get the same information.   Let me know if you
+find a better method.
+
+</blockquote><h4><A href="#TOC">&#187;</A><a name="square">What</a> is the Voronoi diagram
+                            of a square?</h4><blockquote>
+
+<p>
+Consider a square,
+<blockquote><pre>
+C:\qhull&gt;rbox c D2
+2 RBOX c D2
+4
+  -0.5   -0.5
+  -0.5    0.5
+   0.5   -0.5
+   0.5    0.5
+</pre></blockquote>
+
+<p>There's two ways to compute the Voronoi diagram: with facet merging
+or with joggle.  With facet merging, the
+result is:
+
+<blockquote><pre>
+C:\qhull&gt;rbox c D2 | qvoronoi Qz
+
+Voronoi diagram by the convex hull of 5 points in 3-d:
+
+  Number of Voronoi regions and at-infinity: 5
+  Number of Voronoi vertices: 1
+  Number of facets in hull: 5
+
+Statistics for: RBOX c D2 | QVORONOI Qz
+
+  Number of points processed: 5
+  Number of hyperplanes created: 7
+  Number of distance tests for qhull: 8
+  Number of merged facets: 1
+  Number of distance tests for merging: 29
+  CPU seconds to compute hull (after input):  0
+
+C:\qhull&gt;rbox c D2 | qvoronoi Qz o
+2
+2 5 1
+-10.101 -10.101
+     0      0
+2 0 1
+2 0 1
+2 0 1
+2 0 1
+0
+
+C:\qhull&gt;rbox c D2 | qvoronoi Qz Fv
+4
+4 0 1 0 1
+4 0 2 0 1
+4 1 3 0 1
+4 2 3 0 1
+</pre></blockquote>
+
+<p>There is one Voronoi vertex at the origin and rays from the origin
+along each of the coordinate axes.
+The last line '4 2 3 0 1' means that there is
+a ray that bisects input points #2 and #3 from infinity (vertex 0) to
+the origin (vertex 1).
+Option 'Qz' adds an artificial point since the input is cocircular.
+Coordinates -10.101 indicate the
+vertex at infinity.
+
+<p>With triangulated output, the Voronoi vertex is
+duplicated:
+
+<blockquote><pre>
+C:\qhull3.1>rbox c D2 | qvoronoi Qt Qz
+
+Voronoi diagram by the convex hull of 5 points in 3-d:
+
+  Number of Voronoi regions and at-infinity: 5
+  Number of Voronoi vertices: 2
+  Number of triangulated facets: 1
+
+Statistics for: RBOX c D2 | QVORONOI Qt Qz
+
+  Number of points processed: 5
+  Number of hyperplanes created: 7
+  Number of facets in hull: 6
+  Number of distance tests for qhull: 8
+  Number of distance tests for merging: 33
+  Number of distance tests for checking: 30
+  Number of merged facets: 1
+  CPU seconds to compute hull (after input): 0.05
+
+C:\qhull3.1>rbox c D2 | qvoronoi Qt Qz o
+2
+3 5 1
+-10.101 -10.101
+     0      0
+     0      0
+3 2 0 1
+2 1 0
+2 2 0
+3 2 0 1
+0
+
+C:\qhull3.1>rbox c D2 | qvoronoi Qt Qz Fv
+4
+4 0 2 0 2
+4 0 1 0 1
+4 1 3 0 1
+4 2 3 0 2
+</pre></blockquote>
+
+
+<p>With joggle, the input is no longer cocircular and the Voronoi vertex is
+split into two:
+
+<blockquote><pre>
+C:\qhull&gt;rbox c D2 | qvoronoi Qt Qz
+
+C:\qhull&gt;rbox c D2 | qvoronoi QJ o
+2
+3 4 1
+-10.101 -10.101
+-4.71511718558304e-012 -1.775812830118184e-011
+9.020340030474472e-012 -4.02267108512433e-012
+2 0 1
+3 2 1 0
+3 2 0 1
+2 2 0
+
+C:\qhull&gt;rbox c D2 | qvoronoi QJ Fv
+5
+4 0 2 0 1
+4 0 1 0 1
+4 1 2 1 2
+4 1 3 0 2
+4 2 3 0 2
+</pre></blockquote>
+
+<p>Note that the Voronoi diagram includes the same rays as
+  before plus a short edge between the two vertices.</p>
+
+
+</blockquote><h4><A href="#TOC">&#187;</A><a name="vsphere">How</a> do I construct
+the Voronoi diagram of cospherical points?</h4><blockquote>
+
+<p>Three-d terrain data can be approximated with cospherical
+points. The Delaunay triangulation of cospherical points is the
+same as their convex hull. If the points lie on the unit sphere,
+the facet normals are the Voronoi vertices [via S. Fortune]. </p>
+
+<p>For example, consider the points {[1,0,0], [-1,0,0], [0,1,0],
+...}. Their convex hull is: </p>
+
+<pre>
+rbox d G1 | qconvex o
+3
+6 8 12
+     0      0     -1
+     0      0      1
+     0     -1      0
+     0      1      0
+    -1      0      0
+     1      0      0
+3 3 1 4
+3 1 3 5
+3 0 3 4
+3 3 0 5
+3 2 1 5
+3 1 2 4
+3 2 0 4
+3 0 2 5
+</pre>
+
+<p>The facet normals are: </p>
+
+<pre>
+rbox d G1 | qconvex n
+4
+8
+-0.5773502691896258  0.5773502691896258  0.5773502691896258 -0.5773502691896258
+ 0.5773502691896258  0.5773502691896258  0.5773502691896258 -0.5773502691896258
+-0.5773502691896258  0.5773502691896258 -0.5773502691896258 -0.5773502691896258
+ 0.5773502691896258  0.5773502691896258 -0.5773502691896258 -0.5773502691896258
+ 0.5773502691896258 -0.5773502691896258  0.5773502691896258 -0.5773502691896258
+-0.5773502691896258 -0.5773502691896258  0.5773502691896258 -0.5773502691896258
+-0.5773502691896258 -0.5773502691896258 -0.5773502691896258 -0.5773502691896258
+ 0.5773502691896258 -0.5773502691896258 -0.5773502691896258 -0.5773502691896258
+</pre>
+
+<p>If you drop the offset from each line (the last number), each
+line is the Voronoi vertex for the corresponding facet. The
+neighboring facets for each point define the Voronoi region for
+each point. For example: </p>
+
+<pre>
+rbox d G1 | qconvex FN
+6
+4 7 3 2 6
+4 5 0 1 4
+4 7 4 5 6
+4 3 1 0 2
+4 6 2 0 5
+4 7 3 1 4
+</pre>
+
+<p>The Voronoi vertices {7, 3, 2, 6} define the Voronoi region
+for point 0. Point 0 is [0,0,-1]. Its Voronoi vertices are </p>
+
+<pre>
+-0.5773502691896258  0.5773502691896258 -0.5773502691896258
+ 0.5773502691896258  0.5773502691896258 -0.5773502691896258
+-0.5773502691896258 -0.5773502691896258 -0.5773502691896258
+ 0.5773502691896258 -0.5773502691896258 -0.5773502691896258
+</pre>
+
+<p>In this case, the Voronoi vertices are oriented, but in
+general they are unordered. </p>
+
+<p>By taking the dual of the Delaunay triangulation, you can
+construct the Voronoi diagram. For cospherical points, the convex
+hull vertices for each facet, define the input sites for each
+Voronoi vertex. In 3-d, the input sites are oriented. For
+example: </p>
+
+<pre>
+rbox d G1 | qconvex i
+8
+3 1 4
+1 3 5
+0 3 4
+3 0 5
+2 1 5
+1 2 4
+2 0 4
+0 2 5
+</pre>
+
+<p>The convex hull vertices for facet 0 are {3, 1, 4}. So Voronoi
+vertex 0 (i.e., [-0.577, 0.577, 0.577]) is the Voronoi vertex for
+input sites {3, 1, 4} (i.e., {[0,1,0], [0,0,1], [-1,0,0]}). </p>
+
 </blockquote><h4><A href="#TOC">&#187;</A><a name="rays">Can</a> Qhull compute the
 unbounded rays of the Voronoi diagram?</h4><blockquote>
 
@@ -1023,16 +1058,6 @@ unbounded regions. They list '0' as a vertex. Vertex 0 represents
 option '<A href="qh-optf.htm#Fv2">Fv</A>. See <A
  href="qvoronoi.htm#graphics" >Voronoi graphics</A> and <A
  href="qvoronoi.htm#notes" >Voronoi notes</A>. </p>
-
-</blockquote><h4><A href="#TOC">&#187;</A><a name="big">Can </a>Qhull triangulate
-a hundred 16-d points?</h4><blockquote>
-
-<p>No. This is an immense structure. A triangulation of 19, 16-d
-points has 43 simplices. If you add one point at a time, the
-triangulation increased as follows: 43, 189, 523, 1289, 2830,
-6071, 11410, 20487. The last triangulation for 26 points used 13
-megabytes of memory. When Qhull uses virtual memory, it becomes
-too slow to use. </p>
 
 </blockquote>
 <h2><A href="#TOC">&#187;</A>Approximation questions</h2>

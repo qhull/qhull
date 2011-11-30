@@ -9,8 +9,8 @@
    frequently used code is in poly.c
 
    Copyright (c) 1993-2011 The Geometry Center.
-   $Id: //main/2011/qhull/src/libqhull/poly2.c#2 $$Change: 1342 $
-   $DateTime: 2011/03/07 21:55:47 $$Author: bbarber $
+   $Id: //main/2011/qhull/src/libqhull/poly2.c#3 $$Change: 1440 $
+   $DateTime: 2011/11/22 22:22:37 $$Author: bbarber $
 */
 
 #include "qhull_a.h"
@@ -2241,6 +2241,10 @@ int qh_newhashtable(int newsize) {
 
   size= ((newsize+1)*qh_HASHfactor) | 0x1;  /* odd number */
   while (True) {
+    if (newsize<0 || size<0) {
+        qh_fprintf(qhmem.ferr, 6236, "qhull error (qh_newhashtable): negative request (%d) or size (%d).  Did int overflow due to high-D?\n", newsize, size); /* WARN64 */
+        qh_errexit(qhmem_ERRmem, NULL, NULL);
+    }
     if ((size%3) && (size%5))
       break;
     size += 2;

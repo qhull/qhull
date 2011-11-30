@@ -1,0 +1,22 @@
+/*<html><pre>  -<a                             href="qh-qhull.htm"
+  >-------------------------------</a><a name="TOP">-</a>
+
+   qhull.h-deprecated
+
+   Rename to qhull.h if needed for your application.  
+   
+   Otherwise use 'libqhull.h' instead.
+
+   The filename conflicts with Qhull.h on Windows, leading to odd errors.
+
+   Copyright (c) 1993-2011 The Geometry Center.
+   $Id: //main/2011/qhull/src/libqhull/qhull.h-deprecated#1 $$Change: 1440 $
+   $DateTime: 2011/11/22 22:22:37 $$Author: bbarber $
+*/
+
+#ifndef qhDEFqhull
+#define qhDEFqhull 1
+
+#include "libqhull.h"
+
+#endif /* qhDEFqhull */

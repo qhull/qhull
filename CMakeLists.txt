@@ -9,16 +9,16 @@
 #
 # For qhulltest, use Qt build (src/qhull-all.pro)
 #
-# $Id: //main/2011/qhull/CMakeLists.txt#12 $$Change: 1385 $
-# $DateTime: 2011/05/18 22:02:35 $$Author: bbarber $
+# $Id: //main/2011/qhull/CMakeLists.txt#15 $$Change: 1446 $
+# $DateTime: 2011/11/29 20:37:41 $$Author: bbarber $
 
 project(qhull)
 cmake_minimum_required(VERSION 2.6)
 
 # Define qhull_VERSION in CMakeLists.txt, Makefile, qhull-exports.def, and qhull-warn.pri
 string(REGEX REPLACE ".* ([0-9]+) .*"
-    "6.2.0.\\1"  qhull_VERSION "$Change: 1385 $")
-set(qhull_VERSION2 "2011.1 2011/05/18")
+    "6.2.1.\\1"  qhull_VERSION "$Change: 1446 $")
+set(qhull_VERSION2 "2011.2 2011/11/29")
 
 if(INCLUDE_INSTALL_DIR)
 else()
@@ -80,14 +80,12 @@ set(
         src/libqhull/random.h
         src/libqhull/stat.h
         src/libqhull/user.h
+        src/libqhull/qhull.h-deprecated
 )
 set(
     libqhull_SOURCES
-        src/libqhull/rboxlib.c
-        src/libqhull/user.c
         src/libqhull/global.c
         src/libqhull/stat.c
-        src/libqhull/io.c
         src/libqhull/geom2.c
         src/libqhull/poly2.c
         src/libqhull/merge.c
@@ -96,9 +94,13 @@ set(
         src/libqhull/poly.c
         src/libqhull/qset.c
         src/libqhull/mem.c
+        src/libqhull/random.c
         src/libqhull/usermem.c
         src/libqhull/userprintf.c
-        src/libqhull/random.c
+        src/libqhull/io.c
+        src/libqhull/user.c
+        src/libqhull/rboxlib.c
+        src/libqhull/userprintf_rbox.c
         ${libqhull_HEADERS}
 )
 
@@ -160,6 +162,15 @@ set(
         src/road/RoadLogEvent.cpp
         ${libqhullcpp_HEADERS}
         ${road_HEADERS}
+)
+
+set(
+    doc_FILES
+        README.txt 
+        REGISTER.txt 
+        Announce.txt 
+        COPYING.txt 
+        index.htm
 )
 
 include_directories(${CMAKE_SOURCE_DIR}/src ${CMAKE_SOURCE_DIR}/src/libqhull)
@@ -331,4 +342,5 @@ install(FILES ${libqhullcpp_HEADERS} DESTINATION ${INCLUDE_INSTALL_DIR}/libqhull
 install(FILES ${road_HEADERS} DESTINATION ${INCLUDE_INSTALL_DIR}/road)
 install(FILES html/qhull.man DESTINATION ${MAN_INSTALL_DIR} RENAME qhull.1)
 install(FILES html/rbox.man DESTINATION ${MAN_INSTALL_DIR} RENAME rbox.1)
+install(FILES ${doc_FILES} DESTINATION ${DOC_INSTALL_DIR})
 install(DIRECTORY html/ DESTINATION ${DOC_INSTALL_DIR})

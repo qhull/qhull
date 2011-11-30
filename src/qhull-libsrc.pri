@@ -13,11 +13,8 @@
 }
 # Order object files by frequency of execution.  Small files at end.
 # Current directory is caller
-SOURCES += ../libqhull/rboxlib.c
-SOURCES += ../libqhull/user.c
 SOURCES += ../libqhull/global.c
 SOURCES += ../libqhull/stat.c
-SOURCES += ../libqhull/io.c
 SOURCES += ../libqhull/geom2.c
 SOURCES += ../libqhull/poly2.c
 SOURCES += ../libqhull/merge.c
@@ -26,9 +23,13 @@ SOURCES += ../libqhull/geom.c
 SOURCES += ../libqhull/poly.c
 SOURCES += ../libqhull/qset.c
 SOURCES += ../libqhull/mem.c
+SOURCES += ../libqhull/random.c
 SOURCES += ../libqhull/usermem.c
 SOURCES += ../libqhull/userprintf.c
-SOURCES += ../libqhull/random.c
+SOURCES += ../libqhull/io.c
+SOURCES += ../libqhull/user.c
+SOURCES += ../libqhull/rboxlib.c
+SOURCES += ../libqhull/userprintf_rbox.c
 
 HEADERS += ../libqhull/geom.h
 HEADERS += ../libqhull/io.h

@@ -33,9 +33,9 @@ char prompt[]= "\n\
 user_eg3 -- demonstrate calling rbox and qhull from C++.\n\
 \n\
   eg-100                       Run the example in qh-code.htm\n\
-  rbox \"200 D4\" ...          Generate points from rbox\n\
-  qhull \"d p\" ...            Run qhull and produce output\n\
-  qhull-cout \"o\" ...         Run qhull and produce output to cout\n\
+  rbox \"200 D4\" ...            Generate points from rbox\n\
+  qhull \"d p\" ...              Run qhull and produce output\n\
+  qhull-cout \"o\" ...           Run qhull and produce output to cout\n\
   facets                       Print facets when done\n\
 \n\
 For example\n\
@@ -92,11 +92,19 @@ int user_eg3(int argc, char **argv)
                 cerr << "user_eg3 -- only one \"qhull\" or \"qhull-cout\" allowed." << endl;
                 return 1;
             }
-            readingQhull++;
-            readingRbox= 0;
             if(strcmp(argv[i], "qhull-cout")==0){
                 qhull.setOutputStream(&cout);
             }
+            if(rbox.isEmpty()){
+                if(readingRbox){
+                    rbox.appendPoints("10 D2");
+                }else{
+                    cerr << "Enter dimension count coordinates.  End with ^Z (Windows) or ^D (Unix).\n";
+                    rbox.appendPoints(cin);
+                }
+            }
+            readingQhull++;
+            readingRbox= 0;
         }else if(strcmp(argv[i], "facets")==0){
             printFacets= true;
         }else if(readingRbox){
@@ -108,10 +116,6 @@ int user_eg3(int argc, char **argv)
                 return rbox.rboxStatus();
             }
         }else if(readingQhull){
-            if(rbox.isEmpty()){
-                cerr << "Enter dimension count coordinates.  End with ^Z (Windows) or ^D (Unix).\n";
-                rbox.appendPoints(cin);
-            }
             if(readingQhull==1){
                 qhull.runQhull(rbox, argv[i]);
                 qhull.outputQhull();
@@ -133,9 +137,6 @@ int user_eg3(int argc, char **argv)
         return 0;
     }
     if(readingQhull==1){ // e.g., rbox 10 qhull
-        if(rbox.isEmpty()){
-            rbox.appendPoints("10 D2");
-        }
         qhull.runQhull(rbox, "");
         qhull.outputQhull();
         if(qhull.hasQhullMessage()){

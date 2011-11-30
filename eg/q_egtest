@@ -1,4 +1,4 @@
-#! /bin/sh
+#!/bin/sh
 #   writes examples to eg/
 if [ ! -d bin ]; then
     echo Run eg/q_eg from the Qhull directory

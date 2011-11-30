@@ -50,7 +50,7 @@ Code flags --
   If add new messages, assign these values and increment.
 
   def counters =  [27, 1047, 2059, 3025, 4068, 5003, 
-     6235, 7079, 8143, 9410, 10000, 11026]
+     6239, 7079, 8143, 9410, 10000, 11026]
 
   See: qh_ERR* [libqhull.h]
 */

@@ -352,6 +352,17 @@ int main (int argc, char *argv[]) {
 It shows how qhull() may be called from an application in the same way as\n\
 qconvex.  It is not part of qhull itself.  If it appears accidently,\n\
 please remove user_eg2.c from your project.\n\n");
+
+#if qh_QHpointer  /* see user.h */
+  if (qh_qh){
+      printf ("QH6237: Qhull link error.  The global variable qh_qh was not initialized\n\
+              to NULL by global.c.  Please compile user_eg2.c with -Dqh_QHpointer_dllimport\n\
+              as well as -Dqh_QHpointer, or use libqhullstatic, or use a different tool chain.\n\n");
+      return -1;
+  }
+#endif
+
+
   ismalloc= False;      /* True if qh_freeqhull should 'free(array)' */
   /*
     Run 1: convex hull

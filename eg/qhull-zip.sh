@@ -111,7 +111,7 @@ md5_tgz_file=qhull-$version-src-tgz.md5sum
 qhull_dirs="qhull/eg qhull/html qhull/src"
 qhull_files="qhull/build/*.sln qhull/build/*.vcproj \
     qhull/Announce.txt qhull/CMakeLists.txt qhull/COPYING.txt \
-    qhull/File_id.diz qhull/QHULL-GO.pif qhull/README.txt \
+    qhull/File_id.diz qhull/QHULL-GO.lnk qhull/README.txt \
     qhull/REGISTER.txt qhull/index.htm qhull/Makefile \
     qhull/bin/qconvex.exe qhull/bin/qdelaunay.exe qhull/bin/qhalf.exe \
     qhull/bin/qhull.exe qhull/bin/qhull6.dll qhull/bin/qvoronoi.exe \
@@ -119,7 +119,7 @@ qhull_files="qhull/build/*.sln qhull/build/*.vcproj \
     qhull/bin/user_eg3.exe qhull/bin/msvcr80.dll"
 qhull_ufiles="$qhull_dirs qhull/build/*.sln qhull/build/*.vcproj \
     qhull/Announce.txt qhull/CMakeLists.txt qhull/COPYING.txt \
-    qhull/File_id.diz qhull/QHULL-GO.pif qhull/README.txt \
+    qhull/File_id.diz qhull/QHULL-GO.lnk qhull/README.txt \
     qhull/REGISTER.txt qhull/index.htm qhull/Makefile"
 
 #############################
@@ -134,9 +134,14 @@ exit_if_err $LINENO "Can not 'p4 sync -f qhull.sln *.vcproj'"
 cd qhull && make clean
 exit_if_err $LINENO "Can not 'make clean'"
 cd ..
-rm -f qhull/src/qhull-all.pro.user qhull/src/libqhull/BCC32tmp.cfg
+rm -f qhull/src/qhull-all.pro.user* qhull/src/libqhull/BCC32tmp.cfg
 rm -f qhull/eg/eg.* qhull/*.x qhull/x.*
 rm -f qhull/bin/qhulltest.exe qhull/bin/qhulltest
+rm -f qhull/src/libqhull/*.exe qhull/src/libqhull/*.a
+rm -f qhull/src/libqhull/qconvex.c qhull/src/libqhull/unix.c 
+rm -f qhull/src/libqhull/qdelaun.c qhull/src/libqhull/qhalf.c
+rm -f qhull/src/libqhull/qvoronoi.c qhull/src/libqhull/rbox.c
+rm -f qhull/src/libqhull/user_eg.c qhull/src/libqhull/user_eg2.c
     
 set noglob
 
@@ -223,7 +228,7 @@ if [[ -r $root_dir/$qhull_zip_file ]]; then
     exit_if_fail $LINENO "mkdir -p $TEMP_DIR/zip && cd $TEMP_DIR/zip"
     exit_if_fail $LINENO "wzunzip -yb -d $root_dir/$qhull_zip_file"
     log_step $LINENO "Search for date stamps to zip/Dates.txt"
-    find . -type f | grep -v '/bin/' | xargs grep '\-20' | grep -v -E '(page=|ISBN|sql-2005|utility-2000|written 2002-2003|tail -20|Spinellis|WEBSIDESTORY|D:06-5-2007|server-2005)' >Dates.txt
+    find . -type f | grep -v '/bin/' | xargs grep '\-20' | grep -v -E '(page=|ISBN|sql-2005|utility-2000|written 2002-2003|tail -n -20|Spinellis|WEBSIDESTORY|D:06-5-2007|server-2005)' >Dates.txt
     find . -type f | grep -v '/bin/' | xargs grep -i 'qhull *20' >>Dates.txt
 fi
 if [[ -r $root_dir/$qhull_tgz_file ]]; then

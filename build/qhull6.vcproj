@@ -486,42 +486,57 @@
 				RelativePath="..\src\libqhull\userprintf.c"
 				>
 			</File>
+			<File
+				RelativePath="..\src\libqhull\userprintf_rbox.c"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
-			Filter="">
+			>
 			<File
-				RelativePath="..\src\libqhull\libqhull.h">
+				RelativePath="..\src\libqhull\geom.h"
+				>
 			</File>
 			<File
-				RelativePath="..\src\libqhull\geom.h">
+				RelativePath="..\src\libqhull\io.h"
+				>
 			</File>
 			<File
-				RelativePath="..\src\libqhull\io.h">
+				RelativePath="..\src\libqhull\libqhull.h"
+				>
 			</File>
 			<File
-				RelativePath="..\src\libqhull\mem.h">
+				RelativePath="..\src\libqhull\mem.h"
+				>
 			</File>
 			<File
-				RelativePath="..\src\libqhull\merge.h">
+				RelativePath="..\src\libqhull\merge.h"
+				>
 			</File>
 			<File
-				RelativePath="..\src\libqhull\poly.h">
+				RelativePath="..\src\libqhull\poly.h"
+				>
 			</File>
 			<File
-				RelativePath="..\src\libqhull\qhull_a.h">
+				RelativePath="..\src\libqhull\qhull_a.h"
+				>
 			</File>
 			<File
-				RelativePath="..\src\libqhull\qset.h">
+				RelativePath="..\src\libqhull\qset.h"
+				>
 			</File>
 			<File
-				RelativePath="..\src\libqhull\random.h">
+				RelativePath="..\src\libqhull\random.h"
+				>
 			</File>
 			<File
-				RelativePath="..\src\libqhull\stat.h">
+				RelativePath="..\src\libqhull\stat.h"
+				>
 			</File>
 			<File
-				RelativePath="..\src\libqhull\user.h">
+				RelativePath="..\src\libqhull\user.h"
+				>
 			</File>
 		</Filter>
 	</Files>

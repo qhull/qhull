@@ -48,6 +48,7 @@ SOURCES += qset.c
 SOURCES += mem.c
 SOURCES += usermem.c
 SOURCES += userprintf.c
+SOURCES += userprintf_rbox.c
 SOURCES += random.c
 
 HEADERS += geom.h
@@ -57,11 +58,11 @@ HEADERS += mem.h
 HEADERS += merge.h
 HEADERS += poly.h
 HEADERS += random.h
-# The file, libqhull/qhull.h, is for backwards compatibility.
 HEADERS += qhull_a.h
 HEADERS += qset.h
 HEADERS += stat.h
 HEADERS += user.h
+HEADERS += qhull.h-deprecated
 
 OTHER_FILES += Mborland
 OTHER_FILES += qh-geom.htm

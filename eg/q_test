@@ -78,7 +78,6 @@ rbox 1000 W0 | qhull QR2 s Fs Tv
 rbox 1000 s | qhull C0.02 Qc Tv
 rbox 500 s D4 | qhull C0.01 Qc Tv
 rbox 1000 s | qhull C-0.02 Qc Tv
-rbox 1000 s | qhull C-0.02 Qc Tv
 rbox 1000 s D4 | qhull C-0.01 Qc Tv
 rbox 200 s D5 | qhull C-0.01 Qx Qc Tv 
 rbox 100 s D6 | qhull C-0.001 Qx Qc Tv
@@ -283,7 +282,7 @@ rbox 10 s D3 | qhull QR-1
 rbox 10 s D3 | qhull QR-40
 rbox 1000 D3 | qhull Tcvs
 rbox 100 D3 | qhull T8 Tz TO q_test.log.1
-tail -10 q_test.log.1
+tail -n -10 q_test.log.1
 rm q_test.log.1
 rbox 100 s D3 | qhull TcvV-2
 rbox 100 s D3 | qhull TcvC2

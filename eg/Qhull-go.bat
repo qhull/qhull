@@ -1,22 +1,18 @@
-: Qhull-go.bat invoked as command.com from QHULL-GO
+: Qhull-go.bat invoked as cmd.com from QHULL-GO
 @echo off
 echo.
-echo ========= Qhull-go.bat, command window for Qhull and Rbox ===========
+echo ========= Qhull with rbox, qconvex, qdelaunay, qvoronoi, qhalf ============
 echo. 
 echo       Use arrow keys to repeat and edit commands.
 echo.
-echo       Use properties button to increase size to 50 lines
-echo.
-echo       Change font to 8x12
-echo.
-echo       Change screen colors with ansi.sys or crt.exe v4.0 (shareware)
-echo.
-echo       For scrolling back, try peruse (PC Magazine utility)
-echo.
-echo       If full-screen, use alt-enter to return to Windows
+echo       Double-click window bar for full height, or 
+echo            "right-click > Properties > Layout > Window Size > Height > 50 "
 echo.
 echo       Type 'qconvex' for synopsis and examples.
 echo.
+echo ========= 
+echo.
 
+title Qhull
 cd bin
-cmd
+%comspec%

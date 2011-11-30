@@ -24,6 +24,7 @@ libqhull_la_SOURCES = \
   mem.c               \
   usermem.c           \
   userprintf.c        \
+  userprintf_rbox.c   \
   random.c 
 
 # how:

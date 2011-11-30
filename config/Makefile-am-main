@@ -21,7 +21,7 @@ EXTRA_DIST =   \
   $(doc_DATA)  \
   CMakeLists.txt \
   File_id.diz  \
-  QHULL-GO.pif
+  QHULL-GO.lnk
 
 ### Subdirectories for Automaking
 

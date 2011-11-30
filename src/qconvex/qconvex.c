@@ -203,7 +203,8 @@ output options (subset):\n\
     n    - normals with offsets\n\
     p    - vertex coordinates (includes coplanar points if 'Qc')\n\
     Fx   - extreme points (convex hull vertices)\n\
-    FA   - compute total area and volume\n\
+    FA   - report total area and volume\n\
+    FS   - compute total area and volume\n\
     o    - OFF format (dim, n, points, facets)\n\
     G    - Geomview output (2-d, 3-d, and 4-d)\n\
     m    - Mathematica output (2-d and 3-d)\n\

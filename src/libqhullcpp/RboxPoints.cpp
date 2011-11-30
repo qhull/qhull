@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2011 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/RboxPoints.cpp#2 $$Change: 1342 $
-** $DateTime: 2011/03/07 21:55:47 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullcpp/RboxPoints.cpp#3 $$Change: 1441 $
+** $DateTime: 2011/11/23 22:39:03 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -72,7 +72,7 @@ operator=(const RboxPoints &other)
 
 
 RboxPoints::
-~RboxPoints() 
+~RboxPoints()
 {}
 
 #//Error
@@ -148,7 +148,7 @@ appendPoints(const char *rboxCommand)
 >-------------------------------</a><a name="qh_fprintf_rbox">-</a>
 
   qh_fprintf_rbox(fp, msgcode, format, list of args )
-    fp is ignored (replaces qh_fprintf_rbox() in userprintf.c)
+    fp is ignored (replaces qh_fprintf_rbox() in userprintf_rbox.c)
     rbox_output == RboxPoints
 
 notes:

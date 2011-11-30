@@ -1,5 +1,5 @@
 
- Qhull 2011.1  2011/05/18
+ Qhull 2011.2  2011/11/29
 
         http://www.qhull.org
         git@gitorious.org:qhull/qhull.git

@@ -11,6 +11,8 @@
 #     Use 'configure; make' to build Qhull
 #
 #note:
+#     WARNING: This file has not be updated for the new directory structure
+#
 #     'configure; make' does not work under cygwin.
 #       src/unix.c:354: variable 'qh_qh' can't be auto-imported.
 #       Please read the documentation for ld's --enable-auto-import for details.
@@ -63,7 +65,7 @@ doc_DATA = \
 EXTRA_DIST = \
   $(doc_DATA) \
   File_id.diz \
-  QHULL-GO.pif
+  QHULL-GO.lnk
 
 ### Subdirectories for Automaking
 
@@ -114,7 +116,7 @@ cat >../html/Makefile.am <<\HERE-HTML
 ### Man pages (trick to get around .man extension)
 
 %.1: %.man
-        cp $< $@
+       cp $< $@
 CLEANFILES = *.1
 man_MANS = rbox.1 qhull.1
 
@@ -195,7 +197,11 @@ libqhull_la_SOURCES = \
   geom.c \
   poly.c \
   qset.c \
-  mem.c
+  mem.c \
+  usermem.c \
+  userprintf.c \
+  userprintf_rbox.c \
+  rboxlib.c
 
 # how:
 libqhull_la_LDFLAGS = -version-info 4:0:0 -lm
@@ -228,6 +234,7 @@ pkginclude_HEADERS = \
   mem.h \
   poly.h \
   qhull_a.h \
+  random.h \
   stat.h \
   io.h \
   merge.h \
@@ -246,10 +253,7 @@ examplesdir = $(docdir)/examples
 examples_DATA = \
   user_eg.c \
   user_eg2.c \
-  qhull_interface.cpp \
-  Makefile.txt \
-  Make-config.sh \
-  MBorland
+  Make-config.sh
 
 doc_DATA = Changes.txt \
     index.htm \

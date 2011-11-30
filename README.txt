@@ -1,6 +1,6 @@
 Name
 
-      qhull, rbox         2011.1     2011/05/18
+      qhull, rbox         2011.2     2011/11/29
   
 Convex hull, Delaunay triangulation, Voronoi diagrams, Halfspace intersection
  
@@ -61,6 +61,17 @@ To contribute to Qhull
   
   For internal documentation, see html/qh-code.htm
 
+To install Qhull
+
+  Qhull is precompiled for Windows, otherwise it needs compilation.
+  
+  Besides makefiles for gcc, qhull includes CMakeLists.txt for CMake, 
+  vcproj/sln files for Microsoft Visual Studio, and .pro files for Qt.  
+  
+  Install and build instructions follow.  
+  
+  See the end of this document for a list of distributed files.
+
 -----------------
 Installing Qhull on Windows
 
@@ -80,6 +91,7 @@ Installing Qhull on Windows
     Use 'TO xxx' to send normal output to xxx and error output to stdout
 
   To improve the command window
+  - Double-click the window bar to increase the size of the window
   - Right-click the window bar
   - Select Properties
   - Check QuickEdit Mode
@@ -102,10 +114,17 @@ Installing Qhull on Unix with gcc
   - make
   - export LD_LIBRARY_PATH=$PWD/lib:$LD_LIBRARY_PATH
 
+  Or, to build Qhull and libqhullstatic.a
+  - Extract Qhull from qhull...tgz or qhull...zip
+  - cd src/libqhull
+  - make
+
   The Makefile compiles with -fno-strict-aliasing.  It is needed for
   qset.c with gcc 2.95.1, 4.1, 4.2, and 4.3 [Karas, Krishnaswami].
   See <a href=http://www.qhull.org/news/#bugs>Bugs</a> for [Apr 2008].
-
+  
+  The Makefiles may be edited for other compilers.
+  
 -----------------
 Installing Qhull with CMake 2.6 or later
 
@@ -126,12 +145,12 @@ Installing Qhull with Qt
   - make
   
 -----------------
-Installing Qhull with Autoconf [out-of-date]
+Installing Qhull with Autoconf [WARNING out-of-date]
 
   The tar.gz tarball contains documentation, source files, 
   and a config directory [R. Laboissiere].
 
-  [Jan 2010] Qhull 2009.1.1 does not include the C++ interface
+  [Nov 2011] Qhull 2009.1.2 does not include the C++ interface
   
   To install Qhull
   - Extract the files
@@ -160,6 +179,8 @@ Compiling Qhull with Microsoft Visual C++ 2005 or later
   - Load solution build/qhull.sln 
   - Build
   - Project qhulltest requires Qt for DevStudio (http://qt.nokia.com/downloads)
+    Set the QTDIR environment variable to your Qt directory (e.g., c:/qt/4.7.4)
+    If incorrect, precompile will fail with 'Can not locate the file specified'
 
 -----------------
 Compiling Qhull with Qt Creator
@@ -283,13 +304,14 @@ Distributed files
   README.txt           // Instructions for installing Qhull 
   REGISTER.txt         // Qhull registration 
   COPYING.txt          // Copyright notice 
-  QHULL-GO.pif         // Windows icon for eg/qhull-go.bat
+  QHULL-GO.lnk         // Windows icon for eg/qhull-go.bat
   Announce.txt         // Announcement 
   CMakeLists.txt       // CMake build file (2.6 or later)
   File_id.diz          // Package descriptor
   index.htm            // Home page 
   Makefile             // Makefile for gcc and other compilers
   qhull*.md5sum        // md5sum for all files
+
   bin/*		       // Qhull executables and dll (.zip only)
   build/qhull.sln      // DevStudio solution and project files (2005 or later)
   build/*.vcproj
@@ -360,14 +382,17 @@ src/libqhull
   index.htm            // design documentation for libqhull
   qh-*.htm
   qhull-exports.def    // Export Definition file for Visual C++
+  Makefile             // Simple gcc Makefile for qhull and libqhullstatic.a
   Mborland             // Makefile for Borland C++ 5.0
 
   libqhull.h           // header file for qhull
+  qhull.h-deprecated   // header file for old builds of qhull
   user.h               // header file of user definable constants 
   libqhull.c           // Quickhull algorithm with partitioning
   user.c               // user re-definable functions 
   usermem.c
   userprintf.c
+  userprintf_rbox.c
 
   qhull_a.h            // include files for libqhull/*.c 
   geom.c               // geometric routines 
