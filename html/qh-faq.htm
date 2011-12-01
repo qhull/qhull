@@ -779,22 +779,25 @@ diagram questions</a></h2>
 
 <h4><A href="#TOC">&#187;</A><a name="volume">How</a> do I compute the volume of a Voronoi region?</h4><blockquote>
 
-For each Voronoi region, compute the convex hull of regions Voronoi vertices.  The volume of the convex hull is the volume
-of the Vornoi region.  This is rather slow if you're using the command line.  A faster approcach is to call Qhull from
+<p>For each Voronoi region, compute the convex hull of the region's Voronoi vertices.  The volume of each convex hull is the volume
+of the corresponding Vornoi region.</p>
+
+<p>For example, to compute the volume of the bounded Voronoi region about [0,0,0]: output the origin's Voronoi vertices and
+compute the volume of their convex hull.  The last number from option '<A href="qh-optf.htm#FS">FS</A>' is the volume.</p>
+<blockquote><pre>
+rbox P0 10 | qvoronoi QV0 p | qhull FS
+0
+2 1.448134756744281 0.1067973560800857
+</pre></blockquote>
+
+<p>For another example, see <A href="#2d">How</A> do I get the triangles for a 2-d Delaunay
+    triangulation and the vertices of its Voronoi diagram?</p>
+
+<p>This approach is slow if you are using the command line.  A faster approcach is to call Qhull from
 a program.  The fastest method is Clarkson's <a href="http://www.netlib.org/voronoi/hull.html">hull</a> program.
-It computes the volume for all Voronoi regions.
+It computes the volume for all Voronoi regions.</p>
 
-An unbounded Voronoi region does not have a volume.
-
-For example, to compute the volume of the bounded Voronoi region about [0,0,0], output its Voronoi vertices, and
-compute the volume of their convex hull.  The second number from option '<A href="qh-optf.htm#FS">FS</A>' is the volume.
-
-<blockquote>
-    <p>rbox P0 10 | qvoronoi QV0 p | qhull FS</p>
-</blockquote>
-
-For another example, see <A href="#2d">How</A> do I get the triangles for a 2-d Delaunay
-    triangulation and the vertices of its Voronoi diagram?
+<p>An unbounded Voronoi region does not have a volume.</p>
 
 </blockquote><h4><A href="#TOC">&#187;</A><a name="maxsphere">How</a> do I get the radii of the empty
                 spheres for each Voronoi vertex?</h4><blockquote>

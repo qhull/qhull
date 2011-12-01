@@ -9,6 +9,7 @@ Need help
    Please keep debian files in config/ and project/debian/
    Branch 'debian' is from http://savannah.nongnu.org/cvs/?group=qhull
    project/debian needs updating for its new location.
+ - Qhull needs a mirror/archive site for old and new builds
  - The C++ interface needs work.  Give it a try and make it better.
    http://gitorious.org/qhull/
  - Document with Qt conventions using Doxygen (//! and //!<)
@@ -20,25 +21,11 @@ To do
  - Wiki: Add FIXUP to QH11026 for known problems
  - Notes to compgeom on conformant triangulation and Voronoi volume
  - Set File Ver and Product Ver in dll
- - Locate mirror site for Qhull
+ - For the C++ interface, make qh_qh a parameter instead of a global static
  - Compute the convex hull of each Voronoi or Delaunay region
 
 ------------
 Qhull 2011.2  2011/11/29 6.2.1.1446
-
-Update news
-check 2009.1.2
-check build on Unix
-update ACM link for news
-Announce plan for rewrite
-Check git on Unix
-
-Remove from git
-#       build/Debug/
-#       build/Release/
-#       build/moc/
-#       build/qhulltest/
-#       build/vc80.idb
 
 Bug fixes
  - qh_new_qhull: Call qh_prepare_output if !outfile [A. Aldoma]

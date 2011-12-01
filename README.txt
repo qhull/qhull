@@ -66,7 +66,8 @@ To install Qhull
   Qhull is precompiled for Windows, otherwise it needs compilation.
   
   Besides makefiles for gcc, qhull includes CMakeLists.txt for CMake, 
-  vcproj/sln files for Microsoft Visual Studio, and .pro files for Qt.  
+  vcproj/sln files for Microsoft Visual Studio, and .pro files for Qt Creator.
+  It compiles with mingw.
   
   Install and build instructions follow.  
   

@@ -18,9 +18,13 @@ r?
 
 # Build products
 tmp/*
-build/Makefile*
+build/Debug/*
+build/moc/*
+build/qhulltest/*
+build/Release/*
 build/CMakeFiles
 build/CMakeCache.txt
+build/Makefile*
 build/*/Makefile*
 build/*/object_script*
 build/*/Release/*
@@ -30,6 +34,7 @@ build/*/RelWithDebInfo/*
 lib
 *.a
 *.dll
+*.idb
 *.lib
 *.exe
 *.o
