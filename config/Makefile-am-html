@@ -47,7 +47,7 @@ html_DATA =    \
   qh-optp.htm  \
   qh-optq.htm  \
   qh-optt.htm  \
-  qh-quick.htm \
+  qh-quick.htm
 
 ### Extra files to be included in the tarball
 

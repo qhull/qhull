@@ -27,17 +27,18 @@ To do
 
 -----------
 gitorious 2011/12/02
- - Removed Make-conf.sh (from the qhull 2003.1 release)
- - Added config/changelog from the 2003.1 Debian build
+ Draft of Debian/AutoConf build
  - Adjusted the Makefile.am's for the new directory structure.
  - Kept qh_QHpointer=0 (static global data structure, qh_qh).  It is faster.
    Qhull 2012 may have a new interface which passes qh_qh as a parameter
-   But the other builds of qhull 2011.2 define qh_QHpointer=1 for qhull6.so 
+   But the other builds of qhull 2011.2 define qh_QHpointer=1 for qhull6.so
+ - Added config/changelog from the 2003.1 Debian build
+ - Moved the debian/patches directory to config/
+   It was not used for qhull 2009.1.  Was it used for other Debian builds?
  - Deleted the debian directory.  It was the old Debian build from 2003.1
    Rafael's config directory replaced this build..
- - Moved the debian/patches directory to config/patches
-   It was not used for qhull 2009.1.  Was it used for other Debian builds?
-   
+ - Deleted Make-conf.sh (also the old Debian build)
+     
 ------------
 Qhull 2011.2  2011/11/29 6.2.1.1446
 
