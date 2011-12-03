@@ -1,6 +1,8 @@
 ### Makefile.am for the qhull package (eg)
 ### Author: Rafael Laboissiere <rafael@debian.org>
 ### Created: Mon Dec  3 21:36:21 CET 2001
+### Update for 2010.1: O. Lahaye, jun'10
+### Draft update for 2011.2: B. Barber, dec'11
 
 ### Documentation files
 

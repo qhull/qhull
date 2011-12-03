@@ -19,10 +19,11 @@ doc_DATA =     \
 
 EXTRA_DIST =   \
   $(doc_DATA)  \
+  .gitignore   \
   CMakeLists.txt \
   File_id.diz  \
   QHULL-GO.lnk
 
 ### Subdirectories for Automaking
 
-SUBDIRS = src html eg config
+SUBDIRS = src/libqhull html eg config

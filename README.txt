@@ -316,6 +316,7 @@ Distributed files
   bin/*		       // Qhull executables and dll (.zip only)
   build/qhull.sln      // DevStudio solution and project files (2005 or later)
   build/*.vcproj
+  config/*             // Autoconf files for creating configure (Unix only)
   eg/*                 // Test scripts and geomview files from q_eg
   html/index.htm       // Manual
   html/qh-faq.htm      // Frequently asked questions
@@ -331,13 +332,13 @@ eg/
   q_test-ok.txt        // output from q_test
   qhulltest-ok.txt     // output from qhulltest (Qt only)
 
-rbox consists of:
+rbox consists of (bin, html):
   rbox.exe             // Win32 executable (.zip only) 
   rbox.htm             // html manual 
   rbox.man             // Unix man page 
   rbox.txt
 
-qhull consists of:
+qhull consists of (bin, html):
   qhull.exe            // Win32 executables and dll (.zip only) 
   qconvex.exe
   qdelaunay.exe
@@ -357,7 +358,8 @@ qhull consists of:
   index.htm
   qh-opt*.htm
   qh-quick.htm
-  qh--*.gif            // images for manual 
+  qh--*.gif            // images for manual
+  normal_voronoi_knauss_oesterle.jpg
   qhull.man            // Unix man page 
   qhull.txt
 

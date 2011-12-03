@@ -135,13 +135,14 @@ cd qhull && make clean
 exit_if_err $LINENO "Can not 'make clean'"
 cd ..
 rm -f qhull/src/qhull-all.pro.user* qhull/src/libqhull/BCC32tmp.cfg
-rm -f qhull/eg/eg.* qhull/*.x qhull/x.*
+rm -f qhull/eg/eg.* qhull/*.x qhull/x.* qhull/configure.in
 rm -f qhull/bin/qhulltest.exe qhull/bin/qhulltest
 rm -f qhull/src/libqhull/*.exe qhull/src/libqhull/*.a
 rm -f qhull/src/libqhull/qconvex.c qhull/src/libqhull/unix.c 
 rm -f qhull/src/libqhull/qdelaun.c qhull/src/libqhull/qhalf.c
 rm -f qhull/src/libqhull/qvoronoi.c qhull/src/libqhull/rbox.c
 rm -f qhull/src/libqhull/user_eg.c qhull/src/libqhull/user_eg2.c
+rm -f qhull/Makefile.am qhull/src/Makefile.am qhull/eg/Makefile.am qhull/html/Makefile.am 
     
 set noglob
 

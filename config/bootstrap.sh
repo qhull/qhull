@@ -15,8 +15,11 @@ fi
 echo -n Copying autoconf and automake files...
 cp config/configure.ac .
 cp config/Makefile-am-main Makefile.am
-for d in src html eg ; do
+for d in html eg ; do
   cp config/Makefile-am-$d $d/Makefile.am
+done
+for d in libqhull ; do
+  cp config/Makefile-am-$d src/$d/Makefile.am
 done
 echo " done"
 

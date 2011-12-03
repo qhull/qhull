@@ -1,4 +1,35 @@
-qhull (2003.1-1) unstable; urgency=low
+Qhull 2011.2 (qhull6) 2011/12/02
+ - Removed Make-conf.sh (from the qhull 2003.1 release)
+ - The original changelog follows
+ - Adjusted the Makefiles for the new directory structure.
+ - Kept qh_QHpointer=0 (static global data structure, qh_qh).  It is faster.
+   Qhull 2012 may have a new interface which passes qh_qh as a parameter.
+
+Qhull 2009.1.2 2011/11/21
+ - Revert to LF line endings [P. Cheeseman]
+ - Remove out-of-date material from qhull-go.bat
+ - Replaced QHULL-GO with a lnk file
+
+qhull 2009.1.1 2010/01/09
+- Patch release of 2009.1.
+  qh_gethash allowed a negative result, causing overwrite or segfault
+  See git:qhull/project/patch/qhull-2003.1/poly.c-qh_gethash.patch
+  Compared results of q_test, q_eg, q_egtest with patched poly.c, qhull-2003.1
+
+qhull (2009.1, qhull5)
+
+This is a maintenance release done by Rafael Laboissiere <rafael@debian.org>.
+ - src/rbox.c (main): Avoid problems of evaluation order when
+   pre-incrementing arguments of strtod
+ - src/io.c (qh_produce_output), src/stat.c (qh_initstatistics): Use %lu
+   instead of %d in the format string for arguments of type size_t
+ - html/qhull.man, html/rbox.man: Fix several syntax, macros, and hyphen
+   problems in man pages
+ - The Autotools files have been generated with modern version of autoconf (2.63),
+   automake/aclocal (1.10.2), and libtool (2.2.6)
+ - Some character issues in the man pages are fixed
+
+qhull (2003.1-1, qhull5) unstable; urgency=low
 
   * New upstream release.  There are backward incompatibilities in the code
     and the soversion was bumped to libqhull5.

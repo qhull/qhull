@@ -16,14 +16,28 @@ Need help
  - Produce conformant triangulations for merged facets using option 'Qt' 
 
 To do
- - Review email for doc changes before nov'10
+ - Review email for doc changes before jun'10
  - Git: Create signed tags for Qhull versions
  - Wiki: Add FIXUP to QH11026 for known problems
  - Notes to compgeom on conformant triangulation and Voronoi volume
  - Set File Ver and Product Ver in dll
  - For the C++ interface, make qh_qh a parameter instead of a global static
+   This replaces qh_QHpointer.  It allows multithreading.
  - Compute the convex hull of each Voronoi or Delaunay region
 
+-----------
+gitorious 2011/12/02
+ - Removed Make-conf.sh (from the qhull 2003.1 release)
+ - Added config/changelog from the 2003.1 Debian build
+ - Adjusted the Makefile.am's for the new directory structure.
+ - Kept qh_QHpointer=0 (static global data structure, qh_qh).  It is faster.
+   Qhull 2012 may have a new interface which passes qh_qh as a parameter
+   But the other builds of qhull 2011.2 define qh_QHpointer=1 for qhull6.so 
+ - Deleted the debian directory.  It was the old Debian build from 2003.1
+   Rafael's config directory replaced this build..
+ - Moved the debian/patches directory to config/patches
+   It was not used for qhull 2009.1.  Was it used for other Debian builds?
+   
 ------------
 Qhull 2011.2  2011/11/29 6.2.1.1446
 
