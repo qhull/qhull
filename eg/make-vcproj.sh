@@ -1,7 +1,11 @@
 #!/bin/bash
 #
 # make-vcproj.sh -- Make sln and vcproj files from CMakeLists.txt and qhull-all.pro
-
+#
+# [jan'12] Additional changes made by hand for qhull 2012.1.   This file updated but not tested.
+#
+# $Id: //main/2011/qhull/eg/make-vcproj.sh#5 $$Change: 1476 $
+# $DateTime: 2012/01/28 09:37:56 $$Author: bbarber $
 
 if [[ ! -f CMakeLists.txt || ! -f src/qhull-all.pro ]]; then
     echo "Excute eg/make-vcproj.sh from qhull directory with CMakeLists.txt and src/qhull-all.pro"
@@ -56,7 +60,7 @@ for f in buildvc/*.vcproj buildqt/qhulltest/*.vcproj; do
 done
 
 echo -e '\nExcept for qhulltest.vcproj,\n*.vcproj: delete empty File in Files section near end of vcproj'
-echo -e '\nExcept for qhulltest.vcproj,\n*.vcproj: rename debug targets to qhull_d6.dll, etc.'
+echo -e '\nExcept for qhulltest.vcproj,\n*.vcproj: rename debug targets to qhull_d.dll, etc.'
 
 # If need to rebuild sln
 sed -e '\|Project.*ALL_BUILD|,\|EndProject$| d' \
@@ -69,10 +73,11 @@ echo 'qhull.sln: Remove first line of each GUID list -- postProject\n.* > postPr
 echo 'qhull.sln: Remove four empty project sections'
 echo 'qhull.sln: Remove first part of Global section.'
 echo 'qhull.sln: Save as PC'
+echo '*.vcproj: Remove libqhullcpp from AdditionalIncludeDirectories except for cpp'
 echo
 echo 'Open qhull.sln with DevStudio and add qhulltest.vcproj'
-echo 'Add dependencies on qhull6 and qhullcpp'
+echo 'Add dependencies on libqhull libqhull6_p and qhullcpp'
 echo 'Change Linker>OutputFile to qhulltest.exe'
-echo 'Remove qhulltest via Configuration Manager... from 6 configs'
+echo 'Remove qhulltest via Configuration Manager from Release, Debug, etc.'
 
 

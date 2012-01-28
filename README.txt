@@ -1,6 +1,6 @@
 Name
 
-      qhull, rbox         2011.2     2011/11/29
+      qhull, rbox         2012.1     2012/01/26
   
 Convex hull, Delaunay triangulation, Voronoi diagrams, Halfspace intersection
  
@@ -27,7 +27,7 @@ Purpose
   of points from stdin, and outputs the smallest convex set that contains 
   the points to stdout.  It also generates Delaunay triangulations, Voronoi 
   diagrams, furthest-site Voronoi diagrams, and halfspace intersections
-  about a point.  
+  about a point.
 
   Rbox is a useful tool in generating input for Qhull; it generates 
   hypercubes, diamonds, cones, circles, simplices, spirals, 
@@ -77,12 +77,16 @@ To install Qhull
 Installing Qhull on Windows
 
   The zip file contains rbox.exe, qhull.exe, qconvex.exe, qdelaunay.exe, 
-  qhalf.exe, qvoronoi.exe, user_eg*.exe, documentation files, and source files.
+  qhalf.exe, qvoronoi.exe, testqset.exe, user_eg*.exe, documentation files, 
+  and source files.
   
   To install Qhull:
   - Unzip the files into a directory.  You may use WinZip32 <www.hotfiles.com>
   - Click on QHULL-GO or open a command window into Qhull's bin directory.
     
+  To uninstall Qhull
+  - Delete the qhull directory
+  
   To learn about Qhull:
   - Execute 'qconvex' for a synopsis and examples.
   - Execute 'rbox 10 | qconvex' to compute the convex hull of 10 random points.
@@ -120,11 +124,8 @@ Installing Qhull on Unix with gcc
   - cd src/libqhull
   - make
 
-  The Makefile compiles with -fno-strict-aliasing.  It is needed for
-  qset.c with gcc 2.95.1, 4.1, 4.2, and 4.3 [Karas, Krishnaswami].
-  See <a href=http://www.qhull.org/news/#bugs>Bugs</a> for [Apr 2008].
-  
   The Makefiles may be edited for other compilers.
+  If 'testqset' exits with an error, qhull is broken
   
 -----------------
 Installing Qhull with CMake 2.6 or later
@@ -135,6 +136,9 @@ Installing Qhull with CMake 2.6 or later
   - cmake ..
   - make
   - make install
+  
+  On Windows, CMake installs to C:/Program Files/qhull
+  See CMakeLists.txt for further build instructions
 
 -----------------
 Installing Qhull with Qt
@@ -243,10 +247,6 @@ Compiling from Makfile without gcc
       - this is ok, your compiler should have these in stdio.h
   - if your compiler warns about missing prototypes for memset() etc.
       - include memory.h in qhull_a.h
-  - if your compiler is gcc-4.3, 4.2, 4.1 or 2.95.1, set flag -fno-strict-aliasing.  
-      - This flag is set by default for other versions up to 4.0 [Karas, Krishnaswami]
-      - strict-aliasing appears to work ok for gcc-4.4
-      - See news/qhull-news.html#bugs for details
   - if your compiler reports "global.c: storage size of 'qh_qh' isn't known"
       - delete the initializer "={0}" in global.c, stat.c and mem.c
   - if your compiler warns about "stat.c: improper initializer"
@@ -255,8 +255,6 @@ Compiling from Makfile without gcc
       - try 'make -f Makefile.txt qhullx' 
   - if the code compiles, the qhull test case will automatically execute
   - if an error occurs, there's an incompatibility between machines
-      - For gcc-2.95.1, you need to set flag -fno-strict-aliasing.
-            It is set by default for other versions of gcc [Karas, Krishnaswami]
       - If you can, try a different compiler 
       - You can turn off the Qhull memory manager with qh_NOmem in mem.h
       - You can turn off compiler optimization (-O2 in Makefile)
@@ -339,12 +337,13 @@ rbox consists of (bin, html):
   rbox.txt
 
 qhull consists of (bin, html):
-  qhull.exe            // Win32 executables and dll (.zip only) 
+  qhull.exe            // Win32 executables and dlls (.zip only) 
   qconvex.exe
   qdelaunay.exe
   qhalf.exe
   qvoronoi.exe
-  qhull6.dll
+  qhull.dll
+  qhull6_p.dll
   qhull-go.bat         // command window
   qconvex.htm          // html manual
   qdelaun.htm
@@ -374,14 +373,14 @@ src/
   qvoronoi/qvoronoi.c
   rbox/rbox.c
 
-  user_eg/user_eg.c    // example of shared library from a user program 
-  user_eg2/user_eg2.c  // example of qhull from a user program (static link)
-  user_eg3/user_eg3.cpp // example of Qhull's C++ interface
+  user_eg/user_eg.c    // example of using qhull6_p.dll (requires -Dqh_QHpointer)
+  user_eg2/user_eg2.c  // example of using qhull.dll from a user program
+  user_eg3/user_eg3.cpp // example of Qhull's C++ interface with libqhullstatic_p.a
   qhulltest/qhulltest.cpp // Test of Qhull's C++ interface using Qt's QTestLib
   qhull-*.pri          // Include files for Qt projects
 
 src/libqhull
-  libqhull.pro         // Qt project for shared library
+  libqhull.pro         // Qt project for shared library (qhull.dll)
   index.htm            // design documentation for libqhull
   qh-*.htm
   qhull-exports.def    // Export Definition file for Visual C++
@@ -389,7 +388,6 @@ src/libqhull
   Mborland             // Makefile for Borland C++ 5.0
 
   libqhull.h           // header file for qhull
-  qhull.h-deprecated   // header file for old builds of qhull
   user.h               // header file of user definable constants 
   libqhull.c           // Quickhull algorithm with partitioning
   user.c               // user re-definable functions 
@@ -418,6 +416,10 @@ src/libqhull
   rboxlib.c            // point set generator for rbox
   stat.c               // statistics 
   stat.h
+
+src/libqhullp
+  libqhullp.pro        // Qt project for shared library (qhull6_p.dll)
+  qhull_p-exports.def  // Export Definition file for Visual C++
 
 src/libqhullstatic/
   libqhullstatic.pro   // Qt project for static library     
@@ -505,6 +507,10 @@ src/road/
   RoadLogEvent.h
   RoadTest.cpp         // Run multiple test files with QTestLib
   RoadTest.h
+
+src/testqset/
+  testqset.pro		// Qt project for test qset.c with mem.c
+  testqset.c
   
 -----------------
 Authors:

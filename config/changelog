@@ -1,3 +1,8 @@
+Qhull 2012.1 2012/01/26
+ - Add config to distribution
+ - Add testqset to config build
+ - config/bootstrap.sh copies program files into src/libqhull
+ 
 Qhull 2011.2 (qhull6) 2011/12/02
  - Removed Make-conf.sh (from the qhull 2003.1 release)
  - The original changelog follows

@@ -7,7 +7,7 @@
 
    see unix.c for full interface
 
-   Copyright (c) 1993-2011, The Geometry Center
+   Copyright (c) 1993-2012, The Geometry Center
 */
 
 #include <stdio.h>

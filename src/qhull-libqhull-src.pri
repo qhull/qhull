@@ -1,16 +1,8 @@
 # -------------------------------------------------
-# qhull-libsrc.pri -- Qt include project for libqhull sources and headers
+# qhull-libqhull-src.pri -- Qt include project for libqhull sources and headers
 #   libqhull.pro, libqhullp.pro, and libqhulldll.pro are the same for SOURCES and HEADERS
 # -------------------------------------------------
 
-# Duplicated in libqhull/libqhull.pro for ease of use in QtCreator
-# qset.c requires -fno-script-aliasing for gcc 4.1 to 4.3
-*g++ {
-    COMPVER = $$system(gcc -v)
-    contains(COMPVER,4.1)|contains(COMPVER,4.2)|contains(COMPVER,4.3) {
-        QMAKE_CFLAGS += -fno-strict-aliasing # Avoid core dumps in qset.c with -O2
-    }
-}
 # Order object files by frequency of execution.  Small files at end.
 # Current directory is caller
 SOURCES += ../libqhull/global.c
@@ -38,7 +30,6 @@ HEADERS += ../libqhull/mem.h
 HEADERS += ../libqhull/merge.h
 HEADERS += ../libqhull/poly.h
 HEADERS += ../libqhull/random.h
-# The file, libqhull/qhull.h, is for backwards compatibility.
 HEADERS += ../libqhull/qhull_a.h
 HEADERS += ../libqhull/qset.h
 HEADERS += ../libqhull/stat.h

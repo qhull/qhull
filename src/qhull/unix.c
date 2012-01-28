@@ -7,9 +7,9 @@
 
    see qh-qhull.htm
 
-   Copyright (c) 1993-2011 The Geometry Center.
-   $Id: //main/2011/qhull/src/qhull/unix.c#4 $$Change: 1372 $
-   $DateTime: 2011/04/17 19:32:21 $$Author: bbarber $
+   Copyright (c) 1993-2012 The Geometry Center.
+   $Id: //main/2011/qhull/src/qhull/unix.c#5 $$Change: 1464 $
+   $DateTime: 2012/01/25 22:58:41 $$Author: bbarber $
 */
 
 #include "mem.h"

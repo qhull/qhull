@@ -21,6 +21,10 @@ done
 for d in libqhull ; do
   cp config/Makefile-am-$d src/$d/Makefile.am
 done
+echo -en ' done\nCopying program sources to src/libqhull...'
+sources="src/qconvex/qconvex.c src/qdelaunay/qdelaun.c src/qhalf/qhalf.c \
+  src/qhull/unix.c src/qvoronoi/qvoronoi.c src/rbox/rbox.c src/testqset/testqset.c"
+cp $sources src/libqhull
 echo " done"
 
 run aclocal \

@@ -1,6 +1,6 @@
 # -------------------------------------------------
 # libqhull.pro -- Qt project for Qhull shared library
-#   Built with qh_QHpointer=1.
+#   Built with qh_QHpointer=1
 # -------------------------------------------------
 
 include(../qhull-warn.pri)
@@ -12,26 +12,16 @@ CONFIG += shared warn_on
 CONFIG -= qt
 
 build_pass:CONFIG(debug, debug|release):{
-    TARGET = qhull_d$$qhull_VERSION_MAJOR
+    TARGET = qhull_d
     OBJECTS_DIR = Debug
 }else:build_pass:CONFIG(release, debug|release):{
-    TARGET = qhull$$qhull_VERSION_MAJOR
+    TARGET = qhull
     OBJECTS_DIR = Release
 }
 win32-msvc* : QMAKE_LFLAGS += /INCREMENTAL:NO
 
-DEFINES += qh_QHpointer # libqhull/user.h
-
 win32-msvc* : DEF_FILE += ../../src/libqhull/qhull-exports.def
 
-# Duplicated from ../qhull-libsrc.pri  Otherwise QtCreator makes hierarchy too deep
-# qset.c requires -fno-script-aliasing for gcc 4.1 to 4.3
-*g++ {
-    COMPVER = $$system(gcc -v)
-    contains(COMPVER,4.1)|contains(COMPVER,4.2)|contains(COMPVER,4.3) {
-        QMAKE_CFLAGS += -fno-strict-aliasing # Avoid core dumps in qset.c with -O2
-    }
-}
 # Order object files by frequency of execution.  Small files at end.
 SOURCES += rboxlib.c
 SOURCES += user.c
@@ -62,7 +52,6 @@ HEADERS += qhull_a.h
 HEADERS += qset.h
 HEADERS += stat.h
 HEADERS += user.h
-HEADERS += qhull.h-deprecated
 
 OTHER_FILES += Mborland
 OTHER_FILES += qh-geom.htm

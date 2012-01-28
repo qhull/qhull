@@ -52,7 +52,7 @@
 				AdditionalOptions=" /Zm1000"
 				Optimization="0"
 				InlineFunctionExpansion="0"
-				AdditionalIncludeDirectories="..\src\libqhullcpp;..\src;..\src\libqhull;"
+				AdditionalIncludeDirectories="..\src;..\src\libqhull;"
 				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;qh_QHpointer;qh_QHpointer_dllimport"
 				ExceptionHandling="0"
 				BasicRuntimeChecks="3"
@@ -71,7 +71,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;qh_QHpointer"
-				AdditionalIncludeDirectories="..\src\libqhullcpp;..\src;..\src\libqhull;"
+				AdditionalIncludeDirectories="..\src;..\src\libqhull;"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -80,7 +80,7 @@
 				Name="VCLinkerTool"
 				LinkLibraryDependencies="false"
 				AdditionalOptions=" /STACK:10000000 /machine:X86 /debug"
-				AdditionalDependencies="$(NOINHERIT) kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib  ..\lib\qhull_d6.lib "
+				AdditionalDependencies="$(NOINHERIT) kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib  ..\lib\qhull6_pd.lib "
 				OutputFile="..\bin\user_eg.exe"
 				Version="6.0"
 				LinkIncremental="1"
@@ -153,7 +153,7 @@
 				AdditionalOptions=" /Zm1000"
 				Optimization="2"
 				InlineFunctionExpansion="2"
-				AdditionalIncludeDirectories="..\src\libqhullcpp;..\src;..\src\libqhull;"
+				AdditionalIncludeDirectories="..\src;..\src\libqhull;"
 				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;qh_QHpointer;qh_QHpointer_dllimport"
 				ExceptionHandling="0"
 				RuntimeLibrary="2"
@@ -170,7 +170,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;qh_QHpointer"
-				AdditionalIncludeDirectories="..\src\libqhullcpp;..\src;..\src\libqhull;"
+				AdditionalIncludeDirectories="..\src;..\src\libqhull;"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -179,7 +179,7 @@
 				Name="VCLinkerTool"
 				LinkLibraryDependencies="false"
 				AdditionalOptions=" /STACK:10000000 /machine:X86"
-				AdditionalDependencies="$(NOINHERIT) kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib  ..\lib\qhull6.lib "
+				AdditionalDependencies="$(NOINHERIT) kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib  ..\lib\qhull6_p.lib "
 				OutputFile="..\bin\user_eg.exe"
 				Version="6.0"
 				LinkIncremental="1"
@@ -251,7 +251,7 @@
 				AdditionalOptions=" /Zm1000"
 				Optimization="1"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="..\src\libqhullcpp;..\src;..\src\libqhull;"
+				AdditionalIncludeDirectories="..\src;..\src\libqhull;"
 				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;qh_QHpointer;qh_QHpointer_dllimport"
 				ExceptionHandling="0"
 				RuntimeLibrary="2"
@@ -268,7 +268,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;qh_QHpointer"
-				AdditionalIncludeDirectories="..\src\libqhullcpp;..\src;..\src\libqhull;"
+				AdditionalIncludeDirectories="..\src;..\src\libqhull;"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -277,7 +277,7 @@
 				Name="VCLinkerTool"
 				LinkLibraryDependencies="false"
 				AdditionalOptions=" /STACK:10000000 /machine:X86"
-				AdditionalDependencies="$(NOINHERIT) kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib  ..\lib\qhull6.lib "
+				AdditionalDependencies="$(NOINHERIT) kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib  ..\lib\qhull6_p.lib "
 				OutputFile="..\bin\user_eg.exe"
 				Version="6.0"
 				LinkIncremental="1"
@@ -349,7 +349,7 @@
 				AdditionalOptions=" /Zm1000"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="..\src\libqhullcpp;..\src;..\src\libqhull;"
+				AdditionalIncludeDirectories="..\src;..\src\libqhull;"
 				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;qh_QHpointer;qh_QHpointer_dllimport"
 				ExceptionHandling="0"
 				RuntimeLibrary="2"
@@ -367,7 +367,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;qh_QHpointer"
-				AdditionalIncludeDirectories="..\src\libqhullcpp;..\src;..\src\libqhull;"
+				AdditionalIncludeDirectories="..\src;..\src\libqhull;"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -376,7 +376,7 @@
 				Name="VCLinkerTool"
 				LinkLibraryDependencies="false"
 				AdditionalOptions=" /STACK:10000000 /machine:X86 /debug"
-				AdditionalDependencies="$(NOINHERIT) kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib  ..\lib\qhull6.lib "
+				AdditionalDependencies="$(NOINHERIT) kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib  ..\lib\qhull6_p.lib "
 				OutputFile="..\bin\user_eg.exe"
 				Version="6.0"
 				LinkIncremental="1"

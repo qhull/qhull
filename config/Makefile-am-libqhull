@@ -1,8 +1,6 @@
 ### Makefile.am for the qhull package (src)
 ### Author: Rafael Laboissiere <rafael@debian.org>
 ### Created: Mon Dec  3 21:36:21 CET 2001
-### Update for 2010.1: O. Lahaye, jun'10
-### Draft update for 2011.2: B. Barber, dec'11
 
 ### Shared Library
 
@@ -11,8 +9,11 @@ lib_LTLIBRARIES = libqhull.la
 
 # from:
 libqhull_la_SOURCES = \
+  rboxlib.c           \
+  user.c              \
   global.c            \
   stat.c              \
+  io.c                \
   geom2.c             \
   poly2.c             \
   merge.c             \
@@ -21,31 +22,27 @@ libqhull_la_SOURCES = \
   poly.c              \
   qset.c              \
   mem.c               \
-  random.c            \
   usermem.c           \
   userprintf.c        \
-  io.c                \
-  user.c              \
-  rboxlib.c           \
-  userprintf_rbox.c
+  userprintf_rbox.c   \
+  random.c 
 
 # how:
-libqhull_la_LDFLAGS = -version-info 6:2:1 -lm
+libqhull_la_LDFLAGS = -version-info 5:0:0 -lm
 
 ### Utility programs
 
 # to:
-bin_PROGRAMS = qhull rbox qconvex qdelaunay qvoronoi qhalf
+bin_PROGRAMS = qhull rbox qconvex qdelaunay qvoronoi qhalf testqset
 
-# [bradb] If ../ links cause problems (e.g., older RedHat systems),
-#         add symbolic links as done for src/libqhull/Makefile
 # from:
-qhull_SOURCES = ../qhull/unix.c
-rbox_SOURCES = ../rbox/rbox.c
-qconvex_SOURCES = ../qconvex/qconvex.c
-qdelaunay_SOURCES = ../qdelaunay/qdelaun.c
-qvoronoi_SOURCES = ../qvoronoi/qvoronoi.c
-qhalf_SOURCES = ../qhalf/qhalf.c
+qhull_SOURCES = unix.c
+rbox_SOURCES = rbox.c
+qconvex_SOURCES = qconvex.c
+qdelaunay_SOURCES = qdelaun.c
+qvoronoi_SOURCES = qvoronoi.c
+qhalf_SOURCES = qhalf.c
+testqset_SOURCES = testqset.c qset.c mem.c
 
 # how:
 qhull_LDADD = libqhull.la
@@ -80,7 +77,9 @@ examplesdir = $(docdir)/examples
 # which:
 examples_DATA =       \
   user_eg.c           \
-  user_eg2.c
+  user_eg2.c          \
+  Makefile            \
+  Mborland
 
 doc_DATA =     \
   Changes.txt  \

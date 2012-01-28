@@ -1,16 +1,16 @@
 #########################################################################
 #  Borland C++ 4.02 for Win32 and DOS Power Pack			#
-#  Makefile for qhull and rbox					  #
-#								       #
+#  Makefile for qhull and rbox					        #
+#								        #
 #       make -fMborland all       to produce qconvex, qhull, and rbox   #
-#       make -fMborland user_eg   to produce user_eg		    #
-#       make -fMborland user_eg2  to produce user_eg2		   #
+#       make -fMborland user_eg   to produce user_eg		        #
+#       make -fMborland user_eg2  to produce user_eg2		        #
 #       make -fMborland new       to rebuild qhull and rbox from source #
 #       make -fMborland clean     to remove object files		#
-#       make -fMborland cleanall  to remove all generated files	 #
+#       make -fMborland cleanall  to remove all generated files	        #
 #       make -fMborland test      to test rbox and qhull		#
-#								       #
-#  Author: D. Zwick of Germany, C.B. Barber			     #
+#								        #
+#  Author: D. Zwick of Germany, C.B. Barber			        #
 #########################################################################
 
 CC      = bcc32    # 32 bit compiler for DOS

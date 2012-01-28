@@ -9,9 +9,9 @@
    infrequent code is in poly2.c
    (all but top 50 and their callers 12/3/95)
 
-   Copyright (c) 1993-2011 The Geometry Center.
-   $Id: //main/2011/qhull/src/libqhull/poly.c#3 $$Change: 1440 $
-   $DateTime: 2011/11/22 22:22:37 $$Author: bbarber $
+   Copyright (c) 1993-2012 The Geometry Center.
+   $Id: //main/2011/qhull/src/libqhull/poly.c#5 $$Change: 1464 $
+   $DateTime: 2012/01/25 22:58:41 $$Author: bbarber $
 */
 
 #include "qhull_a.h"
@@ -450,7 +450,7 @@ int qh_gethash(int hashsize, setT *set, int size, int firstindex, void *skipelem
     break;
   }
   if (hashsize<0) {
-    qh_fprintf(qh ferr, 6232, "qhull internal error: negative hashsize %d passed to qh_gethash [poly.c]\n", hashsize);
+    qh_fprintf(qh ferr, 6202, "qhull internal error: negative hashsize %d passed to qh_gethash [poly.c]\n", hashsize);
     qh_errexit2 (qh_ERRqhull, NULL, NULL);
   }
   result= (unsigned)hash;

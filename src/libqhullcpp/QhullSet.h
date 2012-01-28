@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (c) 2008-2011 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/QhullSet.h#5 $$Change: 1382 $
-** $DateTime: 2011/05/14 10:45:42 $$Author: bbarber $
+** Copyright (c) 2008-2012 C.B. Barber. All rights reserved.
+** $Id: //main/2011/qhull/src/libqhullcpp/QhullSet.h#7 $$Change: 1464 $
+** $DateTime: 2012/01/25 22:58:41 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -85,7 +85,7 @@ protected:
     void              **beginPointer() const { return &qh_set->e[0].p; }
     void              **elementPointer(int idx) const { QHULL_ASSERT(idx>=0 && idx<qh_set->maxsize); return &SETelem_(qh_set, idx); }
                         //! Always points to 0
-    void              **endPointer() const { int *i=SETsizeaddr_(qh_set); return (*i ? &qh_set->e[(*i)-1].p : reinterpret_cast<void **>(i)); }
+    void              **endPointer() const { return qh_setendpointer(qh_set); }
 };//QhullSetBase
 
 

@@ -6,9 +6,9 @@
 
    see qh-stat.htm and stat.c
 
-   Copyright (c) 1993-2011 The Geometry Center.
-   $Id: //main/2011/qhull/src/libqhull/stat.h#3 $$Change: 1368 $
-   $DateTime: 2011/04/16 08:12:32 $$Author: bbarber $
+   Copyright (c) 1993-2012 The Geometry Center.
+   $Id: //main/2011/qhull/src/libqhull/stat.h#5 $$Change: 1464 $
+   $DateTime: 2012/01/25 22:58:41 $$Author: bbarber $
 
    recompile qhull if you change this file
 
@@ -476,6 +476,7 @@ union intrealT {
                         only one instance of qhull() can be active at a time
                         default value
    qh_QHpointer is defined in libqhull.h
+   qh_QHpointer_dllimport and qh_dllimport define qh_qh as __declspec(dllimport) [libqhull.h]
 
    allocated in stat.c using qh_malloc()
 */
@@ -490,6 +491,9 @@ __declspec(dllimport) extern qhstatT *qh_qhstat;
 #elif qh_QHpointer
 #define qhstat qh_qhstat->
 extern qhstatT *qh_qhstat;
+#elif qh_dllimport
+#define qhstat qh_qhstat.
+__declspec(dllimport) extern qhstatT qh_qhstat;
 #else
 #define qhstat qh_qhstat.
 extern qhstatT qh_qhstat;

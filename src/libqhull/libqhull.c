@@ -10,9 +10,9 @@
 
    see qhull_a.h for internal functions
 
-   Copyright (c) 1993-2011 The Geometry Center.
-   $Id: //main/2011/qhull/src/libqhull/libqhull.c#2 $$Change: 1342 $
-   $DateTime: 2011/03/07 21:55:47 $$Author: bbarber $
+   Copyright (c) 1993-2012 The Geometry Center.
+   $Id: //main/2011/qhull/src/libqhull/libqhull.c#4 $$Change: 1464 $
+   $DateTime: 2012/01/25 22:58:41 $$Author: bbarber $
 */
 
 #include "qhull_a.h"
@@ -1055,7 +1055,7 @@ void qh_partitionpoint(pointT *point, facetT *facet) {
 #endif
     }
     qh num_outside++;
-    trace4((qh ferr, 4065, "qh_partitionpoint: point p%d is outside facet f%d new? %d(or narrowhull)\n",
+    trace4((qh ferr, 4065, "qh_partitionpoint: point p%d is outside facet f%d new? %d (or narrowhull)\n",
           qh_pointid(point), bestfacet->id, bestfacet->newfacet));
   }else if (qh DELAUNAY || bestdist >= -qh MAXcoplanar) { /* for 'd', bestdist skips upperDelaunay facets */
     zzinc_(Zcoplanarpart);
@@ -1064,7 +1064,7 @@ void qh_partitionpoint(pointT *point, facetT *facet) {
     if ((qh KEEPcoplanar + qh KEEPnearinside) || bestdist > qh max_outside)
       qh_partitioncoplanar(point, bestfacet, &bestdist);
     else {
-      trace4((qh ferr, 4066, "qh_partitionpoint: point p%d is coplanar to facet f%d(dropped)\n",
+      trace4((qh ferr, 4066, "qh_partitionpoint: point p%d is coplanar to facet f%d (dropped)\n",
           qh_pointid(point), bestfacet->id));
     }
   }else if (qh KEEPnearinside && bestdist > -qh NEARinside) {

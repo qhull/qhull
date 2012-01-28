@@ -1,5 +1,5 @@
 
- Qhull 2011.2  2011/11/29
+ Qhull 2012.1  2012/01/26
 
         http://www.qhull.org
         git@gitorious.org:qhull/qhull.git
@@ -49,4 +49,3 @@ a solution to this problem when computing the convex hull in two, three, or
 four dimensions.  The output is a set of "thick" facets that contain all
 possible exact convex hulls of the input.   A variation is effective in five
 or more dimensions.
-

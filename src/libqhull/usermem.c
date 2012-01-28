@@ -4,7 +4,7 @@
    usermem.c
    qh_exit(), qh_free(), and qh_malloc()
 
-   see README.txt  see COPYING.txt for copyright information.
+   See README.txt.
 
    If you redefine one of these functions you must redefine all of them.
    If you recompile and load this file, then usermem.o will not be loaded

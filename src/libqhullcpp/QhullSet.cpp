@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (c) 2008-2011 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/QhullSet.cpp#2 $$Change: 1342 $
-** $DateTime: 2011/03/07 21:55:47 $$Author: bbarber $
+** Copyright (c) 2008-2012 C.B. Barber. All rights reserved.
+** $Id: //main/2011/qhull/src/libqhullcpp/QhullSet.cpp#4 $$Change: 1464 $
+** $DateTime: 2012/01/25 22:58:41 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -25,12 +25,12 @@ s_empty_set;
 int QhullSetBase::count(const setT *set)
 {
     int size;
-    const int *sizep;
+    const setelemT *sizep;
 
     if (!set)
         return(0);
     sizep= SETsizeaddr_(set);
-    if ((size= *sizep)) {
+    if ((size= sizep->i)) {
         size--;
         if (size > set->maxsize) {
             // FIXUP QH11022 How to add additional output to a error? -- qh_setprint(qhmem.ferr, "set: ", set);

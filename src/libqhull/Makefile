@@ -3,16 +3,19 @@
 #       see README.txt  
 #       
 # Results
-#	qhull 		 Computes convex hulls and related structures
+#	qhull 	  Computes convex hulls and related structures
 #       qconvex, qdelaunay, qhalf, qvoronoi
-#                        Specializations of qhull for each geometric structure
-#	user_eg	         An example of calling qhull from a program
-#       user_eg2	 Another example
-#       libqhullstatic.a Static library for calling qhull from your programs
+#                 Specializations of qhull for each geometric structure
+#	user_eg	  An example of using shared library qhull6_p (with qh_QHpointer)
+#       user_eg2  An example of using shared library qhull (without qh_QHpointer)
+#       testqset  Standalone test of qset.c with mem.c
+#       libqhullstatic.a Static library for qhull
 #
 # Make targets
 #       make             Produce all of the results
-#       make qvoronoi    Produce qvoronoi (etc.)
+#       make qhull_all   Produce qconvex, etc.
+#                        Links program sources into src/libqhull
+#       make qtest       Quick test of qset, rbox, and qhull
 #       make doc         Print documentation
 #       make install     Copy qhull, rbox, qhull.1, rbox.1 to BINDIR, MANDIR
 #       make new         Rebuild qhull and rbox from source
@@ -62,9 +65,8 @@ PRINTC = enscript -2r
 # PRINTC = lpr
 
 #for Gnu's gcc compiler, -O2 for optimization, -g for debugging
-#   -fno-strict-aliasing not needed for gcc 4.4+ (segfault in qset.c)
 CC        = gcc
-CC_OPTS1  = -O2 -fPIC -ansi -fno-strict-aliasing $(CC_WARNINGS)
+CC_OPTS1  = -O2 -fPIC -ansi $(CC_WARNINGS)
 
 # for Sun's cc compiler, -fast or O2 for optimization, -g for debugging, -Xc for ANSI
 #CC       = cc
@@ -88,13 +90,13 @@ all: qhull_links qhull_all qtest
 
 clean:
 	rm -f *.o 
-
+	# Delete linked files from other directories [qhull_links]
+	rm -f qconvex.c unix.c qdelaun.c qhalf.c qvoronoi.c rbox.c
+	rm -f user_eg.c user_eg2.c testqset.c 
+	
 cleanall: clean
 	rm -f qconvex qdelaunay qhalf qvoronoi qhull *.exe
-	rm -f core user_eg user_eg2 libqhullstatic.a
-	rm -f src/libqhull/qconvex src/libqhull/qdelaunay src/libqhull/qhalf
-	rm -f src/libqhull/qvoronoi src/libqhull/qhull 
-	rm -f src/libqhull/*.exe  src/libqhull/*.a
+	rm -f core user_eg user_eg2 testqset libqhullstatic.a
 
 doc: 
 	$(PRINTMAN) $(TXTFILES) $(DOCFILES)
@@ -109,7 +111,7 @@ install:
 	cp -p ../../html/qhull.man $(MANDIR)/qhull.1
 	cp -p ../../html/rbox.man $(MANDIR)/rbox.1
 	cp -p ../../html/* $(DOCDIR)
-	cp *.h qhull.h-deprecated $(INCDIR)/libqhull
+	cp *.h $(INCDIR)/libqhull
 
 new:	cleanall all
 
@@ -133,7 +135,7 @@ LIBQHULLS_OBJS= $(LIBQHULLS_OBJS_2)  rboxlib.o userprintf_rbox.o
 
 LIBQHULL_HDRS= user.h libqhull.h qhull_a.h geom.h \
         io.h mem.h merge.h poly.h random.h \
-        qset.h stat.h qhull.h-deprecated
+        qset.h stat.h
 
 # CFILES ordered alphabetically after libqhull.c 
 CFILES= ../qhull/unix.c libqhull.c geom.c geom2.c global.c io.c \
@@ -157,9 +159,10 @@ qhull_links:
 	[ -f rbox.c ]     || ln -s ../rbox/rbox.c
 	[ -f user_eg.c ]     || ln -s ../user_eg/user_eg.c
 	[ -f user_eg2.c ]     || ln -s ../user_eg2/user_eg2.c
+	[ -f testqset.c ]     || ln -s ../testqset/testqset.c
 
-# compile qhull without using bin/libqhull.a
-qhull_all: qconvex.o qdelaun.o qhalf.o qvoronoi.o unix.o user_eg.o user_eg2.o rbox.o $(LIBQHULLS_OBJS)
+# compile qhull without using bin/libqhullstatic.a
+qhull_all: qconvex.o qdelaun.o qhalf.o qvoronoi.o unix.o user_eg.o user_eg2.o rbox.o testqset.o $(LIBQHULLS_OBJS)
 	$(CC) -o qconvex $(CC_OPTS2) -lm $(LIBQHULLS_OBJS_2) qconvex.o 
 	$(CC) -o qdelaunay $(CC_OPTS2) -lm $(LIBQHULLS_OBJS_2) qdelaun.o
 	$(CC) -o qhalf $(CC_OPTS2) -lm $(LIBQHULLS_OBJS_2) qhalf.o 
@@ -168,11 +171,16 @@ qhull_all: qconvex.o qdelaun.o qhalf.o qvoronoi.o unix.o user_eg.o user_eg2.o rb
 	$(CC) -o rbox $(CC_OPTS2) -lm rbox.o rboxlib.o random.o usermem.o userprintf_rbox.o
 	$(CC) -o user_eg $(CC_OPTS2) -lm $(LIBQHULLS_OBJS_2) user_eg.o 
 	$(CC) -o user_eg2 $(CC_OPTS2) -lm $(LIBQHULLS_OBJS_1) user_eg2.o  usermem.o userprintf.o io.o
-	ar r libqhullstatic.a $(LIBQHULLS_OBJS)
-	@echo the next line may need to be removed.
-	-test -x /bin/ranlib -o -x /usr/bin/ranlib && ranlib libqhullstatic.a
+	$(CC) -o testqset $(CC_OPTS2) -lm mem.o qset.o testqset.o
+	-ar -rs libqhullstatic.a $(LIBQHULLS_OBJS)
+	#libqhullstatic.a is not needed for qhull
+	#If 'ar -rs' fails try using 'ar -s' with 'ranlib'
+	#ranlib libqhullstatic.a
 
 qtest:
+	@echo Testing qset.c and mem.c with testqset
+	./testqset 10000
+	@echo Run the qhull smoketest
 	./rbox D4 | ./qhull
 	
 # end of Makefile

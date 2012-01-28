@@ -3,7 +3,7 @@
 # -------------------------------------------------
 
 include(../qhull-warn.pri)
-include(../qhull-libsrc.pri)
+include(../qhull-libqhull-src.pri)
 
 DESTDIR = ../../lib
 TEMPLATE = lib

@@ -6,8 +6,8 @@
 #   can not use path with $zip_file 
 #   odd error messages if can't locate directory
 #
-# $Id: //main/2005/road/road-bash/local/bin/qhull-zip.sh#18 $$Change: 1141 $
-# $DateTime: 2010/01/03 12:13:50 $$Author: bbarber $
+# $Id: //main/2011/qhull/eg/qhull-zip.sh#15 $$Change: 1476 $
+# $DateTime: 2012/01/28 09:37:56 $$Author: bbarber $
 
 if [[ $# -eq 0 ]]; then
         echo 'Missing date stamp, e.g., qhull-zip.sh 2007.1' 
@@ -79,13 +79,16 @@ function check_tgz_file #tgz_file
     exit_if_err $HERE "Can not extract -- tar -tzf $tgz_file"
 }
 
-function convert_to_unix #dir -- convert files to Unix, preserving modtime from PWD
+function convert_to_unix #dir $qhull_2ufiles -- convert files to Unix, preserving modtime from $root_dir
 {
     local temp_dir=$1
     local HERE=$(ro_here)
     log_note $HERE "Convert files to unix format in $1"
-    for f in $(find $temp_dir -type f | grep -E '^([^.]*|.*\.(bashrc|c|cfg|cpp|css|d|h|htm|html|man|pl|pro|profile|sh|sql|termcap|txt|xml|xsd|xsl))$'); do
+    for f in $(find $temp_dir -type f | grep -E '^([^.]*|.*\.(ac|am|bashrc|c|cfg|cpp|css|d|dpatch|h|htm|html|man|pl|pri|pro|profile|sh|sql|termcap|txt|xml|xsd|xsl))$'); do
         exit_if_fail $HERE "d2u '$f' && touch -r '$root_dir/${f#$temp_dir/}' '$f'"
+    done
+    for f in $qhull_2ufiles; do
+        exit_if_fail $HERE "d2u '$temp_dir/$f' && touch -r '$root_dir/$f' '$temp_dir/$f'"
     done
 }
 
@@ -108,20 +111,24 @@ md5_zip_file=qhull-$version-zip.md5sum
 md5_tgz_file=qhull-$version-src-tgz.md5sum
 
 # recursive 
-qhull_dirs="qhull/eg qhull/html qhull/src"
+qhull_dirs="qhull/config qhull/eg qhull/html qhull/src"
 qhull_files="qhull/build/*.sln qhull/build/*.vcproj \
     qhull/Announce.txt qhull/CMakeLists.txt qhull/COPYING.txt \
     qhull/File_id.diz qhull/QHULL-GO.lnk qhull/README.txt \
-    qhull/REGISTER.txt qhull/index.htm qhull/Makefile \
+    qhull/REGISTER.txt qhull/index.htm qhull/Makefile qhull/bin/qhull.dll \
     qhull/bin/qconvex.exe qhull/bin/qdelaunay.exe qhull/bin/qhalf.exe \
-    qhull/bin/qhull.exe qhull/bin/qhull6.dll qhull/bin/qvoronoi.exe \
+    qhull/bin/qhull.exe qhull/bin/qhull6_p.dll qhull/bin/qvoronoi.exe \
     qhull/bin/rbox.exe qhull/bin/user_eg.exe qhull/bin/user_eg2.exe \
-    qhull/bin/user_eg3.exe qhull/bin/msvcr80.dll"
+    qhull/bin/user_eg3.exe qhull/bin/testqset.exe qhull/bin/msvcr80.dll"
 qhull_ufiles="$qhull_dirs qhull/build/*.sln qhull/build/*.vcproj \
     qhull/Announce.txt qhull/CMakeLists.txt qhull/COPYING.txt \
     qhull/File_id.diz qhull/QHULL-GO.lnk qhull/README.txt \
     qhull/REGISTER.txt qhull/index.htm qhull/Makefile"
-
+qhull_d2ufiles="config/changelog config/patches/00list config/Makefile-am-eg \
+    config/Makefile-am-html config/Makefile-am-libqhull 
+    config/Makefile-am-main config/README Makefile src/libqhull/Makefile 
+    src/libqhull/MBorland eg/q_eg eg/q_egtest eg/q_test "
+    
 #############################
 log_step $LINENO "Clean distribution directories"
 #############################
@@ -135,14 +142,17 @@ cd qhull && make clean
 exit_if_err $LINENO "Can not 'make clean'"
 cd ..
 rm -f qhull/src/qhull-all.pro.user* qhull/src/libqhull/BCC32tmp.cfg
-rm -f qhull/eg/eg.* qhull/*.x qhull/x.* qhull/configure.in
-rm -f qhull/bin/qhulltest.exe qhull/bin/qhulltest
+rm -f qhull/eg/eg.* qhull/*.x qhull/x.* qhull/x qhull/eg/x
+rm -f qhull/bin/qhulltest.exe qhull/bin/qhulltest qhull/configure.in
 rm -f qhull/src/libqhull/*.exe qhull/src/libqhull/*.a
 rm -f qhull/src/libqhull/qconvex.c qhull/src/libqhull/unix.c 
 rm -f qhull/src/libqhull/qdelaun.c qhull/src/libqhull/qhalf.c
 rm -f qhull/src/libqhull/qvoronoi.c qhull/src/libqhull/rbox.c
-rm -f qhull/src/libqhull/user_eg.c qhull/src/libqhull/user_eg2.c
-rm -f qhull/Makefile.am qhull/src/Makefile.am qhull/eg/Makefile.am qhull/html/Makefile.am 
+rm -f qhull/src/libqhull/user_eg.c qhull/src/libqhull/user_eg2.c  
+rm -f qhull/src/libqhull/testqset.c qhull/Makefile.am 
+rm -f qhull/src/libqhull/Makefile.am qhull/html/Makefile.am
+rm -f qhull/src/Makefile.am qhull/eg/Makefile.am 
+rm -f qhull/configure.ac
     
 set noglob
 
@@ -192,6 +202,7 @@ exit_if_fail $LINENO "rm -rf $TEMP_DIR && mkdir -p $TEMP_DIR"
 exit_if_fail $LINENO "cp -r -p --parents $qhull_ufiles $TEMP_DIR"
 
 if [[ $IS_WINDOWS && $(type -p d2u) ]]; then
+    log_step $LINENO "Convert to Unix line endings"
     convert_to_unix "$TEMP_DIR"
 fi
 
@@ -239,6 +250,7 @@ fi
 
 #############################
 log_step $LINENO "Compare previous zip release, Dates.txt, and md5sum.  Check for virus."
+log_step $LINENO "Compare zip and tgz for CRLF vs LF"
 log_step $LINENO "Search xml files for UNDEFINED. Check page links"
 log_step $LINENO "Extract zip to Qhull/ and compare directories"
 log_step $LINENO "Finished successfully"

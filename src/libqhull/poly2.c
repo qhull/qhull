@@ -8,9 +8,9 @@
 
    frequently used code is in poly.c
 
-   Copyright (c) 1993-2011 The Geometry Center.
-   $Id: //main/2011/qhull/src/libqhull/poly2.c#3 $$Change: 1440 $
-   $DateTime: 2011/11/22 22:22:37 $$Author: bbarber $
+   Copyright (c) 1993-2012 The Geometry Center.
+   $Id: //main/2011/qhull/src/libqhull/poly2.c#4 $$Change: 1464 $
+   $DateTime: 2012/01/25 22:58:41 $$Author: bbarber $
 */
 
 #include "qhull_a.h"

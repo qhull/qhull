@@ -3,12 +3,13 @@
 ;   Generated from depends.exe by cut-and-paste of exported symbols by mingw gcc
 ;   [mar'11] 399 symbols 
 ;   Annotate as DATA qh_qh qh_qhstat qhmem qhull_inuse rbox_inuse
+;   Same as ../libqhullp/qhull_p-exports.def without qh_save_qhull and qh_restore_qhull
 ;
-; $Id: //main/2011/qhull/src/libqhull/qhull-exports.def#2 $$Change: 1368 $
-; $DateTime: 2011/04/16 08:12:32 $$Author: bbarber $
-;
-; Define qhull_VERSION in CMakeLists.txt, Makefile, qhull-exports.def, and qhull-warn.pri
-VERSION 6.2
+; $Id: //main/2011/qhull/src/libqhull/qhull-exports.def#4 $$Change: 1468 $
+; $DateTime: 2012/01/26 23:42:31 $$Author: bbarber $
+; 
+; Define qhull_VERSION in CMakeLists.txt, Makefile, qhull-exports.def, qhull_p-exports.def, and qhull-warn.pri
+VERSION 6.3
 EXPORTS
 dfacet
 dvertex
@@ -325,10 +326,8 @@ qh_rename_sharedvertex
 qh_renameridgevertex
 qh_renamevertex
 qh_resetlists
-qh_restore_qhull
 qh_rotateinput
 qh_rotatepoints
-qh_save_qhull
 qh_scaleinput
 qh_scalelast
 qh_scalepoints

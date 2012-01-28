@@ -52,7 +52,7 @@
 				AdditionalOptions=" /Zm1000"
 				Optimization="0"
 				InlineFunctionExpansion="0"
-				AdditionalIncludeDirectories="..\src\libqhullcpp;..\src;..\src\libqhull;"
+				AdditionalIncludeDirectories="..\src;..\src\libqhull;"
 				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;qh_QHpointer"
 				ExceptionHandling="0"
 				BasicRuntimeChecks="3"
@@ -60,7 +60,7 @@
 				RuntimeTypeInfo="false"
 				AssemblerListingLocation="Debug"
 				ObjectFile="$(IntDir)\"
-				ProgramDataBaseFileName="..\bin\qhullstatic_pd.pdb"
+				ProgramDataBaseFileName="..\lib\qhullstatic_pd.pdb"
 				WarningLevel="3"
 				DebugInformationFormat="3"
 				CompileAs="1"
@@ -71,7 +71,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;qh_QHpointer"
-				AdditionalIncludeDirectories="..\src\libqhullcpp;..\src;..\src\libqhull;"
+				AdditionalIncludeDirectories="..\src;..\src\libqhull;"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -134,14 +134,14 @@
 				AdditionalOptions=" /Zm1000"
 				Optimization="2"
 				InlineFunctionExpansion="2"
-				AdditionalIncludeDirectories="..\src\libqhullcpp;..\src;..\src\libqhull;"
+				AdditionalIncludeDirectories="..\src;..\src\libqhull;"
 				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;qh_QHpointer"
 				ExceptionHandling="0"
 				RuntimeLibrary="2"
 				RuntimeTypeInfo="false"
 				AssemblerListingLocation="Release"
 				ObjectFile="$(IntDir)\"
-				ProgramDataBaseFileName="..\bin\qhullstatic_p.pdb"
+				ProgramDataBaseFileName="..\lib\qhullstatic_p.pdb"
 				WarningLevel="3"
 				CompileAs="1"
 			/>
@@ -151,7 +151,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;qh_QHpointer"
-				AdditionalIncludeDirectories="..\src\libqhullcpp;..\src;..\src\libqhull;"
+				AdditionalIncludeDirectories="..\src;..\src\libqhull;"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -214,14 +214,14 @@
 				AdditionalOptions=" /Zm1000"
 				Optimization="1"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="..\src\libqhullcpp;..\src;..\src\libqhull;"
+				AdditionalIncludeDirectories="..\src;..\src\libqhull;"
 				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;qh_QHpointer"
 				ExceptionHandling="0"
 				RuntimeLibrary="2"
 				RuntimeTypeInfo="false"
 				AssemblerListingLocation="MinSizeRel"
 				ObjectFile="$(IntDir)\"
-				ProgramDataBaseFileName="..\bin\qhullstatic_p.pdb"
+				ProgramDataBaseFileName="..\lib\qhullstatic_p.pdb"
 				WarningLevel="3"
 				CompileAs="1"
 			/>
@@ -231,7 +231,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;qh_QHpointer"
-				AdditionalIncludeDirectories="..\src\libqhullcpp;..\src;..\src\libqhull;"
+				AdditionalIncludeDirectories="..\src;..\src\libqhull;"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -294,14 +294,14 @@
 				AdditionalOptions=" /Zm1000"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="..\src\libqhullcpp;..\src;..\src\libqhull;"
+				AdditionalIncludeDirectories="..\src;..\src\libqhull;"
 				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;qh_QHpointer"
 				ExceptionHandling="0"
 				RuntimeLibrary="2"
 				RuntimeTypeInfo="false"
 				AssemblerListingLocation="RelWithDebInfo"
 				ObjectFile="$(IntDir)\"
-				ProgramDataBaseFileName="..\bin\qhullstatic_p.pdb"
+				ProgramDataBaseFileName="..\lib\qhullstatic_p.pdb"
 				WarningLevel="3"
 				DebugInformationFormat="3"
 				CompileAs="1"
@@ -312,7 +312,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;qh_QHpointer"
-				AdditionalIncludeDirectories="..\src\libqhullcpp;..\src;..\src\libqhull;"
+				AdditionalIncludeDirectories="..\src;..\src\libqhull;"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"

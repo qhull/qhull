@@ -4,13 +4,15 @@ Autotools configuration for Qhull
 This directory contains all the files needed to bootstrap the Qhull package
 for using Autoconf, Automake, and Libtool.
 
-WARNING -- Reworked for qhull-2011.2 but not tested.
-           Produces qhull6.so
-           Ignores the C++ interface
+See ../README.txt for instructions on building with make, cmake, qt, and Microsoft DevStudio
+
+WARNING -- Reworked for qhull-2012.1 but not tested.
+           Produces qhull.so
+           Ignores the C++ interface and libqhull6_p.so
            The patch subdirectory is out-of-date.  
               It was not used for Qhull 2009.1
               user.h sets qh_QHpointer=0 (static allocation of qh_qh)
-           Brad Barber <bradb@shore.net>, 2011-12-02
+           Brad Barber <bradb@shore.net>, 2012-01-27
 
 Go to the top source dir and type:
 

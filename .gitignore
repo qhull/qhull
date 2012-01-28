@@ -18,12 +18,15 @@ r?
 
 # Build products
 tmp/*
+build-cmake/*
 build/Debug/*
 build/moc/*
 build/qhulltest/*
 build/Release/*
-build/CMakeFiles
+build/cmake_install.cmake
 build/CMakeCache.txt
+build/CMakeFiles
+build/install_manifest.txt
 build/Makefile*
 build/*/Makefile*
 build/*/object_script*

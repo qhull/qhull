@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (c) 2009-2011 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/PointCoordinates.h#4 $$Change: 1348 $
-** $DateTime: 2011/03/25 23:54:58 $$Author: bbarber $
+** Copyright (c) 2009-2012 C.B. Barber. All rights reserved.
+** $Id: //main/2011/qhull/src/libqhullcpp/PointCoordinates.h#5 $$Change: 1464 $
+** $DateTime: 2012/01/25 22:58:41 $$Author: bbarber $
 **
 ****************************************************************************/
 

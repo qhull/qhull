@@ -8,18 +8,22 @@
 #	qhull 		 Computes convex hulls and related structures (libqhullstatic)
 #       qconvex, qdelaunay, qhalf, qvoronoi
 #                        Specializations of qhull for each geometric structure (libqhullstatic)
-#       libqhull6.so (SO=dll) Shared library with a malloc'd qh_qh struct
-#       libqhullstatic.a      Static library with a static qh_qh struct
-#       libqhullstatic_p.a    Static library with a malloc'd qh_qh struct
-#       libqhullcpp.a         Static library using a malloc'd qh_qh struct
-#	user_eg	         An example of calling qhull from a program with libqhullstatic
-#       user_eg2	 Another example with the shared library, libqhull
-#	user_eg3	 An example of the C++ interface to qhull (libqhullcpp, libqhullstatic_p)
+#       libqhull.so      Shared library with a static qh_qh struct
+#       libqhull6_p.so   Shared library with a malloc'd qh_qh struct with -Dqh_QHpointer
+#         make SO=dll    In Windows, use SO=dll.  It compiles dlls for the shared libraries
+#       libqhullstatic.a   Static library with a static qh_qh struct
+#       libqhullstatic_p.a Static library with a malloc'd qh_qh struct with -Dqh_QHpointer
+#       libqhullcpp.a      Static library using a malloc'd qh_qh struct
+#	user_eg	         An example of using shared library qhull6_p (with qh_QHpointer)
+#       user_eg2         An example of using shared library qhull (without qh_QHpointer)
+#	user_eg3	 An example of the C++ interface to qhull (libqhullcpp, libqhullstatic_p, -Dqh_QHpointer)
+#       testqset	 Standalone test program of qset.c with mem.c
 #
 # Make targets
 #       make             Produce all of the results
 #       make qhullx      Produce qhull qconvex etc. w/o libqhullstatic
 #       make qtest       Quick test of rbox and qhull (bin/rbox D4 | bin/qhull)
+#       make qtestall    Quick test of all programs except qhulltest
 #       make test        Test of rbox and qhull
 #       make bin/qvoronoi  Produce bin/qvoronoi (etc.)
 #       make doc         Print documentation
@@ -30,8 +34,8 @@
 #       make clean       Remove object files
 #       make cleanall    Remove generated files
 #
+#       DESTDIR          destination directory. Other directories are relative
 #       BINDIR           directory where to copy executables
-#       DESTDIR          destination directory
 #       DOCDIR           directory where to copy html documentation
 #       INCDIR           directory where to copy headers
 #       LIBDIR           directory where to copy libraries
@@ -79,22 +83,26 @@ PRINTC = enscript -2r
 # PRINTC = lpr
 
 #for Gnu's gcc compiler, -O2 for optimization, -g for debugging
-#   -fno-strict-aliasing not needed for gcc 4.4+ (segfault in qset.c)
 CC        = gcc
-CC_OPTS1  = -O2 -fPIC -ansi -fno-strict-aliasing -Isrc/libqhull $(CC_WARNINGS)
+CC_OPTS1  = -O2 -fPIC -ansi -Isrc/libqhull $(CC_WARNINGS)
 CXX       = g++
+
 # libqhullcpp must be before libqhull
 CXX_OPTS1 = -O2 -Dqh_QHpointer -Isrc/ -Isrc/libqhullcpp -Isrc/libqhull $(CXX_WARNINGS)
 
 # for shared library link
 CC_OPTS3  =
-# Define qhull_VERSION in CMakeLists.txt, Makefile, qhull-exports.def, and qhull-warn.pri
+
+# Define qhull_VERSION in CMakeLists.txt, Makefile, qhull-exports.def, qhull_p-exports.def, and qhull-warn.pri
+#  qhull.so -- static qh_qhT global data structure (qh_QHpointer=0)
+#  qhull6_p.so -- allocated qh_qhT global data structure (qh_QHpointer=1).  Required for libqhullcpp
+#  qhull7_t.so -- future version of Qhull with qh_qhT passed as an argument.
 qhull_VERSION_MAJOR=6
-SO  = so.6.2.0
+SO  = so.6.3.0
 
 # On MinGW, 
 #   make SO=dll
-#   Copy lib/libqhull6.dll to bin/
+#   Copy lib/libqhull6_p.dll and lib/libqhull.dll to bin/
 
 # for Sun's cc compiler, -fast or O2 for optimization, -g for debugging, -Xc for ANSI
 #CC       = cc
@@ -129,21 +137,26 @@ CXX_WARNINGS = -Wall -Wcast-qual -Wextra -Wwrite-strings -Wno-sign-conversion -W
 # Default targets for make
      
 all: bin-lib bin/rbox bin/qconvex bin/qdelaunay bin/qhalf bin/qvoronoi \
-     bin/qhull qtest bin/user_eg2 bin/user_eg3 bin/user_eg qconvex-prompt
+     bin/qhull bin/testqset qtest bin/user_eg2 bin/user_eg3 bin/user_eg qconvex-prompt
 
 bin-lib:
 	mkdir -p bin lib
      
+# Remove intermediate files for all builds
 clean:
 	rm -f src/*/*.o src/road/RoadTest.h.cpp build/*/*/*.o  build/*/*.o
-	rm -f src/*/*.obj build/*/*/*.obj  build/*/*.obj
-	rm -f bin/*.idb bin/*.pdb
+	rm -f src/*/*.obj build/*/*/*.obj  build/*/*.obj 
+	rm -f bin/*.idb lib/*.idb build-cmake/*/*.idb 
+	rm -f build-cmake/*/*.obj build-cmake/*/*/*.obj build-cmake/*/*.ilk
 
+# Remove intermediate files and targets for all builds
 cleanall: clean
 	rm -f bin/qconvex bin/qdelaunay bin/qhalf bin/qvoronoi bin/qhull
 	rm -f core bin/core bin/user_eg bin/user_eg2 bin/user_eg3
 	rm -f lib/libqhull* lib/qhull*.lib lib/qhull*.exp  lib/qhull*.dll
-	rm -f bin/libqhull* bin/qhull*.dll bin/*.exe
+	rm -f bin/libqhull* bin/qhull*.dll bin/*.exe bin/*.pdb lib/*.pdb
+	rm -f build-cmake/*/*.dll build-cmake/*/*.exe build-cmake/*/*.exp 
+	rm -f build-cmake/*/*.lib build-cmake/*/*.pdb
 
 doc: 
 	$(PRINTMAN) $(TXTFILES) $(DOCFILES)
@@ -166,7 +179,7 @@ install:
 	cp html/rbox.man $(MANDIR)/rbox.1
 	cp html/* $(DOCDIR)
 	cp -P lib/* $(LIBDIR)
-	cp src/libqhull/*.h src/libqhull/qhull.h-deprecated $(INCDIR)/libqhull
+	cp src/libqhull/*.h src/libqhull/*.htm $(INCDIR)/libqhull
 	cp src/libqhullcpp/*.h $(INCDIR)/libqhullcpp
 	cp src/road/*.h $(INCDIR)/road
 
@@ -187,8 +200,45 @@ printf:
 	$(PRINTC) $(FILES)
 
 qtest:
-	-bin/rbox D4 | bin/qhull
+	@echo ==============================
+	@echo == Test qset.c with mem.c ====
+	@echo ==============================
+	-bin/testqset 10000
+	@echo ==============================
+	@echo == Run the qhull smoketest ===
+	@echo ==============================
+	-bin/rbox D4 | bin/qhull Tv
 	
+qtestall:  qtest
+	@echo ==============================
+	@echo ========= qconvex ============
+	@echo ==============================
+	-bin/rbox 10 | bin/qconvex Tv 
+	@echo ==============================
+	@echo ========= qdelaunay ==========
+	@echo ==============================
+	-bin/rbox 10 | bin/qdelaunay Tv 
+	@echo ==============================
+	@echo ========= qhalf ==============
+	@echo ==============================
+	-bin/rbox 10 | bin/qconvex FQ FV n Tv | bin/qhalf Tv
+	@echo ==============================
+	@echo ========= qvoronoi ===========
+	@echo ==============================
+	-bin/rbox 10 | bin/qvoronoi Tv
+	@echo ==============================
+	@echo ========= user_eg ============
+	@echo ==============================
+	-bin/user_eg
+	@echo ==============================
+	@echo ========= user_eg2 ===========
+	@echo ==============================
+	-bin/user_eg2
+	@echo ==============================
+	@echo ========= user_eg3 ===========
+	@echo ==============================
+	-bin/user_eg3 rbox "10 D2"  "2 D2" qhull "s p" facets
+
 test:
 	-eg/q_eg
 	-eg/q_egtest
@@ -196,7 +246,13 @@ test:
 
 qconvex-prompt:
 	-bin/qconvex
-	@echo 'For libqhull6.so -- export LD_LIBRARY_PATH=$$PWD/lib:$$LD_LIBRARY_PATH'
+	@echo '== For libqhull.so and libqhull$(qhull_VERSION_MAJOR)_p.so'
+	@echo '   export LD_LIBRARY_PATH=$$PWD/lib:$$LD_LIBRARY_PATH'
+	@echo '== For libqhull.dll and libqhull$(qhull_VERSION_MAJOR)_p.dll'
+	@echo '   cp lib/libqhull*.dll bin'
+	@echo '== The previous step is required for user_eg and user_eg2'
+	@echo '== To smoketest each program'
+	@echo '   make qtestall'
 	@echo
 
 L=    src/libqhull
@@ -207,7 +263,7 @@ TCPP= src/qhulltest
 
 LIBQHULL_HDRS = $(L)/user.h $(L)/libqhull.h $(L)/qhull_a.h $(L)/geom.h \
         $(L)/io.h $(L)/mem.h $(L)/merge.h $(L)/poly.h $(L)/random.h \
-        $(L)/qset.h $(L)/stat.h $(L)/qhull.h-deprecated
+        $(L)/qset.h $(L)/stat.h
 
 # LIBQHULLS_OBJS_1 and LIBQHULLSP_OBJS ordered by frequency of execution with 
 # small files at end.  Better locality.
@@ -271,7 +327,8 @@ TESTFILES= $(TCPP)/qhulltest.cpp $(TCPP)/Coordinates_test.cpp $(TCPP)/Point_test
 
 TXTFILES= Announce.txt REGISTER.txt COPYING.txt README.txt src/Changes.txt
 DOCFILES= html/rbox.txt html/qhull.txt
-FILES=	Makefile src/rbox/rbox.c src/user_eg/user_eg.c src/user_eg2/user_eg2.c eg/q_test eg/q_egtest eg/q_eg
+FILES=	Makefile src/rbox/rbox.c src/user_eg/user_eg.c src/user_eg2/user_eg2.c \
+	src/testqset/testqset.c eg/q_test eg/q_egtest eg/q_eg
 MANFILES= html/qhull.man html/rbox.man 
 # Source code is documented by src/libqhull/*.htm
 HTMFILES= html/index.htm html/qh-quick.htm html/qh-impre.htm html/qh-eg.htm \
@@ -343,6 +400,7 @@ $(LCPP)/UsingLibQhull.o:    $(LIBQHULLCPP_HDRS) $(LIBQHULL_HDRS)
 	$(CXX) -c $(CXX_OPTS1) -o $@ $<
 
 # compile qhull without using bin/libqhull.a.  Must be after LIBQHULLS_OBJS
+# Same as libqhull/Makefile
 qhullx: src/qconvex/qconvex.o src/qdelaunay/qdelaun.o src/qhalf/qhalf.o \
             src/qvoronoi/qvoronoi.o src/qhull/unix.o src/rbox/rbox.o $(LIBQHULLS_OBJS)
 	$(CC) -o bin/qconvex $(CC_OPTS2) -lm $(LIBQHULLS_OBJS_2) src/qconvex/qconvex.o 
@@ -443,9 +501,13 @@ lib/libqhullcpp.a: $(LIBQHULLCPP_OBJS)
 	ar -rs $@ $^
 	#ranlib $@
 
-lib/libqhull$(qhull_VERSION_MAJOR).$(SO): $(LIBQHULLSP_OBJS)
+lib/libqhull.$(SO): $(LIBQHULLS_OBJS)
 	$(CC) -shared -o $@ $(CC_OPTS3) $^
-	cd lib && ln -f -s libqhull$(qhull_VERSION_MAJOR).$(SO) libqhull$(qhull_VERSION_MAJOR).so
+	cd lib && ln -f -s libqhull.$(SO) libqhull.so
+
+lib/libqhull$(qhull_VERSION_MAJOR)_p.$(SO): $(LIBQHULLSP_OBJS)
+	$(CC) -shared -o $@ $(CC_OPTS3) $^
+	cd lib && ln -f -s libqhull$(qhull_VERSION_MAJOR)_p.$(SO) libqhull$(qhull_VERSION_MAJOR)_p.so
 
 # don't use ../qconvex.	 Does not work on Red Hat Linux
 bin/qconvex: src/qconvex/qconvex.o lib/libqhullstatic.a
@@ -467,13 +529,21 @@ bin/qhull: src/qhull/unix.o lib/libqhullstatic.a
 bin/rbox: src/rbox/rbox.o lib/libqhullstatic.a
 	$(CC) -o $@ $< $(CC_OPTS2) -Llib -lqhullstatic -lm
 
-bin/user_eg: src/user_eg/user_eg.c lib/libqhull$(qhull_VERSION_MAJOR).$(SO)
-	echo -e '\n== If user_eg fails to link, switch to -lqhullstatic_p.\n== On MinGW/Cygwin, use "make SO=dll"'
-	echo -e "\\n==  and copy lib/libqhull$(qhull_VERSION_MAJOR).$(SO) to bin\\n\\n"
-	$(CC) -o $@ $< -Dqh_QHpointer  $(CC_OPTS1) $(CC_OPTS3) -Llib -lqhull$(qhull_VERSION_MAJOR) -lm
+bin/testqset: src/testqset/testqset.o src/libqhull/qset.o src/libqhull/mem.o
+	$(CC) -o $@ $^ $(CC_OPTS2) -lm
 
-bin/user_eg2: src/user_eg2/user_eg2.o lib/libqhullstatic.a 
-	$(CC) -o $@ $< $(CC_OPTS2) -Llib -lqhullstatic -lm
+bin/user_eg: src/user_eg/user_eg.c lib/libqhull$(qhull_VERSION_MAJOR)_p.$(SO) 
+	@echo -e '\n\n== On MinGW/Cygwin, use "make cleanall; make SO=dll"'
+	@echo -e '==  and copy lib/libqhull$(qhull_VERSION_MAJOR)_p.dll to bin'
+	@echo -e '== If user_eg fails to link, switch to -lqhullstatic_p\n'
+	$(CC) -o $@ $< -Dqh_QHpointer  $(CC_OPTS1) $(CC_OPTS3) -Llib -lqhull$(qhull_VERSION_MAJOR)_p -lm
+
+# You may use  -lqhullstatic instead of -lqhull 
+bin/user_eg2: src/user_eg2/user_eg2.o lib/libqhull.$(SO)
+	@echo -e '\n\n== On MinGW/Cygwin, use "make cleanall; make SO=dll"'
+	@echo -e '==  and copy lib/libqhull.dll to bin'
+	@echo -e '== If user_eg2 fails to link, switch to -lqhullstatic\n'
+	$(CC) -o $@ $< $(CC_OPTS2) -Llib -lqhull -lm
 
 bin/user_eg3: src/user_eg3/user_eg3.o lib/libqhullstatic_p.a lib/libqhullcpp.a
 	$(CXX) -o $@ $< $(CXX_OPTS2) -Llib -lqhullcpp -lqhullstatic_p -lm

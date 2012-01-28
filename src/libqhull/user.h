@@ -49,7 +49,7 @@ Code flags --
 
   If add new messages, assign these values and increment.
 
-  def counters =  [27, 1047, 2059, 3025, 4068, 5003, 
+  def counters =  [27, 1047, 2059, 3025, 4068, 5003,
      6239, 7079, 8143, 9410, 10000, 11026]
 
   See: qh_ERR* [libqhull.h]
@@ -581,7 +581,7 @@ stop after qh_JOGGLEmaxretry attempts
                         only one instance of qhull() can be active at a time
                         default value
 
-  qh_QHpointer_dllimport defines qh_qh as a __declspec(dllimport) [libqhull.h]
+  qh_QHpointer_dllimport and qh_dllimport define qh_qh as __declspec(dllimport) [libqhull.h]
   It is required for msvc-2005.  It is not needed for gcc.
 
   notes:
@@ -594,10 +594,14 @@ stop after qh_JOGGLEmaxretry attempts
   see:
     user_eg.c for an example
 */
-#ifndef qh_QHpointer
+#ifdef qh_QHpointer
+#if qh_dllimport
+#error QH6207 Qhull error: Use qh_QHpointer_dllimport instead of qh_dllimport with qh_QHpointer
+#endif
+#else
 #define qh_QHpointer 0
 #if qh_QHpointer_dllimport
-#error QH6234 Qhull error: qh_QHpointer must be defined when using qh_QHpointer_dllimport.
+#error QH6234 Qhull error: Use qh_dllimport instead of qh_QHpointer_dllimport when qh_QHpointer is not defined
 #endif
 #endif
 #if 0  /* sample code */

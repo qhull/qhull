@@ -6,9 +6,7 @@ Need help
  - Qhull needs RPM and Debian builds (CMake's CPackRMP and CPackDeb).   
  - Add an Autotools build for everything
  - Set up debian build [octave-maintainers]
-   Please keep debian files in config/ and project/debian/
-   Branch 'debian' is from http://savannah.nongnu.org/cvs/?group=qhull
-   project/debian needs updating for its new location.
+   Please keep debian files in config/ 
  - Qhull needs a mirror/archive site for old and new builds
  - The C++ interface needs work.  Give it a try and make it better.
    http://gitorious.org/qhull/
@@ -22,23 +20,87 @@ To do
  - Notes to compgeom on conformant triangulation and Voronoi volume
  - Set File Ver and Product Ver in dll
  - For the C++ interface, make qh_qh a parameter instead of a global static
-   This replaces qh_QHpointer.  It allows multithreading.
+   This replaces qh_QHpointer.  It simplifies multithreading.
  - Compute the convex hull of each Voronoi or Delaunay region
+ - Performance test of qset and qhull
 
------------
-gitorious 2011/12/02
- Draft of Debian/AutoConf build
+------------
+Check page links
+
+------------
+Qhull 2012.1  2012/01/26 6.3.0.1465
+
+Bug fixes
+ - Fixed qset.c for -fno-strict-aliasing. This gcc option is no longer needed
+   (disallow two pointers of differing types to the same memory location)
+ - Fixed error in qh_setappend_set if first set full and second set empty
+ - qh_setdelnth, qh_setdelnth_sorted: fixed wording of error message
+ - qh_setcheck: error message listed size and max backwards.
+ - qh_setequal: Allow NULL set as documented
+ - qh_setindex: Allow NULL set as documented
+ - qh_settemppush: report error if NULL
+
+Code changes
+ - Add testqset: low level test of qset.c with mem.c
+ - qh_setendpointer: Implements QSet::endPointer()
+ - Assigned unique error code for qh_gethash
+
+Build changes
+ - Added qhull.dll(.so) for Octave and other Debian builds
+   The global data structure qh_qh is statically defined (no qh_QHpointer)
+   Linked user_eg2 with qhull.dll (libqhull.so) instead of qhullstatic
+   Added qh_dllimport to libqhull.h for qhull.dll with MSVC 
+   Changed qhull-app-shared.pri to use libqhull (without qh_QHpointer)
+ - Renamed libqhull6.so to libqhull6_p.so
+   Renamed qhull6.dll to qhull6_p.dll
+   The _p libraries (e.g., libqhull6_p.so) require -Dqh_QHpointer
+   Renamed qhull6.vcproj to libqhull6_p.vcproj
+   Added libqhullp/libqhullp.pro for shared library (libqhull6_p.so)
+   Added qhull-app-sharedp.pri for shared libraries with qh_QHpointer
+ - Install libqhull/*.htm files into include/libqhull
+ - Removed libqhull/qhull.h-deprecated
+ - Other changes to Makefile builds
+   Added 'make qtestall' as a smoketest of each qhull program
+   src/libqhull/Makefile: Use 'ar -rs ...' instead of ranlib
+   src/libqhull/Makefile: Fixed targets for cleanall
+ - Other changes to DevStudio builds
+   Moved pdb files for qhull libraries to lib/
+   AdditionalIncludeDirectories: Removed ../src/libqhullcpp 
+   Use build-cmake/ for the DevStudio CMake build
+ - Other changes to Qt builds
+   Renamed qhull-libsrc.pri to qhull-libqhull-src.pri
+ - Added explicit d2u conversions to qhull-zip.sh
+ - Fixed \n vs. \r\n issues for Windows source files
+
+ Draft of Debian/AutoConf build (untested)
  - Adjusted the Makefile.am's for the new directory structure.
+ - Added testqset to bin_PROGRAMS
+ - config/bootstrap.sh copies program sources into src/libqhull
  - Kept qh_QHpointer=0 (static global data structure, qh_qh).  It is faster.
-   Qhull 2012 may have a new interface which passes qh_qh as a parameter
-   But the other builds of qhull 2011.2 define qh_QHpointer=1 for qhull6.so
+   Planning a new interface (qhull7?) which passes qh_qh as a parameter
  - Added config/changelog from the 2003.1 Debian build
  - Moved the debian/patches directory to config/
-   It was not used for qhull 2009.1.  Was it used for other Debian builds?
+   Optional patches to change smoketest message and turn on qh_QHpointer
  - Deleted the debian directory.  It was the old Debian build from 2003.1
-   Rafael's config directory replaced this build..
+   Rafael Laboissiere's config directory replaced this build..
  - Deleted Make-conf.sh (also the old Debian build)
-     
+ 
+Doc changes
+ - FAQ: Updated notes on computing volume of a Voronoi region
+ - Added direct link to ACM Digital Library for downloading the qhull paper
+ - Added link to Qhull in R
+ - qset.c: Updated notes about NULL sets
+ - qh_setappend: clarify qh_setappend for NULL newelem
+ - qh_setdellast: Fix head note
+ - Add build/README.txt
+ - Add uninstall instructions to README.txt and CMakeLists.txt
+ - Added instructions to create build/*.vcproj to CMakeLists.txt
+ - Update copyright to 2012
+
+-----------
+Qhull 2009.1.3 2011/12/06
+  configure: Add  -fno-strict-aliasing if $GCC,  Required for gcc 4.1+
+
 ------------
 Qhull 2011.2  2011/11/29 6.2.1.1446
 
