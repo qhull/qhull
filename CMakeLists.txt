@@ -31,16 +31,16 @@
 #   Remove CMAKE_INTDIR from PreprocessorDefinitions
 #   Adjust target names and destinations (e.g., lib/libqhullstatic_d.a)
 #  
-# $Id: //main/2011/qhull/CMakeLists.txt#20 $$Change: 1468 $
-# $DateTime: 2012/01/26 23:42:31 $$Author: bbarber $
+# $Id: //main/2011/qhull/CMakeLists.txt#21 $$Change: 1483 $
+# $DateTime: 2012/02/02 23:26:00 $$Author: bbarber $
 
 project(qhull)
 cmake_minimum_required(VERSION 2.6)
 
 # Define qhull_VERSION in CMakeLists.txt, Makefile, qhull-exports.def, qhull_p-exports.def, and qhull-warn.pri
 string(REGEX REPLACE ".* ([0-9]+) .*"
-    "6.3.0.\\1"  qhull_VERSION "$Change: 1468 $")
-set(qhull_VERSION2 "2012.1 2012/01/26")
+    "6.3.0.\\1"  qhull_VERSION "$Change: 1483 $")
+set(qhull_VERSION2 "2012.1 2012/02/02")
 
 if(INCLUDE_INSTALL_DIR)
 else()

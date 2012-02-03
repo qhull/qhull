@@ -25,7 +25,7 @@ To do
  - Performance test of qset and qhull
 
 ------------
-Qhull 2012.1  2012/01/26 6.3.0.1465
+Qhull 2012.1  2012/02/02 6.3.0.1483
 
 Bug fixes
  - Fixed qset.c for -fno-strict-aliasing. This gcc option is no longer needed
@@ -55,7 +55,7 @@ Build changes
    Added libqhullp/libqhullp.pro for shared library (libqhull6_p.so)
    Added qhull-app-sharedp.pri for shared libraries with qh_QHpointer
  - Install libqhull/*.htm files into include/libqhull
- - Removed libqhull/qhull.h-deprecated
+ - Removed libqhull/qhull.h-deprecated [J. Eaton]
  - Other changes to Makefile builds
    Added 'make qtestall' as a smoketest of each qhull program
    src/libqhull/Makefile: Use 'ar -rs ...' instead of ranlib

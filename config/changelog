@@ -1,4 +1,4 @@
-Qhull 2012.1 2012/01/26
+Qhull 2012.1 2012/02/02
  - Add config to distribution
  - Add testqset to config build
  - config/bootstrap.sh copies program files into src/libqhull

@@ -145,8 +145,9 @@ bin-lib:
 # Remove intermediate files for all builds
 clean:
 	rm -f src/*/*.o src/road/RoadTest.h.cpp build/*/*/*.o  build/*/*.o
-	rm -f src/*/*.obj build/*/*/*.obj  build/*/*.obj 
+	rm -f src/*/*.obj build/*/*/*.obj build/*/*/*/*/*.obj build/*/*.obj 
 	rm -f bin/*.idb lib/*.idb build-cmake/*/*.idb 
+	rm -f build/*/*/*.a build/*/*/*.rsp build/moc/*.moc
 	rm -f build-cmake/*/*.obj build-cmake/*/*/*.obj build-cmake/*/*.ilk
 
 # Remove intermediate files and targets for all builds
