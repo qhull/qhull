@@ -12,8 +12,8 @@
    see qhull_a.h for internal functions
 
    Copyright (c) 1993-2012 The Geometry Center.
-   $Id: //main/2011/qhull/src/libqhull/global.c#14 $$Change: 1483 $
-   $DateTime: 2012/02/02 23:26:00 $$Author: bbarber $
+   $Id: //main/2011/qhull/src/libqhull/global.c#15 $$Change: 1490 $
+   $DateTime: 2012/02/19 20:27:01 $$Author: bbarber $
  */
 
 #include "qhull_a.h"
@@ -47,7 +47,7 @@ qhT qh_qh;              /* all global variables.
     recompile user_eg.c, rbox.c, libqhull.c, qconvex.c, qdelaun.c qvoronoi.c, qhalf.c, testqset.c
 */
 
-const char *qh_version = "2012.1 2012/02/02";
+const char *qh_version = "2012.1 2012/02/18";
 
 /*-<a                             href="qh-globa.htm#TOC"
   >-------------------------------</a><a name="appendprint">-</a>
@@ -1642,7 +1642,7 @@ qhull configuration warning (qh_RANDOMmax in user.h):\n\
     qh_errexit(qh_ERRqhull, NULL, NULL);
   }
   if (numpoints+extra < pointsneeded) {
-    qh_fprintf(qh ferr, 6214, "qhull input error: not enough points(%d) to construct initial simplex(need %d)\n",
+    qh_fprintf(qh ferr, 6214, "qhull input error: not enough points(%d) to construct initial simplex (need %d)\n",
             numpoints, pointsneeded);
     qh_errexit(qh_ERRinput, NULL, NULL);
   }

@@ -22,7 +22,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "qhull", "qhull.vcproj", "{0
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libqhull", "libqhull.vcproj", "{5D02D0DA-335E-33A3-A3B2-0746F1C0E068}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libqhull6_p", "libqhull6_p.vcproj", "{1631434A-D3A9-4015-B42F-D3CA6015915A}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libqhull_p", "libqhull_p.vcproj", "{1631434A-D3A9-4015-B42F-D3CA6015915A}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "qhullcpp", "qhullcpp.vcproj", "{2C448FFE-CDF6-4639-BB23-39588F006C73}"
 EndProject

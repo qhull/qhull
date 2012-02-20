@@ -1,6 +1,6 @@
 Name
 
-      qhull, rbox         2012.1     2012/02/02
+      qhull, rbox         2012.1     2012/02/18
   
 Convex hull, Delaunay triangulation, Voronoi diagrams, Halfspace intersection
  
@@ -343,7 +343,7 @@ qhull consists of (bin, html):
   qhalf.exe
   qvoronoi.exe
   qhull.dll
-  qhull6_p.dll
+  qhull_p.dll
   qhull-go.bat         // command window
   qconvex.htm          // html manual
   qdelaun.htm
@@ -373,7 +373,7 @@ src/
   qvoronoi/qvoronoi.c
   rbox/rbox.c
 
-  user_eg/user_eg.c    // example of using qhull6_p.dll (requires -Dqh_QHpointer)
+  user_eg/user_eg.c    // example of using qhull_p.dll (requires -Dqh_QHpointer)
   user_eg2/user_eg2.c  // example of using qhull.dll from a user program
   user_eg3/user_eg3.cpp // example of Qhull's C++ interface with libqhullstatic_p.a
   qhulltest/qhulltest.cpp // Test of Qhull's C++ interface using Qt's QTestLib
@@ -418,7 +418,7 @@ src/libqhull
   stat.h
 
 src/libqhullp
-  libqhullp.pro        // Qt project for shared library (qhull6_p.dll)
+  libqhullp.pro        // Qt project for shared library (qhull_p.dll)
   qhull_p-exports.def  // Export Definition file for Visual C++
 
 src/libqhullstatic/

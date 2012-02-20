@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="8.00"
-	Name="libqhull6_p"
+	Name="libqhull_p"
 	ProjectGUID="{1631434A-D3A9-4015-B42F-D3CA6015915A}"
 	Keyword="Win32Proj"
 	>
@@ -17,7 +17,7 @@
 		<Configuration
 			Name="Debug|Win32"
 			OutputDirectory="Debug"
-			IntermediateDirectory="libqhull6_p.dir\Debug"
+			IntermediateDirectory="libqhull_p.dir\Debug"
 			ConfigurationType="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
@@ -53,14 +53,14 @@
 				Optimization="0"
 				InlineFunctionExpansion="0"
 				AdditionalIncludeDirectories="..\src;..\src\libqhull;"
-				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;qh_QHpointer;qhull6_EXPORTS"
+				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;qh_QHpointer;qhull_EXPORTS"
 				ExceptionHandling="0"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				RuntimeTypeInfo="false"
 				AssemblerListingLocation="Debug"
 				ObjectFile="$(IntDir)\"
-				ProgramDataBaseFileName="..\lib\qhull6_pd.pdb"
+				ProgramDataBaseFileName="..\lib\qhull_pd.pdb"
 				WarningLevel="3"
 				DebugInformationFormat="3"
 				CompileAs="1"
@@ -70,7 +70,7 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;qh_QHpointer;qhull6_EXPORTS"
+				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;qh_QHpointer;qhull_EXPORTS"
 				AdditionalIncludeDirectories="..\src;..\src\libqhull;"
 			/>
 			<Tool
@@ -81,14 +81,14 @@
 				LinkLibraryDependencies="false"
 				AdditionalOptions=" /STACK:10000000 /machine:X86 /debug"
 				AdditionalDependencies="$(NOINHERIT) kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib  "
-				OutputFile="..\bin\qhull6_pd.dll"
-				Version="6.2"
+				OutputFile="..\bin\qhull_pd.dll"
+				Version="6.3"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories=""
 				ModuleDefinitionFile="..\src\libqhullp\qhull_p-exports.def"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile="..\lib\qhull6_pd.pdb"
-				ImportLibrary="..\lib\qhull6_pd.lib"
+				ProgramDatabaseFile="..\lib\qhull_pd.pdb"
+				ImportLibrary="..\lib\qhull_pd.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -118,7 +118,7 @@
 		<Configuration
 			Name="Release|Win32"
 			OutputDirectory="Release"
-			IntermediateDirectory="libqhull6_p.dir\Release"
+			IntermediateDirectory="libqhull_p.dir\Release"
 			ConfigurationType="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
@@ -154,13 +154,13 @@
 				Optimization="2"
 				InlineFunctionExpansion="2"
 				AdditionalIncludeDirectories="..\src;..\src\libqhull;"
-				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;qh_QHpointer;qhull6_EXPORTS"
+				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;qh_QHpointer;qhull_EXPORTS"
 				ExceptionHandling="0"
 				RuntimeLibrary="2"
 				RuntimeTypeInfo="false"
 				AssemblerListingLocation="Release"
 				ObjectFile="$(IntDir)\"
-				ProgramDataBaseFileName="..\lib\qhull6_p.pdb"
+				ProgramDataBaseFileName="..\lib\qhull_p.pdb"
 				WarningLevel="3"
 				CompileAs="1"
 			/>
@@ -169,7 +169,7 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;qh_QHpointer;qhull6_EXPORTS"
+				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;qh_QHpointer;qhull_EXPORTS"
 				AdditionalIncludeDirectories="..\src;..\src\libqhull;"
 			/>
 			<Tool
@@ -180,13 +180,13 @@
 				LinkLibraryDependencies="false"
 				AdditionalOptions=" /STACK:10000000 /machine:X86"
 				AdditionalDependencies="$(NOINHERIT) kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib  "
-				OutputFile="..\bin\qhull6_p.dll"
-				Version="6.2"
+				OutputFile="..\bin\qhull_p.dll"
+				Version="6.3"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories=""
 				ModuleDefinitionFile="..\src\libqhullp\qhull_p-exports.def"
-				ProgramDatabaseFile="..\lib\qhull6_p.pdb"
-				ImportLibrary="..\lib\qhull6_p.lib"
+				ProgramDatabaseFile="..\lib\qhull_p.pdb"
+				ImportLibrary="..\lib\qhull_p.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -216,7 +216,7 @@
 		<Configuration
 			Name="MinSizeRel|Win32"
 			OutputDirectory="MinSizeRel"
-			IntermediateDirectory="libqhull6_p.dir\MinSizeRel"
+			IntermediateDirectory="libqhull_p.dir\MinSizeRel"
 			ConfigurationType="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
@@ -252,13 +252,13 @@
 				Optimization="1"
 				InlineFunctionExpansion="1"
 				AdditionalIncludeDirectories="..\src;..\src\libqhull;"
-				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;qh_QHpointer;qhull6_EXPORTS"
+				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;qh_QHpointer;qhull_EXPORTS"
 				ExceptionHandling="0"
 				RuntimeLibrary="2"
 				RuntimeTypeInfo="false"
 				AssemblerListingLocation="MinSizeRel"
 				ObjectFile="$(IntDir)\"
-				ProgramDataBaseFileName="..\lib\qhull6_p.pdb"
+				ProgramDataBaseFileName="..\lib\qhull_p.pdb"
 				WarningLevel="3"
 				CompileAs="1"
 			/>
@@ -267,7 +267,7 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;qh_QHpointer;qhull6_EXPORTS"
+				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;qh_QHpointer;qhull_EXPORTS"
 				AdditionalIncludeDirectories="..\src;..\src\libqhull;"
 			/>
 			<Tool
@@ -278,13 +278,13 @@
 				LinkLibraryDependencies="false"
 				AdditionalOptions=" /STACK:10000000 /machine:X86"
 				AdditionalDependencies="$(NOINHERIT) kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib  "
-				OutputFile="..\bin\qhull6_p.dll"
-				Version="6.2"
+				OutputFile="..\bin\qhull_p.dll"
+				Version="6.3"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories=""
 				ModuleDefinitionFile="..\src\libqhullp\qhull_p-exports.def"
-				ProgramDatabaseFile="..\lib\qhull6_p.pdb"
-				ImportLibrary="..\lib\qhull6_p.lib"
+				ProgramDatabaseFile="..\lib\qhull_p.pdb"
+				ImportLibrary="..\lib\qhull_p.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -314,7 +314,7 @@
 		<Configuration
 			Name="RelWithDebInfo|Win32"
 			OutputDirectory="RelWithDebInfo"
-			IntermediateDirectory="libqhull6_p.dir\RelWithDebInfo"
+			IntermediateDirectory="libqhull_p.dir\RelWithDebInfo"
 			ConfigurationType="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
@@ -350,13 +350,13 @@
 				Optimization="2"
 				InlineFunctionExpansion="1"
 				AdditionalIncludeDirectories="..\src;..\src\libqhull;"
-				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;qh_QHpointer;qhull6_EXPORTS"
+				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;qh_QHpointer;qhull_EXPORTS"
 				ExceptionHandling="0"
 				RuntimeLibrary="2"
 				RuntimeTypeInfo="false"
 				AssemblerListingLocation="RelWithDebInfo"
 				ObjectFile="$(IntDir)\"
-				ProgramDataBaseFileName="..\lib\qhull6_p.pdb"
+				ProgramDataBaseFileName="..\lib\qhull_p.pdb"
 				WarningLevel="3"
 				DebugInformationFormat="3"
 				CompileAs="1"
@@ -366,7 +366,7 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;qh_QHpointer;qhull6_EXPORTS"
+				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;qh_QHpointer;qhull_EXPORTS"
 				AdditionalIncludeDirectories="..\src;..\src\libqhull;"
 			/>
 			<Tool
@@ -377,14 +377,14 @@
 				LinkLibraryDependencies="false"
 				AdditionalOptions=" /STACK:10000000 /machine:X86 /debug"
 				AdditionalDependencies="$(NOINHERIT) kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib  "
-				OutputFile="..\bin\qhull6_p.dll"
-				Version="6.2"
+				OutputFile="..\bin\qhull_p.dll"
+				Version="6.3"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories=""
 				ModuleDefinitionFile="..\src\libqhullp\qhull_p-exports.def"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile="..\lib\qhull6_p.pdb"
-				ImportLibrary="..\lib\qhull6_p.lib"
+				ProgramDatabaseFile="..\lib\qhull_p.pdb"
+				ImportLibrary="..\lib\qhull_p.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"

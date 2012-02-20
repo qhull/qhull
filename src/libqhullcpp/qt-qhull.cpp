@@ -1,12 +1,13 @@
 /****************************************************************************
 **
 ** Copyright (c) 2009-2012 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/qt-qhull.cpp#3 $$Change: 1464 $
-** $DateTime: 2012/01/25 22:58:41 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullcpp/qt-qhull.cpp#4 $$Change: 1490 $
+** $DateTime: 2012/02/19 20:27:01 $$Author: bbarber $
 **
 ****************************************************************************/
 
 #include <QList>
+#include "RoadTest.h"
 
 #ifndef QHULL_USES_QT
 #define QHULL_USES_QT 1

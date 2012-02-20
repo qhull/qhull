@@ -1,21 +1,22 @@
 #!/bin/sh
 #
 #  NOTE:  all tests duplicated in q_test.bat
-if [ ! -d bin ]; then
-    echo Run eg/q_test from the Qhull directory
-    exit
-fi
-if [ ! -e bin/qconvex -a ! -e bin/qconvex.exe ]; then
-    echo Build qhull first.  Executables are missing from bin directory
-    exit
-fi
 if ! qconvex >/dev/null 2>&1; then
-    PATH=$PWD/bin:$PATH
+    if [ ! -d bin ]; then
+	echo Run eg/q_test from the Qhull directory
+	exit
+    fi
+    if [ ! -e bin/qconvex -a ! -e bin/qconvex.exe ]; then
+	echo 'Build qhull first.  qconvex is missing from bin/ directory and $PATH'
+	exit
+    fi
+    if ! qconvex >/dev/null 2>&1; then
+	PATH=$PWD/bin:$PATH
+    fi
 fi
 if ! user_eg >/dev/null; then
     echo user_eg failed to run.  It uses the shared qhull library 
     echo 'On Linux, export LD_LIBRARY_PATH=$PWD/lib:$LD_LIBRARY_PATH'
-    exit
 fi
 set -v
 echo === errors if 'user_eg' and 'user_eg2' not found ===

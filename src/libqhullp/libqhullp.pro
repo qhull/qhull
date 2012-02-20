@@ -13,10 +13,10 @@ CONFIG += shared warn_on
 CONFIG -= qt
 
 build_pass:CONFIG(debug, debug|release):{
-    TARGET = qhull$${qhull_VERSION_MAJOR}_pd
+    TARGET = qhull_pd
     OBJECTS_DIR = Debug
 }else:build_pass:CONFIG(release, debug|release):{
-    TARGET = qhull$${qhull_VERSION_MAJOR}_p
+    TARGET = qhull_p
     OBJECTS_DIR = Release
 }
 win32-msvc* : QMAKE_LFLAGS += /INCREMENTAL:NO

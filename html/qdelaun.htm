@@ -87,7 +87,9 @@ Voronoi diagram questions.</p>
 <p>By default, qdelaunay merges cocircular and cospherical regions.
 For example, the Delaunay triangulation of a square inside a diamond
 ('rbox D2 c d G4 | qdelaunay') contains one region for the square.
-It identifies coincident points.
+
+<p>Use option '<a href="qh-optq.htm#Qz">Qz</a>' if the input is circular, cospherical, or
+nearly so.  It improves precision by adding a point "at infinity," above the corresponding paraboloid.
 
 <p>If you use '<a href="qh-optq.htm#Qt">Qt</a>' (triangulated output),
 all Delaunay regions will be simplicial (e.g., triangles in 2-d).

@@ -28,7 +28,7 @@ libqhull_la_SOURCES = \
   random.c 
 
 # how:
-libqhull_la_LDFLAGS = -version-info 5:0:0 -lm
+libqhull_la_LDFLAGS = -version-info 6:3:1 -lm
 
 ### Utility programs
 

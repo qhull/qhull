@@ -9,10 +9,9 @@ CONFIG += qtestlib
 MOC_DIR = moc
 INCLUDEPATH += ..  # for MOC_DIR
 
-PRECOMPILED_HEADER = ../road/RoadTest.h
+PRECOMPILED_HEADER = RoadTest.h
 
 SOURCES += ../libqhullcpp/qt-qhull.cpp
-SOURCES += ../road/RoadTest.cpp
 SOURCES += Coordinates_test.cpp
 SOURCES += PointCoordinates_test.cpp
 SOURCES += Qhull_test.cpp
@@ -28,7 +27,8 @@ SOURCES += QhullRidge_test.cpp
 SOURCES += QhullSet_test.cpp
 SOURCES += qhulltest.cpp
 SOURCES += QhullVertex_test.cpp
-SOURCES += UsingLibQhull_test.cpp
 SOURCES += RboxPoints_test.cpp
+SOURCES += RoadTest.cpp
+SOURCES += UsingLibQhull_test.cpp
 
-HEADERS += ../road/RoadTest.h
+HEADERS += RoadTest.h

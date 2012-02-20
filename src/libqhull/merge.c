@@ -21,8 +21,8 @@
    vertex->neighbors not set until the first merge occurs
 
    Copyright (c) 1993-2012 C.B. Barber.
-   $Id: //main/2011/qhull/src/libqhull/merge.c#3 $$Change: 1464 $
-   $DateTime: 2012/01/25 22:58:41 $$Author: bbarber $
+   $Id: //main/2011/qhull/src/libqhull/merge.c#4 $$Change: 1490 $
+   $DateTime: 2012/02/19 20:27:01 $$Author: bbarber $
 */
 
 #include "qhull_a.h"
@@ -2323,7 +2323,7 @@ pair.  The input is too degenerate or the convexity constraints are\n\
 too strong.\n", qh hull_dim+1);
     if (qh hull_dim >= 5 && !qh MERGEexact)
       qh_fprintf(qh ferr, 8079, "Option 'Qx' may avoid this problem.\n");
-    qh_errexit(qh_ERRinput, NULL, NULL);
+    qh_errexit(qh_ERRprec, NULL, NULL);
   }
   if (!qh VERTEXneighbors)
     qh_vertexneighbors();

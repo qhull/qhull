@@ -413,11 +413,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\src\road\RoadError.cpp"
+				RelativePath="..\src\libqhullcpp\RoadError.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\src\road\RoadLogEvent.cpp"
+				RelativePath="..\src\libqhullcpp\RoadLogEvent.cpp"
 				>
 			</File>
 			<File
@@ -498,10 +498,10 @@
 				RelativePath="..\src\libqhullcpp\UsingLibQhull.h">
 			</File>
 			<File
-				RelativePath="..\src\road\RoadError.h">
+				RelativePath="..\src\libqhullcpp\RoadError.h">
 			</File>
 			<File
-				RelativePath="..\src\road\RoadLogEvent.h">
+				RelativePath="..\src\libqhullcpp\RoadLogEvent.h">
 			</File>
 		</Filter>
 	</Files>

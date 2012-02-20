@@ -1,14 +1,14 @@
 /****************************************************************************
 **
 ** Copyright (c) 2009-2012 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/qhulltest/PointCoordinates_test.cpp#5 $$Change: 1464 $
-** $DateTime: 2012/01/25 22:58:41 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/qhulltest/PointCoordinates_test.cpp#6 $$Change: 1490 $
+** $DateTime: 2012/02/19 20:27:01 $$Author: bbarber $
 **
 ****************************************************************************/
 
 //pre-compiled headers
 #include <iostream>
-#include "../road/RoadTest.h" // QT_VERSION
+#include "RoadTest.h" // QT_VERSION
 
 #include "PointCoordinates.h"
 #include "QhullError.h"

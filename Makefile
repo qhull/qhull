@@ -1,68 +1,71 @@
 # Unix Makefile for qhull and rbox (default gcc/g++)
 #
-#       see README.txt  
-#       For qhulltest, use Qt project file at src/qhull-all.pro
-#       For static builds, an alternative is src/libqhull/Makefile
-#       
+#   see README.txt and 'make help'
+#   For qhulltest, use Qt project file at src/qhull-all.pro
+#   For static builds, an alternative is src/libqhull/Makefile
+#   
 # Results
-#	qhull 		 Computes convex hulls and related structures (libqhullstatic)
-#       qconvex, qdelaunay, qhalf, qvoronoi
-#                        Specializations of qhull for each geometric structure (libqhullstatic)
-#       libqhull.so      Shared library with a static qh_qh struct
-#       libqhull6_p.so   Shared library with a malloc'd qh_qh struct with -Dqh_QHpointer
-#         make SO=dll    In Windows, use SO=dll.  It compiles dlls for the shared libraries
-#       libqhullstatic.a   Static library with a static qh_qh struct
-#       libqhullstatic_p.a Static library with a malloc'd qh_qh struct with -Dqh_QHpointer
-#       libqhullcpp.a      Static library using a malloc'd qh_qh struct
-#	user_eg	         An example of using shared library qhull6_p (with qh_QHpointer)
-#       user_eg2         An example of using shared library qhull (without qh_QHpointer)
-#	user_eg3	 An example of the C++ interface to qhull (libqhullcpp, libqhullstatic_p, -Dqh_QHpointer)
-#       testqset	 Standalone test program of qset.c with mem.c
+#   qhull          Computes convex hull and related structures (libqhullstatic)
+#   qconvex, qdelaunay, qhalf, qvoronoi
+#                  Specializations of qhull for each geometric structure
+#   libqhull.so    Shared library with a static qh_qh struct
+#   libqhull_p.so  ... with a malloc'd qh_qh struct with -Dqh_QHpointer
+#   make SO=dll    ... on Windows, use SO=dll.  It compiles dlls
+#   libqhullstatic.a Static library with a static qh_qh struct
+#                  ... called 'static' to avoid naming conflicts
+#   libqhullstatic_p.a with a malloc'd qh_qh struct with -Dqh_QHpointer
+#   libqhullcpp.a  Static library using a malloc'd qh_qh struct
+#   user_eg        An example of using shared library qhull_p
+#                  ... compiled with -Dqh_QHpointer
+#   user_eg2       An example of using shared library qhull
+#   user_eg3       An example of the C++ interface to qhull
+#                  ... using libqhullcpp, libqhullstatic_p, -Dqh_QHpointer
+#   testqset       Standalone test program for qset.c with mem.c
 #
 # Make targets
-#       make             Produce all of the results
-#       make qhullx      Produce qhull qconvex etc. w/o libqhullstatic
-#       make qtest       Quick test of rbox and qhull (bin/rbox D4 | bin/qhull)
-#       make qtestall    Quick test of all programs except qhulltest
-#       make test        Test of rbox and qhull
-#       make bin/qvoronoi  Produce bin/qvoronoi (etc.)
-#       make doc         Print documentation
-#       make install     Copy qhull, rbox, qhull.1, rbox.1 to BINDIR, MANDIR
-#       make new         Rebuild qhull and rbox from source
+#   make           Produce all of the results
+#   make qhullx    Produce qhull, qconvex etc. without using library
+#   make qtest     Quick test of rbox and qhull (bin/rbox D4 | bin/qhull)
+#   make qtestall  Quick test of all programs except qhulltest
+#   make test      Test of rbox and qhull
+#   make bin/qvoronoi  Produce bin/qvoronoi (etc.)
+#   make doc       Print documentation
+#   make install   Copy qhull, rbox, qhull.1, rbox.1 to BINDIR, MANDIR
+#   make new       Rebuild qhull and rbox from source
 #
-#       make printall    Print all files
-#       make clean       Remove object files
-#       make cleanall    Remove generated files
+#   make printall  Print all files
+#   make clean     Remove object files
+#   make cleanall  Remove generated files
 #
-#       DESTDIR          destination directory. Other directories are relative
-#       BINDIR           directory where to copy executables
-#       DOCDIR           directory where to copy html documentation
-#       INCDIR           directory where to copy headers
-#       LIBDIR           directory where to copy libraries
-#       MANDIR           directory where to copy manual pages
-#       PRINTMAN         command for printing manual pages
-#       PRINTC           command for printing C files
-#       CC               ANSI C or C++ compiler
-#       CC_OPTS1         options used to compile .c files
-#       CC_OPTS2         options used to link .o files
-#       CC_OPTS3         options to build shared libraries
-#       CXX              ANSI C++ compiler
-#       CXX_OPTS1        options used to compile .cpp files
-#       CXX_OPTS2        options used to link .o files
-#	CC_WARNINGS	 warnings for .c programs
-#	CXX_WARNINGS	 warnings for .cpp programs
+#   DESTDIR        destination directory. Other directories are relative
+#   BINDIR         directory where to copy executables
+#   DOCDIR         directory where to copy html documentation
+#   INCDIR         directory where to copy headers
+#   LIBDIR         directory where to copy libraries
+#   MANDIR         directory where to copy manual pages
+#   PRINTMAN       command for printing manual pages
+#   PRINTC         command for printing C files
+#   CC             ANSI C or C++ compiler
+#   CC_OPTS1       options used to compile .c files
+#   CC_OPTS2       options used to link .o files
+#   CC_OPTS3       options to build shared libraries
+#   CXX            ANSI C++ compiler
+#   CXX_OPTS1      options used to compile .cpp files
+#   CXX_OPTS2      options used to link .o files
+#   CC_WARNINGS    warnings for .c programs
+#   CXX_WARNINGS   warnings for .cpp programs
 #
-#       LIBQHULLS_OBJS   .o files for linking
-#       LIBQHULL_HDRS    .h files for printing
-#       CFILES           .c files for printing
-#       CXXFILES         .cpp files for printing
-#       TESTFILES        .cpp test files for printing
-#       DOCFILES         documentation files
-#       FILES            miscellaneous files for printing
-#       HTMFILES         documentation source files
-#       TFILES           .txt versions of html files
-#       FILES            all other files
-#       LIBQHULLS_OBJS   specifies the object files of libqhullstatic.a
+#   LIBQHULLS_OBJS .o files for linking
+#   LIBQHULL_HDRS  .h files for printing
+#   CFILES         .c files for printing
+#   CXXFILES       .cpp files for printing
+#   TESTFILES      .cpp test files for printing
+#   DOCFILES       documentation files
+#   FILES          miscellaneous files for printing
+#   HTMFILES       documentation source files
+#   TFILES         .txt versions of html files
+#   FILES          all other files
+#   LIBQHULLS_OBJS specifies the object files of libqhullstatic.a
 #
 # Do not replace tabs with spaces.  Needed by 'make' for build rules
 
@@ -71,10 +74,10 @@
 
 DESTDIR = /usr/local
 BINDIR	= $(DESTDIR)/bin
-DOCDIR	= $(DESTDIR)/share/doc/packages/qhull
 INCDIR	= $(DESTDIR)/include
 LIBDIR	= $(DESTDIR)/lib
-MANDIR	= $(DESTDIR)/man/man1
+DOCDIR	= $(DESTDIR)/share/doc/qhull
+MANDIR	= $(DESTDIR)/share/man/man1
 
 # if you do not have enscript, try a2ps or just use lpr.  The files are text.
 PRINTMAN = enscript -2rl
@@ -93,12 +96,13 @@ CXX_OPTS1 = -O2 -Dqh_QHpointer -Isrc/ -Isrc/libqhullcpp -Isrc/libqhull $(CXX_WAR
 # for shared library link
 CC_OPTS3  =
 
-# Define qhull_VERSION in CMakeLists.txt, Makefile, qhull-exports.def, qhull_p-exports.def, and qhull-warn.pri
+# Define qhull_VERSION in CMakeLists.txt, Makefile, and qhull-warn.pri
+# Truncated version in qhull-exports.def, qhull_p-exports.def, 
 #  qhull.so -- static qh_qhT global data structure (qh_QHpointer=0)
-#  qhull6_p.so -- allocated qh_qhT global data structure (qh_QHpointer=1).  Required for libqhullcpp
-#  qhull7_t.so -- future version of Qhull with qh_qhT passed as an argument.
-qhull_VERSION_MAJOR=6
-SO  = so.6.3.0
+#  qhull_p.so -- allocated qh_qhT global data structure (qh_QHpointer=1).  Required for libqhullcpp
+#  qhull_m.so -- future version of Qhull with qh_qhT passed as an argument.
+qhull_SOVERSION=6
+SO  = so.6.3.1
 
 # On MinGW, 
 #   make SO=dll
@@ -139,12 +143,15 @@ CXX_WARNINGS = -Wall -Wcast-qual -Wextra -Wwrite-strings -Wno-sign-conversion -W
 all: bin-lib bin/rbox bin/qconvex bin/qdelaunay bin/qhalf bin/qvoronoi \
      bin/qhull bin/testqset qtest bin/user_eg2 bin/user_eg3 bin/user_eg qconvex-prompt
 
+help:
+	head -n 50 Makefile
+
 bin-lib:
 	mkdir -p bin lib
      
 # Remove intermediate files for all builds
 clean:
-	rm -f src/*/*.o src/road/RoadTest.h.cpp build/*/*/*.o  build/*/*.o
+	rm -f src/*/*.o src/qhulltest/RoadTest.h.cpp build/*/*/*.o  build/*/*.o
 	rm -f src/*/*.obj build/*/*/*.obj build/*/*/*/*/*.obj build/*/*.obj 
 	rm -f bin/*.idb lib/*.idb build-cmake/*/*.idb 
 	rm -f build/*/*/*.a build/*/*/*.rsp build/moc/*.moc
@@ -156,6 +163,8 @@ cleanall: clean
 	rm -f core bin/core bin/user_eg bin/user_eg2 bin/user_eg3
 	rm -f lib/libqhull* lib/qhull*.lib lib/qhull*.exp  lib/qhull*.dll
 	rm -f bin/libqhull* bin/qhull*.dll bin/*.exe bin/*.pdb lib/*.pdb
+	rm -f build/*.dll build/*.exe build/*.a build/*.exp 
+	rm -f build/*.lib build/*.pdb build/*.idb
 	rm -f build-cmake/*/*.dll build-cmake/*/*.exe build-cmake/*/*.exp 
 	rm -f build-cmake/*/*.lib build-cmake/*/*.pdb
 
@@ -167,7 +176,6 @@ install:
 	mkdir -p $(DOCDIR)
 	mkdir -p $(INCDIR)/libqhull
 	mkdir -p $(INCDIR)/libqhullcpp
-	mkdir -p $(INCDIR)/road
 	mkdir -p $(LIBDIR)
 	mkdir -p $(MANDIR)
 	cp bin/qconvex $(BINDIR)
@@ -182,7 +190,7 @@ install:
 	cp -P lib/* $(LIBDIR)
 	cp src/libqhull/*.h src/libqhull/*.htm $(INCDIR)/libqhull
 	cp src/libqhullcpp/*.h $(INCDIR)/libqhullcpp
-	cp src/road/*.h $(INCDIR)/road
+	cp src/qhulltest/*.h $(INCDIR)/libqhullcpp
 
 new:	cleanall all
 
@@ -247,11 +255,14 @@ test:
 
 qconvex-prompt:
 	-bin/qconvex
-	@echo '== For libqhull.so and libqhull$(qhull_VERSION_MAJOR)_p.so'
+	@echo '== For libqhull.so and libqhull_p.so'
 	@echo '   export LD_LIBRARY_PATH=$$PWD/lib:$$LD_LIBRARY_PATH'
-	@echo '== For libqhull.dll and libqhull$(qhull_VERSION_MAJOR)_p.dll'
+	@echo
+	@echo '== For libqhull.dll and libqhull_p.dll'
 	@echo '   cp lib/libqhull*.dll bin'
-	@echo '== The previous step is required for user_eg and user_eg2'
+	@echo
+	@echo '== The previous steps are required for user_eg and user_eg2'
+	@echo
 	@echo '== To smoketest each program'
 	@echo '   make qtestall'
 	@echo
@@ -284,7 +295,7 @@ LIBQHULLSP_OBJS = $(LSP)/global.o $(LSP)/stat.o \
         $(LSP)/mem.o $(LSP)/random.o $(LSP)/usermem.o $(LSP)/userprintf.o \
 	$(LSP)/io.o $(LSP)/user.o $(LSP)/rboxlib.o $(LSP)/userprintf_rbox.o
 
-LIBQHULLCPP_HDRS = src/road/RoadError.h src/road/RoadLogEvent.h $(LCPP)/Coordinates.h \
+LIBQHULLCPP_HDRS = $(LCPP)/RoadError.h $(LCPP)/RoadLogEvent.h $(LCPP)/Coordinates.h \
 	$(LCPP)/QhullHyperplane.h $(LCPP)/functionObjects.h $(LCPP)/PointCoordinates.h \
 	$(LCPP)/Qhull.h $(LCPP)/QhullError.h $(LCPP)/QhullFacet.h \
 	$(LCPP)/QhullFacetList.h $(LCPP)/QhullFacetSet.h $(LCPP)/QhullIterator.h \
@@ -293,7 +304,7 @@ LIBQHULLCPP_HDRS = src/road/RoadError.h src/road/RoadLogEvent.h $(LCPP)/Coordina
 	$(LCPP)/QhullSet.h $(LCPP)/QhullSets.h $(LCPP)/QhullStat.h \
 	$(LCPP)/QhullVertex.h $(LCPP)/RboxPoints.h $(LCPP)/UsingLibQhull.h
        
-LIBQHULLCPP_OBJS = src/road/RoadError.o src/road/RoadLogEvent.o $(LCPP)/Coordinates.o \
+LIBQHULLCPP_OBJS = $(LCPP)/RoadError.o $(LCPP)/RoadLogEvent.o $(LCPP)/Coordinates.o \
 	$(LCPP)/PointCoordinates.o $(LCPP)/Qhull.o $(LCPP)/QhullFacet.o \
 	$(LCPP)/QhullFacetList.o $(LCPP)/QhullFacetSet.o \
 	$(LCPP)/QhullHyperplane.o $(LCPP)/QhullPoint.o \
@@ -308,7 +319,7 @@ CFILES= src/qhull/unix.c $(L)/libqhull.c $(L)/geom.c $(L)/geom2.c $(L)/global.c 
 	$(L)/qset.c $(L)/stat.c $(L)/user.c $(L)/usermem.c $(L)/userprintf.c $(L)/userprintf_rbox.c \
 	src/qconvex/qconvex.c src/qdelaunay/qdelaun.c src/qhalf/qhalf.c src/qvoronoi/qvoronoi.c
 
-CXXFILES= src/road/RoadError.cpp src/road/RoadLogEvent.cpp $(LCPP)/Coordinates.cpp \
+CXXFILES= $(LCPP)/RoadError.cpp $(LCPP)/RoadLogEvent.cpp $(LCPP)/Coordinates.cpp \
 	$(LCPP)/PointCoordinates.cpp $(LCPP)/Qhull.cpp $(LCPP)/QhullFacet.cpp \
 	$(LCPP)/QhullFacetList.cpp $(LCPP)/QhullFacetSet.cpp \
 	$(LCPP)/QhullHyperplane.cpp $(LCPP)/QhullPoint.cpp \
@@ -373,8 +384,8 @@ $(LSP)/rboxlib.o:  $(L)/libqhull.h $(L)/random.h $(L)/user.h
 $(LSP)/qset.o:     $(L)/qset.h $(L)/mem.h
 $(LSP)/stat.o:     $(LIBQHULL_HDRS)
 $(LSP)/user.o:     $(LIBQHULL_HDRS)
-src/road/RoadError.o:       src/road/RoadError.h src/road/RoadLogEvent.h
-src/road/RoadLogEvent.o:    src/road/RoadError.h                  
+$(LCPP)/RoadError.o:        $(LCPP)/RoadError.h $(LCPP)/RoadLogEvent.h
+$(LCPP)/RoadLogEvent.o:     $(LCPP)/RoadError.h                  
 $(LCPP)/Coordinates.o:      $(LIBQHULLCPP_HDRS) $(LIBQHULL_HDRS)
 $(LCPP)/PointCoordinates.o: $(LIBQHULLCPP_HDRS) $(LIBQHULL_HDRS)
 $(LCPP)/Qhull.o:            $(LIBQHULLCPP_HDRS) $(LIBQHULL_HDRS)
@@ -506,9 +517,9 @@ lib/libqhull.$(SO): $(LIBQHULLS_OBJS)
 	$(CC) -shared -o $@ $(CC_OPTS3) $^
 	cd lib && ln -f -s libqhull.$(SO) libqhull.so
 
-lib/libqhull$(qhull_VERSION_MAJOR)_p.$(SO): $(LIBQHULLSP_OBJS)
+lib/libqhull_p.$(SO): $(LIBQHULLSP_OBJS)
 	$(CC) -shared -o $@ $(CC_OPTS3) $^
-	cd lib && ln -f -s libqhull$(qhull_VERSION_MAJOR)_p.$(SO) libqhull$(qhull_VERSION_MAJOR)_p.so
+	cd lib && ln -f -s libqhull_p.$(SO) libqhull_p.so
 
 # don't use ../qconvex.	 Does not work on Red Hat Linux
 bin/qconvex: src/qconvex/qconvex.o lib/libqhullstatic.a
@@ -533,17 +544,21 @@ bin/rbox: src/rbox/rbox.o lib/libqhullstatic.a
 bin/testqset: src/testqset/testqset.o src/libqhull/qset.o src/libqhull/mem.o
 	$(CC) -o $@ $^ $(CC_OPTS2) -lm
 
-bin/user_eg: src/user_eg/user_eg.c lib/libqhull$(qhull_VERSION_MAJOR)_p.$(SO) 
-	@echo -e '\n\n== On MinGW/Cygwin, use "make cleanall; make SO=dll"'
-	@echo -e '==  and copy lib/libqhull$(qhull_VERSION_MAJOR)_p.dll to bin'
-	@echo -e '== If user_eg fails to link, switch to -lqhullstatic_p\n'
-	$(CC) -o $@ $< -Dqh_QHpointer  $(CC_OPTS1) $(CC_OPTS3) -Llib -lqhull$(qhull_VERSION_MAJOR)_p -lm
+bin/user_eg: src/user_eg/user_eg.c lib/libqhull_p.$(SO) 
+	@echo -e '\n\n==================================================='
+	@echo -e '== If user_eg fails on MinGW or Cygwin, use'
+	@echo -e '==   "make SO=dll" and copy lib/libqhull_p.dll to bin/'
+	@echo -e '== If user_eg fails to link, switch to -lqhullstatic_p'
+	@echo -e '===================================================\n'
+	$(CC) -o $@ $< -Dqh_QHpointer  $(CC_OPTS1) $(CC_OPTS3) -Llib -lqhull_p -lm
 
 # You may use  -lqhullstatic instead of -lqhull 
 bin/user_eg2: src/user_eg2/user_eg2.o lib/libqhull.$(SO)
-	@echo -e '\n\n== On MinGW/Cygwin, use "make cleanall; make SO=dll"'
-	@echo -e '==  and copy lib/libqhull.dll to bin'
-	@echo -e '== If user_eg2 fails to link, switch to -lqhullstatic\n'
+	@echo -e '\n\n==================================================='
+	@echo -e '== If user_eg2 fails on MinGW or Cygwin, use'
+	@echo -e '==   "make SO=dll" and copy lib/libqhull.dll to bin/'
+	@echo -e '== If user_eg2 fails to link, switch to -lqhullstatic'
+	@echo -e '===================================================\n'
 	$(CC) -o $@ $< $(CC_OPTS2) -Llib -lqhull -lm
 
 bin/user_eg3: src/user_eg3/user_eg3.o lib/libqhullstatic_p.a lib/libqhullcpp.a

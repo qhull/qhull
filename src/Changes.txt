@@ -25,6 +25,44 @@ To do
  - Performance test of qset and qhull
 
 ------------
+Qhull 2012.1  2012/02/18 6.3.1.1490
+
+Code changes
+ - Require option 'Qz' for Delaunay triangulation/Voronoi diagram 
+   of cocircular/cospherical points [D. Sheehy]
+ - qh_errexit: Do not call qh_printsummary or qh_printstats on qh_ERRinput
+ - Change error QH6227 (all degenerate) from qh_ERRinput to qh_ERRprec
+ - Change error QH6159 (ID overflow) from qh_ERRinput to qh_ERRqhull
+ - eg/q_eg, q_egtest, q_test: Run if qconvex is in $PATH [M. Atzeri]
+   
+Build changes [M. Atzeri]
+ - Install to share/doc/qhull instead of share/doc/packages/qhull
+ - On Unix systems, install to share/man/man1 instead of man/man1
+ - CMakeLists: Remove the installation of user_eg* and testqset
+ - CMakeLists: Remove VERSION from qhull executables and libraries
+ - CMakeLists: Define qhull_SOVERSION instead of qhull_MAJOR 
+ - CMakeLists: Set SOVERSION for shared libraries
+ - Rename libraries to qhull, qhull_d, qhull_p, and qhull_pd
+   libqhull6_p.vcproj is now libqhull_p.vcproj
+   mingw builds as libqhull.dll
+   cygwin builds as cygqhull-6.dll
+   linux builds as libqhull.so.6.3.1 with symbolic link as libqhull.so
+ - Developers using qhull 2011: 
+   libqhull6.so is now libqhull_p.so.  Do not use libqhull.so.
+   qhull6.dll is now qhull_p.dll.  Do not use qhull.dll. 
+ - Merged road/ into libqhullcpp/ and qhulltest/
+   Moved RoadLogEvent.* and RoadError.* to libqhullcpp
+   Moved RoadTest.* to qhulltest (requires Qt)
+   Installed RoadTest.h in libqhullcpp 
+
+Doc changes
+ - index.htm: Mathworks uses qhull for n-d
+ - qhull.htm: Fix qhull for qconvex
+ - qdelaun.htm/qvoronoi.htm: Use option 'Qz' for circular/cospherical inputs
+ - make help: Display targets
+ - Makefile: Better messaging
+
+------------
 Qhull 2012.1  2012/02/02 6.3.0.1483
 
 Bug fixes

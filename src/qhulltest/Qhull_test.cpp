@@ -1,14 +1,14 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2012 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/qhulltest/Qhull_test.cpp#4 $$Change: 1464 $
-** $DateTime: 2012/01/25 22:58:41 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/qhulltest/Qhull_test.cpp#5 $$Change: 1490 $
+** $DateTime: 2012/02/19 20:27:01 $$Author: bbarber $
 **
 ****************************************************************************/
 
 //pre-compiled headers
 #include <iostream>
-#include "../road/RoadTest.h" // QT_VERSION
+#include "RoadTest.h" // QT_VERSION
 
 #include "Qhull.h"
 #include "QhullError.h"
@@ -167,7 +167,7 @@ t_message()
             QVERIFY(!q.hasQhullMessage());
             // QCOMPARE(q.qhullMessage(), QString::fromStdString(s).remove(0, 7));
             // QCOMPARE(q.qhullStatus(), 6029);
-            q.clearQhullMessage();  
+            q.clearQhullMessage();
             QVERIFY(!q.hasQhullMessage());
         }
         q.appendQhullMessage("Append 1");
@@ -328,7 +328,7 @@ t_foreach()
         QCOMPARE(ps.count(), 8);
         QhullPointSet ps2= q.otherPoints();
         QCOMPARE(ps2.count(), 0);
-        // ps2= q.otherPoints(); //disabled, would not copy the points 
+        // ps2= q.otherPoints(); //disabled, would not copy the points
         QCOMPARE(q.facetCount(), 6);
         QCOMPARE(q.vertexCount(), 8);
         coordT *c= q.pointCoordinateBegin(); // of q.points()

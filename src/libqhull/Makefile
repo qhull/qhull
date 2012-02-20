@@ -53,10 +53,10 @@
 
 DESTDIR = /usr/local
 BINDIR	= $(DESTDIR)/bin
-DOCDIR	= $(DESTDIR)/share/doc/packages/qhull
 INCDIR	= $(DESTDIR)/include
 LIBDIR	= $(DESTDIR)/lib
-MANDIR	= $(DESTDIR)/man/man1
+DOCDIR	= $(DESTDIR)/share/doc/qhull
+MANDIR	= $(DESTDIR)/share/man/man1
 
 # if you do not have enscript, try a2ps or just use lpr.  The files are text.
 PRINTMAN = enscript -2rl

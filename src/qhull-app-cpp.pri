@@ -23,4 +23,4 @@ win32-msvc* : QMAKE_LFLAGS += /INCREMENTAL:NO
 DEFINES += qh_QHpointer # libqhull/user.h
 
 INCLUDEPATH += ../libqhullcpp
-INCLUDEPATH += ../../src # e.g., "road/RoadError.h"
+INCLUDEPATH += ../../src # "libqhull/qhull_a.h"

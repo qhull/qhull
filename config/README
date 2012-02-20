@@ -8,7 +8,7 @@ See ../README.txt for instructions on building with make, cmake, qt, and Microso
 
 WARNING -- Reworked for qhull-2012.1 but not tested.
            Produces qhull.so
-           Ignores the C++ interface and libqhull6_p.so
+           Ignores the C++ interface and libqhull_p.so
            The patch subdirectory is out-of-date.  
               It was not used for Qhull 2009.1
               user.h sets qh_QHpointer=0 (static allocation of qh_qh)
