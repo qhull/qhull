@@ -6,8 +6,8 @@
 #   can not use path with $zip_file 
 #   odd error messages if can't locate directory
 #
-# $Id: //main/2011/qhull/eg/qhull-zip.sh#15 $$Change: 1476 $
-# $DateTime: 2012/01/28 09:37:56 $$Author: bbarber $
+# $Id: //main/2011/qhull/eg/qhull-zip.sh#16 $$Change: 1493 $
+# $DateTime: 2012/02/20 09:31:24 $$Author: bbarber $
 
 if [[ $# -eq 0 ]]; then
         echo 'Missing date stamp, e.g., qhull-zip.sh 2007.1' 
@@ -117,7 +117,7 @@ qhull_files="qhull/build/*.sln qhull/build/*.vcproj \
     qhull/File_id.diz qhull/QHULL-GO.lnk qhull/README.txt \
     qhull/REGISTER.txt qhull/index.htm qhull/Makefile qhull/bin/qhull.dll \
     qhull/bin/qconvex.exe qhull/bin/qdelaunay.exe qhull/bin/qhalf.exe \
-    qhull/bin/qhull.exe qhull/bin/qhull6_p.dll qhull/bin/qvoronoi.exe \
+    qhull/bin/qhull.exe qhull/bin/qhull_p.dll qhull/bin/qvoronoi.exe \
     qhull/bin/rbox.exe qhull/bin/user_eg.exe qhull/bin/user_eg2.exe \
     qhull/bin/user_eg3.exe qhull/bin/testqset.exe qhull/bin/msvcr80.dll"
 qhull_ufiles="$qhull_dirs qhull/build/*.sln qhull/build/*.vcproj \
