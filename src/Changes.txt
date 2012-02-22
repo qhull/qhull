@@ -25,6 +25,10 @@ To do
  - Performance test of qset and qhull
 
 ------------
+Qhull 2012.1  2012/02/18 6.3.1.1494
+ - Fix CMakeLists for libqhull with MATCHES [P. Gajdos]
+
+------------
 Qhull 2012.1  2012/02/18 6.3.1.1490
 
 Code changes

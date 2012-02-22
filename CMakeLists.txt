@@ -31,15 +31,15 @@
 #   Remove CMAKE_INTDIR from PreprocessorDefinitions
 #   Adjust target names and destinations (e.g., lib/libqhullstatic_d.a)
 #  
-# $Id: //main/2011/qhull/CMakeLists.txt#22 $$Change: 1490 $
-# $DateTime: 2012/02/19 20:27:01 $$Author: bbarber $
+# $Id: //main/2011/qhull/CMakeLists.txt#23 $$Change: 1494 $
+# $DateTime: 2012/02/21 22:41:40 $$Author: bbarber $
 
 project(qhull)
 cmake_minimum_required(VERSION 2.6)
 
 # Define qhull_VERSION in CMakeLists.txt, Makefile, qhull-exports.def, qhull_p-exports.def, and qhull-warn.pri
 string(REGEX REPLACE ".* ([0-9]+) .*"
-    "6.3.1.\\1"  qhull_VERSION "$Change: 1490 $")
+    "6.3.1.\\1"  qhull_VERSION "$Change: 1494 $")
 # qhull_SOVERSION: 2003 = empty, 2009 = 5 , 2010-2012 = 6
 set(qhull_SOVERSION 6)
 set(qhull_VERSION2 "2012.1 2012/02/18")
@@ -262,7 +262,7 @@ add_library(${qhull_SHARED} SHARED
         ${libqhull_SOURCES}
         src/libqhull/qhull-exports.def)
         
-if(qhull_SHARED EQUAL "libqhull")
+if(qhull_SHARED MATCHES "libqhull")
    set_target_properties(${qhull_SHARED} PROPERTIES
         OUTPUT_NAME "qhull")
 endif()
