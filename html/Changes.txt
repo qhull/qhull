@@ -1,0 +1,890 @@
+$Id: //main/2005/thid/src/Changes.txt#124 $$Change: 1496 $$Date: 2012/02/23 $
+
+  ThError.THIDlastError  20107
+    throw ThError(10527, "");
+  
+  install qInstallMsgHandler
+  
+  Store thid_sha1 along with data
+    store thidid, sha1, blockid, date -- but already in thid-info.  Allows re-creation.
+    can't reallocate a blockid in the same second?
+    sha1-out-of-date only needs to go up through in-date ones.
+  Recursive algorithm -- depth first search -- writes new blockids as a blockid?
+    blockids become invalid if any component changes
+  thid sha1
+  tuples of blockids => tuples of sha1
+  tuples? of group thids -> tuples of sha1
+  other tuples as is
+  where are groups stored?  as a block? grabbed from header? -- usually -- but its compressed
+    
+  Add an 'unknown' test, equivalent to NULL.  But then need to make it a type
+Need
+  Dump program -- serialized/wire format as sha1 blocks
+    need blockid to sha1 and sha1 to blockid
+  Minimal reuse of blockIds
+  Review low-level syntax
+  Is Print/Dump simply well known names?
+  Auto propagate
+  Editor
+  Data representation as tuples
+  
+
+  why can I have two views open of the same DB?
+  setThid should change focus to thid's window
+  
+  recursive calls require an explicit reference -- assumes a termination proof
+  strict aliasing
+  pointers are smart unless otherwise marked  
+
+  Editor
+    No wrap 
+  
+  Label ID.next needed for goto's
+  Label ID.title needed for programs
+  Label 0.title needed for unresolved programs
+  addArgument makes 0.title an operand, but it is not used
+  addOperand of 0.title gets the non-label version
+  Undo the 0.title operand?
+  Reset its name?  OK if 0?
+  Problem of literal vs. local literal
+  Do I need a new arg type for label?
+  
+  A call in the same depot
+  
+  concept of local literals
+  Add line numbers to ThCode parse errrors
+  Add atomic primitive -- ==6->
+  Need assigned-type for mispellings
+  Need formated print instead of printSpace == ==
+  Need ThCode::printProgram
+  check for empty arguments in ThCode (addArgument, etc.) -- around split?
+  Scan for valid primitive, maybe primitive
+     ?.?= ?  first equals after matching pattern
+     ?==? -> ? first equals, last ->
+     -> ?     No -> in labels
+     ? -> ?   Try... then
+     
+    why is non-const operator[] selected for
+            QStringList compare= RoadUtility::splitFirst(instruction, comparison);
+            QStringList gotoLabel= RoadUtility::splitLast(compare[1], QString("->"));
+
+    static QStringList  splitFirst(const QString &s, const QString &sep, int from= 0, Qt::CaseSensitivity cs= Qt::CaseSensitive);
+  Add VAX configuration (e.g., clips) into perforce
+
+  want a list of thids.  A ThidListSelector("xpath") e.g., qml or goes to a localId
+
+  Goal of storing/editing notes/code and executing code
+     Get language encodings
+     On Thid::writeToDisk, also write its ThDepot
+     static function QApplication::focusWidget()
+     #ifndef Q_MOC_RUN
+
+  Need ThDiskBlock for Thid
+      get language.  Then work on structured text.
+      Reserve Depot: ... as name for depots.
+      want to check in VAX configuration
+      Not written to disk, no bootBlocks either
+
+  execute a Thid
+  UI
+  
+  Need to specify how a lower version handles a higher version.  Note MIME is frozen at 1.0
+
+============================================
+== At home
+============================================
+
+  Get copy of git
+
+unsigned access to byte array via uchar c= uchar(...)
+
+As a pointer or return a reference if modified?
+
+reassign F12 to a different key
+RegisterHotKey  -- The F12 key is reserved for use by the debugger at all times, so it should not be registered as a hot key. Even when you are not debugging an application, F12 is reserved in case a kernel-mode debugger or a just-in-time debugger is resident.
+
+Need better solution than cout<<
+
+Need doc links between QApplication and QMainWindow
+
+Where to trap errors in UI -- throws caught by QMetaObject::activate when invoking a signal, e.g., gotoNewFile
+
+QApplication: contradicts constructor doc
+  it is usually a good idea to create it before any interpretation or modification of argv is done in the application itself.
+
+How to hid item-ids in text -- should be a glyph How to work with QRegExp
+QTextFormat::UserObject
+
+int QTextCursor::blockNumber () const
+Returns the number of the block the cursor is in, or 0 if the cursor is invalid.
+Note that this function only makes sense in documents without complex objects such as tables or frames.
+
+Need context menu and Tools->Bookmarks menu for 'add bookmark'.  QtCreator only has an add bookmark button
+Peter Abelard (1079-1142) diversity of authoratative opinion
+
+QTest -- ignore failures mode
+
+In debugger, shows as QObject instead of QTextDoument
+       QTextDocument *text= main_ui.content_view_a->document(); 
+
+    // QList<short> displays as int in debugger
+    // Problem of readLine() w/o line terminator -- runs forever
+    // No equivalent to "has" for a QList (index within bounds
+
+Provide a template layout for .h with constructors, virtual methods, get/set, etc.
+
+Add SplitFirst and SplitLast to QString::SplitBehavior
+
+---------------
+programs.txt
+
+Fix spacing in snippets
+
+Get MIME standard and yaml standard
+
+Guidelines
+----------
+fieldAt(const char *fieldStart, const char **fieldEnd/*= 0*/) const
+
+Support
+-------
+
+QDir::remove() -- how to tell reason that a remove failed?
+
+Why is qrc code in QDir?
+void Q_CLEANUP_RESOURCE ( name )
+Unloads the resources specified by the .qrc file with th
+
+List of filename substrings to ignore.  Auto switch between files on alt-o
+
+QString::chop not referenced from remove()
+
+Create from Usage gets $SymbolName$ and $SymbolType$ reversed in snippet
+
+'foreach keyword' doesn't say how to create foreach for yourself.  Not in index.
+
+foreach requires T::const_iterator, begin(), and end()
+
+Create implementation not defined for multiple lines
+
+How to use QStringBuilder over multiple assignments
+
+Refactor Rename is a modal dialog box.  Should allow navigation to investigate hits.
+
+How to open a QFile for exclusive access
+
+Change Signature does not preserve internal spacing
+       bool                tryCheckOwner(const ThDiskBlockId &b, const ThidHandle &owner, int howOwned);
+
+QByteArray documentation
+If data is 0, a null byte array is constructed.
+QByteArray::QByteArray(const char *data, int size)
+{
+    if (!data) {
+        d = &shared_null;
+    } else if (size <= 0) {
+        d = &shared_empty;
+
+
+Comments can do name expansion on initial or internal cap
+
+QTestLib manual
+Creating a Benchmark
+
+To create a benchmark, follow the instructions for crating a tes
+
+Need $SymbolClass$ (complements $SymbolName$ and $SymbolContext$
+
+$end$ did not work (all selected) -- $SymbolContext$$end$
+
+Refactor Selection, should run Create Implementation on each line in selection
+
+Snippets
+---------
+
+@token@ @1@ @xmlns:thi@         @RS_FIRST@ @AT_START@ @{\rtf@ @^\{\\rtf\d+ ?@ @RA_ATTRIBUTE@ @@ @AT_NEXT_WHERE@ @@ @pv@
+@pv@ @freepool@ @1@ @129@ @234232@ @pv@
+
+@hd@ @thdisk@ @1@ @diskBlockId@ @hd@
+@pv@ @thdisk@ @1@ @0x32234221@ @pv@
+
+#if defined(Q_CC_MSVC)  // Disable warning for 0x80 as type 'char'
+#  pragma warning(disable: 4309) /* 'initializing' : truncation of constant value */
+#endif
+
+
+ToDo
+----
+  need Statistics object using unique ids.
+  change to const char *  
+    static const QString ThidHex128RE;  //!< "-1234567890abcdef..." 32 hex digits, md5sum
+
+  Change ThDiskBlock to QObject
+  Rename ThItem to ThBlock
+  use RoadError
+  convert ItemFlags to QFlag
+  Move flags to ThItem from ThAbstractItem
+
+  ThSettings * ThSettings::s_thid_configuration= 0;
+  remove handleForThid -- using field instead
+  determineThidFromName -- convert string to char array
+  Rethink ThidInfo format -- how to name things
+  ThField.h is not standalone
+  Fixed moc by linking with the the 2009.05 version
+  qHash(Thesa::ThidIdentifier *t) { return qHash(static_cast<quint64>(*t)) ^ qHash(t.second); };
+  Bug in notes-dump.xml -- <abstract>\n"par"<par>
+
+  need conventions for error reporting e.g.  determineHandleForThid
+
+  Rename determineHandle to assignHandle
+
+Test coverage  
+  Read all routines in _test and *.h and make sure that they match
+  Check all error codes in _test and *.cpp
+
+============================================
+== History
+============================================
+
+.............This file lists all changes to thid.....................
+
+[Nov'11]
+  Can create a persistent thid and execute 'Hello World'
+  
+[feb'11]
+  Can create thid/.. with boot blocks
+  
+[jan'11]
+  Can create and read bootBlock for a ThDiskBlockPool
+  
+[nov'10]
+  Can open an empty database and manipulate its configuration (first sector, etc)
+  Can find and allocate a previously freed block id
+
+  get number of sectors needed
+  if fits, rewrite as free sector and remainders
+  get enough sectors, 
+    if any not free, check if in freepool, add previous to freepool and repeat
+    if last fits, add previous to freepool and break
+    if out-of-sectors
+       allocate more sectors (i.e., advance size of remainders)
+    rewrite as free sector and remainders
+  next_sector is after allocated sector
+
+  Write a block id
+  
+[oct'10]
+  Can read and write ThDiskBlockHeader from ThDiskBlock
+  Need blockIds on disk > Need BlockPool and free blocks > Need files
+  
+[aug'10] Want data on disk.
+  A pool file of everything
+  A free list is a list of blockids. duplicated on the disk
+  
+
+============================================
+== Notes on QAbstractModelIndex
+============================================
+
+Incomplete description "The underlying data model...".  This is describing a tableView, not the item view.  
+Make parent clear.
+
+The root is a table of rows and columns.
+Each cell of the table is a collection of role:value pairs, a set of flags, and an optional table (hasChildren) 
+Roles are numbers, 0..31 are reserved by Qt.  The values are QVariant
+The 'index' of a cell is its row, column, and parent in the model.  
+'sibling' is the same as index(row,column, index.parent())
+Document meaning of QModelIndex::operator<
+
+Common models
+  A list, column 0
+  A table, no children
+  A tree, column 0 has chidren (c.f., parent()).  Other columns can provide associated information.
+
+Model Subclassing reference
+  Read-only access
+  Editable access
+     No mention that QListView requires EditRole for data()
+  No mention that QDataWidgetMapper::populate invokes QItemDelegate::setEditorData which requires EditRole
+     void QDataWidgetMapperPrivate::populate(WidgetMapper &m)
+
+---
+Why enabled if invalid
+addressbook example
+Qt::ItemFlags TableModel::flags(const QModelIndex &index) const
+{
+    if (!index.isValid())
+        return Qt::ItemIsEnabled;
+
+    return QAbstractTableModel::flags(index) | Qt::ItemIsEditable;
+}
+//! [7]
+
+----
+
+Methods alphabetical with [private] 
+Editor.gotoNextLocation
+create... is same as new... but void return
+
+$(QTDIR)\include
+$(QTDIR)\include\Qt
+$(QTDIR)\include\QtCore
+$(QTDIR)\include\QtGui
+$(QTDIR)\include\QtHelp
+$(QTDIR)\include\QtNetwork
+$(QTDIR)\include\QtOpenGL
+$(QTDIR)\include\QtScript
+$(QTDIR)\include\QtSql
+$(QTDIR)\include\QtSvg
+$(QTDIR)\include\QtTest
+$(QTDIR)\include\QtUiTools
+$(QTDIR)\include\QtWebKit
+$(QTDIR)\include\QtXml
+$(QTDIR)\include\QtXmlPatterns
+$(QTDIR)\src
+
+Source maintenance (jul'11)
+   Search for missing P4:  \:[^a-zA-Z0-9]*\$
+   Search for missing date:  -2010
+
+============================================
+== Notes on ThDisk
+============================================
+
+Problem of ThidIdentifier::thidHash32 (for ThidDepot::computeThidIdentifer)
+and ThDiskThidPool::thidHash32 for hash bucket
+
+  By default, hash of depot+label w/ depot is itemid
+    getunique find an item id in the same bucket by common bits
+  Sorted and Unsorted 4-byte hash + 8 byte block-id
+  QMultiHash for staging -- store compress -- 55K
+  Bits for Recent and New
+  Need split and merge buckets
+  write QMultiHash and buckets to two files
+  rebuild by streaming into large QMultiHash, and flushing to bucket
+        cally	ygetidhash ;;get HashItemID, OtherHash for ItemID and BlockID, Different? 
+        cally	yaddidhash ;;.add HashItemID, OtherHash, BlockID to ItemTable and ItemCache
+  ynewitem creates ItemId for LabelFieldId, optional TitleId and precomputed size
+  called by createitem ;;create ItemId, BlockId, and Title for Syntax .label, TitleID, and DepotItemId with SyntaxTable 
+  called by maybenew ;;maybe new ItemId and Title at TitleText and TitleID
+  
+  want ThItemId with a ThDiskBlockId containing title, owner itemid, depot itemid, and text
+  want title lookup to itemId and diskBlockId
+
+  Change to BlockType enum
+  
+  set next_empty+sector at boot
+  next_empty_sector -- always valid
+  reset after emptied
+  search from end of file
+    sector header is zero, sector tail is zero
+  allow intermediate mode for sector rewrites
+
+A) Need a label hash -- same as Thesa for 24-bit IDs.  Hash function by Depot's itemId size
+   ygetidhash -- Hash a 24-bit itemid and its blockid (i.e., Label) for shared itemid-label buckets
+     ylblhash -- 32-bit Hash of itemid label and DepotId (8-bit)
+     remidhash -- removes hash-itemid and its blockid from curcache. 
+   
+B) Need a multi-level hash for
+   LabelHash -> BlockId of corresponding ItemId
+   One hash of QVariants on separate hash for each?  
+   Is LabelHash persistent.  If so, can add a lot at once, like Xref, then parcel out to Buckets as needed. 
+   e.g., when importing ids.  Then problem of conflicts.
+   For now, a simple hash table.  If sorted, it might compress better
+
+ThDisk::newItem -- tuple format for ItemId with aliases and various owned data
+
+Need to assign unique ItemId for Label in DepotId.  By default use label hash (ylblhash).  Unique in ThDisk. 
+Retry n times, then unique in Depot by fewest hits.
+
+   delitem -- All parts of an item
+     itemblock -- diskblockid
+       tgaliasid -- TopItemId for this alias
+       tgaliases -- list of aliases for this itemId (moveitem fields to new TopItemId)
+       if alias, someoneelse will own any text blocks, etc. (tgowned)
+     remidcache -- In memory cache of itemid->diskBlockId
+     delsig -- signature or conversion for itemId
+     tgowned -- text, code, etc. with matchig howowned
+      _adddel -- text blocks held onto for a while
+     _addid -- resets xref itemid for text, xridcode, and xridtitle
+     remdatas -- remove celldata for itemid
+   item.-bucket -- Contains itemid's and label's to diskblockid by hashbucket
+
+ss:curcache
+   itemid->blockid -- includes hash of label as itemid
+
+delsig convert.-routines
+   ifconvert -- if Label is a typeid conversion from item
+   delptr (tsisptr) -- isPointer signature (only one of type?)
+   yupdstring(tsidlist) -- signature list
+
+block.sym
+  fifieldid -- disk data
+  tglabel -- type of disk data
+  
+bkheld blocks -- in separete pool -- or separate list for each size as before
+   itemid blocks
+   text blocks
+
+      m_unparsedTexts.insert(qMakePair(uri, encoding), result);
+
+
+====================================
+== Notes
+====================================
+
+protocol buffers
+  wiretype 2, field 0, byte count for header
+
+====================================
+== Notes on git
+====================================
+
+Git
+  Where to put the special value use sha1 convention
+  how to check for all zero 
+
+
+Check gitmailing list for  messages titled "A note from the maintainer", "What's in
+git.git (stable)" and "What's cooking in git.git (topics)" and
+
+git verify-pack
+  sha1 sorted -> type, size, offset, delta-base
+  most are small!  More than half are diffs.  conpressed is larger for small diffs
+  git a --depth clone for ghull
+
+git update-index
+  --info-only is used to register files without placing them in the object database. This is useful for status-only repositories.
+
+ git ls-files -s
+ 100644 6569cf607b18b84f39ebee613471f270e42cfbdc 0       string-list.h
+ 100644 3007f7d5a6279c14a7c29efdc752dbbc41218c76 0       submodule.c
+ 100644 4c0269d67933659da5ff81e53c21b5f25ca8cf9d 0       submodule.h
+ 100644 88601200114f857a57214a9bf0d02ffd39a83504 0       symlinks.c
+ 100644 1b97c5465b7d9e4404e11668b44c5c507a302d4a 0       t/.gitattributes
+ 100644 7dcbb232cd876cb7b976443cc586f60a94ab92bf 0       t/.gitignore
+ 100644 bd09390d3208d7eac362cd9cf45f7dde623c4ae6 0       t/Makefile
+ 100644 dcd3ebb5f2dcdbf15ca0e4a043b45cd2fc36cbb5 0       t/README
+ 100755 d5bab75d7da49ebb53e368d67f6b867f5417a125 0       t/aggregate-results.sh
+ 100644 396b9653a3ad80490cf360c86a910edff58862a2 0       t/annotate-tests.sh
+
+
+----------
+gitrepository-layout.html
+HowTo/maintain-git.txt -- what the branches mean
+git-rev-list -- identify commits and objects log and pack
+git-receive-pack -- works with git-send-pack and calls hooks sha1 sha2
+
+------------
+technical/pack-protocol.txt -- details of git pack transfer protocol
+
+technical/pack-format.txt -- where the bytes are.  idx and pack files
+
+technical/pack-heuristics.txt -- how to create a pack and thin packs
+
+    <jdl> What is a "thin" pack?
+
+    <gitster> Use of --objects-edge to rev-list as the upstream of
+        pack-objects.  The pack transfer protocol negotiates that.
+
+        - larger objects tend to be "more recent" (Linus' law: files grow)
+        - we actively try to generate deltas from a larger object to a
+          smaller one
+        - this means that the top-of-tree very seldom has deltas
+          (i.e. deltas in _practice_ are "backwards deltas")
+----
+git-notes.sh -- store notes for commits as a directory with sha1 filenames /refs/notes/sha1
+
+read-cache.c -- read and search the cache/index
+  Can create an alias to an entry
+  static struct cache_entry *create_alias_ce(struct cache_entry *ce, struct cache_entry *alias)
+  reads cache/index into memory.  Builds hash structure
+
+---
+git/cache.h -- directory cache, comments
+
+  file status, sha1, name
+  ...
+  TREE sha1 of corresponding tree object
+  sha1 of index 
+
+  gitlink -- a submodule
+  add_name_hash -- name index in cache
+        OBJ_COMMIT = 1,
+        OBJ_TREE = 2,
+        OBJ_BLOB = 3,
+        OBJ_TAG = 4,
+        /* 5 for future expansion */
+        OBJ_OFS_DELTA = 6,
+        OBJ_REF_DELTA = 7,
+
+        # Gitlink is a commit
+                S_ISGITLINK(mode) ? OBJ_COMMIT :
+    # Cache used in multiple environments?
+        #define GIT_NOTES_REF_ENVIRONMENT "GIT_NOTES_REF"
+#define REFRESH_IGNORE_SUBMODULES       0x0010  /* ignore submodules */
+static inline int hashcmp(const unsigned char *sha1, const unsigned char *sha2)
+struct ref {
+        struct ref *next;
+        unsigned char old_sha1[20];
+        unsigned char new_sha1[20];
+        char *symref;
+extern struct ref **get_remote_heads(int in, struct ref **list, int nr_match, char **match, unsigned int flags, struct extra_have_objects *);
+
+git-apply a patch
+git-remote - manage set of tracked repositories
+
+git-clone
+--shared
+-s
+When the repository to clone is on the local machine, instead of using hard links, automatically setup .git/objects/info/alternates to share the objects with the source repository. The resulting repository starts out without any object of its own.
+
+config()
+core.gitProxy
+
+====================================
+== Thid Design, To Do,  and Programming Style
+====================================
+
+[Feb 2008]
+
+does a Field know its type?  It ought to, though can always look it up.  The later avoids two type systems, conversion and consistency
+
+use QMetaType as the type system, it's just names, but ties into QVariant
+
+Want value semantics, owner semantics
+
+Should a field name be a thid?  Can then call it what you will
+
+ItemReference.toName()
+
+Implemenetation ideas
+  Staircase Join (used for XQuery)
+
+QMap<ThidReference, handle>
+Thid
+    context, number handle, rev desc
+    => flags, name, thidformat, handle
+    immutable, appendable, ordered, mutable, mastership
+
+QMap<FieldReference, handle>
+ThField
+    context, name handle, date desc
+    => value handle, op, flags  
+   Vesta op for singleton, set, merge
+   Similar to QObject dynamic properties, string name, QVariant value
+
+QMap<NameReference, handle>
+ThName
+   context (namespace)
+   string
+   => flags
+   includes absolute and relative dirpaths
+   immutable
+   QString name= ThString::stringForHandle(m_nameHandle);
+ 
+QMultiMap<int128, handle>
+ThNumber
+   int128 -- includes fingerprints
+   => flags
+
+ThList
+QList<ItemReference>
+
+ThHandleIndex
+QMultiHash<handle, handle>
+
+ThStringIndex
+QMultiHash<string, handle>
+
+DeletedHandles
+QSet<handle>
+
+All data is cached in memory
+
+On disk
+  ThidComponent stores ThField hierarchy down to thid values
+  Split into mutable and immutable pieces
+  Mutable is specific to a location, and may be replicated elsewhere
+  Immutable is specific to the thid revision and may be replicated
+  Appendable means Add only
+  Set means add, del, set
+
+1. Data in memory
+2. Read all data from disk
+3. Flush unused data -- fairly expensive, at the thid level
+
+Vesta has mutable attributes only if context is mutable
+
+not applicable
+  Not xref value=>handles -- containing handles instead of actual
+
+vesta
+        Vesta does attributes by shortid,name,value, add,del,datetime -- has advantage that handle never goes out of date, and easily merged.  One advantage of handles is for hierarchical structure.  can have a value and sub-values.
+
+        VMemPool -- packed objects == thhandle
+        VestaSource -- base type == thid
+        VestaAttribs -- attributes of a VestaSource
+        Val.H -- any SDL value, including bindings (BindVC)
+
+th add sdfA3_2007.rtf
+th get sadA*
+
+want to add a topic file with ids and titles
+a biblio file with entries
+memory-based id/file
+memory-based id/titles
+memory-based xref
+disk-based id/file
+disk-based xref
+disk-based id/titles/owner -- a form of xref
+network-based id/file
+network-based id/titles
+network-based xref
+a depot indexes all of its content
+all servers index all of their content
+
+change type tag to a char[4]
+Need recent list
+Work list editor, based on ListView
+Work list and item list accelerators
+Aliased items
+Condensed view
+Paragraph view
+Line editor
+Tree editor
+Add all data to expanded view (e.g., thid ID)
+Search by thid
+Logging -- multi-level
+Error handling
+Gprof
+Performance counters
+Versioning 
+Remote access
+Merging
+Pointer machine
+CppCastingHelper -- in xml/query/util
+PlainSharedPtr -- never does a deref
+
+port logging model to Qt
+index="" for topics in nodes-dump.xml
+title= replaces element name
+attributes are tool tip
+TitleOf is all item-title elements of 'root'
+ContentOf is contents of item-def 
+fix scroll of content
+
+====================================
+== thnode parser
+====================================
+
+Problems 
+  -- Record bad files with sufficient state to analyze, then skip
+  -- unstructured text
+  -- \b in a .Title or a \i in a .J -- should be an error, need to continue
+  -- a blank indented line \li333 \
+  -- illegal markup
+       ;;2343 ;;@asdfsf asdfsdf
+
+<quote-ref> not closed properly, see nodes.xml
+<paren-ref> not formated properly, see nodes.xml
+
+====================================
+== C++ Style conventions for Thid
+====================================
+
+
+Append '_' to distinguish parameter names from member names
+Use all lower-case, abbreviated for local declarations and parameters declared at top.  They act as pronoun references.
+Use camel-case for class components.
+Use initial caps for class names
+Define all entities as const by default
+All blocks defined by {...} -- if () x=1; is illegal
+Use Stroustrop formatting
+Set local variables instead of building a long expression
+                ThItemModel model = db.getModel();
+                mainwin.setSourceModel(model);
+vs.
+                mainwin.setSourceModel(db.getModel());
+
+    : modelSource(source), curThid(ThLocalID_null) 
+        , thidList(db->listForModelSourcedb())
+"explicit" means a non-converting constructor with one argument
+Place static strucs, fields, and methods last
+On whether to use nsFoo aFoo (bFoo) or nsFoo aFoo = bFoo:  everyone agrees, the form with "=" looks better
+
+From Cwalina, K., Abrams, B., Framework Design Guidelines, 2006
+Use camel casing for all parameters
+Use PascalCase for all public IDs
+Only capitalize two-letter acroynms (e.g., IOFile)
+No public fields, use properties instead.
+Use m_ and s_ for fields and static fields (J. Richter)
+No underscores, hyphens, etc.
+Enumerations -- use plural names for bit fields (e.g., ConsoleModifiers), otherwise use singular names.  Do not use Enum, Flag, or Flags suffixes, do not give enums a common prefix
+Try boolean predicates in an if statement, e.g., if(collection.Contains(item) vs. IsContained(item)
+add... -- append, insert, or otherwise add something to a collection
+
+QObject   (e.g., QScriptEngine)
+QSharedData (e.g., QHash)
+Q_DISABLE_COPY frequently used, e.g., QTokenizer
+private d pointer to private data (e.g., QTestData)
+q pointer back to public, e.g., QObject
+public members in private data
+class with private data using m_...
+static data with s_....
+
+class ThidInfo {
+    friend class ThidInfoPrivate;
+
+    ThidInfoPrivate *d;    
+
+//== class variables
+
+public:
+//== constants
+    static const QString Separator;     
+    enum ThidFormat : char {
+        NoFormat=0
+    };
+
+//== constructor, destructor
+//== conversion
+//== accessor
+//== predicate
+//== mutator
+//== class function
+
+};//ThidInfo
+
+===============================
+== qHash for QHash<Thid>
+===============================
+Dropped jul'11
+
+uint
+qHash(Thesa::Thid *t) 
+{ 
+    return qHash(t->thidIdentifier());
+};//qHash
+
+
+===============================
+== #pragma message(Remind "abc" )
+===============================
+//! Add fixup error log
+//! Windows Developer Journal, 197?)
+//! Alan De Smet -- Microsoft Visual C++ Tips and Tricks
+
+#ifndef Q_MOC_RUN
+#define Stringize( L ) #L
+#define MakeString( M, L )  M(L)
+#define MyLine MakeString( Stringize, __LINE__ )
+#define Fixup __FILE__ "(" MyLine ") : warning C1111: FIXUP "
+#pragma message(Remind "abc" )
+#endif
+// Can not define 'fixup' as #pragma 
+
+
+
+void ThDiskBlock::
+setBlockOwner(const ThidIdentifier &depot, const ThidIdentifier &thid, HowId how)
+{
+    if(how!=NoHow && how!=HowInvalid){
+        ThFlagsInt code= how&HowCodeMask;
+        if(code==0){
+            throw ThError(10069, "ThDiskBlock: can not set howOwned to special code %u.  Expecting NoHow(0) or HowInvalid(0x10000000)", 0,0,0.0, quint64(how));
+        }
+        if(code!=HowItemBucket){
+            if(how&~HowCodeMask){
+                throw ThError(10070, "ThDiskBlock: extra bits (0xFFFFFF00) set for howOwned %u", 0,0,0.0, quint64(how));
+            }
+            if((code>HowMaxSpecial && code<HowOwned)
+            || code>HowMaxOwned){
+                throw ThError(10071, "ThDiskBlock: unknown code for setHowOwned %u. Expecting 0..9 or 0x60..62", 0,0,0.0, quint64(how));
+            }
+        }
+    }
+    owner_depot= depot;
+    owner_thid= thid;
+    how_owned= how;
+}//setBlockOwner
+
+============================================
+== DevStudio debugger
+============================================
+
+Alan De Smet's suggestions
+   Workspace Whiz
+   #pragma message(Reminder, "text")
+   Resource Leaks: Detecting, Locating, and Repairing your leaky GDI code
+   Watch window: @err or @err,hr for GetLastError and HRESULT
+     p,10 shows 10 elements at p
+     
+   Debugging:
+     __asm int 3;  or __debugbreak (Common Expression Evaluator)
+     Watches
+       @clk ... @clk=0   Show and reset value of clock
+     QuickWatch window
+       Execute functions e.g., dumpT(p)  which calls OutputDebugString or printf
+     SetThreadName
+     @tib+24 is the Thread ID (thread information block)
+     set "Microsoft C++ Exception" to Stop Always (Debug > Exceptions)
+     Breakpoints 
+       on argument value (condition dw esp+0x8==3) where 0x8 is the arg offset
+       Avoid the very slow emulation mode -- no expressions
+       4 hardware data breakpoints -- may be triggered by process swap requiring a reboot
+       Set breakpoint count to large value.  Get actual count at crash.  Break just before.
+       Use breakpoint by name to handle edits
+     Casts need exact type name (watch variable then look in properties)
+       For pObject local while CMyClass defined in foo.dll
+       {,,foo.dll}(CMyClass *){*}pObject
+     Disassembly
+       ^G EIP -- Goes to current location
+       
+
+Through the Interface: Advanced Visual Studio debugging...   July 24, 2006
+     Or HKEY_LOCAL/Software/MS/VS/8.0/Native/StepOver
+     autoexp.dat in devstudio/Common7/Packages/Debugger
+       [ExecutionControl]
+         CString::CString=NoStepInto # skips CString constructor
+         CString::CString::operator==NoStepInto # skips CString::operator=
+         CString::*=NoStepInto # skips all of CString
+       At most 256 characters
+       No multi-line output
+       Can develop an AddIn for more complex displays
+         $ADDIN -- Customizing the Visual Studio Debugger Display of Your Data (msdn aa730838 and 8fwk67y3)
+       Very Advanced Debugging Tips
+         Load debug symbols (see blogs.msdn/calvin_hsia/... 246382
+         Register Window -- set Show Effecive Address)
+ Common Expression...
+     Add /MAP to LINK for full decorated names
+ 
+ Writing custom visualizers for Visual Studio 2005 [blog.csdn.net/wilton]
+     Match templates with type<Bar, *>.  Template parameters are $T1, $T2
+     Match multiple types with Foo|Bar
+     Preview must be one line.  Use #(...) for a comma list of expressions using $c
+     Preview sizeof() does not work.  
+     Avoid using colon, paren, brackets within strings and character literals
+     The children block shows a sorted list (+[*]), optionally named with name:expr
+       Names may have brackets
+       Add sub-blocks by referencing an object with a visualizer
+       Array expression [$c.start, 4c]
+       Show all fields [$c,!] without autoexpand or visualizers
+       #array with expr w/ $i, size, base w/o $e formating (offset), rank $r (multi-D).  
+       Follow #array with value autoexpander #array(..):&$e where $e is *expr
+         Can be anything (except for #if)
+       #if () (...) #elif (..) #else (..)
+       #switch () #case 0x000 (...) #case ... #default (...)  Do not use #array
+       #list ( head: $c.head, next: nextNode, skip:stop-here, size:max-count):display-expression with $e
+       #tree ( head: $c head, left: leftNode, right: rightNode, size: max-count, skip: stop-here ), 
+   The stringview block displays a modal text, xml, or html visualizer.
+      No literal string in value expressions.  Can't escape HTML
+    
+   Display code ,su is string in quotes.  ,sub is string w/o quotes
+   
+   HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AeDebug\UserDebuggerHotKey registry key. Modifying this you can set the keycode (scancode) that is registered as a global hotkey for the debugger. By default it's value is zero (0x0, F12), but you can set it to eg. 0x2F (VK_HELP)
+   
+
+----
+EOF
+

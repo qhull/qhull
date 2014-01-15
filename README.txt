@@ -74,9 +74,9 @@ To install Qhull
   See the end of this document for a list of distributed files.
 
 -----------------
-Installing Qhull on Windows
+Installing Qhull on Windows 7 (32- or 64-bit), Windows XP, and Windows NT
 
-  The zip file contains rbox.exe, qhull.exe, qconvex.exe, qdelaunay.exe, 
+  The zip file contains rbox.exe, qhull.exe, qconvex.exe, qdelaUnay.exe, 
   qhalf.exe, qvoronoi.exe, testqset.exe, user_eg*.exe, documentation files, 
   and source files.
   
