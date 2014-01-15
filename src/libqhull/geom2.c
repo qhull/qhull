@@ -7,7 +7,7 @@
 
    see qh-geom.htm and geom.h
 
-   Copyright (c) 1993-2012 The Geometry Center.
+   Copyright (c) 1993-2014 The Geometry Center.
    $Id: //main/2011/qhull/src/libqhull/geom2.c#3 $$Change: 1464 $
    $DateTime: 2012/01/25 22:58:41 $$Author: bbarber $
 
@@ -1209,7 +1209,7 @@ realT qh_minabsval(realT *normal, int dim) {
 /*-<a                             href="qh-geom.htm#TOC"
   >-------------------------------</a><a name="mindiff">-</a>
 
-  qh_mindif ( vecA, vecB, dim )
+  qh_mindif( vecA, vecB, dim )
     return index of min abs. difference of two vectors
 */
 int qh_mindiff(realT *vecA, realT *vecB, int dim) {

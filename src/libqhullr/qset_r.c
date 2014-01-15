@@ -11,13 +11,13 @@
    either the actual size of the set plus 1, or the NULL terminator
    of the set (i.e., setelemT).
 
-   Copyright (c) 1993-2012 The Geometry Center.
+   Copyright (c) 1993-2014 The Geometry Center.
    $Id: //main/2011/qhull/src/libqhullr/qset_r.c#1 $$Change: 1640 $
    $DateTime: 2014/01/15 09:12:08 $$Author: bbarber $
 */
 
-#include "qset.h"
-#include "mem.h"
+#include "qset_r.h"
+#include "mem_r.h"
 #include <stdio.h>
 #include <string.h>
 /*** uncomment here and qhull_a.h
@@ -1246,7 +1246,7 @@ setT *qh_settemppop(void) {
 void qh_settemppush(setT *set) {
     if (!set) {
         fprintf (qhmem.ferr, "qhull error (qh_settemppush): can not push a NULL temp\n");
-        qh_errexit (qhmem_ERRqhull, NULL, NULL);
+        qh_errexit(qhmem_ERRqhull, NULL, NULL);
     }
   qh_setappend(&qhmem.tempstack, set);
   if (qhmem.IStracing >= 5)

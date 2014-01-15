@@ -16,10 +16,13 @@ CONFIG += ordered
 
 SUBDIRS += libqhull        #shared library
 SUBDIRS += libqhullp       #shared library with qh_QHpointer (libqhull/user.h)
+SUBDIRS += libqhullr       #shared library for reentrant code
 SUBDIRS += user_eg         #user program linked to libqhull6_p (libqhullp)
 
 SUBDIRS += libqhullstatic  #static library
 SUBDIRS += libqhullstaticp #static library with qh_QHpointer
+SUBDIRS += libqhullstaticr #static library with reentrant code
+SUBDIRS += qhullr          #qhull program linked to libqhullstatic_r
 SUBDIRS += qhull           #qhull programs linked to libqhullstatic
 SUBDIRS += qconvex
 SUBDIRS += qdelaunay

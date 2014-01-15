@@ -8,12 +8,12 @@
 
    frequently used code is in poly.c
 
-   Copyright (c) 1993-2012 The Geometry Center.
+   Copyright (c) 1993-2014 The Geometry Center.
    $Id: //main/2011/qhull/src/libqhullr/poly2_r.c#1 $$Change: 1640 $
    $DateTime: 2014/01/15 09:12:08 $$Author: bbarber $
 */
 
-#include "qhull_a.h"
+#include "qhull_ra.h"
 
 /*======== functions in alphabetical order ==========*/
 

@@ -1,20 +1,20 @@
 /*<html><pre>  -<a                             href="qh-qhull.htm"
   >-------------------------------</a><a name="TOP">-</a>
 
-   qhull_a.h
-   all header files for compiling qhull
+   qhull_ra.h
+   all header files for compiling qhull with reentrant code
 
    see qh-qhull.htm
 
-   see libqhull.h for user-level definitions
+   see libqhull_r.h for user-level definitions
 
-   see user.h for user-defineable constants
+   see user_r.h for user-definable constants
 
    defines internal functions for libqhull.c global.c
 
-   Copyright (c) 1993-2012 The Geometry Center.
-   $Id: //main/2011/qhull/src/libqhullr/qhull_a_r.h#1 $$Change: 1640 $
-   $DateTime: 2014/01/15 09:12:08 $$Author: bbarber $
+   Copyright (c) 1993-2014 The Geometry Center.
+   $Id: //main/2011/qhull/src/libqhullr/qhull_ra.h#1 $$Change: 1642 $
+   $DateTime: 2014/01/15 10:24:44 $$Author: bbarber $
 
    Notes:  grep for ((" and (" to catch fprintf("lkasdjf");
            full parens around (x?y:z)
@@ -24,16 +24,16 @@
 #ifndef qhDEFqhulla
 #define qhDEFqhulla 1
 
-#include "libqhull.h"  /* Defines data types */
+#include "libqhull_r.h"  /* Defines data types */
 
-#include "stat.h"
-#include "random.h"
-#include "mem.h"
-#include "qset.h"
-#include "geom.h"
-#include "merge.h"
-#include "poly.h"
-#include "io.h"
+#include "stat_r.h"
+#include "random_r.h"
+#include "mem_r.h"
+#include "qset_r.h"
+#include "geom_r.h"
+#include "merge_r.h"
+#include "poly_r.h"
+#include "io_r.h"
 
 #include <setjmp.h>
 #include <string.h>

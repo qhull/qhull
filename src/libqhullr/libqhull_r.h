@@ -6,7 +6,7 @@
 
    see qh-qhull.htm, qhull_a.h
 
-   Copyright (c) 1993-2012 The Geometry Center.
+   Copyright (c) 1993-2014 The Geometry Center.
    $Id: //main/2011/qhull/src/libqhullr/libqhull_r.h#1 $$Change: 1640 $
    $DateTime: 2014/01/15 09:12:08 $$Author: bbarber $
 
@@ -31,7 +31,7 @@
 
 /*=========================== -included files ==============*/
 
-#include "user.h"      /* user definable constants (e.g., qh_QHpointer) */
+#include "user_r.h"      /* user definable constants (e.g., qh_QHpointer) */
 
 #include <setjmp.h>
 #include <float.h>

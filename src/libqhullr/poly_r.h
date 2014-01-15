@@ -6,7 +6,7 @@
 
    see qh-poly.htm, libqhull.h and poly.c
 
-   Copyright (c) 1993-2012 The Geometry Center.
+   Copyright (c) 1993-2014 The Geometry Center.
    $Id: //main/2011/qhull/src/libqhullr/poly_r.h#1 $$Change: 1640 $
    $DateTime: 2014/01/15 09:12:08 $$Author: bbarber $
 */
@@ -14,7 +14,7 @@
 #ifndef qhDEFpoly
 #define qhDEFpoly 1
 
-#include "libqhull.h"
+#include "libqhull_r.h"
 
 /*===============   constants ========================== */
 

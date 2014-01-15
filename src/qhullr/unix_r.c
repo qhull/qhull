@@ -7,14 +7,14 @@
 
    see qh-qhull.htm
 
-   Copyright (c) 1993-2012 The Geometry Center.
+   Copyright (c) 1993-2014 The Geometry Center.
    $Id: //main/2011/qhull/src/qhullr/unix_r.c#1 $$Change: 1640 $
    $DateTime: 2014/01/15 09:12:08 $$Author: bbarber $
 */
 
-#include "mem.h"
-#include "qset.h"
-#include "libqhull.h"
+#include "mem_r.h"
+#include "qset_r.h"
+#include "libqhull_r.h"
 
 #include <ctype.h>
 #include <math.h>

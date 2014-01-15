@@ -20,12 +20,12 @@
    merges occur in qh_mergefacet and in qh_mergecycle
    vertex->neighbors not set until the first merge occurs
 
-   Copyright (c) 1993-2012 C.B. Barber.
+   Copyright (c) 1993-2014 C.B. Barber.
    $Id: //main/2011/qhull/src/libqhullr/merge_r.c#1 $$Change: 1640 $
    $DateTime: 2014/01/15 09:12:08 $$Author: bbarber $
 */
 
-#include "qhull_a.h"
+#include "qhull_ra.h"
 
 #ifndef qh_NOmerge
 
@@ -2351,7 +2351,7 @@ too strong.\n", qh hull_dim+1);
     facet2->nummerge= (short unsigned int)nummerge;
   facet2->newmerge= True;
   facet2->dupridge= False;
-  qh_updatetested  (facet1, facet2);
+  qh_updatetested(facet1, facet2);
   if (qh hull_dim > 2 && qh_setsize(facet1->vertices) == qh hull_dim)
     qh_mergesimplex(facet1, facet2, mergeapex);
   else {

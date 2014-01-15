@@ -8,7 +8,7 @@
 
    frequently used code is in poly.c
 
-   Copyright (c) 1993-2012 The Geometry Center.
+   Copyright (c) 1993-2014 The Geometry Center.
    $Id: //main/2011/qhull/src/libqhull/poly2.c#5 $$Change: 1490 $
    $DateTime: 2012/02/19 20:27:01 $$Author: bbarber $
 */

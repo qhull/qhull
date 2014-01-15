@@ -1,6 +1,5 @@
 # -------------------------------------------------
 # libqhull.pro -- Qt project for Qhull shared library
-#   Built with qh_QHpointer=1
 # -------------------------------------------------
 
 include(../qhull-warn.pri)

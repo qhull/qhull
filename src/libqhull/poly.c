@@ -9,7 +9,7 @@
    infrequent code is in poly2.c
    (all but top 50 and their callers 12/3/95)
 
-   Copyright (c) 1993-2012 The Geometry Center.
+   Copyright (c) 1993-2014 The Geometry Center.
    $Id: //main/2011/qhull/src/libqhull/poly.c#5 $$Change: 1464 $
    $DateTime: 2012/01/25 22:58:41 $$Author: bbarber $
 */

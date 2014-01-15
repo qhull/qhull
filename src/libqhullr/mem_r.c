@@ -29,12 +29,12 @@
     qh-mem.htm and mem.h
     global.c (qh_initbuffers) for an example of using mem.c
 
-  Copyright (c) 1993-2012 The Geometry Center.
+  Copyright (c) 1993-2014 The Geometry Center.
   $Id: //main/2011/qhull/src/libqhullr/mem_r.c#1 $$Change: 1640 $
   $DateTime: 2014/01/15 09:12:08 $$Author: bbarber $
 */
 
-#include "mem.h"
+#include "mem_r.h"
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>

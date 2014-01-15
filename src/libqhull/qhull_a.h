@@ -8,11 +8,11 @@
 
    see libqhull.h for user-level definitions
 
-   see user.h for user-defineable constants
+   see user.h for user-definable constants
 
    defines internal functions for libqhull.c global.c
 
-   Copyright (c) 1993-2012 The Geometry Center.
+   Copyright (c) 1993-2014 The Geometry Center.
    $Id: //main/2011/qhull/src/libqhull/qhull_a.h#3 $$Change: 1464 $
    $DateTime: 2012/01/25 22:58:41 $$Author: bbarber $
 

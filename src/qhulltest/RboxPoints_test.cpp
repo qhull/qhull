@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (c) 2006-2012 C.B. Barber. All rights reserved.
+** Copyright (c) 2006-2014 C.B. Barber. All rights reserved.
 ** $Id: //main/2011/qhull/src/qhulltest/RboxPoints_test.cpp#4 $$Change: 1490 $
 ** $DateTime: 2012/02/19 20:27:01 $$Author: bbarber $
 **

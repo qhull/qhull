@@ -13,12 +13,12 @@
    unix.c and user.c are the only callers of io.c functions
    This allows the user to avoid loading io.o from qhull.a
 
-   Copyright (c) 1993-2012 The Geometry Center.
+   Copyright (c) 1993-2014 The Geometry Center.
    $Id: //main/2011/qhull/src/libqhullr/io_r.c#1 $$Change: 1640 $
    $DateTime: 2014/01/15 09:12:08 $$Author: bbarber $
 */
 
-#include "qhull_a.h"
+#include "qhull_ra.h"
 
 /*========= -functions in alphabetical order after qh_produce_output()  =====*/
 
@@ -1068,19 +1068,19 @@ void qh_order_vertexneighbors(vertexT *vertex) {
 */
 void qh_prepare_output(void) {
   if (qh VORONOI) {
-    qh_clearcenters (qh_ASvoronoi);
+    qh_clearcenters(qh_ASvoronoi);
     qh_vertexneighbors();
   }
   if (qh TRIangulate && !qh hasTriangulation) {
     qh_triangulate();
     if (qh VERIFYoutput && !qh CHECKfrequently)
-      qh_checkpolygon (qh facet_list);
+      qh_checkpolygon(qh facet_list);
   }
-  qh_findgood_all (qh facet_list);
+  qh_findgood_all(qh facet_list);
   if (qh GETarea)
     qh_getarea(qh facet_list);
   if (qh KEEParea || qh KEEPmerge || qh KEEPminArea < REALmax/2)
-    qh_markkeep (qh facet_list);
+    qh_markkeep(qh facet_list);
   if (qh PRINTstatistics)
     qh_collectstatistics();
 }

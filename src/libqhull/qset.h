@@ -16,7 +16,7 @@
     - every set is NULL terminated
     - sets may be sorted or unsorted, the caller must distinguish this
 
-   Copyright (c) 1993-2012 The Geometry Center.
+   Copyright (c) 1993-2014 The Geometry Center.
    $Id: //main/2011/qhull/src/libqhull/qset.h#4 $$Change: 1464 $
    $DateTime: 2012/01/25 22:58:41 $$Author: bbarber $
 */

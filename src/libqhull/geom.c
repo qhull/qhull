@@ -6,7 +6,7 @@
 
    see qh-geom.htm and geom.h
 
-   Copyright (c) 1993-2012 The Geometry Center.
+   Copyright (c) 1993-2014 The Geometry Center.
    $Id: //main/2011/qhull/src/libqhull/geom.c#3 $$Change: 1464 $
    $DateTime: 2012/01/25 22:58:41 $$Author: bbarber $
 

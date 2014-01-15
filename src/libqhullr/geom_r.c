@@ -6,14 +6,14 @@
 
    see qh-geom.htm and geom.h
 
-   Copyright (c) 1993-2012 The Geometry Center.
+   Copyright (c) 1993-2014 The Geometry Center.
    $Id: //main/2011/qhull/src/libqhullr/geom_r.c#1 $$Change: 1640 $
    $DateTime: 2014/01/15 09:12:08 $$Author: bbarber $
 
    infrequent code goes into geom2.c
 */
 
-#include "qhull_a.h"
+#include "qhull_ra.h"
 
 /*-<a                             href="qh-geom.htm#TOC"
   >-------------------------------</a><a name="distplane">-</a>

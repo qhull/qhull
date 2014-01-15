@@ -11,7 +11,7 @@
 
    see qhull_a.h for internal functions
 
-   Copyright (c) 1993-2012 The Geometry Center.
+   Copyright (c) 1993-2014 The Geometry Center.
    $Id: //main/2011/qhull/src/libqhull/global.c#15 $$Change: 1490 $
    $DateTime: 2012/02/19 20:27:01 $$Author: bbarber $
  */
