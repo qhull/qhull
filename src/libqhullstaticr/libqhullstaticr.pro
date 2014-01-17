@@ -4,7 +4,6 @@
 # -------------------------------------------------
 
 include(../qhull-warn.pri)
-include(../qhull-libqhullr-src.pri)
 
 DESTDIR = ../../lib
 TEMPLATE = lib
@@ -14,6 +13,8 @@ build_pass:CONFIG(debug, debug|release):{
     TARGET = qhullstatic_rd
     OBJECTS_DIR = Debug
 }else:build_pass:CONFIG(release, debug|release):{
-    TARGET = qhullstatic_rd
+    TARGET = qhullstatic_r
     OBJECTS_DIR = Release
 }
+
+include(../qhull-libqhull-src_r.pri)

@@ -1,0 +1,10 @@
+
+qhull/src/libqhullp
+
+    This directory contains the deprecated qh_qhPOINTER configuration of qhull
+    
+    It will be maintained at least until January 2015.
+    
+    See qhull/src/libqhullr for the reentrant version of qhull
+    
+ 

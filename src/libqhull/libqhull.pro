@@ -21,36 +21,7 @@ win32-msvc* : QMAKE_LFLAGS += /INCREMENTAL:NO
 
 win32-msvc* : DEF_FILE += ../../src/libqhull/qhull-exports.def
 
-# Order object files by frequency of execution.  Small files at end.
-SOURCES += rboxlib.c
-SOURCES += user.c
-SOURCES += global.c
-SOURCES += stat.c
-SOURCES += io.c
-SOURCES += geom2.c
-SOURCES += poly2.c
-SOURCES += merge.c
-SOURCES += libqhull.c
-SOURCES += geom.c
-SOURCES += poly.c
-SOURCES += qset.c
-SOURCES += mem.c
-SOURCES += usermem.c
-SOURCES += userprintf.c
-SOURCES += userprintf_rbox.c
-SOURCES += random.c
-
-HEADERS += geom.h
-HEADERS += io.h
-HEADERS += libqhull.h
-HEADERS += mem.h
-HEADERS += merge.h
-HEADERS += poly.h
-HEADERS += random.h
-HEADERS += qhull_a.h
-HEADERS += qset.h
-HEADERS += stat.h
-HEADERS += user.h
+include(../qhull-libqhull-src.pri)
 
 OTHER_FILES += Mborland
 OTHER_FILES += qh-geom.htm

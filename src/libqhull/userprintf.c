@@ -19,6 +19,7 @@
 */
 
 #include "libqhull.h"
+#include "mem.h"
 
 #include <stdarg.h>
 #include <stdio.h>

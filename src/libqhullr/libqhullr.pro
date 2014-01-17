@@ -22,4 +22,4 @@ win32-msvc* : QMAKE_LFLAGS += /INCREMENTAL:NO
 
 win32-msvc* : DEF_FILE += ../../src/libqhullr/qhull-exports_r.def
 
-include(../qhull-libqhullr-src.pri)
+include(../qhull-libqhull-src_r.pri)

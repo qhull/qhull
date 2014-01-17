@@ -1,5 +1,5 @@
 # -------------------------------------------------
-# qhull-app-cpp.pri -- Qt include project for static CPP qhull applications using Qt
+# qhull-app-cpp.pri -- Qt include project for qhull as C++ classes
 # -------------------------------------------------
 
 include(qhull-warn.pri)
@@ -20,7 +20,5 @@ build_pass:CONFIG(debug, debug|release){
 }
 win32-msvc* : QMAKE_LFLAGS += /INCREMENTAL:NO
 
-DEFINES += qh_QHpointer # libqhull/user.h
-
 INCLUDEPATH += ../libqhullcpp
-INCLUDEPATH += ../../src # "libqhull/qhull_a.h"
+INCLUDEPATH += ../../src # "libqhullr/qhull_a.h"

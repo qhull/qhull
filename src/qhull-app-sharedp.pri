@@ -1,5 +1,5 @@
 # -------------------------------------------------
-# qhull-app-sharedp.pri -- Qt include project for C qhull applications linked with libqhull6_p 
+# qhull-app-sharedp.pri -- Deprecated Qt include project for C qhull applications linked with libqhull6_p 
 #   Compile code with -Dqh_QHpointer 
 # -------------------------------------------------
 

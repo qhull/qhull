@@ -2,7 +2,8 @@
 ;
 ;   Generated from depends.exe by cut-and-paste of exported symbols by mingw gcc
 ;   [mar'11] 399 symbols 
-;   Annotate as DATA qh_qh qh_qhstat qhmem qhull_inuse rbox_inuse
+;   Annotate as DATA qh_last_random qh_qh qh_qhstat qhmem qhull_inuse rbox rbox_inuse
+;   Annotate as __declspec for outside access in win32 -- qh_qh qh_qhstat
 ;
 ; $Id: //main/2011/qhull/src/libqhull/qhull-exports.def#2 $$Change: 1368 $
 ; $DateTime: 2011/04/16 08:12:32 $$Author: bbarber $
@@ -10,11 +11,6 @@
 ; Define qhull_VERSION in CMakeLists.txt, Makefile, qhull-exports.def, qhull_p-exports.def, and qhull-warn.pri
 VERSION 6.3
 EXPORTS
-dfacet
-dvertex
-out1
-out2n
-out3n
 qh_addhash
 qh_addpoint
 qh_all_merges
@@ -85,10 +81,12 @@ qh_detsimplex
 qh_detvnorm
 qh_detvridge
 qh_detvridge3
+qh_dfacet
 qh_distnorm
 qh_distplane
 qh_distround
 qh_divzero
+qh_dvertex
 qh_eachvoronoi
 qh_eachvoronoi_all
 qh_errexit
@@ -160,6 +158,8 @@ qh_initthresholds
 qh_inthresholds
 qh_isvertex
 qh_joggleinput
+; Mark as DATA, otherwise links a separate qh_last_random.  No __declspec.
+qh_last_random      DATA
 qh_makenew_nonsimplicial
 qh_makenew_simplicial
 qh_makenewfacet
@@ -224,6 +224,9 @@ qh_nostatistic
 qh_option
 qh_order_vertexneighbors
 qh_orientoutside
+qh_out1
+qh_out2n
+qh_out3n
 qh_outcoplanar
 qh_outerinner
 qh_partitionall
@@ -305,12 +308,11 @@ qh_projectdim3
 qh_projectinput
 qh_projectpoint
 qh_projectpoints
-; Mark as DATA, otherwise links a separate qh_qh.  Requires __dcelspec
+; Mark as DATA, otherwise links a separate qh_qh.  qh_qh and qh_qhstat requires __declspec
 qh_qh               DATA
 qh_qhstat           DATA
 qh_qhull
 qh_rand
-qh_rand_seed
 qh_randomfactor
 qh_randommatrix
 qh_rboxpoints
@@ -328,6 +330,7 @@ qh_resetlists
 qh_restore_qhull
 qh_rotateinput
 qh_rotatepoints
+qh_roundi
 qh_save_qhull
 qh_scaleinput
 qh_scalelast
@@ -405,9 +408,8 @@ qh_vertexridges_facet
 qh_vertexsubset
 qh_voronoi_center
 qh_willdelete
-; Mark as DATA, otherwise links a separate qhmem.  Requires __dcelspec
+; Mark as DATA, otherwise links a separate qhmem.  No __declspec
 qhmem                   DATA
 qhull_inuse             DATA
-rbox
+rbox			DATA
 rbox_inuse              DATA
-roundi

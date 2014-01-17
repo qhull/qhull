@@ -1,5 +1,5 @@
 # -------------------------------------------------
-# qhull-app-shared.pri -- Qt include project for C qhull applications linked with libqhull (shared library)
+# qhull-app-shared.pri -- Deprecated Qt include project for C qhull applications linked with libqhull (shared library)
 # -------------------------------------------------
 
 include(qhull-warn.pri)

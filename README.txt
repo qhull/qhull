@@ -375,7 +375,7 @@ src/
 
   user_eg/user_eg.c    // example of using qhull_p.dll (requires -Dqh_QHpointer)
   user_eg2/user_eg2.c  // example of using qhull.dll from a user program
-  user_eg3/user_eg3.cpp // example of Qhull's C++ interface with libqhullstatic_p.a
+  user_eg3/user_eg3.cpp // example of Qhull's C++ interface with libqhullstatic_r.a
   qhulltest/qhulltest.cpp // Test of Qhull's C++ interface using Qt's QTestLib
   qhull-*.pri          // Include files for Qt projects
 

@@ -2,7 +2,7 @@
 # user_eg3.pro -- Qt project for cpp demonstration user_eg3.exe
 # -------------------------------------------------
 
-include(../qhull-app-cpp.pri)
+include(../qhull-app-cpp_p.pri)
 
 TARGET = user_eg3
 CONFIG -= qt

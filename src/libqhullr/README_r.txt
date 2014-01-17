@@ -1,21 +1,28 @@
 Converting libqhull to libqhullr
 
+==========================
 Todo 
 
+After qmake, need to update HEADER paths for libqhull, libqhullr, libqhullcpp libqhullpcpp
+    Path="..\lib
+    Path="..\..\src\lib
+
+---
+Convert testqset.c to testqset_r.c
+   Try to make qhT and mem_r.c etc. plugable
+
+Convert user_eg,etc and branch old code to user_egp...
+
+At initialization, check for compatible libqhull.  Add a version check to libqhull
+
+p4 delete src/qhull-libqhullr-src.pri
+
+---
 3>..\..\src\qhullr\unix_r.c(39) : warning C4273: '_isatty' : inconsistent dll linkage
 3>        C:\Program Files\Microsoft Visual Studio 8\VC\INCLUDE\io.h(209) : see previous definition of '_isatty'
 
-Redo usage note for qhullr.cpp
-
-Add qhull-libqhull-src.pri to libqhull.pro
-Remove #SOURCE from libqhullr.pro
-   It changes the RelativePath to one fewer
-     From
-     				RelativePath="..\libqhullr\stat_r.h" />
-     To
-     				RelativePath="..\..\libqhullr\stat_r.h" />
 ---
-How is roadTest.h done, it has the right path in vcproj
+Redo usage note for qhullr.cpp
 
 ---
 /*** uncomment here and qhull_a.h
@@ -36,6 +43,11 @@ and in user_r.c
 --
 Try with and without qh_NOmem
 
+--
+Update 
+  README.txt -- the new subprojects
+  CMakeLists.txt
+  
 ==============
 Steps
 
@@ -121,6 +133,7 @@ Down to 600 errors
 Thurs at 7:18p after fixing all of the compile errors and removing qh_qhPOINTER
 
 # Debug version of qhullr
+ 59 files changed, 8849 insertions(+), 8900 deletions(-)
 
 ISPY-/local/qhull/bin> rbox 100000 t100 s | qhullr
 
@@ -151,4 +164,44 @@ Statistics for: rbox 100000 t100 s | qhull
   Number of hyperplanes created: 565761
   Number of distance tests for qhull: 4376829
   CPU seconds to compute hull (after input):  1
+
+# Release version of rboxr and qhullr
+
+ISPY-/local/qhull/bin> rboxr 100000 t100 s | qhullr
+
+Convex hull of 100000 points in 3-d:
+
+  Number of vertices: 100000
+  Number of facets: 199996
+
+Statistics for: rboxr 100000 t100 s | qhullr
+
+  Number of points processed: 100000
+  Number of hyperplanes created: 565761
+  Number of distance tests for qhull: 4376829
+  CPU seconds to compute hull (after input):  1
+
+-----
+Reorganized projects for cpp. 
+
+Fixed up qhull_p-exports.def.  qhull_r-exports.def has no DATA records.
+
+user_eg3 with libqhullpcpp worked correctly the first time
+
+IISPY-/local/qhull/bin>   user_eg3 rbox "100000 t100 s"  qhull
+rbox 100000 t100 s
+
+Results of qhull
+
+Convex hull of 100000 points in 3-d:
+
+  Number of vertices: 100000
+  Number of facets: 199996
+
+Statistics for: rbox "100000 t100 s" | qhull
+
+  Number of points processed: 100000
+  Number of hyperplanes created: 565761
+  Number of distance tests for qhull: 4376829
+  CPU seconds to compute hull (after input): 1.672
   
