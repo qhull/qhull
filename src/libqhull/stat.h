@@ -7,8 +7,8 @@
    see qh-stat.htm and stat.c
 
    Copyright (c) 1993-2014 The Geometry Center.
-   $Id: //main/2011/qhull/src/libqhull/stat.h#5 $$Change: 1464 $
-   $DateTime: 2012/01/25 22:58:41 $$Author: bbarber $
+   $Id: //main/2011/qhull/src/libqhull/stat.h#6 $$Change: 1645 $
+   $DateTime: 2014/01/15 12:51:30 $$Author: bbarber $
 
    recompile qhull if you change this file
 
@@ -47,7 +47,7 @@
     remove leaders with  query-replace-regexp [ ^I]+  (
 */
 #if qh_KEEPstatistics
-enum statistics {     /* alphabetical after Z/W */
+enum qh_statistics {     /* alphabetical after Z/W */
     Zacoplanar,
     Wacoplanarmax,
     Wacoplanartot,
@@ -284,7 +284,7 @@ enum statistics {     /* alphabetical after Z/W */
     be sure to use zzdef, zzinc, etc. with these statistics (no double checking!)
 */
 #else
-enum statistics {     /* for zzdef etc. macros */
+enum qh_statistics {     /* for zzdef etc. macros */
   Zback0,
   Zbestdist,
   Zcentrumtests,

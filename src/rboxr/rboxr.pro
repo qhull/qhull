@@ -1,8 +1,8 @@
 # -------------------------------------------------
-# qhullr.pro -- Qt project file for qhullr.exe
+# rboxr.pro -- Qt project for rboxr.exe
 # -------------------------------------------------
 
-TARGET = qhullr
+TARGET = rboxr
 
 include(../qhull-warn.pri)
 
@@ -25,4 +25,4 @@ INCLUDEPATH += ../libqhullr
 CONFIG += qhull_warn_conversion
 
 
-SOURCES += unix_r.c
+SOURCES += rbox_r.c

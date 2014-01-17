@@ -22,13 +22,14 @@ SUBDIRS += user_eg         #user program linked to libqhull6_p (libqhullp)
 SUBDIRS += libqhullstatic  #static library
 SUBDIRS += libqhullstaticp #static library with qh_QHpointer
 SUBDIRS += libqhullstaticr #static library with reentrant code
-SUBDIRS += qhullr          #qhull program linked to libqhullstatic_r
 SUBDIRS += qhull           #qhull programs linked to libqhullstatic
 SUBDIRS += qconvex
 SUBDIRS += qdelaunay
 SUBDIRS += qhalf
 SUBDIRS += qvoronoi
 SUBDIRS += rbox
+SUBDIRS += qhullr          #qhull program linked to libqhullstatic_r (for testing)
+SUBDIRS += rboxr	   #rbox program linked to libqhullstatic_r (for testing)
 SUBDIRS += user_eg2        #user program linked to libqhull
 SUBDIRS += testqset        #test program for qset.c with mem.c
 

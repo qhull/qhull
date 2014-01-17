@@ -38,11 +38,11 @@ void qh_exit(int exitcode) {
 /*-<a                             href="qh-user.htm#TOC"
 >-------------------------------</a><a name="qh_free">-</a>
 
-qh_free( mem )
-free memory
+  qh_free( mem )
+    free memory
 
-notes:
-same as free()
+  notes:
+    same as free()
 */
 void qh_free(void *mem) {
     free(mem);

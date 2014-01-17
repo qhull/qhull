@@ -13,8 +13,8 @@
    defines internal functions for libqhull.c global.c
 
    Copyright (c) 1993-2014 The Geometry Center.
-   $Id: //main/2011/qhull/src/libqhullr/qhull_ra.h#1 $$Change: 1642 $
-   $DateTime: 2014/01/15 10:24:44 $$Author: bbarber $
+   $Id: //main/2011/qhull/src/libqhullr/qhull_ra.h#2 $$Change: 1645 $
+   $DateTime: 2014/01/15 12:51:30 $$Author: bbarber $
 
    Notes:  grep for ((" and (" to catch fprintf("lkasdjf");
            full parens around (x?y:z)
@@ -67,7 +67,7 @@
 /*-<a                             href="qh-qhull.htm#TOC"
   >--------------------------------</a><a name="traceN">-</a>
 
-  traceN((qh ferr, 0Nnnn, "format\n", vars));
+  traceN((qh, qh->ferr, 0Nnnn, "format\n", vars));
     calls qh_fprintf if qh.IStracing >= N
 
     Add debugging traps to the end of qh_fprintf
@@ -76,12 +76,12 @@
     removing tracing reduces code size but doesn't change execution speed
 */
 #ifndef qh_NOtrace
-#define trace0(args) {if (qh IStracing) qh_fprintf args;}
-#define trace1(args) {if (qh IStracing >= 1) qh_fprintf args;}
-#define trace2(args) {if (qh IStracing >= 2) qh_fprintf args;}
-#define trace3(args) {if (qh IStracing >= 3) qh_fprintf args;}
-#define trace4(args) {if (qh IStracing >= 4) qh_fprintf args;}
-#define trace5(args) {if (qh IStracing >= 5) qh_fprintf args;}
+#define trace0(args) {if (qh->IStracing) qh_fprintf args;}
+#define trace1(args) {if (qh->IStracing >= 1) qh_fprintf args;}
+#define trace2(args) {if (qh->IStracing >= 2) qh_fprintf args;}
+#define trace3(args) {if (qh->IStracing >= 3) qh_fprintf args;}
+#define trace4(args) {if (qh->IStracing >= 4) qh_fprintf args;}
+#define trace5(args) {if (qh->IStracing >= 5) qh_fprintf args;}
 #else /* qh_NOtrace */
 #define trace0(args) {}
 #define trace1(args) {}
@@ -112,40 +112,40 @@ inline void qhullUnused(T &x) { (void)x; }
 
 /***** -libqhull.c prototypes (alphabetical after qhull) ********************/
 
-void    qh_qhull(void);
-boolT   qh_addpoint(pointT *furthest, facetT *facet, boolT checkdist);
-void    qh_buildhull(void);
-void    qh_buildtracing(pointT *furthest, facetT *facet);
-void    qh_build_withrestart(void);
-void    qh_errexit2(int exitcode, facetT *facet, facetT *otherfacet);
-void    qh_findhorizon(pointT *point, facetT *facet, int *goodvisible,int *goodhorizon);
-pointT *qh_nextfurthest(facetT **visible);
-void    qh_partitionall(setT *vertices, pointT *points,int npoints);
-void    qh_partitioncoplanar(pointT *point, facetT *facet, realT *dist);
-void    qh_partitionpoint(pointT *point, facetT *facet);
-void    qh_partitionvisible(boolT allpoints, int *numpoints);
-void    qh_precision(const char *reason);
-void    qh_printsummary(FILE *fp);
+void    qh_qhull(qhT *qh);
+boolT   qh_addpoint(qhT *qh, pointT *furthest, facetT *facet, boolT checkdist);
+void    qh_buildhull(qhT *qh);
+void    qh_buildtracing(qhT *qh, pointT *furthest, facetT *facet);
+void    qh_build_withrestart(qhT *qh);
+void    qh_errexit2(qhT *qh, int exitcode, facetT *facet, facetT *otherfacet);
+void    qh_findhorizon(qhT *qh, pointT *point, facetT *facet, int *goodvisible,int *goodhorizon);
+pointT *qh_nextfurthest(qhT *qh, facetT **visible);
+void    qh_partitionall(qhT *qh, setT *vertices, pointT *points,int npoints);
+void    qh_partitioncoplanar(qhT *qh, pointT *point, facetT *facet, realT *dist);
+void    qh_partitionpoint(qhT *qh, pointT *point, facetT *facet);
+void    qh_partitionvisible(qhT *qh, boolT allpoints, int *numpoints);
+void    qh_precision(qhT *qh, const char *reason);
+void    qh_printsummary(qhT *qh, FILE *fp);
 
 /***** -global.c internal prototypes (alphabetical) ***********************/
 
-void    qh_appendprint(qh_PRINT format);
-void    qh_freebuild(boolT allmem);
-void    qh_freebuffers(void);
-void    qh_initbuffers(coordT *points, int numpoints, int dim, boolT ismalloc);
+void    qh_appendprint(qhT *qh, qh_PRINT format);
+void    qh_freebuild(qhT *qh, boolT allmem);
+void    qh_freebuffers(qhT *qh);
+void    qh_initbuffers(qhT *qh, coordT *points, int numpoints, int dim, boolT ismalloc);
 
 /***** -stat.c internal prototypes (alphabetical) ***********************/
 
-void    qh_allstatA(void);
-void    qh_allstatB(void);
-void    qh_allstatC(void);
-void    qh_allstatD(void);
-void    qh_allstatE(void);
-void    qh_allstatE2 (void);
-void    qh_allstatF(void);
-void    qh_allstatG(void);
-void    qh_allstatH(void);
-void    qh_freebuffers(void);
-void    qh_initbuffers(coordT *points, int numpoints, int dim, boolT ismalloc);
+void    qh_allstatA(qhT *qh);
+void    qh_allstatB(qhT *qh);
+void    qh_allstatC(qhT *qh);
+void    qh_allstatD(qhT *qh);
+void    qh_allstatE(qhT *qh);
+void    qh_allstatE2 (qhT *qh);
+void    qh_allstatF(qhT *qh);
+void    qh_allstatG(qhT *qh);
+void    qh_allstatH(qhT *qh);
+void    qh_freebuffers(qhT *qh);
+void    qh_initbuffers(qhT *qh, coordT *points, int numpoints, int dim, boolT ismalloc);
 
 #endif /* qhDEFqhulla */

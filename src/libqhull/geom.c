@@ -7,8 +7,8 @@
    see qh-geom.htm and geom.h
 
    Copyright (c) 1993-2014 The Geometry Center.
-   $Id: //main/2011/qhull/src/libqhull/geom.c#3 $$Change: 1464 $
-   $DateTime: 2012/01/25 22:58:41 $$Author: bbarber $
+   $Id: //main/2011/qhull/src/libqhull/geom.c#4 $$Change: 1645 $
+   $DateTime: 2014/01/15 12:51:30 $$Author: bbarber $
 
    infrequent code goes into geom2.c
 */
@@ -801,7 +801,7 @@ void qh_normalize(coordT *normal, int dim, boolT toporient) {
       if nearzero
         sets norm to direction of maximum value
 */
-void qh_normalize2 (coordT *normal, int dim, boolT toporient,
+void qh_normalize2(coordT *normal, int dim, boolT toporient,
             realT *minnorm, boolT *ismin) {
   int k;
   realT *colp, *maxp, norm= 0, temp, *norm1, *norm2, *norm3;
@@ -1110,7 +1110,7 @@ void qh_sethyperplane_det(int dim, coordT **rows, coordT *point0,
   if (dim == 2) {
     normal[0]= dY(1,0);
     normal[1]= dX(0,1);
-    qh_normalize2 (normal, dim, toporient, NULL, NULL);
+    qh_normalize2(normal, dim, toporient, NULL, NULL);
     *offset= -(point0[0]*normal[0]+point0[1]*normal[1]);
     *nearzero= False;  /* since nearzero norm => incident points */
   }else if (dim == 3) {
@@ -1120,7 +1120,7 @@ void qh_sethyperplane_det(int dim, coordT **rows, coordT *point0,
                      dX(2,0), dZ(2,0));
     normal[2]= det2_(dX(2,0), dY(2,0),
                      dX(1,0), dY(1,0));
-    qh_normalize2 (normal, dim, toporient, NULL, NULL);
+    qh_normalize2(normal, dim, toporient, NULL, NULL);
     *offset= -(point0[0]*normal[0] + point0[1]*normal[1]
                + point0[2]*normal[2]);
     maxround= qh DISTround;
@@ -1148,7 +1148,7 @@ void qh_sethyperplane_det(int dim, coordT **rows, coordT *point0,
     normal[3]=   det3_(dX(2,0), dY(2,0), dZ(2,0),
                         dX(1,0), dY(1,0), dZ(1,0),
                         dX(3,0), dY(3,0), dZ(3,0));
-    qh_normalize2 (normal, dim, toporient, NULL, NULL);
+    qh_normalize2(normal, dim, toporient, NULL, NULL);
     *offset= -(point0[0]*normal[0] + point0[1]*normal[1]
                + point0[2]*normal[2] + point0[3]*normal[3]);
     maxround= qh DISTround;

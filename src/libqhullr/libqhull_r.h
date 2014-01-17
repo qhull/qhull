@@ -7,14 +7,8 @@
    see qh-qhull.htm, qhull_a.h
 
    Copyright (c) 1993-2014 The Geometry Center.
-   $Id: //main/2011/qhull/src/libqhullr/libqhull_r.h#1 $$Change: 1640 $
-   $DateTime: 2014/01/15 09:12:08 $$Author: bbarber $
-
-   NOTE: access to qh_qh is via the 'qh' macro.  This allows
-   qh_qh to be either a pointer or a structure.  An example
-   of using qh is "qh DROPdim" which accesses the DROPdim
-   field of qh_qh.  Similarly, access to qh_qhstat is via
-   the 'qhstat' macro.
+   $Id: //main/2011/qhull/src/libqhullr/libqhull_r.h#2 $$Change: 1645 $
+   $DateTime: 2014/01/15 12:51:30 $$Author: bbarber $
 
    includes function prototypes for libqhull.c, geom.c, global.c, io.c, user.c
 
@@ -31,18 +25,15 @@
 
 /*=========================== -included files ==============*/
 
-#include "user_r.h"      /* user definable constants (e.g., qh_QHpointer) */
+#include "user_r.h"      /* user definable constants (e.g., realT) */
+
+#include "mem_r.h" 
+/* stat_r.h included realT */
 
 #include <setjmp.h>
 #include <float.h>
 #include <time.h>
 #include <stdio.h>
-
-#if __MWERKS__ && __POWERPC__
-#include  <SIOUX.h>
-#include  <Files.h>
-#include        <Desk.h>
-#endif
 
 #ifndef __STDC__
 #ifndef __cplusplus
@@ -111,6 +102,8 @@ extern const char *qh_version; /* defined in global.c */
 #define qh_False 0
 #define qh_True 1
 
+#include "stat_r.h" 
+
 /*-<a                             href="qh-qhull.htm#TOC"
   >--------------------------------</a><a name="CENTERtype">-</a>
 
@@ -132,7 +125,7 @@ qh_CENTER;
 
 
    notes:
-   some of these names are similar to qh names.  The similar names are only
+   some of these names are similar to qhT names.  The similar names are only
    used in switch statements in qh_printbegin() etc.
 */
 typedef enum {qh_PRINTnone= 0,
@@ -181,7 +174,7 @@ qh_FILEstderr
 Fake stderr to distinguish error output from normal output
 For C++ interface.  Must redefine qh_fprintf_qhull
 */
-#define qh_FILEstderr (FILE*)1
+#define qh_FILEstderr ((FILE*)1)
 
 /* ============ -structures- ====================
    each of the following structures is defined by a typedef
@@ -193,6 +186,12 @@ For C++ interface.  Must redefine qh_fprintf_qhull
 typedef struct vertexT vertexT;
 typedef struct ridgeT ridgeT;
 typedef struct facetT facetT;
+
+#ifndef DEFqhT
+#define DEFqhT 1
+typedef struct qhT qhT;          /* defined below */
+#endif
+
 #ifndef DEFsetT
 #define DEFsetT 1
 typedef struct setT setT;          /* defined in qset.h */
@@ -263,8 +262,8 @@ struct facetT {
    facetT *trivisible;  /* visible facet for ->tricoplanar facets during qh_triangulate() */
    facetT *triowner;    /* owner facet for ->tricoplanar, !isarea facets w/ ->keepcentrum */
   }f;
-  coordT  *center;      /*  centrum for convexity, qh CENTERtype == qh_AScentrum */
-                        /*  Voronoi center, qh CENTERtype == qh_ASvoronoi */
+  coordT  *center;      /*  centrum for convexity, qh.CENTERtype == qh_AScentrum */
+                        /*  Voronoi center, qh.CENTERtype == qh_ASvoronoi */
                         /*   if tricoplanar, shared with a neighbor */
   facetT  *previous;    /* previous facet in the facet_list */
   facetT  *next;        /* next facet in the facet_list */
@@ -284,7 +283,7 @@ struct facetT {
                            if non-empty, last point is furthest away */
   unsigned visitid;     /* visit_id, for visiting all neighbors,
                            all uses are independent */
-  unsigned id;          /* unique identifier from qh facet_id */
+  unsigned id;          /* unique identifier from qh.facet_id */
   unsigned nummerge:9;  /* number of merges */
 #define qh_MAXnummerge 511 /*     2^9-1, 32 flags total, see "flags:" in io.c */
   flagT    tricoplanar:1; /* True if TRIangulate and simplicial and coplanar with a neighbor */
@@ -293,7 +292,7 @@ struct facetT {
                           /*   if ->degenerate, does not span facet (one logical ridge) */
                           /*   one tricoplanar has ->keepcentrum and ->coplanarset */
                           /*   during qh_triangulate, f.trivisible points to original facet */
-  flagT    newfacet:1;  /* True if facet on qh newfacet_list (new or merged) */
+  flagT    newfacet:1;  /* True if facet on qh.newfacet_list (new or merged) */
   flagT    visible:1;   /* True if visible facet (will be deleted) */
   flagT    toporient:1; /* True if created with top orientation
                            after merging, use ridge orientation */
@@ -312,7 +311,7 @@ struct facetT {
   flagT    dupridge:1;  /* True if duplicate ridge in facet */
   flagT    mergeridge:1; /* True if facet or neighbor contains a qh_MERGEridge
                             ->normal defined (also defined for mergeridge2) */
-  flagT    mergeridge2:1; /* True if neighbor contains a qh_MERGEridge (mark_dupridges */
+  flagT    mergeridge2:1; /* True if neighbor contains a qh_MERGEridge (qhT *qh, mark_dupridges */
   flagT    coplanar:1;  /* True if horizon facet is coplanar at last use */
   flagT     mergehorizon:1; /* True if will merge into horizon (->coplanar) */
   flagT     cycledone:1;/* True if mergecycle_all already done */
@@ -349,7 +348,7 @@ struct ridgeT {
                            NULL if a degen ridge (matchsame) */
   facetT  *top;         /* top facet this ridge is part of */
   facetT  *bottom;      /* bottom facet this ridge is part of */
-  unsigned id:24;       /* unique identifier, =>room for 8 flags, bit field matches qh.ridge_id */
+  unsigned id:24;       /* unique identifier, =>room for 8 flags, bit field matches qh->ridge_id */
   flagT    seen:1;      /* used to perform operations only once */
   flagT    tested:1;    /* True when ridge is tested for convexity */
   flagT    nonconvex:1; /* True if getmergeset detected a non-convex neighbor
@@ -375,15 +374,15 @@ struct vertexT {
   pointT  *point;       /* hull_dim coordinates (coordT) */
   setT    *neighbors;   /* neighboring facets of vertex, qh_vertexneighbors()
                            inits in io.c or after first merge */
-  unsigned visitid:31;  /* for use with qh vertex_visit, size must match */
+  unsigned visitid:31;  /* for use with qh.vertex_visit, size must match */
   flagT    seen2:1;     /* another seen flag */
   unsigned id:24;       /* unique identifier, bit field matches qh.vertex_id */
   unsigned dim:4;       /* dimension of point if non-zero, used by cpp */
                         /* =>room for 4 flags */
   flagT    seen:1;      /* used to perform operations only once */
   flagT    delridge:1;  /* vertex was part of a deleted ridge */
-  flagT    deleted:1;   /* true if vertex on qh del_vertices */
-  flagT    newlist:1;   /* true if vertex on qh newvertex_list */
+  flagT    deleted:1;   /* true if vertex on qh.del_vertices */
+  flagT    newlist:1;   /* true if vertex on qh.newvertex_list */
 };
 
 #define MAX_vdim 15  /* Maximum size of vertex->dim */
@@ -393,38 +392,13 @@ struct vertexT {
 /*-<a                             href="qh-globa.htm#TOC"
   >--------------------------------</a><a name="qh">-</a>
 
-  qh
-   all global variables for qhull are in qh, qhmem, and qhstat
+  qhT
+   All global variables for qhull are in qhT.  It includes qhmemT, qhstatT, and rbox globals
 
-  notes:
-   qhmem is defined in mem.h, qhstat is defined in stat.h, qhrbox is defined in rboxpoints.h
-   Access to qh_qh is via the "qh" macro.  See qh_QHpointer in user.h
-
-   All global variables for qhull are in qh, qhmem, and qhstat
-   qh must be unique for each instance of qhull
-   qhstat may be shared between qhull instances.
-   qhmem may be shared across multiple instances of Qhull.
-   Rbox uses global variables rbox_inuse and rbox, but does not persist data across calls.
-
-   Qhull is not multithreaded.  Global state could be stored in thread-local storage.
+   This version of Qhull is reentrant, but it is not thread-safe.  
+   
+   Do not run separate threads on the same instance of qhT.
 */
-
-extern int qhull_inuse;
-
-typedef struct qhT qhT;
-#if qh_QHpointer_dllimport
-#define qh qh_qh->
-__declspec(dllimport) extern qhT *qh_qh;     /* allocated in global.c */
-#elif qh_QHpointer
-#define qh qh_qh->
-extern qhT *qh_qh;     /* allocated in global.c */
-#elif qh_dllimport
-#define qh qh_qh.
-__declspec(dllimport) extern qhT qh_qh;      /* allocated in global.c */
-#else
-#define qh qh_qh.
-extern qhT qh_qh;
-#endif
 
 struct qhT {
 
@@ -458,8 +432,8 @@ struct qhT {
   boolT FORCEoutput;      /* true 'Po' if forcing output despite degeneracies */
   int   GOODpoint;        /* 1+n for 'QGn', good facet if visible/not(-) from point n*/
   pointT *GOODpointp;     /*   the actual point */
-  boolT GOODthreshold;    /* true if qh lower_threshold/upper_threshold defined
-                             false if qh SPLITthreshold */
+  boolT GOODthreshold;    /* true if qh.lower_threshold/upper_threshold defined
+                             false if qh.SPLITthreshold */
   int   GOODvertex;       /* 1+n, good facet if vertex for point n */
   pointT *GOODvertexp;     /*   the actual point */
   boolT HALFspace;        /* true 'Hn,n,n' if halfspace intersection */
@@ -519,11 +493,11 @@ struct qhT {
   int   ROTATErandom;     /* 'QRn' seed, 0 time, >= rotate input */
   boolT SCALEinput;       /* true 'Qbk' if scaling input */
   boolT SCALElast;        /* true 'Qbb' if scale last coord to max prev coord */
-  boolT SETroundoff;      /* true 'E' if qh DISTround is predefined */
+  boolT SETroundoff;      /* true 'E' if qh.DISTround is predefined */
   boolT SKIPcheckmax;     /* true 'Q5' if skip qh_check_maxout */
   boolT SKIPconvex;       /* true 'Q6' if skip convexity testing during pre-merge */
   boolT SPLITthresholds;  /* true if upper_/lower_threshold defines a region
-                               used only for printing (!for qh ONLYgood) */
+                               used only for printing (!for qh.ONLYgood) */
   int   STOPcone;         /* 'TCn' 1+n for stopping after cone for point n */
                           /*       also used by qh_build_withresart for err exit*/
   int   STOPpoint;        /* 'TVn' 'TV-n' 1+n for stopping after/before(-)
@@ -545,7 +519,7 @@ struct qhT {
 
   /*--------input constants ---------*/
   realT AREAfactor;       /* 1/(hull_dim-1)! for converting det's to area */
-  boolT DOcheckmax;       /* true if calling qh_check_maxout (qh_initqhull_globals) */
+  boolT DOcheckmax;       /* true if calling qh_check_maxout (qhT *qh, qh_initqhull_globals) */
   char  *feasible_string;  /* feasible point 'Hn,n,n' for halfspace intersection */
   coordT *feasible_point;  /*    as coordinates, both malloc'd */
   boolT GETarea;          /* true 'Fa', 'FA', 'FS', 'PAn', 'PFn' if compute facet area/Voronoi volume in io.c */
@@ -554,9 +528,9 @@ struct qhT {
   int   input_dim;        /* dimension of input, set by initbuffers */
   int   num_points;       /* number of input points */
   pointT *first_point;    /* array of input points, see POINTSmalloc */
-  boolT POINTSmalloc;     /*   true if qh first_point/num_points allocated */
+  boolT POINTSmalloc;     /*   true if qh.first_point/num_points allocated */
   pointT *input_points;   /* copy of original qh.first_point for input points for qh_joggleinput */
-  boolT input_malloc;     /* true if qh input_points malloc'd */
+  boolT input_malloc;     /* true if qh.input_points malloc'd */
   char  qhull_command[256];/* command line that invoked this program */
   int   qhull_commandsiz2; /*    size of qhull_command at qh_clear_outputflags */
   char  rbox_command[256]; /* command line that produced the input points */
@@ -582,7 +556,7 @@ struct qhT {
     precision constants for Qhull
 
   notes:
-    qh_detroundoff() computes the maximum roundoff error for distance
+    qh_detroundoff(qh) computes the maximum roundoff error for distance
     and other computations.  It also sets default values for the
     qh constants above.
 */
@@ -619,7 +593,7 @@ struct qhT {
   char jmpXtra[40];       /* extra bytes in case jmp_buf is defined wrong by compiler */
   jmp_buf restartexit;    /* restart label for qh_errexit, defined by setjmp() */
   char jmpXtra2[40];      /* extra bytes in case jmp_buf is defined wrong by compiler*/
-  FILE *fin;              /* pointer to input file, init by qh_meminit */
+  FILE *fin;              /* pointer to input file, init by qh_initqhull_start */
   FILE *fout;             /* pointer to output file */
   FILE *ferr;             /* pointer to error file */
   pointT *interior_point; /* center point of the initial simplex*/
@@ -708,7 +682,7 @@ struct qhT {
   unsigned int visit_id;  /* unique ID for searching neighborhoods, */
   unsigned int vertex_visit:31; /* unique ID for searching vertices, reset with qh_buildtracing */
   boolT ZEROall_ok;       /* True if qh_checkzero always succeeds */
-  boolT WAScoplanar;      /* True if qh_partitioncoplanar (qh_check_maxout) */
+  boolT WAScoplanar;      /* True if qh_partitioncoplanar (qhT *qh, qh_check_maxout) */
 
 /*-<a                             href="qh-globa.htm#TOC"
   >--------------------------------</a><a name="qh-set">-</a>
@@ -735,7 +709,7 @@ struct qhT {
   coordT **gm_row;        /* array of gm_matrix rows */
   char* line;             /* malloc'd input line of maxline+1 chars */
   int maxline;
-  coordT *half_space;     /* malloc'd input array for halfspace (qh normal_size+coordT) */
+  coordT *half_space;     /* malloc'd input array for halfspace (qh.normal_size+coordT) */
   coordT *temp_malloc;    /* malloc'd input array for points */
 
 /*-<a                             href="qh-globa.htm#TOC"
@@ -750,7 +724,7 @@ struct qhT {
 
     do not assume zero initialization, 'QPn' may cause a restart
 */
-  boolT ERREXITcalled;    /* true during qh_errexit (prevents duplicate calls */
+  boolT ERREXITcalled;    /* true during qh_errexit (qhT *qh, prevents duplicate calls */
   boolT firstcentrum;     /* for qh_printcentrum */
   boolT old_randomdist;   /* save RANDOMdist flag during io, tracing, or statistics */
   setT *coplanarfacetset;  /* set of coplanar facets for searching qh_findbesthorizon() */
@@ -759,9 +733,26 @@ struct qhT {
   realT last_newhigh;
   unsigned lastreport;    /* for qh_buildtracing */
   int mergereport;        /* for qh_tracemerging */
-  qhstatT *old_qhstat;    /* for saving qh_qhstat in save_qhull() and UsingLibQhull.  Free with qh_free() */
-  setT *old_tempstack;    /* for saving qhmem.tempstack in save_qhull */
+  setT *old_tempstack;    /* for saving qh->qhmem.tempstack in save_qhull */
   int   ridgeoutnum;      /* number of ridges for 4OFF output (qh_printbegin,etc) */
+
+/*-<a                             href="qh-globa.htm#TOC"
+  >--------------------------------</a><a name="qh-const">-</a>
+
+  qh memory management, rbox globals, and statistics
+
+  Replaces global data structures in libqhull.h
+*/
+
+  int     last_random;    /* Last random number from qh_rand (random_r.c) */
+  jmp_buf rbox_errexit;   /* errexit from rboxlib_r.c */
+  int     rbox_isinteger;
+  double  rbox_out_offset;
+
+  /* Last, otherwise zero'd by qh_initqhull_start2 (global_r.c */
+  qhmemT  qhmem;          /* Qhull managed memory (mem_r.h) */
+  /* Last because its size depends on the number of statistics */
+  qhstatT qhstat;         /* Qhull statistics (stat_r.h) */
 };
 
 /*=========== -macros- =========================*/
@@ -795,11 +786,12 @@ struct qhT {
   notes:
     uses 'facetT *facet;'
     assumes last facet is a sentinel
+    assumes qh defined
 
   see:
     FORALLfacet_( facetlist )
 */
-#define FORALLfacets for (facet=qh facet_list;facet && facet->next;facet=facet->next)
+#define FORALLfacets for (facet=qh->facet_list;facet && facet->next;facet=facet->next)
 
 /*-<a                             href="qh-poly.htm#TOC"
   >--------------------------------</a><a name="FORALLpoints">-</a>
@@ -807,22 +799,25 @@ struct qhT {
   FORALLpoints { ... }
     assign 'point' to each point in qh.first_point, qh.num_points
 
+  notes:
+    assumes qh defined
+
   declare:
     coordT *point, *pointtemp;
 */
-#define FORALLpoints FORALLpoint_(qh first_point, qh num_points)
+#define FORALLpoints FORALLpoint_(qh, qh->first_point, qh->num_points)
 
 /*-<a                             href="qh-poly.htm#TOC"
   >--------------------------------</a><a name="FORALLpoint_">-</a>
 
-  FORALLpoint_( points, num) { ... }
+  FORALLpoint_( qh, points, num) { ... }
     assign 'point' to each point in points array of num points
 
   declare:
     coordT *point, *pointtemp;
 */
-#define FORALLpoint_(points, num) for (point= (points), \
-      pointtemp= (points)+qh hull_dim*(num); point < pointtemp; point += qh hull_dim)
+#define FORALLpoint_(qh, points, num) for (point= (points), \
+      pointtemp= (points)+qh->hull_dim*(num); point < pointtemp; point += qh->hull_dim)
 
 /*-<a                             href="qh-poly.htm#TOC"
   >--------------------------------</a><a name="FORALLvertices">-</a>
@@ -835,8 +830,9 @@ struct qhT {
 
   notes:
     assumes qh.vertex_list terminated with a sentinel
+    assumes qh defined
 */
-#define FORALLvertices for (vertex=qh vertex_list;vertex && vertex->next;vertex= vertex->next)
+#define FORALLvertices for (vertex=qh->vertex_list;vertex && vertex->next;vertex= vertex->next)
 
 /*-<a                             href="qh-poly.htm#TOC"
   >--------------------------------</a><a name="FOREACHfacet_">-</a>
@@ -914,7 +910,7 @@ struct qhT {
 /*-<a                             href="qh-poly.htm#TOC"
   >--------------------------------</a><a name="FOREACHfacet_i_">-</a>
 
-  FOREACHfacet_i_( facets ) { ... }
+  FOREACHfacet_i_( qh, facets ) { ... }
     assign 'facet' and 'facet_i' for each facet in facets set
 
   declare:
@@ -924,15 +920,15 @@ struct qhT {
   see:
     <a href="qset.h#FOREACHsetelement_i_">FOREACHsetelement_i_</a>
 */
-#define FOREACHfacet_i_(facets)    FOREACHsetelement_i_(facetT, facets, facet)
+#define FOREACHfacet_i_(qh, facets)    FOREACHsetelement_i_(qh, facetT, facets, facet)
 
 /*-<a                             href="qh-poly.htm#TOC"
   >--------------------------------</a><a name="FOREACHneighbor_i_">-</a>
 
-  FOREACHneighbor_i_( facet ) { ... }
+  FOREACHneighbor_i_( qh, facet ) { ... }
     assign 'neighbor' and 'neighbor_i' for each neighbor in facet->neighbors
 
-  FOREACHneighbor_i_( vertex ) { ... }
+  FOREACHneighbor_i_( qh, vertex ) { ... }
     assign 'neighbor' and 'neighbor_i' for each neighbor in vertex->neighbors
 
   declare:
@@ -942,12 +938,12 @@ struct qhT {
   see:
     <a href="qset.h#FOREACHsetelement_i_">FOREACHsetelement_i_</a>
 */
-#define FOREACHneighbor_i_(facet)  FOREACHsetelement_i_(facetT, facet->neighbors, neighbor)
+#define FOREACHneighbor_i_(qh, facet)  FOREACHsetelement_i_(qh, facetT, facet->neighbors, neighbor)
 
 /*-<a                             href="qh-poly.htm#TOC"
   >--------------------------------</a><a name="FOREACHpoint_i_">-</a>
 
-  FOREACHpoint_i_( points ) { ... }
+  FOREACHpoint_i_( qh, points ) { ... }
     assign 'point' and 'point_i' for each point in points set
 
   declare:
@@ -957,12 +953,12 @@ struct qhT {
   see:
     <a href="qset.h#FOREACHsetelement_i_">FOREACHsetelement_i_</a>
 */
-#define FOREACHpoint_i_(points)    FOREACHsetelement_i_(pointT, points, point)
+#define FOREACHpoint_i_(qh, points)    FOREACHsetelement_i_(qh, pointT, points, point)
 
 /*-<a                             href="qh-poly.htm#TOC"
   >--------------------------------</a><a name="FOREACHridge_i_">-</a>
 
-  FOREACHridge_i_( ridges ) { ... }
+  FOREACHridge_i_( qh, ridges ) { ... }
     assign 'ridge' and 'ridge_i' for each ridge in ridges set
 
   declare:
@@ -972,12 +968,12 @@ struct qhT {
   see:
     <a href="qset.h#FOREACHsetelement_i_">FOREACHsetelement_i_</a>
 */
-#define FOREACHridge_i_(ridges)    FOREACHsetelement_i_(ridgeT, ridges, ridge)
+#define FOREACHridge_i_(qh, ridges)    FOREACHsetelement_i_(qh, ridgeT, ridges, ridge)
 
 /*-<a                             href="qh-poly.htm#TOC"
   >--------------------------------</a><a name="FOREACHvertex_i_">-</a>
 
-  FOREACHvertex_i_( vertices ) { ... }
+  FOREACHvertex_i_( qh, vertices ) { ... }
     assign 'vertex' and 'vertex_i' for each vertex in vertices set
 
   declare:
@@ -987,25 +983,25 @@ struct qhT {
   see:
     <a href="qset.h#FOREACHsetelement_i_">FOREACHsetelement_i_</a>
 */
-#define FOREACHvertex_i_(vertices) FOREACHsetelement_i_(vertexT, vertices,vertex)
+#define FOREACHvertex_i_(qh, vertices) FOREACHsetelement_i_(qh, vertexT, vertices,vertex)
 
 /********* -libqhull.c prototypes (duplicated from qhull_a.h) **********************/
 
-void    qh_qhull(void);
-boolT   qh_addpoint(pointT *furthest, facetT *facet, boolT checkdist);
-void    qh_printsummary(FILE *fp);
+void    qh_qhull(qhT *qh);
+boolT   qh_addpoint(qhT *qh, pointT *furthest, facetT *facet, boolT checkdist);
+void    qh_printsummary(qhT *qh, FILE *fp);
 
 /********* -user.c prototypes (alphabetical) **********************/
 
-void    qh_errexit(int exitcode, facetT *facet, ridgeT *ridge);
-void    qh_errprint(const char* string, facetT *atfacet, facetT *otherfacet, ridgeT *atridge, vertexT *atvertex);
-int     qh_new_qhull(int dim, int numpoints, coordT *points, boolT ismalloc,
+void    qh_errexit(qhT *qh, int exitcode, facetT *facet, ridgeT *ridge);
+void    qh_errprint(qhT *qh, const char* string, facetT *atfacet, facetT *otherfacet, ridgeT *atridge, vertexT *atvertex);
+int     qh_new_qhull(qhT *qh, int dim, int numpoints, coordT *points, boolT ismalloc,
                 char *qhull_cmd, FILE *outfile, FILE *errfile);
-void    qh_printfacetlist(facetT *facetlist, setT *facets, boolT printall);
-void    qh_printhelp_degenerate(FILE *fp);
-void    qh_printhelp_narrowhull(FILE *fp, realT minangle);
-void    qh_printhelp_singular(FILE *fp);
-void    qh_user_memsizes(void);
+void    qh_printfacetlist(qhT *qh, facetT *facetlist, setT *facets, boolT printall);
+void    qh_printhelp_degenerate(qhT *qh, FILE *fp);
+void    qh_printhelp_narrowhull(qhT *qh, FILE *fp, realT minangle);
+void    qh_printhelp_singular(qhT *qh, FILE *fp);
+void    qh_user_memsizes(qhT *qh);
 
 /********* -usermem.c prototypes (alphabetical) **********************/
 void    qh_exit(int exitcode);
@@ -1013,88 +1009,83 @@ void    qh_free(void *mem);
 void   *qh_malloc(size_t size);
 
 /********* -userprintf.c and userprintf_rbox.c prototypes **********************/
-void    qh_fprintf(FILE *fp, int msgcode, const char *fmt, ... );
-void    qh_fprintf_rbox(FILE *fp, int msgcode, const char *fmt, ... );
+void    qh_fprintf(qhT *qh, FILE *fp, int msgcode, const char *fmt, ... );
+void    qh_fprintf_rbox(qhT *qh, FILE *fp, int msgcode, const char *fmt, ... );
 
 /***** -geom.c/geom2.c/random.c prototypes (duplicated from geom.h, random.h) ****************/
 
-facetT *qh_findbest(pointT *point, facetT *startfacet,
+facetT *qh_findbest(qhT *qh, pointT *point, facetT *startfacet,
                      boolT bestoutside, boolT newfacets, boolT noupper,
                      realT *dist, boolT *isoutside, int *numpart);
-facetT *qh_findbestnew(pointT *point, facetT *startfacet,
+facetT *qh_findbestnew(qhT *qh, pointT *point, facetT *startfacet,
                      realT *dist, boolT bestoutside, boolT *isoutside, int *numpart);
-boolT   qh_gram_schmidt(int dim, realT **rows);
-void    qh_outerinner(facetT *facet, realT *outerplane, realT *innerplane);
-void    qh_printsummary(FILE *fp);
-void    qh_projectinput(void);
-void    qh_randommatrix(realT *buffer, int dim, realT **row);
-void    qh_rotateinput(realT **rows);
-void    qh_scaleinput(void);
-void    qh_setdelaunay(int dim, int count, pointT *points);
-coordT  *qh_sethalfspace_all(int dim, int count, coordT *halfspaces, pointT *feasible);
+boolT   qh_gram_schmidt(qhT *qh, int dim, realT **rows);
+void    qh_outerinner(qhT *qh, facetT *facet, realT *outerplane, realT *innerplane);
+void    qh_printsummary(qhT *qh, FILE *fp);
+void    qh_projectinput(qhT *qh);
+void    qh_randommatrix(qhT *qh, realT *buffer, int dim, realT **row);
+void    qh_rotateinput(qhT *qh, realT **rows);
+void    qh_scaleinput(qhT *qh);
+void    qh_setdelaunay(qhT *qh, int dim, int count, pointT *points);
+coordT  *qh_sethalfspace_all(qhT *qh, int dim, int count, coordT *halfspaces, pointT *feasible);
 
 /***** -global.c prototypes (alphabetical) ***********************/
 
-unsigned long qh_clock(void);
-void    qh_checkflags(char *command, char *hiddenflags);
-void    qh_clear_outputflags(void);
-void    qh_freebuffers(void);
-void    qh_freeqhull(boolT allmem);
-void    qh_freeqhull2(boolT allmem);
-void    qh_init_A(FILE *infile, FILE *outfile, FILE *errfile, int argc, char *argv[]);
-void    qh_init_B(coordT *points, int numpoints, int dim, boolT ismalloc);
-void    qh_init_qhull_command(int argc, char *argv[]);
-void    qh_initbuffers(coordT *points, int numpoints, int dim, boolT ismalloc);
-void    qh_initflags(char *command);
-void    qh_initqhull_buffers(void);
-void    qh_initqhull_globals(coordT *points, int numpoints, int dim, boolT ismalloc);
-void    qh_initqhull_mem(void);
-void    qh_initqhull_outputflags(void);
-void    qh_initqhull_start(FILE *infile, FILE *outfile, FILE *errfile);
-void    qh_initqhull_start2(FILE *infile, FILE *outfile, FILE *errfile);
-void    qh_initthresholds(char *command);
-void    qh_option(const char *option, int *i, realT *r);
-#if qh_QHpointer
-void    qh_restore_qhull(qhT **oldqh);
-qhT    *qh_save_qhull(void);
-#endif
+unsigned long qh_clock(qhT *qh);
+void    qh_checkflags(qhT *qh, char *command, char *hiddenflags);
+void    qh_clear_outputflags(qhT *qh);
+void    qh_freebuffers(qhT *qh);
+void    qh_freeqhull(qhT *qh, boolT allmem);
+void    qh_init_A(qhT *qh, FILE *infile, FILE *outfile, FILE *errfile, int argc, char *argv[]);
+void    qh_init_B(qhT *qh, coordT *points, int numpoints, int dim, boolT ismalloc);
+void    qh_init_qhull_command(qhT *qh, int argc, char *argv[]);
+void    qh_initbuffers(qhT *qh, coordT *points, int numpoints, int dim, boolT ismalloc);
+void    qh_initflags(qhT *qh, char *command);
+void    qh_initqhull_buffers(qhT *qh);
+void    qh_initqhull_globals(qhT *qh, coordT *points, int numpoints, int dim, boolT ismalloc);
+void    qh_initqhull_mem(qhT *qh);
+void    qh_initqhull_outputflags(qhT *qh);
+void    qh_initqhull_start(qhT *qh, FILE *infile, FILE *outfile, FILE *errfile);
+void    qh_initqhull_start2(qhT *qh, FILE *infile, FILE *outfile, FILE *errfile);
+void    qh_initthresholds(qhT *qh, char *command);
+void    qh_option(qhT *qh, const char *option, int *i, realT *r);
 
 /***** -io.c prototypes (duplicated from io.h) ***********************/
 
-void    dfacet( unsigned id);
-void    dvertex( unsigned id);
-void    qh_printneighborhood(FILE *fp, qh_PRINT format, facetT *facetA, facetT *facetB, boolT printall);
-void    qh_produce_output(void);
-coordT *qh_readpoints(int *numpoints, int *dimension, boolT *ismalloc);
+void    qh_dfacet(qhT *qh, unsigned id);
+void    qh_dvertex(qhT *qh, unsigned id);
+void    qh_printneighborhood(qhT *qh, FILE *fp, qh_PRINT format, facetT *facetA, facetT *facetB, boolT printall);
+void    qh_produce_output(qhT *qh);
+coordT *qh_readpoints(qhT *qh, int *numpoints, int *dimension, boolT *ismalloc);
 
 
 /********* -mem.c prototypes (duplicated from mem.h) **********************/
 
-void qh_meminit(FILE *ferr);
-void qh_memfreeshort(int *curlong, int *totlong);
+void qh_meminit(qhT *qh, FILE *ferr);
+void qh_memfreeshort(qhT *qh, int *curlong, int *totlong);
 
 /********* -poly.c/poly2.c prototypes (duplicated from poly.h) **********************/
 
-void    qh_check_output(void);
-void    qh_check_points(void);
-setT   *qh_facetvertices(facetT *facetlist, setT *facets, boolT allfacets);
-facetT *qh_findbestfacet(pointT *point, boolT bestoutside,
+void    qh_check_output(qhT *qh);
+void    qh_check_points(qhT *qh);
+setT   *qh_facetvertices(qhT *qh, facetT *facetlist, setT *facets, boolT allfacets);
+facetT *qh_findbestfacet(qhT *qh, pointT *point, boolT bestoutside,
            realT *bestdist, boolT *isoutside);
-vertexT *qh_nearvertex(facetT *facet, pointT *point, realT *bestdistp);
-pointT *qh_point(int id);
-setT   *qh_pointfacet(void /*qh.facet_list*/);
-int     qh_pointid(pointT *point);
-setT   *qh_pointvertex(void /*qh.facet_list*/);
-void    qh_setvoronoi_all(void);
-void    qh_triangulate(void /*qh facet_list*/);
+vertexT *qh_nearvertex(qhT *qh, facetT *facet, pointT *point, realT *bestdistp);
+pointT *qh_point(qhT *qh, int id);
+setT   *qh_pointfacet(qhT *qh /*qh.facet_list*/);
+int     qh_pointid(qhT *qh, pointT *point);
+setT   *qh_pointvertex(qhT *qh /*qh.facet_list*/);
+void    qh_setvoronoi_all(qhT *qh);
+void    qh_triangulate(qhT *qh /*qh.facet_list*/);
 
 /********* -rboxpoints.c prototypes **********************/
-int     qh_rboxpoints(FILE* fout, FILE* ferr, char* rbox_command);
-void    qh_errexit_rbox(int exitcode);
+int     qh_rboxpoints(qhT *qh, char* rbox_command);
+void    qh_errexit_rbox(qhT *qh, int exitcode);
 
 /********* -stat.c prototypes (duplicated from stat.h) **********************/
 
-void    qh_collectstatistics(void);
-void    qh_printallstatistics(FILE *fp, const char *string);
+void    qh_collectstatistics(qhT *qh);
+void    qh_printallstatistics(qhT *qh, FILE *fp, const char *string);
 
 #endif /* qhDEFlibqhull */

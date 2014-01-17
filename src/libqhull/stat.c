@@ -7,8 +7,8 @@
    see qh-stat.htm and stat.h
 
    Copyright (c) 1993-2014 The Geometry Center.
-   $Id: //main/2011/qhull/src/libqhull/stat.c#3 $$Change: 1464 $
-   $DateTime: 2012/01/25 22:58:41 $$Author: bbarber $
+   $Id: //main/2011/qhull/src/libqhull/stat.c#4 $$Change: 1645 $
+   $DateTime: 2014/01/15 12:51:30 $$Author: bbarber $
 */
 
 #include "qhull_a.h"
@@ -441,7 +441,9 @@ void qh_freestatistics(void) {
 
   notes:
     uses qh_malloc() instead of qh_memalloc() since mem.c not set up yet
-    NOerrors -- qh_initstatistics can not use qh_errexit().  One first call, qh_memalloc is not initialized.  Also invoked by QhullQh().
+    NOerrors -- qh_initstatistics can not use qh_errexit(), qh_fprintf, or qh.ferr  
+    On first call, only qhmem.ferr is defined.  qh_memalloc is not setup.  
+    Also invoked by QhullQh().
 */
 void qh_initstatistics(void) {
   int i;
@@ -454,7 +456,7 @@ void qh_initstatistics(void) {
       qh_qhstat= 0;
   }
   if (!(qh_qhstat= (qhstatT *)qh_malloc(sizeof(qhstatT)))) {
-    qh_fprintf(qhmem.ferr, 6183, "qhull error (qh_initstatistics): insufficient memory\n");
+    fprintf(qhmem.ferr, "QH6183 qhull error (qh_initstatistics): insufficient memory\n");
     qh_exit(qh_ERRmem);  /* can not use qh_errexit() */
   }
 #endif

@@ -7,12 +7,12 @@
    see qh-qhull.htm, qhull_a.h
 
    Copyright (c) 1993-2014 The Geometry Center.
-   $Id: //main/2011/qhull/src/libqhull/libqhull.h#7 $$Change: 1464 $
-   $DateTime: 2012/01/25 22:58:41 $$Author: bbarber $
+   $Id: //main/2011/qhull/src/libqhull/libqhull.h#8 $$Change: 1645 $
+   $DateTime: 2014/01/15 12:51:30 $$Author: bbarber $
 
    NOTE: access to qh_qh is via the 'qh' macro.  This allows
    qh_qh to be either a pointer or a structure.  An example
-   of using qh is "qh DROPdim" which accesses the DROPdim
+   of using qh is "qh.DROPdim" which accesses the DROPdim
    field of qh_qh.  Similarly, access to qh_qhstat is via
    the 'qhstat' macro.
 
@@ -132,7 +132,7 @@ qh_CENTER;
 
 
    notes:
-   some of these names are similar to qh names.  The similar names are only
+   some of these names are similar to qhT names.  The similar names are only
    used in switch statements in qh_printbegin() etc.
 */
 typedef enum {qh_PRINTnone= 0,
@@ -181,7 +181,7 @@ qh_FILEstderr
 Fake stderr to distinguish error output from normal output
 For C++ interface.  Must redefine qh_fprintf_qhull
 */
-#define qh_FILEstderr (FILE*)1
+#define qh_FILEstderr ((FILE*)1)
 
 /* ============ -structures- ====================
    each of the following structures is defined by a typedef
@@ -263,8 +263,8 @@ struct facetT {
    facetT *trivisible;  /* visible facet for ->tricoplanar facets during qh_triangulate() */
    facetT *triowner;    /* owner facet for ->tricoplanar, !isarea facets w/ ->keepcentrum */
   }f;
-  coordT  *center;      /*  centrum for convexity, qh CENTERtype == qh_AScentrum */
-                        /*  Voronoi center, qh CENTERtype == qh_ASvoronoi */
+  coordT  *center;      /*  centrum for convexity, qh.CENTERtype == qh_AScentrum */
+                        /*  Voronoi center, qh.CENTERtype == qh_ASvoronoi */
                         /*   if tricoplanar, shared with a neighbor */
   facetT  *previous;    /* previous facet in the facet_list */
   facetT  *next;        /* next facet in the facet_list */
@@ -284,7 +284,7 @@ struct facetT {
                            if non-empty, last point is furthest away */
   unsigned visitid;     /* visit_id, for visiting all neighbors,
                            all uses are independent */
-  unsigned id;          /* unique identifier from qh facet_id */
+  unsigned id;          /* unique identifier from qh.facet_id */
   unsigned nummerge:9;  /* number of merges */
 #define qh_MAXnummerge 511 /*     2^9-1, 32 flags total, see "flags:" in io.c */
   flagT    tricoplanar:1; /* True if TRIangulate and simplicial and coplanar with a neighbor */
@@ -293,7 +293,7 @@ struct facetT {
                           /*   if ->degenerate, does not span facet (one logical ridge) */
                           /*   one tricoplanar has ->keepcentrum and ->coplanarset */
                           /*   during qh_triangulate, f.trivisible points to original facet */
-  flagT    newfacet:1;  /* True if facet on qh newfacet_list (new or merged) */
+  flagT    newfacet:1;  /* True if facet on qh.newfacet_list (new or merged) */
   flagT    visible:1;   /* True if visible facet (will be deleted) */
   flagT    toporient:1; /* True if created with top orientation
                            after merging, use ridge orientation */
@@ -375,15 +375,15 @@ struct vertexT {
   pointT  *point;       /* hull_dim coordinates (coordT) */
   setT    *neighbors;   /* neighboring facets of vertex, qh_vertexneighbors()
                            inits in io.c or after first merge */
-  unsigned visitid:31;  /* for use with qh vertex_visit, size must match */
+  unsigned visitid:31;  /* for use with qh.vertex_visit, size must match */
   flagT    seen2:1;     /* another seen flag */
   unsigned id:24;       /* unique identifier, bit field matches qh.vertex_id */
   unsigned dim:4;       /* dimension of point if non-zero, used by cpp */
                         /* =>room for 4 flags */
   flagT    seen:1;      /* used to perform operations only once */
   flagT    delridge:1;  /* vertex was part of a deleted ridge */
-  flagT    deleted:1;   /* true if vertex on qh del_vertices */
-  flagT    newlist:1;   /* true if vertex on qh newvertex_list */
+  flagT    deleted:1;   /* true if vertex on qh.del_vertices */
+  flagT    newlist:1;   /* true if vertex on qh.newvertex_list */
 };
 
 #define MAX_vdim 15  /* Maximum size of vertex->dim */
@@ -458,8 +458,8 @@ struct qhT {
   boolT FORCEoutput;      /* true 'Po' if forcing output despite degeneracies */
   int   GOODpoint;        /* 1+n for 'QGn', good facet if visible/not(-) from point n*/
   pointT *GOODpointp;     /*   the actual point */
-  boolT GOODthreshold;    /* true if qh lower_threshold/upper_threshold defined
-                             false if qh SPLITthreshold */
+  boolT GOODthreshold;    /* true if qh.lower_threshold/upper_threshold defined
+                             false if qh.SPLITthreshold */
   int   GOODvertex;       /* 1+n, good facet if vertex for point n */
   pointT *GOODvertexp;     /*   the actual point */
   boolT HALFspace;        /* true 'Hn,n,n' if halfspace intersection */
@@ -519,11 +519,11 @@ struct qhT {
   int   ROTATErandom;     /* 'QRn' seed, 0 time, >= rotate input */
   boolT SCALEinput;       /* true 'Qbk' if scaling input */
   boolT SCALElast;        /* true 'Qbb' if scale last coord to max prev coord */
-  boolT SETroundoff;      /* true 'E' if qh DISTround is predefined */
+  boolT SETroundoff;      /* true 'E' if qh.DISTround is predefined */
   boolT SKIPcheckmax;     /* true 'Q5' if skip qh_check_maxout */
   boolT SKIPconvex;       /* true 'Q6' if skip convexity testing during pre-merge */
   boolT SPLITthresholds;  /* true if upper_/lower_threshold defines a region
-                               used only for printing (!for qh ONLYgood) */
+                               used only for printing (!for qh.ONLYgood) */
   int   STOPcone;         /* 'TCn' 1+n for stopping after cone for point n */
                           /*       also used by qh_build_withresart for err exit*/
   int   STOPpoint;        /* 'TVn' 'TV-n' 1+n for stopping after/before(-)
@@ -554,9 +554,9 @@ struct qhT {
   int   input_dim;        /* dimension of input, set by initbuffers */
   int   num_points;       /* number of input points */
   pointT *first_point;    /* array of input points, see POINTSmalloc */
-  boolT POINTSmalloc;     /*   true if qh first_point/num_points allocated */
+  boolT POINTSmalloc;     /*   true if qh.first_point/num_points allocated */
   pointT *input_points;   /* copy of original qh.first_point for input points for qh_joggleinput */
-  boolT input_malloc;     /* true if qh input_points malloc'd */
+  boolT input_malloc;     /* true if qh.input_points malloc'd */
   char  qhull_command[256];/* command line that invoked this program */
   int   qhull_commandsiz2; /*    size of qhull_command at qh_clear_outputflags */
   char  rbox_command[256]; /* command line that produced the input points */
@@ -1061,8 +1061,8 @@ qhT    *qh_save_qhull(void);
 
 /***** -io.c prototypes (duplicated from io.h) ***********************/
 
-void    dfacet( unsigned id);
-void    dvertex( unsigned id);
+void    qh_dfacet( unsigned id);
+void    qh_dvertex( unsigned id);
 void    qh_printneighborhood(FILE *fp, qh_PRINT format, facetT *facetA, facetT *facetB, boolT printall);
 void    qh_produce_output(void);
 coordT *qh_readpoints(int *numpoints, int *dimension, boolT *ismalloc);
@@ -1086,7 +1086,7 @@ setT   *qh_pointfacet(void /*qh.facet_list*/);
 int     qh_pointid(pointT *point);
 setT   *qh_pointvertex(void /*qh.facet_list*/);
 void    qh_setvoronoi_all(void);
-void    qh_triangulate(void /*qh facet_list*/);
+void    qh_triangulate(void /*qh.facet_list*/);
 
 /********* -rboxpoints.c prototypes **********************/
 int     qh_rboxpoints(FILE* fout, FILE* ferr, char* rbox_command);

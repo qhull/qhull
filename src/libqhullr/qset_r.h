@@ -9,7 +9,7 @@
    only uses mem.c, malloc/free
 
    for error handling, writes message and calls
-      qh_errexit(qhmem_ERRqhull, NULL, NULL);
+      qh_errexit(qhT *qh, qhmem_ERRqhull, NULL, NULL);
 
    set operations satisfy the following properties:
     - sets have a max size, the actual size (if different) is stored at the end
@@ -17,8 +17,8 @@
     - sets may be sorted or unsorted, the caller must distinguish this
 
    Copyright (c) 1993-2014 The Geometry Center.
-   $Id: //main/2011/qhull/src/libqhullr/qset_r.h#1 $$Change: 1640 $
-   $DateTime: 2014/01/15 09:12:08 $$Author: bbarber $
+   $Id: //main/2011/qhull/src/libqhullr/qset_r.h#2 $$Change: 1645 $
+   $DateTime: 2014/01/15 12:51:30 $$Author: bbarber $
 */
 
 #ifndef qhDEFset
@@ -31,6 +31,11 @@
 #ifndef DEFsetT
 #define DEFsetT 1
 typedef struct setT setT;   /* a set is a sorted or unsorted array of pointers */
+#endif
+
+#ifndef DEFqhT
+#define DEFqhT 1
+typedef struct qhT qhT;          /* defined in libqhull_r.h */
 #endif
 
 /*-<a                                      href="qh-set.htm#TOC"
@@ -140,7 +145,7 @@ struct setT {
 /*-<a                                      href="qh-set.htm#TOC"
   >----------------------------------------</a><a name="FOREACHsetelement_i_">-</a>
 
-   FOREACHsetelement_i_(type, set, variable)
+   FOREACHsetelement_i_(qh, type, set, variable)
      define indexed FOREACH iterator
 
    declare:
@@ -157,7 +162,7 @@ struct setT {
      variable==NULL and variable_i==variable_n
 
    example:
-     #define FOREACHfacet_i_( facets ) FOREACHsetelement_i_( facetT, facets, facet )
+     #define FOREACHfacet_i_( qh, facets ) FOREACHsetelement_i_( qh, facetT, facets, facet )
 
    WARNING:
      nested loops can't use the same variable (define another FOREACH)
@@ -165,10 +170,10 @@ struct setT {
      needs braces if nested inside another FOREACH
      this includes intervening blocks, e.g. FOREACH...{ if () FOREACH...} )
 */
-#define FOREACHsetelement_i_(type, set, variable) \
+#define FOREACHsetelement_i_(qh, type, set, variable) \
         if (((variable= NULL), set)) for (\
           variable##_i= 0, variable= (type *)((set)->e[0].p), \
-                   variable##_n= qh_setsize(set);\
+                   variable##_n= qh_setsize(qh, set);\
           variable##_i < variable##_n;\
           variable= (type *)((set)->e[++variable##_i].p) )
 
@@ -200,7 +205,7 @@ struct setT {
 */
 #define FOREACHsetelementreverse_(type, set, variable) \
         if (((variable= NULL), set)) for (\
-           variable##temp= qh_setsize(set)-1, variable= qh_setlast(set);\
+           variable##temp= qh_setsize(qhT *qh, set)-1, variable= qh_setlast(qhT *qh, set);\
            variable; variable= \
            ((--variable##temp >= 0) ? SETelemt_(set, variable##temp, type) : NULL))
 
@@ -401,7 +406,7 @@ struct setT {
 
    notes:
       set must be defined
-      use qh_setsize(set) unless speed is critical
+      use qh_setsize(qhT *qh, set) unless speed is critical
 */
 #define SETreturnsize_(set, size) (((size)= ((set)->e[(set)->maxsize].i))?(--(size)):((size)= (set)->maxsize))
 
@@ -445,44 +450,44 @@ struct setT {
 
 /*======= prototypes in alphabetical order ============*/
 
-void  qh_setaddsorted(setT **setp, void *elem);
-void  qh_setaddnth(setT **setp, int nth, void *newelem);
-void  qh_setappend(setT **setp, void *elem);
-void  qh_setappend_set(setT **setp, setT *setA);
-void  qh_setappend2ndlast(setT **setp, void *elem);
-void  qh_setcheck(setT *set, const char *tname, unsigned id);
-void  qh_setcompact(setT *set);
-setT *qh_setcopy(setT *set, int extra);
+void  qh_setaddsorted(qhT *qh, setT **setp, void *elem);
+void  qh_setaddnth(qhT *qh, setT **setp, int nth, void *newelem);
+void  qh_setappend(qhT *qh, setT **setp, void *elem);
+void  qh_setappend_set(qhT *qh, setT **setp, setT *setA);
+void  qh_setappend2ndlast(qhT *qh, setT **setp, void *elem);
+void  qh_setcheck(qhT *qh, setT *set, const char *tname, unsigned id);
+void  qh_setcompact(qhT *qh, setT *set);
+setT *qh_setcopy(qhT *qh, setT *set, int extra);
 void *qh_setdel(setT *set, void *elem);
 void *qh_setdellast(setT *set);
-void *qh_setdelnth(setT *set, int nth);
-void *qh_setdelnthsorted(setT *set, int nth);
+void *qh_setdelnth(qhT *qh, setT *set, int nth);
+void *qh_setdelnthsorted(qhT *qh, setT *set, int nth);
 void *qh_setdelsorted(setT *set, void *newelem);
-setT *qh_setduplicate( setT *set, int elemsize);
+setT *qh_setduplicate(qhT *qh, setT *set, int elemsize);
+void **qh_setendpointer(setT *set);
 int   qh_setequal(setT *setA, setT *setB);
 int   qh_setequal_except(setT *setA, void *skipelemA, setT *setB, void *skipelemB);
 int   qh_setequal_skip(setT *setA, int skipA, setT *setB, int skipB);
-void **qh_setendpointer(setT *set);
-void  qh_setfree(setT **set);
-void  qh_setfree2( setT **setp, int elemsize);
-void  qh_setfreelong(setT **set);
+void  qh_setfree(qhT *qh, setT **set);
+void  qh_setfree2(qhT *qh, setT **setp, int elemsize);
+void  qh_setfreelong(qhT *qh, setT **set);
 int   qh_setin(setT *set, void *setelem);
 int   qh_setindex(setT *set, void *setelem);
-void  qh_setlarger(setT **setp);
+void  qh_setlarger(qhT *qh, setT **setp);
 void *qh_setlast(setT *set);
-setT *qh_setnew(int size);
-setT *qh_setnew_delnthsorted(setT *set, int size, int nth, int prepend);
-void  qh_setprint(FILE *fp, const char* string, setT *set);
-void  qh_setreplace(setT *set, void *oldelem, void *newelem);
-int   qh_setsize(setT *set);
-setT *qh_settemp(int setsize);
-void  qh_settempfree(setT **set);
-void  qh_settempfree_all(void);
-setT *qh_settemppop(void);
-void  qh_settemppush(setT *set);
-void  qh_settruncate(setT *set, int size);
-int   qh_setunique(setT **set, void *elem);
-void  qh_setzero(setT *set, int idx, int size);
+setT *qh_setnew(qhT *qh, int size);
+setT *qh_setnew_delnthsorted(qhT *qh, setT *set, int size, int nth, int prepend);
+void  qh_setprint(qhT *qh, FILE *fp, const char* string, setT *set);
+void  qh_setreplace(qhT *qh, setT *set, void *oldelem, void *newelem);
+int   qh_setsize(qhT *qh, setT *set);
+setT *qh_settemp(qhT *qh, int setsize);
+void  qh_settempfree(qhT *qh, setT **set);
+void  qh_settempfree_all(qhT *qh);
+setT *qh_settemppop(qhT *qh);
+void  qh_settemppush(qhT *qh, setT *set);
+void  qh_settruncate(qhT *qh, setT *set, int size);
+int   qh_setunique(qhT *qh, setT **set, void *elem);
+void  qh_setzero(qhT *qh, setT *set, int idx, int size);
 
 
 #endif /* qhDEFset */

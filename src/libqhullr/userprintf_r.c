@@ -27,7 +27,7 @@
 /*-<a                             href="qh-user.htm#TOC"
    >-------------------------------</a><a name="qh_fprintf">-</a>
 
-   qh_fprintf(fp, msgcode, format, list of args )
+   qh_fprintf(qh, fp, msgcode, format, list of args )
      print arguments to *fp according to format
      Use qh_fprintf_rbox() for rboxlib.c
 
@@ -35,21 +35,18 @@
      same as fprintf()
      fgets() is not trapped like fprintf()
      exit qh_fprintf via qh_errexit()
+     may be called for errors in qh_initstatistics and qh_meminit
 */
 
-void qh_fprintf(FILE *fp, int msgcode, const char *fmt, ... ) {
+void qh_fprintf(qhT *qh, FILE *fp, int msgcode, const char *fmt, ... ) {
     va_list args;
 
     if (!fp) {
-        fprintf(stderr, "QH6232 Qhull internal error (userprintf.c): fp is 0.  Wrong qh_fprintf called.\n");
-        qh_errexit(6232, NULL, NULL);
+        fprintf(qh->qhmem.ferr, "QH6232 Qhull internal error (userprintf.c): fp is 0.  Wrong qh_fprintf called.\n");
+        qh_errexit(qh, 6232, NULL, NULL);
     }
     va_start(args, fmt);
-#if qh_QHpointer
-    if (qh_qh && qh ANNOTATEoutput) {
-#else
-    if (qh ANNOTATEoutput) {
-#endif
+    if (qh && qh->ANNOTATEoutput) {
       fprintf(fp, "[QH%.4d]", msgcode);
     }else if (msgcode >= MSG_ERROR && msgcode < MSG_STDERR ) {
       fprintf(fp, "QH%.4d ", msgcode);

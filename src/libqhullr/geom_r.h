@@ -7,8 +7,8 @@
    see qh-geom.htm and geom.c
 
    Copyright (c) 1993-2014 The Geometry Center.
-   $Id: //main/2011/qhull/src/libqhullr/geom_r.h#1 $$Change: 1640 $
-   $DateTime: 2014/01/15 09:12:08 $$Author: bbarber $
+   $Id: //main/2011/qhull/src/libqhullr/geom_r.h#2 $$Change: 1645 $
+   $DateTime: 2014/01/15 12:51:30 $$Author: bbarber $
 */
 
 #ifndef qhDEFgeom
@@ -98,77 +98,77 @@
 
 /*============= prototypes in alphabetical order, infrequent at end ======= */
 
-void    qh_backnormal(realT **rows, int numrow, int numcol, boolT sign, coordT *normal, boolT *nearzero);
-void    qh_distplane(pointT *point, facetT *facet, realT *dist);
-facetT *qh_findbest(pointT *point, facetT *startfacet,
+void    qh_backnormal(qhT *qh, realT **rows, int numrow, int numcol, boolT sign, coordT *normal, boolT *nearzero);
+void    qh_distplane(qhT *qh, pointT *point, facetT *facet, realT *dist);
+facetT *qh_findbest(qhT *qh, pointT *point, facetT *startfacet,
                      boolT bestoutside, boolT isnewfacets, boolT noupper,
                      realT *dist, boolT *isoutside, int *numpart);
-facetT *qh_findbesthorizon(boolT ischeckmax, pointT *point,
+facetT *qh_findbesthorizon(qhT *qh, boolT ischeckmax, pointT *point,
                      facetT *startfacet, boolT noupper, realT *bestdist, int *numpart);
-facetT *qh_findbestnew(pointT *point, facetT *startfacet, realT *dist,
+facetT *qh_findbestnew(qhT *qh, pointT *point, facetT *startfacet, realT *dist,
                      boolT bestoutside, boolT *isoutside, int *numpart);
-void    qh_gausselim(realT **rows, int numrow, int numcol, boolT *sign, boolT *nearzero);
-realT   qh_getangle(pointT *vect1, pointT *vect2);
-pointT *qh_getcenter(setT *vertices);
-pointT *qh_getcentrum(facetT *facet);
-realT   qh_getdistance(facetT *facet, facetT *neighbor, realT *mindist, realT *maxdist);
-void    qh_normalize(coordT *normal, int dim, boolT toporient);
-void    qh_normalize2(coordT *normal, int dim, boolT toporient,
+void    qh_gausselim(qhT *qh, realT **rows, int numrow, int numcol, boolT *sign, boolT *nearzero);
+realT   qh_getangle(qhT *qh, pointT *vect1, pointT *vect2);
+pointT *qh_getcenter(qhT *qh, setT *vertices);
+pointT *qh_getcentrum(qhT *qh, facetT *facet);
+realT   qh_getdistance(qhT *qh, facetT *facet, facetT *neighbor, realT *mindist, realT *maxdist);
+void    qh_normalize(qhT *qh, coordT *normal, int dim, boolT toporient);
+void    qh_normalize2(qhT *qh, coordT *normal, int dim, boolT toporient,
             realT *minnorm, boolT *ismin);
-pointT *qh_projectpoint(pointT *point, facetT *facet, realT dist);
+pointT *qh_projectpoint(qhT *qh, pointT *point, facetT *facet, realT dist);
 
-void    qh_setfacetplane(facetT *newfacets);
-void    qh_sethyperplane_det(int dim, coordT **rows, coordT *point0,
+void    qh_setfacetplane(qhT *qh, facetT *newfacets);
+void    qh_sethyperplane_det(qhT *qh, int dim, coordT **rows, coordT *point0,
               boolT toporient, coordT *normal, realT *offset, boolT *nearzero);
-void    qh_sethyperplane_gauss(int dim, coordT **rows, pointT *point0,
+void    qh_sethyperplane_gauss(qhT *qh, int dim, coordT **rows, pointT *point0,
              boolT toporient, coordT *normal, coordT *offset, boolT *nearzero);
-boolT   qh_sharpnewfacets(void);
+boolT   qh_sharpnewfacets(qhT *qh);
 
 /*========= infrequently used code in geom2.c =============*/
 
-coordT *qh_copypoints(coordT *points, int numpoints, int dimension);
-void    qh_crossproduct(int dim, realT vecA[3], realT vecB[3], realT vecC[3]);
-realT   qh_determinant(realT **rows, int dim, boolT *nearzero);
-realT   qh_detjoggle(pointT *points, int numpoints, int dimension);
-void    qh_detroundoff(void);
-realT   qh_detsimplex(pointT *apex, setT *points, int dim, boolT *nearzero);
-realT   qh_distnorm(int dim, pointT *point, pointT *normal, realT *offsetp);
-realT   qh_distround(int dimension, realT maxabs, realT maxsumabs);
-realT   qh_divzero(realT numer, realT denom, realT mindenom1, boolT *zerodiv);
-realT   qh_facetarea(facetT *facet);
-realT   qh_facetarea_simplex(int dim, coordT *apex, setT *vertices,
+coordT *qh_copypoints(qhT *qh, coordT *points, int numpoints, int dimension);
+void    qh_crossproduct(qhT *qh, int dim, realT vecA[3], realT vecB[3], realT vecC[3]);
+realT   qh_determinant(qhT *qh, realT **rows, int dim, boolT *nearzero);
+realT   qh_detjoggle(qhT *qh, pointT *points, int numpoints, int dimension);
+void    qh_detroundoff(qhT *qh);
+realT   qh_detsimplex(qhT *qh, pointT *apex, setT *points, int dim, boolT *nearzero);
+realT   qh_distnorm(qhT *qh, int dim, pointT *point, pointT *normal, realT *offsetp);
+realT   qh_distround(qhT *qh, int dimension, realT maxabs, realT maxsumabs);
+realT   qh_divzero(qhT *qh, realT numer, realT denom, realT mindenom1, boolT *zerodiv);
+realT   qh_facetarea(qhT *qh, facetT *facet);
+realT   qh_facetarea_simplex(qhT *qh, int dim, coordT *apex, setT *vertices,
           vertexT *notvertex,  boolT toporient, coordT *normal, realT *offset);
-pointT *qh_facetcenter(setT *vertices);
-facetT *qh_findgooddist(pointT *point, facetT *facetA, realT *distp, facetT **facetlist);
-void    qh_getarea(facetT *facetlist);
-boolT   qh_gram_schmidt(int dim, realT **rows);
-boolT   qh_inthresholds(coordT *normal, realT *angle);
-void    qh_joggleinput(void);
-realT  *qh_maxabsval(realT *normal, int dim);
-setT   *qh_maxmin(pointT *points, int numpoints, int dimension);
-realT   qh_maxouter(void);
-void    qh_maxsimplex(int dim, setT *maxpoints, pointT *points, int numpoints, setT **simplex);
-realT   qh_minabsval(realT *normal, int dim);
-int     qh_mindiff(realT *vecA, realT *vecB, int dim);
-boolT   qh_orientoutside(facetT *facet);
-void    qh_outerinner(facetT *facet, realT *outerplane, realT *innerplane);
-coordT  qh_pointdist(pointT *point1, pointT *point2, int dim);
-void    qh_printmatrix(FILE *fp, const char *string, realT **rows, int numrow, int numcol);
-void    qh_printpoints(FILE *fp, const char *string, setT *points);
-void    qh_projectinput(void);
-void    qh_projectpoints(signed char *project, int n, realT *points,
+pointT *qh_facetcenter(qhT *qh, setT *vertices);
+facetT *qh_findgooddist(qhT *qh, pointT *point, facetT *facetA, realT *distp, facetT **facetlist);
+void    qh_getarea(qhT *qh, facetT *facetlist);
+boolT   qh_gram_schmidt(qhT *qh, int dim, realT **rows);
+boolT   qh_inthresholds(qhT *qh, coordT *normal, realT *angle);
+void    qh_joggleinput(qhT *qh);
+realT  *qh_maxabsval(qhT *qh, realT *normal, int dim);
+setT   *qh_maxmin(qhT *qh, pointT *points, int numpoints, int dimension);
+realT   qh_maxouter(qhT *qh);
+void    qh_maxsimplex(qhT *qh, int dim, setT *maxpoints, pointT *points, int numpoints, setT **simplex);
+realT   qh_minabsval(qhT *qh, realT *normal, int dim);
+int     qh_mindiff(qhT *qh, realT *vecA, realT *vecB, int dim);
+boolT   qh_orientoutside(qhT *qh, facetT *facet);
+void    qh_outerinner(qhT *qh, facetT *facet, realT *outerplane, realT *innerplane);
+coordT  qh_pointdist(qhT *qh, pointT *point1, pointT *point2, int dim);
+void    qh_printmatrix(qhT *qh, FILE *fp, const char *string, realT **rows, int numrow, int numcol);
+void    qh_printpoints(qhT *qh, FILE *fp, const char *string, setT *points);
+void    qh_projectinput(qhT *qh);
+void    qh_projectpoints(qhT *qh, signed char *project, int n, realT *points,
              int numpoints, int dim, realT *newpoints, int newdim);
-void    qh_rotateinput(realT **rows);
-void    qh_rotatepoints(realT *points, int numpoints, int dim, realT **rows);
-void    qh_scaleinput(void);
-void    qh_scalelast(coordT *points, int numpoints, int dim, coordT low,
+void    qh_rotateinput(qhT *qh, realT **rows);
+void    qh_rotatepoints(qhT *qh, realT *points, int numpoints, int dim, realT **rows);
+void    qh_scaleinput(qhT *qh);
+void    qh_scalelast(qhT *qh, coordT *points, int numpoints, int dim, coordT low,
                    coordT high, coordT newhigh);
-void    qh_scalepoints(pointT *points, int numpoints, int dim,
+void    qh_scalepoints(qhT *qh, pointT *points, int numpoints, int dim,
                 realT *newlows, realT *newhighs);
-boolT   qh_sethalfspace(int dim, coordT *coords, coordT **nextp,
+boolT   qh_sethalfspace(qhT *qh, int dim, coordT *coords, coordT **nextp,
               coordT *normal, coordT *offset, coordT *feasible);
-coordT *qh_sethalfspace_all(int dim, int count, coordT *halfspaces, pointT *feasible);
-pointT *qh_voronoi_center(int dim, setT *points);
+coordT *qh_sethalfspace_all(qhT *qh, int dim, int count, coordT *halfspaces, pointT *feasible);
+pointT *qh_voronoi_center(qhT *qh, int dim, setT *points);
 
 #endif /* qhDEFgeom */
 

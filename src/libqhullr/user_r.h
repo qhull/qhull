@@ -224,7 +224,7 @@ Code flags --
     2       for rand() with RAND_MAX or 15 bits (system 5)
     3       for rand() with 31 bits (Sun)
     4       for lrand48() with 31 bits (Solaris)
-    5       for qh_rand() with 31 bits (included with Qhull)
+    5       for qh_rand(qh) with 31 bits (included with Qhull, requires 'qh')
 
   notes:
     Random numbers are used by rbox to generate point sets.  Random
@@ -247,7 +247,7 @@ Code flags --
 #if (qh_RANDOMtype == 1)
 #define qh_RANDOMmax ((realT)0x7fffffffUL)  /* 31 bits, random()/MAX */
 #define qh_RANDOMint random()
-#define qh_RANDOMseed_(seed) srandom(seed);
+#define qh_RANDOMseed_(qh, seed) srandom(seed);
 
 #elif (qh_RANDOMtype == 2)
 #ifdef RAND_MAX
@@ -256,22 +256,22 @@ Code flags --
 #define qh_RANDOMmax ((realT)32767)   /* 15 bits (System 5) */
 #endif
 #define qh_RANDOMint  rand()
-#define qh_RANDOMseed_(seed) srand((unsigned)seed);
+#define qh_RANDOMseed_(qh, seed) srand((unsigned)seed);
 
 #elif (qh_RANDOMtype == 3)
 #define qh_RANDOMmax ((realT)0x7fffffffUL)  /* 31 bits, Sun */
 #define qh_RANDOMint  rand()
-#define qh_RANDOMseed_(seed) srand((unsigned)seed);
+#define qh_RANDOMseed_(qh, seed) srand((unsigned)seed);
 
 #elif (qh_RANDOMtype == 4)
 #define qh_RANDOMmax ((realT)0x7fffffffUL)  /* 31 bits, lrand38()/MAX */
 #define qh_RANDOMint lrand48()
-#define qh_RANDOMseed_(seed) srand48(seed);
+#define qh_RANDOMseed_(qh, seed) srand48(seed);
 
-#elif (qh_RANDOMtype == 5)
+#elif (qh_RANDOMtype == 5)  /* 'qh' is an implicit parameter */
 #define qh_RANDOMmax ((realT)2147483646UL)  /* 31 bits, qh_rand/MAX */
-#define qh_RANDOMint qh_rand()
-#define qh_RANDOMseed_(seed) qh_srand(seed);
+#define qh_RANDOMint qh_rand(qh)
+#define qh_RANDOMseed_(qh, seed) qh_srand(qh, seed);
 /* unlike rand(), never returns 0 */
 
 #else
@@ -374,7 +374,7 @@ stop after qh_JOGGLEmaxretry attempts
     total hash slots / used hash slots.  Must be at least 1.1.
 
   notes:
-    =2 for at worst 50% occupancy for qh hash_table and normally 25% occupancy
+    =2 for at worst 50% occupancy for qh.hash_table and normally 25% occupancy
 */
 #define qh_HASHfactor 2
 
@@ -489,8 +489,8 @@ stop after qh_JOGGLEmaxretry attempts
   __MSC_VER
     defined by Microsoft Visual C++
 
-  __MWERKS__ && __POWERPC__
-    defined by Metrowerks when compiling for the Power Macintosh
+  __MWERKS__ && __INTEL__
+    defined by Metrowerks when compiling for Intel-based Macintosh
 
   __STDC__
     defined for strict ANSI C
@@ -566,62 +566,11 @@ stop after qh_JOGGLEmaxretry attempts
     #define qh_NOtrace
 */
 
-/*-<a                             href="qh-user.htm#TOC"
-  >--------------------------------</a><a name="QHpointer">-</a>
-
-  qh_QHpointer
-    access global data with pointer or static structure
-
-  qh_QHpointer  = 1     access globals via a pointer to allocated memory
-                        enables qh_saveqhull() and qh_restoreqhull()
-                        [2010, gcc] costs about 4% in time and 4% in space
-                        [2003, msvc] costs about 8% in time and 2% in space
-
-                = 0     qh_qh and qh_qhstat are static data structures
-                        only one instance of qhull() can be active at a time
-                        default value
-
-  qh_QHpointer_dllimport and qh_dllimport define qh_qh as __declspec(dllimport) [libqhull.h]
-  It is required for msvc-2005.  It is not needed for gcc.
-
-  notes:
-    all global variables for qhull are in qh, qhmem, and qhstat
-    qh is defined in libqhull.h
-    qhmem is defined in mem.h
-    qhstat is defined in stat.h
-    C++ build defines qh_QHpointer [libqhullp.pro, libqhullcpp.pro]
-
-  see:
-    user_eg.c for an example
-*/
-#ifdef qh_QHpointer
-#if qh_dllimport
-#error QH6207 Qhull error: Use qh_QHpointer_dllimport instead of qh_dllimport with qh_QHpointer
-#endif
-#else
-#define qh_QHpointer 0
-#if qh_QHpointer_dllimport
-#error QH6234 Qhull error: Use qh_dllimport instead of qh_QHpointer_dllimport when qh_QHpointer is not defined
-#endif
-#endif
 #if 0  /* sample code */
-    qhT *oldqhA, *oldqhB;
-
-    exitcode= qh_new_qhull(dim, numpoints, points, ismalloc,
+    exitcode= qh_new_qhull(qhT *qh, dim, numpoints, points, ismalloc,
                       flags, outfile, errfile);
-    /* use results from first call to qh_new_qhull */
-    oldqhA= qh_save_qhull();
-    exitcode= qh_new_qhull(dimB, numpointsB, pointsB, ismalloc,
-                      flags, outfile, errfile);
-    /* use results from second call to qh_new_qhull */
-    oldqhB= qh_save_qhull();
-    qh_restore_qhull(&oldqhA);
-    /* use results from first call to qh_new_qhull */
-    qh_freeqhull(qh_ALL);  /* frees all memory used by first call */
-    qh_restore_qhull(&oldqhB);
-    /* use results from second call to qh_new_qhull */
-    qh_freeqhull(!qh_ALL); /* frees long memory used by second call */
-    qh_memfreeshort(&curlong, &totlong);  /* frees short memory and memory allocator */
+    qh_freeqhull(qhT *qh, !qh_ALL); /* frees long memory used by second call */
+    qh_memfreeshort(qhT *qh, &curlong, &totlong);  /* frees short memory and memory allocator */
 #endif
 
 /*-<a                             href="qh-user.htm#TOC"
@@ -744,7 +693,7 @@ stop after qh_JOGGLEmaxretry attempts
     qh_USEfindbestnew -- when to use qh_findbestnew for qh_partitionpoint()
 */
 #define qh_DISToutside ((qh_USEfindbestnew ? 2 : 1) * \
-     fmax_((qh MERGING ? 2 : 1)*qh MINoutside, qh max_outside))
+     fmax_((qh->MERGING ? 2 : 1)*qh->MINoutside, qh->max_outside))
 
 /*-<a                             href="qh-user.htm#TOC"
   >--------------------------------</a><a name="RATIOnearinside">-</a>
@@ -773,7 +722,7 @@ stop after qh_JOGGLEmaxretry attempts
     qh_USEfindbestnew -- when to use qh_findbestnew for qh_partitionpoint()
 */
 #define qh_SEARCHdist ((qh_USEfindbestnew ? 2 : 1) * \
-      (qh max_outside + 2 * qh DISTround + fmax_( qh MINvisible, qh MAXcoplanar)));
+      (qh->max_outside + 2 * qh->DISTround + fmax_( qh->MINvisible, qh->MAXcoplanar)));
 
 /*-<a                             href="qh-user.htm#TOC"
   >--------------------------------</a><a name="USEfindbestnew">-</a>

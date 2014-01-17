@@ -28,6 +28,38 @@ To do
  - Reconsider Qhull version numbering (e.g., Traveler 4/5/12) 
 
 ------------
+Qhull
+ - Rename debugging routines dfacet/dvertex to qh_dfacet/qh_dvertex 
+ - Rename rbox routines to qh_roundi/qh_out1/qh_out2n/qh_out3n 
+ - Rename dfacet and dvertex to qh_dfacet and qh_dvertex 
+ - Replace 'qhmem .zzz' with 'qhmem.zzz'
+ - Removed spaces between function and parentheses
+ - Rename 'enum statistics' to 'enum qh_statistics'
+ - Rename 'qh_rand_seed' to 'qh_last_random'
+ - In comments, use 'qh.zzz' to reference qhT fields
+ - In qh_fprintf, use qhmem.ferr to report errors
+ - qh_fprintf may be called for errors in qh_initstatistics and qh_meminit
+ - After qh_meminit, qhmem.ferr is non-zero
+
+qhullr
+ - Removed qh_save_qhull(), qh_restore_qhull(), and qh.old_qhstat from global_r.c
+ - Removed qh_freeqhull2() (global_r.c)
+ - Removed old code from unix_r.c and rbox_r.c for __POWERPC__
+ - qh_rand_seed is a global (random_r.c)
+ - Rename sources files with a '_r' suffix
+ - Replace 'qh' macro with 'qh->'
+ - Replace global qhT with parameter-0
+ - Add qhmemT to beginning of qhT.  It may not be used standalone.
+ - Add qhstatT to end of qhT
+ - Remove qhull_inuse
+ - Change qhmem.zzz to qh->qhmem.zzz
+ - Replace qh_qhstat with qh->qhstat
+ - Remove qh_freestatistics
+ - Replace qh_last_random with qh->last_random
+ - Replace rboxT with qh->rbox_errexit, rbox_isinteger, rbox_out_offset
+ - Replace rbox.ferr/fout with qh->ferr/fout
+ - No qh for qh_exit, qh_free, qh_malloc, qh_strtod, qh_strtol, qh_stddev
+ 
 Qhull 2012.1  2012/02/18 6.3.1.1494
  - Fix CMakeLists for libqhull with MATCHES [P. Gajdos]
 

@@ -27,7 +27,7 @@
 /*-<a                             href="qh-user.htm#TOC"
    >-------------------------------</a><a name="qh_fprintf_rbox">-</a>
 
-   qh_fprintf_rbox(fp, msgcode, format, list of args )
+   qh_fprintf_rbox(qh, fp, msgcode, format, list of args )
      print arguments to *fp according to format
      Use qh_fprintf_rbox() for rboxlib.c
 
@@ -37,12 +37,12 @@
      exit qh_fprintf_rbox via qh_errexit_rbox()
 */
 
-void qh_fprintf_rbox(FILE *fp, int msgcode, const char *fmt, ... ) {
+void qh_fprintf_rbox(qhT *qh, FILE *fp, int msgcode, const char *fmt, ... ) {
     va_list args;
 
     if (!fp) {
         fprintf(stderr, "QH6231 Qhull internal error (userprintf.c): fp is 0.  Wrong qh_fprintf_rbox called.\n");
-        qh_errexit_rbox(6231);
+        qh_errexit_rbox(qh, 6231);
     }
     if (msgcode >= MSG_ERROR && msgcode < MSG_STDERR)
       fprintf(fp, "QH%.4d ", msgcode);

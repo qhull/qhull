@@ -123,7 +123,7 @@ void adddiamond (coordT *points, int numpoints, int numnew, int dim) {
     point= points + (numpoints+j)*dim;
     if (points == qh first_point)  /* in case of 'QRn' */
       qh num_points= numpoints+j+1;
-    /* qh num_points sets the size of the points array.  You may
+    /* qh.num_points sets the size of the points array.  You may
        allocate the points elsewhere.  If so, qh_addpoint records
        the point's address in qh other_points
     */
@@ -190,7 +190,7 @@ void addDelaunay (coordT *points, int numpoints, int numnew, int dim) {
     point= points + (numpoints+j)*dim;
     if (points == qh first_point)  /* in case of 'QRn' */
       qh num_points= numpoints+j+1;
-    /* qh num_points sets the size of the points array.  You may
+    /* qh.num_points sets the size of the points array.  You may
        allocate the point elsewhere.  If so, qh_addpoint records
        the point's address in qh other_points
     */

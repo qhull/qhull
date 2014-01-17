@@ -12,8 +12,8 @@
      qh_errexit(qhmem_ERRqhull, NULL, NULL) otherwise
 
    Copyright (c) 1993-2014 The Geometry Center.
-   $Id: //main/2011/qhull/src/libqhull/mem.h#4 $$Change: 1464 $
-   $DateTime: 2012/01/25 22:58:41 $$Author: bbarber $
+   $Id: //main/2011/qhull/src/libqhull/mem.h#5 $$Change: 1645 $
+   $DateTime: 2014/01/15 12:51:30 $$Author: bbarber $
 */
 
 #ifndef qhDEFmem
@@ -125,7 +125,7 @@ struct qhmemT {               /* global memory management variables */
   void    *freemem;           /*   free memory in curbuffer */
   int      freesize;          /*   size of freemem in bytes */
   setT    *tempstack;         /* stack of temporary memory, managed by users */
-  FILE    *ferr;              /* file for reporting errors, only user is qh_fprintf() */
+  FILE    *ferr;              /* file for reporting errors when 'qh' may be undefined */
   int      IStracing;         /* =5 if tracing memory allocations */
   int      cntquick;          /* count of quick allocations */
                               /* Note: removing statistics doesn't effect speed */
@@ -150,7 +150,7 @@ struct qhmemT {               /* global memory management variables */
 /*-<a                             href="qh-mem.htm#TOC"
   >--------------------------------</a><a name="memalloc_">-</a>
 
-  qh_memalloc_(insize, object, type)
+  qh_memalloc_(insize, freelistp, object, type)
     returns object of size bytes
         assumes size<=qhmem.LASTsize and void **freelistp is a temp
 */
@@ -177,7 +177,7 @@ struct qhmemT {               /* global memory management variables */
 /*-<a                             href="qh-mem.htm#TOC"
   >--------------------------------</a><a name="memfree_">-</a>
 
-  qh_memfree_(object, insize)
+  qh_memfree_(object, insize, freelistp)
     free up an object
 
   notes:
@@ -195,7 +195,7 @@ struct qhmemT {               /* global memory management variables */
 
 #define qh_memfree_(object, insize, freelistp) {\
   if (object) { \
-    qhmem .freeshort++;\
+    qhmem.freeshort++;\
     freelistp= qhmem.freelists + qhmem.indextable[insize];\
     qhmem.totshort -= qhmem.sizetable[qhmem.indextable[insize]]; \
     qhmem.totfree += qhmem.sizetable[qhmem.indextable[insize]]; \

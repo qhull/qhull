@@ -21,8 +21,8 @@
    vertex->neighbors not set until the first merge occurs
 
    Copyright (c) 1993-2014 C.B. Barber.
-   $Id: //main/2011/qhull/src/libqhull/merge.c#4 $$Change: 1490 $
-   $DateTime: 2012/02/19 20:27:01 $$Author: bbarber $
+   $Id: //main/2011/qhull/src/libqhull/merge.c#5 $$Change: 1645 $
+   $DateTime: 2014/01/15 12:51:30 $$Author: bbarber $
 */
 
 #include "qhull_a.h"
@@ -70,14 +70,14 @@ void qh_premerge(vertexT *apex, realT maxcentrum, realT maxangle) {
   if (qh hull_dim >=3) {
     qh_mark_dupridges(qh newfacet_list); /* facet_mergeset */
     qh_mergecycle_all(qh newfacet_list, &othermerge);
-    qh_forcedmerges(&othermerge /* qh facet_mergeset */);
+    qh_forcedmerges(&othermerge /* qh.facet_mergeset */);
     FORALLnew_facets {  /* test samecycle merges */
       if (!newfacet->simplicial && !newfacet->mergeridge)
         qh_degen_redundant_neighbors(newfacet, NULL);
     }
     if (qh_merge_degenredundant())
       othermerge= True;
-  }else /* qh hull_dim == 2 */
+  }else /* qh.hull_dim == 2 */
     qh_mergecycle_all(qh newfacet_list, &othermerge);
   qh_flippedmerges(qh newfacet_list, &othermerge);
   if (!qh MERGEexact || zzval_(Ztotmerge)) {
@@ -273,7 +273,7 @@ void qh_all_merges(boolT othermerge, boolT vneighbors) {
         }
       }
     }
-    if (vneighbors && qh_test_vneighbors(/* qh newfacet_list */))
+    if (vneighbors && qh_test_vneighbors(/* qh.newfacet_list */))
       continue;
     break;
   } /* while (True) */
@@ -347,12 +347,12 @@ void qh_appendmergeset(facetT *facet, facetT *neighbor, mergeType mergetype, rea
     if (facet->redundant || neighbor->redundant) {
       qh_fprintf(qh ferr, 6092, "qhull error (qh_appendmergeset): facet f%d or f%d is already a mirrored facet\n",
            facet->id, neighbor->id);
-      qh_errexit2 (qh_ERRqhull, facet, neighbor);
+      qh_errexit2(qh_ERRqhull, facet, neighbor);
     }
     if (!qh_setequal(facet->vertices, neighbor->vertices)) {
       qh_fprintf(qh ferr, 6093, "qhull error (qh_appendmergeset): mirrored facets f%d and f%d do not have the same vertices\n",
            facet->id, neighbor->id);
-      qh_errexit2 (qh_ERRqhull, facet, neighbor);
+      qh_errexit2(qh_ERRqhull, facet, neighbor);
     }
     facet->redundant= True;
     neighbor->redundant= True;
@@ -422,7 +422,7 @@ setT *qh_basevertices(facetT *samecycle) {
     for all new facets
       report error if unvisited
 */
-void qh_checkconnect(void /* qh newfacet_list */) {
+void qh_checkconnect(void /* qh.newfacet_list */) {
   facetT *facet, *newfacet, *errfacet= NULL, *neighbor, **neighborp;
 
   facet= qh newfacet_list;
@@ -1074,7 +1074,7 @@ void qh_forcedmerges(boolT *wasmerge) {
     if (!qh_setin(facet2->neighbors, facet1)) {
       qh_fprintf(qh ferr, 6096, "qhull internal error (qh_forcedmerges): f%d and f%d had a duplicate ridge but as f%d and f%d they are no longer neighbors\n",
                merge->facet1->id, merge->facet2->id, facet1->id, facet2->id);
-      qh_errexit2 (qh_ERRqhull, facet1, facet2);
+      qh_errexit2(qh_ERRqhull, facet1, facet2);
     }
     if (qh TRACEmerge-1 == zzval_(Ztotmerge))
       qhmem.IStracing= qh IStracing= qh TRACElevel;
@@ -1602,7 +1602,7 @@ int qh_merge_degenredundant(void) {
         if (!facet2->f.replace) {
           qh_fprintf(qh ferr, 6097, "qhull internal error (qh_merge_degenredunant): f%d redundant but f%d has no replacement\n",
                facet1->id, facet2->id);
-          qh_errexit2 (qh_ERRqhull, facet1, facet2);
+          qh_errexit2(qh_ERRqhull, facet1, facet2);
         }
         facet2= facet2->f.replace;
       }
@@ -2271,7 +2271,7 @@ void qh_mergefacet(facetT *facet1, facetT *facet2, realT *mindist, realT *maxdis
   if (facet1->tricoplanar || facet2->tricoplanar) {
     if (!qh TRInormals) {
       qh_fprintf(qh ferr, 6226, "Qhull internal error (qh_mergefacet): does not work for tricoplanar facets.  Use option 'Q11'\n");
-      qh_errexit2 (qh_ERRqhull, facet1, facet2);
+      qh_errexit2(qh_ERRqhull, facet1, facet2);
     }
     if (facet2->tricoplanar) {
       facet2->tricoplanar= False;
@@ -2314,7 +2314,7 @@ void qh_mergefacet(facetT *facet1, facetT *facet2, realT *mindist, realT *maxdis
   if (facet1 == facet2 || facet1->visible || facet2->visible) {
     qh_fprintf(qh ferr, 6099, "qhull internal error (qh_mergefacet): either f%d and f%d are the same or one is a visible facet\n",
              facet1->id, facet2->id);
-    qh_errexit2 (qh_ERRqhull, facet1, facet2);
+    qh_errexit2(qh_ERRqhull, facet1, facet2);
   }
   if (qh num_facets - qh num_visible <= qh hull_dim + 1) {
     qh_fprintf(qh ferr, 6227, "\n\
@@ -3368,7 +3368,7 @@ boolT qh_test_appendmerge(facetT *facet, facetT *neighbor) {
         for each unvisited facet neighbor of the vertex
           test new facet and neighbor for convexity
 */
-boolT qh_test_vneighbors(void /* qh newfacet_list */) {
+boolT qh_test_vneighbors(void /* qh.newfacet_list */) {
   facetT *newfacet, *neighbor, **neighborp;
   vertexT *vertex, **vertexp;
   int nummerges= 0;

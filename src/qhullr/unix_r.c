@@ -8,8 +8,8 @@
    see qh-qhull.htm
 
    Copyright (c) 1993-2014 The Geometry Center.
-   $Id: //main/2011/qhull/src/qhullr/unix_r.c#1 $$Change: 1640 $
-   $DateTime: 2014/01/15 09:12:08 $$Author: bbarber $
+   $Id: //main/2011/qhull/src/qhullr/unix_r.c#2 $$Change: 1645 $
+   $DateTime: 2014/01/15 12:51:30 $$Author: bbarber $
 */
 
 #include "mem_r.h"
@@ -22,13 +22,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#if __MWERKS__ && __POWERPC__
-#include <SIOUX.h>
-#include <Files.h>
-#include <console.h>
-#include <Desk.h>
-
-#elif __cplusplus
+#if __cplusplus
 extern "C" {
   int isatty(int);
 }
@@ -328,18 +322,7 @@ int main(int argc, char *argv[]) {
   int exitcode, numpoints, dim;
   coordT *points;
   boolT ismalloc;
-
-#if __MWERKS__ && __POWERPC__
-  char inBuf[BUFSIZ], outBuf[BUFSIZ], errBuf[BUFSIZ];
-  SIOUXSettings.showstatusline= false;
-  SIOUXSettings.tabspaces= 1;
-  SIOUXSettings.rows= 40;
-  if (setvbuf(stdin, inBuf, _IOFBF, sizeof(inBuf)) < 0   /* w/o, SIOUX I/O is slow*/
-  || setvbuf(stdout, outBuf, _IOFBF, sizeof(outBuf)) < 0
-  || (stdout != stderr && setvbuf(stderr, errBuf, _IOFBF, sizeof(errBuf)) < 0))
-    fprintf(stderr, "qhull internal warning (main): could not change stdio to fully buffered.\n");
-  argc= ccommand(&argv);
-#endif
+  qhT *qh= (qhT*)qh_malloc(sizeof(qhT));
 
   if ((argc == 1) && isatty( 0 /*stdin*/)) {
     fprintf(stdout, qh_prompt2, qh_version);
@@ -354,25 +337,25 @@ int main(int argc, char *argv[]) {
     fprintf(stdout, qh_prompt3, qh_version);
     exit(qh_ERRnone);
   }
-  qh_init_A(stdin, stdout, stderr, argc, argv);  /* sets qh qhull_command */
-  exitcode= setjmp(qh errexit); /* simple statement for CRAY J916 */
+  qh_init_A(qh, stdin, stdout, stderr, argc, argv);  /* sets qh->qhull_command */
+  exitcode= setjmp(qh->errexit); /* simple statement for CRAY J916 */
   if (!exitcode) {
-    qh_initflags(qh qhull_command);
-    points= qh_readpoints(&numpoints, &dim, &ismalloc);
-    qh_init_B(points, numpoints, dim, ismalloc);
-    qh_qhull();
-    qh_check_output();
-    qh_produce_output();
-    if (qh VERIFYoutput && !qh FORCEoutput && !qh STOPpoint && !qh STOPcone)
-      qh_check_points();
+    qh_initflags(qh, qh->qhull_command);
+    points= qh_readpoints(qh, &numpoints, &dim, &ismalloc);
+    qh_init_B(qh, points, numpoints, dim, ismalloc);
+    qh_qhull(qh);
+    qh_check_output(qh);
+    qh_produce_output(qh);
+    if (qh->VERIFYoutput && !qh->FORCEoutput && !qh->STOPpoint && !qh->STOPcone)
+      qh_check_points(qh);
     exitcode= qh_ERRnone;
   }
-  qh NOerrexit= True;  /* no more setjmp */
+  qh->NOerrexit= True;  /* no more setjmp */
 #ifdef qh_NOmem
-  qh_freeqhull( True);
+  qh_freeqhull(qh, True);
 #else
-  qh_freeqhull( False);
-  qh_memfreeshort(&curlong, &totlong);
+  qh_freeqhull(qh, False);
+  qh_memfreeshort(qh, &curlong, &totlong);
   if (curlong || totlong)
     fprintf(stderr, "qhull internal warning (main): did not free %d bytes of long memory(%d pieces)\n",
        totlong, curlong);

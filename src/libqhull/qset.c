@@ -12,8 +12,8 @@
    of the set (i.e., setelemT).
 
    Copyright (c) 1993-2014 The Geometry Center.
-   $Id: //main/2011/qhull/src/libqhull/qset.c#6 $$Change: 1475 $
-   $DateTime: 2012/01/27 22:32:16 $$Author: bbarber $
+   $Id: //main/2011/qhull/src/libqhull/qset.c#7 $$Change: 1645 $
+   $DateTime: 2014/01/15 12:51:30 $$Author: bbarber $
 */
 
 #include "qset.h"
@@ -572,7 +572,7 @@ void **qh_setendpointer(setT *set) {
 /*-<a                             href="qh-set.htm#TOC"
   >-------------------------------<a name="setequal">-</a>
 
-  qh_setequal(  )
+  qh_setequal( setA, setB )
     returns 1 if two sorted sets are equal, otherwise returns 0
 
   notes:
@@ -740,7 +740,7 @@ void qh_setfree(setT **setp) {
     free each element
     free set
 */
-void qh_setfree2 (setT **setp, int elemsize) {
+void qh_setfree2(setT **setp, int elemsize) {
   void          *elem, **elemp;
 
   FOREACHelem_(*setp)
@@ -882,7 +882,7 @@ void qh_setlarger(setT **oldsetp) {
 /*-<a                             href="qh-set.htm#TOC"
   >-------------------------------<a name="setlast">-</a>
 
-  qh_setlast(  )
+  qh_setlast( set )
     return last element of set or NULL (use type conversion)
 
   notes:

@@ -1,10 +1,9 @@
 # -------------------------------------------------
-# libqhull.pro -- Qt project for Qhull shared library with qh_QHpointer
+# libqhullp.pro -- Qt project for Qhull shared library with qh_QHpointer
 #   Built with qh_QHpointer=1
 # -------------------------------------------------
 
 include(../qhull-warn.pri)
-include(../qhull-libqhull-src.pri)
 
 DESTDIR = ../../lib
 DLLDESTDIR = ../../bin
@@ -23,3 +22,5 @@ win32-msvc* : QMAKE_LFLAGS += /INCREMENTAL:NO
 win32-msvc* : DEF_FILE += ../../src/libqhullp/qhull_p-exports.def
 
 DEFINES += qh_QHpointer # libqhull/user.h
+
+include(../qhull-libqhull-src.pri)

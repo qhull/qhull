@@ -7,8 +7,8 @@
    see qh-geom.htm and geom.c
 
    Copyright (c) 1993-2014 The Geometry Center.
-   $Id: //main/2011/qhull/src/libqhull/geom.h#3 $$Change: 1464 $
-   $DateTime: 2012/01/25 22:58:41 $$Author: bbarber $
+   $Id: //main/2011/qhull/src/libqhull/geom.h#4 $$Change: 1645 $
+   $DateTime: 2014/01/15 12:51:30 $$Author: bbarber $
 */
 
 #ifndef qhDEFgeom
@@ -113,7 +113,7 @@ pointT *qh_getcenter(setT *vertices);
 pointT *qh_getcentrum(facetT *facet);
 realT   qh_getdistance(facetT *facet, facetT *neighbor, realT *mindist, realT *maxdist);
 void    qh_normalize(coordT *normal, int dim, boolT toporient);
-void    qh_normalize2 (coordT *normal, int dim, boolT toporient,
+void    qh_normalize2(coordT *normal, int dim, boolT toporient,
             realT *minnorm, boolT *ismin);
 pointT *qh_projectpoint(pointT *point, facetT *facet, realT dist);
 

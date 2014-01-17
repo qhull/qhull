@@ -17,8 +17,8 @@
     - sets may be sorted or unsorted, the caller must distinguish this
 
    Copyright (c) 1993-2014 The Geometry Center.
-   $Id: //main/2011/qhull/src/libqhull/qset.h#4 $$Change: 1464 $
-   $DateTime: 2012/01/25 22:58:41 $$Author: bbarber $
+   $Id: //main/2011/qhull/src/libqhull/qset.h#5 $$Change: 1645 $
+   $DateTime: 2014/01/15 12:51:30 $$Author: bbarber $
 */
 
 #ifndef qhDEFset
@@ -459,10 +459,10 @@ void *qh_setdelnth(setT *set, int nth);
 void *qh_setdelnthsorted(setT *set, int nth);
 void *qh_setdelsorted(setT *set, void *newelem);
 setT *qh_setduplicate( setT *set, int elemsize);
+void **qh_setendpointer(setT *set);
 int   qh_setequal(setT *setA, setT *setB);
 int   qh_setequal_except(setT *setA, void *skipelemA, setT *setB, void *skipelemB);
 int   qh_setequal_skip(setT *setA, int skipA, setT *setB, int skipB);
-void **qh_setendpointer(setT *set);
 void  qh_setfree(setT **set);
 void  qh_setfree2( setT **setp, int elemsize);
 void  qh_setfreelong(setT **set);
