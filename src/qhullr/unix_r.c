@@ -8,8 +8,8 @@
    see qh-qhull.htm
 
    Copyright (c) 1993-2014 The Geometry Center.
-   $Id: //main/2011/qhull/src/qhullr/unix_r.c#2 $$Change: 1645 $
-   $DateTime: 2014/01/15 12:51:30 $$Author: bbarber $
+   $Id: //main/2011/qhull/src/qhullr/unix_r.c#4 $$Change: 1663 $
+   $DateTime: 2014/01/19 17:59:16 $$Author: bbarber $
 */
 
 #include "mem_r.h"
@@ -322,7 +322,8 @@ int main(int argc, char *argv[]) {
   int exitcode, numpoints, dim;
   coordT *points;
   boolT ismalloc;
-  qhT *qh= (qhT*)qh_malloc(sizeof(qhT));
+  qhT qh_qh;
+  qhT *qh= &qh_qh;
 
   if ((argc == 1) && isatty( 0 /*stdin*/)) {
     fprintf(stdout, qh_prompt2, qh_version);

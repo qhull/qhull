@@ -21,11 +21,11 @@
    vertex->neighbors not set until the first merge occurs
 
    Copyright (c) 1993-2014 C.B. Barber.
-   $Id: //main/2011/qhull/src/libqhullr/merge_r.c#2 $$Change: 1645 $
-   $DateTime: 2014/01/15 12:51:30 $$Author: bbarber $
+   $Id: //main/2011/qhull/src/libqhullr/merge_r.c#4 $$Change: 1663 $
+   $DateTime: 2014/01/19 17:59:16 $$Author: bbarber $
 */
 
-#include "qhull_ra.h"
+#include "qhull_r.h"
 
 #ifndef qh_NOmerge
 

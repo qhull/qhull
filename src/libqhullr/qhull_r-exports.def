@@ -1,13 +1,13 @@
-; qhull-exports.def -- msvc module-definition file
+; qhull_r-exports.def -- msvc module-definition file
 ;
 ;   Generated from depends.exe by cut-and-paste of exported symbols by mingw gcc
 ;   [jan'14] 391 symbols 
 ;   Same as ../libqhullp/qhull-exports.def without DATA items (reentrant)
 ;
-; $Id: //main/2011/qhull/src/libqhullr/qhull_r-exports.def#2 $$Change: 1657 $
-; $DateTime: 2014/01/17 18:37:16 $$Author: bbarber $
+; $Id: //main/2011/qhull/src/libqhullr/qhull_r-exports.def#3 $$Change: 1663 $
+; $DateTime: 2014/01/19 17:59:16 $$Author: bbarber $
 ; 
-; Define qhull_VERSION in CMakeLists.txt, Makefile, qhull-exports.def, qhull_p-exports.def, and qhull-warn.pri
+; Define qhull_VERSION in CMakeLists.txt, Makefile, qhull-exports.def, qhull_p-exports.def, qhull_r-exports.def, and qhull-warn.pri
 VERSION 6.3
 EXPORTS
 qh_addhash
@@ -57,7 +57,6 @@ qh_collectstatistics
 qh_compare_facetarea
 qh_compare_facetmerge
 qh_compare_facetvisit
-qh_compare_vertexpoint
 qh_compareangle
 qh_comparemerge
 qh_comparevisit
@@ -121,8 +120,6 @@ qh_free
 qh_freebuffers
 qh_freebuild
 qh_freeqhull
-qh_freeqhull2
-qh_freestatistics
 qh_furthestnext
 qh_furthestout
 qh_gausselim
@@ -307,7 +304,6 @@ qh_projectpoint
 qh_projectpoints
 qh_qhull
 qh_rand
-qh_rand_seed
 qh_randomfactor
 qh_randommatrix
 qh_rboxpoints

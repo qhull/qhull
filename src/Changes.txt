@@ -32,6 +32,8 @@ Qhull
  - Rename debugging routines dfacet/dvertex to qh_dfacet/qh_dvertex 
  - Rename rbox routines to qh_roundi/qh_out1/qh_out2n/qh_out3n 
  - Rename dfacet and dvertex to qh_dfacet and qh_dvertex 
+ - Rename user_eg, user_eg2, and user_eg3 to user_eg7,etc. 
+ - Rewrote user_eg, user_eg2, and user_eg3 as reentrant code
  - Replace 'qhmem .zzz' with 'qhmem.zzz'
  - Removed spaces between function and parentheses
  - Rename 'enum statistics' to 'enum qh_statistics'
@@ -41,10 +43,13 @@ Qhull
  - In qh_fprintf, use qhmem.ferr to report errors
  - qh_fprintf may be called for errors in qh_initstatistics and qh_meminit
  - After qh_meminit, qhmem.ferr is non-zero
+ - Update qh_MEMalign in testqset.c to user.h (with realT and void*)
 
 qhullr
  - Remove qh_save_qhull(), qh_restore_qhull(), and qh.old_qhstat from global_r.c
  - Remove qh_freeqhull2() (global_r.c)
+ - Remove qh_freestatistics() (stat_r.c)
+ - Remove qh_compare_vertexpoint (qhT is not available, unused code)
  - Remove conditional code for __POWERPC__ from unix_r.c and rbox_r.c
  - Move qh_last_random into qh->last_random (random_r.c)
  - Rename sources files with a '_r' suffix

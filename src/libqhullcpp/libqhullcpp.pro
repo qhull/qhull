@@ -17,8 +17,6 @@ build_pass:CONFIG(debug, debug|release):{
 }
 MOC_DIR = moc
 
-DEFINES += qh_QHpointer # libqhull/user.h
-
 INCLUDEPATH += ../../src
 INCLUDEPATH += $$PWD # for MOC_DIR
 

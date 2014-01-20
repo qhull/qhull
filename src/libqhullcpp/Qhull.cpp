@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2014 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/Qhull.cpp#6 $$Change: 1464 $
-** $DateTime: 2012/01/25 22:58:41 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullcpp/Qhull.cpp#7 $$Change: 1645 $
+** $DateTime: 2014/01/15 12:51:30 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -17,7 +17,7 @@
 #include "QhullFacetList.h"
 #include "Qhull.h"
 extern "C" {
-    #include "libqhull/qhull_a.h"
+    #include "libqhull/qhull_r.h"
 }
 
 #include <iostream>

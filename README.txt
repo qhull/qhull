@@ -366,6 +366,8 @@ bin/
   msvcr80.dll          // Visual C++ redistributable file (.zip only)
 
 src/
+  qhullr/unix_r.c      // Qhull and rbox applications using libqhullstatic_r.a
+  rboxr/rbox_r.c
   qhull/unix.c         // Qhull and rbox applications
   qconvex/qconvex.c    
   qhalf/qhalf.c
@@ -373,11 +375,18 @@ src/
   qvoronoi/qvoronoi.c
   rbox/rbox.c
 
-  user_eg/user_eg.c    // example of using qhull_p.dll (requires -Dqh_QHpointer)
+  user_eg/user_eg.c    // example of using qhull_r.dll
   user_eg2/user_eg2.c  // example of using qhull.dll from a user program
   user_eg3/user_eg3.cpp // example of Qhull's C++ interface with libqhullstatic_r.a
   qhulltest/qhulltest.cpp // Test of Qhull's C++ interface using Qt's QTestLib
   qhull-*.pri          // Include files for Qt projects
+  testqset/testqset.c   // Test of qset_r.c and mem_r.c
+
+  user_eg7/user_eg7.c   // example of using deprecated qhull_p.dll (requires -Dqh_QHpointer)
+  user_eg8/user_eg8.c   // example of using deprecated qhull.dll from a user program
+  user_eg9/user_eg9.cpp // example of Qhull's deprecated C++ interface with libqhullstatic_p.a
+  qhullptest/qhullptest.cpp // Test of Qhull's deprecated C++ interface with libqhullstatic_p.a
+  testqsetp/testqsetp.c   // Test of deprecated qset.c and mem.c
 
 src/libqhull
   libqhull.pro         // Qt project for shared library (qhull.dll)

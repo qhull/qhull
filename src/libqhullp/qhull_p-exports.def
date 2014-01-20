@@ -8,7 +8,7 @@
 ; $Id: //main/2011/qhull/src/libqhull/qhull-exports.def#2 $$Change: 1368 $
 ; $DateTime: 2011/04/16 08:12:32 $$Author: bbarber $
 ;
-; Define qhull_VERSION in CMakeLists.txt, Makefile, qhull-exports.def, qhull_p-exports.def, and qhull-warn.pri
+; Define qhull_VERSION in CMakeLists.txt, Makefile, qhull-exports.def, qhull_p-exports.def, qhull_r-exports.def, and qhull-warn.pri
 VERSION 6.3
 EXPORTS
 qh_addhash

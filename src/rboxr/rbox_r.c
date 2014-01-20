@@ -55,7 +55,8 @@ args (any order, space separated):                    Version: 2001/06/24\n\
 */
 int main(int argc, char **argv) {
   int return_status;
-  qhT *qh= (qhT*)qh_malloc(sizeof(qhT));
+  qhT qh_qh;
+  qhT *qh= &qh_qh;
 
   if (argc == 1) {
     printf(prompt, qh_DEFAULTbox, qh_DEFAULTzbox);

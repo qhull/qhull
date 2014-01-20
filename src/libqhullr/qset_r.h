@@ -17,8 +17,8 @@
     - sets may be sorted or unsorted, the caller must distinguish this
 
    Copyright (c) 1993-2014 The Geometry Center.
-   $Id: //main/2011/qhull/src/libqhullr/qset_r.h#2 $$Change: 1645 $
-   $DateTime: 2014/01/15 12:51:30 $$Author: bbarber $
+   $Id: //main/2011/qhull/src/libqhullr/qset_r.h#4 $$Change: 1663 $
+   $DateTime: 2014/01/19 17:59:16 $$Author: bbarber $
 */
 
 #ifndef qhDEFset
@@ -180,7 +180,7 @@ struct setT {
 /*-<a                                    href="qh-set.htm#TOC"
   >--------------------------------------</a><a name="FOREACHsetelementreverse_">-</a>
 
-   FOREACHsetelementreverse_(type, set, variable)-
+   FOREACHsetelementreverse_(qh, type, set, variable)-
      define FOREACH iterator in reverse order
 
    declare:
@@ -203,9 +203,9 @@ struct setT {
      use FOREACHsetelementreverse12_() to reverse first two elements
      WARNING: needs braces if nested inside another FOREACH
 */
-#define FOREACHsetelementreverse_(type, set, variable) \
+#define FOREACHsetelementreverse_(qh, type, set, variable) \
         if (((variable= NULL), set)) for (\
-           variable##temp= qh_setsize(qhT *qh, set)-1, variable= qh_setlast(qhT *qh, set);\
+           variable##temp= qh_setsize(qh, set)-1, variable= qh_setlast(qh, set);\
            variable; variable= \
            ((--variable##temp >= 0) ? SETelemt_(set, variable##temp, type) : NULL))
 

@@ -14,7 +14,7 @@
 #include "QhullLinkedList.h"
 #include "QhullSet.h"
 extern "C" {
-    #include "libqhull/qhull_a.h"
+    #include "libqhull/qhull_r.h"
 }
 
 #include <ostream>

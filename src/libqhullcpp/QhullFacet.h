@@ -15,7 +15,7 @@
 #include "QhullSet.h"
 #include "QhullPointSet.h"
 extern "C" {
-    #include "libqhull/qhull_a.h"
+    #include "libqhull/qhull_r.h"
 }
 
 #include <string>

@@ -20,6 +20,6 @@ build_pass:CONFIG(debug, debug|release):{
 }
 win32-msvc* : QMAKE_LFLAGS += /INCREMENTAL:NO
 
-win32-msvc* : DEF_FILE += ../../src/libqhullr/qhull-exports_r.def
+win32-msvc* : DEF_FILE += ../../src/libqhullr/qhull_r-exports.def
 
 include(../qhull-libqhull-src_r.pri)

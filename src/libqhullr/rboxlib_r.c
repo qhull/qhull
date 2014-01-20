@@ -765,6 +765,8 @@ void qh_out3n(qhT *qh, double a, double b, double c) {
 
 void qh_errexit_rbox(qhT *qh, int exitcode)
 {
-    longjmp(qh->rbox_errexit, exitcode);
+    if(qh)
+      longjmp(qh->rbox_errexit, exitcode);
+    qh_exit(exitcode);
 } /* qh_errexit_rbox */
 

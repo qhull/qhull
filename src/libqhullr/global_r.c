@@ -9,14 +9,14 @@
 
    see libqhull.h for qh.globals and function prototypes
 
-   see qhull_a.h for internal functions
+   see qhull_r.h for internal functions
 
    Copyright (c) 1993-2014 The Geometry Center.
-   $Id: //main/2011/qhull/src/libqhullr/global_r.c#2 $$Change: 1645 $
-   $DateTime: 2014/01/15 12:51:30 $$Author: bbarber $
+   $Id: //main/2011/qhull/src/libqhullr/global_r.c#4 $$Change: 1663 $
+   $DateTime: 2014/01/19 17:59:16 $$Author: bbarber $
  */
 
-#include "qhull_ra.h"
+#include "qhull_r.h"
 
 /*========= qh->definition -- globals defined in libqhull.h =======================*/
 

@@ -12,7 +12,7 @@
 #include "QhullError.h"
 #include "QhullIterator.h"
 extern "C" {
-    #include "libqhull/qhull_a.h"
+    #include "libqhull/qhull_r.h"
 }
 
 

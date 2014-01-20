@@ -14,13 +14,9 @@
 TEMPLATE = subdirs
 CONFIG += ordered
 
-SUBDIRS += libqhull        #shared library
-SUBDIRS += libqhullp       #shared library with qh_QHpointer (libqhull/user.h)
 SUBDIRS += libqhullr       #shared library for reentrant code
-SUBDIRS += user_eg         #user program linked to libqhull6_p (libqhullp)
+SUBDIRS += user_eg         #user program linked to libqhullr (libqhullr)
 
-SUBDIRS += libqhullstatic  #static library
-SUBDIRS += libqhullstaticp #static library with qh_QHpointer
 SUBDIRS += libqhullstaticr #static library with reentrant code
 SUBDIRS += qhull           #qhull programs linked to libqhullstatic
 SUBDIRS += qconvex
@@ -30,14 +26,24 @@ SUBDIRS += qvoronoi
 SUBDIRS += rbox
 SUBDIRS += qhullr          #qhull program linked to libqhullstatic_r
 SUBDIRS += rboxr	   #rbox program linked to libqhullstatic_r
-SUBDIRS += user_eg2        #user program linked to libqhull
+SUBDIRS += user_eg2        #user program linked to libqhullr
 SUBDIRS += testqset        #test program for qset.c with mem.c
+SUBDIRS += testqsetr       #test program for qset_r.c with mem_r.c
 
-SUBDIRS += libqhullcpp     #static library for C++ interface with libqhullstaticp
-SUBDIRS += user_eg3        #user program with libqhullcpp and libqhullstaticp
-SUBDIRS += qhulltest       #test program with Qt, libqhullcpp, and libqhullstaticp
+SUBDIRS += libqhullcpp     #static library for C++ interface with libqhullstaticr
+SUBDIRS += user_eg3        #user program with libqhullcpp and libqhullstaticr
+SUBDIRS += qhulltest       #test program with Qt, libqhullcpp, and libqhullstaticr
+
+# Deprecated projects
+SUBDIRS += libqhull        #shared library
+SUBDIRS += libqhullp       #shared library with qh_QHpointer (libqhull/user.h)
+SUBDIRS += libqhullstatic  #static library
+SUBDIRS += libqhullstaticp #static library with qh_QHpointer
+SUBDIRS += qhullptest       #test program with Qt, libqhullpcpp, and libqhullstaticp
 SUBDIRS += libqhullpcpp     #static library for C++ interface with libqhullstaticp
-SUBDIRS += qhullptest       #test program with Qt, libqhullcpp, and libqhullstaticp
+SUBDIRS += user_egp         #user program linked to libqhull6_p (libqhullp)
+SUBDIRS += user_eg2p        #user program linked to libqhull
+SUBDIRS += user_eg3p        #user program with libqhullcpp and libqhullstaticp
 
 OTHER_FILES += Changes.txt
 OTHER_FILES += CMakeLists.txt

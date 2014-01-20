@@ -1,12 +1,12 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2014 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullpcpp/QhullSet.cpp#1 $$Change: 1652 $
-** $DateTime: 2014/01/17 09:01:32 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullpcpp/QhullSet.cpp#2 $$Change: 1663 $
+** $DateTime: 2014/01/19 17:59:16 $$Author: bbarber $
 **
 ****************************************************************************/
 
-#//! QhullSet -- Qhull's facet structure, facetT, as a C++ class
+#//! QhullSet -- Qhull's set structure, setT, as a C++ class
 
 #include "QhullError.h"
 #include "QhullSet.h"

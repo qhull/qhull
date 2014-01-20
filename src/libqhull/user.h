@@ -47,10 +47,10 @@ Code flags --
 
   msgcode -- Unique message codes for qh_fprintf
 
-  If add new messages, assign these values and increment.
+  If add new messages, assign these values and increment in user.h and user_r.h
 
   def counters =  [27, 1047, 2059, 3025, 4068, 5003,
-     6241, 7079, 8143, 9410, 10000, 11026]
+     6243, 7079, 8143, 9410, 10000, 11026]
 
   See: qh_ERR* [libqhull.h]
 */
@@ -429,7 +429,7 @@ stop after qh_JOGGLEmaxretry attempts
     do not occur in data structures and pointers are the same size.  Be careful
     of machines (e.g., DEC Alpha) with large pointers.
 
-    If using gcc, best alignment is
+    If using gcc, best alignment is  [fmax_() is defined in geom_r.h]
               #define qh_MEMalign fmax_(__alignof__(realT),__alignof__(void *))
 */
 #define qh_MEMalign ((int)(fmax_(sizeof(realT), sizeof(void *))))

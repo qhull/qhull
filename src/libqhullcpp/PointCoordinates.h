@@ -12,7 +12,7 @@
 #include "QhullPoints.h"
 #include "Coordinates.h"
 extern "C" {
-    #include "libqhull/qhull_a.h"
+    #include "libqhull/qhull_r.h"
 }
 
 #include <ostream>

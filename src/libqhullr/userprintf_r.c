@@ -42,6 +42,10 @@ void qh_fprintf(qhT *qh, FILE *fp, int msgcode, const char *fmt, ... ) {
     va_list args;
 
     if (!fp) {
+        if(!qh)
+            fprintf(stderr, "QH6241 qh_fprintf: fp and qh not defined for '%s'", fmt);
+        else
+            fprintf(qh->qhmem.ferr, "QH6232 qh_fprintf: fp is 0.  Was wrong qh_fprintf called for '%s'", fmt);
         fprintf(qh->qhmem.ferr, "QH6232 Qhull internal error (userprintf.c): fp is 0.  Wrong qh_fprintf called.\n");
         qh_errexit(qh, 6232, NULL, NULL);
     }

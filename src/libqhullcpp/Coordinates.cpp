@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2009-2014 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/Coordinates.cpp#3 $$Change: 1464 $
-** $DateTime: 2012/01/25 22:58:41 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullcpp/Coordinates.cpp#5 $$Change: 1663 $
+** $DateTime: 2014/01/19 17:59:16 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -125,7 +125,7 @@ indexOf(const coordT &t, int from) const
         const_iterator i= begin()+from;
         while(i!=constEnd()){
             if(*i==t){
-                return (static_cast<int>(i-begin())); // WARN64
+                return (static_cast<int>(i-begin())); // WARN64 coordinate index
             }
             ++i;
         }
@@ -145,7 +145,7 @@ lastIndexOf(const coordT &t, int from) const
         const_iterator i= begin()+from+1;
         while(i-- != constBegin()){
             if(*i==t){
-                return (static_cast<int>(i-begin())); // WARN64
+                return (static_cast<int>(i-begin())); // WARN64 coordinate index
             }
         }
     }

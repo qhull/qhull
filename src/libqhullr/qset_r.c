@@ -12,8 +12,8 @@
    of the set (i.e., setelemT).
 
    Copyright (c) 1993-2014 The Geometry Center.
-   $Id: //main/2011/qhull/src/libqhullr/qset_r.c#2 $$Change: 1645 $
-   $DateTime: 2014/01/15 12:51:30 $$Author: bbarber $
+   $Id: //main/2011/qhull/src/libqhullr/qset_r.c#3 $$Change: 1651 $
+   $DateTime: 2014/01/17 08:13:57 $$Author: bbarber $
 */
 
 #include "qset_r.h"
@@ -21,7 +21,7 @@
 #include "mem_r.h"
 #include <stdio.h>
 #include <string.h>
-/*** uncomment here and qhull_a.h
+/*** uncomment here and qhull_r.h
      if string.h does not define memcpy()
 #include <memory.h>
 */

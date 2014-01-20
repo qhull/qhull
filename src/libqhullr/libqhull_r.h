@@ -4,11 +4,11 @@
    libqhull.h
    user-level header file for using qhull.a library
 
-   see qh-qhull.htm, qhull_a.h
+   see qh-qhull.htm, qhull_r.h
 
    Copyright (c) 1993-2014 The Geometry Center.
-   $Id: //main/2011/qhull/src/libqhullr/libqhull_r.h#2 $$Change: 1645 $
-   $DateTime: 2014/01/15 12:51:30 $$Author: bbarber $
+   $Id: //main/2011/qhull/src/libqhullr/libqhull_r.h#3 $$Change: 1651 $
+   $DateTime: 2014/01/17 08:13:57 $$Author: bbarber $
 
    includes function prototypes for libqhull.c, geom.c, global.c, io.c, user.c
 
@@ -985,7 +985,7 @@ struct qhT {
 */
 #define FOREACHvertex_i_(qh, vertices) FOREACHsetelement_i_(qh, vertexT, vertices,vertex)
 
-/********* -libqhull.c prototypes (duplicated from qhull_a.h) **********************/
+/********* -libqhull.c prototypes (duplicated from qhull_r.h) **********************/
 
 void    qh_qhull(qhT *qh);
 boolT   qh_addpoint(qhT *qh, pointT *furthest, facetT *facet, boolT checkdist);

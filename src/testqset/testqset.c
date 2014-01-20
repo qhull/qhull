@@ -88,18 +88,23 @@ enum {
     MAXint= 0x7fffffff,
 };
 
-char prompt[]= "testqset N [M] -- Test qset.c and mem.c\n\
+char prompt[]= "testqset N [M] [T5] -- Test qset.c and mem.c\n\
   Test qsets of 0..N integers with a check every M iterations (default ~log10)\n\
   Additional checking and logging if M is 1\n\
+  T5 turns on memory logging (qset does not log)\n\
   For example:\n\
     testqset 10000\n\
 ";
 
 int error_count= 0;  /* Global error_count.  checkSetContents() keeps its own error count.  It exits on too many errors */
 
+/* Macros normally defined in geom.h */
+#define fmax_( a,b )  ( ( a ) < ( b ) ? ( b ) : ( a ) )
+
 /* Macros normally defined in user.h */
 
-#define qh_MEMalign ((int)(sizeof(void *)))
+#define realT double
+#define qh_MEMalign ((int)(fmax_(sizeof(realT), sizeof(void *))))
 #define qh_MEMbufsize 0x10000       /* allocate 64K memory buffers */
 #define qh_MEMinitbuf 0x20000      /* initially allocate 128K buffer */
 
@@ -157,7 +162,7 @@ void    qh_fprintf(FILE *fp, int msgcode, const char *fmt, ... )
 
 /* Defined below in order of use */
 int main(int argc, char **argv);
-void readOptions(int argc, char **argv, const char *promptstr, int *numInts, int *checkEvery);
+void readOptions(int argc, char **argv, const char *promptstr, int *numInts, int *checkEvery, int *traceLevel);
 void setupMemory(int tracelevel, int numInts, int **intarray);
 
 void testSetappendSettruncate(int numInts, int *intarray, int checkEvery);
@@ -177,10 +182,10 @@ int main(int argc, char **argv) {
     int numInts;
     int checkEvery= MAXint;
     int curlong, totlong;
-    int tracelevel= 4; /* 4 normally.  5 for memory tracing */
+    int traceLevel= 4; /* 4 normally, no tracing since qset does not log.  5 for memory tracing */
 
-    readOptions(argc, argv, prompt, &numInts, &checkEvery);
-    setupMemory(tracelevel, numInts, &intarray);
+    readOptions(argc, argv, prompt, &numInts, &checkEvery, &traceLevel);
+    setupMemory(traceLevel, numInts, &intarray);
 
     testSetappendSettruncate(numInts, intarray, checkEvery);
     testSetdelSetadd(numInts, intarray, checkEvery);
@@ -207,13 +212,14 @@ int main(int argc, char **argv) {
     return 0;
 }/*main*/
 
-void readOptions(int argc, char **argv, const char *promptstr, int *numInts, int *checkEvery)
+void readOptions(int argc, char **argv, const char *promptstr, int *numInts, int *checkEvery, int *traceLevel)
 {
     long numIntsArg;
     long checkEveryArg;
     char *endp;
+    int isTracing= 0;
 
-    if (argc != 2 && argc != 3) {
+    if (argc < 2 || argc > 4) {
         printf(promptstr);
         exit(0);
     }
@@ -228,7 +234,11 @@ void readOptions(int argc, char **argv, const char *promptstr, int *numInts, int
     }
     *numInts= (int)numIntsArg;
 
-    if(argc>2){
+    if(argc==3 && argv[2][0]=='T' && argv[2][1]=='5' ){
+        isTracing= 1;
+        *traceLevel= 5;
+    }
+    if(argc==4 || (argc==3 && !isTracing)){
         checkEveryArg= strtol(argv[2], &endp, 10);
         if(checkEveryArg<1){
             qh_fprintf(stderr, 6321, "checkEvery argument should be 1 or greater.  Got '%s'\n", argv[2]);
@@ -237,6 +247,15 @@ void readOptions(int argc, char **argv, const char *promptstr, int *numInts, int
         if(checkEveryArg>MAXint){
             qh_fprintf(stderr, 6322, "qset does not currently support 64-bit ints.  Maximum checkEvery is %d\n", MAXint);
             exit(1);
+        }
+        if(argc==4){
+            if(argv[3][0]=='T' && argv[3][1]=='5' ){
+                isTracing= 1;
+                *traceLevel= 5;
+            }else{
+                qh_fprintf(stderr, 6242, "Optional third argument must be 'T5'.  Got '%s'\n", argv[3]);
+                exit(1);
+            }
         }
         *checkEvery= (int)checkEveryArg;
     }

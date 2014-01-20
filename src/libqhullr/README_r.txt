@@ -7,15 +7,22 @@ After qmake, need to update HEADER paths for libqhull, libqhullr, libqhullcpp li
     Path="..\lib
     Path="..\..\src\lib
 
+Remove user_eg7,8,9
+
+Rename qhull_ra.h to qhull_ar.h
+
+
 ---
-Convert testqset.c to testqset_r.c
-   Try to make qhT and mem_r.c etc. plugable
-
-Convert user_eg,etc and branch old code to user_egp...
-
+Convert qhulltest.cpp to libqhullcpp and branch old code
 At initialization, check for compatible libqhull.  Add a version check to libqhull
 
-p4 delete src/qhull-libqhullr-src.pri
+Convert testqset.c to testqset_r.c
+   Try to make qhT and mem_r.c etc. plugable
+Convert user_eg to qhull_r.dll
+Convert user_eg2 to libqhullstatic_r.a
+Convert user_eg3 to libqhullcpp
+Rework user_eg7.cpp,etc for new names, add to README
+
 
 ---
 3>..\..\src\qhullr\unix_r.c(39) : warning C4273: '_isatty' : inconsistent dll linkage
@@ -48,6 +55,65 @@ Update
   README.txt -- the new subprojects
   CMakeLists.txt
   
+==============
+Steps to update C code to reentrant qhull (e.g., testqset_r.c, user_eg*.c)
+
+Branch the code to ..._r.c
+
+Rename include files
+#include "qhull_ar.h"
+
+Allocate qh at the top, and remove other references to qh_qh and qh_qhPOINTER
+  qhT qh_qh;
+  qhT *qh= &qh_qh;
+
+If needed, remove spaces between name and argument list
+  {[^a-zA-Z0-9_][a-zA-Z0-9_]*} \(
+  \1(
+  
+Make the following regexp substitions [DevStudio use {} for grouping instead of ()]
+
+  Prefix function declarations with "(qhT *qh, "
+  ^{[a-zA-Z0-9]* [a-zA-Z0-9]*\}(
+  \1(qhT *qh, 
+
+  'qh' is the first argument for most internal calls and qhull calls
+  \({[a-zA-Z0-9_]*, }
+  (qh, \1
+  
+  \({[a-zA-Z0-9_]+}\)
+  (qh, \1)
+  
+  \(\)
+  (qh)
+
+  'qh '
+  'qh->'
+  
+Other substitions to consider
+
+  ("
+  (qh, "
+  
+  (&
+  (qh, &
+  
+  ()
+  (qh)
+
+Review the code for obvious errors
+Remove qhT for functions that do not need it
+
+Make the following substitions to correct mistakes made above
+  qh, qh,
+  qh, 
+
+  qh, void
+  qh
+Review the code for routines that do not take qh
+
+Compile and fix the errors
+
 ==============
 Steps
 
