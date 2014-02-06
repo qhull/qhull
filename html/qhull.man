@@ -747,7 +747,7 @@ of attempts [see user.h].  Option 'QJ'
 selects a default value for n.  The output will be simplicial.  For
 Delaunay triangulations, 'QJn' sets 'Qbb' to scale the last coordinate
 (not if 'Qbk:n' or 'QBk:n' is set).
-'QJn' is deprecated for Voronoi diagrams.  See also 'Qt'.
+\'QJn' is deprecated for Voronoi diagrams.  See also 'Qt'.
 .TP
 Qm
 Only process points that would otherwise increase max_outside.  Other
@@ -769,7 +769,7 @@ Search all points for the initial simplex.
 .TP
 Qt
 Triangulated output.  Triangulate all non\[hy]simplicial facets.  
-'Qt' is deprecated for Voronoi diagrams.  See also 'Qt'.
+\'Qt' is deprecated for Voronoi diagrams.  See also 'Qt'.
 .TP
 Qv
 Test vertex neighbors for convexity after post\[hy]merging.
