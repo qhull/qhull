@@ -60,6 +60,10 @@ string(REGEX REPLACE ".* ([0-9]+) .*"
 # SOVERSION -- qhull 2003 = empty, 2009 = 5, 2010-2012 = 6, 2015 (reentrant) = 7
 set(qhull_SOVERSION 7) # For SOVERSION 
 
+include(CMakeModules/CheckLFS.cmake)
+option(WITH_LFS "Enable Large File Support" ON)
+check_lfs(WITH_LFS)
+
 if(INCLUDE_INSTALL_DIR)
 else()
 set(INCLUDE_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/include)
