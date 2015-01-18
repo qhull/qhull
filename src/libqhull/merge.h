@@ -6,9 +6,9 @@
 
    see qh-merge.htm and merge.c
 
-   Copyright (c) 1993-2014 C.B. Barber.
-   $Id: //main/2011/qhull/src/libqhull/merge.h#4 $$Change: 1645 $
-   $DateTime: 2014/01/15 12:51:30 $$Author: bbarber $
+   Copyright (c) 1993-2015 C.B. Barber.
+   $Id: //main/2011/qhull/src/libqhull/merge.h#6 $$Change: 1810 $
+   $DateTime: 2015/01/17 18:28:15 $$Author: bbarber $
 */
 
 #ifndef qhDEFmerge

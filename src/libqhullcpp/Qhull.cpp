@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (c) 2008-2014 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/Qhull.cpp#15 $$Change: 1799 $
-** $DateTime: 2014/12/17 16:17:40 $$Author: bbarber $
+** Copyright (c) 2008-2015 C.B. Barber. All rights reserved.
+** $Id: //main/2011/qhull/src/libqhullcpp/Qhull.cpp#16 $$Change: 1810 $
+** $DateTime: 2015/01/17 18:28:15 $$Author: bbarber $
 **
 ****************************************************************************/
 

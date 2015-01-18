@@ -175,7 +175,15 @@ Working with Qhull's C++ interface
     git checkout next
     ...
     git pull origin next
+    
+  Examples of using the C++ interface
+    user_eg3.cpp
+    qhulltest/*_test.cpp
 
+  Compile qhullcpp and libqhullr with the same compiler.  These libraries use the 
+  C routines setjmp() and longjmp() for error handling.  They must be compiled with the
+  same compiler.
+  
 ------------------
 Compiling Qhull with Microsoft Visual C++ 2005 or later
 

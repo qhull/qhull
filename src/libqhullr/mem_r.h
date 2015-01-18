@@ -11,9 +11,9 @@
        and
      qh_errexit(qhT *qh, qhmem_ERRqhull, NULL, NULL) otherwise
 
-   Copyright (c) 1993-2014 The Geometry Center.
-   $Id: //main/2011/qhull/src/libqhullr/mem_r.h#4 $$Change: 1797 $
-   $DateTime: 2014/12/15 17:23:41 $$Author: bbarber $
+   Copyright (c) 1993-2015 The Geometry Center.
+   $Id: //main/2011/qhull/src/libqhullr/mem_r.h#5 $$Change: 1810 $
+   $DateTime: 2015/01/17 18:28:15 $$Author: bbarber $
 */
 
 #ifndef qhDEFmem

@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (c) 2009-2014 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/qhulltest/QhullSet_test.cpp#6 $$Change: 1708 $
-** $DateTime: 2014/03/26 19:13:56 $$Author: bbarber $
+** Copyright (c) 2009-2015 C.B. Barber. All rights reserved.
+** $Id: //main/2011/qhull/src/qhulltest/QhullSet_test.cpp#7 $$Change: 1810 $
+** $DateTime: 2015/01/17 18:28:15 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -47,7 +47,6 @@ add_QhullSet_test()
 void QhullSet_test::
 cleanup()
 {
-    UsingLibQhull::checkQhullMemoryEmpty();
     RoadTest::cleanup();
 }
 
@@ -97,6 +96,7 @@ t_qhullsetbase()
         // fs= fs2; // disabled.  Would not copy facets
         QhullFacetSet fs4= fs2; // copy constructor
         QVERIFY(fs4==fs2);
+        q.checkAndFreeQhullMemory();
     }
 }//t_qhullsetbase
 
@@ -137,6 +137,7 @@ t_convert()
         for(int k= fs.count(); k--; ){
             QCOMPARE(qv[k], fs[k]);
         }
+        q.checkAndFreeQhullMemory();
     }
 }//t_convert
 
@@ -178,6 +179,7 @@ t_element()
     QCOMPARE(fs.value(2, f), fs[2]);
     QCOMPARE(fs.value(4, f), f);
     // mid() not available (read-only)
+    q.checkAndFreeQhullMemory();
 }//t_element
 
 void QhullSet_test::
@@ -205,6 +207,7 @@ t_search()
     QCOMPARE(fs.lastIndexOf(f2), 0);
     QCOMPARE(fs.lastIndexOf(f3), 3);
     QCOMPARE(fs.lastIndexOf(f), -1);
+    q.checkAndFreeQhullMemory();
 }//t_search
 
 void QhullSet_test::
@@ -284,6 +287,7 @@ t_iterator()
         //fs.begin end tested above
 
         // QhullFacetSet is const-only
+        q.checkAndFreeQhullMemory();
     }
 }//t_iterator
 
@@ -343,6 +347,7 @@ t_const_iterator()
         QCOMPARE(i2-i, 4);
 
         // QhullFacetSet is const-only
+        q.checkAndFreeQhullMemory();
     }
 }//t_const_iterator
 
@@ -405,6 +410,7 @@ t_qhullset_iterator()
     QVERIFY(!i.hasNext());
     i.toFront();
     QCOMPARE(i.next(), f4);
+    q.checkAndFreeQhullMemory();
 }//t_qhullset_iterator
 
 void QhullSet_test::
@@ -425,6 +431,7 @@ t_io()
     QhullRidgeSet rs= f.ridges();
     cout << "INFO:   Ridges for a facet\n";
     cout << rs << std::endl;
+    q.checkAndFreeQhullMemory();
 }//t_io
 
 }//namespace orgQhull

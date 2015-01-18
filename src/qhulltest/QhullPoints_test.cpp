@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (p) 2009-2014 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/qhulltest/QhullPoints_test.cpp#9 $$Change: 1709 $
-** $DateTime: 2014/03/26 22:27:14 $$Author: bbarber $
+** Copyright (p) 2009-2015 C.B. Barber. All rights reserved.
+** $Id: //main/2011/qhull/src/qhulltest/QhullPoints_test.cpp#10 $$Change: 1810 $
+** $DateTime: 2015/01/17 18:28:15 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -48,7 +48,6 @@ add_QhullPoints_test()
 void QhullPoints_test::
 cleanup()
 {
-    UsingLibQhull::checkQhullMemoryEmpty();
     RoadTest::cleanup();
 }
 
@@ -87,6 +86,7 @@ t_construct()
     coordT c2[]= {0.0, 1.0, 2.0, 3.0, 4.0, 5.0};
     QhullPoints ps6(2, 6, c2);
     QVERIFY(ps6==ps2);
+    q.checkAndFreeQhullMemory();
 }//t_construct
 
 void QhullPoints_test::
@@ -111,6 +111,7 @@ t_convert()
     QCOMPARE(qs.size(), 2);
     QhullPoint p2= qs[1];
     QCOMPARE(p2[2], 5.0);
+    q.checkAndFreeQhullMemory();
 }//t_convert
 
 void QhullPoints_test::
@@ -151,6 +152,7 @@ t_getset()
     QVERIFY(ps3.includesCoordinates(ps3.data()+ps3.count()-1));
     QVERIFY(!ps3.includesCoordinates(ps3.data()-1));
     QVERIFY(!ps3.includesCoordinates(ps3.data()+ps3.coordinateCount()));
+    q.checkAndFreeQhullMemory();
 }//t_getset
 
 
@@ -190,6 +192,7 @@ t_element()
         QCOMPARE(p9.dimension(), 2);
         QVERIFY(p9[0]==0.0 || p9[0]==2.0 || p9[0]==4.0);
     }
+    q.checkAndFreeQhullMemory();
 }//t_element
 
 void QhullPoints_test::
@@ -276,6 +279,7 @@ t_iterator()
     //ps.begin end tested above
 
     // QhullPoints is const-only
+    q.checkAndFreeQhullMemory();
 }//t_iterator
 
 void QhullPoints_test::
@@ -342,6 +346,7 @@ t_const_iterator()
     QCOMPARE(i2-i, 3);
 
     // QhullPoints is const-only
+    q.checkAndFreeQhullMemory();
 }//t_const_iterator
 
 
@@ -401,6 +406,7 @@ t_search()
     QhullPoints ps4(2, 0, c);
     QCOMPARE(ps4.indexOf(p), -1);
     QCOMPARE(ps4.lastIndexOf(p), -1);
+    q.checkAndFreeQhullMemory();
 }//t_search
 
 void QhullPoints_test::
@@ -449,6 +455,7 @@ t_points_iterator()
     QVERIFY(!i.hasNext());
     i.toFront();
     QCOMPARE(i.next(), p);
+    q.checkAndFreeQhullMemory();
 }//t_points_iterator
 
 void QhullPoints_test::
@@ -471,6 +478,7 @@ t_io()
     QString s= QString::fromStdString(os.str());
     QCOMPARE(s.count("p"), 3*8+3);
     // QCOMPARE(s.count(QRegExp("f\\d")), 3*7 + 13*3*2);
+    q.checkAndFreeQhullMemory();
 }//t_io
 
 }//orgQhull

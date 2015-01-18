@@ -12,9 +12,9 @@
 
    defines internal functions for libqhull_r.c global_r.c
 
-   Copyright (c) 1993-2014 The Geometry Center.
-   $Id: //main/2011/qhull/src/libqhullr/qhull_ra.h#7 $$Change: 1797 $
-   $DateTime: 2014/12/15 17:23:41 $$Author: bbarber $
+   Copyright (c) 1993-2015 The Geometry Center.
+   $Id: //main/2011/qhull/src/libqhullr/qhull_ra.h#8 $$Change: 1810 $
+   $DateTime: 2015/01/17 18:28:15 $$Author: bbarber $
 
    Notes:  grep for ((" and (" to catch fprintf("lkasdjf");
            full parens around (x?y:z)

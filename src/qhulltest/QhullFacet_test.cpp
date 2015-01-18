@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (c) 2008-2014 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/qhulltest/QhullFacet_test.cpp#9 $$Change: 1709 $
-** $DateTime: 2014/03/26 22:27:14 $$Author: bbarber $
+** Copyright (c) 2008-2015 C.B. Barber. All rights reserved.
+** $Id: //main/2011/qhull/src/qhulltest/QhullFacet_test.cpp#10 $$Change: 1810 $
+** $DateTime: 2015/01/17 18:28:15 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -35,6 +35,7 @@ class QhullFacet_test : public RoadTest
 #//Test slots
 private slots:
     void cleanup();
+    void t_construct_qh();
     void t_constructConvert();
     void t_getSet();
     void t_value();
@@ -52,15 +53,25 @@ add_QhullFacet_test()
 void QhullFacet_test::
 cleanup()
 {
-    UsingLibQhull::checkQhullMemoryEmpty();
     RoadTest::cleanup();
 }
+
+void QhullFacet_test::
+t_construct_qh()
+{
+    // Qhull.runQhull() constructs QhullFacets as facetT
+    QhullQh qh;  
+    QhullFacet f(qh);
+    QVERIFY(!f.isDefined());
+    QCOMPARE(f.dimension(),0);
+}//t_construct_qh
 
 void QhullFacet_test::
 t_constructConvert()
 {
     // Qhull.runQhull() constructs QhullFacets as facetT
-    QhullFacet f;
+    Qhull q2;  
+    QhullFacet f(q2);
     QVERIFY(!f.isDefined());
     QCOMPARE(f.dimension(),0);
     RboxPoints rcube("c");
@@ -77,6 +88,8 @@ t_constructConvert()
     QCOMPARE(f,f3);
     QhullFacet f4= f2.getBaseT();
     QCOMPARE(f,f4);
+    q.checkAndFreeQhullMemory();
+    q2.checkAndFreeQhullMemory();
 }//t_constructConvert
 
 void QhullFacet_test::
@@ -162,15 +175,18 @@ t_getSet()
         }
         Qhull q3(rcube,"v Qz QR0");  // Voronoi diagram of a cube (one vertex)
 
-        UsingLibQhull::setGlobalDistanceEpsilon(1e-12); // Voronoi vertices are not necessarily within distance episilon
+        q->setFactorEpsilon(100); // Voronoi vertices are not necessarily within distance episilon
         foreach(QhullFacet f, q3.facetList()){ //Qt only
             if(f.isGood()){
                 QhullPoint p= f.voronoiVertex(q3.runId());
                 cout << p.print(q3.runId(), "Voronoi vertex: ")
-                    << " DistanceEpsilon " << UsingLibQhull::globalDistanceEpsilon() << endl;
+                    << " DistanceEpsilon " << q->distanceEpsilon() << endl;
                 QCOMPARE(p, q3.origin());
             }
         }
+        q.checkAndFreeQhullMemory();
+        q2.checkAndFreeQhullMemory();
+        q3.checkAndFreeQhullMemory();
     }
 }//t_getSet
 
@@ -194,6 +210,7 @@ t_value()
             #endif
         }
     }
+    q.checkAndFreeQhullMemory();
 }//t_value
 
 void QhullFacet_test::
@@ -226,6 +243,7 @@ t_foreach()
         }
         QCOMPARE(coplanarCount, 300);
     }
+    q.checkAndFreeQhullMemory();
 }//t_foreach
 
 void QhullFacet_test::
@@ -255,6 +273,7 @@ t_io()
         facetString3.replace(QRegExp("\\s\\s+"), " ");
         QCOMPARE(facetString2, facetString3);
     }
+    q.checkAndFreeQhullMemory();
 }//t_io
 
 // toQhullFacet is static_cast only

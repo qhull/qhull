@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (c) 2008-2014 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/qhulltest/Qhull_test.cpp#7 $$Change: 1709 $
-** $DateTime: 2014/03/26 22:27:14 $$Author: bbarber $
+** Copyright (c) 2008-2015 C.B. Barber. All rights reserved.
+** $Id: //main/2011/qhull/src/qhulltest/Qhull_test.cpp#8 $$Change: 1810 $
+** $DateTime: 2015/01/17 18:28:15 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -50,7 +50,6 @@ add_Qhull_test()
 void Qhull_test::
 cleanup()
 {
-    UsingLibQhull::checkQhullMemoryEmpty();
     RoadTest::cleanup();
 }
 
@@ -73,6 +72,8 @@ t_construct()
         QCOMPARE(q2.dimension(),0);
         q= q2;
         QCOMPARE(q.dimension(),0);
+        q.checkAndFreeQhullMemory();
+        q2.checkAndFreeQhullMemory();
     }
     {
         RboxPoints rbox("10000");
@@ -102,6 +103,7 @@ t_construct()
             cout << "INFO   : Caught " << e.what();
         }
         QCOMPARE(q.dimension(),3);
+        q.checkAndFreeQhullMemory();
     }
     {
         double points[] = {
@@ -116,6 +118,7 @@ t_construct()
         QCOMPARE(q.dimension(),2);
         QCOMPARE(q.area(), 2.0+sqrt(2.0)); // length of boundary
         QCOMPARE(q.volume(), 0.5);        // the 2-d area
+        q.checkAndFreeQhullMemory();
     }
 }//t_construct
 
@@ -142,6 +145,7 @@ t_attribute()
         q.useOutputStream= false;
         cout << "Expecting no output from qh_fprintf() in Qhull.cpp\n";
         q.outputQhull();
+        q.checkAndFreeQhullMemory();
     }
 }//t_attribute
 
@@ -177,6 +181,7 @@ t_message()
         q.clearQhullMessage();
         QVERIFY(!q.hasQhullMessage());
         QCOMPARE(QString::fromStdString(q.qhullMessage()), QString(""));
+        q.checkAndFreeQhullMemory();
     }
     {
         cout << "INFO   : Error stream without output stream\n";
@@ -195,6 +200,7 @@ t_message()
         //QCOMPARE(QString::fromStdString(q.qhullMessage()).left(6), QString("QH6029"));
         q.clearQhullMessage();
         QVERIFY(!q.hasQhullMessage());
+        q.checkAndFreeQhullMemory();
     }
     {
         cout << "INFO   : Error output sent to output stream without error stream\n";
@@ -215,6 +221,7 @@ t_message()
         //QCOMPARE(q.qhullStatus(), 6023);
         q.clearQhullMessage();
         QVERIFY(!q.hasQhullMessage());
+        q.checkAndFreeQhullMemory();
     }
     {
         cout << "INFO   : No error stream or output stream\n";
@@ -235,6 +242,7 @@ t_message()
         //QCOMPARE(q.qhullStatus(), 6029);
         q.clearQhullMessage();
         QVERIFY(!q.hasQhullMessage());
+        q.checkAndFreeQhullMemory();
     }
 }//t_message
 
@@ -253,12 +261,14 @@ t_getSet()
         QCOMPARE(p[0]+p[1]+p[2], 0.0);
         q.setErrorStream(&cout);
         q.outputQhull();
+        q.checkAndFreeQhullMemory();
     }
     {
         Qhull q;
         q.runQhull(rcube, "");
         q.setOutputStream(&cout);
         q.outputQhull();
+        q.checkAndFreeQhullMemory();
     }
 }//t_getSet
 
@@ -285,6 +295,7 @@ t_getQh()
         QCOMPARE(q.qhullQh()->hasTriangulation, 0u);
         QCOMPARE(q.qhullQh()->max_outside - q.qhullQh()->min_vertex + 1.0, 1.0); // fuzzy compare
         QCOMPARE(*q.qhullQh()->gm_matrix+1.0, 1.0); // fuzzy compare
+        q.checkAndFreeQhullMemory();
     }
 }//t_getQh
 
@@ -297,6 +308,7 @@ t_getValue()
         q.runQhull(rcube, "");
         QCOMPARE(q.area(), 6.0);
         QCOMPARE(q.volume(), 1.0);
+        q.checkAndFreeQhullMemory();
     }
 }//t_getValue
 
@@ -332,6 +344,7 @@ t_foreach()
         QVERIFY(c3[-1]==0.5 || c3[-1]==-0.5);
         QCOMPARE(c3-c, 8*3);
         QCOMPARE(q.vertexList().count(), 8);
+        q.checkAndFreeQhullMemory();
     }
 }//t_foreach
 
@@ -347,6 +360,7 @@ t_modify()
     cout << "Expecting normals of a 3-d diamond.\n";
     q.outputQhull("n");
     // runQhull tested in t_attribute(), t_message(), etc.
+    q.checkAndFreeQhullMemory();
 }//t_modify
 
 }//orgQhull

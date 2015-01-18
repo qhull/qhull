@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (c) 2008-2014 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/qhulltest/QhullRidge_test.cpp#7 $$Change: 1709 $
-** $DateTime: 2014/03/26 22:27:14 $$Author: bbarber $
+** Copyright (c) 2008-2015 C.B. Barber. All rights reserved.
+** $Id: //main/2011/qhull/src/qhulltest/QhullRidge_test.cpp#8 $$Change: 1810 $
+** $DateTime: 2015/01/17 18:28:15 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -47,7 +47,6 @@ add_QhullRidge_test()
 void QhullRidge_test::
 cleanup()
 {
-    UsingLibQhull::checkQhullMemoryEmpty();
     RoadTest::cleanup();
 }
 
@@ -75,6 +74,7 @@ t_construct()
     QhullRidge r5= r2; // copy constructor
     QVERIFY(r5==r2);
     QVERIFY(r5==r);
+    q.checkAndFreeQhullMemory();
 }//t_construct
 
 void QhullRidge_test::
@@ -103,6 +103,7 @@ t_getSet()
         QhullRidgeSetIterator i2(i);
         QEXPECT_FAIL("", "SetIterator copy constructor not reset to BOT", Continue);
         QVERIFY(!i2.hasPrevious());
+        q.checkAndFreeQhullMemory();
     }
 }//t_getSet
 
@@ -137,6 +138,7 @@ t_foreach()
         }
         QCOMPARE(vs.count(), rs.count());
         QCOMPARE(count, rs.count());
+        q.checkAndFreeQhullMemory();
     }
 }//t_foreach
 
@@ -155,6 +157,7 @@ t_io()
         cout << os.str();
         QString s= QString::fromStdString(os.str());
         QCOMPARE(s.count(" r"), 6+2);
+        q.checkAndFreeQhullMemory();
     }
 }//t_io
 

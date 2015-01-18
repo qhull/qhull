@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (c) 2006-2014 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/qhulltest/RboxPoints_test.cpp#4 $$Change: 1490 $
-** $DateTime: 2012/02/19 20:27:01 $$Author: bbarber $
+** Copyright (c) 2006-2015 C.B. Barber. All rights reserved.
+** $Id: //main/2011/qhull/src/qhulltest/RboxPoints_test.cpp#6 $$Change: 1810 $
+** $DateTime: 2015/01/17 18:28:15 $$Author: bbarber $
 **
 ****************************************************************************/
 //pre-compiled headers

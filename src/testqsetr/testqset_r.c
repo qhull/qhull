@@ -65,6 +65,10 @@ Functions and macros from qset.h.  Counts occurrences in this test.  Does not co
     SETsecond_ -- 1 test
     SETsecondt_ -- 2 tests
     SETtruncate_ -- 2 tests
+
+    Copyright (c) 2012-2015 C.B. Barber. All rights reserved.
+    $Id: //main/2011/qhull/src/testqsetr/testqset_r.c#3 $$Change: 1810 $
+    $DateTime: 2015/01/17 18:28:15 $$Author: bbarber $
 */
 
 #include <stdarg.h>
