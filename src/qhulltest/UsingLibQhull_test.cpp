@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2014 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/qhulltest/UsingLibQhull_test.cpp#4 $$Change: 1490 $
-** $DateTime: 2012/02/19 20:27:01 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/qhulltest/UsingLibQhull_test.cpp#6 $$Change: 1709 $
+** $DateTime: 2014/03/26 22:27:14 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -68,7 +68,6 @@ t_classMembers()
         QVERIFY(UsingLibQhull::currentAngleEpsilon() > UsingLibQhull::globalMachineEpsilon());
         QCOMPARE(UsingLibQhull::currentDistanceEpsilon()+1.0, 1.0);
         QVERIFY(UsingLibQhull::currentDistanceEpsilon() >= UsingLibQhull::currentAngleEpsilon());
-        QCOMPARE(UsingLibQhull::currentQhull().runId(), q.runId());
         QCOMPARE(UsingLibQhull::globalAngleEpsilon()+1.0, UsingLibQhull::currentAngleEpsilon()+1.0);
         QCOMPARE(UsingLibQhull::currentVertexDimension(), q.dimension());
         QCOMPARE(UsingLibQhull::globalDistanceEpsilon()+1.0, UsingLibQhull::currentDistanceEpsilon()+1.0);
@@ -188,7 +187,6 @@ t_methods()
     }catch (const std::exception &e) {
         cout << "INFO   : Caught " << e.what();
     }
-    // Can not check checkRunId() in maybeThrowQhullMessage().  Requires another thread.
     u.maybeThrowQhullMessage(2, UsingLibQhull::NOthrow);
     try{
         throw QhullError(10054, "Report previous NOthrow error");

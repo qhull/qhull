@@ -1,7 +1,7 @@
 /*<html><pre>  -<a                             href="qh-qhull.htm"
   >-------------------------------</a><a name="TOP">-</a>
 
-   qhull_r.h
+   qhull_ra.h
    all header files for compiling qhull with reentrant code
 
    see qh-qhull.htm
@@ -10,15 +10,15 @@
 
    see user_r.h for user-definable constants
 
-   defines internal functions for libqhull.c global.c
+   defines internal functions for libqhull_r.c global_r.c
 
    Copyright (c) 1993-2014 The Geometry Center.
-   $Id: //main/2011/qhull/src/libqhullr/qhull_ra.h#4 $$Change: 1663 $
-   $DateTime: 2014/01/19 17:59:16 $$Author: bbarber $
+   $Id: //main/2011/qhull/src/libqhullr/qhull_ra.h#7 $$Change: 1797 $
+   $DateTime: 2014/12/15 17:23:41 $$Author: bbarber $
 
    Notes:  grep for ((" and (" to catch fprintf("lkasdjf");
            full parens around (x?y:z)
-           use '#include qhull/qhull_r.h' to avoid name clashes
+           use '#include qhull/qhull_ra.h' to avoid name clashes
 */
 
 #ifndef qhDEFqhulla
@@ -44,12 +44,12 @@
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
-/*** uncomment here and qset.c
+/*** uncomment here and qset_r.c
      if string.h does not define memcpy()
 #include <memory.h>
 */
 
-#if qh_CLOCKtype == 2  /* defined in user.h from libqhull.h */
+#if qh_CLOCKtype == 2  /* defined in user_r.h from libqhull_r.h */
 #include <sys/types.h>
 #include <sys/times.h>
 #include <unistd.h>
@@ -110,7 +110,7 @@ inline void qhullUnused(T &x) { (void)x; }
 #  define QHULL_UNUSED(x) (void)x;
 #endif
 
-/***** -libqhull.c prototypes (alphabetical after qhull) ********************/
+/***** -libqhull_r.c prototypes (alphabetical after qhull) ********************/
 
 void    qh_qhull(qhT *qh);
 boolT   qh_addpoint(qhT *qh, pointT *furthest, facetT *facet, boolT checkdist);
@@ -127,14 +127,14 @@ void    qh_partitionvisible(qhT *qh, boolT allpoints, int *numpoints);
 void    qh_precision(qhT *qh, const char *reason);
 void    qh_printsummary(qhT *qh, FILE *fp);
 
-/***** -global.c internal prototypes (alphabetical) ***********************/
+/***** -global_r.c internal prototypes (alphabetical) ***********************/
 
 void    qh_appendprint(qhT *qh, qh_PRINT format);
 void    qh_freebuild(qhT *qh, boolT allmem);
 void    qh_freebuffers(qhT *qh);
 void    qh_initbuffers(qhT *qh, coordT *points, int numpoints, int dim, boolT ismalloc);
 
-/***** -stat.c internal prototypes (alphabetical) ***********************/
+/***** -stat_r.c internal prototypes (alphabetical) ***********************/
 
 void    qh_allstatA(qhT *qh);
 void    qh_allstatB(qhT *qh);

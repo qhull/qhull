@@ -1,14 +1,14 @@
 /*<html><pre>  -<a                             href="qh-poly.htm"
   >-------------------------------</a><a name="TOP">-</a>
 
-   poly.h
-   header file for poly.c and poly2.c
+   poly_r.h
+   header file for poly_r.c and poly2_r.c
 
-   see qh-poly.htm, libqhull.h and poly.c
+   see qh-poly.htm, libqhull_r.h and poly_r.c
 
    Copyright (c) 1993-2014 The Geometry Center.
-   $Id: //main/2011/qhull/src/libqhullr/poly_r.h#2 $$Change: 1645 $
-   $DateTime: 2014/01/15 12:51:30 $$Author: bbarber $
+   $Id: //main/2011/qhull/src/libqhullr/poly_r.h#6 $$Change: 1797 $
+   $DateTime: 2014/12/15 17:23:41 $$Author: bbarber $
 */
 
 #ifndef qhDEFpoly
@@ -151,7 +151,7 @@
     facetT *neighborA, **neighborAp;
 
   see:
-    <a href="qset.h#FOREACHsetelement_">FOREACHsetelement_</a>
+    <a href="qset_r.h#FOREACHsetelement_">FOREACHsetelement_</a>
 */
 #define FOREACHneighborA_(facet)  FOREACHsetelement_(facetT, facet->neighbors, neighborA)
 
@@ -163,7 +163,7 @@
 
   notes:
     uses 'facetT *facet, *facetp;'
-    see <a href="qset.h#FOREACHsetelement_">FOREACHsetelement_</a>
+    see <a href="qset_r.h#FOREACHsetelement_">FOREACHsetelement_</a>
 */
 #define FOREACHvisible_(facets) FOREACHsetelement_(facetT, facets, visible)
 
@@ -175,7 +175,7 @@
 
   notes:
     uses 'facetT *newfacet, *newfacetp;'
-    see <a href="qset.h#FOREACHsetelement_">FOREACHsetelement_</a>
+    see <a href="qset_r.h#FOREACHsetelement_">FOREACHsetelement_</a>
 */
 #define FOREACHnewfacet_(facets) FOREACHsetelement_(facetT, facets, newfacet)
 
@@ -187,7 +187,7 @@
 
   notes:
     uses 'vertexT *vertexA, *vertexAp;'
-    see <a href="qset.h#FOREACHsetelement_">FOREACHsetelement_</a>
+    see <a href="qset_r.h#FOREACHsetelement_">FOREACHsetelement_</a>
 */
 #define FOREACHvertexA_(vertices) FOREACHsetelement_(vertexT, vertices, vertexA)
 
@@ -200,12 +200,12 @@
 
   notes:
     uses 'vertexT *vertex, *vertexp;'
-    see <a href="qset.h#FOREACHsetelement_">FOREACHsetelement_</a>
+    see <a href="qset_r.h#FOREACHsetelement_">FOREACHsetelement_</a>
 */
 #define FOREACHvertexreverse12_(vertices) FOREACHsetelementreverse12_(vertexT, vertices, vertex)
 
 
-/*=============== prototypes poly.c in alphabetical order ================*/
+/*=============== prototypes poly_r.c in alphabetical order ================*/
 
 void    qh_appendfacet(qhT *qh, facetT *facet);
 void    qh_appendvertex(qhT *qh, vertexT *vertex);
@@ -232,7 +232,7 @@ void    qh_removevertex(qhT *qh, vertexT *vertex);
 void    qh_updatevertices(qhT *qh);
 
 
-/*========== -prototypes poly2.c in alphabetical order ===========*/
+/*========== -prototypes poly2_r.c in alphabetical order ===========*/
 
 void    qh_addhash(qhT *qh, void *newelem, setT *hashtable, int hashsize, int hash);
 void    qh_check_bestdist(qhT *qh);

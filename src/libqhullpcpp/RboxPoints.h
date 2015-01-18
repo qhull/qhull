@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2012 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullpcpp/RboxPoints.h#1 $$Change: 1652 $
-** $DateTime: 2014/01/17 09:01:32 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullpcpp/RboxPoints.h#2 $$Change: 1675 $
+** $DateTime: 2014/02/01 09:38:20 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -24,14 +24,14 @@ extern "C" {
 
 namespace orgQhull {
 
-#//Types
+#//!\name Types
     //! RboxPoints -- generate random PointCoordinates for Qhull
     class RboxPoints;
 
-    class RboxPoints : public PointCoordinates {
+class RboxPoints : public PointCoordinates {
 
 private:
-#//Fields and friends
+#//!\name Fields and friends
     int                 rbox_new_count;     //! Number of points for PointCoordinates
     int                 rbox_status;    //! error status from rboxpoints.  qh_ERRnone if none.
     std::string         rbox_message;   //! stderr from rboxpoints
@@ -39,15 +39,15 @@ private:
     friend void ::qh_fprintf_rbox(FILE *fp, int msgcode, const char *fmt, ... );
 
 public:
-#//Construct
+#//!\name Construct
                         RboxPoints();
     explicit            RboxPoints(const char *rboxCommand);
                         RboxPoints(const RboxPoints &other);
                         RboxPoints &operator=(const RboxPoints &other);
-                       ~RboxPoints();
+                        ~RboxPoints();
 
 public:
-#//GetSet
+#//!\name GetSet
     void                clearRboxMessage();
     int                 newCount() const { return rbox_new_count; }
     std::string         rboxMessage() const;
@@ -55,7 +55,7 @@ public:
     bool                hasRboxMessage() const;
     void                setNewCount(int pointCount) { QHULL_ASSERT(pointCount>=0); rbox_new_count= pointCount; }
 
-#//Modify
+#//!\name Modify
     void                appendPoints(const char* rboxCommand);
     using               PointCoordinates::appendPoints;
     void                reservePoints() { reserveCoordinates((count()+newCount())*dimension()); }

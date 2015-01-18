@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2012 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullpcpp/QhullFacet.h#1 $$Change: 1652 $
-** $DateTime: 2014/01/17 09:01:32 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullpcpp/QhullFacet.h#2 $$Change: 1675 $
+** $DateTime: 2014/02/01 09:38:20 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -24,14 +24,14 @@ extern "C" {
 
 namespace orgQhull {
 
-#//ClassRef
+#//!\name ClassRef
     class QhullFacetSet;
     class QhullRidge;
     typedef QhullSet<QhullRidge>  QhullRidgeSet;
     class QhullVertex;
     class QhullVertexSet;
 
-#//Types
+#//!\name Types
     //! QhullFacet -- Qhull's facet structure, facetT [libqhull.h], as a C++ class
     class QhullFacet;
 
@@ -39,33 +39,33 @@ namespace orgQhull {
 class QhullFacet {
 
 private:
-#//Fields -- no additions (QhullFacetSet of facetT*)
-    facetT             *qh_facet;  //! May be 0 (!isDefined) for corner cases (e.g., *facetSet.end()==0) and tricoplanarOwner()
+#//!\name Fields -- no additions (QhullFacetSet of facetT*)
+    facetT *            qh_facet;  //! May be 0 (!isDefined) for corner cases (e.g., *facetSet.end()==0) and tricoplanarOwner()
 
-#//Class objects
+#//!\name Class objects
     static facetT       s_empty_facet; // needed for shallow copy
 
 public:
-#//Constants
+#//!\name Constants
 
-#//Constructors
+#//!\name Constructors
                         QhullFacet() : qh_facet(&s_empty_facet) {}
                         // Creates an alias.  Does not copy QhullFacet.  Needed for return by value and parameter passing
                         QhullFacet(const QhullFacet &o) : qh_facet(o.qh_facet ? o.qh_facet : &s_empty_facet) {}
                         // Creates an alias.  Does not copy QhullFacet.  Needed for vector<QhullFacet>
-    QhullFacet         &operator=(const QhullFacet &o) { qh_facet= o.qh_facet ? o.qh_facet : &s_empty_facet; return *this; }
-                       ~QhullFacet() {}
+    QhullFacet &        operator=(const QhullFacet &o) { qh_facet= o.qh_facet ? o.qh_facet : &s_empty_facet; return *this; }
+                        ~QhullFacet() {}
 
-#//Conversion
+#//!\name Conversion
                         //Implicit conversion from facetT
                         QhullFacet(facetT *f) : qh_facet(f ? f : &s_empty_facet) {}
                         // Do not define facetT().  It conflicts with return type facetT*
-    facetT             *getFacetT() const { return qh_facet; }
+    facetT *            getFacetT() const { return qh_facet; }
 
-#//QhullSet<QhullFacet>
-    facetT             *getBaseT() const { return getFacetT(); }
+#//!\name QhullSet<QhullFacet>
+    facetT *            getBaseT() const { return getFacetT(); }
 
-#//getSet
+#//!\name getSet
     int                 dimension() const;
     QhullPoint          getCenter(int qhRunId) { return getCenter(qhRunId, qh_PRINTpoints); }
     QhullPoint          getCenter(int qhRunId, qh_PRINT printFormat);
@@ -86,14 +86,14 @@ public:
     QhullFacet          tricoplanarOwner() const;
     QhullPoint          voronoiVertex(int qhRunId);
 
-#//value
+#//!\name value
     //! Undefined if c.size() != dimension()
     double              distance(const Coordinates &c) const { return distance(c.data()); }
     double              distance(const pointT *p) const { return distance(QhullPoint(dimension(), const_cast<coordT *>(p))); }
     double              distance(const QhullPoint &p) const { return hyperplane().distance(p); }
     double              facetArea(int qhRunId);
 
-#//foreach
+#//!\name foreach
     // Can not inline.  Otherwise circular reference
     QhullPointSet       coplanarPoints() const;
     QhullFacetSet       neighborFacets() const;
@@ -101,10 +101,10 @@ public:
     QhullRidgeSet       ridges() const;
     QhullVertexSet      vertices() const;
 
-#//IO
+#//!\name IO
     struct PrintCenter{
-        QhullFacet     *facet;  // non-const due to facet.center()
-        const char     *message;
+        QhullFacet *    facet;  // non-const due to facet.center()
+        const char *    message;
         int             run_id;
         qh_PRINT        print_format;
                         PrintCenter(int qhRunId, QhullFacet &f, qh_PRINT printFormat, const char * s) : facet(&f), message(s), run_id(qhRunId), print_format(printFormat){}
@@ -112,7 +112,7 @@ public:
     PrintCenter         printCenter(int qhRunId, qh_PRINT printFormat, const char *message) { return PrintCenter(qhRunId, *this, printFormat, message); }
 
     struct PrintFacet{
-        QhullFacet     *facet;  // non-const due to f->center()
+        QhullFacet *    facet;  // non-const due to f->center()
         int             run_id;
                         PrintFacet(int qhRunId, QhullFacet &f) : facet(&f), run_id(qhRunId) {}
     };//PrintFacet
@@ -120,13 +120,13 @@ public:
 
     struct PrintFlags{
         const QhullFacet *facet;
-        const char     *message;
+        const char *    message;
                         PrintFlags(const QhullFacet &f, const char *s) : facet(&f), message(s) {}
     };//PrintFlags
     PrintFlags          printFlags(const char *message) const { return PrintFlags(*this, message); }
 
     struct PrintHeader{
-        QhullFacet     *facet;  // non-const due to f->center()
+        QhullFacet *    facet;  // non-const due to f->center()
         int             run_id;
                         PrintHeader(int qhRunId, QhullFacet &f) : facet(&f), run_id(qhRunId) {}
     };//PrintHeader
@@ -143,7 +143,7 @@ public:
 
 }//namespace orgQhull
 
-#//Global functions
+#//!\name Global
 
 std::ostream &operator<<(std::ostream &os, const orgQhull::QhullFacet::PrintCenter &pr);
 std::ostream &operator<<(std::ostream &os, const orgQhull::QhullFacet::PrintFlags &pr);

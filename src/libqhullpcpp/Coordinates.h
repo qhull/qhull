@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2009-2012 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullpcpp/Coordinates.h#1 $$Change: 1652 $
-** $DateTime: 2014/01/17 09:01:32 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullpcpp/Coordinates.h#2 $$Change: 1675 $
+** $DateTime: 2014/02/01 09:38:20 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -22,48 +22,48 @@ extern "C" {
 
 namespace orgQhull {
 
-#//Types
+#//!\name Types
     //! an allocated vector of point coordinates
     //!  Used by PointCoordinates for RboxPoints
     //!  A QhullPoint refers to previously allocated coordinates
-    class  Coordinates;
-    class  MutableCoordinatesIterator;
+    class Coordinates;
+    class MutableCoordinatesIterator;
 
 
 class Coordinates {
 
 private:
-#//Fields
+#//!\name Fields
     std::vector<coordT> coordinate_array;
 
 public:
-#//Subtypes
+#//!\name Subtypes
 
-    class                       const_iterator;
-    class                       iterator;
+    class const_iterator;
+    class iterator;
     typedef iterator Iterator;
     typedef const_iterator ConstIterator;
 
     typedef coordT              value_type;
     typedef const value_type   *const_pointer;
-    typedef const value_type   &const_reference;
-    typedef value_type         *pointer;
-    typedef value_type         &reference;
+    typedef const value_type &  const_reference;
+    typedef value_type *        pointer;
+    typedef value_type &        reference;
     typedef ptrdiff_t           difference_type;
     typedef int                 size_type;
 
-#//Construct
+#//!\name Construct
                         Coordinates() {};
     explicit            Coordinates(const std::vector<coordT> &other) : coordinate_array(other) {}
                         Coordinates(const Coordinates &other) : coordinate_array(other.coordinate_array) {}
-    Coordinates        &operator=(const Coordinates &other) { coordinate_array= other.coordinate_array; return *this; }
-    Coordinates        &operator=(const std::vector<coordT> &other) { coordinate_array= other; return *this; }
-                       ~Coordinates() {}
+    Coordinates &       operator=(const Coordinates &other) { coordinate_array= other.coordinate_array; return *this; }
+    Coordinates &       operator=(const std::vector<coordT> &other) { coordinate_array= other; return *this; }
+                        ~Coordinates() {}
 
-#//Conversion
+#//!\name Conversion
 
-    coordT             *data() { return isEmpty() ? 0 : &at(0); }
-    const coordT       *data() const { return const_cast<const pointT*>(isEmpty() ? 0 : &at(0)); }
+    coordT *            data() { return isEmpty() ? 0 : &at(0); }
+    const coordT *      data() const { return const_cast<const pointT*>(isEmpty() ? 0 : &at(0)); }
 
 #ifndef QHULL_NO_STL
     std::vector<coordT> toStdVector() const { return coordinate_array; }
@@ -72,7 +72,7 @@ public:
     QList<coordT>      toQList() const;
 #endif //QHULL_USES_QT
 
-#//GetSet
+#//!\name GetSet
     int                count() const { return static_cast<int>(size()); }
     bool               empty() const { return coordinate_array.empty(); }
     bool               isEmpty() const { return empty(); }
@@ -80,23 +80,23 @@ public:
     bool               operator!=(const Coordinates &other) const  { return coordinate_array!=other.coordinate_array; }
     size_t             size() const { return coordinate_array.size(); }
 
-#//Element access
-    coordT             &at(int idx) { return coordinate_array.at(idx); }
-    const coordT       &at(int idx) const { return coordinate_array.at(idx); }
-    coordT             &back() { return coordinate_array.back(); }
-    const coordT       &back() const { return coordinate_array.back(); }
-    coordT             &first() { return front(); }
-    const coordT       &first() const { return front(); }
-    coordT             &front() { return coordinate_array.front(); }
-    const coordT       &front() const { return coordinate_array.front(); }
-    coordT             &last() { return back(); }
-    const coordT       &last() const { return back(); }
-    Coordinates        mid(int idx, int length= -1) const;
-    coordT            &operator[](int idx) { return coordinate_array.operator[](idx); }
-    const coordT      &operator[](int idx) const { return coordinate_array.operator[](idx); }
-    coordT             value(int idx, const coordT &defaultValue) const;
+#//!\name Element access
+    coordT &            at(int idx) { return coordinate_array.at(idx); }
+    const coordT &      at(int idx) const { return coordinate_array.at(idx); }
+    coordT &            back() { return coordinate_array.back(); }
+    const coordT &      back() const { return coordinate_array.back(); }
+    coordT &            first() { return front(); }
+    const coordT &      first() const { return front(); }
+    coordT &            front() { return coordinate_array.front(); }
+    const coordT &      front() const { return coordinate_array.front(); }
+    coordT &            last() { return back(); }
+    const coordT &      last() const { return back(); }
+    Coordinates         mid(int idx, int length= -1) const;
+    coordT &            operator[](int idx) { return coordinate_array.operator[](idx); }
+    const coordT &      operator[](int idx) const { return coordinate_array.operator[](idx); }
+    coordT              value(int idx, const coordT &defaultValue) const;
 
-#//Iterator
+#//!\name Iterator
     iterator            begin() { return iterator(coordinate_array.begin()); }
     const_iterator      begin() const { return const_iterator(coordinate_array.begin()); }
     const_iterator      constBegin() const { return begin(); }
@@ -104,10 +104,10 @@ public:
     iterator            end() { return iterator(coordinate_array.end()); }
     const_iterator      end() const { return const_iterator(coordinate_array.end()); }
 
-#//Read-only
+#//!\name Read-only
     Coordinates         operator+(const Coordinates &other) const;
 
-#//Modify
+#//!\name Modify
     void                append(const coordT &c) { push_back(c); }
     void                clear() { coordinate_array.clear(); }
     iterator            erase(iterator idx) { return iterator(coordinate_array.erase(idx.base())); }
@@ -115,10 +115,10 @@ public:
     void                insert(int before, const coordT &c) { insert(begin()+before, c); }
     iterator            insert(iterator before, const coordT &c) { return iterator(coordinate_array.insert(before.base(), c)); }
     void                move(int from, int to) { insert(to, takeAt(from)); }
-    Coordinates        &operator+=(const Coordinates &other);
-    Coordinates        &operator+=(const coordT &c) { append(c); return *this; }
-    Coordinates        &operator<<(const Coordinates &other) { return *this += other; }
-    Coordinates        &operator<<(const coordT &c) { return *this += c; }
+    Coordinates &       operator+=(const Coordinates &other);
+    Coordinates &       operator+=(const coordT &c) { append(c); return *this; }
+    Coordinates &       operator<<(const Coordinates &other) { return *this += other; }
+    Coordinates &       operator<<(const coordT &c) { return *this += c; }
     void                pop_back() { coordinate_array.pop_back(); }
     void                pop_front() { removeFirst(); }
     void                prepend(const coordT &c) { insert(begin(), c); }
@@ -135,20 +135,21 @@ public:
     coordT              takeFirst() { return takeAt(0); }
     coordT              takeLast();
 
-#//Search
+#//!\name Search
     bool                contains(const coordT &t) const;
     int                 count(const coordT &t) const;
     int                 indexOf(const coordT &t, int from = 0) const;
     int                 lastIndexOf(const coordT &t, int from = -1) const;
     void                removeAll(const coordT &t);
 
-#//Coordinates::iterator -- from QhullPoints, forwarding to coordinate_array
+#//!\name Coordinates::iterator
+    // From QhullPoints, forwarding to coordinate_array
     // before const_iterator for conversion with comparison operators
     class iterator {
 
     private:
         std::vector<coordT>::iterator i;
-        friend class    const_iterator;
+        friend class const_iterator;
 
     public:
         typedef std::random_access_iterator_tag  iterator_category;
@@ -160,11 +161,11 @@ public:
                         iterator() {}
                         iterator(const iterator &other) { i= other.i; }
         explicit        iterator(const std::vector<coordT>::iterator &vi) { i= vi; }
-        iterator       &operator=(const iterator &other) { i= other.i; return *this; }
+        iterator &      operator=(const iterator &other) { i= other.i; return *this; }
         std::vector<coordT>::iterator &base() { return i; }
                         // No operator-> for base types
-        coordT         &operator*() const { return *i; }
-        coordT         &operator[](int idx) const { return i[idx]; }
+        coordT &        operator*() const { return *i; }
+        coordT &        operator[](int idx) const { return i[idx]; }
 
         bool            operator==(const iterator &other) const { return i==other.i; }
         bool            operator!=(const iterator &other) const { return i!=other.i; }
@@ -191,7 +192,7 @@ public:
         difference_type operator-(iterator other) const { return i-other.i; }
     };//Coordinates::iterator
 
-#//Coordinates::const_iterator
+#//!\name Coordinates::const_iterator
     class const_iterator {
 
     private:
@@ -211,8 +212,8 @@ public:
         const_iterator &operator=(const const_iterator &other) { i= other.i; return *this; }
                         // No operator-> for base types
                         // No reference to a base type for () and []
-        const coordT   &operator*() const { return *i; }
-        const coordT   &operator[](int idx) const { return i[idx]; }
+        const coordT &  operator*() const { return *i; }
+        const coordT &  operator[](int idx) const { return i[idx]; }
 
         bool            operator==(const const_iterator &other) const { return i==other.i; }
         bool            operator!=(const const_iterator &other) const { return i!=other.i; }
@@ -304,7 +305,7 @@ class MutableCoordinatesIterator
 
 }//namespace orgQhull
 
-#//Global functions
+#//!\name Global
 
 std::ostream &operator<<(std::ostream &os, const orgQhull::Coordinates &c);
 

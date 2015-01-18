@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2009-2014 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/qhulltest/QhullLinkedList_test.cpp#4 $$Change: 1490 $
-** $DateTime: 2012/02/19 20:27:01 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/qhulltest/QhullLinkedList_test.cpp#6 $$Change: 1708 $
+** $DateTime: 2014/03/26 19:13:56 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -62,7 +62,6 @@ t_construct()
         QCOMPARE(vs2.count(), 8);
         QCOMPARE(vs2.size(),8u);
         QVERIFY(!vs2.isEmpty());
-        QVERIFY(!vs2.empty());
         QVERIFY(vs==vs2);
         // vs= vs2; // disabled.  Would not copy the vertices
         QhullVertexList vs3= vs2; // copy constructor
@@ -80,7 +79,6 @@ t_convert()
         QhullVertexList vs = q.vertexList();
         QCOMPARE(vs.size(), 8u);
         QVERIFY(!vs.isEmpty());
-        QVERIFY(!vs.empty());
         std::vector<QhullVertex> vs2= vs.toStdVector();
         QCOMPARE(vs2.size(), vs.size());
         QhullVertexList::Iterator i= vs.begin();

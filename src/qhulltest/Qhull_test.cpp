@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2014 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/qhulltest/Qhull_test.cpp#5 $$Change: 1490 $
-** $DateTime: 2012/02/19 20:27:01 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/qhulltest/Qhull_test.cpp#7 $$Change: 1709 $
+** $DateTime: 2014/03/26 22:27:14 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -61,7 +61,6 @@ t_construct()
         Qhull q;
         QCOMPARE(q.dimension(),0);
         QVERIFY(q.qhullQh()!=0);
-        QVERIFY(q.runId()!=0);
         QCOMPARE(QString(q.qhullCommand()),QString(""));
         QCOMPARE(QString(q.rboxCommand()),QString(""));
         try{
@@ -252,7 +251,6 @@ t_getSet()
         QhullPoint p= q.origin();
         QCOMPARE(p.dimension(), 3);
         QCOMPARE(p[0]+p[1]+p[2], 0.0);
-        QVERIFY(q.runId()!=0);
         q.setErrorStream(&cout);
         q.outputQhull();
     }
@@ -262,8 +260,6 @@ t_getSet()
         q.setOutputStream(&cout);
         q.outputQhull();
     }
-    // qhullQh -- UsingLibQhull [Qhull.cpp]
-    // runId -- UsingLibQhull [Qhull.cpp]
 }//t_getSet
 
 void Qhull_test::
@@ -285,7 +281,6 @@ t_getQh()
         QCOMPARE(q.qhullQh()->MERGING, 1u);
         QCOMPARE(q.qhullQh()->input_dim, 3);
         QCOMPARE(QString(q.qhullQh()->qhull_options).left(8), QString("  run-id"));
-        QCOMPARE(q.qhullQh()->run_id, q.runId());
         QCOMPARE(q.qhullQh()->num_facets, 6);
         QCOMPARE(q.qhullQh()->hasTriangulation, 0u);
         QCOMPARE(q.qhullQh()->max_outside - q.qhullQh()->min_vertex + 1.0, 1.0); // fuzzy compare

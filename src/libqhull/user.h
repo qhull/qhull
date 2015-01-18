@@ -48,6 +48,7 @@ Code flags --
   msgcode -- Unique message codes for qh_fprintf
 
   If add new messages, assign these values and increment in user.h and user_r.h
+  See QhullError.h for 10000 errors.
 
   def counters =  [27, 1047, 2059, 3025, 4068, 5003,
      6243, 7079, 8143, 9410, 10000, 11026]
@@ -65,7 +66,7 @@ Code flags --
 #define MSG_WARNING 7000
 #define MSG_STDERR  8000  /* log messages Written to qh.ferr */
 #define MSG_OUTPUT  9000
-#define MSG_QHULL_ERROR 10000 /* errors thrown by QhullError [QhullError.h] */
+#define MSG_QHULL_ERROR 10000 /* errors thrown by QhullError.cpp */
 #define MSG_FIXUP  11000  /* FIXUP QH11... */
 #define MSG_MAXLEN  3000 /* qh_printhelp_degenerate() in user.c */
 

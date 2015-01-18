@@ -1,15 +1,15 @@
 /*<html><pre>  -<a                             href="index.htm#TOC"
   >-------------------------------</a><a name="TOP">-</a>
 
-   rboxlib.c
+   rboxlib_r.c
      Generate input points
 
    notes:
-     For documentation, see prompt[] of rbox.c
+     For documentation, see prompt[] of rbox_r.c
      50 points generated for 'rbox D4'
 
    WARNING:
-     incorrect range if qh_RANDOMmax is defined wrong (user.h)
+     incorrect range if qh_RANDOMmax is defined wrong (user_r.h)
 */
 
 #include "random_r.h"
@@ -44,9 +44,6 @@ void   *qh_malloc(size_t size);
 int     qh_rand(qhT *qh);
 void    qh_srand(qhT *qh, int seed);
 
-
-/* ------------------------------ globals -------------------*/
-
 /*-<a                             href="qh-qhull.htm#TOC"
   >-------------------------------</a><a name="rboxpoints">-</a>
 
@@ -61,7 +58,7 @@ void    qh_srand(qhT *qh, int seed);
     5 (qh_ERRqhull) on internal error
 
   notes:
-    To avoid stdio, redefine qh_malloc, qh_free, and qh_fprintf_rbox (user.c)
+    To avoid using stdio, redefine qh_malloc, qh_free, and qh_fprintf_rbox (user.c)
 
   design:
     Straight line code (consider defining a struct and functions):
@@ -615,7 +612,7 @@ int qh_rboxpoints(qhT *qh, char* rbox_command) {
       }else if (isspiral) {
         if (dim != 3) {
           qh_fprintf_rbox(qh, qh->ferr, 6199, "rbox error: spiral distribution is available only in 3d\n\n");
-          longjmp(qh->rbox_errexit, qh_ERRinput);
+          qh_errexit_rbox(qh, qh_ERRinput);
         }
         coord[0]= cos(2*PI*i/(numpoints - 1));
         coord[1]= sin(2*PI*i/(numpoints - 1));
@@ -721,7 +718,7 @@ int qh_rboxpoints(qhT *qh, char* rbox_command) {
 } /* rboxpoints */
 
 /*------------------------------------------------
-outxxx - output functions
+outxxx - output functions for qh_rboxpoints
 */
 int qh_roundi(qhT *qh, double a) {
   if (a < 0.0) {
@@ -763,10 +760,12 @@ void qh_out3n(qhT *qh, double a, double b, double c) {
     qh_fprintf_rbox(qh, qh->fout, 9408, qh_REAL_3n, a+qh->rbox_out_offset, b+qh->rbox_out_offset, c+qh->rbox_out_offset);
 } /* qh_out3n */
 
+/*------------------------------------------------
+   Only called from qh_rboxpoints or qh_fprintf_rbox
+   qh_fprintf_rbox is only called from qh_rboxpoints
+*/
 void qh_errexit_rbox(qhT *qh, int exitcode)
 {
-    if(qh)
-      longjmp(qh->rbox_errexit, exitcode);
-    qh_exit(exitcode);
+    longjmp(qh->rbox_errexit, exitcode);
 } /* qh_errexit_rbox */
 

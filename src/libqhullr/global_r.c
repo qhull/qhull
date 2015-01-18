@@ -2,23 +2,23 @@
 /*<html><pre>  -<a                             href="qh-globa.htm"
   >-------------------------------</a><a name="TOP">-</a>
 
-   global.c
+   global_r.c
    initializes all the globals of the qhull application
 
    see README
 
-   see libqhull.h for qh.globals and function prototypes
+   see libqhull_r.h for qh.globals and function prototypes
 
-   see qhull_r.h for internal functions
+   see qhull_ra.h for internal functions
 
    Copyright (c) 1993-2014 The Geometry Center.
-   $Id: //main/2011/qhull/src/libqhullr/global_r.c#4 $$Change: 1663 $
-   $DateTime: 2014/01/19 17:59:16 $$Author: bbarber $
+   $Id: //main/2011/qhull/src/libqhullr/global_r.c#9 $$Change: 1797 $
+   $DateTime: 2014/12/15 17:23:41 $$Author: bbarber $
  */
 
-#include "qhull_r.h"
+#include "qhull_ra.h"
 
-/*========= qh->definition -- globals defined in libqhull.h =======================*/
+/*========= qh->definition -- globals defined in libqhull_r.h =======================*/
 
 /*-<a                             href  ="qh-globa.htm#TOC"
   >--------------------------------</a><a name="qh_version">-</a>
@@ -34,7 +34,7 @@
     change version: README.txt, qh-get.htm, File_id.diz, Makefile.txt
     change year:    Copying.txt
     check download size
-    recompile user_eg.c, rbox.c, libqhull.c, qconvex.c, qdelaun.c qvoronoi.c, qhalf.c, testqset.c
+    recompile user_eg_r.c, rbox_r.c, libqhull_r.c, qconvex_r.c, qdelaun_r.c qvoronoi_r.c, qhalf_r.c, testqset_r.c
 */
 
 const char *qh_version = "2012.1 2012/02/18";
@@ -415,6 +415,7 @@ void qh_freebuild(qhT *qh, boolT allmem) {
 
 notes:
   sets qh.NOerrexit in case caller forgets to
+  Does not throw errors
 
 see:
   see qh_initqhull_start2()
@@ -426,8 +427,8 @@ design:
 */
 void qh_freeqhull(qhT *qh, boolT allmem) {
 
-  trace1((qh, qh->ferr, 1006, "qh_freeqhull: free global memory\n"));
   qh->NOerrexit= True;  /* no more setjmp since called at exit and ~QhullQh */
+  trace1((qh, qh->ferr, 1006, "qh_freeqhull: free global memory\n"));
   qh_freebuild(qh, allmem);
   qh_freebuffers(qh);
   /* memset is the same in qh_freeqhull() and qh_initqhull_start2() */
@@ -504,7 +505,7 @@ void qh_init_B(qhT *qh, coordT *points, int numpoints, int dim, boolT ismalloc) 
   qh_initqhull_globals(qh, points, numpoints, dim, ismalloc);
   if (qh->qhmem.LASTsize == 0)
     qh_initqhull_mem(qh);
-  /* mem.c and qset.c are initialized */
+  /* mem_r.c and qset_r.c are initialized */
   qh_initqhull_buffers(qh);
   qh_initthresholds(qh, qh->qhull_command);
   if (qh->PROJECTinput || (qh->DELAUNAY && qh->PROJECTdelaunay))
@@ -565,7 +566,7 @@ void qh_init_qhull_command(qhT *qh, int argc, char *argv[]) {
 
   see:
     qh_initthresholds() continues processing of 'Pdn' and 'PDn'
-    'prompt' in unix.c for documentation
+    'prompt' in unix_r.c for documentation
 
   design:
     for each space-deliminated option group
@@ -1624,7 +1625,7 @@ qhull configuration warning (qh_RANDOMmax in user.h):\n\
   >-------------------------------</a><a name="initqhull_mem">-</a>
 
   qh_initqhull_mem(qh, )
-    initialize mem.c for qhull
+    initialize mem_r.c for qhull
     qh.hull_dim and qh.normal_size determine some of the allocation sizes
     if qh.MERGING,
       includes ridgeT
@@ -1632,7 +1633,7 @@ qhull configuration warning (qh_RANDOMmax in user.h):\n\
       (see numsizes below)
 
   returns:
-    mem.c already for qh_memalloc/qh_memfree (errors if called beforehand)
+    mem_r.c already for qh_memalloc/qh_memfree (errors if called beforehand)
 
   notes:
     qh_produceoutput() prints memsizes
@@ -1798,7 +1799,7 @@ void qh_initqhull_start(qhT *qh, FILE *infile, FILE *outfile, FILE *errfile) {
     report errors elsewhere, error handling and g_qhull_output [Qhull.cpp, QhullQh()] not in initialized
   see:
     qh_maxmin() determines the precision constants
-    qh_freeqhull2()
+    qh_freeqhull()
 */
 void qh_initqhull_start2(qhT *qh, FILE *infile, FILE *outfile, FILE *errfile) {
   time_t timedata;
@@ -1807,6 +1808,7 @@ void qh_initqhull_start2(qhT *qh, FILE *infile, FILE *outfile, FILE *errfile) {
   qh_CPUclock; /* start the clock(for qh_clock).  One-shot. */
   /* memset is the same in qh_freeqhull() and qh_initqhull_start2() */
   memset((char *)qh, 0, sizeof(qhT)-sizeof(qhmemT)-sizeof(qhstatT));   /* every field is 0, FALSE, NULL */
+  qh->NOerrexit= True;
   qh->ANGLEmerge= True;
   qh->DROPdim= -1;
   qh->ferr= errfile;
@@ -1846,7 +1848,9 @@ void qh_initqhull_start2(qhT *qh, FILE *infile, FILE *outfile, FILE *errfile) {
   qh->tracevertex_id= UINT_MAX; /* recompile to trace a vertex */
   seed= (int)time(&timedata);
   qh_RANDOMseed_(qh, seed);
-  qh->run_id= qh_RANDOMint+1; /* disallow 0 [UsingLibQhull::NOqhRunId] */
+  qh->run_id= qh_RANDOMint;
+  if(!qh->run_id)
+      qh->run_id++;  /* guarantee non-zero */
   qh_option(qh, "run-id", &qh->run_id, NULL);
   strcat(qh->qhull, "qhull");
 } /* initqhull_start2 */

@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2014 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/qhulltest/QhullPoint_test.cpp#4 $$Change: 1490 $
-** $DateTime: 2012/02/19 20:27:01 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/qhulltest/QhullPoint_test.cpp#10 $$Change: 1799 $
+** $DateTime: 2014/12/17 16:17:40 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -43,6 +43,7 @@ private slots:
     void t_iterator();
     void t_const_iterator();
     void t_qhullpoint_iterator();
+    void t_method();
     void t_io();
 };//QhullPoint_test
 
@@ -56,33 +57,58 @@ add_QhullPoint_test()
 void QhullPoint_test::
 cleanup()
 {
-    UsingLibQhull::checkQhullMemoryEmpty();
     RoadTest::cleanup();
 }
 
 void QhullPoint_test::
 t_construct()
 {
-    // Qhull.runQhull() constructs QhullFacets as facetT
-    QhullPoint p;
-    QVERIFY(!p.isDefined());
-    QCOMPARE(p.dimension(),0);
-    QCOMPARE(p.coordinates(),static_cast<double *>(0));
+    QhullPoint p12;
+    QVERIFY(!p12.isDefined());
+    QCOMPARE(p12.coordinates(), (coordT *)0);
+    QCOMPARE(p12.dimension(), 0);
+    QCOMPARE(p12.qh(), (QhullQh *)0);
+    QCOMPARE(p12.id(), -3);
+    QCOMPARE(p12.begin(), p12.end());
+    QCOMPARE(p12.constBegin(), p12.constEnd());
+
     RboxPoints rcube("c");
-    Qhull q(rcube,"Qt QR0");  // triangulation of rotated unit cube
+    Qhull q(rcube, "Qt QR0");  // triangulation of rotated unit cube
+    QhullPoint p(q);
+    QVERIFY(!p.isDefined());
+    QCOMPARE(p.dimension(),3);
+    QCOMPARE(p.coordinates(),static_cast<double *>(0));
+    QhullPoint p7(q.qh());
+    QCOMPARE(p, p7);
+
+    // copy constructor and copy assignment
     QhullVertex v2(q.beginVertex());
     QhullPoint p2(v2.point());
     QVERIFY(p2.isDefined());
     QCOMPARE(p2.dimension(),3);
-    // p= p2;  // copy assignment disabled, ambiguous
-    QhullPoint p3(p2.dimension(), p2.coordinates());
-    QCOMPARE(p2, p3);
+    QVERIFY(p2!=p12);
+    p= p2;  
+    QCOMPARE(p, p2);
+
+    QhullPoint p3(q, p2.dimension(), p2.coordinates());
+    QCOMPARE(p3, p2);
+    QhullPoint p8(q, p2.coordinates()); // Qhull defines dimension
+    QCOMPARE(p8, p2);
+    QhullPoint p9(q.qh(), p2.dimension(), p2.coordinates());
+    QCOMPARE(p9, p2);
+    QhullPoint p10(q.qh(), p2.coordinates()); // Qhull defines dimension
+    QCOMPARE(p10, p2);
+
     Coordinates c;
     c << 0.0 << 0.0 << 0.0;
-    QhullPoint p6(c);
+    QhullPoint p6(q, c);
     QCOMPARE(p6, q.origin());
+    QhullPoint p11(q.qh(), c);
+    QCOMPARE(p11, q.origin());
+
     QhullPoint p5= p2; // copy constructor
     QVERIFY(p5==p2);
+    q.checkAndFreeQhullMemory();
 }//t_construct
 
 void QhullPoint_test::
@@ -102,6 +128,7 @@ t_convert()
     for(int k=3; k--; ){
         QCOMPARE(qs[k], p[k]);
     }
+    q.checkAndFreeQhullMemory();
 }//t_convert
 
 void QhullPoint_test::
@@ -111,10 +138,11 @@ t_readonly()
     {
         Qhull q(rcube,"Qt QR0");  // triangulation of rotated unit cube
         QhullVertexList vs= q.vertexList();
+        cout << "Point ids in 'rbox c'\n";
         QhullVertexListIterator i(vs);
         while(i.hasNext()){
             QhullPoint p= i.next().point();
-            int id= p.id(q.runId());
+            int id= p.id();
             cout << "p" << id << endl;
             QVERIFY(p.isDefined());
             QCOMPARE(p.dimension(),3);
@@ -124,11 +152,13 @@ t_readonly()
             coordT *c2= p.coordinates();
             QCOMPARE(c, c2);
             QCOMPARE(p.dimension(), 3);
+            QCOMPARE(q.qh(), p.qh());
         }
         QhullPoint p2= vs.first().point();
         QhullPoint p3= vs.last().point();
         QVERIFY(p2!=p3);
         QVERIFY(p3.coordinates()!=p2.coordinates());
+        q.checkAndFreeQhullMemory();
     }
 }//t_readonly
 
@@ -154,6 +184,7 @@ t_define()
         QVERIFY(p2==p);
 
         QhullPoint p4= p3;
+        QVERIFY(p4==p3);
         p4.defineAs(p2);
         QVERIFY(p2==p4);
         QhullPoint p5= p3;
@@ -166,6 +197,7 @@ t_define()
         p6.setDimension(2);
         QCOMPARE(p6.dimension(), 2);
         QVERIFY(p2!=p6);
+        q.checkAndFreeQhullMemory();
     }
 }//t_define
 
@@ -184,6 +216,7 @@ t_operator()
     QhullPoint p2= q.firstVertex().point();
     p2[0]= 10.0;  // Overwrites point coordinate
     QCOMPARE(p2[0], 10.0);
+    q.checkAndFreeQhullMemory();
 }//t_operator
 
 void QhullPoint_test::
@@ -191,9 +224,10 @@ t_iterator()
 {
     RboxPoints rcube("c");
     {
-        QhullPoint p2;
-        QCOMPARE(p2.begin(), p2.end());
         Qhull q(rcube,"QR0");  // rotated unit cube
+        QhullPoint p2(q);
+        QCOMPARE(p2.begin(), p2.end());
+
         QhullPoint p= q.firstVertex().point();
         QhullPoint::Iterator i= p.begin();
         QhullPoint::iterator i2= p.begin();
@@ -264,6 +298,7 @@ t_iterator()
         //p.begin end tested above
 
         // QhullPoint is const-only
+        q.checkAndFreeQhullMemory();
     }
 }//t_iterator
 
@@ -322,23 +357,25 @@ t_const_iterator()
         QCOMPARE(i2-i, 3);
 
         // QhullPoint is const-only
+        q.checkAndFreeQhullMemory();
     }
 }//t_const_iterator
 
 void QhullPoint_test::
 t_qhullpoint_iterator()
 {
-    QhullPoint p2;
+    RboxPoints rcube("c");
+    Qhull q(rcube,"QR0");  // rotated unit cube
+
+    QhullPoint p2(q);
     QhullPointIterator i= p2;
-    QCOMPARE(p2.dimension(), 0);
+    QCOMPARE(p2.dimension(), 3);
     QVERIFY(!i.hasNext());
     QVERIFY(!i.hasPrevious());
     i.toBack();
     QVERIFY(!i.hasNext());
     QVERIFY(!i.hasPrevious());
 
-    RboxPoints rcube("c");
-    Qhull q(rcube,"QR0");  // rotated unit cube
     QhullPoint p = q.firstVertex().point();
     QhullPointIterator i2(p);
     QCOMPARE(p.dimension(), 3);
@@ -370,6 +407,19 @@ t_qhullpoint_iterator()
     QVERIFY(!i.hasNext());
     i.toFront();
     QCOMPARE(i.next(), p[0]);
+    q.checkAndFreeQhullMemory();
+}//t_qhullpoint_iterator
+
+void QhullPoint_test::
+t_method()
+{
+    // advancePoint tested above
+    RboxPoints rcube("c");
+    Qhull q(rcube, "");
+    QhullPoint p = q.firstVertex().point();
+    double dist= p.distance(q.origin());
+    QCOMPARE(dist, sqrt(double(2.0+1.0))/2); // half diagonal of unit cube
+    q.checkAndFreeQhullMemory();
 }//t_qhullpoint_iterator
 
 void QhullPoint_test::
@@ -380,15 +430,15 @@ t_io()
         Qhull q(rcube, "");
         QhullPoint p= q.beginVertex().point();
         ostringstream os;
-        os << "Point w/o runId:\n";
+        os << "Point:\n";
         os << p;
-        os << "Point w/ runId:\n";
-        os << p.print(q.runId()) << p.print(q.runId(), " and a message ");
-        os << p.printWithIdentifier(q.runId(), " Point with id and a message ");
+        os << "Point w/ print:\n";
+        os << p.print(" message ");
+        os << p.printWithIdentifier(" Point with id and a message ");
         cout << os.str();
         QString s= QString::fromStdString(os.str());
-        QCOMPARE(s.count("p"), 3);
-        // QCOMPARE(s.count(QRegExp("f\\d")), 3*7 + 13*3*2);
+        QCOMPARE(s.count("p"), 2);
+        q.checkAndFreeQhullMemory();
     }
 }//t_io
 

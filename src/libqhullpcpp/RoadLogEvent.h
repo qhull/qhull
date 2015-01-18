@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2012 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullpcpp/RoadLogEvent.h#1 $$Change: 1652 $
-** $DateTime: 2014/01/17 09:01:32 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullpcpp/RoadLogEvent.h#2 $$Change: 1675 $
+** $DateTime: 2014/02/01 09:38:20 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -15,15 +15,15 @@
 
 namespace orgQhull {
 
-#//Types
+#//!\name Types
     //! RoadLogEvent -- Record an event for the RoadLog
     struct RoadLogEvent;
 
 struct RoadLogEvent {
 
 public:
-#//Fields
-    const char     *format_string; //! Format string (a literal with format codes, for logging)
+#//!\name Fields
+    const char *    format_string; //! Format string (a literal with format codes, for logging)
     int             int_1;       //! Integer argument (%d, for logging)
     int             int_2;       //! Integer argument (%d, for logging)
     float           float_1;     //! Float argument (%f, for logging)
@@ -34,9 +34,9 @@ public:
         double      double_1;    //!   Double argument (%e)
     };
 
-#//Constants
+#//!\name Constants
 
-#//Constructors
+#//!\name Constructors
     RoadLogEvent() : format_string(0), int_1(0), int_2(0), float_1(0), int64_1(0) {};
     explicit RoadLogEvent(const char *fmt) : format_string(fmt), int_1(0), int_2(0), float_1(0), int64_1(0) {};
     RoadLogEvent(const char *fmt, int d) : format_string(fmt), int_1(d), int_2(0), float_1(0), int64_1(0) {};
@@ -50,23 +50,23 @@ public:
     ~RoadLogEvent() {};
     //! Default copy constructor and assignment
 
-#//GetSet
+#//!\name GetSet
     bool                isDefined() const { return format_string!=0; }
     int                 int1() const { return int_1; };
     int                 int2() const { return int_2; };
     float               float1() const { return float_1; };
-    const char         *format() const { return format_string; };
-    const char         *cstr1() const { return cstr_1; };
-    const void         *void1() const { return void_1; };
+    const char *        format() const { return format_string; };
+    const char *        cstr1() const { return cstr_1; };
+    const void *        void1() const { return void_1; };
     long long           int64() const { return int64_1; };
     double              double1() const { return double_1; };
 
-#//Conversion
+#//!\name Conversion
 
     std::string        toString(const char* tag, int code) const;
 
 private:
-#//Class helpers
+#//!\name Class helpers
     static bool         firstExtraCode(std::ostream &os, char c, char *extraCode);
 
 

@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2014 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/UsingLibQhull.cpp#4 $$Change: 1464 $
-** $DateTime: 2012/01/25 22:58:41 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullcpp/UsingLibQhull.cpp#7 $$Change: 1708 $
+** $DateTime: 2014/03/26 19:13:56 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -65,7 +65,7 @@ s_using_libqhull= false;
 #//Constructors
 
 //! Grabs global state (qh_qh, qh_qhstat, qhmem.tempstack)
-//! Follow immediately with setjmp(qh errexit), otherwise errors in libqhull are not caught properly
+//! Follow immediately with setjmp(qh->errexit), otherwise errors in libqhull are not caught properly
 //! See qh_restore_qhull [global.c]
 UsingLibQhull::
 UsingLibQhull(Qhull *q)
@@ -77,30 +77,8 @@ UsingLibQhull(Qhull *q)
     if(!qhullqh){
         throw QhullError(10014, "Qhull internal error: Qhull.qhullQh() not defined. initializeQhull() not called.");
     }
-    if(qhullqh->run_id != q->qhull_run_id){
-        throw QhullError(10015, "Qhull error: QhullQh.runId %d != Qhull.runId %d.  Overwritten?", qhullqh->run_id, q->qhull_run_id);
-    }
-    // qh.old_qhstat is zero at initialization
-    // qh.old_tempstack is zero when empty
-    // QhullQh() and UsingLibQhull() are the same
-#if qh_QHpointer
-    if(qh_qh){
-        qh old_qhstat= qh_qhstat;
-        qh old_tempstack= qhmem.tempstack;
-    }
-    qh_qh= qhullqh;
-    qh_qhstat= qhullqh->old_qhstat;
-    qhmem.tempstack= qhullqh->old_tempstack;
-    qhullqh->old_qhstat= 0;
-    qhullqh->old_tempstack= 0;
-#else
-    #error FIXUP QH11024 static qh_qh not tested.  Delete the line to try.
-    if(qhullqh!=&qh_qh){
-        throw QhullError(10040, "Qhull internal error: Qhull.qhullQh() is not qh_qh (%x, static).  Overwrite?", 0,0,0.0, &qh_qh);
-    }
-#endif
     s_qhull_output= q;      // set s_qhull_output for qh_fprintf()
-    qh NOerrexit= False;   // assumes setjmp called next
+    qh->NOerrexit= False;   // assumes setjmp called next
 }//UsingLibQhull qhull
 
 //! Same as UsingLibQhull but does not throw exceptions
@@ -113,27 +91,6 @@ UsingLibQhull(Qhull *q, int noThrow)
     QHULL_UNUSED(noThrow);
 
     QhullQh *qhullqh= q->qhullQh();
-    if(s_using_libqhull){
-        QhullError e(10050, "Qhull error: UsingLibQhull already in use");
-        e.logError();
-    }else if(!qhullqh || qhullqh->run_id != q->qhull_run_id){
-        QhullError e(10051, "Qhull error: Qhull.qhullQh (%x) undefined or QhullQh.runId %d != Qhull.runId %d.  Overwritten?", (qhullqh ? qhullqh->run_id : -1), q->qhull_run_id, 0.0, qhullqh);
-        e.logError();
-    }else{
-        // qh.old_qhstat is zero at initialization
-        // qh.old_tempstack is zero when empty
-        // QhullQh() and UsingLibQhull() are the same
-#if qh_QHpointer
-        if(qh_qh){
-            qh old_qhstat= qh_qhstat;
-            qh old_tempstack= qhmem.tempstack;
-        }
-        qh_qh= qhullqh;
-        qh_qhstat= qhullqh->old_qhstat;
-        qhmem.tempstack= qhullqh->old_tempstack;
-        qhullqh->old_qhstat= 0;
-        qhullqh->old_tempstack= 0;
-#endif
         my_qhull= q;
         s_qhull_output= q;          // set s_qhull_output for qh_fprintf()
         qh NOerrexit= False;   // assumes setjmp called next
@@ -188,102 +145,6 @@ UsingLibQhull::
 #//Class methods
 
 void UsingLibQhull::
-checkQhullMemoryEmpty()
-{
-    int curlong, totlong, curshort, totshort, maxlong, totbuffer;
-    // qh_memtotal does not error
-    qh_memtotal(&curlong, &totlong, &curshort, &totshort, &maxlong, &totbuffer);
-    if (curlong || totlong){
-        throw QhullError(10026, "Qhull error: qhull did not free %d bytes of long memory (%d pieces).", totlong, curlong);
-    }
-    if (curshort || totshort){
-        throw QhullError(10035, "Qhull error: qhull did not free %d bytes of short memory (%d pieces).", totshort, curshort);
-    }
-}//checkQhullMemoryEmpty
-
-double UsingLibQhull::
-currentAngleEpsilon()
-{
-    if(s_qhull_output && s_qhull_output->initialized()){
-        return s_qhull_output->qhullQh()->ANGLEround*FACTORepsilon;
-    }else if(s_has_angle_epsilon){
-        return s_angle_epsilon;
-    }
-    return UsingLibQhull::DEFAULTangleEpsilon;
-}//currentAngleEpsilon
-
-double UsingLibQhull::
-currentDistanceEpsilon()
-{
-    if(s_qhull_output && s_qhull_output->initialized()){
-        return s_qhull_output->qhullQh()->DISTround*FACTORepsilon;
-    }else if(s_has_distance_epsilon){
-        return s_distance_epsilon;
-    }
-    return UsingLibQhull::DEFAULTdistanceEpsilon;
-}//currentDistanceEpsilon
-
-const coordT *UsingLibQhull::
-currentPoints(int *dimension, const coordT **pointsEnd)
-{
-    if(s_qhull_output && s_qhull_output->initialized()){
-        *dimension= qh hull_dim;
-        *pointsEnd= qh first_point+qh num_points*qh hull_dim;
-        return qh first_point;
-    }else if(s_has_points){
-        *dimension= s_points_dimension;
-        *pointsEnd= s_points_end;
-        return s_points_begin;
-    }
-    throw QhullError(10059, "Qhull error: missing definition for currentPoints().  Need currentQhull() or setGlobalDistanceEpsilon()");
-}//currentPoints
-
-Qhull &UsingLibQhull::
-currentQhull()
-{
-    if(!s_qhull_output){
-        throw QhullError(10055, "Qhull error: currentQhull not defined.  Run qhull first.");
-    }
-    return *s_qhull_output;
-}//currentQhull
-
-// for QhullVertex::dimension() when >= 16
-int UsingLibQhull::
-currentVertexDimension()
-{
-    if(s_qhull_output && s_qhull_output->initialized()){
-        return s_qhull_output->dimension();
-    }else if(s_has_vertex_dimension){
-        return s_vertex_dimension;
-    }
-    throw QhullError(10057, "Qhull error: missing definition for currentVertexDimension().  Need currentQhull() or setGlobalVertexDimension()");
-}//currentVertexDimension
-
-const coordT *UsingLibQhull::
-globalPoints(int *dimension, const coordT **pointsEnd)
-{
-    if(s_has_points){
-        *dimension= s_points_dimension;
-        *pointsEnd= s_points_end;
-        return s_points_begin;
-    }else{
-        return currentPoints(dimension, pointsEnd);
-    }
-}//globalPoints
-
-bool UsingLibQhull::
-hasPoints()
-{
-    return s_has_points || (s_qhull_output && s_qhull_output->initialized());
-}
-
-bool UsingLibQhull::
-hasVertexDimension()
-{
-    return s_has_vertex_dimension || (s_qhull_output && s_qhull_output->initialized());
-}
-
-void UsingLibQhull::
 setGlobals()
 {
     if(s_qhull_output && s_qhull_output->initialized()){
@@ -312,62 +173,7 @@ unsetGlobals()
     s_has_vertex_dimension= false;
 }//unsetGlobals
 
-#// Methods
-
-void UsingLibQhull::
-maybeThrowQhullMessage(int exitCode) const
-{
-    my_qhull->maybeThrowQhullMessage(exitCode);
-    QhullError e= checkRunId(); // Check for qhRunId after libqhull returns. For convenience, ought to be at end of libqhull try block
-    if(e.isDefined()){
-        throw e;
-    }
-}//maybeThrowQhullMessage
-
-void UsingLibQhull::
-maybeThrowQhullMessage(int exitCode, int noThrow) const
-{
-    my_qhull->maybeThrowQhullMessage(exitCode, noThrow);
-    QhullError e= checkRunId(); // Check for qhRunId after libqhull returns. For convenience, ought to be at end of libqhull try block
-    if(e.isDefined()){
-        e.logError();
-    }
-}//maybeThrowQhullMessage
-
 #//Helpers
-
-//! Return QhullError for maybeThrowFromDestructor()
-QhullError UsingLibQhull::
-checkRunId() const
-{
-    // Predeclaring QhullError results in four copy constructors, none used here
-#if qh_QHpointer
-    if(qh_qh){ // 0 if ~Qhull
-        if(my_qhull->qhull_run_id!=qh run_id){
-            return QhullError(10047, "Qhull internal error: Global state (qh_qh, run_id %d) changed.  Should be runId %d.  Another thread?", qh run_id, my_qhull->qhull_run_id);
-        }
-    }
-#else
-    if(qh run_id!=0 && my_qhull->qhull_run_id!=qh run_id){
-        return QhullError(10048, "Qhull internal error: Global state (qh_qh, run_id %d) changed.  Should be runId %d.  Another thread?", qh run_id, my_qhull->qhull_run_id);
-    }
-#endif
-    return QhullError();
-}//checkRunId
-
-//! Can not embed UsingLibQhull.  Otherwise allocated a C++ object missed by qh_errexit
-void UsingLibQhull::
-checkUsingLibQhull() const
-{
-    if(s_using_libqhull){
-        if(s_qhull_output){
-            throw QhullError(10049, "Qhull error: UsingLibQhull already in use by QhullQh.runId %d", s_qhull_output->qhull_run_id);
-        }else{
-            throw QhullError(10050, "Qhull error: UsingLibQhull already in use.  No s_qhull_output");
-        }
-    }
-    s_using_libqhull= true;
-}//checkUsingLibQhull
 
 }//namespace orgQhull
 

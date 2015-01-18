@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2012 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullpcpp/functionObjects.h#1 $$Change: 1652 $
-** $DateTime: 2014/01/17 09:01:32 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullpcpp/functionObjects.h#2 $$Change: 1675 $
+** $DateTime: 2014/02/01 09:38:20 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -13,7 +13,7 @@
 #include <math.h>
 
 namespace orgQhull {
-#//Type
+#//!\name Type
 
     //! Sum of absolute values of the elements in a container
     class AbsoluteSumOf;
@@ -22,7 +22,7 @@ namespace orgQhull {
     //! Sum of squares of the elements in a container
     class SumSquaresOf;
 
-#//Class
+#//!\name Class
 
 //! Absolute sum of the elements in a container
 class AbsoluteSumOf

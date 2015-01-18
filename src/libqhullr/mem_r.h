@@ -1,10 +1,10 @@
 /*<html><pre>  -<a                             href="qh-mem.htm"
   >-------------------------------</a><a name="TOP">-</a>
 
-   mem.h
+   mem_r.h
      prototypes for memory management functions
 
-   see qh-mem.htm, mem.c and qset.h
+   see qh-mem.htm, mem_r.c and qset_r.h
 
    for error handling, writes message and calls
      qh_errexit(qhT *qh, qhmem_ERRmem, NULL, NULL) if insufficient memory
@@ -12,8 +12,8 @@
      qh_errexit(qhT *qh, qhmem_ERRqhull, NULL, NULL) otherwise
 
    Copyright (c) 1993-2014 The Geometry Center.
-   $Id: //main/2011/qhull/src/libqhullr/mem_r.h#2 $$Change: 1645 $
-   $DateTime: 2014/01/15 12:51:30 $$Author: bbarber $
+   $Id: //main/2011/qhull/src/libqhullr/mem_r.h#4 $$Change: 1797 $
+   $DateTime: 2014/12/15 17:23:41 $$Author: bbarber $
 */
 
 #ifndef qhDEFmem
@@ -23,12 +23,12 @@
 
 #ifndef DEFsetT
 #define DEFsetT 1
-typedef struct setT setT;          /* defined in qset.h */
+typedef struct setT setT;          /* defined in qset_r.h */
 #endif
 
 #ifndef DEFqhT
 #define DEFqhT 1
-typedef struct qhT qhT;          /* defined in libqhull.h */
+typedef struct qhT qhT;          /* defined in libqhull_r.h */
 #endif
 
 /*-<a                             href="qh-mem.htm#TOC"
@@ -38,7 +38,7 @@ typedef struct qhT qhT;          /* defined in libqhull.h */
     turn off quick-fit memory allocation
 
   notes:
-    mem.c implements Quickfit memory allocation for about 20% time
+    mem_r.c implements Quickfit memory allocation for about 20% time
     savings.  If it fails on your machine, try to locate the
     problem, and send the answer to qhull@qhull.org.  If this can
     not be done, define qh_NOmem to use malloc/free instead.
@@ -57,7 +57,7 @@ Trace short and quick memory allocations at T5
 
 /*-------------------------------------------
     to avoid bus errors, memory allocation must consider alignment requirements.
-    malloc() automatically takes care of alignment.   Since mem.c manages
+    malloc() automatically takes care of alignment.   Since mem_r.c manages
     its own memory, we need to explicitly specify alignment in
     qh_meminitbuffers().
 
@@ -69,20 +69,20 @@ Trace short and quick memory allocations at T5
    see <a href="user.h#MEMalign">qh_MEMalign</a> in user.h for qhull's alignment
 */
 
-#define qhmem_ERRmem 4    /* matches qh_ERRmem in libqhull.h */
-#define qhmem_ERRqhull 5  /* matches qh_ERRqhull in libqhull.h */
+#define qhmem_ERRmem 4    /* matches qh_ERRmem in libqhull_r.h */
+#define qhmem_ERRqhull 5  /* matches qh_ERRqhull in libqhull_r.h */
 
 /*-<a                             href="qh-mem.htm#TOC"
   >--------------------------------</a><a name="ptr_intT">-</a>
 
   ptr_intT
     for casting a void * to an integer-type that holds a pointer
-    Used for integer expressions (e.g., computing qh_gethash() in poly.c)
+    Used for integer expressions (e.g., computing qh_gethash() in poly_r.c)
 
   notes:
     WARN64 -- these notes indicate 64-bit issues
     On 64-bit machines, a pointer may be larger than an 'int'.
-    qh_meminit()/mem.c checks that 'ptr_intT' holds a 'void*'
+    qh_meminit()/mem_r.c checks that 'ptr_intT' holds a 'void*'
     ptr_intT is typically a signed value, but not necessarily so
     size_t is typically unsigned, but should match the parameter type
     Qhull uses int instead of size_t except for system calls such as malloc, qsort, qh_malloc, etc.
@@ -98,11 +98,11 @@ typedef long ptr_intT;
   >--------------------------------</a><a name="qhmemT">-</a>
 
   qhmemT
-    global memory structure for mem.c
+    global memory structure for mem_r.c
 
  notes:
    users should ignore qhmem except for writing extensions
-   qhmem is allocated in mem.c
+   qhmem is allocated in mem_r.c
 
    qhmem could be swapable like qh and qhstat, but then
    multiple qh's and qhmem's would need to keep in synch.
@@ -114,7 +114,7 @@ typedef long ptr_intT;
 */
 typedef struct qhmemT qhmemT;
 
-/* Update qhmem in mem.c if add or remove fields */
+/* Update qhmem in mem_r.c if add or remove fields */
 struct qhmemT {               /* global memory management variables */
   int      BUFsize;           /* size of memory allocation buffer */
   int      BUFinit;           /* initial size of memory allocation buffer */

@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (c) 2009-2012 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/PointCoordinates.h#5 $$Change: 1464 $
-** $DateTime: 2012/01/25 22:58:41 $$Author: bbarber $
+** Copyright (c) 2009-2014 C.B. Barber. All rights reserved.
+** $Id: //main/2011/qhull/src/libqhullcpp/PointCoordinates.h#9 $$Change: 1797 $
+** $DateTime: 2014/12/15 17:23:41 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -12,39 +12,49 @@
 #include "QhullPoints.h"
 #include "Coordinates.h"
 extern "C" {
-    #include "libqhull/qhull_r.h"
+    #include "libqhullr/qhull_ra.h"
 }
 
 #include <ostream>
+#include <string>
+
+#ifndef QHULL_NO_STL
 #include <vector>
+#endif
 
 namespace orgQhull {
 
-#//Types
-    //! Zero or more points with Coordinates, count, and dimension
+#//!\name Defined here
+    //! Zero or more QhullPoints with Coordinates and description
     class PointCoordinates;
 
 class PointCoordinates : public QhullPoints {
 
 private:
-#//Field
-    Coordinates         point_coordinates;      //! array of point coordinates
+#//!\name Fields
+    Coordinates         point_coordinates;      //! std::vector of point coordinates
                                                 //! may have extraCoordinates()
-    std::string         point_comment;          //! Comment describing PointCoordinates
+    std::string         describe_points;          //! Comment describing PointCoordinates
 
 public:
-#//Construct
-                        PointCoordinates();
-    explicit            PointCoordinates(int pointDimension);
-    explicit            PointCoordinates(const std::string &aComment);
-                        PointCoordinates(int pointDimension, const std::string &aComment);
-                        PointCoordinates(int pointDimension, const std::string &aComment, int coordinatesCount, const coordT *c); // may be invalid
+#//!\name Construct
+    explicit            PointCoordinates(const Qhull &q);
+                        PointCoordinates(const Qhull &q, int pointDimension);
+                        PointCoordinates(const Qhull &q, const std::string &aComment);
+                        PointCoordinates(const Qhull &q, int pointDimension, const std::string &aComment);
+                        PointCoordinates(const Qhull &q, int pointDimension, const std::string &aComment, countT coordinatesCount, const coordT *c); // may be invalid
+                        //! Use append() and appendPoints() for Coordinates and vector<coordT>
+    explicit            PointCoordinates(QhullQh *qh);
+                        PointCoordinates(QhullQh *qh, int pointDimension);
+                        PointCoordinates(QhullQh *qh, const std::string &aComment);
+                        PointCoordinates(QhullQh *qh, int pointDimension, const std::string &aComment);
+                        PointCoordinates(QhullQh *qh, int pointDimension, const std::string &aComment, countT coordinatesCount, const coordT *c); // may be invalid
                         //! Use append() and appendPoints() for Coordinates and vector<coordT>
                         PointCoordinates(const PointCoordinates &other);
-    PointCoordinates   &operator=(const PointCoordinates &other);
-    ~PointCoordinates();
+    PointCoordinates &  operator=(const PointCoordinates &other);
+                        ~PointCoordinates();
 
-#//Convert
+#//!\name Convert
     //! QhullPoints coordinates, constData, data, count, size
 #ifndef QHULL_NO_STL
     void                append(const std::vector<coordT> &otherCoordinates) { if(!otherCoordinates.empty()){ append((int)otherCoordinates.size(), &otherCoordinates[0]); } }
@@ -55,41 +65,41 @@ public:
     QList<coordT>       toQList() const { return point_coordinates.toQList(); }
 #endif //QHULL_USES_QT
 
-#//GetSet
+#//!\name GetSet
     //! See QhullPoints for coordinates, coordinateCount, dimension, empty, isEmpty, ==, !=
     void                checkValid() const;
-    std::string         comment() const { return point_comment; }
+    std::string         comment() const { return describe_points; }
     void                makeValid() { defineAs(point_coordinates.count(), point_coordinates.data()); }
-    const Coordinates  &getCoordinates() const { return point_coordinates; }
-    void                setComment(const std::string &s) { point_comment= s; }
+    const Coordinates & getCoordinates() const { return point_coordinates; }
+    void                setComment(const std::string &s) { describe_points= s; }
     void                setDimension(int i);
 
 private:
-    void                defineAs(int coordinatesCount, coordT *c) { QhullPoints::defineAs(coordinatesCount, c); }
+    void                defineAs(countT coordinatesCount, coordT *c) { QhullPoints::defineAs(coordinatesCount, c); }
     //! defineAs() otherwise disabled
 public:
 
-#//ElementAccess
+#//!\name ElementAccess
     //! See QhullPoints for at, back, first, front, last, mid, [], value
 
-#//Foreach
+#//!\name Foreach
     //! See QhullPoints for begin, constBegin, end
     Coordinates::ConstIterator  beginCoordinates() const { return point_coordinates.begin(); }
     Coordinates::Iterator       beginCoordinates() { return point_coordinates.begin(); }
-    Coordinates::ConstIterator  beginCoordinates(int pointIndex) const;
-    Coordinates::Iterator       beginCoordinates(int pointIndex);
+    Coordinates::ConstIterator  beginCoordinates(countT pointIndex) const;
+    Coordinates::Iterator       beginCoordinates(countT pointIndex);
     Coordinates::ConstIterator  endCoordinates() const { return point_coordinates.end(); }
     Coordinates::Iterator       endCoordinates() { return point_coordinates.end(); }
 
-#//Search
+#//!\name Search
     //! See QhullPoints for contains, count, indexOf, lastIndexOf
 
-#//Read-only
+#//!\name GetSet
     PointCoordinates    operator+(const PointCoordinates &other) const;
 
-#//Modify
+#//!\name Modify
     //FIXUP QH11001: Add clear() and other modify operators from Coordinates.h.  Include QhullPoint::operator=()
-    void                append(int coordinatesCount, const coordT *c);  //! Dimension previously defined
+    void                append(countT coordinatesCount, const coordT *c);  //! Dimension previously defined
     void                append(const coordT &c) { append(1, &c); } //! Dimension previously defined
     void                append(const QhullPoint &p);
     //! See convert for std::vector and QList
@@ -97,16 +107,16 @@ public:
     void                append(const PointCoordinates &other);
     void                appendComment(const std::string &s);
     void                appendPoints(std::istream &in);
-    PointCoordinates   &operator+=(const PointCoordinates &other) { append(other); return *this; }
-    PointCoordinates   &operator+=(const coordT &c) { append(c); return *this; }
-    PointCoordinates   &operator+=(const QhullPoint &p) { append(p); return *this; }
-    PointCoordinates   &operator<<(const PointCoordinates &other) { return *this += other; }
-    PointCoordinates   &operator<<(const coordT &c) { return *this += c; }
-    PointCoordinates   &operator<<(const QhullPoint &p) { return *this += p; }
+    PointCoordinates &  operator+=(const PointCoordinates &other) { append(other); return *this; }
+    PointCoordinates &  operator+=(const coordT &c) { append(c); return *this; }
+    PointCoordinates &  operator+=(const QhullPoint &p) { append(p); return *this; }
+    PointCoordinates &  operator<<(const PointCoordinates &other) { return *this += other; }
+    PointCoordinates &  operator<<(const coordT &c) { return *this += c; }
+    PointCoordinates &  operator<<(const QhullPoint &p) { return *this += p; }
     // reserve() is non-const
-    void                reserveCoordinates(int newCoordinates);
+    void                reserveCoordinates(countT newCoordinates);
 
-#//Helpers
+#//!\name Helpers
 private:
     int                 indexOffset(int i) const;
 
@@ -116,34 +126,33 @@ private:
 class PointCoordinatesIterator
 {
     typedef PointCoordinates::const_iterator const_iterator;
+
+private:
     const PointCoordinates *c;
-    const_iterator i;
-    public:
-    inline PointCoordinatesIterator(const PointCoordinates &container)
-    : c(&container), i(c->constBegin()) {}
-    inline PointCoordinatesIterator &operator=(const PointCoordinates &container)
-    { c = &container; i = c->constBegin(); return *this; }
-    inline void toFront() { i = c->constBegin(); }
-    inline void toBack() { i = c->constEnd(); }
-    inline bool hasNext() const { return i != c->constEnd(); }
-    inline const QhullPoint next() { return *i++; }
-    inline const QhullPoint peekNext() const { return *i; }
-    inline bool hasPrevious() const { return i != c->constBegin(); }
-    inline const QhullPoint previous() { return *--i; }
-    inline const QhullPoint peekPrevious() const { const_iterator p = i; return *--p; }
-    inline bool findNext(const QhullPoint &t)
-    { while (i != c->constEnd()) if (*i++ == t) return true; return false; }
-    inline bool findPrevious(const QhullPoint &t)
-    { while (i != c->constBegin()) if (*(--i) == t) return true;
-    return false;  }
+    const_iterator      i;
+
+public:
+                        PointCoordinatesIterator(const PointCoordinates &container) : c(&container), i(c->constBegin()) {}
+                        PointCoordinatesIterator &operator=(const PointCoordinates &container) { c = &container; i = c->constBegin(); return *this; }
+
+    void                toFront() { i = c->constBegin(); }
+    void                toBack() { i = c->constEnd(); }
+    bool                hasNext() const { return i != c->constEnd(); }
+    const QhullPoint    next() { return *i++; }
+    const QhullPoint    peekNext() const { return *i; }
+    bool                hasPrevious() const { return i != c->constBegin(); }
+    const QhullPoint    previous() { return *--i; }
+    const QhullPoint    peekPrevious() const { const_iterator p = i; return *--p; }
+    bool                findNext(const QhullPoint &t) { while(i != c->constEnd()){ if (*i++ == t) return true;} return false; }
+    bool                findPrevious(const QhullPoint &t) { while(i != c->constBegin()){ if (*(--i) == t) return true;} return false;  }
 };//CoordinatesIterator
 
 // FIXUP QH11002:  Add MutablePointCoordinatesIterator after adding modify operators
 \
 }//namespace orgQhull
 
-#//Global functions
+#//!\name Global
 
-std::ostream           &operator<<(std::ostream &os, const orgQhull::PointCoordinates &p);
+std::ostream &          operator<<(std::ostream &os, const orgQhull::PointCoordinates &p);
 
 #endif // QHPOINTCOORDINATES_H

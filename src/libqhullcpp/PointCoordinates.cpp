@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2009-2014 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/PointCoordinates.cpp#6 $$Change: 1464 $
-** $DateTime: 2012/01/25 22:58:41 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullcpp/PointCoordinates.cpp#11 $$Change: 1797 $
+** $DateTime: 2014/12/15 17:23:41 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -25,49 +25,95 @@ namespace orgQhull {
 
 #//! PointCoordinates -- vector of PointCoordinates
 
-#//Construct
-PointCoordinates::
-PointCoordinates()
-: QhullPoints()
-, point_coordinates()
-, point_comment()
-{
-    makeValid();
-}
+#//!\name Constructors
 
-#//Construct
+//! Qhull and QhullQh constructors are the same
 PointCoordinates::
-PointCoordinates(int pointDimension)
-: QhullPoints(pointDimension)
+PointCoordinates(const Qhull &q)
+: QhullPoints(q)
 , point_coordinates()
-, point_comment()
+, describe_points()
 {
     makeValid();
 }
 
 PointCoordinates::
-PointCoordinates(const std::string &aComment)
-: QhullPoints()
+PointCoordinates(const Qhull &q, int pointDimension)
+: QhullPoints(q, pointDimension)
 , point_coordinates()
-, point_comment(aComment)
+, describe_points()
 {
     makeValid();
 }
 
 PointCoordinates::
-PointCoordinates(int pointDimension, const std::string &aComment)
-: QhullPoints(pointDimension)
+PointCoordinates(const Qhull &q, const std::string &aComment)
+: QhullPoints(q)
 , point_coordinates()
-, point_comment(aComment)
+, describe_points(aComment)
 {
     makeValid();
 }
 
 PointCoordinates::
-PointCoordinates(int pointDimension, const std::string &aComment, int coordinatesCount, const coordT *c)
-: QhullPoints(pointDimension)
+PointCoordinates(const Qhull &q, int pointDimension, const std::string &aComment)
+: QhullPoints(q, pointDimension)
 , point_coordinates()
-, point_comment(aComment)
+, describe_points(aComment)
+{
+    makeValid();
+}
+
+PointCoordinates::
+PointCoordinates(const Qhull &q, int pointDimension, const std::string &aComment, countT coordinatesCount, const coordT *c)
+: QhullPoints(q, pointDimension)
+, point_coordinates()
+, describe_points(aComment)
+{
+    append(coordinatesCount, c);
+}
+
+PointCoordinates::
+PointCoordinates(QhullQh *qh)
+: QhullPoints(qh)
+, point_coordinates()
+, describe_points()
+{
+    makeValid();
+}
+
+PointCoordinates::
+PointCoordinates(QhullQh *qh, int pointDimension)
+: QhullPoints(qh, pointDimension)
+, point_coordinates()
+, describe_points()
+{
+    makeValid();
+}
+
+PointCoordinates::
+PointCoordinates(QhullQh *qh, const std::string &aComment)
+: QhullPoints(qh)
+, point_coordinates()
+, describe_points(aComment)
+{
+    makeValid();
+}
+
+PointCoordinates::
+PointCoordinates(QhullQh *qh, int pointDimension, const std::string &aComment)
+: QhullPoints(qh, pointDimension)
+, point_coordinates()
+, describe_points(aComment)
+{
+    makeValid();
+}
+
+PointCoordinates::
+PointCoordinates(QhullQh *qh, int pointDimension, const std::string &aComment, countT coordinatesCount, const coordT *c)
+: QhullPoints(qh, pointDimension)
+, point_coordinates()
+, describe_points(aComment)
 {
     append(coordinatesCount, c);
 }
@@ -76,17 +122,18 @@ PointCoordinates::
 PointCoordinates(const PointCoordinates &other)
 : QhullPoints(other)
 , point_coordinates(other.point_coordinates)
-, point_comment(other.point_comment)
+, describe_points(other.describe_points)
 {
-    makeValid();
+    makeValid();  // Update point_first and point_end
 }
 
 PointCoordinates & PointCoordinates::
 operator=(const PointCoordinates &other)
 {
+    QhullPoints::operator=(other);
     point_coordinates= other.point_coordinates;
-    point_comment= other.point_comment;
-    makeValid();
+    describe_points= other.describe_points;
+    makeValid(); // Update point_first and point_end
     return *this;
 }//operator=
 
@@ -94,7 +141,7 @@ PointCoordinates::
 ~PointCoordinates()
 { }
 
-#//GetSet
+#//!\name GetSet
 
 void PointCoordinates::
 checkValid() const
@@ -118,24 +165,24 @@ setDimension(int i)
     QhullPoints::setDimension(i);
 }//setDimension
 
-//#Foreach
+#//!\name Foreach
 
 Coordinates::ConstIterator PointCoordinates::
-beginCoordinates(int pointIndex) const
+beginCoordinates(countT pointIndex) const
 {
     return point_coordinates.begin()+indexOffset(pointIndex);
 }
 
 Coordinates::Iterator PointCoordinates::
-beginCoordinates(int pointIndex)
+beginCoordinates(countT pointIndex)
 {
     return point_coordinates.begin()+indexOffset(pointIndex);
 }
 
-#//Modify
+#//!\name Methods
 
 void PointCoordinates::
-append(int coordinatesCount, const coordT *c)
+append(countT coordinatesCount, const coordT *c)
 {
     if(coordinatesCount<=0){
         return;
@@ -164,20 +211,21 @@ append(const QhullPoint &p)
 
 void PointCoordinates::
 appendComment(const std::string &s){
-    if(char c= s[0] && point_comment.empty()){
+    if(char c= s[0] && describe_points.empty()){
         if(c=='-' || isdigit(c)){
             throw QhullError(10028, "Qhull argument error: comments can not start with a number or minus, %s", 0, 0, 0.0, s.c_str());
         }
     }
-    point_comment += s;
+    describe_points += s;
 }//appendComment
 
 //! Read PointCoordinates from istream.  First two numbers are dimension and count.  A non-digit starts a rboxCommand.
-//! Overwrites point_comment.  See qh_readpoints [io.c]
+//! Overwrites describe_points.  See qh_readpoints [io.c]
 void PointCoordinates::
 appendPoints(istream &in)
 {
-    int inDimension, inCount;
+    int inDimension;
+    countT inCount;
     in >> ws >> inDimension >> ws;
     if(!in.good()){
         in.clear();
@@ -187,7 +235,7 @@ appendPoints(istream &in)
     }
     char c= (char)in.peek();
     if(c!='-' && !isdigit(c)){         // Comments start with a non-digit
-        getline(in, point_comment);
+        getline(in, describe_points);
         in >> ws;
     }
     in >> inCount >> ws;
@@ -199,7 +247,7 @@ appendPoints(istream &in)
     }
     c= (char)in.peek();
     if(c!='-' && !isdigit(c)){         // Comments start with a non-digit
-        getline(in, point_comment);
+        getline(in, describe_points);
         in >> ws;
     }
     if(inCount<inDimension){           // Count may precede dimension
@@ -207,7 +255,7 @@ appendPoints(istream &in)
     }
     setDimension(inDimension);
     reserveCoordinates(inCount*inDimension);
-    int coordinatesCount= 0;
+    countT coordinatesCount= 0;
     while(!in.eof()){
         realT p;
         in >> p >> ws;
@@ -240,19 +288,19 @@ operator+(const PointCoordinates &other) const
 }//operator+
 
 void PointCoordinates::
-reserveCoordinates(int newCoordinates)
+reserveCoordinates(countT newCoordinates)
 {
     // vector::reserve is not const
-    point_coordinates.reserve((int)point_coordinates.size()+newCoordinates); // WARN64
+    point_coordinates.reserve((countT)point_coordinates.size()+newCoordinates); // WARN64
     makeValid();
 }//reserveCoordinates
 
 #//Helpers
 
-int PointCoordinates::
-indexOffset(int i) const {
-    int n= i*dimension();
-    int coordinatesCount= point_coordinates.count();
+countT PointCoordinates::
+indexOffset(countT i) const {
+    countT n= i*dimension();
+    countT coordinatesCount= point_coordinates.count();
     if(i<0 || n>coordinatesCount){
         throw QhullError(10061, "Qhull error: point_coordinates is too short (%d) for point %d", coordinatesCount, i);
     }
@@ -261,7 +309,7 @@ indexOffset(int i) const {
 
 }//namespace orgQhull
 
-#//Global functions
+#//!\name Global functions
 
 using std::endl;
 using std::ostream;
@@ -273,7 +321,7 @@ ostream&
 operator<<(ostream &os, const PointCoordinates &p)
 {
     p.checkValid();
-    int count= p.count();
+    countT count= p.count();
     int dimension= p.dimension();
     string comment= p.comment();
     if(comment.empty()){
@@ -283,7 +331,7 @@ operator<<(ostream &os, const PointCoordinates &p)
     }
     os << count << endl;
     Coordinates::ConstIterator c= p.beginCoordinates();
-    for(int i=0; i<count; i++){
+    for(countT i=0; i<count; i++){
         for(int j=0; j<dimension; j++){
             os << *c++ << " ";
         }

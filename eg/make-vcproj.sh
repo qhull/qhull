@@ -59,8 +59,8 @@ for f in buildvc/*.vcproj buildqt/qhulltest/*.vcproj; do
 	$f > $dest
 done
 
-echo -e '\nExcept for qhulltest.vcproj,\n*.vcproj: delete empty File in Files section near end of vcproj'
-echo -e '\nExcept for qhulltest.vcproj,\n*.vcproj: rename debug targets to qhull_d.dll, etc.'
+echo -e '\nExcept for qhulltest.vcproj,\n*.vcproj: [mar'14 none] delete empty File in Files section near end of vcproj'
+echo -e '\nExcept for qhulltest.vcproj,\n*.vcproj: [mar'14 where?] rename debug targets to qhull_d.dll, etc.'
 
 # If need to rebuild sln
 sed -e '\|Project.*ALL_BUILD|,\|EndProject$| d' \
@@ -69,11 +69,12 @@ sed -e '\|Project.*ALL_BUILD|,\|EndProject$| d' \
     buildvc/qhull.sln >build/qhull.sln
 
 echo
-echo 'qhull.sln: Remove first line of each GUID list -- postProject\n.* > postProject'
-echo 'qhull.sln: Remove four empty project sections'
-echo 'qhull.sln: Remove first part of Global section.'
+echo 'qhull.sln: Identify the GUID on the first line of each list.'
+echo 'qhull.sln: Remove first part of Global section down to this GUID'
+echo 'qhull.sln: Remove this GUID from each GUID list -- postProject\n.* > postProject'
+echo 'qhull.sln: Remove five empty project sections'
 echo 'qhull.sln: Save as PC'
-echo '*.vcproj: Remove libqhullcpp from AdditionalIncludeDirectories except for cpp'
+echo '\nExcept for libqhullcpp, libqhullpcpp, qhulltest, user_eg3\n*.vcproj: Remove "..\src\libqhullcpp;" from AdditionalIncludeDirectories'
 echo
 echo 'Open qhull.sln with DevStudio and add qhulltest.vcproj'
 echo 'Add dependencies on libqhull libqhull6_p and qhullcpp'

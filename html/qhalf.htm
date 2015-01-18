@@ -159,8 +159,8 @@ examples:
 or the '<a href=qh-optt.htm#TI>TI</a>' option (e.g., qhalf TI data.txt).
 
 <p>Qhull needs an interior point to compute the halfspace
-intersection. An interior point is inside all of the halfspaces <i>Hx+b
-&lt;= 0</i>. The interior point may be in the input.  If not, option
+intersection. An interior point is clearly inside all of the halfspaces.
+The interior point may be in the input.  If not, option
 'Hn,n' defines the interior point as
 [n,n,0,...] where <em>0</em> is the default coordinate (e.g.,
 'H0' is the origin).  Use linear programming if you do not know
@@ -171,9 +171,10 @@ the interior point (see <a href="#notes">halfspace notes</a>),</p>
 a linear inequality. The coefficients define a vector that is
 normal to the halfspace. The vector may have any length. If it
 has length one, the offset is the distance from the origin to the
-halfspace's boundary. </p>
+halfspace's boundary.  The distance from the interior point to each
+halfspace is negative.</p>
 
-<p>This is the same format used for output options '<a
+<p>The halfspace format is the same as Qhull's output options '<a
 href="qh-opto.htm#n">n</a>', '<a href="qh-optf.htm#Fo">Fo</a>',
 and '<a href="qh-optf.htm#Fi">Fi</a>'. Use option '<a
 href="qh-optf.htm#Fd">Fd</a>' to use cdd format for the

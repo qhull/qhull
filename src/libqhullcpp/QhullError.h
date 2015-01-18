@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (c) 2008-2012 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/QhullError.h#5 $$Change: 1490 $
-** $DateTime: 2012/02/19 20:27:01 $$Author: bbarber $
+** Copyright (c) 2008-2014 C.B. Barber. All rights reserved.
+** $Id: //main/2011/qhull/src/libqhullcpp/QhullError.h#11 $$Change: 1799 $
+** $DateTime: 2014/12/17 16:17:40 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -10,28 +10,30 @@
 #define QHULLERROR_H
 
 #include "RoadError.h"
+// No dependencies on libqhull
 
+#ifndef QHULL_ASSERT
+#define QHULL_ASSERT assert
 #include <assert.h>
-#include <stdexcept>
-#include <string>
+#endif
 
 namespace orgQhull {
 
-#//Types
+#//!\name Defined here
     //! QhullError -- std::exception class for Qhull
     class QhullError;
 
 class QhullError : public RoadError {
 
 public:
-#//Constants
+#//!\name Constants
     enum {
         QHULLfirstError= 10000, //MSG_QHULL_ERROR in Qhull's user.h
-        QHULLlastError= 10070,
+        QHULLlastError= 10076,
         NOthrow= 1 //! For flag to UsingLibQhull()
     };
 
-#//Constructors
+#//!\name Constructors
     // default constructors
     QhullError() : RoadError() {};
     QhullError(const QhullError &other) : RoadError(other) {}
@@ -50,14 +52,10 @@ public:
 
 };//class QhullError
 
-#ifndef QHULL_1
-    #define QHULL_ASSERT assert
-
-#endif
 
 }//namespace orgQhull
 
-#//Global functions
+#//!\name Global
 
 inline std::ostream &operator<<(std::ostream &os, const orgQhull::QhullError &e) { return os << e.what(); }
 

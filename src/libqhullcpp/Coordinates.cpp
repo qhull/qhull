@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2009-2014 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/Coordinates.cpp#5 $$Change: 1663 $
-** $DateTime: 2014/01/19 17:59:16 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullcpp/Coordinates.cpp#7 $$Change: 1712 $
+** $DateTime: 2014/03/30 22:34:33 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -25,9 +25,9 @@ namespace orgQhull {
 
 // Inefficient without result-value-optimization or implicitly shared object
 Coordinates Coordinates::
-mid(int idx, int length) const
+mid(countT idx, countT length) const
 {
-    int newLength= length;
+    countT newLength= length;
     if(length<0 || idx+length > count()){
         newLength= count()-idx;
     }
@@ -39,12 +39,12 @@ mid(int idx, int length) const
 }//mid
 
 coordT Coordinates::
-value(int idx, const coordT &defaultValue) const
+value(countT idx, const coordT &defaultValue) const
 {
     return ((idx < 0 || idx >= count()) ? defaultValue : (*this)[idx]);
 }//value
 
-#//Operator
+#//!\name GetSet
 
 Coordinates Coordinates::
 operator+(const Coordinates &other) const
@@ -69,7 +69,7 @@ operator+=(const Coordinates &other)
 #//Read-write
 
 coordT Coordinates::
-takeAt(int idx)
+takeAt(countT idx)
 {
     coordT c= at(idx);
     erase(begin()+idx);
@@ -85,7 +85,7 @@ takeLast()
 }//takeLast
 
 void Coordinates::
-swap(int idx, int other)
+swap(countT idx, countT other)
 {
     coordT c= at(idx);
     at(idx)= at(other);
@@ -101,19 +101,19 @@ contains(const coordT &t) const
     return i.findNext(t);
 }//contains
 
-int Coordinates::
+countT Coordinates::
 count(const coordT &t) const
 {
     CoordinatesIterator i(*this);
-    int result= 0;
+    countT result= 0;
     while(i.findNext(t)){
         ++result;
     }
     return result;
 }//count
 
-int Coordinates::
-indexOf(const coordT &t, int from) const
+countT Coordinates::
+indexOf(const coordT &t, countT from) const
 {
     if(from<0){
         from += count();
@@ -125,7 +125,7 @@ indexOf(const coordT &t, int from) const
         const_iterator i= begin()+from;
         while(i!=constEnd()){
             if(*i==t){
-                return (static_cast<int>(i-begin())); // WARN64 coordinate index
+                return (static_cast<countT>(i-begin())); // WARN64 coordinate index
             }
             ++i;
         }
@@ -133,8 +133,8 @@ indexOf(const coordT &t, int from) const
     return -1;
 }//indexOf
 
-int Coordinates::
-lastIndexOf(const coordT &t, int from) const
+countT Coordinates::
+lastIndexOf(const coordT &t, countT from) const
 {
     if(from<0){
         from += count();
@@ -145,7 +145,7 @@ lastIndexOf(const coordT &t, int from) const
         const_iterator i= begin()+from+1;
         while(i-- != constBegin()){
             if(*i==t){
-                return (static_cast<int>(i-begin())); // WARN64 coordinate index
+                return (static_cast<countT>(i-begin())); // WARN64 coordinate index
             }
         }
     }
@@ -163,7 +163,7 @@ removeAll(const coordT &t)
 
 }//namespace orgQhull
 
-#//Global functions
+#//!\name Global functions
 
 using std::endl;
 using std::istream;
@@ -176,7 +176,7 @@ ostream &
 operator<<(ostream &os, const Coordinates &cs)
 {
     Coordinates::const_iterator c= cs.begin();
-    for(int i=cs.count(); i--; ){
+    for(countT i=cs.count(); i--; ){
         os << *c++ << " ";
     }
     return os;

@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2014 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullpcpp/Qhull.cpp#1 $$Change: 1652 $
-** $DateTime: 2014/01/17 09:01:32 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullpcpp/Qhull.cpp#2 $$Change: 1710 $
+** $DateTime: 2014/03/28 22:23:20 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -55,7 +55,7 @@ Qhull()
 , feasiblePoint()
 , useOutputStream(false)
 {
-    initializeQhull();
+    allocateQhullQh();
 }//Qhull
 
 Qhull::
@@ -73,7 +73,7 @@ Qhull(const RboxPoints &rboxPoints, const char *qhullCommand2)
 , feasiblePoint()
 , useOutputStream(false)
 {
-    initializeQhull();
+    allocateQhullQh();
     runQhull(rboxPoints, qhullCommand2);
 }//Qhull rbox
 
@@ -92,7 +92,7 @@ Qhull(const char *rboxCommand2, int pointDimension, int pointCount, const realT 
 , feasiblePoint()
 , useOutputStream(false)
 {
-    initializeQhull();
+    allocateQhullQh();
     runQhull(rboxCommand2, pointDimension, pointCount, pointCoordinates, qhullCommand2);
 }//Qhull points
 
@@ -114,7 +114,7 @@ Qhull(const Qhull &other)
     if(other.initialized()){
         throw QhullError(10069, "Qhull error: can not use Qhull copy constructor if initialized() is true");
     }
-    initializeQhull();
+    allocateQhullQh();
 }//copy constructor
 
 Qhull & Qhull::
@@ -132,7 +132,7 @@ operator=(const Qhull &other)
 }//copy constructor
 
 void Qhull::
-initializeQhull()
+allocateQhullQh()
 {
     #if qh_QHpointer
         qhull_qh= new QhullQh;
@@ -147,7 +147,7 @@ initializeQhull()
     #endif
     qhmem.tempstack= 0;
     qhull_run_id= qhull_qh->run_id;
-}//initializeQhull
+}//allocateQhullQh
 
 Qhull::
 ~Qhull() throw()

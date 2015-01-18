@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2012 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullpcpp/UsingLibQhull.h#1 $$Change: 1652 $
-** $DateTime: 2014/01/17 09:01:32 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullpcpp/UsingLibQhull.h#2 $$Change: 1675 $
+** $DateTime: 2014/02/01 09:38:20 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -16,7 +16,7 @@ extern "C" {
 
 namespace orgQhull {
 
-#//Types
+#//!\name Types
     //! UsingLibQhull -- Interface into libqhull and its 'qh' and 'qhstat' macros
     //! Always use with setjmp() for libqhull error handling.
 
@@ -33,17 +33,17 @@ longjmp on exit.
     // Defined elsewhere
     class Qhull;
 
-#// Global variables
-extern Qhull           *s_qhull_output; //! Provide qh_fprintf (Qhull.cpp) access to Qhull
+#//!\name  Global variables
+extern Qhull *          s_qhull_output; //! Provide qh_fprintf (Qhull.cpp) access to Qhull
 
 class UsingLibQhull {
 
 private:
-#//Fields
-    Qhull              *my_qhull;
+#//!\name Fields
+    Qhull *             my_qhull;
     int                 qh_exitcode;
 
-#//Class globals
+#//!\name Class globals
     //! Global flags
     static bool         s_using_libqhull; //! True if UsingLibQhull is in scope
 
@@ -62,19 +62,19 @@ private:
     static int          s_vertex_dimension; //! Default dimension (e.g., if Vertex::dimension() >= 16)
 
 public:
-#//Class constants
+#//!\name Class constants
     static const int    NOqhRunId= 0;   //! qh_qh is not available
     static const int    NOthrow= 1;     //! Do not throw from maybeThrowQhullMessage
     static const int    FACTORepsilon= 10;  //!
     static const double DEFAULTdistanceEpsilon; //! ~DISTround*FACTORepsilon for unit cube
     static const double DEFAULTangleEpsilon;    //! ~ANGLEround*FACTORepsilon for unit cube
 
-#//Class members
+#//!\name Class members
     static void         checkQhullMemoryEmpty();
     static double       currentAngleEpsilon();
     static double       currentDistanceEpsilon();
     static const coordT *currentPoints(int *dimension, const coordT **pointsEnd);
-    static Qhull       &currentQhull();
+    static Qhull &      currentQhull();
     static int          currentVertexDimension();
     static double       globalAngleEpsilon() { return s_has_angle_epsilon ? s_angle_epsilon : currentAngleEpsilon(); }
     static double       globalDistanceEpsilon() { return s_has_distance_epsilon ? s_distance_epsilon : currentDistanceEpsilon(); }
@@ -94,25 +94,25 @@ public:
     static void         unsetGlobalVertexDimension() { s_has_vertex_dimension= false; }
     static void         unsetGlobals();
 
-#//Constructors
+#//!\name Constructors
                         UsingLibQhull(Qhull *p);
                         UsingLibQhull(Qhull *p, int noThrow);
                         UsingLibQhull(int qhRunId);
-                       ~UsingLibQhull();
+                        ~UsingLibQhull();
 
 private:                //! disable default constructor, copy constructor, and copy assignment
                         UsingLibQhull();
                         UsingLibQhull(const UsingLibQhull &);
-   UsingLibQhull       &operator=(const UsingLibQhull &);
+   UsingLibQhull &     operator=(const UsingLibQhull &);
 public:
 
-#//Methods
-#//Access
+#//!\name Methods
+#//!\name Access
     bool                defined() const { return my_qhull!=0; }
     void                maybeThrowQhullMessage(int exitCode) const;
     void                maybeThrowQhullMessage(int exitCode, int noThrow) const;
 
-#//Helpers
+#//!\name Helpers
 private:
    QhullError           checkRunId() const;
    void                 checkUsingLibQhull() const;

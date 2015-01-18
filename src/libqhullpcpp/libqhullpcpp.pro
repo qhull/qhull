@@ -65,6 +65,7 @@ HEADERS += ../libqhullpcpp/QhullSet.h
 HEADERS += ../libqhullpcpp/QhullSets.h
 HEADERS += ../libqhullpcpp/QhullStat.h
 HEADERS += ../libqhullpcpp/QhullVertex.h
+HEADERS += ../libqhullpcpp/QhullVertexSet.h
 HEADERS += ../libqhullpcpp/RboxPoints.h
 HEADERS += ../libqhullpcpp/RoadError.h
 HEADERS += ../libqhullpcpp/RoadLogEvent.h

@@ -251,6 +251,7 @@ void qh_errexit(int exitcode, facetT *facet, ridgeT *ridge) {
   }
   qh ERREXITcalled= False;
   qh NOerrexit= True;
+  qh->ALLOWrestart= False;  /* longjmp will undo qh_build_withrestart */
   longjmp(qh errexit, exitcode);
 } /* errexit */
 

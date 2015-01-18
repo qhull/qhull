@@ -7,10 +7,33 @@ After qmake, need to update HEADER paths for libqhull, libqhullr, libqhullcpp li
     Path="..\lib
     Path="..\..\src\lib
 
-Remove user_eg7,8,9
+countT everywhere, problem of strings
 
-Rename qhull_ra.h to qhull_ar.h
+Questions
+    Can construct pointSets, add a mid() function?
+    Does C++ auto create default iterator if another constructor already exists?
+    Change other to o?
+    
+OK
+    QhullQh
+    Coordinates
+    QhullPoint!
+    
+    
 
+create countT for int64 IDs
+change vertexId for 'int'
+
+Get rid of static
+    user.c qh_new_qhull
+    static boolT firstcall = True;
+
+    UsingLibQhull
+    lots
+
+    QhullQh
+    static boolT firstcall = True;
+    
 
 ---
 Convert qhulltest.cpp to libqhullcpp and branch old code
@@ -270,4 +293,19 @@ Statistics for: rbox "100000 t100 s" | qhull
   Number of hyperplanes created: 565761
   Number of distance tests for qhull: 4376829
   CPU seconds to compute hull (after input): 1.672
-  
+
+---------------------
+Fix cpp formating with */& associated with type and ~ at column 25
+
+ \~
+   ~
+
+{ *}  &
+ &\1 
+ 
+{ *}  \*\*
+ **\1    
+
+On *.h only in cpp files 
+{ *}  \*
+ *\1    

@@ -1,21 +1,23 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2014 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/QhullFacetSet.cpp#5 $$Change: 1464 $
-** $DateTime: 2012/01/25 22:58:41 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullcpp/QhullFacetSet.cpp#10 $$Change: 1800 $
+** $DateTime: 2014/12/17 21:46:45 $$Author: bbarber $
 **
 ****************************************************************************/
 
 #//! QhullFacetSet -- Qhull's linked facets, as a C++ class
 
-#include "QhullFacet.h"
 #include "QhullFacetSet.h"
+
+#include "QhullFacet.h"   // Before QhullFacetSet for base_type
 #include "QhullPoint.h"
 #include "QhullRidge.h"
 #include "QhullVertex.h"
 
-using std::string;
+#ifndef QHULL_NO_STL
 using std::vector;
+#endif
 
 #ifdef _MSC_VER  // Microsoft Visual C++ -- warning level 4
 #pragma warning( disable : 4611)  // interaction between '_setjmp' and C++ object destruction is non-portable
@@ -24,7 +26,7 @@ using std::vector;
 
 namespace orgQhull {
 
-#//Conversion
+#//!\name Conversions
 
 // See qt-qhull.cpp for QList conversions
 
@@ -44,7 +46,7 @@ toStdVector() const
 }//toStdVector
 #endif //QHULL_NO_STL
 
-#//Read-only
+#//!\name GetSet
 
 bool QhullFacetSet::
 contains(const QhullFacet &facet) const
@@ -95,18 +97,17 @@ count(const QhullFacet &facet) const
 
 }//namespace orgQhull
 
-#//Global functions
+#//!\name Global functions
 
 using std::endl;
 using std::ostream;
 using orgQhull::QhullFacet;
 using orgQhull::QhullFacetSet;
-using orgQhull::UsingLibQhull;
 
 ostream &
 operator<<(ostream &os, const QhullFacetSet &fs)
 {
-    os << fs.print(UsingLibQhull::NOqhRunId, "");
+    os << fs.print("");
     return os;
 }//<<QhullFacetSet
 
@@ -114,17 +115,18 @@ ostream &
 
 operator<<(ostream &os, const QhullFacetSet::PrintFacetSet &pr)
 {
+    os << pr.print_message;
     QhullFacetSet fs= *pr.facet_set;
     for(QhullFacetSet::iterator i=fs.begin(); i != fs.end(); ++i){
         QhullFacet f= *i;
         if(fs.isSelectAll() || f.isGood()){
-            os << f.print(pr.run_id);
+            os << f;
         }
     }
     return os;
 }//<< QhullFacetSet::PrintFacetSet
 
-//! Print facet identifiers to stream.  Space prefix.  From qh_printfacetheader [io.c]
+//! Print facet identifiers to stream.  Space prefix.  From qh_printfacetheader [io_r.c]
 ostream &
 operator<<(ostream &os, const QhullFacetSet::PrintIdentifiers &p)
 {

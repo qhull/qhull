@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2014 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullpcpp/RboxPoints.cpp#1 $$Change: 1652 $
-** $DateTime: 2014/01/17 09:01:32 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullpcpp/RboxPoints.cpp#2 $$Change: 1710 $
+** $DateTime: 2014/03/28 22:23:20 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -44,11 +44,13 @@ RboxPoints()
 
 RboxPoints::
 RboxPoints(const char *rboxCommand)
-: PointCoordinates("rbox")
+: PointCoordinates("rbox ")
 , rbox_new_count(0)
 , rbox_status(qh_ERRnone)
 , rbox_message()
 {
+    std::string s= comment() + rboxCommand;
+    setComment(s);
     appendPoints(rboxCommand);
 }
 
@@ -163,6 +165,10 @@ void qh_fprintf_rbox(FILE*, int msgcode, const char *fmt, ... ) {
 
     using namespace orgQhull;
 
+    if(!qh->rbox_output){
+        // No place to write an error message
+        qh_errexit_rbox(10072);
+    }
     RboxPoints *out= rbox_output;
     va_start(args, fmt);
     if(msgcode<MSG_OUTPUT){

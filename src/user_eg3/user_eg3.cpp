@@ -65,16 +65,16 @@ int main(int argc, char **argv) {
 
 int user_eg3(int argc, char **argv)
 {
-    bool printFacets= false;
+    bool printFacets= false;  // FIXUP not used
     if(strcmp(argv[1], "eg-100")==0){
-        RboxPoints rbox;
-        rbox.appendPoints("100");
-        Qhull qhull;
-        qhull.runQhull(rbox, "");
-        QhullFacetList facets= qhull.facetList();
+        RboxPoints rbox("100");
+        Qhull q(rbox, "");
+        QhullFacetList facets= q.facetList();
         cout << facets;
         return 0;
     }
+    return 0;
+#if 0
     RboxPoints rbox;
     Qhull qhull;
     int readingRbox= 0;
@@ -152,5 +152,6 @@ int user_eg3(int argc, char **argv)
         cout << "\nFacets created by Qhull::runQhull()\n" << facets;
     }
     return 0;
+#endif
 }//user_eg3
 

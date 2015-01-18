@@ -1,24 +1,24 @@
 /*<html><pre>  -<a                             href="qh-io.htm"
   >-------------------------------</a><a name="TOP">-</a>
 
-   io.c
+   io_r.c
    Input/Output routines of qhull application
 
-   see qh-io.htm and io.h
+   see qh-io.htm and io_r.h
 
-   see user.c for qh_errprint and qh_printfacetlist
+   see user_r.c for qh_errprint and qh_printfacetlist
 
-   unix.c calls qh_readpoints and qh_produce_output
+   unix_r.c calls qh_readpoints and qh_produce_output
 
-   unix.c and user.c are the only callers of io.c functions
-   This allows the user to avoid loading io.o from qhull.a
+   unix_r.c and user_r.c are the only callers of io_r.c functions
+   This allows the user to avoid loading io_r.o from qhull.a
 
    Copyright (c) 1993-2014 The Geometry Center.
-   $Id: //main/2011/qhull/src/libqhullr/io_r.c#4 $$Change: 1663 $
-   $DateTime: 2014/01/19 17:59:16 $$Author: bbarber $
+   $Id: //main/2011/qhull/src/libqhullr/io_r.c#6 $$Change: 1797 $
+   $DateTime: 2014/12/15 17:23:41 $$Author: bbarber $
 */
 
-#include "qhull_r.h"
+#include "qhull_ra.h"
 
 /*========= -functions in alphabetical order after qh_produce_output(qh)  =====*/
 
@@ -314,7 +314,7 @@ void qh_countfacets(qhT *qh, facetT *facetlist, setT *facets, boolT printall,
     qh.gm_matrix= simplex of points from centers relative to first center
 
   notes:
-    in io.c so that code for 'v Tv' can be removed by removing io.c
+    in io_r.c so that code for 'v Tv' can be removed by removing io_r.c
     returns pointer into qh.gm_matrix to avoid tracking of temporary memory
 
   design:
@@ -1956,9 +1956,9 @@ void qh_printfacet(qhT *qh, FILE *fp, facetT *facet) {
     print facet as part of a 2-d VECT for Geomview
 
     notes:
-      assume precise calculations in io.c with roundoff covered by qh_GEOMepsilon
-      mindist is calculated within io.c.  maxoutside is calculated elsewhere
-      so a DISTround error may have occured.
+      assume precise calculations in io_r.c with roundoff covered by qh_GEOMepsilon
+      mindist is calculated within io_r.c.  maxoutside is calculated elsewhere
+      so a DISTround error may have occurred.
 */
 void qh_printfacet2geom(qhT *qh, FILE *fp, facetT *facet, realT color[3]) {
   pointT *point0, *point1;
@@ -2144,9 +2144,9 @@ void qh_printfacet3geom_points(qhT *qh, FILE *fp, setT *points, facetT *facet, r
     may flip color
     uses facet->visitid for intersections and ridges
 
-    assume precise calculations in io.c with roundoff covered by qh_GEOMepsilon
+    assume precise calculations in io_r.c with roundoff covered by qh_GEOMepsilon
     innerplane may be off by qh->DISTround.  Maxoutside is calculated elsewhere
-    so a DISTround error may have occured.
+    so a DISTround error may have occurred.
 */
 void qh_printfacet3geom_simplicial(qhT *qh, FILE *fp, facetT *facet, realT color[3]) {
   setT *points, *vertices;
@@ -2895,7 +2895,7 @@ void qh_printpoint3(qhT *qh, FILE *fp, pointT *point) {
 
 /*----------------------------------------
 -printpoints- print pointids for a set of points starting at index
-   see geom.c
+   see geom_r.c
 */
 
 /*-<a                             href="qh-io.htm#TOC"
@@ -3112,7 +3112,7 @@ INST geom {define vsphere OFF\n\
 
 /*----------------------------------------------
 -printsummary-
-                see libqhull.c
+                see libqhull_r.c
 */
 
 /*-<a                             href="qh-io.htm#TOC"

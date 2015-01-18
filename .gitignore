@@ -1,6 +1,17 @@
 # git-ls-files --others --ignored
 # Lines that start with '#' are comments.
 
+# Working files 2015
+# Need to clean up bin/ and build/ for git
+bin/
+build/
+build-mar14/
+build-new/
+buildqt/
+buildvc/
+src/qhulltest/qhulltest-mini.pro
+src/qhulltest/RoadTest.h.cpp
+
 # Backup and data files
 eg/eg.*
 *~

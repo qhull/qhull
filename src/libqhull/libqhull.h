@@ -7,8 +7,8 @@
    see qh-qhull.htm, qhull_a.h
 
    Copyright (c) 1993-2014 The Geometry Center.
-   $Id: //main/2011/qhull/src/libqhull/libqhull.h#9 $$Change: 1651 $
-   $DateTime: 2014/01/17 08:13:57 $$Author: bbarber $
+   $Id: //main/2011/qhull/src/libqhull/libqhull.h#10 $$Change: 1708 $
+   $DateTime: 2014/03/26 19:13:56 $$Author: bbarber $
 
    NOTE: access to qh_qh is via the 'qh' macro.  This allows
    qh_qh to be either a pointer or a structure.  An example
@@ -463,6 +463,7 @@ struct qhT {
   int   GOODvertex;       /* 1+n, good facet if vertex for point n */
   pointT *GOODvertexp;     /*   the actual point */
   boolT HALFspace;        /* true 'Hn,n,n' if halfspace intersection */
+  boolT ISqhullQh;        /* Set by Qhull.cpp on initialization */
   int   IStracing;        /* trace execution, 0=none, 1=least, 4=most, -1=events */
   int   KEEParea;         /* 'PAn' number of largest facets to keep */
   boolT KEEPcoplanar;     /* true 'Qc' if keeping nearest facet for coplanar points */
@@ -589,7 +590,7 @@ struct qhT {
   realT ANGLEround;       /* max round off error for angles */
   realT centrum_radius;   /* max centrum radius for convexity (roundoff added) */
   realT cos_max;          /* max cosine for convexity (roundoff added) */
-  realT DISTround;        /* max round off error for distances, 'E' overrides */
+  realT DISTround;        /* max round off error for distances, 'E' overrides qh_distround() */
   realT MAXabs_coord;     /* max absolute coordinate */
   realT MAXlastcoord;     /* max last coordinate for qh_scalelast */
   realT MAXsumcoord;      /* max sum of coordinates */

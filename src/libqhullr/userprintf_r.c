@@ -1,18 +1,18 @@
 /*<html><pre>  -<a                             href="qh-user.htm"
   >-------------------------------</a><a name="TOP">-</a>
 
-   userprintf.c
+   userprintf_r.c
    qh_fprintf()
 
    see README.txt  see COPYING.txt for copyright information.
 
-   If you recompile and load this file, then userprintf.o will not be loaded
+   If you recompile and load this file, then userprintf_r.o will not be loaded
    from qhull.a or qhull.lib
 
-   See libqhull.h for data structures, macros, and user-callable functions.
-   See user.c for qhull-related, redefinable functions
-   see user.h for user-definable constants
-   See usermem.c for qh_exit(), qh_free(), and qh_malloc()
+   See libqhull_r.h for data structures, macros, and user-callable functions.
+   See user_r.c for qhull-related, redefinable functions
+   see user_r.h for user-definable constants
+   See usermem_r.c for qh_exit(), qh_free(), and qh_malloc()
    see Qhull.cpp and RboxPoints.cpp for examples.
 
    Please report any errors that you fix to qhull@qhull.org
@@ -29,7 +29,7 @@
 
    qh_fprintf(qh, fp, msgcode, format, list of args )
      print arguments to *fp according to format
-     Use qh_fprintf_rbox() for rboxlib.c
+     Use qh_fprintf_rbox() for rboxlib_r.c
 
    notes:
      same as fprintf()
@@ -46,7 +46,7 @@ void qh_fprintf(qhT *qh, FILE *fp, int msgcode, const char *fmt, ... ) {
             fprintf(stderr, "QH6241 qh_fprintf: fp and qh not defined for '%s'", fmt);
         else
             fprintf(qh->qhmem.ferr, "QH6232 qh_fprintf: fp is 0.  Was wrong qh_fprintf called for '%s'", fmt);
-        fprintf(qh->qhmem.ferr, "QH6232 Qhull internal error (userprintf.c): fp is 0.  Wrong qh_fprintf called.\n");
+        fprintf(qh->qhmem.ferr, "QH6232 Qhull internal error (userprintf_r.c): fp is 0.  Wrong qh_fprintf called.\n");
         qh_errexit(qh, 6232, NULL, NULL);
     }
     va_start(args, fmt);

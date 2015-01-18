@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2009-2014 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/qhulltest/QhullHyperplane_test.cpp#6 $$Change: 1490 $
-** $DateTime: 2012/02/19 20:27:01 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/qhulltest/QhullHyperplane_test.cpp#8 $$Change: 1709 $
+** $DateTime: 2014/03/26 22:27:14 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -396,7 +396,7 @@ t_io()
         ostringstream os;
         os << "Hyperplane:\n";
         os << h;
-        os << "Hyperplane w/ runId:\n";
+        os << "Hyperplane as print(), FIXUP drop?\n";
         os << h.print();
         os << h.print(" and a message ", " offset ");
         cout << os.str();

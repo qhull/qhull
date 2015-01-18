@@ -1,21 +1,21 @@
 /*<html><pre>  -<a                             href="qh-qhull.htm"
   >-------------------------------</a><a name="TOP">-</a>
 
-   libqhull.c
+   libqhull_r.c
    Quickhull algorithm for convex hulls
 
    qhull() and top-level routines
 
-   see qh-qhull.htm, libqhull.h, unix.c
+   see qh-qhull.htm, libqhull.h, unix_r.c
 
-   see qhull_r.h for internal functions
+   see qhull_ra.h for internal functions
 
    Copyright (c) 1993-2014 The Geometry Center.
-   $Id: //main/2011/qhull/src/libqhullr/libqhull_r.c#4 $$Change: 1663 $
-   $DateTime: 2014/01/19 17:59:16 $$Author: bbarber $
+   $Id: //main/2011/qhull/src/libqhullr/libqhull_r.c#8 $$Change: 1797 $
+   $DateTime: 2014/12/15 17:23:41 $$Author: bbarber $
 */
 
-#include "qhull_r.h"
+#include "qhull_ra.h"
 
 /*============= functions in alphabetic order after qhull() =======*/
 
@@ -283,8 +283,9 @@ boolT qh_addpoint(qhT *qh, pointT *furthest, facetT *facet, boolT checkdist) {
 
   qh_build_withrestart(qh)
     allow restarts due to qh.JOGGLEmax while calling qh_buildhull()
+       qh_errexit always undoes qh_build_withrestart()
     qh.FIRSTpoint/qh.NUMpoints is point array
-        it may be moved by qh_joggleinput(qh)
+       it may be moved by qh_joggleinput(qh)
 */
 void qh_build_withrestart(qhT *qh) {
   int restart;
@@ -1181,6 +1182,7 @@ void qh_precision(qhT *qh, const char *reason) {
   if (qh->ALLOWrestart && !qh->PREmerge && !qh->MERGEexact) {
     if (qh->JOGGLEmax < REALmax/2) {
       trace0((qh, qh->ferr, 26, "qh_precision: qhull restart because of %s\n", reason));
+      /* May be called repeatedly if qh->ALLOWrestart */
       longjmp(qh->restartexit, qh_ERRprec);
     }
   }
@@ -1193,7 +1195,7 @@ void qh_precision(qhT *qh, const char *reason) {
     prints summary to fp
 
   notes:
-    not in io.c so that user_eg.c can prevent io.c from loading
+    not in io_r.c so that user_eg.c can prevent io_r.c from loading
     qh_printsummary and qh_countfacets must match counts
 
   design:

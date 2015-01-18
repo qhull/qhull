@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2014 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/qhulltest/QhullVertex_test.cpp#6 $$Change: 1490 $
-** $DateTime: 2012/02/19 20:27:01 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/qhulltest/QhullVertex_test.cpp#8 $$Change: 1709 $
+** $DateTime: 2014/03/26 22:27:14 $$Author: bbarber $
 **
 ****************************************************************************/
 //pre-compiled headers
@@ -109,8 +109,8 @@ t_getSet()
         // test point()
         foreach (QhullVertex v, q.vertexList()){  // Qt only
             QhullPoint p= v.point();
-            int j= p.id(q.runId());
-            cout << "Point " << j << ":\n" << p.print(q.runId()) << endl;
+            int j= p.id();
+            cout << "Point " << j << ":\n" << p.print() << endl;
             QVERIFY(j>=0 && j<8);
         }
     }
@@ -144,9 +144,9 @@ t_io()
         os << v;
         QhullVertexSet vs= q.firstFacet().vertices();
         os << vs;
-        os << "Vertex and vertices w/ runId:\n";
-        os << v.print(q.runId());
-        os << vs.print(q.runId(), "vertices:");
+        os << "Vertex and vertices w/ FIXUP runId:\n";
+        os << v.print();
+        os << vs.print("vertices:");
         cout << os.str();
         QString s= QString::fromStdString(os.str());
         QCOMPARE(s.count("(v"), 10);
@@ -158,7 +158,7 @@ t_io()
         QhullVertex v= q.beginVertex();
         ostringstream os;
         os << "\nTry again with simplicial facets.  No neighboring facets listed for vertices.\n";
-        os << "Vertex and vertices w/o runId:\n";
+        os << "Vertex and vertices:\n";
         os << v;
         q.defineVertexNeighborFacets();
         os << "This time with neighborFacets() defined for all vertices:\n";
@@ -171,7 +171,7 @@ t_io()
         QhullVertex v2= q2.beginVertex();
         ostringstream os2;
         os2 << "\nTry again with Voronoi diagram of simplicial facets.  Neighboring facets automatically defined for vertices.\n";
-        os2 << "Vertex and vertices w/o runId:\n";
+        os2 << "Vertex and vertices:\n";
         os2 << v2;
         cout << os2.str();
         QString s2= QString::fromStdString(os2.str());

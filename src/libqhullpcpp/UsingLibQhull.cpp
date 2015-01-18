@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2014 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullpcpp/UsingLibQhull.cpp#1 $$Change: 1652 $
-** $DateTime: 2014/01/17 09:01:32 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullpcpp/UsingLibQhull.cpp#2 $$Change: 1711 $
+** $DateTime: 2014/03/30 12:48:17 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -201,6 +201,7 @@ checkQhullMemoryEmpty()
     }
 }//checkQhullMemoryEmpty
 
+//! Epsilon for distance to hyperplane angle equality
 double UsingLibQhull::
 currentAngleEpsilon()
 {
@@ -212,6 +213,7 @@ currentAngleEpsilon()
     return UsingLibQhull::DEFAULTangleEpsilon;
 }//currentAngleEpsilon
 
+//! Epsilon for distance to hyperplane
 double UsingLibQhull::
 currentDistanceEpsilon()
 {

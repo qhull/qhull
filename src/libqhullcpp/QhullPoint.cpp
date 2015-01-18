@@ -1,13 +1,14 @@
 /****************************************************************************
 **
 ** Copyright (c) 2009-2014 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/QhullPoint.cpp#4 $$Change: 1464 $
-** $DateTime: 2012/01/25 22:58:41 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullcpp/QhullPoint.cpp#12 $$Change: 1799 $
+** $DateTime: 2014/12/17 16:17:40 $$Author: bbarber $
 **
 ****************************************************************************/
 
-#include "UsingLibQhull.h"
 #include "QhullPoint.h"
+#include "QhullError.h"
+#include "Qhull.h"
 
 #include <iostream>
 #include <algorithm>
@@ -17,34 +18,42 @@
 
 namespace orgQhull {
 
-#//Class public variables and methods
+#//!\name Constructors
 
-//! If qhRundID undefined uses QhullPoint::s_points_begin and dimension
-int QhullPoint::
-id(int qhRunId, int dimension, const coordT *c)
+
+QhullPoint::
+QhullPoint(const Qhull &q) 
+: point_coordinates(0)
+, qh_qh(q.qh())
+, point_dimension(q.hullDimension())
 {
-    QHULL_UNUSED(dimension);
+}//QhullPoint
 
-    if(UsingLibQhull::hasPoints()){
-        if(qhRunId==UsingLibQhull::NOqhRunId){
-            const coordT *pointsEnd;
-            int dim;
-            const coordT *points= UsingLibQhull::globalPoints(&dim, &pointsEnd);
-            if(c>=points && c<pointsEnd){
-                int offset= (int)(c-points); // WARN64
-                return offset/dim;
-            }
-        }else{
-            UsingLibQhull q(qhRunId);
-            // NOerrors from qh_pointid or qh_setindex
-            return qh_pointid(const_cast<coordT *>(c));
-        }
-    }
-    long long i=(long long)c;
-    return (int)i; // WARN64
-}//id
+QhullPoint::
+QhullPoint(const Qhull &q, coordT *c) 
+: point_coordinates(c)
+, qh_qh(q.qh())
+, point_dimension(q.hullDimension())
+{
+}//QhullPoint dim, coordT
 
-#//Conversion
+QhullPoint::
+QhullPoint(const Qhull &q, int pointDimension, coordT *c) 
+: point_coordinates(c)
+, qh_qh(q.qh())
+, point_dimension(pointDimension)
+{
+}//QhullPoint dim, coordT
+
+QhullPoint::
+QhullPoint(const Qhull &q, Coordinates &c) 
+: point_coordinates(c.data())
+, qh_qh(q.qh())
+, point_dimension(c.count())
+{
+}//QhullPoint Coordinates
+
+#//!\name Conversions
 
 // See qt-qhull.cpp for QList conversion
 
@@ -61,8 +70,10 @@ toStdVector() const
 }//toStdVector
 #endif //QHULL_NO_STL
 
-#//Operator
+#//!\name GetSet
 
+//! QhullPoint is equal if it has the same address and dimension, or if the distance between the points is less than sqrt(qh_qh->distanceEpsilon())
+//! Uses sqrt() since distanceEpsilon is the roundoff for distance to hyperplane, i.e., the inner product
 bool QhullPoint::
 operator==(const QhullPoint &other) const
 {
@@ -74,27 +85,32 @@ operator==(const QhullPoint &other) const
     if(c==c2){
         return true;
     }
+    if(!c || !c2 || !qh_qh){
+        return false;
+    }
     double dist2= 0.0;
     for(int k= point_dimension; k--; ){
         double diff= *c++ - *c2++;
         dist2 += diff*diff;
     }
-    double epsilon= UsingLibQhull::globalDistanceEpsilon();
-    // std::cout << "DEBUG dist2 " << dist2 << " epsilon^2 " << epsilon*epsilon << std::endl;
-    return (dist2<=(epsilon*epsilon));
+    return (dist2 < qh_qh->distanceEpsilon()); // dist2 is distance()^2
 }//operator==
 
+#//!\name Methods
 
-#//Value
-
-//! Return distance betweeen two points.
+//! Return distance between two points.
 double QhullPoint::
 distance(const QhullPoint &p) const
 {
-    const coordT *c= coordinates();
-    const coordT *c2= p.coordinates();
-    int dim= dimension();
-    QHULL_ASSERT(dim==p.dimension());
+    const coordT *c= point_coordinates;
+    const coordT *c2= p.point_coordinates;
+    int dim= point_dimension;
+    if(dim!=p.point_dimension){
+        throw QhullError(10075, "QhullPoint error: Expecting dimension %d for distance().  Got %d", dim, p.point_dimension);
+    }
+    if(!c || !c2){
+        throw QhullError(10076, "QhullPoint error: Cannot compute distance() for undefined point");
+    }
     double dist;
 
     switch(dim){
@@ -133,27 +149,17 @@ distance(const QhullPoint &p) const
 
 }//namespace orgQhull
 
-#//Global functions
+#//!\name Global functions
 
 using std::ostream;
 using orgQhull::QhullPoint;
-using orgQhull::UsingLibQhull;
-
-#//operator<<
-
-ostream &
-operator<<(ostream &os, const QhullPoint &p)
-{
-    os << p.printWithIdentifier(UsingLibQhull::NOqhRunId, "");
-    return os;
-}
 
 //! Same as qh_printpointid [io.c]
 ostream &
 operator<<(ostream &os, const QhullPoint::PrintPoint &pr)
 {
     QhullPoint p= *pr.point; 
-    int i= p.id(pr.run_id);
+    countT i= p.id();
     if(pr.point_message){
         if(*pr.point_message){
             os << pr.point_message << " ";
@@ -175,3 +181,9 @@ operator<<(ostream &os, const QhullPoint::PrintPoint &pr)
     return os;
 }//printPoint
 
+ostream & 
+operator<<(ostream &os, const QhullPoint &p)
+{
+    os << p.print(""); 
+    return os;
+}//operator<<

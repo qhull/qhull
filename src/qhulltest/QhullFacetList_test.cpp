@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2014 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/qhulltest/QhullFacetList_test.cpp#4 $$Change: 1490 $
-** $DateTime: 2012/02/19 20:27:01 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/qhulltest/QhullFacetList_test.cpp#6 $$Change: 1709 $
+** $DateTime: 2014/03/26 22:27:14 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -86,9 +86,9 @@ t_convert()
     QCOMPARE(fv.size(), 3u);
     QList<QhullFacet> fv2= fs2.toQList();
     QCOMPARE(fv2.size(), 3);
-    std::vector<QhullVertex> fv5= fs2.vertices_toStdVector(q.runId());
+    std::vector<QhullVertex> fv5= fs2.vertices_toStdVector();
     QCOMPARE(fv5.size(), 7u);
-    QList<QhullVertex> fv6= fs2.vertices_toQList(q.runId());
+    QList<QhullVertex> fv6= fs2.vertices_toQList();
     QCOMPARE(fv6.size(), 7);
     fs2.selectAll();
     QVERIFY(fs2.isSelectAll());
@@ -96,9 +96,9 @@ t_convert()
     QCOMPARE(fv3.size(), 6u);
     QList<QhullFacet> fv4= fs2.toQList();
     QCOMPARE(fv4.size(), 6);
-    std::vector<QhullVertex> fv7= fs2.vertices_toStdVector(q.runId());
+    std::vector<QhullVertex> fv7= fs2.vertices_toStdVector();
     QCOMPARE(fv7.size(), 8u);
-    QList<QhullVertex> fv8= fs2.vertices_toQList(q.runId());
+    QList<QhullVertex> fv8= fs2.vertices_toQList();
     QCOMPARE(fv8.size(), 8);
 }//t_convert
 
@@ -158,8 +158,9 @@ t_io()
         Qhull q(rcube,"QR0 QV0");   // good facets are adjacent to point 0
         QhullFacetList fs= q.facetList();
         ostringstream os;
-        os << fs.print(q.runId()); // Runs all print options
-        os << "\nFacets only\n" << fs; // printVertices() requires a runId
+        os << fs.print(); // Runs all print options
+        os << "\nFacets only\n" << fs; 
+        os << "\nVertices\n" << fs.printVertices()
         cout << os.str();
         QString facets= QString::fromStdString(os.str());
         QCOMPARE(facets.count("(v"), 7+12*3*2);

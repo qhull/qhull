@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (c) 2008-2012 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/QhullFacetList.h#3 $$Change: 1464 $
-** $DateTime: 2012/01/25 22:58:41 $$Author: bbarber $
+** Copyright (c) 2008-2014 C.B. Barber. All rights reserved.
+** $Id: //main/2011/qhull/src/libqhullcpp/QhullFacetList.h#9 $$Change: 1797 $
+** $DateTime: 2014/12/15 17:23:41 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -14,85 +14,87 @@
 
 #include <ostream>
 
+#ifndef QHULL_NO_STL
+#include <vector>
+#endif
+
 namespace orgQhull {
 
-#//ClassRef
-    class               QhullFacet;
+#//!\name Used here
+    class Qhull;
+    class QhullFacet;
+    class QhullQh;
 
-#//Types
+#//!\name Defined here
     //! QhullFacetList -- List of Qhull facets, as a C++ class.  See QhullFacetSet.h
-    class               QhullFacetList;
+    class QhullFacetList;
     //! QhullFacetListIterator -- if(f.isGood()){ ... }
-    typedef QhullLinkedListIterator<QhullFacet>
-                        QhullFacetListIterator;
+    typedef QhullLinkedListIterator<QhullFacet> QhullFacetListIterator;
 
 class QhullFacetList : public QhullLinkedList<QhullFacet> {
 
-#// Fields
+#//!\name  Fields
 private:
     bool                select_all;   //! True if include bad facets.  Default is false.
 
-#//Constructors
+#//!\name Constructors
 public:
+                        QhullFacetList(const Qhull &q, facetT *b, facetT *e);
+                        QhullFacetList(QhullQh *qh, facetT *b, facetT *e);
                         QhullFacetList(QhullFacet b, QhullFacet e) : QhullLinkedList<QhullFacet>(b, e), select_all(false) {}
                         //Copy constructor copies pointer but not contents.  Needed for return by value and parameter passing.
-                        QhullFacetList(const QhullFacetList &o) : QhullLinkedList<QhullFacet>(*o.begin(), *o.end()), select_all(o.select_all) {}
-                       ~QhullFacetList() {}
+                        QhullFacetList(const QhullFacetList &other) : QhullLinkedList<QhullFacet>(*other.begin(), *other.end()), select_all(other.select_all) {}
+    QhullFacetList &    operator=(const QhullFacetList &other) { QhullLinkedList<QhullFacet>::operator =(other); select_all= other.select_all; }
+                        ~QhullFacetList() {}
 
-private:
-                        //!Disable default constructor and copy assignment.  See QhullLinkedList
+private:                //!Disable default constructor.  See QhullLinkedList
                         QhullFacetList();
-    QhullFacetList     &operator=(const QhullFacetList &);
 public:
 
-#//Conversion
+#//!\name Conversion
 #ifndef QHULL_NO_STL
     std::vector<QhullFacet> toStdVector() const;
-    std::vector<QhullVertex> vertices_toStdVector(int qhRunId) const;
+    std::vector<QhullVertex> vertices_toStdVector() const;
 #endif //QHULL_NO_STL
 #ifdef QHULL_USES_QT
     QList<QhullFacet>   toQList() const;
-    QList<QhullVertex>  vertices_toQList(int qhRunId) const;
+    QList<QhullVertex>  vertices_toQList() const;
 #endif //QHULL_USES_QT
 
-#//GetSet
+#//!\name GetSet
+                        //! Filtered by facet.isGood().  May be 0 when !isEmpty().
+    countT              count() const;
+    bool                contains(const QhullFacet &f) const;
+    countT              count(const QhullFacet &f) const;
     bool                isSelectAll() const { return select_all; }
+    QhullQh *           qh() const { return first().qh(); }
     void                selectAll() { select_all= true; }
     void                selectGood() { select_all= false; }
+                        //!< operator==() does not depend on isGood()
 
-#//Read-only
-                        //! Filtered by facet.isGood().  May be 0 when !isEmpty().
-    int                 count() const;
-    bool                contains(const QhullFacet &f) const;
-    int                 count(const QhullFacet &f) const;
-                        //! operator==() does not depend on isGood()
-
-#//IO
+#//!\name IO
     struct PrintFacetList{
         const QhullFacetList *facet_list;
-        int             run_id;
-                        PrintFacetList(int qhRunId, const QhullFacetList &fl) : facet_list(&fl), run_id(qhRunId) {}
+                        PrintFacetList(const QhullFacetList &fl) : facet_list(&fl) {}
     };//PrintFacetList
-    PrintFacetList     print(int qhRunId) const  { return PrintFacetList(qhRunId, *this); }
+    PrintFacetList      print() const  { return PrintFacetList(*this); }
 
     struct PrintFacets{
         const QhullFacetList *facet_list;
-        int             run_id;
-                        PrintFacets(int qhRunId, const QhullFacetList &fl) : facet_list(&fl), run_id(qhRunId) {}
+                        PrintFacets(const QhullFacetList &fl) : facet_list(&fl) {}
     };//PrintFacets
-    PrintFacets     printFacets(int qhRunId) const { return PrintFacets(qhRunId, *this); }
+    PrintFacets         printFacets() const { return PrintFacets(*this); }
 
     struct PrintVertices{
         const QhullFacetList *facet_list;
-        int             run_id;   //! Can not be NOrunId due to qh_facetvertices
-                        PrintVertices(int qhRunId, const QhullFacetList &fl) : facet_list(&fl), run_id(qhRunId) {}
+                        PrintVertices(const QhullFacetList &fl) : facet_list(&fl) {}
     };//PrintVertices
-    PrintVertices   printVertices(int qhRunId) const { return PrintVertices(qhRunId, *this); }
+    PrintVertices       printVertices() const { return PrintVertices(*this); }
 };//class QhullFacetList
 
 }//namespace orgQhull
 
-#//== Global namespace =========================================
+#//!\name == Global namespace =========================================
 
 std::ostream &operator<<(std::ostream &os, const orgQhull::QhullFacetList::PrintFacetList &p);
 std::ostream &operator<<(std::ostream &os, const orgQhull::QhullFacetList::PrintFacets &p);

@@ -2,19 +2,19 @@
   >-------------------------------</a><a name="TOP">-</a>
 
 
-   geom2.c
+   geom2_r.c
    infrequently used geometric routines of qhull
 
-   see qh-geom.htm and geom.h
+   see qh-geom.htm and geom_r.h
 
    Copyright (c) 1993-2014 The Geometry Center.
-   $Id: //main/2011/qhull/src/libqhullr/geom2_r.c#4 $$Change: 1663 $
-   $DateTime: 2014/01/19 17:59:16 $$Author: bbarber $
+   $Id: //main/2011/qhull/src/libqhullr/geom2_r.c#6 $$Change: 1797 $
+   $DateTime: 2014/12/15 17:23:41 $$Author: bbarber $
 
-   frequently used code goes into geom.c
+   frequently used code goes into geom_r.c
 */
 
-#include "qhull_r.h"
+#include "qhull_ra.h"
 
 /*================== functions in alphabetic order ============*/
 
@@ -341,7 +341,7 @@ realT qh_detsimplex(qhT *qh, pointT *apex, setT *points, int dim, boolT *nearzer
     dist > 0 if point is outside of hyperplane
 
   see:
-    qh_distplane in geom.c
+    qh_distplane in geom_r.c
 */
 realT qh_distnorm(qhT *qh, int dim, pointT *point, pointT *normal, realT *offsetp) {
   coordT *normalp= normal, *coordp= point;

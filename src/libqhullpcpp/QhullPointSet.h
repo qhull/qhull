@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2009-2012 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullpcpp/QhullPointSet.h#1 $$Change: 1652 $
-** $DateTime: 2014/01/17 09:01:32 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullpcpp/QhullPointSet.h#2 $$Change: 1675 $
+** $DateTime: 2014/02/01 09:38:20 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -19,26 +19,26 @@ extern "C" {
 
 namespace orgQhull {
 
-#//Types
+#//!\name Types
     //! QhullPointSet -- a set of coordinate pointers with dimension
     // with const_iterator and iterator
-    class               QhullPointSet;
+    class QhullPointSet;
     //! Java-style iterator
     class QhullPointsIterator;
 
-#//Classref
-    class               QhullPoint;
+#//!\name Classref
+    class QhullPoint;
 
 class QhullPointSet : public QhullSet<coordT *> {
 
 private:
-#//Field
+#//!\name Fields
     int                 point_dimension;
 
 public:
-#//Subtypes and types
-    class               const_iterator;
-    class               iterator;
+#//!\name Subtypes and types
+    class const_iterator;
+    class iterator;
     typedef QhullPointSet::const_iterator ConstIterator;
     typedef QhullPointSet::iterator Iterator;
 
@@ -50,20 +50,20 @@ public:
     //typedef value_type *pointer;
     //typedef value_type &reference;
 
-#//Construct
+#//!\name Construct
                         //Conversion from setT* is not type-safe.  Implicit conversion for void* to T
                         QhullPointSet(int pointDimension, setT *s) : QhullSet<coordT *>(s), point_dimension(pointDimension) {}
                         //Copy constructor copies pointer but not contents.  Needed for return by value and parameter passing.
                         QhullPointSet(const QhullPointSet &o) : QhullSet<coordT *>(o), point_dimension(o.point_dimension) {}
-                       ~QhullPointSet() {}
+                        ~QhullPointSet() {}
 
 //Default constructor and copy assignment disabled since p= p2 is ambiguous (coord* vs coord)
 private:
                         QhullPointSet();
-    QhullPointSet      &operator=(const QhullPointSet &);
+    QhullPointSet &     operator=(const QhullPointSet &);
 public:
 
-#//Conversions
+#//!\name Conversions
     // inherited -- constData, data
 #ifndef QHULL_NO_STL
     std::vector<QhullPoint> toStdVector() const;
@@ -72,14 +72,15 @@ public:
     QList<QhullPoint>   toQList() const;
 #endif
 
-#//Read-only
+#//!\name Read-only
     //inherits count, empty, isEmpty, size
     using QhullSetBase::count;
     int                 dimension() const { return point_dimension; }
     bool                operator==(const QhullPointSet &o) const;
     bool                operator!=(const QhullPointSet &o) const { return !operator==(o); }
 
-#//Element access -- can not return references since QhullPoint must be generated
+#//!\name Element access
+    //! Can not return references since QhullPoint must be generated
     QhullPoint          at(int idx) const { return operator[](idx); }
     QhullPoint          back() const { return last(); }
     //! end element is NULL
@@ -93,7 +94,7 @@ public:
     // Non-const since copy is an alias
     QhullPoint          value(int idx, QhullPoint &defaultValue) const;
 
-#//iterator
+#//!\name iterator
     iterator            begin() { return iterator(dimension(), reinterpret_cast<coordT **>(beginPointer())); }
     const_iterator      begin() const { return const_iterator(dimension(), reinterpret_cast<coordT **>(beginPointer())); }
     const_iterator      constBegin() const { return const_iterator(dimension(), reinterpret_cast<coordT **>(beginPointer())); }
@@ -103,7 +104,7 @@ public:
 
 //Read-write -- Not available, no setT constructor
 
-#//Search
+#//!\name Search
     bool                contains(const QhullPoint &t) const;
     int                 count(const QhullPoint &t) const;
     int                 indexOf(const QhullPoint &t) const;
@@ -111,10 +112,10 @@ public:
 
     // before const_iterator for conversion with comparison operators
     class iterator {
-        friend class    const_iterator;
+        friend class const_iterator;
 
     private:
-        coordT        **i;
+        coordT **       i;
         int             point_dimension;
 
     public:
@@ -127,7 +128,7 @@ public:
                         iterator() : i(0), point_dimension(0) {}
                         iterator(int dimension, coordT **c) : i(c), point_dimension(dimension) {}
                         iterator(const iterator &o) : i(o.i), point_dimension(o.point_dimension) {}
-        iterator       &operator=(const iterator &o) { i= o.i; point_dimension= o.point_dimension; return *this; }
+        iterator &      operator=(const iterator &o) { i= o.i; point_dimension= o.point_dimension; return *this; }
 
         QhullPoint      operator*() const { return QhullPoint(point_dimension, *i); }
                       //operator->() n/a, value-type
@@ -151,19 +152,19 @@ public:
         { return i < reinterpret_cast<const iterator &>(o).i; }
         bool            operator>=(const const_iterator &o) const { return !operator<(o); }
 
-        iterator       &operator++() { ++i; return *this; }
+        iterator &      operator++() { ++i; return *this; }
         iterator        operator++(int) { iterator o= *this; ++i; return o; }
-        iterator       &operator--() { --i; return *this; }
+        iterator &      operator--() { --i; return *this; }
         iterator        operator--(int) { iterator o= *this; --i; return o; }
         iterator        operator+(int j) const { return iterator(point_dimension, i+j); }
         iterator        operator-(int j) const { return operator+(-j); }
-        iterator       &operator+=(int j) { i += j; return *this; }
-        iterator       &operator-=(int j) { i -= j; return *this; }
+        iterator &      operator+=(int j) { i += j; return *this; }
+        iterator &      operator-=(int j) { i -= j; return *this; }
     };//QhullPointSet::iterator
 
     class const_iterator {
     private:
-        coordT        **i;
+        coordT **       i;
         int             point_dimension;
 
     public:
@@ -202,10 +203,10 @@ public:
         const_iterator &operator-=(int j) { i -= j; return *this; }
     };//QhullPointSet::const_iterator
 
-#//IO
+#//!\name IO
     struct PrintIdentifiers{
         const QhullPointSet *point_set;
-        const char     *print_message;
+        const char *    print_message;
         int             run_id;
         PrintIdentifiers(const char *message, const QhullPointSet *s) : point_set(s), print_message(message) {}
     };//PrintIdentifiers
@@ -213,7 +214,7 @@ public:
 
     struct PrintPointSet{
         const QhullPointSet *point_set;
-        const char     *print_message;
+        const char *    print_message;
         int             run_id;
         PrintPointSet(int qhRunId, const char *message, const QhullPointSet &s) : point_set(&s), print_message(message), run_id(qhRunId) {}
     };//PrintPointSet
@@ -245,7 +246,7 @@ public:
 
 }//namespace orgQhull
 
-#//Global functions
+#//!\name Global
 
 std::ostream &operator<<(std::ostream &os, const orgQhull::QhullPointSet &fs); // Not inline to avoid using statement
 std::ostream &operator<<(std::ostream &os, const orgQhull::QhullPointSet::PrintIdentifiers &pr);

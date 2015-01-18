@@ -1,19 +1,19 @@
 /*<html><pre>  -<a                             href="qh-poly.htm"
   >-------------------------------</a><a name="TOP">-</a>
 
-   poly2.c
-   implements polygons and simplices
+   poly2_r.c
+   implements polygons and simplicies
 
-   see qh-poly.htm, poly.h and libqhull.h
+   see qh-poly.htm, poly_r.h and libqhull_r.h
 
-   frequently used code is in poly.c
+   frequently used code is in poly_r.c
 
    Copyright (c) 1993-2014 The Geometry Center.
-   $Id: //main/2011/qhull/src/libqhullr/poly2_r.c#4 $$Change: 1663 $
-   $DateTime: 2014/01/19 17:59:16 $$Author: bbarber $
+   $Id: //main/2011/qhull/src/libqhullr/poly2_r.c#7 $$Change: 1797 $
+   $DateTime: 2014/12/15 17:23:41 $$Author: bbarber $
 */
 
-#include "qhull_r.h"
+#include "qhull_ra.h"
 
 /*======== functions in alphabetical order ==========*/
 
@@ -541,7 +541,7 @@ void qh_checkconvex(qhT *qh, facetT *facetlist, int fault) {
 
   qh_checkfacet(qh, facet, newmerge, waserror )
     checks for consistency errors in facet
-    newmerge set if from merge.c
+    newmerge set if from merge_r.c
 
   returns:
     sets waserror if any error occurs
@@ -1069,7 +1069,7 @@ void qh_createsimplex(qhT *qh, setT *vertices) {
     frees up its memory
 
   notes:
-    in merge.c, caller sets vertex->delridge for each vertex
+    in merge_r.c, caller sets vertex->delridge for each vertex
     ridges also freed in qh_freeqhull
 */
 void qh_delridge(qhT *qh, ridgeT *ridge) {
@@ -1183,7 +1183,7 @@ setT *qh_facet3vertex(qhT *qh, facetT *facet) {
     uses qh.visit_id and qh.coplanarset
 
   see:
-    <a href="geom.c#findbest">qh_findbest</a>
+    <a href="geom_r.c#findbest">qh_findbest</a>
 */
 facetT *qh_findbestfacet(qhT *qh, pointT *point, boolT bestoutside,
            realT *bestdist, boolT *isoutside) {
@@ -2283,7 +2283,6 @@ may have the same identifier.  Vertices will not be sorted correctly.\n", 0xFFFF
     qh->tracevertex= vertex;
   vertex->id= qh->vertex_id++;
   vertex->point= point;
-  vertex->dim= (unsigned char)(qh->hull_dim <= MAX_vdim ? qh->hull_dim : 0);
   trace4((qh, qh->ferr, 4060, "qh_newvertex: vertex p%d(v%d) created\n", qh_pointid(qh, vertex->point),
           vertex->id));
   return(vertex);
@@ -2545,7 +2544,7 @@ void qh_prependfacet(qhT *qh, facetT *facet, facetT **facetlist) {
     print hash table to fp
 
   notes:
-    not in I/O to avoid bringing io.c in
+    not in I/O to avoid bringing io_r.c in
 
   design:
     for each hash entry

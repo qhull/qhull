@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (c) 2008-2012 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/QhullIterator.h#6 $$Change: 1464 $
-** $DateTime: 2012/01/25 22:58:41 $$Author: bbarber $
+** Copyright (c) 2008-2014 C.B. Barber. All rights reserved.
+** $Id: //main/2011/qhull/src/libqhullcpp/QhullIterator.h#9 $$Change: 1797 $
+** $DateTime: 2014/12/15 17:23:41 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -10,7 +10,7 @@
 #define QHULLITERATOR_H
 
 extern "C" {
-    #include "libqhull/qhull_r.h"
+    #include "libqhullr/qhull_ra.h"
 }
 
 #include <assert.h>
@@ -21,12 +21,12 @@ namespace std { struct bidirectional_iterator_tag; struct random_access_iterator
 
 namespace orgQhull {
 
-#//Defined here
+#//!\name Defined here
     //! QHULL_DECLARE_SEQUENTIAL_ITERATOR(C) -- Declare a Java-style iterator
     //! QHULL_DECLARE_MUTABLE_SEQUENTIAL_ITERATOR(C) -- Declare a mutable Java-style iterator
     //! QHULL_DECLARE_SET_ITERATOR(C) -- Declare a set iterator
     //! QHULL_DECLARE_MUTABLE_SET_ITERATOR(C) -- Declare a mutable set iterator
-    //! Derived from Qt/core/tools/qiterator.h and qset.h/FOREACHsetelement_()
+    //! Derived from Qt/core/tools/qiterator.h and qset_r.h/FOREACHsetelement_()
 
 // Changed c to C* as in Mutable...  Assumes c does not go away.
 #define QHULL_DECLARE_SEQUENTIAL_ITERATOR(C, T) \

@@ -1,5 +1,6 @@
 # -------------------------------------------------
 # qhulltest.pro -- Qt project for qhulltest.exe (QTestLib)
+# cd $qh/build/qhulltest && qmake -tp vc -r ../../src/qhulltest/qhulltest.pro
 # -------------------------------------------------
 
 include(../qhull-app-cpp.pri)
@@ -29,6 +30,5 @@ SOURCES += qhulltest.cpp
 SOURCES += QhullVertex_test.cpp
 SOURCES += RboxPoints_test.cpp
 SOURCES += RoadTest.cpp
-SOURCES += UsingLibQhull_test.cpp
 
 HEADERS += RoadTest.h

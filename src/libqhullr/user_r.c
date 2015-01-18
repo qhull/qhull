@@ -4,17 +4,17 @@
    user.c
    user redefinable functions
 
-   see user2.c for qh_fprintf, qh_malloc, qh_free
+   see user2_r.c for qh_fprintf, qh_malloc, qh_free
 
    see README.txt  see COPYING.txt for copyright information.
 
-   see libqhull.h for data structures, macros, and user-callable functions.
+   see libqhull_r.h for data structures, macros, and user-callable functions.
 
-   see user_eg.c, unix.c, and qhull_interface.cpp for examples.
+   see user_eg_r.c, unix_r.c, and qhull_interface.cpp for examples.
 
    see user.h for user-definable constants
 
-      use qh_NOmem in mem.h to turn off memory management
+      use qh_NOmem in mem_r.h to turn off memory management
       use qh_NOmerge in user.h to turn off facet merging
       set qh_KEEPstatistics in user.h to 0 to turn off statistics
 
@@ -35,12 +35,12 @@
    you can add additional quick allocation sizes in qh_user_memsizes
 
    if the other functions here are redefined to not use qh_print...,
-   then io.o will not be loaded from qhull.a.  See user_eg.c for an
+   then io.o will not be loaded from qhull.a.  See user_eg_r.c for an
    example.  We recommend keeping io.o for the extra debugging
    information it supplies.
 */
 
-#include "qhull_r.h"
+#include "qhull_ra.h"
 
 #include <stdarg.h>
 
@@ -52,7 +52,7 @@
     remove #if 0, #endif to compile
 
   returns:
-    exit code(see qh_ERR... in libqhull.h)
+    exit code(see qh_ERR... in libqhull_r.h)
     all memory freed
 
   notes:
@@ -175,7 +175,7 @@ int qh_new_qhull(qhT *qh, int dim, int numpoints, coordT *points, boolT ismalloc
     set qh.FORCEoutput to print neighborhood of facet
 
   see:
-    qh_errexit2() in libqhull.c for printing 2 facets
+    qh_errexit2() in libqhull_r.c for printing 2 facets
 
   design:
     check for error within error processing
@@ -236,6 +236,7 @@ void qh_errexit(qhT *qh, int exitcode, facetT *facet, ridgeT *ridge) {
   }
   qh->ERREXITcalled= False;
   qh->NOerrexit= True;
+  qh->ALLOWrestart= False;  /* longjmp will undo qh_build_withrestart */
   longjmp(qh->errexit, exitcode);
 } /* errexit */
 
@@ -480,7 +481,7 @@ may determine an initial simplex:\n\
                      qh->DISTround);
 #if REALfloat
     qh_fprintf(qh, fp, 9388, "\
-  - recompile qhull for realT precision(#define REALfloat 0 in libqhull.h).\n");
+  - recompile qhull for realT precision(#define REALfloat 0 in libqhull_r.h).\n");
 #endif
     qh_fprintf(qh, fp, 9389, "\n\
 If the input is lower dimensional:\n\

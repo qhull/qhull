@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2009-2014 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullpcpp/PointCoordinates.cpp#1 $$Change: 1652 $
-** $DateTime: 2014/01/17 09:01:32 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullpcpp/PointCoordinates.cpp#2 $$Change: 1712 $
+** $DateTime: 2014/03/30 22:34:33 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -84,6 +84,7 @@ PointCoordinates(const PointCoordinates &other)
 PointCoordinates & PointCoordinates::
 operator=(const PointCoordinates &other)
 {
+    QhullPoints::operator=(other);
     point_coordinates= other.point_coordinates;
     point_comment= other.point_comment;
     makeValid();

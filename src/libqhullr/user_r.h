@@ -6,8 +6,7 @@
 
    see qh-user.htm.  see COPYING for copyright information.
 
-   before reading any code, review libqhull.h for data structure definitions and
-   the "qh" macro.
+   before reading any code, review libqhull_r.h for data structure definitions
 
 Sections:
    ============= qhull library constants ======================
@@ -48,11 +47,12 @@ Code flags --
   msgcode -- Unique message codes for qh_fprintf
 
   If add new messages, assign these values and increment in user.h and user_r.h
+  See QhullError.h for 10000 errors.
 
   def counters =  [27, 1047, 2059, 3025, 4068, 5003,
      6243, 7079, 8143, 9410, 10000, 11026]
 
-  See: qh_ERR* [libqhull.h]
+  See: qh_ERR* [libqhull_r.h]
 */
 
 #define MSG_TRACE0 0
@@ -65,7 +65,7 @@ Code flags --
 #define MSG_WARNING 7000
 #define MSG_STDERR  8000  /* log messages Written to qh.ferr */
 #define MSG_OUTPUT  9000
-#define MSG_QHULL_ERROR 10000 /* errors thrown by QhullError [QhullError.h] */
+#define MSG_QHULL_ERROR 10000 /* errors thrown by QhullError.cpp */
 #define MSG_FIXUP  11000  /* FIXUP QH11... */
 #define MSG_MAXLEN  3000 /* qh_printhelp_degenerate() in user.c */
 
@@ -155,6 +155,26 @@ Code flags --
 #endif
 
 /*-<a                             href="qh-user.htm#TOC"
+  >--------------------------------</a><a name="countT">-</a>
+  
+  countT
+    The type for counts and identifiers (e.g., the number of points, vertex identifiers)
+
+    Typically 'int' or 'long long'.   
+
+    May be defined as a unsigned valued (? FIXUP)
+
+    Also defined in qset_r.h
+*/
+
+#ifndef DEFcountT
+#define DEFcountT 1
+typedef int countT;          
+#endif
+#define COUNTmax 0x7fffffff
+
+
+/*-<a                             href="qh-user.htm#TOC"
   >--------------------------------</a><a name="CPUclock">-</a>
 
   qh_CPUclock
@@ -179,7 +199,7 @@ Code flags --
      1          for CLOCKS_PER_SEC, CLOCKS_PER_SECOND, or microsecond
                 Note:  may fail if more than 1 hour elapsed time
 
-     2          use qh_clock() with POSIX times() (see global.c)
+     2          use qh_clock() with POSIX times() (see global_r.c)
 */
 #define qh_CLOCKtype 1  /* change to the desired number */
 
@@ -417,11 +437,11 @@ stop after qh_JOGGLEmaxretry attempts
   >--------------------------------</a><a name="MEMalign">-</a>
 
   qh_MEMalign
-    memory alignment for qh_meminitbuffers() in global.c
+    memory alignment for qh_meminitbuffers() in global_r.c
 
   notes:
     to avoid bus errors, memory allocation must consider alignment requirements.
-    malloc() automatically takes care of alignment.   Since mem.c manages
+    malloc() automatically takes care of alignment.   Since mem_r.c manages
     its own memory, we need to explicitly specify alignment in
     qh_meminitbuffers().
 
@@ -441,7 +461,7 @@ stop after qh_JOGGLEmaxretry attempts
     size of additional memory buffers
 
   notes:
-    used for qh_meminitbuffers() in global.c
+    used for qh_meminitbuffers() in global_r.c
 */
 #define qh_MEMbufsize 0x10000       /* allocate 64K memory buffers */
 
@@ -452,7 +472,7 @@ stop after qh_JOGGLEmaxretry attempts
     size of initial memory buffer
 
   notes:
-    use for qh_meminitbuffers() in global.c
+    use for qh_meminitbuffers() in global_r.c
 */
 #define qh_MEMinitbuf 0x20000      /* initially allocate 128K buffer */
 
@@ -549,9 +569,9 @@ stop after qh_JOGGLEmaxretry attempts
     #define qh_NOmerge
 
   see:
-    <a href="mem.h#NOmem">qh_NOmem</a> in mem.c
+    <a href="mem_r.h#NOmem">qh_NOmem</a> in mem_r.c
 
-    see user.c/user_eg.c for removing io.o
+    see user_r.c/user_eg.c for removing io_r.o
 */
 
 /*-<a                             href="qh-user.htm#TOC"

@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2009-2014 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/qhulltest/PointCoordinates_test.cpp#6 $$Change: 1490 $
-** $DateTime: 2012/02/19 20:27:01 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/qhulltest/PointCoordinates_test.cpp#8 $$Change: 1708 $
+** $DateTime: 2014/03/26 19:13:56 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -79,7 +79,6 @@ t_construct()
     QCOMPARE(pc4.count(), 3);
     QCOMPARE(pc4.size(), 3u);
     QVERIFY(!pc4.isEmpty());
-    QVERIFY(!pc4.empty());
     pc4.checkValid();
     QhullPoint p= pc4[2];
     QCOMPARE(p[1], 5.0);

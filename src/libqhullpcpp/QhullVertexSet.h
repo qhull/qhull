@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2009-2012 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullpcpp/QhullVertexSet.h#1 $$Change: 1652 $
-** $DateTime: 2014/01/17 09:01:32 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullpcpp/QhullVertexSet.h#2 $$Change: 1675 $
+** $DateTime: 2014/02/01 09:38:20 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -15,45 +15,45 @@
 
 namespace orgQhull {
 
-#//ClassRef
-    class               QhullVertex;
+#//!\name ClassRef
+    class QhullVertex;
 
-#//Types
+#//!\name Types
     //! QhullVertexSet -- a set of Qhull Vertices, as a C++ class.
     //! See Qhull
-    class               QhullVertexSet;
+    class QhullVertexSet;
     typedef QhullSetIterator<QhullVertex>
                         QhullVertexSetIterator;
 
 class QhullVertexSet : public QhullSet<QhullVertex> {
 
 private:
-#//Fields
-    Qhull              *qhsettemp_qhull; //! For sets allocated with qh_settemp()
+#//!\name Fields
+    Qhull *             qhsettemp_qhull; //! For sets allocated with qh_settemp()
     bool                qhsettemp_defined;  //! Set was allocated with q_memalloc()
 
 public:
-#//Constructor
+#//!\name Constructor
                         //Conversion from setT* is not type-safe.  Implicit conversion for void* to T
    explicit             QhullVertexSet(setT *s) : QhullSet<QhullVertex>(s), qhsettemp_qhull(0), qhsettemp_defined(false) {}
                         QhullVertexSet(int qhRunId, facetT *facetlist, setT *facetset, bool allfacets);
                         //Copy constructor copies pointer but not contents.  Needed for return by value.
                         QhullVertexSet(const QhullVertexSet &o) : QhullSet<QhullVertex>(o), qhsettemp_qhull(o.qhsettemp_qhull), qhsettemp_defined(o.qhsettemp_defined) {}
-                       ~QhullVertexSet();
+                        ~QhullVertexSet();
 
 private:
                         //!Disable default constructor and copy assignment.  See QhullSetBase
                         QhullVertexSet();
-    QhullVertexSet      &operator=(const QhullVertexSet &);
+    QhullVertexSet &     operator=(const QhullVertexSet &);
 public:
 
-#//Constructor, destructor
+#//!\name Constructor, destructor
     void                freeQhSetTemp();
 
-#//IO
+#//!\name IO
     struct PrintVertexSet{
         const QhullVertexSet *Vertex_set;
-        const char     *print_message;
+        const char *    print_message;
         int             run_id;
                         PrintVertexSet(int qhRunId, const char *message, const QhullVertexSet *s) : Vertex_set(s), print_message(message), run_id(qhRunId) {}
     };//PrintVertexSet
@@ -61,7 +61,7 @@ public:
 
     struct PrintIdentifiers{
         const QhullVertexSet *Vertex_set;
-        const char     *print_message;
+        const char *    print_message;
                         PrintIdentifiers(const char *message, const QhullVertexSet *s) : Vertex_set(s), print_message(message) {}
     };//PrintIdentifiers
     PrintIdentifiers    printIdentifiers(const char *message) const { return PrintIdentifiers(message, this); }
@@ -70,7 +70,7 @@ public:
 
 }//namespace orgQhull
 
-#//== Global namespace =========================================
+#//!\name Global
 
 std::ostream &operator<<(std::ostream &os, const orgQhull::QhullVertexSet::PrintVertexSet &pr);
 std::ostream &operator<<(std::ostream &os, const orgQhull::QhullVertexSet::PrintIdentifiers &p);

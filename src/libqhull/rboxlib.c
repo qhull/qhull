@@ -55,6 +55,7 @@ struct rboxT {
   int isinteger;
   double out_offset;
   jmp_buf errexit;        /* exit label for rboxpoints, defined by setjmp(), called by qh_errexit_rbox() */
+  char  jmpXtra[40];      /* extra bytes in case jmp_buf is defined wrong by compiler */
 };
 
 
@@ -639,7 +640,7 @@ int qh_rboxpoints(FILE* fout, FILE* ferr, char* rbox_command) {
       }else if (isspiral) {
         if (dim != 3) {
           qh_fprintf_rbox(rbox.ferr, 6199, "rbox error: spiral distribution is available only in 3d\n\n");
-          longjmp(rbox.errexit,qh_ERRinput);
+          qh_errexit_rbox(qh, qh_ERRinput);
         }
         coord[0]= cos(2*PI*i/(numpoints - 1));
         coord[1]= sin(2*PI*i/(numpoints - 1));
@@ -788,6 +789,9 @@ void qh_out3n( double a, double b, double c) {
     qh_fprintf_rbox(rbox.fout, 9408, qh_REAL_3n, a+rbox.out_offset, b+rbox.out_offset, c+rbox.out_offset);
 } /* qh_out3n */
 
+/*------------------------------------------------
+   Only called from qh_rboxpoints or qh_fprintf_rbox (which is only called from qh_rboxpoints)
+*/
 void qh_errexit_rbox(int exitcode)
 {
     longjmp(rbox.errexit, exitcode);

@@ -1,14 +1,14 @@
 /*<html><pre>  -<a                             href="qh-geom.htm"
   >-------------------------------</a><a name="TOP">-</a>
 
-  geom.h
+  geom_r.h
     header file for geometric routines
 
-   see qh-geom.htm and geom.c
+   see qh-geom.htm and geom_r.c
 
    Copyright (c) 1993-2014 The Geometry Center.
-   $Id: //main/2011/qhull/src/libqhullr/geom_r.h#2 $$Change: 1645 $
-   $DateTime: 2014/01/15 12:51:30 $$Author: bbarber $
+   $Id: //main/2011/qhull/src/libqhullr/geom_r.h#6 $$Change: 1797 $
+   $DateTime: 2014/12/15 17:23:41 $$Author: bbarber $
 */
 
 #ifndef qhDEFgeom
@@ -124,7 +124,7 @@ void    qh_sethyperplane_gauss(qhT *qh, int dim, coordT **rows, pointT *point0,
              boolT toporient, coordT *normal, coordT *offset, boolT *nearzero);
 boolT   qh_sharpnewfacets(qhT *qh);
 
-/*========= infrequently used code in geom2.c =============*/
+/*========= infrequently used code in geom2_r.c =============*/
 
 coordT *qh_copypoints(qhT *qh, coordT *points, int numpoints, int dimension);
 void    qh_crossproduct(qhT *qh, int dim, realT vecA[3], realT vecB[3], realT vecC[3]);

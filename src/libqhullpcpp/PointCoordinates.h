@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2009-2012 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullpcpp/PointCoordinates.h#1 $$Change: 1652 $
-** $DateTime: 2014/01/17 09:01:32 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullpcpp/PointCoordinates.h#2 $$Change: 1675 $
+** $DateTime: 2014/02/01 09:38:20 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -20,20 +20,20 @@ extern "C" {
 
 namespace orgQhull {
 
-#//Types
+#//!\name Types
     //! Zero or more points with Coordinates, count, and dimension
     class PointCoordinates;
 
 class PointCoordinates : public QhullPoints {
 
 private:
-#//Field
+#//!\name Fields
     Coordinates         point_coordinates;      //! array of point coordinates
                                                 //! may have extraCoordinates()
     std::string         point_comment;          //! Comment describing PointCoordinates
 
 public:
-#//Construct
+#//!\name Construct
                         PointCoordinates();
     explicit            PointCoordinates(int pointDimension);
     explicit            PointCoordinates(const std::string &aComment);
@@ -41,10 +41,10 @@ public:
                         PointCoordinates(int pointDimension, const std::string &aComment, int coordinatesCount, const coordT *c); // may be invalid
                         //! Use append() and appendPoints() for Coordinates and vector<coordT>
                         PointCoordinates(const PointCoordinates &other);
-    PointCoordinates   &operator=(const PointCoordinates &other);
-    ~PointCoordinates();
+    PointCoordinates &  operator=(const PointCoordinates &other);
+                        ~PointCoordinates();
 
-#//Convert
+#//!\name Convert
     //! QhullPoints coordinates, constData, data, count, size
 #ifndef QHULL_NO_STL
     void                append(const std::vector<coordT> &otherCoordinates) { if(!otherCoordinates.empty()){ append((int)otherCoordinates.size(), &otherCoordinates[0]); } }
@@ -55,12 +55,12 @@ public:
     QList<coordT>       toQList() const { return point_coordinates.toQList(); }
 #endif //QHULL_USES_QT
 
-#//GetSet
+#//!\name GetSet
     //! See QhullPoints for coordinates, coordinateCount, dimension, empty, isEmpty, ==, !=
     void                checkValid() const;
     std::string         comment() const { return point_comment; }
     void                makeValid() { defineAs(point_coordinates.count(), point_coordinates.data()); }
-    const Coordinates  &getCoordinates() const { return point_coordinates; }
+    const Coordinates & getCoordinates() const { return point_coordinates; }
     void                setComment(const std::string &s) { point_comment= s; }
     void                setDimension(int i);
 
@@ -69,10 +69,10 @@ private:
     //! defineAs() otherwise disabled
 public:
 
-#//ElementAccess
+#//!\name ElementAccess
     //! See QhullPoints for at, back, first, front, last, mid, [], value
 
-#//Foreach
+#//!\name Foreach
     //! See QhullPoints for begin, constBegin, end
     Coordinates::ConstIterator  beginCoordinates() const { return point_coordinates.begin(); }
     Coordinates::Iterator       beginCoordinates() { return point_coordinates.begin(); }
@@ -81,13 +81,13 @@ public:
     Coordinates::ConstIterator  endCoordinates() const { return point_coordinates.end(); }
     Coordinates::Iterator       endCoordinates() { return point_coordinates.end(); }
 
-#//Search
+#//!\name Search
     //! See QhullPoints for contains, count, indexOf, lastIndexOf
 
-#//Read-only
+#//!\name Read-only
     PointCoordinates    operator+(const PointCoordinates &other) const;
 
-#//Modify
+#//!\name Modify
     //FIXUP QH11001: Add clear() and other modify operators from Coordinates.h.  Include QhullPoint::operator=()
     void                append(int coordinatesCount, const coordT *c);  //! Dimension previously defined
     void                append(const coordT &c) { append(1, &c); } //! Dimension previously defined
@@ -97,16 +97,16 @@ public:
     void                append(const PointCoordinates &other);
     void                appendComment(const std::string &s);
     void                appendPoints(std::istream &in);
-    PointCoordinates   &operator+=(const PointCoordinates &other) { append(other); return *this; }
-    PointCoordinates   &operator+=(const coordT &c) { append(c); return *this; }
-    PointCoordinates   &operator+=(const QhullPoint &p) { append(p); return *this; }
-    PointCoordinates   &operator<<(const PointCoordinates &other) { return *this += other; }
-    PointCoordinates   &operator<<(const coordT &c) { return *this += c; }
-    PointCoordinates   &operator<<(const QhullPoint &p) { return *this += p; }
+    PointCoordinates &  operator+=(const PointCoordinates &other) { append(other); return *this; }
+    PointCoordinates &  operator+=(const coordT &c) { append(c); return *this; }
+    PointCoordinates &  operator+=(const QhullPoint &p) { append(p); return *this; }
+    PointCoordinates &  operator<<(const PointCoordinates &other) { return *this += other; }
+    PointCoordinates &  operator<<(const coordT &c) { return *this += c; }
+    PointCoordinates &  operator<<(const QhullPoint &p) { return *this += p; }
     // reserve() is non-const
     void                reserveCoordinates(int newCoordinates);
 
-#//Helpers
+#//!\name Helpers
 private:
     int                 indexOffset(int i) const;
 
@@ -142,8 +142,8 @@ class PointCoordinatesIterator
 \
 }//namespace orgQhull
 
-#//Global functions
+#//!\name Global
 
-std::ostream           &operator<<(std::ostream &os, const orgQhull::PointCoordinates &p);
+std::ostream &          operator<<(std::ostream &os, const orgQhull::PointCoordinates &p);
 
 #endif // QHPOINTCOORDINATES_H

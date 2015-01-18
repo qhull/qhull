@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2009-2014 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullpcpp/QhullPoints.cpp#1 $$Change: 1652 $
-** $DateTime: 2014/01/17 09:01:32 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullpcpp/QhullPoints.cpp#2 $$Change: 1710 $
+** $DateTime: 2014/03/28 22:23:20 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -33,6 +33,15 @@ toStdVector() const
 #endif //QHULL_NO_STL
 
 #//Read-only
+
+int QhullPoints::
+extraCoordinatesCount() const
+{
+    if(point_dimension>0){
+        return (int)((point_end-point_first)%(size_t)point_dimension);
+    }
+    return 0;
+}//extraCoordinatesCount
 
 bool QhullPoints::
 operator==(const QhullPoints &other) const

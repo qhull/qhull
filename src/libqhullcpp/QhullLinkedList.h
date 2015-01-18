@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (c) 2008-2012 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/QhullLinkedList.h#3 $$Change: 1464 $
-** $DateTime: 2012/01/25 22:58:41 $$Author: bbarber $
+** Copyright (c) 2008-2014 C.B. Barber. All rights reserved.
+** $Id: //main/2011/qhull/src/libqhullcpp/QhullLinkedList.h#9 $$Change: 1797 $
+** $DateTime: 2014/12/15 17:23:41 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -12,6 +12,9 @@
 namespace std { struct bidirectional_iterator_tag; struct random_access_iterator_tag; }
 
 #include "QhullError.h"
+extern "C" {
+    #include "libqhullr/qhull_ra.h"
+}
 
 #ifdef QHULL_USES_QT
 #include <QtCore/QList>
@@ -23,12 +26,12 @@ namespace std { struct bidirectional_iterator_tag; struct random_access_iterator
 
 namespace orgQhull {
 
-#//Type
+#//!\name Defined here
     //! QhullLinkedList<T> -- A linked list modeled on QLinkedList.
     //!   T is an opaque type with T(B *b), b=t.getBaseT(), t=t.next(), and t=t.prev().  The end node is a sentinel.
     //!   libqhull owns the contents.
     //!   QhullLinkedList does not define erase(), clear(), removeFirst(), removeLast(), pop_back(), pop_front(), fromStdList()
-    //!   Derived from Qt/core/tools/qlinkedlist.h and libqhull.h/FORALLfacets_()
+    //!   Derived from Qt/core/tools/qlinkedlist.h and libqhull_r.h/FORALLfacets_()
     //! QhullLinkedList<T>::const_iterator -- STL-style iterator
     //! QhullLinkedList<T>::iterator -- STL-style iterator
     //! QhullLinkedListIterator<T> -- Java-style iterator
@@ -38,39 +41,40 @@ namespace orgQhull {
 template <typename T>
 class QhullLinkedList
 {
-private:
-#//Fields
-    T                   begin_node;
-    T                   end_node;     //! Sentinel node at end of list
-
+#//!\name Defined here
 public:
-#//Subtypes and types
-    class               const_iterator;
-    class               iterator;
+    class const_iterator;
+    class iterator;
     typedef const_iterator  ConstIterator;
     typedef iterator    Iterator;
     typedef ptrdiff_t   difference_type;
-    typedef int         size_type;
+    typedef countT      size_type;
     typedef T           value_type;
     typedef const value_type *const_pointer;
     typedef const value_type &const_reference;
     typedef value_type *pointer;
     typedef value_type &reference;
 
-#//Constructors
+#//!\name Fields
+private:
+    T                   begin_node;
+    T                   end_node;     //! Sentinel node at end of list
+
+#//!\name Constructors
+public:
                         QhullLinkedList<T>(T b, T e) : begin_node(b), end_node(e) {}
                         //Copy constructor copies pointer but not contents.  Needed for return by value and parameter passing.
-                        QhullLinkedList<T>(const QhullLinkedList<T> &o) : begin_node(o.begin_node), end_node(o.end_node) {}
-                       ~QhullLinkedList<T>() {}
+                        QhullLinkedList<T>(const QhullLinkedList<T> &other) : begin_node(other.begin_node), end_node(other.end_node) {}
+                        QhullLinkedList<T> & operator=(const QhullLinkedList<T> &other) { begin_node= other.begin_node; end_node= other.end_node; }
+                        ~QhullLinkedList<T>() {}
 
 private:
                         //!disabled since a sentinel must be allocated as the private type
                         QhullLinkedList<T>() {}
                         //!disabled since qs= qs2 is ambiguous (pointer vs. contents)
-    QhullLinkedList<T> &operator=(const QhullLinkedList<T> &l) {}
 public:
 
-#//Conversions
+#//!\name Conversions
 #ifndef QHULL_NO_STL
     std::vector<T>      toStdVector() const;
 #endif
@@ -78,29 +82,28 @@ public:
     QList<T>            toQList() const;
 #endif
 
-#//Read-only
-    int                 count() const;
-                        //count(t) under #//Search
-    bool                empty() const { return isEmpty(); }
+#//!\name GetSet
+    countT              count() const;
+                        //count(t) under #//!\name Search
     bool                isEmpty() const { return (begin_node==end_node); }
     bool                operator==(const QhullLinkedList<T> &o) const;
     bool                operator!=(const QhullLinkedList<T> &o) const { return !operator==(o); }
     size_t              size() const { return count(); }
 
-#//Element access
+#//!\name Element access
     //! Return by value which contains a pointer (e.g., typedef vertexT * QhullVertex).  A reference does not make sense.
     T                   back() const { return last(); }
     T                   first() const { QHULL_ASSERT(!isEmpty()); return *begin(); }
     T                   front() const { return first(); }
     T                   last() const { QHULL_ASSERT(!isEmpty()); return *--end(); }
 
-#//Modify -- Allocation of opaque types not implemented.
+#//!\name Modify -- Allocation of opaque types not implemented.
 
-#//Search
+#//!\name Search
     bool                contains(const T &t) const;
-    int                 count(const T &t) const;
+    countT              count(const T &t) const;
 
-#//Iterator
+#//!\name Iterator
     iterator            begin() { return begin_node; }
     const_iterator      begin() const { return begin_node; }
     const_iterator      constBegin() const { return begin_node; }
@@ -112,7 +115,7 @@ public:
 
     private:
         T               i;
-        friend class    const_iterator;
+        friend class const_iterator;
 
     public:
         typedef std::bidirectional_iterator_tag  iterator_category;
@@ -124,7 +127,7 @@ public:
                         iterator() : i() {}
                         iterator(T t) : i(t) {}
                         iterator(const iterator &o) : i(o.i) {}
-        iterator       &operator=(const iterator &o) { i= o.i; return *this; }
+        iterator &      operator=(const iterator &o) { i= o.i; return *this; }
 
         T               operator*() const { return i; }
         T               operator->() const { return i; }
@@ -132,14 +135,14 @@ public:
         bool            operator!=(const iterator &o) const { return !operator==(o); }
         bool            operator==(const const_iterator &o) const { return i==reinterpret_cast<const iterator &>(o).i; }
         bool            operator!=(const const_iterator &o) const { return !operator==(o); }
-        iterator       &operator++() { i= i.next(); return *this; }
+        iterator &      operator++() { i= i.next(); return *this; }
         iterator        operator++(int) { iterator o= i; i= i.next(); return o; }
-        iterator       &operator--() { i= i.previous(); return *this; }
+        iterator &      operator--() { i= i.previous(); return *this; }
         iterator        operator--(int) { iterator o= i; i= i.previous(); return o; }
         iterator        operator+(int j) const;
         iterator        operator-(int j) const { return operator+(-j); }
-        iterator       &operator+=(int j) { return *this= *this + j; }
-        iterator       &operator-=(int j) { return *this= *this - j; }
+        iterator &      operator+=(int j) { return *this= *this + j; }
+        iterator &      operator-=(int j) { return *this= *this - j; }
     };//QhullLinkedList::iterator
 
     class const_iterator {
@@ -199,9 +202,9 @@ public:
     void                toBack() { i= c->constEnd(); }
 };//QhullLinkedListIterator
 
-#//== Definitions =========================================
+#//!\name == Definitions =========================================
 
-#//Conversion
+#//!\name Conversion
 
 #ifndef QHULL_NO_STL
 template <typename T>
@@ -228,14 +231,14 @@ toQList() const
 }//toQList
 #endif
 
-#//Read-only
+#//!\name GetSet
 
 template <typename T>
-int QhullLinkedList<T>::
+countT QhullLinkedList<T>::
 count() const
 {
     const_iterator i= begin_node;
-    int c= 0;
+    countT c= 0;
     while(i != end_node){
         c++;
         i++;
@@ -243,7 +246,7 @@ count() const
     return c;
 }//count
 
-#//Search
+#//!\name Search
 
 template <typename T>
 bool QhullLinkedList<T>::
@@ -260,11 +263,11 @@ contains(const T &t) const
 }//contains
 
 template <typename T>
-int QhullLinkedList<T>::
+countT QhullLinkedList<T>::
 count(const T &t) const
 {
     const_iterator i= begin_node;
-    int c= 0;
+    countT c= 0;
     while(i != end_node){
         if(i==t){
             c++;
@@ -296,7 +299,7 @@ operator==(const QhullLinkedList<T> &l) const
     return true;
 }//operator==
 
-#//Iterator
+#//!\name Iterator
 
 template <typename T>
 typename QhullLinkedList<T>::iterator  QhullLinkedList<T>::iterator::
@@ -332,7 +335,7 @@ operator+(int j) const
     return const_iterator(n);
 }//operator+
 
-#//QhullLinkedListIterator
+#//!\name QhullLinkedListIterator
 
 template <typename T>
 bool QhullLinkedListIterator<T>::
@@ -360,7 +363,7 @@ findPrevious(const T &t)
 
 }//namespace orgQhull
 
-#//Global functions
+#//!\name Global
 
 template <typename T>
 std::ostream &

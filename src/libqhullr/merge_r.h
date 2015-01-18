@@ -1,14 +1,14 @@
 /*<html><pre>  -<a                             href="qh-merge.htm"
   >-------------------------------</a><a name="TOP">-</a>
 
-   merge.h
-   header file for merge.c
+   merge_r.h
+   header file for merge_r.c
 
-   see qh-merge.htm and merge.c
+   see qh-merge.htm and merge_r.c
 
    Copyright (c) 1993-2014 C.B. Barber.
-   $Id: //main/2011/qhull/src/libqhullr/merge_r.h#2 $$Change: 1645 $
-   $DateTime: 2014/01/15 12:51:30 $$Author: bbarber $
+   $Id: //main/2011/qhull/src/libqhullr/merge_r.h#6 $$Change: 1797 $
+   $DateTime: 2014/12/15 17:23:41 $$Author: bbarber $
 */
 
 #ifndef qhDEFmerge
@@ -107,7 +107,7 @@ struct mergeT {         /* initialize in qh_appendmergeset */
     uses 'mergeT *merge, **mergep;'
     if qh_mergefacet(),
       restart since qh.facet_mergeset may change
-    see <a href="qset.h#FOREACHsetelement_">FOREACHsetelement_</a>
+    see <a href="qset_r.h#FOREACHsetelement_">FOREACHsetelement_</a>
 */
 #define FOREACHmerge_( merges ) FOREACHsetelement_(mergeT, merges, merge)
 

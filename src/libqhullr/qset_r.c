@@ -1,10 +1,10 @@
 /*<html><pre>  -<a                             href="qh-set.htm"
   >-------------------------------</a><a name="TOP">-</a>
 
-   qset.c
+   qset_r.c
    implements set manipulations needed for quickhull
 
-   see qh-set.htm and qset.h
+   see qh-set.htm and qset_r.h
 
    Be careful of strict aliasing (two pointers of different types
    that reference the same location).  The last slot of a set is
@@ -12,8 +12,8 @@
    of the set (i.e., setelemT).
 
    Copyright (c) 1993-2014 The Geometry Center.
-   $Id: //main/2011/qhull/src/libqhullr/qset_r.c#3 $$Change: 1651 $
-   $DateTime: 2014/01/17 08:13:57 $$Author: bbarber $
+   $Id: //main/2011/qhull/src/libqhullr/qset_r.c#6 $$Change: 1797 $
+   $DateTime: 2014/12/15 17:23:41 $$Author: bbarber $
 */
 
 #include "qset_r.h"
@@ -21,7 +21,7 @@
 #include "mem_r.h"
 #include <stdio.h>
 #include <string.h>
-/*** uncomment here and qhull_r.h
+/*** uncomment here and qhull_ra.h
      if string.h does not define memcpy()
 #include <memory.h>
 */
@@ -1103,7 +1103,7 @@ void qh_setreplace(qhT *qh, setT *set, void *oldelem, void *newelem) {
   notes:
     errors if set's maxsize is incorrect
     same as SETreturnsize_(set)
-    same code for qh_setsize [qset.c] and QhullSetBase::count
+    same code for qh_setsize [qset_r.c] and QhullSetBase::count
 
   design:
     determine actual size of set from maxsize

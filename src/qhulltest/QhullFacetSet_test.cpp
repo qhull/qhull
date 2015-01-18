@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2014 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/qhulltest/QhullFacetSet_test.cpp#4 $$Change: 1490 $
-** $DateTime: 2012/02/19 20:27:01 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/qhulltest/QhullFacetSet_test.cpp#6 $$Change: 1709 $
+** $DateTime: 2014/03/26 22:27:14 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -140,7 +140,7 @@ t_io()
         Qhull q(rcube,"QR0 QV0");   // good facets are adjacent to point 0
         QhullFacetSet fs= q.firstFacet().neighborFacets();
         ostringstream os;
-        os << fs.print(q.runId(), "Neighbors of first facet with point 0");
+        os << fs.print("Neighbors of first facet with point 0");
         os << fs.printIdentifiers("\nFacet identifiers: ");
         cout << os.str();
         QString facets= QString::fromStdString(os.str());

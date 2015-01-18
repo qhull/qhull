@@ -4,11 +4,11 @@
   random.h
     header file for random routines
 
-   see qh-geom.htm and random.c
+   see qh-geom.htm and random_r.c
 
    Copyright (c) 1993-2014 The Geometry Center.
-   $Id: //main/2011/qhull/src/libqhullr/random_r.h#2 $$Change: 1645 $
-   $DateTime: 2014/01/15 12:51:30 $$Author: bbarber $
+   $Id: //main/2011/qhull/src/libqhullr/random_r.h#6 $$Change: 1797 $
+   $DateTime: 2014/12/15 17:23:41 $$Author: bbarber $
 */
 
 #ifndef qhDEFrandom

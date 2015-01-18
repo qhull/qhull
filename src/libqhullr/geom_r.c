@@ -1,19 +1,19 @@
 /*<html><pre>  -<a                             href="qh-geom.htm"
   >-------------------------------</a><a name="TOP">-</a>
 
-   geom.c
+   geom_r.c
    geometric routines of qhull
 
-   see qh-geom.htm and geom.h
+   see qh-geom.htm and geom_r.h
 
    Copyright (c) 1993-2014 The Geometry Center.
-   $Id: //main/2011/qhull/src/libqhullr/geom_r.c#4 $$Change: 1663 $
-   $DateTime: 2014/01/19 17:59:16 $$Author: bbarber $
+   $Id: //main/2011/qhull/src/libqhullr/geom_r.c#6 $$Change: 1797 $
+   $DateTime: 2014/12/15 17:23:41 $$Author: bbarber $
 
-   infrequent code goes into geom2.c
+   infrequent code goes into geom2_r.c
 */
 
-#include "qhull_r.h"
+#include "qhull_ra.h"
 
 /*-<a                             href="qh-geom.htm#TOC"
   >-------------------------------</a><a name="distplane">-</a>
@@ -30,8 +30,8 @@
     does not error (for qh_sortfacets, qh_outerinner)
 
   see:
-    qh_distnorm in geom2.c
-    qh_distplane [geom.c], QhullFacet::distance, and QhullHyperplane::distance are copies
+    qh_distnorm in geom2_r.c
+    qh_distplane [geom_r.c], QhullFacet::distance, and QhullHyperplane::distance are copies
 */
 void qh_distplane(qhT *qh, pointT *point, facetT *facet, realT *dist) {
   coordT *normal= facet->normal, *coordp, randr;

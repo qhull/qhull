@@ -1,22 +1,69 @@
 /****************************************************************************
 **
 ** Copyright (c) 2009-2014 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/QhullPoints.cpp#4 $$Change: 1464 $
-** $DateTime: 2012/01/25 22:58:41 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullcpp/QhullPoints.cpp#10 $$Change: 1712 $
+** $DateTime: 2014/03/30 22:34:33 $$Author: bbarber $
 **
 ****************************************************************************/
 
 #include "QhullPoints.h"
+#include "Qhull.h"
 
 #include <iostream>
-#include <algorithm>
+
+#ifndef QHULL_NO_STL
+#include <vector>
+#endif
 
 #ifdef _MSC_VER  // Microsoft Visual C++ -- warning level 4
 #endif
 
 namespace orgQhull {
 
-#//Conversion
+#//!\name Constructors
+
+QhullPoints::
+QhullPoints(const Qhull &q) 
+: point_first(0)
+, point_end(0)
+, qh_qh(q.qh())
+, point_dimension(q.hullDimension())
+{
+}//QhullPoints Qhull
+
+QhullPoints::
+QhullPoints(const Qhull &q, int pointDimension) 
+: point_first(0)
+, point_end(0)
+, qh_qh(q.qh())
+, point_dimension(pointDimension)
+{
+    QHULL_ASSERT(pointDimension>=0);
+}//QhullPoints Qhull dim
+
+QhullPoints::
+QhullPoints(const Qhull &q, int pointDimension, countT coordinateCount2, coordT *c) 
+: point_first(c)
+, point_end(c+coordinateCount2)
+, qh_qh(q.qh())
+, point_dimension(pointDimension)
+{
+    QHULL_ASSERT(pointDimension>=0);
+    QHULL_ASSERT(coordinateCount2>=0);
+}//QhullPoints Qhull dim coordT
+
+QhullPoints::
+QhullPoints(QhullQh *qh, int pointDimension, countT coordinateCount2, coordT *c) 
+: point_first(c)
+, point_end(c+coordinateCount2)
+, qh_qh(qh)
+, point_dimension(pointDimension)
+{
+    QHULL_ASSERT(pointDimension>=0);
+    QHULL_ASSERT(coordinateCount2>=0);
+}//QhullPoints QhullQh dim coordT
+
+#//!\name Conversions
 // See qt-qhull.cpp for QList conversion
 
 #ifndef QHULL_NO_STL
@@ -32,13 +79,27 @@ toStdVector() const
 }//toStdVector
 #endif //QHULL_NO_STL
 
-#//Read-only
+#//!\name GetSet
 
+countT QhullPoints::
+extraCoordinatesCount() const
+{
+    if(point_dimension>0){
+        return (countT)((point_end-point_first)%(size_t)point_dimension);
+    }
+    return 0;
+}//extraCoordinatesCount
+
+//! QhullPoints is equal if the same address, or if the coordinates are identical
+//! Use QhullPoint.operator==() for DISTround equality
 bool QhullPoints::
 operator==(const QhullPoints &other) const
 {
-    if(point_dimension!=other.point_dimension || (point_end-point_first) != (other.point_end-other.point_first)){
+    if((point_end-point_first) != (other.point_end-other.point_first)){
         return false;
+    }
+    if(point_first==other.point_first){
+        return true;
     }
     const coordT *c= point_first;
     const coordT *c2= other.point_first;
@@ -50,45 +111,38 @@ operator==(const QhullPoints &other) const
     return true;
 }//operator==
 
-
-#//ElementAccess
-QhullPoints QhullPoints::
-mid(int idx, int length) const
+void QhullPoints::
+setQhullQh(QhullQh *qh)
 {
-    int n= count();
-    if(idx<0 || idx>=n){
-        n= 0;
-    }else if(length<0 || idx+length>=n){
-        n -= idx;
-    }else{
-        n -= idx+length;
+    if(qh && qh_qh){
+        throw QhullError(10073, "Qhull error: QhullQh already set for QhullPoints");
     }
-    return QhullPoints(point_dimension, n*point_dimension, point_first+idx*point_dimension);
-}//mid
+    qh_qh= qh;
+}//setQhullQh
 
 QhullPoint QhullPoints::
-value(int idx) const
+value(countT idx) const
 {
-    QhullPoint p;
+    QhullPoint p(qh_qh);
     if(idx>=0 && idx<count()){
-        p.defineAs(point_dimension, point_first+idx*point_dimension);
+        p.defineAs(qh_qh->hull_dim, point_first+idx*qh_qh->hull_dim);
     }
     return p;
 }//value
 
 QhullPoint QhullPoints::
-value(int idx, QhullPoint &defaultValue) const
+value(countT idx, QhullPoint &defaultValue) const
 {
-    QhullPoint p;
+    QhullPoint p(qh_qh);
     if(idx>=0 && idx<count()){
-        p.defineAs(point_dimension, point_first+idx*point_dimension);
+        p.defineAs(qh_qh->hull_dim, point_first+idx*qh_qh->hull_dim);
     }else{
         p.defineAs(defaultValue);
     }
     return p;
 }//value
 
-#//Search
+#//! Methods
 
 bool QhullPoints::
 contains(const QhullPoint &t) const
@@ -103,10 +157,10 @@ contains(const QhullPoint &t) const
     return false;
 }//contains
 
-int QhullPoints::
+countT QhullPoints::
 count(const QhullPoint &t) const
 {
-    int n= 0;
+    countT n= 0;
     const_iterator i= begin();
     while(i != end()){
         if(*i==t){
@@ -117,38 +171,38 @@ count(const QhullPoint &t) const
     return n;
 }//count
 
-int QhullPoints::
+countT QhullPoints::
 indexOf(const coordT *pointCoordinates) const
 {
-    if(!includesCoordinates(pointCoordinates) || dimension()==0){
+    if(!includesCoordinates(pointCoordinates) || point_dimension==0){
         return -1;
     }
     size_t offset= pointCoordinates-point_first;
-    int idx= (int)(offset/(size_t)dimension()); // int for error reporting
-    int extra= (int)(offset%(size_t)dimension());
+    countT idx= (countT)(offset/(size_t)point_dimension);
+    countT extra= (countT)(offset%(size_t)point_dimension);
     if(extra!=0){
         throw QhullError(10066, "Qhull error: coordinates %x are not at point boundary (extra %d at index %d)", extra, idx, 0.0, pointCoordinates);
     }
     return idx;
 }//indexOf coordT
 
-int QhullPoints::
+countT QhullPoints::
 indexOf(const coordT *pointCoordinates, int noThrow) const
 {
     size_t extra= 0;
     if(noThrow){
-        if(!includesCoordinates(pointCoordinates) || dimension()==0){
+        if(!includesCoordinates(pointCoordinates) || point_dimension==0){
             return -1;
         }
-        extra= (pointCoordinates-point_first)%(size_t)dimension();
+        extra= (pointCoordinates-point_first)%(size_t)point_dimension;
     }
     return indexOf(pointCoordinates-extra);
 }//indexOf coordT noThrow
 
-int QhullPoints::
+countT QhullPoints::
 indexOf(const QhullPoint &t) const
 {
-    int j=0;
+    countT j=0;
     const_iterator i= begin();
     while(i!=end()){
         if(*i==t){
@@ -160,10 +214,10 @@ indexOf(const QhullPoint &t) const
     return -1;
 }//indexOf
 
-int QhullPoints::
+countT QhullPoints::
 lastIndexOf(const QhullPoint &t) const
 {
-    int j=count();
+    countT j= count();
     const_iterator i= end();
     while(i != begin()){
         --i;
@@ -175,7 +229,21 @@ lastIndexOf(const QhullPoint &t) const
     return -1;
 }//lastIndexOf
 
-#//QhullPointsIterator
+QhullPoints QhullPoints::
+mid(countT idx, countT length) const
+{
+    countT n= count();
+    if(idx<0 || idx>=n){
+        n= 0;
+    }else if(length<0 || idx+length>=n){
+        n -= idx;
+    }else{
+        n -= idx+length;
+    }
+    return QhullPoints(qh_qh, qh_qh->hull_dim, n*qh_qh->hull_dim, point_first+idx*qh_qh->hull_dim);
+}//mid
+
+#//!\name QhullPointsIterator
 
 bool QhullPointsIterator::
 findNext(const QhullPoint &p)
@@ -201,7 +269,7 @@ findPrevious(const QhullPoint &p)
 
 }//namespace orgQhull
 
-#//Global functions
+#//!\name Global functions
 
 using std::ostream;
 using orgQhull::QhullPoint;
@@ -223,12 +291,12 @@ operator<<(ostream &os, const QhullPoints::PrintPoints &pr)
 {
     os << pr.point_message;
     QhullPoints ps= *pr.points;
-    for(QhullPoints::iterator i=ps.begin(); i != ps.end(); ++i){
+    for(QhullPoints::iterator i=ps.begin(); i!=ps.end(); ++i){
         QhullPoint p= *i;
         if(pr.with_identifier){
-            os << p.printWithIdentifier(pr.run_id, "");
+            os << p.printWithIdentifier("");
         }else{
-            os << p.print(pr.run_id, "");
+            os << p.print("");
         }
     }
     return os;

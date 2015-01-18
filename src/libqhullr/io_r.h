@@ -1,14 +1,14 @@
 /*<html><pre>  -<a                             href="qh-io.htm"
   >-------------------------------</a><a name="TOP">-</a>
 
-   io.h
+   io_r.h
    declarations of Input/Output functions
 
-   see README, libqhull.h and io.c
+   see README, libqhull_r.h and io_r.c
 
    Copyright (c) 1993-2014 The Geometry Center.
-   $Id: //main/2011/qhull/src/libqhullr/io_r.h#2 $$Change: 1645 $
-   $DateTime: 2014/01/15 12:51:30 $$Author: bbarber $
+   $Id: //main/2011/qhull/src/libqhullr/io_r.h#6 $$Change: 1797 $
+   $DateTime: 2014/12/15 17:23:41 $$Author: bbarber $
 */
 
 #ifndef qhDEFio
@@ -71,7 +71,7 @@ qh_RIDGE;
     prints results of qh_printvdiagram
 
   see:
-    <a href="io.c#printvridge">qh_printvridge</a> for an example
+    <a href="io_r.c#printvridge">qh_printvridge</a> for an example
 */
 typedef void (*printvridgeT)(qhT *qh, FILE *fp, vertexT *vertex, vertexT *vertexA, setT *centers, boolT unbounded);
 

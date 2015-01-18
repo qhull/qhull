@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2012 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullpcpp/QhullVertex.h#1 $$Change: 1652 $
-** $DateTime: 2014/01/17 09:01:32 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullpcpp/QhullVertex.h#2 $$Change: 1675 $
+** $DateTime: 2014/02/01 09:38:20 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -21,10 +21,10 @@ extern "C" {
 
 namespace orgQhull {
 
-#//ClassRef
+#//!\name ClassRef
     class QhullFacetSet;
 
-#//Types
+#//!\name Types
     //! QhullVertex -- Qhull's vertex structure, vertexT [libqhull.h], as a C++ class
     class QhullVertex;
     typedef QhullLinkedList<QhullVertex> QhullVertexList;
@@ -43,32 +43,30 @@ namespace orgQhull {
 class QhullVertex {
 
 private:
-#//Fields
-    vertexT            *qh_vertex;
+#//!\name Fields
+    vertexT *           qh_vertex;
 
-#//Class objects
+#//!\name Class objects
     static vertexT      s_empty_vertex;  // needed for shallow copy
 
 public:
-#//Constants
+#//!\name Constants
 
-#//Constructors
+#//!\name Constructors
                         QhullVertex() : qh_vertex(&s_empty_vertex) {}
                         // Creates an alias.  Does not copy QhullVertex.  Needed for return by value and parameter passing
                         QhullVertex(const QhullVertex &o) : qh_vertex(o.qh_vertex) {}
                         // Creates an alias.  Does not copy QhullVertex.  Needed for vector<QhullVertex>
-    QhullVertex        &operator=(const QhullVertex &o) { qh_vertex= o.qh_vertex; return *this; }
-                       ~QhullVertex() {}
+    QhullVertex &       operator=(const QhullVertex &o) { qh_vertex= o.qh_vertex; return *this; }
+                        ~QhullVertex() {}
 
-#//Conversion
+#//!\name Conversion
                         //Implicit conversion from vertexT
                         QhullVertex(vertexT *v) : qh_vertex(v ? v : &s_empty_vertex) {}
-    vertexT            *getVertexT() const { return qh_vertex; }
+    vertexT *           getVertexT() const { return qh_vertex; }
+    vertexT *           getBaseT() const { return getVertexT(); }
 
-#//QhullSet<QhullVertex>
-    vertexT            *getBaseT() const { return getVertexT(); }
-
-#//getSet
+#//!\name getSet
     int                 dimension() const { return (qh_vertex->dim || !isDefined()) ? qh_vertex->dim : UsingLibQhull::globalVertexDimension(); }
     int                 id() const { return qh_vertex->id; }
     bool                isDefined() const { return qh_vertex != &s_empty_vertex; }
@@ -80,11 +78,11 @@ public:
     QhullPoint          point() const { return QhullPoint(dimension(), qh_vertex->point); }
     QhullVertex         previous() const { return qh_vertex->previous; }
 
-#//ForEach
+#//!\name ForEach
     //See also QhullVertexList
     QhullFacetSet       neighborFacets() const;
 
-#//IO
+#//!\name IO
     struct PrintVertex{
         const QhullVertex *vertex;
         int             run_id;
@@ -95,7 +93,7 @@ public:
 
 }//namespace orgQhull
 
-#//GLobal
+#//!\name GLobal
 
 std::ostream &operator<<(std::ostream &os, const orgQhull::QhullVertex::PrintVertex &pr);
 inline std::ostream &operator<<(std::ostream &os, const orgQhull::QhullVertex &v) { os << v.print(orgQhull::UsingLibQhull::NOqhRunId); return os; }

@@ -1,11 +1,11 @@
 /*<html><pre>  -<a                             href="index.htm#TOC"
   >-------------------------------</a><a name="TOP">-</a>
 
-   random.c -- utilities
+   random_r.c -- utilities
      Park & Miller's minimimal standard random number generator
      argc/argv conversion
 
-     Used by rbox.  Do not use 'qh' 
+     Used by rbox_r.c  Do not use 'qh' 
 */
 
 #include "libqhull_r.h"
@@ -176,7 +176,7 @@ qh_randomfactor(qh, scale, offset )
   return a random factor r * scale + offset
 
 notes:
-  qh.RANDOMa/b are defined in global.c
+  qh.RANDOMa/b are defined in global_r.c
   qh_RANDOMint requires 'qh'
 */
 realT qh_randomfactor(qhT *qh, realT scale, realT offset) {

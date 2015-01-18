@@ -1,10 +1,10 @@
 /*<html><pre>  -<a                             href="qh-mem.htm"
   >-------------------------------</a><a name="TOP">-</a>
 
-  mem.c
+  mem_r.c
     memory management routines for qhull
 
-  See libqhull/mem.c for a standalone program.
+  See libqhull/mem_r.c for a standalone program.
 
   To initialize memory:
 
@@ -26,12 +26,12 @@
     assumes small sizes for freelists (it discards the tail of memory buffers)
 
   see:
-    qh-mem.htm and mem.h
-    global.c (qh_initbuffers) for an example of using mem.c
+    qh-mem.htm and mem_r.h
+    global_r.c (qh_initbuffers) for an example of using mem_r.c
 
   Copyright (c) 1993-2014 The Geometry Center.
-  $Id: //main/2011/qhull/src/libqhullr/mem_r.c#2 $$Change: 1645 $
-  $DateTime: 2014/01/15 12:51:30 $$Author: bbarber $
+  $Id: //main/2011/qhull/src/libqhullr/mem_r.c#7 $$Change: 1797 $
+  $DateTime: 2014/12/15 17:23:41 $$Author: bbarber $
 */
 
 #include "mem_r.h"
@@ -259,6 +259,7 @@ void qh_memfreeshort(qhT *qh, int *curlong, int *totlong) {
 
   qh_meminit(qh, ferr )
     initialize qhmem and test sizeof( void*)
+    Does not throw errors.  qh_exit on failure
 */
 void qh_meminit(qhT *qh, FILE *ferr) {
 
@@ -516,7 +517,7 @@ void qh_memstatistics(qhT *qh, FILE *fp) {
     Returns the total current bytes of long and short allocations
     Returns the current count of long and short allocations
     Returns the maximum long memory and total short buffer (minus one link per buffer)
-    Does not error (UsingLibQhull.cpp)
+    Does not error (for deprecated UsingLibQhull.cpp (libqhullpcpp))
 */
 void qh_memtotal(qhT *qh, int *totlong, int *curlong, int *totshort, int *curshort, int *maxlong, int *totbuffer) {
     *totlong= qh->qhmem.totlong;

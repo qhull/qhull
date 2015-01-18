@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2009-2014 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/qhulltest/QhullSet_test.cpp#4 $$Change: 1490 $
-** $DateTime: 2012/02/19 20:27:01 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/qhulltest/QhullSet_test.cpp#6 $$Change: 1708 $
+** $DateTime: 2014/03/26 19:13:56 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -65,7 +65,6 @@ t_qhullsetbase()
         QhullFacetSet fs = f4.neighborFacets();
         fs.defineAs(q.qhullQh()->other_points); // Force an empty set
         QVERIFY(fs.isEmpty());
-        QVERIFY(fs.empty());
         QCOMPARE(fs.count(), 0);
         QCOMPARE(fs.size(), 0u);
         QCOMPARE(fs.begin(), fs.end()); // beginPointer(), endPointer()
@@ -73,7 +72,6 @@ t_qhullsetbase()
 
         QhullRidgeSet rs = f4.ridges();
         QVERIFY(!rs.isEmpty());
-        QVERIFY(!rs.empty());
         QCOMPARE(rs.count(), 4);
         QCOMPARE(rs.size(), 4u);
         QVERIFY(rs.begin()!=rs.end());
@@ -89,7 +87,6 @@ t_qhullsetbase()
         QCOMPARE(fs2.size(), 4u);
         QVERIFY(!fs2.isEmpty());
         QVERIFY(!QhullSetBase::isEmpty(fs2.getSetT()));
-        QVERIFY(!fs2.empty());
         QVERIFY(fs!=fs2);
         setT *s= fs2.getSetT();
         fs.defineAs(s);

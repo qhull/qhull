@@ -1,14 +1,14 @@
 /*<html><pre>  -<a                             href="qh-stat.htm"
   >-------------------------------</a><a name="TOP">-</a>
 
-   stat.h
+   stat_r.h
      contains all statistics that are collected for qhull
 
-   see qh-stat.htm and stat.c
+   see qh-stat.htm and stat_r.c
 
    Copyright (c) 1993-2014 The Geometry Center.
-   $Id: //main/2011/qhull/src/libqhullr/stat_r.h#2 $$Change: 1645 $
-   $DateTime: 2014/01/15 12:51:30 $$Author: bbarber $
+   $Id: //main/2011/qhull/src/libqhullr/stat_r.h#6 $$Change: 1797 $
+   $DateTime: 2014/12/15 17:23:41 $$Author: bbarber $
 
    recompile qhull if you change this file
 
@@ -49,7 +49,7 @@ typedef struct qhstatT qhstatT; /* Defined here */
   Zxxx for integers, Wxxx for reals
 
   notes:
-    be sure that all statistics are defined in stat.c
+    be sure that all statistics are defined in stat_r.c
       otherwise initialization may core dump
     can pick up all statistics by:
       grep '[zw].*_[(][ZW]' *.c >z.x
@@ -457,7 +457,7 @@ enum ztypes {zdoc,zinc,zadd,zmax,zmin,ZTYPEreal,wadd,wmax,wmin,ZTYPEend};
 #define wmin_(id, val) {}
 #endif
 
-/*================== stat.h types ==============*/
+/*================== stat_r.h types ==============*/
 
 
 /*-<a                             href="qh-stat.htm#TOC"

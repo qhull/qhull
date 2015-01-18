@@ -1,18 +1,18 @@
 /*<html><pre>  -<a                             href="qh-user.htm"
   >-------------------------------</a><a name="TOP">-</a>
 
-   userprintf_rbox.c
+   userprintf_rbox_r.c
    qh_fprintf_rbox()
 
    see README.txt  see COPYING.txt for copyright information.
 
-   If you recompile and load this file, then userprintf_rbox.o will not be loaded
+   If you recompile and load this file, then userprintf_rbox_r.o will not be loaded
    from qhull.a or qhull.lib
 
-   See libqhull.h for data structures, macros, and user-callable functions.
-   See user.c for qhull-related, redefinable functions
-   see user.h for user-definable constants
-   See usermem.c for qh_exit(), qh_free(), and qh_malloc()
+   See libqhull_r.h for data structures, macros, and user-callable functions.
+   See user_r.c for qhull-related, redefinable functions
+   see user_r.h for user-definable constants
+   See usermem_r.c for qh_exit(), qh_free(), and qh_malloc()
    see Qhull.cpp and RboxPoints.cpp for examples.
 
    Please report any errors that you fix to qhull@qhull.org
@@ -29,7 +29,7 @@
 
    qh_fprintf_rbox(qh, fp, msgcode, format, list of args )
      print arguments to *fp according to format
-     Use qh_fprintf_rbox() for rboxlib.c
+     Use qh_fprintf_rbox() for rboxlib_r.c
 
    notes:
      same as fprintf()
@@ -41,7 +41,7 @@ void qh_fprintf_rbox(qhT *qh, FILE *fp, int msgcode, const char *fmt, ... ) {
     va_list args;
 
     if (!fp) {
-        fprintf(stderr, "QH6231 Qhull internal error (userprintf.c): fp is 0.  Wrong qh_fprintf_rbox called.\n");
+        fprintf(stderr, "QH6231 Qhull internal error (userprintf_r.c): fp is 0.  Wrong qh_fprintf_rbox called.\n");
         qh_errexit_rbox(qh, 6231);
     }
     if (msgcode >= MSG_ERROR && msgcode < MSG_STDERR)

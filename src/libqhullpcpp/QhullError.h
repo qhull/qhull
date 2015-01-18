@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2012 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullpcpp/QhullError.h#1 $$Change: 1652 $
-** $DateTime: 2014/01/17 09:01:32 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullpcpp/QhullError.h#3 $$Change: 1710 $
+** $DateTime: 2014/03/28 22:23:20 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -10,6 +10,7 @@
 #define QHULLERROR_H
 
 #include "RoadError.h"
+// No dependencies on libqhull
 
 #include <assert.h>
 #include <stdexcept>
@@ -17,21 +18,21 @@
 
 namespace orgQhull {
 
-#//Types
+#//!\name Types
     //! QhullError -- std::exception class for Qhull
     class QhullError;
 
 class QhullError : public RoadError {
 
 public:
-#//Constants
+#//!\name Constants
     enum {
         QHULLfirstError= 10000, //MSG_QHULL_ERROR in Qhull's user.h
-        QHULLlastError= 10070,
+        QHULLlastError= 10073,
         NOthrow= 1 //! For flag to UsingLibQhull()
     };
 
-#//Constructors
+#//!\name Constructors
     // default constructors
     QhullError() : RoadError() {};
     QhullError(const QhullError &other) : RoadError(other) {}
@@ -57,7 +58,7 @@ public:
 
 }//namespace orgQhull
 
-#//Global functions
+#//!\name Global
 
 inline std::ostream &operator<<(std::ostream &os, const orgQhull::QhullError &e) { return os << e.what(); }
 

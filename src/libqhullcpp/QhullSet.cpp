@@ -1,13 +1,14 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2014 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/QhullSet.cpp#6 $$Change: 1663 $
-** $DateTime: 2014/01/19 17:59:16 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullcpp/QhullSet.cpp#10 $$Change: 1799 $
+** $DateTime: 2014/12/17 16:17:40 $$Author: bbarber $
 **
 ****************************************************************************/
 
 #//! QhullSet -- Qhull's set structure, setT, as a C++ class
 
+#include "Qhull.h"
 #include "QhullError.h"
 #include "QhullSet.h"
 
@@ -16,19 +17,32 @@
 
 namespace orgQhull {
 
-#//static members
+#//!\name Class objects
 
 setT QhullSetBase::
 s_empty_set;
 
-// Same code for qh_setsize [qset.c] and QhullSetBase::count
-int QhullSetBase::count(const setT *set)
+#//!\name Constructors
+
+QhullSetBase::
+QhullSetBase(const Qhull &q, setT *s) 
+: qh_set(s ? s : &s_empty_set)
+, qh_qh(q.qh())
 {
-    int size;
+}
+
+#//!\name Class methods
+
+// Same code for qh_setsize [qset_r.c] and QhullSetBase::count [static]
+countT QhullSetBase::
+count(const setT *set)
+{
+    countT size;
     const setelemT *sizep;
 
-    if (!set)
+    if (!set){
         return(0);
+    }
     sizep= SETsizeaddr_(set);
     if ((size= sizep->i)) {
         size--;
@@ -37,11 +51,11 @@ int QhullSetBase::count(const setT *set)
             throw QhullError(10032, "QhullSet internal error: current set size %d is greater than maximum size %d\n",
                 size, set->maxsize);
         }
-    }else
+    }else{
         size= set->maxsize;
+    }
     return size;
-}
-
+}//count
 
 }//namespace orgQhull
 

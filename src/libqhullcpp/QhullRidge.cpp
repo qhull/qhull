@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2014 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/QhullRidge.cpp#4 $$Change: 1464 $
-** $DateTime: 2012/01/25 22:58:41 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullcpp/QhullRidge.cpp#8 $$Change: 1797 $
+** $DateTime: 2014/12/15 17:23:41 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -11,6 +11,7 @@
 #include "QhullSets.h"
 #include "QhullVertex.h"
 #include "QhullRidge.h"
+#include "Qhull.h"
 
 #ifdef _MSC_VER  // Microsoft Visual C++ -- warning level 4
 #pragma warning( disable : 4611)  // interaction between '_setjmp' and C++ object destruction is non-portable
@@ -19,67 +20,74 @@
 
 namespace orgQhull {
 
-#//class statics
+#//!\name Class objects
 ridgeT QhullRidge::
 s_empty_ridge= {0,0,0,0,0,
                 0,0};
 
-#//Constructor, destructor, etc.
+#//!\name Constructors
 
-#//Accessors
+QhullRidge::QhullRidge(const Qhull &q)
+: qh_ridge(&s_empty_ridge)
+, qh_qh(q.qh())
+{
+}//Default
+
+QhullRidge::QhullRidge(const Qhull &q, ridgeT *r)
+: qh_ridge(r ? r : &s_empty_ridge)
+, qh_qh(q.qh())
+{
+}//ridgeT
+
+#//!\name foreach
 
 //! Return True if nextRidge3d
 //! Simplicial facets may have incomplete ridgeSets
-//! Does not use qh_qh or qh_errexit()
+//! Does not use qh_errexit()
 bool QhullRidge::
-hasNextRidge3d(const QhullFacet f) const
+hasNextRidge3d(const QhullFacet &f) const
 {
     vertexT *v= 0;
-    ridgeT *ridge= qh_nextridge3d(getRidgeT(), f.getFacetT(), &v);
+    ridgeT *ridge= qh_nextridge3d(qh_qh, getRidgeT(), f.getFacetT(), &v);
     return (ridge!=0);
 }//hasNextRidge3d
 
-
-
 //! Return next ridge and optional vertex for a 3d facet and ridge
-//! Does not use qh_qh or qh_errexit()
+//! Does not use qh_errexit()
 QhullRidge QhullRidge::
-nextRidge3d(const QhullFacet f, QhullVertex *nextVertex) const
+nextRidge3d(const QhullFacet &f, QhullVertex *nextVertex) const
 {
     vertexT *v= 0;
-    ridgeT *ridge= qh_nextridge3d(getRidgeT(), f.getFacetT(), &v);
+    ridgeT *ridge= qh_nextridge3d(qh_qh, getRidgeT(), f.getFacetT(), &v);
     if(!ridge){
         throw QhullError(10030, "Qhull error nextRidge3d:  missing next ridge for facet %d ridge %d.  Does facet contain ridge?", f.id(), id());
     }
     if(nextVertex!=0){
-        *nextVertex= QhullVertex(v);
+        *nextVertex= QhullVertex(qh_qh, v);
     }
-    return QhullRidge(ridge);
+    return QhullRidge(qh_qh, ridge);
 }//nextRidge3d
-
-
 }//namespace orgQhull
 
-#//Global functions
+#//!\name Global functions
 
 using std::endl;
 using std::ostream;
 using orgQhull::QhullRidge;
 using orgQhull::QhullVertex;
-using orgQhull::UsingLibQhull;
 
 ostream &
 operator<<(ostream &os, const QhullRidge &r)
 {
-    os << r.print(UsingLibQhull::NOqhRunId);
+    os << r.print("");
     return os;
 }//<< QhullRidge
 
-//! Duplicate of qh_printridge [io.c]
-//!  if pr.run_id==UsingLibQhull::NOqhRunId, no access to qh [needed for QhullVertex/QhullPoint]
+//! Duplicate of qh_printridge [io_r.c]
 ostream &
 operator<<(ostream &os, const QhullRidge::PrintRidge &pr)
 {
+    os << pr.print_message;
     QhullRidge r= *pr.ridge;
     os << "     - r" << r.id();
     if(r.getRidgeT()->tested){
@@ -89,7 +97,7 @@ operator<<(ostream &os, const QhullRidge::PrintRidge &pr)
         os << " nonconvex";
     }
     os << endl;
-    os << r.vertices().print(pr.run_id, "           vertices:");
+    os << r.vertices().print("           vertices:");
     if(r.getRidgeT()->top && r.getRidgeT()->bottom){
         os << "           between f" << r.topFacet().id() << " and f" << r.bottomFacet().id() << endl;
     }else if(r.getRidgeT()->top){

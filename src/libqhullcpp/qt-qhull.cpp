@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2009-2014 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/qt-qhull.cpp#4 $$Change: 1490 $
-** $DateTime: 2012/02/19 20:27:01 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullcpp/qt-qhull.cpp#7 $$Change: 1800 $
+** $DateTime: 2014/12/17 21:46:45 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -54,10 +54,10 @@ toQList() const
 
 //! Same as PrintVertices
 QList<QhullVertex> QhullFacetList::
-vertices_toQList(int qhRunId) const
+vertices_toQList() const
 {
     QList<QhullVertex> vs;
-    QhullVertexSet qvs(qhRunId, first().getFacetT(), NULL, isSelectAll());
+    QhullVertexSet qvs(qh(), first().getFacetT(), NULL, isSelectAll());
     for(QhullVertexSet::iterator i=qvs.begin(); i!=qvs.end(); ++i){
         vs.push_back(*i);
     }
@@ -114,6 +114,7 @@ toQList() const
     return vs;
 }//toQList
 
+/******
 QList<QhullPoint> QhullPointSet::
 toQList() const
 {
@@ -124,6 +125,6 @@ toQList() const
     }
     return vs;
 }//toQList
-
+*/
 }//orgQhull
 

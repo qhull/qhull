@@ -1,16 +1,16 @@
 /*<html><pre>  -<a                             href="qh-merge.htm#TOC"
   >-------------------------------</a><a name="TOP">-</a>
 
-   merge.c
+   merge_r.c
    merges non-convex facets
 
-   see qh-merge.htm and merge.h
+   see qh-merge.htm and merge_r.h
 
    other modules call qh_premerge() and qh_postmerge()
 
    the user may call qh_postmerge() to perform additional merges.
 
-   To remove deleted facets and vertices (qhull() in libqhull.c):
+   To remove deleted facets and vertices (qhull() in libqhull_r.c):
      qh_partitionvisible(qh, !qh_ALL, &numoutside);  // visible_list, newfacet_list
      qh_deletevisible();         // qh.visible_list
      qh_resetlists(qh, False, qh_RESETvisible);       // qh.visible_list newvertex_list newfacet_list
@@ -21,11 +21,11 @@
    vertex->neighbors not set until the first merge occurs
 
    Copyright (c) 1993-2014 C.B. Barber.
-   $Id: //main/2011/qhull/src/libqhullr/merge_r.c#4 $$Change: 1663 $
-   $DateTime: 2014/01/19 17:59:16 $$Author: bbarber $
+   $Id: //main/2011/qhull/src/libqhullr/merge_r.c#6 $$Change: 1797 $
+   $DateTime: 2014/12/15 17:23:41 $$Author: bbarber $
 */
 
-#include "qhull_r.h"
+#include "qhull_ra.h"
 
 #ifndef qh_NOmerge
 

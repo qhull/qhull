@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2009-2014 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullpcpp/QhullPoint.cpp#1 $$Change: 1652 $
-** $DateTime: 2014/01/17 09:01:32 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullpcpp/QhullPoint.cpp#3 $$Change: 1711 $
+** $DateTime: 2014/03/30 12:48:17 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -63,6 +63,8 @@ toStdVector() const
 
 #//Operator
 
+//! QhullPoint is equal if it has the same address and dimension, or if the coordinates are within sqrt(qh_qh->distanceEpsilon())
+//! Uses sqrt() since globalDistanceEpsilon is the roundoff for distance to hyperplane, i.e., the inner product
 bool QhullPoint::
 operator==(const QhullPoint &other) const
 {
@@ -79,15 +81,13 @@ operator==(const QhullPoint &other) const
         double diff= *c++ - *c2++;
         dist2 += diff*diff;
     }
-    double epsilon= UsingLibQhull::globalDistanceEpsilon();
-    // std::cout << "DEBUG dist2 " << dist2 << " epsilon^2 " << epsilon*epsilon << std::endl;
-    return (dist2<=(epsilon*epsilon));
-}//operator==
+    return (dist2 <= UsingLibQhull::globalDistanceEpsilon());
+ }//operator==
 
 
 #//Value
 
-//! Return distance betweeen two points.
+//! Return distance between two points.
 double QhullPoint::
 distance(const QhullPoint &p) const
 {
@@ -152,7 +152,7 @@ operator<<(ostream &os, const QhullPoint &p)
 ostream &
 operator<<(ostream &os, const QhullPoint::PrintPoint &pr)
 {
-    QhullPoint p= *pr.point; 
+    QhullPoint p= *pr.point;
     int i= p.id(pr.run_id);
     if(pr.point_message){
         if(*pr.point_message){

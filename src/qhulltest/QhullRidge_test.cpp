@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2014 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/qhulltest/QhullRidge_test.cpp#5 $$Change: 1490 $
-** $DateTime: 2012/02/19 20:27:01 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/qhulltest/QhullRidge_test.cpp#7 $$Change: 1709 $
+** $DateTime: 2014/03/26 22:27:14 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -150,8 +150,8 @@ t_io()
         QhullRidgeSet rs= f.ridges();
         QhullRidge r= rs.first();
         ostringstream os;
-        os << "Ridges Without runId\n" << rs << "Ridge\n" << r;
-        os << "Ridge with runId\n" << r.print(q.runId());
+        os << "Ridges\n" << rs << "Ridge\n" << r;
+        os << "Ridge with runId FIXUP\n" << r.print();
         cout << os.str();
         QString s= QString::fromStdString(os.str());
         QCOMPARE(s.count(" r"), 6+2);

@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2014 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/qhulltest/QhullFacet_test.cpp#6 $$Change: 1490 $
-** $DateTime: 2012/02/19 20:27:01 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/qhulltest/QhullFacet_test.cpp#9 $$Change: 1709 $
+** $DateTime: 2014/03/26 22:27:14 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -125,12 +125,12 @@ t_getSet()
             QCOMPARE(h.offset(), -0.5);
             double n= h.norm();
             QCOMPARE(n, 1.0);
-            QhullHyperplane hi= f.innerplane(q.runId());
+            QhullHyperplane hi= f.innerplane();
             QCOMPARE(hi.count(), 3);
             double innerOffset= hi.offset()+0.5;
             cout << "InnerPlane: " << hi << "innerOffset+0.5 " << innerOffset << endl;
             QVERIFY(innerOffset >= 0.0);
-            QhullHyperplane ho= f.outerplane(q.runId());
+            QhullHyperplane ho= f.outerplane();
             QCOMPARE(ho.count(), 3);
             double outerOffset= ho.offset()+0.5;
             cout << "OuterPlane: " << ho << "outerOffset+0.5 " << outerOffset << endl;
@@ -140,11 +140,11 @@ t_getSet()
                 QVERIFY(ho[k]==hi[k]);
                 QVERIFY(ho[k]==h[k]);
             }
-            QhullPoint center= f.getCenter(q.runId());
+            QhullPoint center= f.getCenter();
             cout << "Center: " << center << endl;
             double d= f.distance(center);
             QVERIFY(d < innerOffset-outerOffset);
-            QhullPoint center2= f.getCenter(q.runId(), qh_PRINTcentrums);
+            QhullPoint center2= f.getCenter(qh_PRINTcentrums);
             QCOMPARE(center, center2);
             if(f.tricoplanarOwner()==tricoplanarOwner){
                 tricoplanarCount2++;
@@ -153,9 +153,9 @@ t_getSet()
         QCOMPARE(tricoplanarCount2, 2);
         Qhull q2(rcube,"d Qz Qt QR0");  // 3-d triangulation of Delaunay triangulation (the cube)
         QhullFacet f2= q2.firstFacet();
-        QhullPoint center3= f2.getCenter(q.runId(), qh_PRINTtriangles);
+        QhullPoint center3= f2.getCenter(qh_PRINTtriangles);
         QCOMPARE(center3.dimension(), 3);
-        QhullPoint center4= f2.getCenter(q.runId());
+        QhullPoint center4= f2.getCenter();
         QCOMPARE(center4.dimension(), 3);
         for(int k= 0; k<3; k++){
             QVERIFY(center4[k]==center3[k]);
@@ -186,7 +186,7 @@ t_value()
             QCOMPARE(d, -0.5);
             double d0= f.distance(c);
             QCOMPARE(d0, -0.5);
-            double facetArea= f.facetArea(q.runId());
+            double facetArea= f.facetArea();
             QCOMPARE(facetArea, 1.0);
             #if qh_MAXoutside
                 double maxoutside= f.getFacetT()->maxoutside;
@@ -237,13 +237,13 @@ t_io()
         QhullFacet f= q.beginFacet();
         cout << f;
         ostringstream os;
-        os << f.printHeader(q.runId());
+        os << f.printHeader();
         os << f.printFlags("    - flags:");
-        os << f.printCenter(q.runId(), qh_PRINTfacets, "    - center:");
-        os << f.printRidges(q.runId());
+        os << f.printCenter(qh_PRINTfacets, "    - center:");
+        os << f.printRidges();
         cout << os.str();
         ostringstream os2;
-        os2 << f.print(q.runId());  // invokes print*()
+        os2 << f.print();  // invokes print*()
         QString facetString2= QString::fromStdString(os2.str());
         facetString2.replace(QRegExp("\\s\\s+"), " ");
         ostringstream os3;

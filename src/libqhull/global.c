@@ -12,8 +12,8 @@
    see qhull_a.h for internal functions
 
    Copyright (c) 1993-2014 The Geometry Center.
-   $Id: //main/2011/qhull/src/libqhull/global.c#15 $$Change: 1490 $
-   $DateTime: 2012/02/19 20:27:01 $$Author: bbarber $
+   $Id: //main/2011/qhull/src/libqhull/global.c#17 $$Change: 1709 $
+   $DateTime: 2014/03/26 22:27:14 $$Author: bbarber $
  */
 
 #include "qhull_a.h"
@@ -1887,7 +1887,9 @@ void qh_initqhull_start2(FILE *infile, FILE *outfile, FILE *errfile) {
   qh tracevertex_id= UINT_MAX; /* recompile to trace a vertex */
   seed= (int)time(&timedata);
   qh_RANDOMseed_(seed);
-  qh run_id= qh_RANDOMint+1; /* disallow 0 [UsingLibQhull::NOqhRunId] */
+  qh->run_id= qh_RANDOMint;
+  if(!qh->run_id)
+      qh->run_id++;  /* guarantee non-zero */
   qh_option("run-id", &qh run_id, NULL);
   strcat(qh qhull, "qhull");
 } /* initqhull_start2 */

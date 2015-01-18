@@ -1,20 +1,20 @@
 /*<html><pre>  -<a                             href="qh-poly.htm"
   >-------------------------------</a><a name="TOP">-</a>
 
-   poly.c
+   poly_r.c
    implements polygons and simplices
 
-   see qh-poly.htm, poly.h and libqhull.h
+   see qh-poly.htm, poly_r.h and libqhull_r.h
 
-   infrequent code is in poly2.c
+   infrequent code is in poly2_r.c
    (all but top 50 and their callers 12/3/95)
 
    Copyright (c) 1993-2014 The Geometry Center.
-   $Id: //main/2011/qhull/src/libqhullr/poly_r.c#4 $$Change: 1663 $
-   $DateTime: 2014/01/19 17:59:16 $$Author: bbarber $
+   $Id: //main/2011/qhull/src/libqhullr/poly_r.c#7 $$Change: 1799 $
+   $DateTime: 2014/12/17 16:17:40 $$Author: bbarber $
 */
 
-#include "qhull_r.h"
+#include "qhull_ra.h"
 
 /*======== functions in alphabetical order ==========*/
 
@@ -1047,7 +1047,7 @@ may have the same identifier.  Otherwise output ok.\n", 0xFFFFFF);
 int qh_pointid(qhT *qh, pointT *point) {
   ptr_intT offset, id;
 
-  if (!point)
+  if (!point || !qh)
     return -3;
   else if (point == qh->interior_point)
     return -2;

@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (p) 2009-2014 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/qhulltest/QhullPoints_test.cpp#6 $$Change: 1490 $
-** $DateTime: 2012/02/19 20:27:01 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/qhulltest/QhullPoints_test.cpp#9 $$Change: 1709 $
+** $DateTime: 2014/03/26 22:27:14 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -58,7 +58,6 @@ t_construct()
     QhullPoints ps;
     QCOMPARE(ps.dimension(), 0);
     QVERIFY(ps.isEmpty());
-    QVERIFY(ps.empty());
     QCOMPARE(ps.count(), 0);
     QCOMPARE(ps.size(), 0u);
     QCOMPARE(ps.coordinateCount(), 0);
@@ -67,7 +66,6 @@ t_construct()
     ps2.defineAs(2, 6, c);
     QCOMPARE(ps2.dimension(), 2);
     QVERIFY(!ps2.isEmpty());
-    QVERIFY(!ps2.empty());
     QCOMPARE(ps2.count(), 3);
     QCOMPARE(ps2.size(), 3u);
     QCOMPARE(ps2.coordinates(), c);
@@ -118,7 +116,7 @@ t_convert()
 void QhullPoints_test::
 t_getset()
 {
-    //See t_construct for coordinates, count, defineAs, dimension, empty, isempty, ==, !=, size
+    //See t_construct for coordinates, count, defineAs, dimension, isempty, ==, !=, size
     coordT c[]= {0.0, 1.0, 2.0, 3.0, 4.0, 5.0};
     QhullPoints ps(3, 6, c);
     QhullPoints ps2(3, 6, c);
@@ -172,7 +170,6 @@ t_element()
     QCOMPARE(ps2.count(), 1);
     QhullPoints ps3= ps.mid(3);
     QVERIFY(ps3.isEmpty());
-    QVERIFY(ps3.empty());
     QhullPoints ps4= ps.mid(10);
     QVERIFY(ps4.isEmpty());
     QhullPoints ps5= ps.mid(-1);
@@ -467,9 +464,9 @@ t_io()
     Qhull q(rcube,"Qt QR0");  // triangulation of rotated unit cube
     QhullPoints ps3= q.points();
     os << "QhullPoints\n" << ps3;
-    os << "RunId\n" << ps3.print(q.runId());
-    os << ps3.print(q.runId(), "RunId w/ message\n");
-    os << ps3.printWithIdentifier(q.runId(), "RunId w/ identifiers\n");
+    os << "RunId\n" << ps3.print();
+    os << ps3.print("RunId w/ message\n");
+    os << ps3.printWithIdentifier("RunId w/ identifiers\n");
     cout << os.str();
     QString s= QString::fromStdString(os.str());
     QCOMPARE(s.count("p"), 3*8+3);

@@ -41,7 +41,6 @@ SOURCES += ../libqhullcpp/QhullVertexSet.cpp
 SOURCES += ../libqhullcpp/RboxPoints.cpp
 SOURCES += ../libqhullcpp/RoadError.cpp
 SOURCES += ../libqhullcpp/RoadLogEvent.cpp
-SOURCES += ../libqhullcpp/UsingLibQhull.cpp
 
 HEADERS += ../libqhullcpp/Coordinates.h
 HEADERS += ../libqhullcpp/functionObjects.h
@@ -63,7 +62,7 @@ HEADERS += ../libqhullcpp/QhullSet.h
 HEADERS += ../libqhullcpp/QhullSets.h
 HEADERS += ../libqhullcpp/QhullStat.h
 HEADERS += ../libqhullcpp/QhullVertex.h
+HEADERS += ../libqhullcpp/QhullVertexSet.h
 HEADERS += ../libqhullcpp/RboxPoints.h
 HEADERS += ../libqhullcpp/RoadError.h
 HEADERS += ../libqhullcpp/RoadLogEvent.h
-HEADERS += ../libqhullcpp/UsingLibQhull.h

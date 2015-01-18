@@ -1,7 +1,7 @@
 /*<html><pre>  -<a                             href="qh-user.htm"
   >-------------------------------</a><a name="TOP">-</a>
 
-   usermem.c
+   usermem_r.c
    qh_exit(), qh_free(), and qh_malloc()
 
    See README.txt.
@@ -10,10 +10,10 @@
    If you recompile and load this file, then usermem.o will not be loaded
    from qhull.a or qhull.lib
 
-   See libqhull.h for data structures, macros, and user-callable functions.
-   See user.c for qhull-related, redefinable functions
-   see user.h for user-definable constants
-   See userprintf.c for qh_fprintf and userprintf_rbox,c for qh_fprintf_rbox
+   See libqhull_r.h for data structures, macros, and user-callable functions.
+   See user_r.c for qhull-related, redefinable functions
+   see user_r.h for user-definable constants
+   See userprintf_r.c for qh_fprintf and userprintf_rbox_r.c for qh_fprintf_rbox
 
    Please report any errors that you fix to qhull@qhull.org
 */
