@@ -49,6 +49,10 @@ To do for a furture version of the C++ interface
  - Add QList and vector instance of facetT*, etc.
  - Generalize QhullPointSetIterator
 
+-----------
+To Do
+ - vertex_id should be 'countT'
+
 ------------
 Qhull 2015.0.2
 
