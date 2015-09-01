@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/RboxPoints.cpp#10 $$Change: 1810 $
-** $DateTime: 2015/01/17 18:28:15 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullcpp/RboxPoints.cpp#14 $$Change: 1951 $
+** $DateTime: 2015/08/30 21:30:30 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -32,7 +32,7 @@ namespace orgQhull {
 #//!\name Constructors
 RboxPoints::
 RboxPoints()
-: PointCoordinates(0, "rbox")
+: PointCoordinates("rbox")
 , rbox_new_count(0)
 , rbox_status(qh_ERRnone)
 , rbox_message()
@@ -45,12 +45,13 @@ RboxPoints()
 //! Same as appendPoints()
 RboxPoints::
 RboxPoints(const char *rboxCommand)
-: PointCoordinates(0, "rbox")
+: PointCoordinates("rbox")
 , rbox_new_count(0)
 , rbox_status(qh_ERRnone)
 , rbox_message()
 {
     allocateQhullQh();
+    // rbox arguments added to comment() via qh_rboxpoints > qh_fprintf_rbox
     appendPoints(rboxCommand);
 }
 
@@ -58,7 +59,7 @@ RboxPoints::
 ~RboxPoints()
 {
     delete qh();
-    setQhullQh(0);
+    resetQhullQh(0);
 }
 
 // RboxPoints and qh_rboxpoints has several fields in qhT (rbox_errexit..cpp_object)
@@ -67,7 +68,8 @@ RboxPoints::
 void RboxPoints::
 allocateQhullQh()
 {
-    setQhullQh(new QhullQh);
+    QHULL_LIB_CHECK
+    resetQhullQh(new QhullQh);
 }//allocateQhullQh
 
 #//!\name Messaging
@@ -184,7 +186,7 @@ void qh_fprintf_rbox(qhT *qh, FILE*, int msgcode, const char *fmt, ... ) {
         out->rbox_message += "RboxPoints error: options 'h', 'n' not supported.\n";
         qh_errexit_rbox(qh, 10010);
         /* never returns */
-    case 9393:  // FIXUP countT vs. int
+    case 9393:  // FIXUP QH11026 countT vs. int
         {
             int dimension= va_arg(args, int);
             string command(va_arg(args, char*));

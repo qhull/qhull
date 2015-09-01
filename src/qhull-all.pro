@@ -7,43 +7,38 @@
 #
 # To build DevStudio sln and proj files (Qhull ships with cmake derived files)
 # qmake is in Qt's bin directory
-# ../build> qmake -tp vc -r ../src/qhull-all.pro
-# Need to add Build Dependencies, disable rtti, rename targets to qhull.dll, qhull6_p.dll and qhull6_pd.dll
+# mkdir -p build && cd build && qmake -tp vc -r ../src/qhull-all.pro
+# Additional Library Directories -- C:\qt\Qt5.2.0\5.2.0\msvc2012_64\lib
+# libqhullcpp and libqhullstatic refered to $(QTDIR) but apparently didn't retrieve (should be %QTDIR%?)
+# libqhull_r also needs ..\..\lib
+# Need to change build/x64/Debug/*.lib to lib/ (or copy libs by hand, each time)
+# Additional Build Dependencies
+# See README.txt -- Need to add Build Dependencies, disable rtti, rename targets to qhull.dll, qhull6_p.dll and qhull6_pd.dll
 # -------------------------------------------------
 
 TEMPLATE = subdirs
 CONFIG += ordered
 
-SUBDIRS += libqhullr       #shared library for reentrant code
-SUBDIRS += user_eg         #user program linked to libqhullr (libqhullr)
+SUBDIRS += libqhull_r      #shared library with reentrant code
+SUBDIRS += libqhullstatic  #static library
+SUBDIRS += libqhullstatic_r #static library with reentrant code
+SUBDIRS += libqhullcpp     #static library for C++ interface with libqhullstatic_r
 
-SUBDIRS += libqhullstaticr #static library with reentrant code
-SUBDIRS += qhull           #qhull programs linked to libqhullstatic
-SUBDIRS += qconvex
+SUBDIRS += qhull           #qhull program linked to libqhullstatic_r
+SUBDIRS += rbox         
+SUBDIRS += qconvex         #qhull programs linked to libqhullstatic
 SUBDIRS += qdelaunay
 SUBDIRS += qhalf
 SUBDIRS += qvoronoi
-SUBDIRS += rbox
-SUBDIRS += qhullr          #qhull program linked to libqhullstatic_r
-SUBDIRS += rboxr	   #rbox program linked to libqhullstatic_r
-SUBDIRS += user_eg2        #user program linked to libqhullr
+
+SUBDIRS += user_eg         #user programs linked to libqhull_r
+SUBDIRS += user_eg2  
+SUBDIRS += user_eg3        #user program with libqhullcpp and libqhullstatic_r
+
+SUBDIRS += qhulltest       #C++ test program with Qt, libqhullcpp, and libqhullstatic_r
 SUBDIRS += testqset        #test program for qset.c with mem.c
-SUBDIRS += testqsetr       #test program for qset_r.c with mem_r.c
-
-SUBDIRS += libqhullcpp     #static library for C++ interface with libqhullstaticr
-SUBDIRS += user_eg3        #user program with libqhullcpp and libqhullstaticr
-SUBDIRS += qhulltest       #test program with Qt, libqhullcpp, and libqhullstaticr
-
-# Deprecated projects
-SUBDIRS += libqhull        #shared library
-SUBDIRS += libqhullp       #shared library with qh_QHpointer (libqhull/user.h)
-SUBDIRS += libqhullstatic  #static library
-SUBDIRS += libqhullstaticp #static library with qh_QHpointer
-SUBDIRS += qhullptest       #test program with Qt, libqhullpcpp, and libqhullstaticp
-SUBDIRS += libqhullpcpp     #static library for C++ interface with libqhullstaticp
-SUBDIRS += user_egp         #user program linked to libqhull6_p (libqhullp)
-SUBDIRS += user_eg2p        #user program linked to libqhull
-SUBDIRS += user_eg3p        #user program with libqhullcpp and libqhullstaticp
+SUBDIRS += testqset_r      #test program for qset_r.c with mem_r.c
+                           #See eg/q_test for qhull tests
 
 OTHER_FILES += Changes.txt
 OTHER_FILES += CMakeLists.txt
@@ -86,10 +81,14 @@ OTHER_FILES += ../html/qvoronoi.htm
 OTHER_FILES += ../html/rbox.htm
 OTHER_FILES += ../html/rbox.man
 OTHER_FILES += ../html/rbox.txt
-OTHER_FILES += ../libqhull/DEPRECATED.txt
-OTHER_FILES += ../libqhullp/DEPRECATED.txt
-OTHER_FILES += ../libqhullpcpp/DEPRECATED.txt
-OTHER_FILES += ../qhullptest/DEPRECATED.txt
-OTHER_FILES += ../libqhull/qhull-exports.def
-OTHER_FILES += ../libqhullp/qhull_p-exports.def
-OTHER_FILES += ../libqhullr/qhull_r-exports.def
+OTHER_FILES += ../src/libqhull/Makefile
+OTHER_FILES += ../src/libqhull_r/Makefile
+OTHER_FILES += ../src/libqhull_r/qhull_r-exports.def
+OTHER_FILES += ../src/qconvex/qconvex_r.c
+OTHER_FILES += ../src/qdelaunay/qdelaun_r.c
+OTHER_FILES += ../src/qhalf/qhalf_r.c
+OTHER_FILES += ../src/qhull/rbox_r.c
+OTHER_FILES += ../src/qvoronoi/qvoronoi_r.c
+OTHER_FILES += ../src/qhull/unix.c
+OTHER_FILES += ../src/user_eg/user_eg.c
+OTHER_FILES += ../src/user_eg2/user_eg2.c

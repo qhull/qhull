@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2009-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/QhullPointSet.cpp#14 $$Change: 1810 $
-** $DateTime: 2015/01/17 18:28:15 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullcpp/QhullPointSet.cpp#15 $$Change: 1868 $
+** $DateTime: 2015/03/26 20:13:15 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -16,154 +16,7 @@
 
 namespace orgQhull {
 
-#//!\name Conversions
-
-/************** FIXUP
-// See qt-qhull.cpp for QList conversion
-
-#ifndef QHULL_NO_STL
-std::vector<QhullPoint> QhullPointSet::
-toStdVector() const
-{
-    QhullPointSetIterator i(*this);
-    std::vector<QhullPoint> vs;
-    while(i.hasNext()){
-        vs.push_back(i.next());
-    }
-    return vs;
-}//toStdVector
-#endif //QHULL_NO_STL
-
-#//!\name GetSet
-
-bool QhullPointSet::
-operator==(const QhullPointSet &o) const
-{
-    if(dimension()!=o.dimension() || count()!=o.count()){
-        return false;
-    }
-    QhullPointSetIterator i(*this);
-    QhullPointSetIterator j(o);
-    while(i.hasNext()){
-        if(i.next()!=j.next()){
-            return false;
-        }
-    }
-    return true;
-}//operator==
-
-//! Derived from QhullSet::value
-//! Returns QhullPoint() on error
-QhullPoint QhullPointSet::
-value(countT idx) const
-{
-    // Avoid error in qh_setsize() and assert in elementPointer()
-    //const T *n= reinterpret_cast<const T *>(&SETelem_(getSetT(), idx));
-    void **n= reinterpret_cast<void **>(&SETelem_(getSetT(), idx));
-    coordT **n2= reinterpret_cast<coordT **>(n);
-    if(idx>=0 && n<endPointer()){
-        return QhullPoint(qh(), *n2);
-    }else{
-        return QhullPoint(qh());
-    }
-}//value
-
-//! Non-const since copy is an alias
-//! Derived from QhullSet::value
-QhullPoint QhullPointSet::
-value(countT idx, QhullPoint &defaultValue) const
-{
-    // Avoid call to qh_setsize() and assert in elementPointer()
-    void **n= reinterpret_cast<void **>(&SETelem_(getSetT(), idx));
-    coordT **n2= reinterpret_cast<coordT **>(n);
-    if(idx>=0 && n<endPointer()){
-        return QhullPoint(qh(), dimension(), *n2);
-    }else{
-        return defaultValue;
-    }
-}//value
-
-#//!\name Methods
-
-bool QhullPointSet::
-contains(const QhullPoint &t) const
-{
-    QhullPointSetIterator i(*this);
-    while(i.hasNext()){
-        if(i.next()==t){
-            return true;
-        }
-    }
-    return false;
-}//contains
-
-countT QhullPointSet::
-count(const QhullPoint &t) const
-{
-    countT n= 0;
-    QhullPointSetIterator i(*this);
-    while(i.hasNext()){
-        if(i.next()==t){
-            ++n;
-        }
-    }
-    return n;
-}//count
-
-countT QhullPointSet::
-indexOf(const QhullPoint &t) const
-{
-    countT idx= 0;
-    QhullPointSetIterator i(*this);
-    while(i.hasNext()){
-        if(i.next()==t){
-            return idx;
-        }
-        ++idx;
-    }
-    return -1;
-}//indexOf
-
-countT QhullPointSet::
-lastIndexOf(const QhullPoint &t) const
-{
-    countT idx= count()-1;
-    QhullPointSetIterator i(*this);
-    i.toBack();
-    while(i.hasPrevious()){
-        if(i.previous()==t){
-            break;
-        }
-        --idx;
-    }
-    return idx;
-}//lastIndexOf
-*/
-/**************** FIXUP
-#//QhullPointSetIterator
-
-bool QhullPointSetIterator::
-findNext(const QhullPoint &p)
-{
-    while(i!=c->constEnd()){
-        if(*i++ == p){
-            return true;
-        }
-    }
-    return false;
-}//findNext
-
-bool QhullPointSetIterator::
-findPrevious(const QhullPoint &p)
-{
-    while(i!=c->constBegin()){
-        if(*(--i) == p){
-            return true;
-        }
-    }
-    return false;
-}//findPrevious
-*/
+// Implemented via QhullSet.h
 
 }//namespace orgQhull
 

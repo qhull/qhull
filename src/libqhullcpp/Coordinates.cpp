@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2009-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/Coordinates.cpp#8 $$Change: 1810 $
-** $DateTime: 2015/01/17 18:28:15 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullcpp/Coordinates.cpp#10 $$Change: 1879 $
+** $DateTime: 2015/04/18 08:36:07 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -21,7 +21,9 @@ namespace orgQhull {
 
 #//! Coordinates -- vector of coordT (normally double)
 
-#//Element access
+#//!\name Constructor
+
+#//!\name Element access
 
 // Inefficient without result-value-optimization or implicitly shared object
 Coordinates Coordinates::
@@ -66,7 +68,18 @@ operator+=(const Coordinates &other)
     return *this;
 }//operator+=
 
-#//Read-write
+#//!\name Read-write
+
+void Coordinates::
+append(int pointDimension, coordT *c)
+{
+    if(c){
+        coordT *p= c;
+        for(int i= 0; i<pointDimension; ++i){
+            coordinate_array.push_back(*p++);
+        }
+    }
+}//append dim coordT
 
 coordT Coordinates::
 takeAt(countT idx)
@@ -92,7 +105,7 @@ swap(countT idx, countT other)
     at(other)= c;
 }//swap
 
-#//Search
+#//!\name Search
 
 bool Coordinates::
 contains(const coordT &t) const

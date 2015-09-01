@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2009-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/QhullPoint.cpp#13 $$Change: 1810 $
-** $DateTime: 2015/01/17 18:28:15 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullcpp/QhullPoint.cpp#15 $$Change: 1814 $
+** $DateTime: 2015/01/20 21:27:58 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -35,6 +35,7 @@ QhullPoint(const Qhull &q, coordT *c)
 , qh_qh(q.qh())
 , point_dimension(q.hullDimension())
 {
+    QHULL_ASSERT(q.hullDimension()>0);
 }//QhullPoint dim, coordT
 
 QhullPoint::
@@ -45,6 +46,7 @@ QhullPoint(const Qhull &q, int pointDimension, coordT *c)
 {
 }//QhullPoint dim, coordT
 
+//! QhullPoint of Coordinates with point_dimension==c.count()
 QhullPoint::
 QhullPoint(const Qhull &q, Coordinates &c) 
 : point_coordinates(c.data())
@@ -72,8 +74,10 @@ toStdVector() const
 
 #//!\name GetSet
 
-//! QhullPoint is equal if it has the same address and dimension, or if the distance between the points is less than sqrt(qh_qh->distanceEpsilon())
-//! Uses sqrt() since distanceEpsilon is the roundoff for distance to hyperplane, i.e., the inner product
+//! QhullPoint is equal if it has the same address and dimension
+//! If !qh_qh, returns true if dimension and coordinates are equal
+//! If qh_qh, returns true if the distance between points is less than qh_qh->distanceEpsilon()
+//!\todo Compares distance with distance-to-hyperplane (distanceEpsilon).   Is that correct?
 bool QhullPoint::
 operator==(const QhullPoint &other) const
 {
@@ -85,15 +89,24 @@ operator==(const QhullPoint &other) const
     if(c==c2){
         return true;
     }
-    if(!c || !c2 || !qh_qh){
+    if(!c || !c2){
         return false;
+    }
+    if(!qh_qh || qh_qh->hull_dim==0){
+        for(int k= point_dimension; k--; ){
+            if(*c++ != *c2++){
+                return false;
+            }
+        }
+        return true;
     }
     double dist2= 0.0;
     for(int k= point_dimension; k--; ){
         double diff= *c++ - *c2++;
         dist2 += diff*diff;
     }
-    return (dist2 < qh_qh->distanceEpsilon()); // dist2 is distance()^2
+    dist2= sqrt(dist2);
+    return (dist2 < qh_qh->distanceEpsilon());
 }//operator==
 
 #//!\name Methods
@@ -164,7 +177,7 @@ operator<<(ostream &os, const QhullPoint::PrintPoint &pr)
         if(*pr.point_message){
             os << pr.point_message << " ";
         }
-        if(pr.with_identifier && (i!=-1)){
+        if(pr.with_identifier && (i!=qh_IDunknown) && (i!=qh_IDnone)){
             os << "p" << i << ": ";
         }
     }

@@ -1,16 +1,16 @@
 /****************************************************************************
 **
 ** Copyright (c) 2006-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/qhulltest/RboxPoints_test.cpp#6 $$Change: 1810 $
-** $DateTime: 2015/01/17 18:28:15 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/qhulltest/RboxPoints_test.cpp#10 $$Change: 1868 $
+** $DateTime: 2015/03/26 20:13:15 $$Author: bbarber $
 **
 ****************************************************************************/
 //pre-compiled headers
 #include <iostream>
 #include "RoadTest.h" // QT_VERSION
 
-#include "RboxPoints.h"
-#include "QhullError.h"
+#include "libqhullcpp/RboxPoints.h"
+#include "libqhullcpp/QhullError.h"
 
 using std::cout;
 using std::endl;
@@ -26,7 +26,7 @@ class RboxPoints_test : public RoadTest
 {
     Q_OBJECT
 
-#//Test slots
+#//!\name Test slots
 private slots:
     void t_construct();
     void t_error();
@@ -114,8 +114,6 @@ t_getSet()
     QCOMPARE(rp.dimension(), 0);
     rp.setDimension(2);
     QCOMPARE(rp.dimension(), 2);
-    rp.setDimension(2);
-    QCOMPARE(rp.dimension(), 2);
     try{
         rp.setDimension(102);
         QFAIL("setDimension(102) did not fail.");
@@ -126,7 +124,7 @@ t_getSet()
     rp.appendPoints("D2 P1 P2");
     QCOMPARE(rp.count(), 2);
     QCOMPARE(rp.newCount(), 2); // From previous appendPoints();
-    PointCoordinates pc(2);
+    PointCoordinates pc(rp.qh(), 2, "Test qh() and <<");
     pc << 1.0 << 0.0 << 2.0 << 0.0;
     QCOMPARE(pc.dimension(), 2);
     QCOMPARE(pc.count(), 2);

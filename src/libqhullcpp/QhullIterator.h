@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/QhullIterator.h#10 $$Change: 1810 $
-** $DateTime: 2015/01/17 18:28:15 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullcpp/QhullIterator.h#12 $$Change: 1914 $
+** $DateTime: 2015/06/21 22:08:19 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -10,7 +10,7 @@
 #define QHULLITERATOR_H
 
 extern "C" {
-    #include "libqhullr/qhull_ra.h"
+    #include "libqhull_r/qhull_ra.h"
 }
 
 #include <assert.h>
@@ -59,6 +59,7 @@ namespace orgQhull {
 // Remove setShareable() from Q_DECLARE_MUTABLE_SEQUENTIAL_ITERATOR
 // Uses QHULL_ASSERT (assert.h)
 // Duplicated in MutablePointIterator without insert or remove
+// Not used in libqhullcpp.  See Coordinates.h
 #define QHULL_DECLARE_MUTABLE_SEQUENTIAL_ITERATOR(C, T) \
     class Mutable##C##Iterator \
     { \
@@ -97,6 +98,7 @@ namespace orgQhull {
         n = c->end(); return false;  } \
     };//Mutable##C##Iterator
 
+// Not used in libqhullcpp.
 #define QHULL_DECLARE_SET_ITERATOR(C) \
 \
     template <class T> \
@@ -125,6 +127,7 @@ namespace orgQhull {
         return false;  } \
     };//Qhull##C##Iterator
 
+// Not used in libqhullcpp.
 #define QHULL_DECLARE_MUTABLE_SET_ITERATOR(C) \
 \
 template <class T> \

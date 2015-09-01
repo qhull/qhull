@@ -1,17 +1,19 @@
 /****************************************************************************
 **
 ** Copyright (c) 2009-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/qhulltest/QhullLinkedList_test.cpp#7 $$Change: 1810 $
-** $DateTime: 2015/01/17 18:28:15 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/qhulltest/QhullLinkedList_test.cpp#11 $$Change: 1879 $
+** $DateTime: 2015/04/18 08:36:07 $$Author: bbarber $
 **
 ****************************************************************************/
 
 //pre-compiled headers
 #include <QtCore/QList>
-#include "RoadTest.h"
+#include "qhulltest/RoadTest.h"
 
-#include "QhullLinkedList.h"
-#include "Qhull.h"
+#include "libqhullcpp/QhullLinkedList.h"
+#include "libqhullcpp/Qhull.h"
+#include "libqhullcpp/QhullVertex.h"
+#include "libqhullcpp/RboxPoints.h"
 
 namespace orgQhull {
 
@@ -19,7 +21,7 @@ class QhullLinkedList_test : public RoadTest
 {
     Q_OBJECT
 
-#//Test slots
+#//!\name Test slots
 private slots:
     void cleanup();
     void t_construct();
@@ -123,7 +125,7 @@ t_search()
     RboxPoints rcube("c");
     Qhull q(rcube,"QR0");  // rotated unit cube
     QhullVertexList vs = q.vertexList();
-    QhullVertex v;
+    QhullVertex v(q);
     QVERIFY(!vs.contains(v));
     QCOMPARE(vs.count(v), 0);
     QhullVertex v2= *vs.begin();

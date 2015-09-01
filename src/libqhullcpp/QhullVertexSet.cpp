@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2009-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/QhullVertexSet.cpp#12 $$Change: 1810 $
-** $DateTime: 2015/01/17 18:28:15 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullcpp/QhullVertexSet.cpp#15 $$Change: 1835 $
+** $DateTime: 2015/02/16 22:32:04 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -14,8 +14,6 @@
 #include "QhullRidge.h"
 #include "QhullVertex.h"
 #include "Qhull.h"
-
-#include "UsingLibQhull.h"
 
 using std::string;
 using std::vector;
@@ -37,46 +35,50 @@ QhullVertexSet(const Qhull &q, facetT *facetlist, setT *facetset, bool allfacets
         defineAs(vertices);
         qhsettemp_defined= true;
     }
+    q.qh()->NOerrexit= true;
     q.qh()->maybeThrowQhullMessage(QH_TRY_status);
 }//QhullVertexSet facetlist facetset
 
+//! Return tempory QhullVertexSet of vertices for a list and/or a set of facets
+//! Sets qhsettemp_defined (disallows copy constructor and assignment to prevent double-free)
 QhullVertexSet::
-QhullVertexSet(QhullQh *qh, facetT *facetlist, setT *facetset, bool allfacets)
-: QhullSet<QhullVertex>(qh, 0)
+QhullVertexSet(QhullQh *qqh, facetT *facetlist, setT *facetset, bool allfacets)
+: QhullSet<QhullVertex>(qqh, 0)
 , qhsettemp_defined(false)
 {
-    QH_TRY_(qh){ // no object creation -- destructors skipped on longjmp()
-        setT *vertices= qh_facetvertices(qh, facetlist, facetset, allfacets);
+    QH_TRY_(qh()){ // no object creation -- destructors skipped on longjmp()
+        setT *vertices= qh_facetvertices(qh(), facetlist, facetset, allfacets);
         defineAs(vertices);
         qhsettemp_defined= true;
     }
-    qh->maybeThrowQhullMessage(QH_TRY_status);
+    qh()->NOerrexit= true;
+    qh()->maybeThrowQhullMessage(QH_TRY_status);
 }//QhullVertexSet facetlist facetset
 
 //! Copy constructor for argument passing and returning a result
 //! Only copies a pointer to the set.
-//! If qhsettemp_defined, transfers ownership to destination, otherwise the set will be freed twice
-//! If qhsettemp_defined and passed by value, the set will be empty on return to caller
+//! Throws an error if qhsettemp_defined, otherwise have a double-free
+//!\todo Convert QhullVertexSet to a shared pointer with reference counting
 QhullVertexSet::
-QhullVertexSet(QhullVertexSet &other) 
+QhullVertexSet(const QhullVertexSet &other)
 : QhullSet<QhullVertex>(other)
-, qhsettemp_defined(other.qhsettemp_defined)
+, qhsettemp_defined(false)
 {
-    other.qhsettemp_defined= false;
-    other.forceEmpty();
+    if(other.qhsettemp_defined){
+        throw QhullError(10077, "QhullVertexSet: Cannot use copy constructor since qhsettemp_defined (e.g., QhullVertexSet for a set and/or list of QhFacet).  Contains %d vertices", other.count());
+    }
 }//copy constructor
 
 //! Copy assignment only copies a pointer to the set.
-//! If qhsettemp_defined, transfers ownership to destination, otherwise the set will be freed twice
-//! If qhsettemp_defined and passed by value, the set will be empty on return to caller
-//! 'other' is not 'const' due to ownership transfer
+//! Throws an error if qhsettemp_defined, otherwise have a double-free
 QhullVertexSet & QhullVertexSet::
-operator=(QhullVertexSet &other) 
+operator=(const QhullVertexSet &other)
 {
     QhullSet<QhullVertex>::operator=(other);
-    qhsettemp_defined= other.qhsettemp_defined;
-    other.qhsettemp_defined= false;
-    other.forceEmpty();
+    qhsettemp_defined= false;
+    if(other.qhsettemp_defined){
+        throw QhullError(10078, "QhullVertexSet: Cannot use copy constructor since qhsettemp_defined (e.g., QhullVertexSet for a set and/or list of QhFacet).  Contains %d vertices", other.count());
+    }
     return *this;
 }//copy constructor
 
@@ -88,6 +90,7 @@ freeQhSetTemp()
         QH_TRY_(qh()){ // no object creation -- destructors skipped on longjmp()
             qh_settempfree(qh(), referenceSetT()); // errors if not top of tempstack or if qhmem corrupted
         }
+        qh()->NOerrexit= true;
         qh()->maybeThrowQhullMessage(QH_TRY_status, QhullError::NOthrow);
     }
 }//freeQhSetTemp
@@ -108,15 +111,12 @@ using orgQhull::QhullPoint;
 using orgQhull::QhullVertex;
 using orgQhull::QhullVertexSet;
 using orgQhull::QhullVertexSetIterator;
-using orgQhull::UsingLibQhull;
 
 //! Print Vertex identifiers to stream.  Space prefix.  From qh_printVertexheader [io_r.c]
 ostream &
 operator<<(ostream &os, const QhullVertexSet::PrintIdentifiers &pr)
 {
-    if(pr.print_message && *pr.print_message){
-        os << pr.print_message;
-    }
+    os << pr.print_message;
     for(QhullVertexSet::const_iterator i= pr.vertex_set->begin(); i!=pr.vertex_set->end(); ++i){
         const QhullVertex v= *i;
         os << " v" << v.id();

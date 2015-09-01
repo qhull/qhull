@@ -5,6 +5,8 @@
 
 # Order object files by frequency of execution.  Small files at end.
 # Current directory is caller
+
+# libqhull/libqhull.pro and ../qhull-libqhull-src.pri have the same SOURCES and HEADERS
 SOURCES += ../libqhull/global.c
 SOURCES += ../libqhull/stat.c
 SOURCES += ../libqhull/geom2.c
@@ -23,6 +25,7 @@ SOURCES += ../libqhull/user.c
 SOURCES += ../libqhull/rboxlib.c
 SOURCES += ../libqhull/userprintf_rbox.c
 
+# [2014] qmake locates the headers in the shadow build directory not the src directory
 HEADERS += ../libqhull/geom.h
 HEADERS += ../libqhull/io.h
 HEADERS += ../libqhull/libqhull.h

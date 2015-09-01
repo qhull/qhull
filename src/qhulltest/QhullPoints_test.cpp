@@ -1,18 +1,18 @@
 /****************************************************************************
 **
 ** Copyright (p) 2009-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/qhulltest/QhullPoints_test.cpp#10 $$Change: 1810 $
-** $DateTime: 2015/01/17 18:28:15 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/qhulltest/QhullPoints_test.cpp#15 $$Change: 1868 $
+** $DateTime: 2015/03/26 20:13:15 $$Author: bbarber $
 **
 ****************************************************************************/
 
 //pre-compiled header
 #include <iostream>
-#include "RoadTest.h" // QT_VERSION
+#include "qhulltest/RoadTest.h" // QT_VERSION
 
-#include "QhullPoints.h"
-#include "RboxPoints.h"
-#include "Qhull.h"
+#include "libqhullcpp/QhullPoints.h"
+#include "libqhullcpp/RboxPoints.h"
+#include "libqhullcpp/Qhull.h"
 
 using std::cout;
 using std::endl;
@@ -24,10 +24,11 @@ class QhullPoints_test : public RoadTest
 {
     Q_OBJECT
 
-#//Test slots
+#//!\name Test slots
 private slots:
     void cleanup();
-    void t_construct();
+    void t_construct_q();
+    void t_construct_qh();
     void t_convert();
     void t_getset();
     void t_element();
@@ -52,26 +53,24 @@ cleanup()
 }
 
 void QhullPoints_test::
-t_construct()
+t_construct_q()
 {
-    QhullPoints ps;
+    Qhull q;
+    QhullPoints ps(q);
     QCOMPARE(ps.dimension(), 0);
     QVERIFY(ps.isEmpty());
     QCOMPARE(ps.count(), 0);
     QCOMPARE(ps.size(), 0u);
     QCOMPARE(ps.coordinateCount(), 0);
     coordT c[]= {0.0, 1.0, 2.0, 3.0, 4.0, 5.0};
-    QhullPoints ps2;
+    QhullPoints ps2(q);
     ps2.defineAs(2, 6, c);
     QCOMPARE(ps2.dimension(), 2);
     QVERIFY(!ps2.isEmpty());
     QCOMPARE(ps2.count(), 3);
     QCOMPARE(ps2.size(), 3u);
     QCOMPARE(ps2.coordinates(), c);
-    QhullPoints ps7(3);
-    QCOMPARE(ps7.dimension(), 3);
-    QVERIFY(ps7.isEmpty());
-    QhullPoints ps3(2, 6, c);
+    QhullPoints ps3(q, 2, 6, c);
     QCOMPARE(ps3.dimension(), 2);
     QVERIFY(!ps3.isEmpty());
     QCOMPARE(ps3.coordinates(), ps2.coordinates());
@@ -84,17 +83,100 @@ t_construct()
     QVERIFY(ps5==ps4);
     QVERIFY(!(ps5!=ps4));
     coordT c2[]= {0.0, 1.0, 2.0, 3.0, 4.0, 5.0};
-    QhullPoints ps6(2, 6, c2);
+    QhullPoints ps6(q, 2, 6, c2);
     QVERIFY(ps6==ps2);
     q.checkAndFreeQhullMemory();
-}//t_construct
+
+    RboxPoints rbox("c D2");
+    Qhull q2(rbox, "");
+    QhullPoints ps8(q2);
+    QCOMPARE(ps8.dimension(), 2);
+    QCOMPARE(ps8.count(), 0);
+    QCOMPARE(ps8.size(), 0u);
+    QCOMPARE(ps8.coordinateCount(), 0);
+    coordT c3[]= {0.0, 1.0, 2.0, 3.0, 4.0, 5.0};
+    QhullPoints ps9(q2, 6, c3);
+    QCOMPARE(ps9.dimension(), 2);
+    QCOMPARE(ps9.coordinateCount(), 6);
+    QCOMPARE(ps9.count(), 3);
+    QCOMPARE(ps9.coordinates(), c3);
+    QCOMPARE(ps9, ps2);  // DISTround
+    c3[1]= 1.0+1e-17;
+    QCOMPARE(ps9, ps2);  // DISTround
+    c3[1]= 1.0+1e-15;
+    QVERIFY(ps9!=ps2);  // DISTround
+
+    ps9.defineAs(6, c2);
+    QCOMPARE(ps9.dimension(), 2);
+    QCOMPARE(ps9.coordinateCount(), 6);
+    QCOMPARE(ps9.count(), 3);
+    QCOMPARE(ps9.coordinates(), c2);
+    q2.checkAndFreeQhullMemory();
+}//t_construct_q
+
+void QhullPoints_test::
+t_construct_qh()
+{
+    Qhull q;
+    QhullQh *qh= q.qh();
+    QhullPoints ps(qh);
+    QCOMPARE(ps.dimension(), 0);
+    QVERIFY(ps.isEmpty());
+    QCOMPARE(ps.count(), 0);
+    QCOMPARE(ps.size(), 0u);
+    QCOMPARE(ps.coordinateCount(), 0);
+    coordT c[]= {0.0, 1.0, 2.0, 3.0, 4.0, 5.0};
+    QhullPoints ps2(qh);
+    ps2.defineAs(2, 6, c);
+    QCOMPARE(ps2.dimension(), 2);
+    QVERIFY(!ps2.isEmpty());
+    QCOMPARE(ps2.count(), 3);
+    QCOMPARE(ps2.size(), 3u);
+    QCOMPARE(ps2.coordinates(), c);
+    QhullPoints ps3(qh, 2, 6, c);
+    QCOMPARE(ps3.dimension(), 2);
+    QVERIFY(!ps3.isEmpty());
+    QCOMPARE(ps3.coordinates(), ps2.coordinates());
+    QVERIFY(ps3==ps2);
+    QVERIFY(ps3!=ps);
+    QhullPoints ps4= ps3;
+    QVERIFY(ps4==ps3);
+    // ps4= ps3; //compiler error
+    QhullPoints ps5(ps4);
+    QVERIFY(ps5==ps4);
+    QVERIFY(!(ps5!=ps4));
+    coordT c2[]= {0.0, 1.0, 2.0, 3.0, 4.0, 5.0};
+    QhullPoints ps6(qh, 2, 6, c2);
+    QVERIFY(ps6==ps2);
+
+    RboxPoints rbox("c D2");
+    Qhull q2(rbox, "");
+    QhullPoints ps8(q2.qh());
+    QCOMPARE(ps8.dimension(), 2);
+    QCOMPARE(ps8.count(), 0);
+    QCOMPARE(ps8.size(), 0u);
+    QCOMPARE(ps8.coordinateCount(), 0);
+    coordT c3[]= {10.0, 11.0, 12.0, 13.0, 14.0, 15.0};
+    QhullPoints ps9(q2.qh(), 6, c3);
+    QCOMPARE(ps9.dimension(), 2);
+    QCOMPARE(ps9.coordinateCount(), 6);
+    QCOMPARE(ps9.count(), 3);
+    QCOMPARE(ps9.coordinates(), c3);
+    ps9.defineAs(6, c2);
+    QCOMPARE(ps9.dimension(), 2);
+    QCOMPARE(ps9.coordinateCount(), 6);
+    QCOMPARE(ps9.count(), 3);
+    QCOMPARE(ps9.coordinates(), c2);
+    q2.checkAndFreeQhullMemory();
+}//t_construct_qh
 
 void QhullPoints_test::
 t_convert()
 {
+    Qhull q;
     //defineAs tested above
     coordT c[]= {0.0, 1.0, 2.0, 3.0, 4.0, 5.0};
-    QhullPoints ps(3, 6, c);
+    QhullPoints ps(q, 3, 6, c);
     QCOMPARE(ps.dimension(), 3);
     QCOMPARE(ps.size(), 2u);
     const coordT *c2= ps.constData();
@@ -117,10 +199,11 @@ t_convert()
 void QhullPoints_test::
 t_getset()
 {
+    Qhull q;
     //See t_construct for coordinates, count, defineAs, dimension, isempty, ==, !=, size
     coordT c[]= {0.0, 1.0, 2.0, 3.0, 4.0, 5.0};
-    QhullPoints ps(3, 6, c);
-    QhullPoints ps2(3, 6, c);
+    QhullPoints ps(q, 3, 6, c);
+    QhullPoints ps2(q, 3, 6, c);
     QCOMPARE(ps2.dimension(), 3);
     QCOMPARE(ps2.coordinates(), c);
     QCOMPARE(ps2.count(), 2);
@@ -143,7 +226,8 @@ t_getset()
     QCOMPARE(ps2.count(), 3);
     QCOMPARE(ps2.size(), 3u);
     QVERIFY(ps!=ps2);
-    QhullPoints ps3(3);
+    QhullPoints ps3(ps2);
+    ps3.setDimension(3);
     ps3.defineAs(5, c2);
     QCOMPARE(ps3.count(), 1);
     QCOMPARE(ps3.extraCoordinatesCount(), 2);
@@ -159,9 +243,11 @@ t_getset()
 void QhullPoints_test::
 t_element()
 {
+    Qhull q;
     coordT c[]= {0.0, 1.0, 2.0, 3.0, 4.0, 5.0};
-    QhullPoints ps(2, 6, c);
-    QhullPoint p(2, c);
+    QhullPoints ps(q, 2, 6, c);
+    QCOMPARE(ps.count(), 3);
+    QhullPoint p(q, 2, c);
     QCOMPARE(ps[0], p);
     QCOMPARE(ps.at(1), ps[1]);
     QCOMPARE(ps.first(), p);
@@ -182,7 +268,7 @@ t_element()
     QhullPoints ps7= ps.mid(1, 10);
     QCOMPARE(ps7.count(), 2);
     QCOMPARE(ps7[1], ps[2]);
-    QhullPoint p8;
+    QhullPoint p8(q);
     QCOMPARE(ps.value(2), ps[2]);
     QCOMPARE(ps.value(-1), p8);
     QCOMPARE(ps.value(3), p8);
@@ -198,8 +284,10 @@ t_element()
 void QhullPoints_test::
 t_iterator()
 {
+    Qhull q;
     coordT c[]= {0.0, 1.0, 2.0};
-    QhullPoints ps(1, 3, c);
+    QhullPoints ps(q, 1, 3, c);
+    QCOMPARE(ps.dimension(), 1);
     QhullPoints::Iterator i(ps);
     QhullPoints::iterator i2= ps.begin();
     QVERIFY(i==i2);
@@ -219,7 +307,7 @@ t_iterator()
     QhullPoints::Iterator i5(i2);
     QCOMPARE(*i2, *i5);
     coordT c3[]= {0.0, -1.0, -2.0};
-    QhullPoints::Iterator i3(1, c3);
+    QhullPoints::Iterator i3(q, 1, c3);
     QVERIFY(i!=i3);
     QCOMPARE(*i, *i3);
 
@@ -236,7 +324,7 @@ t_iterator()
     QVERIFY(i2>i);
     QVERIFY(i2>=i);
 
-    QhullPoints::ConstIterator i4(1, c);
+    QhullPoints::ConstIterator i4(q, 1, c);
     QVERIFY(i==i4); // iterator COMP const_iterator
     QVERIFY(i<=i4);
     QVERIFY(i>=i4);
@@ -285,8 +373,9 @@ t_iterator()
 void QhullPoints_test::
 t_const_iterator()
 {
+    Qhull q;
     coordT c[]= {0.0, 1.0, 2.0};
-    const QhullPoints ps(1, 3, c);
+    const QhullPoints ps(q, 1, 3, c);
     QhullPoints::ConstIterator i(ps);
     QhullPoints::const_iterator i2= ps.begin();
     QVERIFY(i==i2);
@@ -306,7 +395,7 @@ t_const_iterator()
     QhullPoints::ConstIterator i5(i2);
     QCOMPARE(*i2, *i5);
     coordT c3[]= {0.0, -1.0, -2.0};
-    QhullPoints::ConstIterator i3(1, c3);
+    QhullPoints::ConstIterator i3(q, 1, c3);
     QVERIFY(i!=i3);
     QCOMPARE(*i, *i3);
 
@@ -353,8 +442,9 @@ t_const_iterator()
 void QhullPoints_test::
 t_search()
 {
+    Qhull q;
     coordT c[]= {0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 0, 1};
-    QhullPoints ps(2, 8, c); //2-d array of 4 points
+    QhullPoints ps(q, 2, 8, c); //2-d array of 4 points
     QhullPoint p= ps.first();
     QhullPoint p2= ps.last();
     QVERIFY(ps.contains(p));
@@ -364,15 +454,15 @@ t_search()
     QVERIFY(p!=p5);
     QVERIFY(ps.contains(p5));
     coordT c2[]= {0.0, 1.0, 2.0, 3.0};
-    QhullPoint p3(2, c2); //2-d point
+    QhullPoint p3(q, 2, c2); //2-d point
     QVERIFY(ps.contains(p3));
-    QhullPoint p4(3, c2); //3-d point
+    QhullPoint p4(q, 3, c2); //3-d point
     QVERIFY(!ps.contains(p4));
     p4.defineAs(2, c); //2-d point
     QVERIFY(ps.contains(p4));
     p4.defineAs(2, c+1); //2-d point
     QVERIFY(!ps.contains(p4));
-    QhullPoint p6(2, c2+2); //2-d point
+    QhullPoint p6(q, 2, c2+2); //2-d point
     QCOMPARE(ps.count(p), 2);
     QCOMPARE(ps.count(p2), 2);
     QCOMPARE(ps.count(p3), 2);
@@ -393,17 +483,12 @@ t_search()
     QCOMPARE(ps.lastIndexOf(p), 3);
     QCOMPARE(ps.lastIndexOf(p4), -1);
     QCOMPARE(ps.lastIndexOf(p6), 1);
-    QhullPoints ps2(3);
-    QCOMPARE(ps2.indexOf(ps2.data()), -1);
-    QCOMPARE(ps2.indexOf(ps2.data()+1, QhullError::NOthrow), -1);
-    QCOMPARE(ps2.indexOf(p), -1);
-    QCOMPARE(ps2.lastIndexOf(p), -1);
-    QhullPoints ps3;
+    QhullPoints ps3(q);
     QCOMPARE(ps3.indexOf(ps3.data()), -1);
     QCOMPARE(ps3.indexOf(ps3.data()+1, QhullError::NOthrow), -1);
     QCOMPARE(ps3.indexOf(p), -1);
     QCOMPARE(ps3.lastIndexOf(p), -1);
-    QhullPoints ps4(2, 0, c);
+    QhullPoints ps4(q, 2, 0, c);
     QCOMPARE(ps4.indexOf(p), -1);
     QCOMPARE(ps4.lastIndexOf(p), -1);
     q.checkAndFreeQhullMemory();
@@ -412,8 +497,9 @@ t_search()
 void QhullPoints_test::
 t_points_iterator()
 {
+    Qhull q;
     coordT c2[]= {0.0};
-    QhullPoints ps2(0, 0, c2); // 0-dimensional
+    QhullPoints ps2(q, 0, 0, c2); // 0-dimensional
     QhullPointsIterator i2= ps2;
     QVERIFY(!i2.hasNext());
     QVERIFY(!i2.hasPrevious());
@@ -422,7 +508,7 @@ t_points_iterator()
     QVERIFY(!i2.hasPrevious());
 
     coordT c[]= {0.0, 1.0, 2.0, 3.0, 4.0, 5.0};
-    QhullPoints ps(3, 6, c); // 3-dimensional
+    QhullPoints ps(q, 3, 6, c); // 3-dimensional
     QhullPointsIterator i(ps);
     i2= ps;
     QVERIFY(i2.hasNext());
@@ -461,24 +547,25 @@ t_points_iterator()
 void QhullPoints_test::
 t_io()
 {
-    QhullPoints ps;
+    Qhull q;
+    QhullPoints ps(q);
     ostringstream os;
     os << "Empty QhullPoints\n" << ps << endl;
     coordT c[]= {0.0, 1.0, 2.0, 3.0, 4.0, 5.0};
-    QhullPoints ps2(3, 6, c); // 3-dimensional explicit
+    QhullPoints ps2(q, 3, 6, c); // 3-dimensional explicit
     os << "QhullPoints from c[]\n" << ps2 << endl;
+    q.checkAndFreeQhullMemory();
+
     RboxPoints rcube("c");
-    Qhull q(rcube,"Qt QR0");  // triangulation of rotated unit cube
-    QhullPoints ps3= q.points();
+    Qhull q2(rcube,"Qt QR0");  // triangulation of rotated unit cube
+    QhullPoints ps3= q2.points();
     os << "QhullPoints\n" << ps3;
-    os << "RunId\n" << ps3.print();
-    os << ps3.print("RunId w/ message\n");
-    os << ps3.printWithIdentifier("RunId w/ identifiers\n");
+    os << ps3.print("message\n");
+    os << ps3.printWithIdentifier("w/ identifiers\n");
     cout << os.str();
     QString s= QString::fromStdString(os.str());
-    QCOMPARE(s.count("p"), 3*8+3);
-    // QCOMPARE(s.count(QRegExp("f\\d")), 3*7 + 13*3*2);
-    q.checkAndFreeQhullMemory();
+    QCOMPARE(s.count("p"), 8+1);
+    q2.checkAndFreeQhullMemory();
 }//t_io
 
 }//orgQhull

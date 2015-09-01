@@ -1,13 +1,13 @@
 /****************************************************************************
 **
 ** Copyright (c) 2009-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/qt-qhull.cpp#8 $$Change: 1810 $
-** $DateTime: 2015/01/17 18:28:15 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullcpp/qt-qhull.cpp#10 $$Change: 1868 $
+** $DateTime: 2015/03/26 20:13:15 $$Author: bbarber $
 **
 ****************************************************************************/
 
 #include <QList>
-#include "RoadTest.h"
+#include "qhulltest/RoadTest.h"
 
 #ifndef QHULL_USES_QT
 #define QHULL_USES_QT 1
@@ -25,7 +25,7 @@
 
 namespace orgQhull {
 
-#//Conversions
+#//!\name Conversions
 
 QList<coordT> Coordinates::
 toQList() const

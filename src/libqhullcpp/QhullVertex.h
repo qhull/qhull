@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/QhullVertex.h#12 $$Change: 1810 $
-** $DateTime: 2015/01/17 18:28:15 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullcpp/QhullVertex.h#15 $$Change: 1914 $
+** $DateTime: 2015/06/21 22:08:19 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -13,7 +13,7 @@
 #include "QhullLinkedList.h"
 #include "QhullSet.h"
 extern "C" {
-    #include "libqhullr/qhull_ra.h"
+    #include "libqhull_r/qhull_ra.h"
 }
 
 #include <ostream>
@@ -47,8 +47,8 @@ public:
 
 private:
 #//!\name Fields
-    vertexT *           qh_vertex;
-    QhullQh *           qh_qh;
+    vertexT *           qh_vertex;  //!< Corresponding vertexT, never 0
+    QhullQh *           qh_qh;      //!< QhullQh/qhT for vertexT, may be 0
 
 #//!\name Class objects
     static vertexT      s_empty_vertex;  // needed for shallow copy
@@ -57,10 +57,11 @@ public:
 #//!\name Constants
 
 #//!\name Constructors
+                        QhullVertex() : qh_vertex(&s_empty_vertex), qh_qh(0) {}
     explicit            QhullVertex(const Qhull &q);
                         QhullVertex(const Qhull &q, vertexT *v);
-    explicit            QhullVertex(QhullQh *qh) : qh_vertex(&s_empty_vertex), qh_qh(qh) {}
-                        QhullVertex(QhullQh *qh, vertexT *v) : qh_vertex(v ? v : &s_empty_vertex), qh_qh(qh) {}
+    explicit            QhullVertex(QhullQh *qqh) : qh_vertex(&s_empty_vertex), qh_qh(qqh) {}
+                        QhullVertex(QhullQh *qqh, vertexT *v) : qh_vertex(v ? v : &s_empty_vertex), qh_qh(qqh) {}
                         // Creates an alias.  Does not copy QhullVertex.  Needed for return by value and parameter passing
                         QhullVertex(const QhullVertex &other) : qh_vertex(other.qh_vertex), qh_qh(other.qh_qh) {}
                         // Creates an alias.  Does not copy QhullVertex.  Needed for vector<QhullVertex>
@@ -68,11 +69,11 @@ public:
                         ~QhullVertex() {}
 
 #//!\name GetSet
-    int                 dimension() const { return qh_qh->hull_dim; }
+    int                 dimension() const { return (qh_qh ? qh_qh->hull_dim : 0); }
     vertexT *           getBaseT() const { return getVertexT(); } //!< For QhullSet<QhullVertex>
     vertexT *           getVertexT() const { return qh_vertex; }
     countT              id() const { return qh_vertex->id; }
-    bool                isDefined() const { return qh_vertex != &s_empty_vertex; }
+    bool                isValid() const { return (qh_qh && qh_vertex != &s_empty_vertex); }
                         //! True if defineVertexNeighborFacets() already called.  Auotomatically set for facet merging, Voronoi diagrams
     bool                neighborFacetsDefined() const { return qh_vertex->neighbors != 0; }
     QhullVertex         next() const { return QhullVertex(qh_qh, qh_vertex->next); }
@@ -89,7 +90,7 @@ public:
 #//!\name IO
     struct PrintVertex{
         const QhullVertex *vertex;
-        const char *    print_message;
+        const char *    print_message;    //!< non-null message
                         PrintVertex(const char *message, const QhullVertex &v) : vertex(&v), print_message(message) {}
     };//PrintVertex
     PrintVertex         print(const char *message) const { return PrintVertex(message, *this); }

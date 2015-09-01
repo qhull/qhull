@@ -1,9 +1,11 @@
 # -------------------------------------------------
-# user_eg.pro -- Qt project for Qhull demonstration
+# user_eg.pro -- Qt project for Qhull demonstration using shared Qhull library
+#
+# It uses reentrant Qhull
 # -------------------------------------------------
 
-include(../qhull-app-c_r.pri)
+include(../qhull-app-shared_r.pri)
 
 TARGET = user_eg
 
-SOURCES += user_eg.c
+SOURCES += user_eg_r.c

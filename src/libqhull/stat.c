@@ -7,8 +7,8 @@
    see qh-stat.htm and stat.h
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2011/qhull/src/libqhull/stat.c#6 $$Change: 1810 $
-   $DateTime: 2015/01/17 18:28:15 $$Author: bbarber $
+   $Id: //main/2011/qhull/src/libqhull/stat.c#8 $$Change: 1835 $
+   $DateTime: 2015/02/16 22:32:04 $$Author: bbarber $
 */
 
 #include "qhull_a.h"
@@ -441,8 +441,8 @@ void qh_freestatistics(void) {
 
   notes:
     uses qh_malloc() instead of qh_memalloc() since mem.c not set up yet
-    NOerrors -- qh_initstatistics can not use qh_errexit(), qh_fprintf, or qh.ferr  
-    On first call, only qhmem.ferr is defined.  qh_memalloc is not setup.  
+    NOerrors -- qh_initstatistics can not use qh_errexit(), qh_fprintf, or qh.ferr
+    On first call, only qhmem.ferr is defined.  qh_memalloc is not setup.
     Also invoked by QhullQh().
 */
 void qh_initstatistics(void) {
@@ -633,8 +633,9 @@ void qh_printstatistics(FILE *fp, const char *string) {
   notes:
     nop if id >= ZEND, printed, or same as initial value
 */
-void qh_printstatlevel(FILE *fp, int id, int start) {
+void qh_printstatlevel(FILE *fp, int id, int start) {   /* start not used */
 #define NULLfield "       "
+  QHULL_UNUSED(start)
 
   if (id >= ZEND || qhstat printed[id])
     return;

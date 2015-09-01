@@ -15,6 +15,11 @@ if ! qconvex >/dev/null 2>&1; then
     fi
 fi
 mkdir -p eg
+echo ==============================
+echo ========= eg/q_eg ============
+echo == Create geomview examples ==
+echo ==============================
+echo
 set -v
 rbox c D3 | qconvex s G >eg/eg.01.cube
 rbox c d G2.0 | qconvex s G >eg/eg.02.diamond.cube

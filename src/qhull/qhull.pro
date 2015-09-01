@@ -1,9 +1,9 @@
 # -------------------------------------------------
-# qhull.pro -- Qt project file for qhull.exe
+# qhull.pro -- Qt project file for qhull.exe with libqhullstatic_r
 # -------------------------------------------------
 
-include(../qhull-app-c.pri)
+include(../qhull-app-c_r.pri)
 
 TARGET = qhull
 
-SOURCES += unix.c
+SOURCES += unix_r.c

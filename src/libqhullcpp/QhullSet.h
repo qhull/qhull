@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/QhullSet.h#16 $$Change: 1810 $
-** $DateTime: 2015/01/17 18:28:15 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullcpp/QhullSet.h#20 $$Change: 1931 $
+** $DateTime: 2015/07/12 21:29:14 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -12,9 +12,10 @@
 #include "QhullError.h"
 #include "QhullQh.h"
 extern "C" {
-    #include "libqhullr/qhull_ra.h"
+    #include "libqhull_r/qhull_ra.h"
 }
 
+#include <cstddef>  // ptrdiff_t, size_t
 
 #ifndef QHULL_NO_STL
 #include <vector>
@@ -35,8 +36,8 @@ namespace orgQhull {
     //! QhullSetIterator<T> defined below
     //! \see QhullPointSet, QhullLinkedList<T>
 
-//! QhullSetBase is a wrapper for Qhull's setT of void* pointers 
-//! \see libqhullr/qset.h
+//! QhullSetBase is a wrapper for Qhull's setT of void* pointers
+//! \see libqhull_r/qset.h
 class QhullSetBase {
 
 private:
@@ -50,7 +51,7 @@ private:
 public:
 #//!\name Constructors
                         QhullSetBase(const Qhull &q, setT *s);
-                        QhullSetBase(QhullQh *qh, setT *s) : qh_set(s ? s : &s_empty_set), qh_qh(qh) {}
+                        QhullSetBase(QhullQh *qqh, setT *s) : qh_set(s ? s : &s_empty_set), qh_qh(qqh) {}
                         //! Copy constructor copies the pointer but not the set.  Needed for return by value and parameter passing.
                         QhullSetBase(const QhullSetBase &other) : qh_set(other.qh_set), qh_qh(other.qh_qh) {}
     QhullSetBase &      operator=(const QhullSetBase &other) { qh_set= other.qh_set; qh_qh= other.qh_qh; return *this; }
@@ -79,6 +80,7 @@ protected:
     void **             endPointer() const { return qh_setendpointer(qh_set); }
 
 #//!\name Class methods
+public:
     static countT       count(const setT *set);
     //s may be null
     static bool         isEmpty(const setT *s) { return SETempty_(s); }
@@ -111,7 +113,7 @@ public:
 
 #//!\name Constructors
                         QhullSet<T>(const Qhull &q, setT *s) : QhullSetBase(q, s) { }
-                        QhullSet<T>(QhullQh *qh, setT *s) : QhullSetBase(qh, s) { }
+                        QhullSet<T>(QhullQh *qqh, setT *s) : QhullSetBase(qqh, s) { }
                         //Conversion from setT* is not type-safe.  Implicit conversion for void* to T
                         //Copy constructor copies pointer but not contents.  Needed for return by value.
                         QhullSet<T>(const QhullSet<T> &other) : QhullSetBase(other) {}
@@ -144,11 +146,11 @@ public:
     T                   back() { return last(); }
     T                   back() const { return last(); }
     //! end element is NULL
-    const typename typename T::base_type * constData() const { return reinterpret_cast<const typename T::base_type *>(beginPointer()); }
+    const typename T::base_type * constData() const { return reinterpret_cast<const typename T::base_type *>(beginPointer()); }
     typename T::base_type *     data() { return reinterpret_cast<typename T::base_type *>(beginPointer()); }
-    typename T::base_type *     data() const { return reinterpret_cast<typename T::base_type *>(beginPointer()); }
+    const typename T::base_type *data() const { return reinterpret_cast<const typename T::base_type *>(beginPointer()); }
     typename T::base_type *     endData() { return reinterpret_cast<typename T::base_type *>(endPointer()); }
-    typename T::base_type *     endData() const { return reinterpret_cast<typename T::base_type *>(endPointer()); }
+    const typename T::base_type * endData() const { return reinterpret_cast<const typename T::base_type *>(endPointer()); }
     T                   first() { QHULL_ASSERT(!isEmpty()); return T(qh(), *data()); }
     const T             first() const { QHULL_ASSERT(!isEmpty()); return T(qh(), *data()); }
     T                   front() { return first(); }
@@ -191,7 +193,7 @@ public:
         typedef std::bidirectional_iterator_tag  iterator_category;
         typedef T               value_type;
 
-                        iterator(QhullQh *qh, typename T::base_type *p) : i(p), qh_qh(qh) {}
+                        iterator(QhullQh *qqh, typename T::base_type *p) : i(p), qh_qh(qqh) {}
                         iterator(const iterator &o) : i(o.i), qh_qh(o.qh_qh) {}
         iterator &      operator=(const iterator &o) { i= o.i; qh_qh= o.qh_qh; return *this; }
 
@@ -227,7 +229,7 @@ public:
 
     class const_iterator {
     private:
-        typename T::base_type *  i;  // First for debugger
+        const typename T::base_type *  i;  // First for debugger
         QhullQh *       qh_qh;
 
     public:
@@ -235,7 +237,7 @@ public:
         typedef std::random_access_iterator_tag  iterator_category;
         typedef T               value_type;
 
-                        const_iterator(QhullQh *qh, typename T::base_type * p) : i(p), qh_qh(qh) {}
+                        const_iterator(QhullQh *qqh, const typename T::base_type * p) : i(p), qh_qh(qqh) {}
                         const_iterator(const const_iterator &o) : i(o.i), qh_qh(o.qh_qh) {}
                         const_iterator(const iterator &o) : i(o.i), qh_qh(o.qh_qh) {}
         const_iterator &operator=(const const_iterator &o) { i= o.i; qh_qh= o.qh_qh; return *this; }
@@ -276,9 +278,9 @@ class QhullSetIterator {
 
 private:
 #//!\name Fields
-    typename T::base_type *  i;  // First for debugger
-    typename T::base_type *  begin_i;  // must be initialized after i 
-    typename T::base_type *  end_i; 
+    const typename T::base_type *  i;  // First for debugger
+    const typename T::base_type *  begin_i;  // must be initialized after i
+    const typename T::base_type *  end_i;
     QhullQh *                qh_qh;
 
 public:
@@ -299,7 +301,7 @@ public:
     bool                hasPrevious() const { return i != begin_i; }
     T                   next() { return T(qh_qh, *i++); }
     T                   peekNext() const { return T(qh_qh, *i); }
-    T                   peekPrevious() const { typename T::base_type *p = i; return T(qh_qh, *--p); }
+    T                   peekPrevious() const { const typename T::base_type *p = i; return T(qh_qh, *--p); }
     T                   previous() { return T(qh_qh, *--i); }
     void                toBack() { i = end_i; }
     void                toFront() { i = begin_i; }
@@ -348,7 +350,7 @@ T QhullSet<T>::
 value(countT idx) const
 {
     // Avoid call to qh_setsize() and assert in elementPointer()
-    const T::base_type *p= reinterpret_cast<const T::base_type *>(&SETelem_(getSetT(), idx));
+    const typename T::base_type *p= reinterpret_cast<const typename T::base_type *>(&SETelem_(getSetT(), idx));
     return (idx>=0 && p<endData()) ? T(qh(), *p) : T(qh());
 }//value
 
@@ -442,8 +444,8 @@ template <typename T>
 std::ostream &
 operator<<(std::ostream &os, const orgQhull::QhullSet<T> &qs)
 {
-    typename T::base_type *i= qs.data();
-    typename T::base_type *e= qs.endData();
+    const typename T::base_type *i= qs.data();
+    const typename T::base_type *e= qs.endData();
     while(i!=e){
         os << T(qs.qh(), *i++);
     }

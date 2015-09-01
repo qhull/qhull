@@ -43,6 +43,7 @@ void qh_exit(int exitcode) {
 
   notes:
     same as free()
+    No calls to qh_errexit() 
 */
 void qh_free(void *mem) {
     free(mem);

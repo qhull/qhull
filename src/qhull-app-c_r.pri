@@ -1,5 +1,7 @@
 # -------------------------------------------------
-# qhull-app-c_r.pri -- Qt include project for reentrant C qhull applications linked to qhullstatic_r
+# qhull-app-c_r.pri -- Qt include project for C qhull applications linked to qhullstatic_r
+#
+# It uses reentrant Qhull
 # -------------------------------------------------
 
 include(qhull-warn.pri)
@@ -19,6 +21,6 @@ build_pass:CONFIG(debug, debug|release){
 }
 win32-msvc* : QMAKE_LFLAGS += /INCREMENTAL:NO
 
-INCLUDEPATH += ../libqhullr
+INCLUDEPATH += ..
 CONFIG += qhull_warn_conversion
 

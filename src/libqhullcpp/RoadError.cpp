@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/RoadError.cpp#3 $$Change: 1810 $
-** $DateTime: 2015/01/17 18:28:15 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullcpp/RoadError.cpp#4 $$Change: 1868 $
+** $DateTime: 2015/03/26 20:13:15 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -24,7 +24,7 @@ using std::string;
 
 namespace orgQhull {
 
-#//Class fields
+#//!\name Class fields
 
 //! Identifies error messages from Qhull and Road for web searches.
 //! See QhullError.h#QHULLlastError and user.h#MSG_ERROR
@@ -34,7 +34,7 @@ ROADtag= "QH";
 std::ostringstream RoadError::
 global_log;
 
-#//Constructor
+#//!\name Constructor
 
 RoadError::
 RoadError()
@@ -132,7 +132,7 @@ operator=(const RoadError &other)
     return *this;
 }//operator=
 
-#//Virtual
+#//!\name Virtual
 const char * RoadError::
 what() const throw()
 {
@@ -142,11 +142,13 @@ what() const throw()
     return error_message.c_str();
 }//what
 
-#//Updates
+#//!\name Updates
 
 //! Log error instead of throwing it.
+//! Not reentrant, so avoid using it if possible
+//!\todo Redesign with a thread-local stream or a reentrant ostringstream
 void RoadError::
-logError() const
+logErrorLastResort() const
 {
     global_log << what() << endl;
 }//logError

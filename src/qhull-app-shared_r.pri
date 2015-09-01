@@ -1,5 +1,7 @@
 # -------------------------------------------------
-# qhull-app-shared_r.pri -- Qt include project for reentrant C qhull applications linked with libqhull (shared library)
+# qhull-app-shared_r.pri -- Qt include project for C qhull applications linked with libqhull_r (shared library)
+#
+# It uses reentrant Qhull
 # -------------------------------------------------
 
 include(qhull-warn.pri)
@@ -19,9 +21,9 @@ build_pass:CONFIG(debug, debug|release){
 }
 win32-msvc* : QMAKE_LFLAGS += /INCREMENTAL:NO
 
-win32-msvc* : DEFINES += qh_dllimport # libqhullr/user.h
+win32-msvc* : DEFINES += qh_dllimport # libqhull_r/user.h
 
-INCLUDEPATH += ../libqhullr
+INCLUDEPATH += ..
 CONFIG += qhull_warn_conversion
 
 

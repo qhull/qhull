@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2009-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/Coordinates.h#11 $$Change: 1810 $
-** $DateTime: 2015/01/17 18:28:15 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullcpp/Coordinates.h#13 $$Change: 1914 $
+** $DateTime: 2015/06/21 22:08:19 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -12,7 +12,7 @@
 #include "QhullError.h"
 #include "QhullIterator.h"
 extern "C" {
-    #include "libqhullr/qhull_ra.h"
+    #include "libqhull_r/qhull_ra.h"
 }
 
 
@@ -25,7 +25,7 @@ namespace orgQhull {
 
 #//!\name Defined here
     //! An std::vector of point coordinates independent of dimension
-    //! Used by PointCoordinates for RboxPoints
+    //! Used by PointCoordinates for RboxPoints and by Qhull for feasiblePoint
     //! A QhullPoint refers to previously allocated coordinates
     class Coordinates;
     class MutableCoordinatesIterator;
@@ -89,7 +89,7 @@ public:
     const coordT &      front() const { return coordinate_array.front(); }
     coordT &            last() { return back(); }
     const coordT &      last() const { return back(); }
-    Coordinates         mid(countT idx, countT length= -1) const; //!<\todo countT -1 indicates 
+    Coordinates         mid(countT idx, countT length= -1) const; //!<\todo countT -1 indicates
     coordT &            operator[](countT idx) { return coordinate_array.operator[](idx); }
     const coordT &      operator[](countT idx) const { return coordinate_array.operator[](idx); }
     coordT              value(countT idx, const coordT &defaultValue) const;
@@ -106,6 +106,7 @@ public:
     Coordinates         operator+(const Coordinates &other) const;
 
 #//!\name Modify
+    void                append(int pointDimension, coordT *c);
     void                append(const coordT &c) { push_back(c); }
     void                clear() { coordinate_array.clear(); }
     iterator            erase(iterator idx) { return iterator(coordinate_array.erase(idx.base())); }

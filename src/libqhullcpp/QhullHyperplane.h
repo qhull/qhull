@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2009-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/QhullHyperplane.h#12 $$Change: 1810 $
-** $DateTime: 2015/01/17 18:28:15 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullcpp/QhullHyperplane.h#18 $$Change: 1914 $
+** $DateTime: 2015/06/21 22:08:19 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -13,7 +13,7 @@
 #include "QhullIterator.h"
 #include "QhullQh.h"
 extern "C" {
-    #include "libqhullr/qhull_ra.h"
+    #include "libqhull_r/qhull_ra.h"
 }
 
 #include <ostream>
@@ -40,21 +40,22 @@ public:
 
 private:
 #//!\name Fields
-    coordT *            hyperplane_coordinates;  // Keep pointers aligned
-    int                 hyperplane_dimension;
-    coordT              hyperplane_offset;
-    QhullQh *           qh_qh;
+    coordT *            hyperplane_coordinates;  //!< Normal to hyperplane.   facetT.normal is normalized to 1.0
+    QhullQh *           qh_qh;                  //!< qhT for distanceEpsilon() in operator==
+    coordT              hyperplane_offset;      //!< Distance from hyperplane to origin
+    int                 hyperplane_dimension;   //!< Dimension of hyperplane
 
 #//!\name Construct
 public:
-                        QhullHyperplane(const Qhull &q);
+                        QhullHyperplane() : hyperplane_coordinates(0), qh_qh(0), hyperplane_offset(0.0), hyperplane_dimension(0) {}
+    explicit            QhullHyperplane(const Qhull &q);
                         QhullHyperplane(const Qhull &q, int hyperplaneDimension, coordT *c, coordT hyperplaneOffset);
-                        QhullHyperplane(QhullQh *qh) : hyperplane_coordinates(0), hyperplane_dimension(0), hyperplane_offset(0.0), qh_qh(qh) {}
-                        QhullHyperplane(QhullQh *qh, int hyperplaneDimension, coordT *c, coordT hyperplaneOffset) : hyperplane_coordinates(c), hyperplane_dimension(hyperplaneDimension), hyperplane_offset(hyperplaneOffset), qh_qh(qh) {}
+    explicit            QhullHyperplane(QhullQh *qqh) : hyperplane_coordinates(0), qh_qh(qqh), hyperplane_offset(0.0), hyperplane_dimension(0) {}
+                        QhullHyperplane(QhullQh *qqh, int hyperplaneDimension, coordT *c, coordT hyperplaneOffset) : hyperplane_coordinates(c), qh_qh(qqh), hyperplane_offset(hyperplaneOffset), hyperplane_dimension(hyperplaneDimension) {}
                         // Creates an alias.  Does not copy the hyperplane's coordinates.  Needed for return by value and parameter passing.
-                        QhullHyperplane(const QhullHyperplane &other)  : hyperplane_coordinates(other.hyperplane_coordinates), hyperplane_dimension(other.hyperplane_dimension), hyperplane_offset(other.hyperplane_offset), qh_qh(other.qh_qh) {}
+                        QhullHyperplane(const QhullHyperplane &other)  : hyperplane_coordinates(other.hyperplane_coordinates), qh_qh(other.qh_qh), hyperplane_offset(other.hyperplane_offset), hyperplane_dimension(other.hyperplane_dimension) {}
                         // Creates an alias.  Does not copy the hyperplane's coordinates.  Needed for vector<QhullHyperplane>
-    QhullHyperplane &   operator=(const QhullHyperplane &other) { hyperplane_coordinates= other.hyperplane_coordinates; hyperplane_dimension= other.hyperplane_dimension; hyperplane_offset= other.hyperplane_offset; qh_qh= other.qh_qh; return *this; }
+    QhullHyperplane &   operator=(const QhullHyperplane &other) { hyperplane_coordinates= other.hyperplane_coordinates; qh_qh= other.qh_qh; hyperplane_offset= other.hyperplane_offset; hyperplane_dimension= other.hyperplane_dimension; return *this; }
                         ~QhullHyperplane() {}
 
 #//!\name Conversions --
@@ -74,7 +75,7 @@ public:
     //! Creates an alias to other using the same qh_qh
     void                defineAs(QhullHyperplane &other) { hyperplane_coordinates= other.coordinates(); hyperplane_dimension= other.dimension();  hyperplane_offset= other.offset(); }
     int                 dimension() const { return hyperplane_dimension; }
-    bool                isDefined() const { return hyperplane_coordinates!=0 && hyperplane_dimension>0; }
+    bool                isValid() const { return hyperplane_coordinates!=0 && hyperplane_dimension>0; }
     coordT              offset() const { return hyperplane_offset; }
     bool                operator==(const QhullHyperplane &other) const;
     bool                operator!=(const QhullHyperplane &other) const { return !operator==(other); }
@@ -96,16 +97,17 @@ public:
 
 #//!\name Methods
     double              distance(const QhullPoint &p) const;
+    double              hyperplaneAngle(const QhullHyperplane &other) const;
     double              norm() const;
 
 #//!\name IO
     struct PrintHyperplane{
-        const QhullHyperplane  *hyperplane;  
-        const char *    print_message;              //!< Different output if 0
-        const char *    hyperplane_offset_message;  //!< Different output if 0
+        const QhullHyperplane  *hyperplane;
+        const char *    print_message;      //!< non-null message
+        const char *    hyperplane_offset_message;  //!< non-null message
                         PrintHyperplane(const char *message, const char *offsetMessage, const QhullHyperplane &p) : hyperplane(&p), print_message(message), hyperplane_offset_message(offsetMessage) {}
     };//PrintHyperplane
-    PrintHyperplane          print() const { return  PrintHyperplane(0, 0, *this); }
+    PrintHyperplane          print(const char *message) const { return PrintHyperplane(message, "", *this); }
     PrintHyperplane          print(const char *message, const char *offsetMessage) const { return PrintHyperplane(message, offsetMessage, *this); }
 
 };//QhullHyperplane
@@ -117,7 +119,7 @@ QHULL_DECLARE_SEQUENTIAL_ITERATOR(QhullHyperplane, coordT)
 #//!\name Global
 
 std::ostream &operator<<(std::ostream &os, const orgQhull::QhullHyperplane::PrintHyperplane &pr);
-std::ostream &operator<<(std::ostream &os, const orgQhull::QhullHyperplane &p); //FIXUP QH11015 -- multiple instances if define here
+std::ostream &operator<<(std::ostream &os, const orgQhull::QhullHyperplane &p);
 
 #endif // QHHYPERPLANE_H
 

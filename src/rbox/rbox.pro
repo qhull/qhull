@@ -1,5 +1,5 @@
 # -------------------------------------------------
-# rbox.pro -- Qt project for rbox.exe
+# rbox.pro -- Qt project for rbox.exe with libqhullstatic
 # -------------------------------------------------
 
 include(../qhull-app-c.pri)

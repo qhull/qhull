@@ -30,8 +30,8 @@
     global.c (qh_initbuffers) for an example of using mem.c
 
   Copyright (c) 1993-2015 The Geometry Center.
-  $Id: //main/2011/qhull/src/libqhull/mem.c#7 $$Change: 1810 $
-  $DateTime: 2015/01/17 18:28:15 $$Author: bbarber $
+  $Id: //main/2011/qhull/src/libqhull/mem.c#8 $$Change: 1930 $
+  $DateTime: 2015/07/12 15:15:42 $$Author: bbarber $
 */
 
 #include "mem.h"
@@ -190,6 +190,35 @@ void *qh_memalloc(int insize) {
   return(object);
 } /* memalloc */
 
+
+/*-<a                             href="qh-mem.htm#TOC"
+  >--------------------------------</a><a name="memfree">-</a>
+
+  qh_memcheck( )
+*/
+void qh_memcheck() {
+  int i, count, totfree= 0;
+  void *object;
+
+  if (qhmem.ferr == 0 || qhmem.IStracing < 0 || qhmem.IStracing > 10 || (((qhmem.ALIGNmask+1) & qhmem.ALIGNmask) != 0)) {
+    qh_fprintf(stderr, 6244, "qh_memcheck: either qhmem is overwritten or qhmem is not initialized.  Call qh_meminit() or qh_new_qhull() before calling qh_mem routines.  ferr 0x%x IsTracing %d ALIGNmask 0x%x", qhmem.ferr, qhmem.IStracing, qhmem.ALIGNmask);
+    qh_exit(qhmem_ERRqhull);  /* can not use qh_errexit() */
+  }
+  if (qhmem.IStracing != 0)
+    qh_fprintf(qhmem.ferr, 8143, "qh_memcheck: check size of freelists on qhmem\nqh_memcheck: A segmentation fault indicates an overwrite of qhmem\n");
+  for (i=0; i < qhmem.TABLEsize; i++) {
+    count=0;
+    for (object= qhmem.freelists[i]; object; object= *((void **)object))
+      count++;
+    totfree += qhmem.sizetable[i] * count;
+  }
+  if (totfree != qhmem.totfree) {
+    qh_fprintf(qhmem.ferr, 6211, "Qhull internal error (qh_memcheck): totfree %d not equal to freelist total %d\n", qhmem.totfree, totfree);
+    qh_errexit(qhmem_ERRqhull, NULL, NULL);
+  }
+  if (qhmem.IStracing != 0)
+    qh_fprintf(qhmem.ferr, 8144, "qh_memcheck: total size of freelists totfree is the same as qhmem.totfree\n", totfree);
+} /* memcheck */
 
 /*-<a                             href="qh-mem.htm#TOC"
   >--------------------------------</a><a name="memfree">-</a>

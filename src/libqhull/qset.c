@@ -12,8 +12,8 @@
    of the set (i.e., setelemT).
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2011/qhull/src/libqhull/qset.c#9 $$Change: 1810 $
-   $DateTime: 2015/01/17 18:28:15 $$Author: bbarber $
+   $Id: //main/2011/qhull/src/libqhull/qset.c#10 $$Change: 1831 $
+   $DateTime: 2015/02/07 20:31:47 $$Author: bbarber $
 */
 
 #include "qset.h"
@@ -714,7 +714,7 @@ int qh_setequal_skip(setT *setA, int skipA, setT *setB, int skipB) {
 */
 void qh_setfree(setT **setp) {
   int size;
-  void **freelistp;  /* used !qh_NOmem */
+  void **freelistp;  /* used if !qh_NOmem by qh_memfree_() */
 
   if (*setp) {
     size= sizeof(setT) + ((*setp)->maxsize)*SETelemsize;
@@ -922,9 +922,9 @@ void *qh_setlast(setT *set) {
 */
 setT *qh_setnew(int setsize) {
   setT *set;
-  int sizereceived; /* used !qh_NOmem */
+  int sizereceived; /* used if !qh_NOmem */
   int size;
-  void **freelistp; /* used !qh_NOmem */
+  void **freelistp; /* used if !qh_NOmem by qh_memalloc_() */
 
   if (!setsize)
     setsize++;

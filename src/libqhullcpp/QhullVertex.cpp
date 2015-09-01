@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/QhullVertex.cpp#10 $$Change: 1810 $
-** $DateTime: 2015/01/17 18:28:15 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullcpp/QhullVertex.cpp#11 $$Change: 1816 $
+** $DateTime: 2015/01/21 22:51:49 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -74,7 +74,12 @@ operator<<(ostream &os, const QhullVertex::PrintVertex &pr)
 {
     QhullVertex v= *pr.vertex;
     QhullPoint p= v.point();
-    os << "- p" << p.id() << " (v" << v.id() << "): ";
+    if(*pr.print_message){
+        os << pr.print_message << " ";
+    }else{
+        os << "- ";
+    }
+    os << "p" << p.id() << " (v" << v.id() << "): ";
     const realT *c= p.coordinates();
     for(int k= p.dimension(); k--; ){
         os << " " << *c++; // FIXUP QH11010 %5.2g

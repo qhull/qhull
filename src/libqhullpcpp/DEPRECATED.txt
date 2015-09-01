@@ -1,9 +1,0 @@
-
-qhull/src/libqhullpcpp
-
-    This directory contains the deprecated cpp classes based on libqhullp.
-    
-    It will be maintained until January 2015.
-    
-    See qhull/src/libqhullcpp for the new cpp classes.
- 

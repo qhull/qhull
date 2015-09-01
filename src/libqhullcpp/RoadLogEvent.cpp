@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/RoadLogEvent.cpp#3 $$Change: 1810 $
-** $Date: 2015/01/17 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullcpp/RoadLogEvent.cpp#4 $$Change: 1868 $
+** $Date: 2015/03/26 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -105,7 +105,7 @@ toString(const char *tag, int code) const
     return os.str();
 }//toString
 
-#//Class helpers (static)
+#//!\name Class helpers (static)
 
 //! True if this char is the first extra code
 bool RoadLogEvent::

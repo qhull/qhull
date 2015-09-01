@@ -6,6 +6,8 @@
 
    see qh-user.htm.  see COPYING for copyright information.
 
+   See user.c for sample code.
+
    before reading any code, review libqhull.h for data structure definitions and
    the "qh" macro.
 
@@ -50,8 +52,8 @@ Code flags --
   If add new messages, assign these values and increment in user.h and user_r.h
   See QhullError.h for 10000 errors.
 
-  def counters =  [27, 1047, 2059, 3025, 4068, 5003,
-     6243, 7079, 8143, 9410, 10000, 11026]
+  def counters =  [27, 1048, 2059, 3025, 4068, 5003,
+     6260, 7079, 8143, 9410, 10000, 11026]
 
   See: qh_ERR* [libqhull.h]
 */

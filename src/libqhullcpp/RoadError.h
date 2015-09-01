@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/RoadError.h#5 $$Change: 1810 $
-** $DateTime: 2015/01/17 18:28:15 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullcpp/RoadError.h#7 $$Change: 1868 $
+** $DateTime: 2015/03/26 20:13:15 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -36,7 +36,8 @@ private:
 
 #//!\name Class fields
     static const char  *  ROADtag;
-    static std::ostringstream  global_log; //! May be replaced with any ostream object
+    static std::ostringstream  global_log; //!< May be replaced with any ostream object
+                                    //!< Not reentrant -- only used by RoadError::logErrorLastResort()
 
 public:
 #//!\name Constants
@@ -68,13 +69,13 @@ public:
     virtual const char *what() const throw();
 
 #//!\name GetSet
-    bool                isDefined() const { return log_event.isDefined(); }
+    bool                isValid() const { return log_event.isValid(); }
     int                 errorCode() const { return error_code; };
    // FIXUP QH11021 should RoadError provide errorMessage().  Currently what()
     RoadLogEvent        roadLogEvent() const { return log_event; };
 
 #//!\name Update
-    void                logError() const;
+    void                logErrorLastResort() const;
 };//class RoadError
 
 }//namespace orgQhull

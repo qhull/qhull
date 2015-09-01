@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2009-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/qhulltest/QhullSet_test.cpp#7 $$Change: 1810 $
-** $DateTime: 2015/01/17 18:28:15 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/qhulltest/QhullSet_test.cpp#10 $$Change: 1868 $
+** $DateTime: 2015/03/26 20:13:15 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -11,9 +11,10 @@
 #include <QtCore/QList>
 #include "RoadTest.h" // QT_VERSION
 
-#include "QhullRidge.h"
-#include "QhullFacetSet.h"
-#include "Qhull.h"
+#include "libqhullcpp/QhullRidge.h"
+#include "libqhullcpp/QhullFacetSet.h"
+#include "libqhullcpp/Qhull.h"
+#include "libqhullcpp/RboxPoints.h"
 
 using std::cout;
 using std::endl;
@@ -24,7 +25,7 @@ class QhullSet_test : public RoadTest
 {
     Q_OBJECT
 
-#//Test slots
+#//!\name Test slots
 private slots:
     void cleanup();
     void t_qhullsetbase();
@@ -62,7 +63,7 @@ t_qhullsetbase()
         // Fake an empty set.  Default constructor not defined.  No memory allocation.
         QhullFacet f4 = q.beginFacet();
         QhullFacetSet fs = f4.neighborFacets();
-        fs.defineAs(q.qhullQh()->other_points); // Force an empty set
+        fs.defineAs(q.qh()->other_points); // Force an empty set
         QVERIFY(fs.isEmpty());
         QCOMPARE(fs.count(), 0);
         QCOMPARE(fs.size(), 0u);
@@ -157,16 +158,17 @@ t_element()
     QCOMPARE(fs.front(), fs.first());
     QCOMPARE(fs.last(), fs.at(3));
     QCOMPARE(fs.back(), fs.last());
-    QhullFacet *d= fs.data();
-    const QhullFacet *d2= fs.data();
-    const QhullFacet *d3= fs.constData();
+    facetT **d = fs.data();
+    facetT * const *d2= fs.data();
+    facetT * const *d3= fs.constData();
     QVERIFY(d==d2);
     QVERIFY(d2==d3);
-    QCOMPARE(*d, fs.first());
-    QCOMPARE(d+4, fs.end());
-    QCOMPARE((d+4)->getFacetT(), static_cast<facetT *>(0));
-    QhullFacet f4= *(d+4);
-    QVERIFY(!f4.isDefined());
+    QCOMPARE(QhullFacet(q, *d), fs.first());
+    QhullFacetSet::iterator i(q.qh(), d+4);
+    QCOMPARE(i, fs.end());
+    QCOMPARE(d[4], static_cast<facetT *>(0));
+    QhullFacet f4(q, d[4]);
+    QVERIFY(!f4.isValid());
     QCOMPARE(fs.second(), fs[1]);
     const QhullFacet f2= fs.second();
     QVERIFY(f2==fs[1]);
@@ -359,8 +361,8 @@ t_qhullset_iterator()
     // Fake an empty set.  Default constructor not defined.  No memory allocation.
     QhullFacet f = q.beginFacet();
     QhullFacetSet fs = f.neighborFacets();
-    fs.defineAs(q.qhullQh()->other_points);
-    QhullFacetSetIterator i= fs;
+    fs.defineAs(q.qh()->other_points);
+    QhullFacetSetIterator i(fs);
     QCOMPARE(fs.count(), 0);
     QVERIFY(!i.hasNext());
     QVERIFY(!i.hasPrevious());
@@ -421,7 +423,7 @@ t_io()
     // Fake an empty set.  Default constructor not defined.  No memory allocation.
     QhullFacet f= q.beginFacet();
     QhullFacetSet fs= f.neighborFacets();
-    fs.defineAs(q.qhullQh()->other_points);
+    fs.defineAs(q.qh()->other_points);
     cout << "INFO:     empty set" << fs << std::endl;
     QhullFacet f2= q.beginFacet();
     QhullFacetSet fs2= f2.neighborFacets();

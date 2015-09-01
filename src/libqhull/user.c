@@ -76,6 +76,8 @@
   facetT *facet;            /* set by FORALLfacets */
   int curlong, totlong;     /* memory remaining after qh_memfreeshort */
 
+  QHULL_LIB_CHECK
+
 #if qh_QHpointer  /* see user.h */
   if (qh_qh){
       printf ("QH6238: Qhull link error.  The global variable qh_qh was not initialized\n\
@@ -106,6 +108,7 @@
 
   qh_new_qhull( dim, numpoints, points, ismalloc, qhull_cmd, outfile, errfile )
     build new qhull data structure and return exitcode (0 if no errors)
+    if numpoints=0 and points=NULL, initializes qhull
 
   notes:
     do not modify points until finished with results.
@@ -113,7 +116,7 @@
     do not call qhull functions before qh_new_qhull().
       The qhull data structure is not initialized until qh_new_qhull().
 
-    outfile may be null
+    errfile must be defined, outfile may be null
     qhull_cmd must start with "qhull "
     projects points to a new point array for Delaunay triangulations ('d' and 'v')
     transforms points into a new point array for halfspace intersection ('H')
@@ -143,6 +146,10 @@ int qh_new_qhull(int dim, int numpoints, coordT *points, boolT ismalloc,
     qh_exit(qh_ERRinput);
   }
   qh_initqhull_start(NULL, outfile, errfile);
+  if(numpoints==0 && points==NULL){
+      trace1((qh ferr, 1047, "qh_new_qhull: initialize Qhull\n"));
+      return 0;
+  }
   trace1((qh ferr, 1044, "qh_new_qhull: build new Qhull for %d %d-d points with %s\n", numpoints, dim, qhull_cmd));
   exitcode = setjmp(qh errexit);
   if (!exitcode)
@@ -246,12 +253,12 @@ void qh_errexit(int exitcode, facetT *facet, ridgeT *ridge) {
   else if (exitcode == qh_ERRprec && !qh PREmerge)
     qh_printhelp_degenerate(qh ferr);
   if (qh NOerrexit) {
-    qh_fprintf(qh ferr, 6187, "qhull error while ending program.  Exit program\n");
+    qh_fprintf(qh ferr, 6187, "qhull error while ending program, or qh->NOerrexit not cleared after setjmp(). Exit program with error.\n");
     qh_exit(qh_ERRqhull);
   }
   qh ERREXITcalled= False;
   qh NOerrexit= True;
-  qh->ALLOWrestart= False;  /* longjmp will undo qh_build_withrestart */
+  qh ALLOWrestart= False;  /* longjmp will undo qh_build_withrestart */
   longjmp(qh errexit, exitcode);
 } /* errexit */
 
@@ -447,7 +454,7 @@ The center point is coplanar with a facet, or a vertex is coplanar\n\
 with a neighboring facet.  The maximum round off error for\n\
 computing distances is %2.2g.  The center point, facets and distances\n\
 to the center point are as follows:\n\n", qh DISTround);
-  qh_printpointid(fp, "center point", qh hull_dim, qh interior_point, -1);
+  qh_printpointid(fp, "center point", qh hull_dim, qh interior_point, qh_IDunknown);
   qh_fprintf(fp, 9378, "\n");
   FORALLfacets {
     qh_fprintf(fp, 9379, "facet");

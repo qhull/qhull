@@ -1,20 +1,25 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/QhullLinkedList.h#10 $$Change: 1810 $
-** $DateTime: 2015/01/17 18:28:15 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullcpp/QhullLinkedList.h#14 $$Change: 1931 $
+** $DateTime: 2015/07/12 21:29:14 $$Author: bbarber $
 **
 ****************************************************************************/
 
 #ifndef QHULLLINKEDLIST_H
 #define QHULLLINKEDLIST_H
 
-namespace std { struct bidirectional_iterator_tag; struct random_access_iterator_tag; }
+namespace std {
+    struct bidirectional_iterator_tag;
+    struct random_access_iterator_tag;
+}//std
 
 #include "QhullError.h"
 extern "C" {
-    #include "libqhullr/qhull_ra.h"
+    #include "libqhull_r/qhull_ra.h"
 }
+
+#include <cstddef>  // ptrdiff_t, size_t
 
 #ifdef QHULL_USES_QT
 #include <QtCore/QList>
@@ -29,7 +34,7 @@ namespace orgQhull {
 #//!\name Defined here
     //! QhullLinkedList<T> -- A linked list modeled on QLinkedList.
     //!   T is an opaque type with T(B *b), b=t.getBaseT(), t=t.next(), and t=t.prev().  The end node is a sentinel.
-    //!   libqhull owns the contents.
+    //!   QhullQh/qhT owns the contents.
     //!   QhullLinkedList does not define erase(), clear(), removeFirst(), removeLast(), pop_back(), pop_front(), fromStdList()
     //!   Derived from Qt/core/tools/qlinkedlist.h and libqhull_r.h/FORALLfacets_()
     //! QhullLinkedList<T>::const_iterator -- STL-style iterator
@@ -65,7 +70,7 @@ public:
                         QhullLinkedList<T>(T b, T e) : begin_node(b), end_node(e) {}
                         //Copy constructor copies pointer but not contents.  Needed for return by value and parameter passing.
                         QhullLinkedList<T>(const QhullLinkedList<T> &other) : begin_node(other.begin_node), end_node(other.end_node) {}
-                        QhullLinkedList<T> & operator=(const QhullLinkedList<T> &other) { begin_node= other.begin_node; end_node= other.end_node; }
+                        QhullLinkedList<T> & operator=(const QhullLinkedList<T> &other) { begin_node= other.begin_node; end_node= other.end_node; return *this; }
                         ~QhullLinkedList<T>() {}
 
 private:
@@ -125,7 +130,7 @@ public:
         typedef ptrdiff_t   difference_type;
 
                         iterator() : i() {}
-                        iterator(T t) : i(t) {}
+                        iterator(const T &t) : i(t) {}  //!< Automatic conversion to iterator
                         iterator(const iterator &o) : i(o.i) {}
         iterator &      operator=(const iterator &o) { i= o.i; return *this; }
 
@@ -158,9 +163,9 @@ public:
         typedef ptrdiff_t         difference_type;
 
                         const_iterator() : i() {}
-                        const_iterator(T t) : i(t) {}
+                        const_iterator(const T &t) : i(t) {}  //!< Automatic conversion to const_iterator
+                        const_iterator(const iterator &o) : i(o.i) {}
                         const_iterator(const const_iterator &o) : i(o.i) {}
-                        const_iterator(iterator o) : i(o.i) {}
         const_iterator &operator=(const const_iterator &o) { i= o.i; return *this; }
 
         T               operator*() const { return i; }
@@ -189,7 +194,7 @@ class QhullLinkedListIterator // FIXUP QH11016 define QhullMutableLinkedListIter
 
 public:
                         QhullLinkedListIterator(const QhullLinkedList<T> &container) : c(&container), i(c->constBegin()) {}
-                        QhullLinkedListIterator &operator=(const QhullLinkedList<T> &container) { c= &container; i= c->constBegin(); return *this; }
+    QhullLinkedListIterator & operator=(const QhullLinkedList<T> &container) { c= &container; i= c->constBegin(); return *this; }
     bool                findNext(const T &t);
     bool                findPrevious(const T &t);
     bool                hasNext() const { return i != c->constEnd(); }

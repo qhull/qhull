@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/QhullRidge.h#12 $$Change: 1810 $
-** $DateTime: 2015/01/17 18:28:15 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullcpp/QhullRidge.h#15 $$Change: 1914 $
+** $DateTime: 2015/06/21 22:08:19 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -14,7 +14,7 @@
 #include "QhullVertexSet.h"
 #include "QhullFacet.h"
 extern "C" {
-    #include "libqhullr/qhull_ra.h"
+    #include "libqhull_r/qhull_ra.h"
 }
 
 #include <ostream>
@@ -57,8 +57,8 @@ public:
 
 #//!\name Fields
 private:
-    ridgeT *            qh_ridge;
-    QhullQh *           qh_qh;
+    ridgeT *            qh_ridge;  //!< Corresponding ridgeT, never 0
+    QhullQh *           qh_qh;     //!< QhullQh/qhT for ridgeT, may be 0
 
 #//!\name Class objects
     static ridgeT       s_empty_ridge;
@@ -67,10 +67,11 @@ public:
 #//!\name Constants
 
 #//!\name Constructors
+                        QhullRidge() : qh_ridge(&s_empty_ridge), qh_qh(0) {}
     explicit            QhullRidge(const Qhull &q);
                         QhullRidge(const Qhull &q, ridgeT *r);
-    explicit            QhullRidge(QhullQh *qh) : qh_ridge(&s_empty_ridge), qh_qh(qh) {}
-                        QhullRidge(QhullQh *qh, ridgeT *r) : qh_ridge(r ? r : &s_empty_ridge), qh_qh(qh) {}
+    explicit            QhullRidge(QhullQh *qqh) : qh_ridge(&s_empty_ridge), qh_qh(qqh) {}
+                        QhullRidge(QhullQh *qqh, ridgeT *r) : qh_ridge(r ? r : &s_empty_ridge), qh_qh(qqh) {}
                         // Creates an alias.  Does not copy QhullRidge.  Needed for return by value and parameter passing
                         QhullRidge(const QhullRidge &other) : qh_ridge(other.qh_ridge), qh_qh(other.qh_qh) {}
                         // Creates an alias.  Does not copy QhullRidge.  Needed for vector<QhullRidge>
@@ -79,11 +80,11 @@ public:
 
 #//!\name GetSet
     QhullFacet          bottomFacet() const { return QhullFacet(qh_qh, qh_ridge->bottom); }
-    int                 dimension() const { return qh_qh->hull_dim; }
+    int                 dimension() const { return ((qh_qh && qh_qh->hull_dim) ? qh_qh->hull_dim-1 : 0); }
     ridgeT *            getBaseT() const { return getRidgeT(); } //!< For QhullSet<QhullRidge>
     ridgeT *            getRidgeT() const { return qh_ridge; }
     countT              id() const { return qh_ridge->id; }
-    bool                isDefined() const { return qh_ridge != &s_empty_ridge; }
+    bool                isValid() const { return (qh_qh && qh_ridge != &s_empty_ridge); }
     bool                operator==(const QhullRidge &other) const { return qh_ridge==other.qh_ridge; }
     bool                operator!=(const QhullRidge &other) const { return !operator==(other); }
     QhullFacet          otherFacet(const QhullFacet &f) const { return QhullFacet(qh_qh, (qh_ridge->top==f.getFacetT() ? qh_ridge->bottom : qh_ridge->top)); }
@@ -99,15 +100,15 @@ public:
 
     struct PrintRidge{
         const QhullRidge *ridge;
-        const char *    print_message;
+        const char *    print_message;    //!< non-null message
                         PrintRidge(const char *message, const QhullRidge &r) : ridge(&r), print_message(message) {}
     };//PrintRidge
-    PrintRidge          print(const char* s) const { return PrintRidge(s, *this); }
+    PrintRidge          print(const char* message) const { return PrintRidge(message, *this); }
 };//class QhullRidge
 
 }//namespace orgQhull
 
-std::ostream &operator<<(std::ostream &os, const orgQhull::QhullRidge &r); 
+std::ostream &operator<<(std::ostream &os, const orgQhull::QhullRidge &r);
 std::ostream &operator<<(std::ostream &os, const orgQhull::QhullRidge::PrintRidge &pr);
 
 #endif // QHULLRIDGE_H

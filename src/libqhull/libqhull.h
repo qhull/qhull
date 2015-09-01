@@ -7,8 +7,8 @@
    see qh-qhull.htm, qhull_a.h
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2011/qhull/src/libqhull/libqhull.h#11 $$Change: 1810 $
-   $DateTime: 2015/01/17 18:28:15 $$Author: bbarber $
+   $Id: //main/2011/qhull/src/libqhull/libqhull.h#16 $$Change: 1951 $
+   $DateTime: 2015/08/30 21:30:30 $$Author: bbarber $
 
    NOTE: access to qh_qh is via the 'qh' macro.  This allows
    qh_qh to be either a pointer or a structure.  An example
@@ -78,8 +78,21 @@ extern const char *qh_version; /* defined in global.c */
 
   pointT
     a point is an array of coordinates, usually qh.hull_dim
+    qh_pointid returns
+      qh_IDnone if point==0 or qh is undefined
+      qh_IDinterior for qh.interior_point
+      qh_IDunknown if point is neither in qh.first_point... nor qh.other_points
+
+  notes:
+    qh.STOPcone and qh.STOPpoint assume that qh_IDunknown==-1 (other negative numbers indicate points)
+    qh_IDunknown is also returned by getid_() for unknown facet, ridge, or vertex
 */
 #define pointT coordT
+typedef enum
+{
+    qh_IDnone = -3, qh_IDinterior = -2, qh_IDunknown = -1
+}
+qh_pointT;
 
 /*-<a                             href="qh-qhull.htm#TOC"
   >--------------------------------</a><a name="flagT">-</a>
@@ -349,7 +362,7 @@ struct ridgeT {
                            NULL if a degen ridge (matchsame) */
   facetT  *top;         /* top facet this ridge is part of */
   facetT  *bottom;      /* bottom facet this ridge is part of */
-  unsigned id:24;       /* unique identifier, =>room for 8 flags, bit field matches qh.ridge_id */
+  unsigned id;          /* unique identifier for 'f' output and debugging, ignored if overflow */
   flagT    seen:1;      /* used to perform operations only once */
   flagT    tested:1;    /* True when ridge is tested for convexity */
   flagT    nonconvex:1; /* True if getmergeset detected a non-convex neighbor
@@ -375,18 +388,14 @@ struct vertexT {
   pointT  *point;       /* hull_dim coordinates (coordT) */
   setT    *neighbors;   /* neighboring facets of vertex, qh_vertexneighbors()
                            inits in io.c or after first merge */
-  unsigned visitid:31;  /* for use with qh.vertex_visit, size must match */
-  flagT    seen2:1;     /* another seen flag */
-  unsigned id:24;       /* unique identifier, bit field matches qh.vertex_id */
-  unsigned dim:4;       /* dimension of point if non-zero, used by cpp */
-                        /* =>room for 4 flags */
+  unsigned id;          /* unique identifier, size matches qh.vertex_id */
+  unsigned visitid;     /* for use with qh.vertex_visit, size must match */
   flagT    seen:1;      /* used to perform operations only once */
+  flagT    seen2:1;     /* another seen flag */
   flagT    delridge:1;  /* vertex was part of a deleted ridge */
   flagT    deleted:1;   /* true if vertex on qh.del_vertices */
   flagT    newlist:1;   /* true if vertex on qh.newvertex_list */
 };
-
-#define MAX_vdim 15  /* Maximum size of vertex->dim */
 
 /*======= -global variables -qh ============================*/
 
@@ -409,21 +418,27 @@ struct vertexT {
    Qhull is not multithreaded.  Global state could be stored in thread-local storage.
 */
 
-extern int qhull_inuse;
-
 typedef struct qhT qhT;
 #if qh_QHpointer_dllimport
 #define qh qh_qh->
 __declspec(dllimport) extern qhT *qh_qh;     /* allocated in global.c */
+#define QHULL_LIB_CHECK qh_lib_check(1, sizeof(qhT), sizeof(vertexT), sizeof(ridgeT), sizeof(facetT), sizeof(setT), sizeof(qhmemT));
+#define QHULL_LIB_CHECK_RBOX qh_lib_check(1, sizeof(qhT), sizeof(vertexT), sizeof(ridgeT), sizeof(facetT), 0, 0);
 #elif qh_QHpointer
 #define qh qh_qh->
 extern qhT *qh_qh;     /* allocated in global.c */
+#define QHULL_LIB_CHECK qh_lib_check(1, sizeof(qhT), sizeof(vertexT), sizeof(ridgeT), sizeof(facetT), sizeof(setT), sizeof(qhmemT));
+#define QHULL_LIB_CHECK_RBOX qh_lib_check(1, sizeof(qhT), sizeof(vertexT), sizeof(ridgeT), sizeof(facetT), 0, 0);
 #elif qh_dllimport
 #define qh qh_qh.
 __declspec(dllimport) extern qhT qh_qh;      /* allocated in global.c */
+#define QHULL_LIB_CHECK qh_lib_check(0, sizeof(qhT), sizeof(vertexT), sizeof(ridgeT), sizeof(facetT), sizeof(setT), sizeof(qhmemT));
+#define QHULL_LIB_CHECK_RBOX qh_lib_check(0, sizeof(qhT), sizeof(vertexT), sizeof(ridgeT), sizeof(facetT), 0, 0);
 #else
 #define qh qh_qh.
 extern qhT qh_qh;
+#define QHULL_LIB_CHECK qh_lib_check(0, sizeof(qhT), sizeof(vertexT), sizeof(ridgeT), sizeof(facetT), sizeof(setT), sizeof(qhmemT));
+#define QHULL_LIB_CHECK_RBOX qh_lib_check(0, sizeof(qhT), sizeof(vertexT), sizeof(ridgeT), sizeof(facetT), 0, 0);
 #endif
 
 struct qhT {
@@ -661,8 +676,8 @@ struct qhT {
                                includes coplanar outsideset points for NARROWhull/qh_outcoplanar() */
   int   num_good;         /* number of good facets (after findgood_all) */
   unsigned facet_id;      /* ID of next, new facet from newfacet() */
-  unsigned ridge_id:24;   /* ID of next, new ridge from newridge() */
-  unsigned vertex_id:24;  /* ID of next, new vertex from newvertex() */
+  unsigned ridge_id;      /* ID of next, new ridge from newridge() */
+  unsigned vertex_id;     /* ID of next, new vertex from newvertex() */
 
 /*-<a                             href="qh-globa.htm#TOC"
   >--------------------------------</a><a name="qh-var">-</a>
@@ -697,7 +712,7 @@ struct qhT {
                               from makecone/attachnewfacets to deletevisible */
   boolT findbestnew;      /* true if partitioning calls qh_findbestnew */
   boolT findbest_notsharp; /* true if new facets are at least 90 degrees */
-  boolT NOerrexit;        /* true if qh.errexit is not available */
+  boolT NOerrexit;        /* true if qh.errexit is not available, cleared after setjmp */
   realT PRINTcradius;     /* radius for printing centrums */
   realT PRINTradius;      /* radius for printing vertex spheres and points */
   boolT POSTmerging;      /* true when post merging */
@@ -707,7 +722,7 @@ struct qhT {
   realT totarea;          /* 'FA': total facet area computed by qh_getarea, hasAreaVolume */
   realT totvol;           /* 'FA': total volume computed by qh_getarea, hasAreaVolume */
   unsigned int visit_id;  /* unique ID for searching neighborhoods, */
-  unsigned int vertex_visit:31; /* unique ID for searching vertices, reset with qh_buildtracing */
+  unsigned int vertex_visit; /* unique ID for searching vertices, reset with qh_buildtracing */
   boolT ZEROall_ok;       /* True if qh_checkzero always succeeds */
   boolT WAScoplanar;      /* True if qh_partitioncoplanar (qh_check_maxout) */
 
@@ -781,9 +796,9 @@ struct qhT {
 
   getid_(p)
     return int ID for facet, ridge, or vertex
-    return -1 if NULL
+    return qh_IDunknown(-1) if NULL
 */
-#define getid_(p)       ((p) ? (int)((p)->id) : -1)
+#define getid_(p)       ((p) ? (int)((p)->id) : qh_IDunknown)
 
 /*============== FORALL macros ===================*/
 
@@ -1054,6 +1069,7 @@ void    qh_initqhull_outputflags(void);
 void    qh_initqhull_start(FILE *infile, FILE *outfile, FILE *errfile);
 void    qh_initqhull_start2(FILE *infile, FILE *outfile, FILE *errfile);
 void    qh_initthresholds(char *command);
+void    qh_lib_check(int isQHpointer, int qhTsize, int vertexTsize, int ridgeTsize, int facetTsize, int setTsize, int qhmemTsize);
 void    qh_option(const char *option, int *i, realT *r);
 #if qh_QHpointer
 void    qh_restore_qhull(qhT **oldqh);
@@ -1062,8 +1078,8 @@ qhT    *qh_save_qhull(void);
 
 /***** -io.c prototypes (duplicated from io.h) ***********************/
 
-void    qh_dfacet( unsigned id);
-void    qh_dvertex( unsigned id);
+void    qh_dfacet(unsigned id);
+void    qh_dvertex(unsigned id);
 void    qh_printneighborhood(FILE *fp, qh_PRINT format, facetT *facetA, facetT *facetB, boolT printall);
 void    qh_produce_output(void);
 coordT *qh_readpoints(int *numpoints, int *dimension, boolT *ismalloc);

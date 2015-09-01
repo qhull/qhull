@@ -20,5 +20,4 @@ build_pass:CONFIG(debug, debug|release){
 }
 win32-msvc* : QMAKE_LFLAGS += /INCREMENTAL:NO
 
-INCLUDEPATH += ../libqhullcpp
-INCLUDEPATH += ../../src # "libqhullr/qhull_a.h"
+INCLUDEPATH += ../../src # "libqhull_r/qhull_a.h"

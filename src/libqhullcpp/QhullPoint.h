@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2009-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/QhullPoint.h#16 $$Change: 1810 $
-** $DateTime: 2015/01/17 18:28:15 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullcpp/QhullPoint.h#21 $$Change: 1914 $
+** $DateTime: 2015/06/21 22:08:19 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -14,7 +14,7 @@
 #include "QhullQh.h"
 #include "Coordinates.h"
 extern "C" {
-    #include "libqhullr/qhull_ra.h"
+    #include "libqhull_r/qhull_ra.h"
 }
 
 #include <ostream>
@@ -28,7 +28,8 @@ namespace orgQhull {
 #//!\name Used here
     class Qhull;
 
-//! A point in Qhull is an array of coordinates.
+//! A QhullPoint is a dimension and an array of coordinates.
+//! With Qhull/QhullQh, a QhullPoint has an identifier.  Point equality is relative to qh.distanceEpsilon
 class QhullPoint {
 
 #//!\name Iterators
@@ -42,24 +43,30 @@ public:
 #//!\name Fields
 protected: // For QhullPoints::iterator, QhullPoints::const_iterator
     coordT *            point_coordinates;  //!< Pointer to first coordinate,   0 if undefined
-    QhullQh *           qh_qh;              //!< qhT for this instance of Qhull. 0 if undefined.  Used by id() and operator=()
+    QhullQh *           qh_qh;              //!< qhT for this instance of Qhull.  0 if undefined.
+                                            //!< operator==() returns true if points within sqrt(qh_qh->distanceEpsilon())
+                                            //!< If !qh_qh, id() is -3, and operator==() requires equal coordinates
     int                 point_dimension;    //!< Default dimension is qh_qh->hull_dim
 public:
 
 #//!\name Constructors
+    //! QhullPoint, PointCoordinates, and QhullPoints have similar constructors
+    //! If Qhull/QhullQh is not initialized, then QhullPoint.dimension() is zero unless explicitly set
+    //! Cannot define QhullPoints(int pointDimension) since it is ambiguous with QhullPoints(QhullQh *qqh)
                         QhullPoint() : point_coordinates(0), qh_qh(0), point_dimension(0) {}
+                        QhullPoint(int pointDimension, coordT *c) : point_coordinates(c), qh_qh(0), point_dimension(pointDimension) { QHULL_ASSERT(pointDimension>0); }
     explicit            QhullPoint(const Qhull &q);
-                        QhullPoint(const Qhull &q, int pointDimension, coordT *c);
                         QhullPoint(const Qhull &q, coordT *c);
                         QhullPoint(const Qhull &q, Coordinates &c);
-    explicit            QhullPoint(QhullQh *qh) : point_coordinates(0), qh_qh(qh), point_dimension(qh->hull_dim) {}
-                        QhullPoint(QhullQh *qh, int pointDimension, coordT *c) : point_coordinates(c), qh_qh(qh), point_dimension(pointDimension) {}
-                        QhullPoint(QhullQh *qh, coordT *c) : point_coordinates(c), qh_qh(qh), point_dimension(qh->hull_dim) {}
-                        QhullPoint(QhullQh *qh, Coordinates &c) : point_coordinates(c.data()), qh_qh(qh), point_dimension(c.count()) {}
-                        // Creates an alias.  Does not copy the point.  Needed for return by value and parameter passing.
-                        QhullPoint(const QhullPoint &other) : point_coordinates(other.point_coordinates), point_dimension(other.point_dimension), qh_qh(other.qh_qh) {}
-                        // Creates an alias.  Does not copy the point.  Needed for vector<QhullPoint>
-    QhullPoint &        operator=(const QhullPoint &other) { point_coordinates= other.point_coordinates; point_dimension= other.point_dimension; qh_qh= other.qh_qh; return *this; }
+                        QhullPoint(const Qhull &q, int pointDimension, coordT *c);
+    explicit            QhullPoint(QhullQh *qqh) : point_coordinates(0), qh_qh(qqh), point_dimension(qqh->hull_dim) {}
+                        QhullPoint(QhullQh *qqh, coordT *c) : point_coordinates(c), qh_qh(qqh), point_dimension(qqh->hull_dim) { QHULL_ASSERT(qqh->hull_dim>0); }
+                        QhullPoint(QhullQh *qqh, Coordinates &c) : point_coordinates(c.data()), qh_qh(qqh), point_dimension(c.count()) {}
+                        QhullPoint(QhullQh *qqh, int pointDimension, coordT *c) : point_coordinates(c), qh_qh(qqh), point_dimension(pointDimension) {}
+                        //! Creates an alias.  Does not make a deep copy of the point.  Needed for return by value and parameter passing.
+                        QhullPoint(const QhullPoint &other) : point_coordinates(other.point_coordinates), qh_qh(other.qh_qh), point_dimension(other.point_dimension) {}
+                        //! Creates an alias.  Does not make a deep copy of the point.  Needed for vector<QhullPoint>
+    QhullPoint &        operator=(const QhullPoint &other) { point_coordinates= other.point_coordinates; qh_qh= other.qh_qh; point_dimension= other.point_dimension; return *this; }
                         ~QhullPoint() {}
 
 
@@ -76,15 +83,15 @@ public:
 public:
     const coordT *      coordinates() const { return point_coordinates; }  //!< 0 if undefined
     coordT *            coordinates() { return point_coordinates; }        //!< 0 if undefined
+    void                defineAs(coordT *c) { QHULL_ASSERT(point_dimension>0); point_coordinates= c; }
     void                defineAs(int pointDimension, coordT *c) { QHULL_ASSERT(pointDimension>=0); point_coordinates= c; point_dimension= pointDimension; }
-    //! Creates an alias, but does not change qh()
-    void                defineAs(QhullPoint &other) { point_coordinates= other.point_coordinates; point_dimension= other.point_dimension; }
+    void                defineAs(QhullPoint &other) { point_coordinates= other.point_coordinates; qh_qh= other.qh_qh; point_dimension= other.point_dimension; }
     int                 dimension() const { return point_dimension; }
-    coordT *            getBaseT() const { return point_coordinates; } // for QhullSet<QhullPoint>
+    coordT *            getBaseT() const { return point_coordinates; } // for QhullPointSet
     countT              id() const { return qh_pointid(qh_qh, point_coordinates); } // NOerrors
-    bool                isDefined() const { return (point_coordinates!=0 && point_dimension>0); };
+    bool                isValid() const { return (point_coordinates!=0 && point_dimension>0); };
     bool                operator==(const QhullPoint &other) const;
-    bool                operator!=(const QhullPoint &other) const { return !operator==(other); }
+    bool                operator!=(const QhullPoint &other) const { return ! operator==(other); }
     const coordT &      operator[](int idx) const { QHULL_ASSERT(point_coordinates!=0 && idx>=0 && idx<point_dimension); return *(point_coordinates+idx); } //!< 0 to hull_dim-1
     coordT &            operator[](int idx) { QHULL_ASSERT(point_coordinates!=0 && idx>=0 && idx<point_dimension); return *(point_coordinates+idx); } //!< 0 to hull_dim-1
     QhullQh *           qh() { return qh_qh; }

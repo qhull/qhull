@@ -10,22 +10,17 @@
    Copyright (c) 1993-2015, The Geometry Center
 */
 
+#include "libqhull/libqhull.h"
+#include "libqhull/mem.h"
+#include "libqhull/qset.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
 #include <math.h>
-#include "libqhull.h"
-#include "mem.h"
-#include "qset.h"
 
-#if __MWERKS__ && __POWERPC__
-#include <SIOUX.h>
-#include <Files.h>
-#include <console.h>
-#include <Desk.h>
-
-#elif __cplusplus
+#if __cplusplus
 extern "C" {
   int isatty(int);
 }
@@ -33,7 +28,7 @@ extern "C" {
 #elif _MSC_VER
 #include <io.h>
 #define isatty _isatty
-int _isatty(int);
+/* int _isatty(int); */
 
 #else
 int isatty(int);  /* returns 1 if stdin is a tty
@@ -263,17 +258,7 @@ int main(int argc, char *argv[]) {
   coordT *points;
   boolT ismalloc;
 
-#if __MWERKS__ && __POWERPC__
-  char inBuf[BUFSIZ], outBuf[BUFSIZ], errBuf[BUFSIZ];
-  SIOUXSettings.showstatusline= false;
-  SIOUXSettings.tabspaces= 1;
-  SIOUXSettings.rows= 40;
-  if (setvbuf(stdin, inBuf, _IOFBF, sizeof(inBuf)) < 0   /* w/o, SIOUX I/O is slow*/
-  || setvbuf(stdout, outBuf, _IOFBF, sizeof(outBuf)) < 0
-  || (stdout != stderr && setvbuf(stderr, errBuf, _IOFBF, sizeof(errBuf)) < 0))
-    fprintf(stderr, "qhull internal warning (main): could not change stdio to fully buffered.\n");
-  argc= ccommand(&argv);
-#endif
+  QHULL_LIB_CHECK
 
   if ((argc == 1) && isatty( 0 /*stdin*/)) {
     fprintf(stdout, qh_prompt2, qh_version);
@@ -291,6 +276,7 @@ int main(int argc, char *argv[]) {
   qh_init_A(stdin, stdout, stderr, argc, argv);  /* sets qh qhull_command */
   exitcode= setjmp(qh errexit); /* simple statement for CRAY J916 */
   if (!exitcode) {
+    qh NOerrexit = False;
     qh_option("delaunay  Qbbound-last", NULL, NULL);
     qh DELAUNAY= True;     /* 'd'   */
     qh SCALElast= True;    /* 'Qbb' */

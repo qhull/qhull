@@ -45,7 +45,8 @@ height="100"></a> Qhull code</h1>
 Contents </a></h2>
 
 <ul>
-    <li><a href="#performance">Performance</a> of Qhull</li>
+    <li><a href="#reentrant">Reentrant Qhull</a>
+    <li><a href="#64bit">Qhull on 64-bit hosts</a>
     <li><a href="#cpp">Calling Qhull</a> from C++ programs
     <ul>
         <li><a href="#questions-cpp">Cpp questions for Qhull</a></li>
@@ -67,7 +68,6 @@ Contents </a></h2>
         <li><a href="#vertexlist-cpp">QhullVertexList</a></li>
         <li><a href="#vertexset-cpp">QhullVertexSet</a></li>
         <li><a href="#rbox-cpp">RboxPoints</a></li>
-        <li><a href="#usingqhull-cpp">UsingLibQhull</a></li>
     </ul>
     <li><a href="#library">Calling Qhull</a> from C programs
     <ul>
@@ -85,6 +85,7 @@ Contents </a></h2>
             <li><a href="#ridge">Voronoi vertices</a> of a ridge</li>
         </ul>
     </li>
+    <li><a href="#performance">Performance</a> of Qhull</li>
     <li><a href="#enhance">Enhancements</a> to Qhull</li>
     <li><a href="../src/libqhull/index.htm">Qhull functions</a>, macros, and data
         structures </li>
@@ -92,151 +93,53 @@ Contents </a></h2>
 
 <hr>
 
-<h2><a href="#TOC">&#187;</a><a name="performance">Performance of
-Qhull </a></h2>
+<h2><a href="#TOC">&#187;</a><a name="reentrant">Reentrant Qhull</a></h2>
 
-<p>Empirically, Qhull's performance is balanced in the sense that
-the average case happens on average. This may always be true if
-the precision of the input is limited to at most <i>O(log n)</i>
-bits. Empirically, the maximum number of vertices occurs at the
-end of constructing the hull. </p>
+<p>Qhull-2015 introduces reentrant Qhull (libqhull_r).   Reentrant Qhull replaces Qhull's global data structures with a qhT pointer.
+The pointer is the first argument to most Qhull routines.  It allows multiple instances of Qhull to run at the same time.
+It simplifies the C++ interface to Qhull.
 
-<p>Let <i>n</i> be the number of input points, <i>v</i> be the
-number of output vertices, and <i>f_v </i>be the maximum number
-of facets for a convex hull of <i>v</i> vertices. If both
-conditions hold, Qhull runs in <i>O(n log v)</i> in 2-d and 3-d
-and <i>O(n f_v/v)</i> otherwise. The function <i>f_v</i>
-increases rapidly with dimension. It is <em>O(v^floor(d/2) /
-floor(d/2)!)</em>.</p>
+<p>New code should be written with libqhull_r.   Existing users of libqhull should consider converting to libqhull_r.
+Although libqhull will be supported indefinitely, improvements may not be implemented.
+Reentrant qhull is 1-2% slower than non-reentrant qhull.
 
-<p>The time complexity for merging is unknown. Options '<a
-href="qh-optc.htm#C0">C-0</a>' and '<a href="qh-optq.htm#Qx">Qx</a>'
-(defaults) handle precision problems due to floating-point
-arithmetic. They are optimized for simplicial outputs. </p>
+<p>C++ users need to convert to libqhull_r.  The previous C++ interface was unusual
+due to Qhull's global data structures (e.g., UsingLibQhull.cpp).
+The new C++ interface does a better, but not perfect, job of hiding Qhull's C data structures.
 
-<p>When running large data sets, you should monitor Qhull's
-performance with the '<a href="qh-optt.htm#TFn">TFn</a>' option.
-The time per facet is approximately constant. In high-d with many
-merged facets, the size of the ridge sets grows rapidly. For
-example the product of 8-d simplices contains 18 facets and
-500,000 ridges. This will increase the time needed per facet. </p>
+<b>Note:</b> Reentrant Qhull is <i>not</i> thread safe.   Do not invoke Qhull routines with the same qhT pointer from multiple threads.
 
-<p>As dimension increases, the number of facets and ridges in a
-convex hull grows rapidly for the same number of vertices. For
-example, the convex hull of 300 cospherical points in 6-d has
-30,000 facets. </p>
+<h2><a href="#TOC">&#187;</a><a name="64bit">Qhull on 64-bit hosts</a></h2>
 
-<p>If Qhull appears to stop processing facets, check the memory
-usage of Qhull. If more than 5-10% of Qhull is in virtual memory,
-its performance will degrade rapidly. </p>
+<p>Qhull compiles for 64-bit hosts.  Since the size of a pointer on a 64-bit host is double the size on a 32-bit host,
+memory consumption increases about 50% for simplicial facets and up-to 100% for non-simplicial facets.  You can check
+memory consumption with option <a href="qh-optt.htm#Ts">Ts</a>.
 
-<p>When building hulls in 20-d and higher, you can follow the
-progress of Qhull with option '<a href="qh-optt.htm#Tn">T1</a>'.
-It reports each major event in processing a point. </p>
+<p>A custom version of Qhull for 3-D Delaunay triangulations may reduce space requirements substantially.
 
-<p>To reduce memory requirements, recompile Qhull for
-single-precision reals (REALfloat in <tt>user.h</tt>).
-Single-precision does not work with joggle ('<a
-href="qh-optq.htm#QJn">QJ</a>'). Check qh_MEMalign in <tt>user.h</tt>
-and the match between free list sizes and data structure sizes
-(see the end of the statistics report from '<a
-href="qh-optt.htm#Ts">Ts</a>'). If free list sizes do not match,
-you may be able to use a smaller qh_MEMalign. Setting
-qh_COMPUTEfurthest saves a small amount of memory, as does
-clearing qh_MAXoutside (both in <tt>user.h</tt>).</p>
+<p>On 64-bit hosts, reentrant qhull is nearly as fast as non-reentrant qhull.
 
-<p>Shewchuk is working on a 3-d version of his triangle
-program.  It is optimized for 3-d simplicial Delaunay triangulation
-and uses less memory than Qhull.</p>
-
-<p>To reduce the size of the Qhull executable, consider
-qh_NOtrace and qh_KEEPstatistics 0 in <tt>user.h</tt>. By
-changing <tt>user.c </tt>you can also remove the input/output
-code in <tt>io.c</tt>. If you don't need facet merging, then
-version 1.01 of Qhull is much smaller. It contains some bugs that
-prevent Qhull from initializing in simple test cases. It is
-slower in high dimensions.</p>
-
-<p>The precision options, '<a href="qh-optc.htm#Vn">Vn</a>', '<a
-href="qh-optc.htm#Wn">Wn</a>', '<a href="qh-optc.htm#Un">Un</a>'.
-'<a href="qh-optc.htm#An">A-n</a>', '<a href="qh-optc.htm#Cn">C-n</a>',
-'<a href="qh-optc.htm#An2">An</a>', '<a href="qh-optc.htm#Cn2">Cn</a>',
-and '<a href="qh-optq.htm#Qx">Qx</a>', may have large effects on
-Qhull performance. You will need to experiment to find the best
-combination for your application. </p>
-
-<p>The verify option ('<a href="qh-optt.htm#Tv">Tv</a>') checks
-every point after the hull is complete. If facet merging is used,
-it checks that every point is inside every facet. This can take a
-very long time if there are many points and many facets. You can
-interrupt the verify without losing your output. If facet merging
-is not used and there are many points and facets, Qhull uses a
-directed search instead of an exhaustive search. This should be
-fast enough for most point sets. Directed search is not used for
-facet merging because directed search was already used for
-updating the facets' outer planes.</p>
-
-<p>The check-frequently option ('<a href="qh-optt.htm#Tc">Tc</a>')
-becomes expensive as the dimension increases. The verify option
-('<a href="qh-optt.htm#Tv">Tv</a>') performs many of the same
-checks before outputting the results.</p>
-
-<p>Options '<a href="qh-optq.htm#Q0">Q0</a>' (no pre-merging), '<a
-href="qh-optq.htm#Q3">Q3</a>' (no checks for redundant vertices),
-'<a href="qh-optq.htm#Q5">Q5</a>' (no updates for outer planes),
-and '<a href="qh-optq.htm#Q8">Q8</a>' (no near-interior points)
-increase Qhull's speed. The corresponding operations may not be
-needed in your application.</p>
-
-<p>In 2-d and 3-d, a partial hull may be faster to produce.
-Option '<a href="qh-optq.htm#QGn">QgGn</a>' only builds facets
-visible to point n. Option '<a href="qh-optq.htm#QVn">QgVn</a>'
-only builds facets that contain point n. In higher-dimensions,
-this does not reduce the number of facets.</p>
-
-<p><tt>User.h</tt> includes a number of performance-related
-constants. Changes may improve Qhull performance on your data
-sets. To understand their effect on performance, you will need to
-read the corresponding code. </p>
-
-<p>GNU <tt>gprof</tt> reports that the dominate cost for 3-d
-convex hull of cosperical points is qh_distplane(), mainly called
-from qh_findbestnew().  The dominate cost for 3-d Delaunay triangulation
-is creating new facets in qh_addpoint(), while qh_distplane() remains
-the most expensive function.
-
-</p>
 <h2><a href="#TOC">&#187;</a><a name="cpp">Calling Qhull from
 C++ programs</a></h2>
 
-<p><b>Warning:</b>  The C++ interface to Qhull is new and
-incomplete.  You will need to extend the interface for all
-but the simplest applications.
-You will need to understand the data structures and read the code.
-Most users will find it easier to call Qhull as a program.
-
-<p><b>Note:</b>  Please download the 'next' branch from
-git://gitorious.org/qhull/qhull.git
+<p>Qhull 2015 uses reentrant Qhull for its C++ interface.  If you used
+the C++ interface from qhull 2012.1, you will need to adjust how you initialize and use
+the Qhull classes.   See <a href="../src/Changes.txt">Changes.txt</a> for details.
 
 <p>
-Qhull's C++ interface provides wrapper classes for Qhull and Rbox.  It provides access to Qhull's data structures.
+Qhull's C++ interface allows you to explore the results of running Qhull.
+It provides access to Qhull's data structures.
 Most of the classes derive from the corresponding qhull data structure.
 For example, <a href="#facet-cpp">QhullFacet</a> is an instance of Qhull's <a href="../src/libqhull/libqhull.h#facetT">facetT</a>.
+Each object contains a reference the Qhull's data structure (via QhullQh), making the C++ representation less memory efficient.
+You should retain most of the data in Qhull and use the C++ interface to explore its results.
 </p>
 
-The main methods are
-<ul><li>
-  <code>RboxPoints.appendRandomPoints</code> -- append random points according to rbox options.
-  </li><li>
-  <code>Qhull.runQhull</code> -- construct the convex hull of the input points
-  </li><li>
-  <code>Qhull.outputQhull</code> -- write output according to Qhull options
-</li></ul>
+<p>The C++ interface to Qhull is incomplete. You may need to extend the interface.
+If so, you will need to understand Qhull's data structures and read the code.
 
-The sample program,
-<a href=../src/user_eg3/user_eg3.cpp>user_eg3.cpp</a>, duplicates Qhull's facet dump (option 'f').
+Example (c.f., <code>user_eg3 eg-100</code>).   It prints the facets generated by Qhull.
 
-Example (c.f., <code>user_eg3 eg-100</code>)
 <pre>
     RboxPoints rbox;
     rbox.appendRandomPoints("100");
@@ -267,63 +170,9 @@ define a constructor of <a href="#vertexset-cpp">QhullVertexSet</a>
 that takes a QhullFacet as a parameter.
 </p>
 <p>
-With care, you may create multiple Qhull instances, but only one thread may use qh_qh,
-qh_qhstat, and qhmem at a time (i.e., most of libqhull, the original C program).
-only one instance may be active at time.  The global pointer <code>qh_qh</code>
-points to Qhull's data structure, <a href="#qh-cpp">QhullQh</a>.  The class
-<a href="#usingqhull-cpp">UsingLibQhull</a> checks that qh_qh is correct.
+Since the C++ interface uses reentrant Qhull, multiple threads may run Qhull at the same time.   Each thread is
+one run of Qhull.   Do <i>not</i> have two threads accessing the same Qhull instance.
 </p>
-<p>
-Qhull objects have the entire qhull data structure, so they can explore this data structure independent of
-libqhull.  You can use any method that does not refer to UsingLibQhull, or invoke methods that refer to UsingLibQhull.
-You may also use any method in libqhull that does not reference qh_qh, qh_qhstat (i.e., does not include the macro 'qh',
-zinc_, etc) and does not allocate or deallocate memory via mem.c.
-In particular, you can call most of the qset macros and functions, allowing you to explore the data structure
-with 'foreachFacet_(), etc.'   You can call all of the qset.h functions if you turn off Qhull's memory manager (qh_NOmem in mem.h)
-</p>
-
-<h3><a href="#TOC">&#187;</a><a name="questions-cpp">Cpp questions for Qhull</a></h3>
-
-Developing C++ code requires many conventions, idioms, and technical details.
-The following questions have either
-mystified the author or do not have a clear answer.  See also
-<a href="http://www.qhull.org/road/road-faq/xml/cpp-guideline.xml">C++ and Perl Guidelines</a>,
-<a href="http://www.qhull.org/road/road-faq/xml/qhull-cpp.xml">C++ interface to Qhull</a>. and FIXUP
-in the code.  Please add notes to <a href="http://gitorious.org/qhull/pages/Home">Gitorious wiki</a>.
-
-<ul>
-<li>FIXUP QH11026 Should return reference, but get reference to temporary
-<pre>iterator Coordinates::operator++() { return iterator(++i); }</pre>
-<li>size() as size_t, size_type, or int
-<li>Should all containers have a reserve()?
-<li>Qhull.feasiblePoint interface
-<li>How to avoid copy constructor while logging, maybeThrowQhullMessage()
-<li>How to configure Qhull output.  Trace and results should go to stdout/stderr
-<li>Qhull and RboxPoints messaging.  e.g., ~Qhull, hasQhullMessage().  Rename them as QhullErrorMessage?
-<li>How to add additional output to an error message, e.g., qh_setprint
-<li>Is idx the best name for an index?  It's rather cryptic, but BSD strings.h defines index().
-<li>Qhull::feasiblePoint Qhull::useOutputStream as field or getter?
-<li>Define virtual functions for user customization of Qhull (e.g., qh_fprintf, qh_memfree,etc.)
-<li>Figure out RoadError::global_log.  clearQhullMessage currently clearGlobalLog
-<li>Should the false QhullFacet be NULL or empty?  e.g., QhullFacet::tricoplanarOwner() and QhullFacetSet::end()
-<li>Should output format for floats be predefined (qh_REAL_1, 2.2g, 10.7g) or as currently set for stream
-<li>Should cout << !point.defined() be blank or 'undefined'
-<li>Interface for UsingLibQhull::globalAngleEpsilon(), globalDistanceEpsilon, etc.
-<li>Interface for UsingLibQhull::globalDimension
-<li>Set up globals for thread-private storage (redefine macros qh, qhstat, etc)
-<li>Is Q_GLOBAL_STATIC non-threaded/threaded, needed for Qhull?
-<li>Infinite point as !defined()
-<li>qlist and qlinkedlist define pointer, reference, size_type, difference_type, const_pointer, const_reference for the class but not for iterator and const_iterator
-      vector.h -- <pre>reference operator[](difference_type _Off) const</pre>
-<li>When forwarding an implementation is base() an approriate name (e.g., Coordinates::iterator::base() as std::vector<coordT>::iterator).
-<li>When forwarding an implementation, does not work "returning address of temporary"
-<li>Also --, +=, and -=
-       <pre>iterator       &operator++() { return iterator(i++); }</pre>
-<li>if vector<coordT> inheritance is bad, is QhullVertexSet OK?
-<li>Should QhullPointSet define pointer and reference data types?
-<li>Allow UsingQhullLib to work with static allocation of qh_qh
-</ul>
-
 
 <h3><a href="#TOC">&#187;</a><a name="coordinate-cpp">CoordinateIterator</a></h3>
 <p>
@@ -464,12 +313,42 @@ It's iterator is <a href="#coordinate-cpp">CoordinateIterator</a>.
 It can also append a cube's vertices or specific points.
 </p>
 
-<h3><a href="#TOC">&#187;</a><a name="usingqhull-cpp">UsingLibQhull</a></h3>
+<h3><a href="#TOC">&#187;</a><a name="questions-cpp">Cpp questions for Qhull</a></h3>
 
-<p>
-UsingLibQhull checks that the current thread owns Qhull's global data structure, <a href="#qh-cpp">QhullQh</a>.
-It is required while calling the Qhull library.  Otherwise two threads may be updating and reading the same data structure.
-</p>
+Developing C++ code requires many conventions, idioms, and technical details.
+The following questions have either
+mystified the author or do not have a clear answer.  See also
+<a href="http://www.qhull.org/road/road-faq/xml/cpp-guideline.xml">C++ and Perl Guidelines</a>.
+and FIXUP notes in the code.
+Please add notes to <a href="http://gitorious.org/qhull/pages/Home">Gitorious wiki</a>.
+
+<ul>
+<li>FIXUP QH11026 Should return reference, but get reference to temporary
+<pre>iterator Coordinates::operator++() { return iterator(++i); }</pre>
+<li>size() as size_t, size_type, or int
+<li>Should all containers have a reserve()?
+<li>Qhull.feasiblePoint interface
+<li>How to avoid copy constructor while logging, maybeThrowQhullMessage()
+<li>How to configure Qhull output.  Trace and results should go to stdout/stderr
+<li>Qhull and RboxPoints messaging.  e.g., ~Qhull, hasQhullMessage().  Rename them as QhullErrorMessage?
+<li>How to add additional output to an error message, e.g., qh_setprint
+<li>Is idx the best name for an index?  It's rather cryptic, but BSD strings.h defines index().
+<li>Qhull::feasiblePoint Qhull::useOutputStream as field or getter?
+<li>Define virtual functions for user customization of Qhull (e.g., qh_fprintf, qh_memfree,etc.)
+<li>Figure out RoadError::global_log.  clearQhullMessage currently clearGlobalLog
+<li>Should the false QhullFacet be NULL or empty?  e.g., QhullFacet::tricoplanarOwner() and QhullFacetSet::end()
+<li>Should output format for floats be predefined (qh_REAL_1, 2.2g, 10.7g) or as currently set for stream
+<li>Should cout << !point.defined() be blank or 'undefined'
+<li>Infinite point as !defined()
+<li>qlist and qlinkedlist define pointer, reference, size_type, difference_type, const_pointer, const_reference for the class but not for iterator and const_iterator
+      vector.h -- <pre>reference operator[](difference_type _Off) const</pre>
+<li>When forwarding an implementation is base() an approriate name (e.g., Coordinates::iterator::base() as std::vector<coordT>::iterator).
+<li>When forwarding an implementation, does not work "returning address of temporary"
+<li>Also --, +=, and -=
+       <pre>iterator       &operator++() { return iterator(i++); }</pre>
+<li>if vector<coordT> inheritance is bad, is QhullVertexSet OK?
+<li>Should QhullPointSet define pointer and reference data types?
+</ul>
 
 <h2><a href="#TOC">&#187;</a><a name="library">Calling Qhull from
 C programs</a></h2>
@@ -483,14 +362,15 @@ command.
 <p>For examples of calling Qhull, see GNU Octave's
 <a href=http://www.gnu.org/software/octave/doc/interpreter/Geometry.html>computational geometry code</a>,
 and Qhull's
-<a href=../src/user_eg/user_eg.c>user_eg.c</a>,
-<a href=../src/user_eg2/user_eg2.c>user_eg2.c</a>, and
-<a href=../src/libqhull/user.c>user.c</a>.  To see how Qhull calls its library, read
-<a href=../src/qhull/unix.c>unix.c</a>,
+<a href=../src/user_eg/user_eg_r.c>user_eg_r.c</a>,
+<a href=../src/user_eg2/user_eg2_r.c>user_eg2_r.c</a>, and
+<a href=../src/libqhull_r/user_r.c>user_r.c</a>.  To see how Qhull calls its library, read
+<a href=../src/qhull/unix_r.c>unix_r.c</a>,
 <a href=../src/qconvex/qconvex.c>qconvex.c</a>,
 <a href=../src/qdelaunay/qdelaun.c>qdelaun.c</a>,
 <a href=../src/qhalf/qhalf.c>qhalf.c</a>, and
-<a href=../src/qvoronoi/qvoronoi.c>qvoronoi.c</a>.
+<a href=../src/qvoronoi/qvoronoi.c>qvoronoi.c</a>.  The '*_r.c' files are reentrant, otherwise they are non-reentrant.
+Either version may be used.  New code should use reentrant Qhull.
 
 <p>The <a href=http://www.boost.org/libs/graph/doc/table_of_contents.html>BGL</a>
 Boost Graph Library [aka GGCL] provides C++ classes for graph data structures
@@ -506,20 +386,20 @@ you will need to read and understand the code. For most users, it
 is better to write data to a file, call the qhull program, and
 read the results from the output file.</p>
 
-<p>When you read the code, be aware of the macros &quot;qh&quot;
+<p>If you use non-reentrant Qhull, be aware of the macros &quot;qh&quot;
 and &quot;qhstat&quot;, e.g., &quot;qh hull_dim&quot;. They are
 defined in <tt>libqhull.h</tt>. They allow the global data
 structures to be pre-allocated (faster access) or dynamically
 allocated (allows multiple copies). </p>
 
-<p>Qhull's <tt>Makefile</tt> produces a library, <tt>libqhull.a</tt>,
-for inclusion in your programs. First review <tt>libqhull.h</tt>.
+<p>Qhull's <tt>Makefile</tt> produces a library, <tt>libqhull_r.a</tt>,
+for inclusion in your programs. First review <tt>libqhull_r.h</tt>.
 This defines the data structures used by Qhull and provides
 prototypes for the top-level functions.
-Most users will only need libqhull.h in their programs. For
-example, the Qhull program is defined with <tt>libqhull.h</tt> and <tt>unix.c</tt>.
-To access all functions, use <tt>qhull_a.h</tt>. Include the file
-with &quot;<tt>#include &lt;libqhull/qhull_a.h&gt;&quot;.</tt> This
+Most users will only need libqhull_r.h in their programs. For
+example, the Qhull program is defined with <tt>libqhull_r.h</tt> and <tt>unix_r.c</tt>.
+To access all functions, use <tt>qhull_ra.h</tt>. Include the file
+with &quot;<tt>#include &lt;libqhull_r/qhull_ra.h&gt;</tt>&quot;. This
 avoids potential name conflicts.</p>
 
 <p>If you use the Qhull library, you are on your own as far as
@@ -540,14 +420,14 @@ improvement. </p>
 <h3><a href="#TOC">&#187;</a><a name="mem">sets and quick memory
 allocation</a></h3>
 
-<p>You can use <tt>mem.c</tt> and<tt> qset.c</tt> individually. <tt>Mem.c
+<p>You can use <tt>mem_r.c</tt> and <tt>qset_r.c</tt> individually. <tt>Mem_r.c
 </tt>implements quick-fit memory allocation. It is faster than
 malloc/free in applications that allocate and deallocate lots of
 memory. </p>
 
-<p><tt>Qset.c</tt> implements sets and related collections. It's
+<p><tt>Qset_r.c</tt> implements sets and related collections. It's
 the inner loop of Qhull, so speed is more important than
-abstraction. Set iteration is particularly fast. <tt>qset.c</tt>
+abstraction. Set iteration is particularly fast. <tt>qset_r.c</tt>
 just includes the functions needed for Qhull. </p>
 
 <h3><a href="#TOC">&#187;</a><a name="dids">Delaunay triangulations
@@ -579,7 +459,7 @@ triangulation. </p>
 <h3><a href="#TOC">&#187;</a><a name="findfacet">locate a facet with
 qh_findbestfacet()</a></h3>
 
-<p>The routine qh_findbestfacet in <tt>poly2.c</tt> is
+<p>The routine qh_findbestfacet in <tt>poly2_r.c</tt> is
 particularly useful. It uses a directed search to locate the
 facet that is furthest below a point. For Delaunay
 triangulations, this facet is the Delaunay triangle that contains
@@ -616,7 +496,7 @@ Kirkpatrick <a href="index.htm#dob-kir90">'90</a>]. </p>
 
 <p>To use qh_findbestfacet with Delaunay triangulations, lift the
 point to a paraboloid by summing the squares of its coordinates
-(see qh_setdelaunay in geom2.c). Do not scale the input with
+(see qh_setdelaunay in geom2_r.c). Do not scale the input with
 options 'Qbk', 'QBk', 'QbB' or 'Qbb'. See Mucke, et al [<a
 href="index.htm#muck96">'96</a>] for a good point location
 algorithm.</p>
@@ -795,6 +675,120 @@ decomposition of the (d-2)-faces between each pair of facets --
 if you need 1-faces, you probably need to generate the full face
 graph of the convex hull. </p>
 
+<h2><a href="#TOC">&#187;</a><a name="performance">Performance of
+Qhull </a></h2>
+
+<p>Empirically, Qhull's performance is balanced in the sense that
+the average case happens on average. This may always be true if
+the precision of the input is limited to at most <i>O(log n)</i>
+bits. Empirically, the maximum number of vertices occurs at the
+end of constructing the hull. </p>
+
+<p>Let <i>n</i> be the number of input points, <i>v</i> be the
+number of output vertices, and <i>f_v </i>be the maximum number
+of facets for a convex hull of <i>v</i> vertices. If both
+conditions hold, Qhull runs in <i>O(n log v)</i> in 2-d and 3-d
+and <i>O(n f_v/v)</i> otherwise. The function <i>f_v</i>
+increases rapidly with dimension. It is <em>O(v^floor(d/2) /
+floor(d/2)!)</em>.</p>
+
+<p>The time complexity for merging is unknown. Options '<a
+href="qh-optc.htm#C0">C-0</a>' and '<a href="qh-optq.htm#Qx">Qx</a>'
+(defaults) handle precision problems due to floating-point
+arithmetic. They are optimized for simplicial outputs. </p>
+
+<p>When running large data sets, you should monitor Qhull's
+performance with the '<a href="qh-optt.htm#TFn">TFn</a>' option.
+The time per facet is approximately constant. In high-d with many
+merged facets, the size of the ridge sets grows rapidly. For
+example the product of 8-d simplices contains 18 facets and
+500,000 ridges. This will increase the time needed per facet. </p>
+
+<p>As dimension increases, the number of facets and ridges in a
+convex hull grows rapidly for the same number of vertices. For
+example, the convex hull of 300 cospherical points in 6-d has
+30,000 facets. </p>
+
+<p>If Qhull appears to stop processing facets, check the memory
+usage of Qhull. If more than 5-10% of Qhull is in virtual memory,
+its performance will degrade rapidly. </p>
+
+<p>When building hulls in 20-d and higher, you can follow the
+progress of Qhull with option '<a href="qh-optt.htm#Tn">T1</a>'.
+It reports each major event in processing a point. </p>
+
+<p>To reduce memory requirements, recompile Qhull for
+single-precision reals (REALfloat in <tt>user.h</tt>).
+Single-precision does not work with joggle ('<a
+href="qh-optq.htm#QJn">QJ</a>'). Check qh_MEMalign in <tt>user.h</tt>
+and the match between free list sizes and data structure sizes
+(see the end of the statistics report from '<a
+href="qh-optt.htm#Ts">Ts</a>'). If free list sizes do not match,
+you may be able to use a smaller qh_MEMalign. Setting
+qh_COMPUTEfurthest saves a small amount of memory, as does
+clearing qh_MAXoutside (both in <tt>user.h</tt>).</p>
+
+<p>Shewchuk is working on a 3-d version of his triangle
+program.  It is optimized for 3-d simplicial Delaunay triangulation
+and uses less memory than Qhull.</p>
+
+<p>To reduce the size of the Qhull executable, consider
+qh_NOtrace and qh_KEEPstatistics 0 in <tt>user.h</tt>. By
+changing <tt>user.c </tt>you can also remove the input/output
+code in <tt>io.c</tt>. If you don't need facet merging, then
+version 1.01 of Qhull is much smaller. It contains some bugs that
+prevent Qhull from initializing in simple test cases. It is
+slower in high dimensions.</p>
+
+<p>The precision options, '<a href="qh-optc.htm#Vn">Vn</a>', '<a
+href="qh-optc.htm#Wn">Wn</a>', '<a href="qh-optc.htm#Un">Un</a>'.
+'<a href="qh-optc.htm#An">A-n</a>', '<a href="qh-optc.htm#Cn">C-n</a>',
+'<a href="qh-optc.htm#An2">An</a>', '<a href="qh-optc.htm#Cn2">Cn</a>',
+and '<a href="qh-optq.htm#Qx">Qx</a>', may have large effects on
+Qhull performance. You will need to experiment to find the best
+combination for your application. </p>
+
+<p>The verify option ('<a href="qh-optt.htm#Tv">Tv</a>') checks
+every point after the hull is complete. If facet merging is used,
+it checks that every point is inside every facet. This can take a
+very long time if there are many points and many facets. You can
+interrupt the verify without losing your output. If facet merging
+is not used and there are many points and facets, Qhull uses a
+directed search instead of an exhaustive search. This should be
+fast enough for most point sets. Directed search is not used for
+facet merging because directed search was already used for
+updating the facets' outer planes.</p>
+
+<p>The check-frequently option ('<a href="qh-optt.htm#Tc">Tc</a>')
+becomes expensive as the dimension increases. The verify option
+('<a href="qh-optt.htm#Tv">Tv</a>') performs many of the same
+checks before outputting the results.</p>
+
+<p>Options '<a href="qh-optq.htm#Q0">Q0</a>' (no pre-merging), '<a
+href="qh-optq.htm#Q3">Q3</a>' (no checks for redundant vertices),
+'<a href="qh-optq.htm#Q5">Q5</a>' (no updates for outer planes),
+and '<a href="qh-optq.htm#Q8">Q8</a>' (no near-interior points)
+increase Qhull's speed. The corresponding operations may not be
+needed in your application.</p>
+
+<p>In 2-d and 3-d, a partial hull may be faster to produce.
+Option '<a href="qh-optq.htm#QGn">QgGn</a>' only builds facets
+visible to point n. Option '<a href="qh-optq.htm#QVn">QgVn</a>'
+only builds facets that contain point n. In higher-dimensions,
+this does not reduce the number of facets.</p>
+
+<p><tt>User.h</tt> includes a number of performance-related
+constants. Changes may improve Qhull performance on your data
+sets. To understand their effect on performance, you will need to
+read the corresponding code. </p>
+
+<p>GNU <tt>gprof</tt> reports that the dominate cost for 3-d
+convex hull of cosperical points is qh_distplane(), mainly called
+from qh_findbestnew().  The dominate cost for 3-d Delaunay triangulation
+is creating new facets in qh_addpoint(), while qh_distplane() remains
+the most expensive function.
+
+</p>
 <h2><a href="#TOC">&#187;</a><a name="enhance">Enhancements to Qhull </a></h2>
 
 <p>There are many ways in which Qhull can be improved. </p>

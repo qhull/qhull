@@ -12,8 +12,8 @@
      qh_errexit(qhmem_ERRqhull, NULL, NULL) otherwise
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2011/qhull/src/libqhull/mem.h#7 $$Change: 1810 $
-   $DateTime: 2015/01/17 18:28:15 $$Author: bbarber $
+   $Id: //main/2011/qhull/src/libqhull/mem.h#9 $$Change: 1880 $
+   $DateTime: 2015/04/19 21:29:35 $$Author: bbarber $
 */
 
 #ifndef qhDEFmem
@@ -76,9 +76,11 @@ Trace short and quick memory allocations at T5
     ptr_intT is typically a signed value, but not necessarily so
     size_t is typically unsigned, but should match the parameter type
     Qhull uses int instead of size_t except for system calls such as malloc, qsort, qh_malloc, etc.
-    This matches Qt convention and is easier to work with.  
+    This matches Qt convention and is easier to work with.
 */
-#if _MSC_VER && defined(_WIN64)
+#if (defined(__MINGW64__)) && defined(_WIN64)
+typedef long long ptr_intT;
+#elif (_MSC_VER) && defined(_WIN64)
 typedef long long ptr_intT;
 #else
 typedef long ptr_intT;

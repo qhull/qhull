@@ -1,165 +1,157 @@
+$Id: //main/2011/qhull/src/Changes.txt#82 $
 
 .............This file lists all changes to qhull and rbox.....................
 
 ------------
 Need help
  - Qhull needs RPM and Debian builds (CMake's CPackRMP and CPackDeb).   
- - Add an Autotools build for everything
- - Set up debian build [octave-maintainers]
-   Please keep debian files in config/ 
  - Qhull needs a mirror/archive site for old and new builds
  - Constrained delaunay triangulation via Shewchuk's algorithm (ACM Symp. Comp. Geo., 1998)
  - The C++ interface needs work.  Give it a try and make it better.
    http://gitorious.org/qhull/
- - Document with Qt conventions using Doxygen (//! and //!<)
  - Produce conformant triangulations for merged facets using option 'Qt' 
+ - Write an incremental addPoint using bucketed inputs and facet location search
+ - Compute hyperplanes in parallel (cf. qh_setfactplane)
+ - Create Voronoi volumes and topology using a parallel implementation
 
-To do
- - Can allocate memory for QhullSet using Qhull.qhmem, Then default constructors for QhullVertexSet etc.
- - Review email for doc changes before jun'10
- - Git: Create signed tags for Qhull versions
- - Wiki: Add FIXUP to QH11026 for known problems
- - Review all FIXUP
- - Update README for libqhullr etc.
- - Notes to compgeom on conformant triangulation and Voronoi volume
- - Set File Ver and Product Ver in dll
- - Compute the convex hull of each Voronoi or Delaunay region
- - Performance test of qset and qhull
+------------
+To do for a future verson of Qhull
  - Rescale output to match 'QbB' on input [J. Metz, 1/30/2014 12:21p]
- - qh-get.htm:  List the Window OSs for Qhull [T. Winkler]
- - Add publications that compare Qhull and CGAL.  Review results
- - Reconsider Qhull version numbering (e.g., Traveler 4/5/12) 
- - Add interior point for automatic translation?
- - Allow comma separated input?
- - Allocate a new QhullPoint
- - countT -1 used as a flag in Coordinates.mid(), QhullFacet->id()
+ - Run through valgrind
+ - Notes to compgeom on conformant triangulation and Voronoi volume
+ - Git: Create signed tags for Qhull versions
+
+ - Can countT be defined as 'int', 'unsigned int', or 64-bit int?  
+   countT is currently defined as 'int' in qset_r.h
+   Vertex ID and ridge ID perhaps should be countT
+   Check use of 'int' vs. countT in all cpp code
+   Check use of 'int' vs. countT in all c code
+   qset_r.h defines countT -- duplicates code in user_r.h -- need to add to qset.h/user.h
+   countT -1 used as a flag in Coordinates.mid(), QhullFacet->id()
    Also QhullPoints indexOf and lastIndexOf
    Also QhullPointSet indexOf and lastIndexOf
- - Coordinates.indexOf assumes countT is signed (from end)
- - Coordinates.lastIndexOf assumes countT is signed (from end)
- - All error messages with countT are wrong, convert to int?
- - Review all cpp code for 'int'
- - Review all c code for 'int'
- - RboxPoints.qh_fprintf_rbox, etc. message 9393 assumes countT but may be int, va_arg(args, countT);  Need to split
- - vertexT   unsigned id:24;       /* too small */
- - Why QhullFacetList.PrintFacetList and .PrintFacet?
- - Remove s_qhull_output
- - qset_r.h defines countT -- duplicates code in user_h.h -- need to add to qset.h/user.h
- - rbox_errexit assumed to exit.  Protect with a flag?
- - checkAndFreeQhullMemory does not work since it does not free qhmem itself.
- - Check base address for qhstatT, add Qhull initializers 
- - Review all classes
-   Check that assignment copies everything
-   Check alignment for Fields
-   Qhull& constructors before QhullQh* constructors, otherwise the same
-   operator= for all
-   check explicit
-   Remove print(), add << T if needed
-     Remove QhullFacet.print() -- Use << instead
- - Reduce includes
- - Document C++
-   Designed for exploring the results of Qhull.
-   All objects contain a QhullQh reference, making them memory inefficient.
-   May also use libqhull (e.g., FOREACHfacet_(...))
- - Review default constructors (QhullPoint OK)
- - QhullVertexSet uses QhullSetBase::referenceSetT() to free it's memory.   Probably needed elsewhere
+   Coordinates.indexOf assumes countT is signed (from end)
+   Coordinates.lastIndexOf assumes countT is signed (from end)
+   All error messages with countT are wrong, convert to int?
+   RboxPoints.qh_fprintf_rbox, etc. message 9393 assumes countT but may be int, va_arg(args, countT);  Need to split
+ 
+------------
+To do for a furture version of the C++ interface 
+ - Document C++ using Doxygen conventions (//! and //!<)
+ - Create a shared library for libqhullcpp.  It must include all uses of QH_TRY and setjmp().
+ - Should Qhull manage the output formats for doubles?  QH11010 user_r.h defines qh_REAL_1 as %6.8g
+ - Allocate memory for QhullSet using Qhull.qhmem.  Create default constructors for QhullVertexSet etc.  Also mid() etc.
+ - Add interior point for automatic translation?
+ - Add hasNext() to all next() iterators (e.g., QhullVertex)
  - Add defineAs to each object
+ - Write a program with concurrent Qhull
+ - Write QhullStat and QhullStat_test
  - Add QList and vector instance of facetT*, etc.
  - Generalize QhullPointSetIterator
- - Review all tests
-   Add QhullStat_test
-   Add printIdentifiers to Set tests
-   Add QhullVertexSet_test
-   Add Qhull* to constructors
-   Test QhullQh* constructors
-   Test QhullFacetList.operator=
-   Test QhullLinkedList.operator=
-   Test QhullFacetSet.operator=
-   Test QhullFacetSet.print("message")
-   Test QhullPoints.operator=
-   Test QhullPointSet.operator=
-   Test QhullSet.operator=
-   Test qh_NOmem, etc.
- - Reviewed
-   QhullPoint_test
- - Update LASTerror for qhullpcpp.QhullError.h
- - Check that QtCreator can load and build with CMakefile
- - Incremental addition of input points to existing tesselation
- - Add reference (compares to cgal, http://www.mcs.anl.gov/papers/P5154-0614.pdf, 4x more memory, cgal much faster)
-   Y. Liu and J. Snoeyink, “A Comparison of Five Implementations of 3D Delaunay Tessellation,” Combinatorial and Computational Geometry,   vol. 52, pp. 439–458, 2005.
- - Fix no-more facets error
- - Fix interface to Qhull.  Shouldn't do all the work in the constructor
-       void                runQhull(const char *qhullCommand2);
 
 ------------
-Dec'14 notes
+Qhull 2015.0.2
 
-make-vcproj.sh -- Renames build/ to build-prev. Creates build, build-vc and build-qt (needs editing)
-Renamed build to build-new
-Copied build-prev to build and renamed as build-mar14
-Devenv loaded build/qhullr.sln with qhullmini
-   build/qhulltest-mini/qhullmini.vcproj
-   build/libqhullcpp/libqhullcpp.vcproj
-   build/libqhullstaticr/libqhullstaticr.vcproj
-Includes   
-   build/libqhullr/libqhullr.vcproj
-
-Load Qt Creator (Oct'14) with src/qhull-all.pro -- The project is odd due to the include files
-Successfully compiled and ran qhullmini with QhullPoint_test
-Updated Perforce
-Added user_eg3
+ Source code changes
+ - Increased size of vertexT.id and ridgeT.id to 2^32
+   Reworded the warning message for ridgeT.id overflow.  It does not affect Qhull output
+ - Add qh_lib_check to check for a compatible Qhull library.
+   Programs should call QHULL_LIB_CHECK before calling Qhull.
+ - Include headers prefixed with libqhull/, libqhull_r/, or libqhullcpp/
+ - Renamed debugging routines dfacet/dvertex to qh_dfacet/qh_dvertex 
+ - Rewrote user_eg, user_eg2, and user_eg3 as reentrant code
+ - Renamed 'qh_rand_seed' to 'qh_last_random'.  Declare it as DATA
+ - qh_initqhull_start2 sets qh->NOerrexit on initialization
+   User must clear NOerrexit after setjmp()
    
-------------
-Qhull
- - Fixed documentation for 'include' path in qh-code.htm.  It should be include/libqhull [fe rew]
- - Fixed documentation for 'i' in qconvex.htm.  It triangulates in 4-d and higher [
- - Clarified qhalf space documentation for the interior point [J. Santos]
- - Rename debugging routines dfacet/dvertex to qh_dfacet/qh_dvertex 
+ Other source code changes
+ - Define ptr_intT as 'long long' for __MINGW64__ [A. Voskov]
+ - Removed vertexT.dim and MAX_vdim.  It is not used by reentrant Qhull.
+ - Removed qhull_inuse.  Not used by C++
+ - Removed old __MWERKS__/__POWERPC__ code that speed up SIOUX I/O
+ - Moved #include libqhull/... before system includes (e.g., <stdio.h>
+ - Comment-out _isatty declaration.  Avoids "C4273 ... inconsistent dll linkage"
+ - Add random.h/random_r.h as an include file to random.c/random_r.c 
  - Rename rbox routines to qh_roundi/qh_out1/qh_out2n/qh_out3n 
  - Rename dfacet and dvertex to qh_dfacet and qh_dvertex 
- - Rename user_eg, user_eg2, and user_eg3 to user_eg7,etc. 
- - Rewrote user_eg, user_eg2, and user_eg3 as reentrant code
  - Replace 'qhmem .zzz' with 'qhmem.zzz'
- - Removed spaces between function and parentheses
+ - Removed spaces between function name and parentheses
  - Rename 'enum statistics' to 'enum qh_statistics'
- - Rename 'qh_rand_seed' to 'qh_last_random'.  Declare it as DATA
  - Declare rbox as DATA in qhull-exports.def and qhull_p-exports.def
  - In comments, use 'qh.zzz' to reference qhT fields
  - In qh_fprintf, use qhmem.ferr to report errors
  - qh_fprintf may be called for errors in qh_initstatistics and qh_meminit
- - After qh_meminit, qhmem.ferr is non-zero
+ - qh_pointid returns qh_IDnone, qh_IDinterior, qh_IDunknown in place of -3, -2, -1 resp.
+ - getid_() returns qh_IDunknown in place of -1
+ - After qh_meminit, qhmem.ferr is non-zero (stderr is the default)
  - Update qh_MEMalign in testqset.c to user.h (with realT and void*)
  - Split rboxT into a header file
  - Add rboxlib.h to libqhull_a.h
- -   Rename PI to qh_PI and extend to 30 digits
- -   Rename MAXdim to qh_MAXdim
+ - Rename PI to qh_PI and extend to 30 digits
+ - Rename MAXdim to qh_MAXdim
  - Change spacing for type annotations '*' and '&' in C++ header files
+ - Test for !rbox_output/cpp_object in qh_fprintf_rbox
  - Remove 'inline' annotation from explicit inline declarations
  - Column 25 formatting for iterators, etc.
  - Use '#//!\name' for section headers
  - QhullFacet.cpp: zinc_(Zdistio);
- - Set qhT.NOerrexit on initialization
  - Clear qhT.ALLOWrestart in qh_errexit
  - Replace longjmp with qh_errexit_rbox in qh_rboxpoints
  - Add jmpExtra after rbox_errexit to protect against compiler errors
+ - Add qh.ISqhullQh to indicate initialization by QhullQh()
+ - Add library warnings to 'rbox D4', user_eg, user_eg2, user_eg3
+ - Add headers to q_eg, q_egtest, and q_test
+ - Check that qh.NOerrexit is cleared before call to qh_initflags
 
-qhullr (reentrant Qhull)
- - Make the Qhull data structure (qh_qh) a parameter instead of a global static
-   It simplifies multithreading and the C++ user interface
+Qhull documentation
+ - README.txt: Added references to qh-code.htm
+ - README.txt: Added section 'Calling Qhull from C programs'
+ - qh-code.htm: Moved Performance after C++ and C interface
+ - qh-code.htm: Moved Cpp Questions to end of the C++ section
+ - qh-code.htm: Fixed documentation for 'include' path.  It should be include/libqhull
+ - qconvex.htm: Fixed documentation for 'i'.  It triangulates in 4-d and higher [ref]
+ - Clarified qhalf space documentation for the interior point [J. Santos]
+ - rbox.c: Version is same date as qh_version in global.c
+ - gobal_r.c: Version includes a '.r' suffix to indicate 'reentrant'
+
+Qhull builds
+ - Exchanged make targets for testing.  
+   'make test' is a quick test of qhull programs.  
+   'make testall' is a thorough test
+ - Added 'make help' and 'make test' to libqhull and libqhull_r Makefiles
+ - CMakeLists.txt: Remove libqhull, libqhull_r, and libqhullcpp from include_directories
+ - CMakeLists.txt: Add qhull_SHAREDR for qhull_r
+ - CMakeLists.txt: Retain qhull_SHARED and qhull_SHAREDP (qh_QHpointer)
+ - CMakeLists.txt: Move qhull_SHARED and qhull_SHAREDP (qh_QHpointer) to qhull_TARGETS_OLD
+   Drop qhull_STATICP (use qhull_SHAREDP or qhull_STATIC)
+   Set SOVERSION and VERSION for shared libraries
+ - Move qhull_p-exports.def back to libqhull
+ - Switched to mingw-w64-install for gcc
+ - Improved prompts for 'make'
+ - qhull-all.pro: Remove user_eg3.cpp from OTHER_FILES
+ - libqhull.pro: Ordered object files by frequency of execution, as done before
+ - Add the folder name to C++ includes and remove libqhullcpp from INCLUDEPATH
+ - Changed CONFIG+=qtestlib to QT+=testlib
+ - Changed Makefile to gcc -O3 (was -O2)
+ - Changed libqhull/libqhull_r Makefiles to both produce rbox, qhull, ..., user_eg, and user_eg2
+ - Removed Debian 'config/...'.  It was needed for Qhull 2012.
+
+libqhull_r (reentrant Qhull)
+ - Replaced qh_qh with a parameter to each procedure
+   No more globally defined data structures in Qhull
+   Simplified multithreading and C++ user interface
    All functions are reentrant (Qt: "A reentrant function can ... be called simultaneously from multiple threads, but only if each invocation uses its own data.")
-   This replaces qh_QHpointer.
+   No more qh_QHpointer.
+   See user_eg3 and qhulltest
    New libraries
-      libqhullr -- Shared library with reentrant sources (e.g., poly_r.h and poly_r.c which replace libqhull's poly.h and poly.c)
-      libqhullstaticr -- Static library with the same sources as libqhullr
-      libqhullcpp -- The C++ interface using libqhullr (further notes below)
+      libqhull_r -- Shared library with reentrant sources (e.g., poly_r.h and poly_r.c which replace libqhull's poly.h and poly.c)
+      libqhullstatic_r -- Static library with the same sources as libqhull_r
+      libqhullcpp -- The C++ interface using libqhullstatic_r (further notes below)
    New executables
-      qhulltest -- Test the C++ interface using Qt
-      testqsetr -- Test qset_r.c (the reentrant version of qset.c
-   Renamed libraries and executables
-      libqhullpcpp -- The old C++ interface using qh_QHpointer and libqhullp (previously called libqhullcpp)
-      qhullptest -- The old test program for the C++ interface (previously called qhulltest)
+      testqset_r -- Test qset_r.c (the reentrant version of qset.c
       
- Source code changes for libqhullr      
+ Source code changes for libqhull_r      
+ - Add qh_zero() to initialize and zero memory for qh_new_qhull
  - Remove qh_save_qhull(), qh_restore_qhull(), and qh.old_qhstat from global_r.c
  - Remove qh_freeqhull2() (global_r.c)
  - Remove qh_freestatistics() (stat_r.c)
@@ -186,28 +178,37 @@ qhullr (reentrant Qhull)
    Removed MAX_vdim
  - Guarantee that qh->run_id!=0.  Old code assumed that qh_RANDOMint was 31 bits
 
-C++ interface
- - Reimplement C++ interface on reentrant libqhullr instead of libqhull
- - Renamed libqhullcpp to libqhullpcpp
- - Renamed qhulltest to qhullptest
- - Renamed qhull-app-cpp.pri to qhull-app-cpp_p.pri
+Changes to libqhullcpp
+ - Removed qhull_interface.cpp -- better to use Qhull.cpp.  
+   If math.h breaks '#include qhull_a.h', preceed it with '#include math.h'
  - Added QhullVertexSet.h to libqhullcpp.pro and libqhullpcpp.pro
+ - QhullVertexSet: error if qhsettemp_defined at copy constructor/assignment (otherwise double free)
+ - Enable QhullSet.operator=.  Copy constructor and assignment only copies pointers
+ - Changed QhullPoint.operator==() to sqrt(distanceEpsilon)
+ - Added assignment of base class QhullPoints to PointCoordinates.operator=
+ - Enable QhullPoints.operator=
+ - Rename PointCoordinates.point_comment to describe_points
+ - Add 'typename T' to definition of QhullSet<T>::value()
+
+C++ interface
+ - Reimplemented C++ interface on reentrant libqhull_r instead of libqhull
+ - Prepend include files with libqhullcpp/
  - Replaced UsingLibQhull with QhullQh and macro QH_TRY
    Removed UsingLibQhull.currentAngleEpsilon and related routines
+   Removed UsingLibQhull_test.cpp
    Replaced globalDistanceEpsilon with QhullQh.distanceEpsilon
    Replaced globalAngleEpsilon with QhullQh.angleEpsilon
+   Moved UsingQhullLib.checkQhullMemoryEmpty to QhullQh.checkAndFreeQhullMemory
    Replaced FACTORepsilon=10 with QhullQh.factor_epsilon=1.0
- - Fixed double free by QhullVertexSet's copy constructor if qhsettemp_defined
+ - To avoid -Wshadow for QhullQh*, use 'qqh' for parameters and 'qh()' for methods
  - Moved messaging from Qhull to QhullQh
- - RboxPoints(rboxCommand).comment() includes the command with its 
  - Add check of RboxPoints* in qh_fprintf_rbox
  - Renamed Qhull.initializeQhull to Qhull.allocateQhullQh
- - Renamed UsingQhullLib.checkQhullMemoryEmpty to QhullQh.checkAndFreeQhullMemory
    Added qh_freeqhull(!qh_ALL) as done by unix.c and other programs
  - Moved QhullPoints.extraCoordinatesCount into QhullPoints.cpp
- - Changed QhullPoint.operator== to sqrt(distanceEpsilon)
  - Replaced section tags with '#//!\name ...'
- - PointCoordinates.operator=: initialize QhullPoints, otherwise does not copy point_dimension
+ - Removed qhRunId from print() to ostream.
+ - Removed print() to ostream.  Use '<< qhullPoint' or '<< qhullPoint.print("message")'
 
 C++ interface for most classes
  - Remove qhRunId
@@ -222,21 +223,29 @@ C++ interface for most classes
  - Removed empty().  Use isEmpty() instead
  - Add operator= instead of keeping it private
  - print_message=0 not allowed.  Use "" instead.
+ - Rename isDefined() to isValid() to match Qt conventions
  
 C++ interface by class
  - Coordinates
    Removed empty().  Use isEmpty() instead
+   Added append(dim, coordT*)
    Reformated the iterators
    Convert to countT
  - PointCoordinates
-   Constructor requires Qhull or QhullQh* pointer
+   Added constructors for Qhull or QhullQh* (provides access to QhullPoint.operator==)
+   Removed PointCoordinates(int pointDimension) since PointCoordinates should have a comment.  Also, it is ambiguous with PointCoordinates(QhullQh*)
    Renamed point_comment to describe_points
    Convert to countT
  - Qhull
    Remove qhull_run_i
    Remove qh_active
+   Replace property feasiblePoint with field feasible_point and methods setFeasiblePoint/feasiblePoint
+     Returns qh.feasible_point if defined
+   Moved useOutputStream to QhullQh use_output_stream
+   Renamed useOutputStream() to hasOutputStream()
    Replaced qhull_dimension with qh->input_dim  //! Dimension of result (qh.hull_dim or one less for Delaunay/Voronoi)
-   Remove globals s_qhull_output= 0; 
+   Removed global s_qhull_output= 0; 
+   Move qhull_status, qhull_message, error_stream, output_stream to QhullQh
    Renamed qhullQh() to qh()
    Added check of base address to allocateQhullQh(),  Was not needed for qhullpcpp
  - QhullFacet
@@ -244,6 +253,7 @@ C++ interface by class
    Convert to countT
    Dropped implicit conversion from facetT
    Dropped runId
+   Add print("message") to replace print()
  - QhullFacetList
    Constructor requires Qhull or QhullQh* pointer
    Convert to countT
@@ -256,30 +266,44 @@ C++ interface by class
    Add operator=
    Implement print("message")
  - QhullHyperplane
-   Constructor requires Qhull or QhullQh* pointer
-   Reorganized
+   Add hyperplaneAngle() method
+   Rewrite operator== to use hyperplaneAngle()
+   Reorganize fields to keep pointers aligned
+   Except for default constructor requires Qhull or QhullQh* pointer
+   Enable copy assignment
+   Reorganized header
  - QhullLinkedList
    Add operator=
    Removed empty().  Use isEmpty() instead
    Convert to countT
+   iterator(T) made iterator(const T &) 
+   const_iterator(T) made const_iterator(const T &) 
+   const_iterator(iterator) made const_iterator(const iterator &) 
  - QhullPoint
-   Constructor requires Qhull or QhullQh* pointer
-   An empty QhullPoint sets point_dimension to hull_dim 
-   Added checks for point_coordinates==0, i.e., QhullPoint(q)
-   Removed QhullPoint::id, use QhullPoint.id() instead
+   Add constructors for Qhull or QhullQh* pointer (for id() and operator==)
+   Add defineAs(coordT*)
+   Add getBaseT() and base_type for QhullSet<QhullPoint>
+   Added checks for point_coordinates==0
+   Removed static QhullPoint::id(), use QhullPoint.id() instead
    distance() throws an error if dimension doesn't agree or if a point is undefined
    Convert to countT
-   Removed test of qh_qh from operator==
+   If !qh_qh, operator==() requires equal coordinates
    Use cout<<p instead of cout<<p.print()
    Reorganized
  - QhullPoints
+   Add constructors for Qhull and QhullQh* (for qh.hull_dim, QhullPoint::operator==)
+   Remove QhullPoints(int pointDimension) since it is ambiguous with QhullPoints(QhullQh *qqh)
    Add operator=
    Removed empty().  Use isEmpty() instead
-   Constructor requires Qhull or QhullQh* pointer
    Convert to countT
-   operator==() if pointers are the same
-   Remove test of qh_qh from operator==
+   operator==() tests if pointers are the same.  Ituses distanceEpsilon if qh_qh is defined
    Reorganized
+ - QhullPoints::Iterator and ConstIterator
+   Removed default constructors
+   Add constructors for Qhull and QhullQh* (for qh.hull_dim, QhullPoint::operator==)
+   Moved test of dimension from QHULL_ASSERT to operator==
+   Added QHULL_ASSERT of qh_qh
+   Convert to countT
  - QhullPointSet
    Constructor requires Qhull or QhullQh* instead of dimension()
    Add operator=
@@ -287,11 +311,17 @@ C++ interface by class
    Convert to countT
    Always print print_message
    Drop print().  Replace with print("")
+ - QhullQh
+   Added methods hasOutputStream(), disableOutputStream(), and enableOutputStream() (was Qhull UseOutputStream)
+   Add test of qh.NOerrexit to maybeThrowQhullMessage()
+   Add qhull_status, qhull_message, error_stream, output_stream from Qhull
+   Add factor_epsilon 
  - QhullRidge
    Constructor requires Qhull or QhullQh* pointer
    Dropped implicit conversion from ridgeT
    Converted otherFacet() to 'const &'
    Converted nextRidge3d() to 'const &'
+   Message for '<< QhullRidge' replaces "   - " instead of preceeding it
  - QhullSet
    Removed empty().  Use isEmpty() instead
    Constructor requires Qhull or QhullQh* pointer
@@ -301,6 +331,7 @@ C++ interface by class
    Constructor requires Qhull or QhullQh* pointer
    Convert to countT
    Dropped implicit conversion from vertexT
+   Add message to '<< QhullVertex'
  - QhullVertexSet
    Removed empty().  Use isEmpty() instead
    Constructor requires Qhull or QhullQh* pointer
@@ -310,7 +341,7 @@ C++ interface by class
    Replace setGlobalDistanceEpsilon with setFactorEpsilon
    Replace globalDistanceEpsilon with distanceEpsilon
    
-   
+------------
 Qhull 2012.1  2012/02/18 6.3.1.1494
  - Fix CMakeLists for libqhull with MATCHES [P. Gajdos]
 
@@ -530,6 +561,7 @@ Changes to build system
  - Add .gitignore with ignored files and directories.  
  -   Use .git/info/exclude for locally excluded files.
  - Fixed MBorland for new directory structure
+ - cleanall (Makefile): Delete 'linked' programs due to libqhull_r and libqhull/Makefile
 
 Changes to documentation
  - qvoronoi.htm: Remove quotes from qvoronoi example

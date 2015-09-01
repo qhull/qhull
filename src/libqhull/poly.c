@@ -10,8 +10,8 @@
    (all but top 50 and their callers 12/3/95)
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2011/qhull/src/libqhull/poly.c#8 $$Change: 1810 $
-   $DateTime: 2015/01/17 18:28:15 $$Author: bbarber $
+   $Id: //main/2011/qhull/src/libqhull/poly.c#12 $$Change: 1951 $
+   $DateTime: 2015/08/30 21:30:30 $$Author: bbarber $
 */
 
 #include "qhull_a.h"
@@ -245,7 +245,7 @@ boolT qh_checkflipped(facetT *facet, realT *distp, boolT allerror) {
     assumes vertices and ridges already freed
 */
 void qh_delfacet(facetT *facet) {
-  void **freelistp; /* used !qh_NOmem */
+  void **freelistp; /* used if !qh_NOmem by qh_memfree_() */
 
   trace4((qh ferr, 4046, "qh_delfacet: delete f%d\n", facet->id));
   if (facet == qh tracefacet)
@@ -561,7 +561,7 @@ void qh_makenewplanes(void /* newfacet_list */) {
 */
 #ifndef qh_NOmerge
 facetT *qh_makenew_nonsimplicial(facetT *visible, vertexT *apex, int *numnew) {
-  void **freelistp; /* used !qh_NOmem */
+  void **freelistp; /* used if !qh_NOmem by qh_memfree_() */
   ridgeT *ridge, **ridgep;
   facetT *neighbor, *newfacet= NULL, *samecycle;
   setT *vertices;
@@ -661,7 +661,7 @@ facetT *qh_makenew_simplicial(facetT *visible, vertexT *apex, int *numnew) {
   facetT *neighbor, **neighborp, *newfacet= NULL;
   setT *vertices;
   boolT flip, toporient;
-  int horizonskip, visibleskip;
+  int horizonskip= 0, visibleskip= 0;
 
   FOREACHneighbor_(visible) {
     if (!neighbor->seen && !neighbor->visible) {
@@ -978,7 +978,7 @@ boolT qh_matchvertices(int firstindex, setT *verticesA, int skipA,
 */
 facetT *qh_newfacet(void) {
   facetT *facet;
-  void **freelistp; /* used !qh_NOmem */
+  void **freelistp; /* used if !qh_NOmem by qh_memalloc_() */
 
   qh_memalloc_((int)sizeof(facetT), freelistp, facet, facetT);
   memset((char *)facet, (size_t)0, sizeof(facetT));
@@ -1011,15 +1011,14 @@ facetT *qh_newfacet(void) {
 */
 ridgeT *qh_newridge(void) {
   ridgeT *ridge;
-  void **freelistp;   /* used !qh_NOmem */
+  void **freelistp;   /* used if !qh_NOmem by qh_memalloc_() */
 
   qh_memalloc_((int)sizeof(ridgeT), freelistp, ridge, ridgeT);
   memset((char *)ridge, (size_t)0, sizeof(ridgeT));
   zinc_(Ztotridges);
-  if (qh ridge_id == 0xFFFFFF) {
+  if (qh ridge_id == 0xFFFFFFFF) {
     qh_fprintf(qh ferr, 7074, "\
-qhull warning: more than %d ridges.  ID field overflows and two ridges\n\
-may have the same identifier.  Otherwise output ok.\n", 0xFFFFFF);
+qhull warning: more than 2^32 ridges.  Qhull results are OK.  The ridge ID wraps around to 0.  Two ridges may have the same identifier.\n");
   }
   ridge->id= qh ridge_id++;
   trace4((qh ferr, 4056, "qh_newridge: created ridge r%d\n", ridge->id));
@@ -1032,13 +1031,14 @@ may have the same identifier.  Otherwise output ok.\n", 0xFFFFFF);
 
   qh_pointid(  )
     return id for a point,
-    returns -3 if null, -2 if interior, or -1 if not known
+    returns qh_IDnone(-3) if null, qh_IDinterior(-2) if interior, or qh_IDunknown(-1) if not known
 
   alternative code:
     unsigned long id;
     id= ((unsigned long)point - (unsigned long)qh.first_point)/qh.normal_size;
 
   notes:
+    Valid points are non-negative
     WARN64 -- id truncated to 32-bits, at most 2G points
     NOerrors returned (QhullPoint::id)
     if point not in point array
@@ -1048,9 +1048,9 @@ int qh_pointid(pointT *point) {
   ptr_intT offset, id;
 
   if (!point)
-    return -3;
+    return qh_IDnone;
   else if (point == qh interior_point)
-    return -2;
+    return qh_IDinterior;
   else if (point >= qh first_point
   && point < qh first_point + qh num_points * qh hull_dim) {
     offset= (ptr_intT)(point - qh first_point);
@@ -1058,7 +1058,7 @@ int qh_pointid(pointT *point) {
   }else if ((id= qh_setindex(qh other_points, point)) != -1)
     id += qh num_points;
   else
-    return -1;
+    return qh_IDunknown;
   return (int)id;
 } /* pointid */
 

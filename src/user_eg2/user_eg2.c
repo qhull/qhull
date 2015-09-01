@@ -9,7 +9,7 @@
   The method used here and in unix.c gives you additional
   control over Qhull.
 
-  See user_eg3.cpp for a C++ example
+  See user_eg3/user_eg3_r.cpp for a C++ example
 
   call with:
 
@@ -39,43 +39,43 @@
 
    summaries are sent to stderr if other output formats are used
 
-   derived from unix.c and compiled by 'make user_eg2'
+   derived from unix.c and compiled by 'make bin/user_eg2'
 
    see libqhull.h for data structures, macros, and user-callable functions.
 
    If you want to control all output to stdio and input to stdin,
    set the #if below to "1" and delete all lines that contain "io.c".
    This prevents the loading of io.o.  Qhull will
-   still write to 'qh->ferr' (stderr) for error reporting and tracing.
+   still write to 'qh ferr' (stderr) for error reporting and tracing.
 
    Defining #if 1, also prevents user.o from being loaded.
 */
 
-#include "qhull_r.h"
+#include "qhull_a.h"
 
 /*-------------------------------------------------
 -internal function prototypes
 */
-void print_summary(qhT *qh);
+void print_summary(void);
 void makecube(coordT *points, int numpoints, int dim);
-void adddiamond(qhT *qh, coordT *points, int numpoints, int numnew, int dim);
-void makeDelaunay(qhT *qh, coordT *points, int numpoints, int dim);
-void addDelaunay(qhT *qh, coordT *points, int numpoints, int numnew, int dim);
-void findDelaunay(qhT *qh, int dim);
+void adddiamond(coordT *points, int numpoints, int numnew, int dim);
+void makeDelaunay(coordT *points, int numpoints, int dim);
+void addDelaunay(coordT *points, int numpoints, int numnew, int dim);
+void findDelaunay(int dim);
 void makehalf(coordT *points, int numpoints, int dim);
-void addhalf(qhT *qh, coordT *points, int numpoints, int numnew, int dim, coordT *feasible);
+void addhalf(coordT *points, int numpoints, int numnew, int dim, coordT *feasible);
 
 /*-------------------------------------------------
--print_summary(qh)
+-print_summary()
 */
-void print_summary(qhT *qh) {
+void print_summary(void) {
   facetT *facet;
   int k;
 
   printf("\n%d vertices and %d facets with normals:\n",
-                 qh->num_vertices, qh->num_facets);
+                 qh num_vertices, qh num_facets);
   FORALLfacets {
-    for (k=0; k < qh->hull_dim; k++)
+    for (k=0; k < qh hull_dim; k++)
       printf("%6.2g ", facet->normal[k]);
     printf("\n");
   }
@@ -112,7 +112,7 @@ notes:
   previously constructed hulls should be faster for on-line construction
   of the convex hull.
 */
-void adddiamond(qhT *qh, coordT *points, int numpoints, int numnew, int dim) {
+void adddiamond(coordT *points, int numpoints, int numnew, int dim) {
   int j,k;
   coordT *point;
   facetT *facet;
@@ -121,11 +121,11 @@ void adddiamond(qhT *qh, coordT *points, int numpoints, int numnew, int dim) {
 
   for (j= 0; j < numnew ; j++) {
     point= points + (numpoints+j)*dim;
-    if (points == qh->first_point)  /* in case of 'QRn' */
-      qh->num_points= numpoints+j+1;
+    if (points == qh first_point)  /* in case of 'QRn' */
+      qh num_points= numpoints+j+1;
     /* qh.num_points sets the size of the points array.  You may
        allocate the points elsewhere.  If so, qh_addpoint records
-       the point's address in qh->other_points
+       the point's address in qh other_points
     */
     for (k=dim; k--; ) {
       if (j/2 == k)
@@ -133,32 +133,32 @@ void adddiamond(qhT *qh, coordT *points, int numpoints, int numnew, int dim) {
       else
         point[k]= 0.0;
     }
-    facet= qh_findbestfacet(qh, point, !qh_ALL, &bestdist, &isoutside);
+    facet= qh_findbestfacet(point, !qh_ALL, &bestdist, &isoutside);
     if (isoutside) {
-      if (!qh_addpoint(qh, point, facet, False))
+      if (!qh_addpoint(point, facet, False))
         break;  /* user requested an early exit with 'TVn' or 'TCn' */
     }
     printf("%d vertices and %d facets\n",
-                 qh->num_vertices, qh->num_facets);
+                 qh num_vertices, qh num_facets);
     /* qh_produce_output(); */
   }
-  if (qh->DOcheckmax)
-    qh_check_maxout(qh);
-  else if (qh->KEEPnearinside)
-    qh_nearcoplanar(qh);
+  if (qh DOcheckmax)
+    qh_check_maxout();
+  else if (qh KEEPnearinside)
+    qh_nearcoplanar();
 } /*.adddiamond.*/
 
 /*--------------------------------------------------
 -makeDelaunay- set points for dim-1 Delaunay triangulation of random points
   points is numpoints X dim.  Each point is projected to a paraboloid.
 */
-void makeDelaunay(qhT *qh, coordT *points, int numpoints, int dim) {
+void makeDelaunay(coordT *points, int numpoints, int dim) {
   int j,k, seed;
   coordT *point, realr;
 
   seed= (int)time(NULL); /* time_t to int */
   printf("seed: %d\n", seed);
-  qh_RANDOMseed_(qh, seed);
+  qh_RANDOMseed_( seed);
   for (j=0; j<numpoints; j++) {
     point= points + j*dim;
     for (k= 0; k < dim-1; k++) {
@@ -166,7 +166,7 @@ void makeDelaunay(qhT *qh, coordT *points, int numpoints, int dim) {
       point[k]= 2.0 * realr/(qh_RANDOMmax+1) - 1.0;
     }
   }
-  qh_setdelaunay(qh, dim, numpoints, points);
+  qh_setdelaunay(dim, numpoints, points);
 } /*.makeDelaunay.*/
 
 /*--------------------------------------------------
@@ -179,7 +179,7 @@ notes:
   search of all facets.  Algorithms that retain previously
   constructed hulls may be faster.
 */
-void addDelaunay(qhT *qh, coordT *points, int numpoints, int numnew, int dim) {
+void addDelaunay(coordT *points, int numpoints, int numnew, int dim) {
   int j,k;
   coordT *point, realr;
   facetT *facet;
@@ -188,33 +188,33 @@ void addDelaunay(qhT *qh, coordT *points, int numpoints, int numnew, int dim) {
 
   for (j= 0; j < numnew ; j++) {
     point= points + (numpoints+j)*dim;
-    if (points == qh->first_point)  /* in case of 'QRn' */
-      qh->num_points= numpoints+j+1;
+    if (points == qh first_point)  /* in case of 'QRn' */
+      qh num_points= numpoints+j+1;
     /* qh.num_points sets the size of the points array.  You may
        allocate the point elsewhere.  If so, qh_addpoint records
-       the point's address in qh->other_points
+       the point's address in qh other_points
     */
     for (k= 0; k < dim-1; k++) {
       realr= qh_RANDOMint;
       point[k]= 2.0 * realr/(qh_RANDOMmax+1) - 1.0;
     }
-    qh_setdelaunay(qh, dim, 1, point);
-    facet= qh_findbestfacet(qh, point, !qh_ALL, &bestdist, &isoutside);
+    qh_setdelaunay(dim, 1, point);
+    facet= qh_findbestfacet(point, !qh_ALL, &bestdist, &isoutside);
     if (isoutside) {
-      if (!qh_addpoint(qh, point, facet, False))
+      if (!qh_addpoint(point, facet, False))
         break;  /* user requested an early exit with 'TVn' or 'TCn' */
     }
-    qh_printpoint(qh, stdout, "added point", point);
+    qh_printpoint(stdout, "added point", point);
     printf("%d points, %d extra points, %d vertices, and %d facets in total\n",
-                  qh->num_points, qh_setsize(qh, qh->other_points),
-                  qh->num_vertices, qh->num_facets);
+                  qh num_points, qh_setsize(qh other_points),
+                  qh num_vertices, qh num_facets);
 
-    /* qh_produce_output(qh); */
+    /* qh_produce_output(); */
   }
-  if (qh->DOcheckmax)
-    qh_check_maxout(qh);
-  else if (qh->KEEPnearinside)
-    qh_nearcoplanar(qh);
+  if (qh DOcheckmax)
+    qh_check_maxout();
+  else if (qh KEEPnearinside)
+    qh_nearcoplanar();
 } /*.addDelaunay.*/
 
 /*--------------------------------------------------
@@ -226,7 +226,7 @@ warning:
   This is not implemented for tricoplanar facets ('Qt'),
   See <a href="../html/qh-code.htm#findfacet">locate a facet with qh_findbestfacet()</a>
 */
-void findDelaunay(qhT *qh, int dim) {
+void findDelaunay(int dim) {
   int k;
   coordT point[ 100];
   boolT isoutside;
@@ -236,12 +236,12 @@ void findDelaunay(qhT *qh, int dim) {
 
   for (k= 0; k < dim-1; k++)
     point[k]= 0.5;
-  qh_setdelaunay(qh, dim, 1, point);
-  facet= qh_findbestfacet(qh, point, qh_ALL, &bestdist, &isoutside);
+  qh_setdelaunay(dim, 1, point);
+  facet= qh_findbestfacet(point, qh_ALL, &bestdist, &isoutside);
   if (facet->tricoplanar) {
     fprintf(stderr, "findDelaunay: not implemented for triangulated, non-simplicial Delaunay regions (tricoplanar facet, f%d).\n",
        facet->id);
-    qh_errexit(qh, qh_ERRqhull, facet, NULL);
+    qh_errexit(qh_ERRqhull, facet, NULL);
   }
   FOREACHvertex_(facet->vertices) {
     for (k=0; k < dim-1; k++)
@@ -293,7 +293,7 @@ notes:
   for a visible facet.  Algorithms that retain previously constructed
   intersections should be faster for on-line construction.
 */
-void addhalf(qhT *qh, coordT *points, int numpoints, int numnew, int dim, coordT *feasible) {
+void addhalf(coordT *points, int numpoints, int numnew, int dim, coordT *feasible) {
   int j,k;
   coordT *point, normal[100], offset, *next;
   facetT *facet;
@@ -311,22 +311,22 @@ void addhalf(qhT *qh, coordT *points, int numpoints, int numnew, int dim, coordT
         normal[k]= 0.0;
     }
     point= points + (numpoints+j)* (dim+1);  /* does not use point[dim] */
-    qh_sethalfspace(qh, dim, point, &next, normal, &offset, feasible);
-    facet= qh_findbestfacet(qh, point, !qh_ALL, &bestdist, &isoutside);
+    qh_sethalfspace(dim, point, &next, normal, &offset, feasible);
+    facet= qh_findbestfacet(point, !qh_ALL, &bestdist, &isoutside);
     if (isoutside) {
-      if (!qh_addpoint(qh, point, facet, False))
+      if (!qh_addpoint(point, facet, False))
         break;  /* user requested an early exit with 'TVn' or 'TCn' */
     }
-    qh_printpoint(qh, stdout, "added offset -1 and normal", normal);
+    qh_printpoint(stdout, "added offset -1 and normal", normal);
     printf("%d points, %d extra points, %d vertices, and %d facets in total\n",
-                  qh->num_points, qh_setsize(qh, qh->other_points),
-                  qh->num_vertices, qh->num_facets);
-    /* qh_produce_output(qh); */
+                  qh num_points, qh_setsize(qh other_points),
+                  qh num_vertices, qh num_facets);
+    /* qh_produce_output(); */
   }
-  if (qh->DOcheckmax)
-    qh_check_maxout(qh);
-  else if (qh->KEEPnearinside)
-    qh_nearcoplanar(qh);
+  if (qh DOcheckmax)
+    qh_check_maxout();
+  else if (qh KEEPnearinside)
+    qh_nearcoplanar();
 } /*.addhalf.*/
 
 #define DIM 3     /* dimension of points, must be < 31 for SIZEcube */
@@ -347,121 +347,131 @@ int main(int argc, char *argv[]) {
   boolT ismalloc;
   int curlong, totlong, exitcode;
   char options [2000];
-  qhT qh_qh;
-  qhT *qh= &qh_qh;
+
+  QHULL_LIB_CHECK
 
   printf("This is the output from user_eg2.c\n\n\
 It shows how qhull() may be called from an application in the same way as\n\
 qconvex.  It is not part of qhull itself.  If it appears accidently,\n\
 please remove user_eg2.c from your project.\n\n");
 
+#if qh_QHpointer  /* see user.h */
+  if (qh_qh){
+      printf("QH6237: Qhull link error.  The global variable qh_qh was not initialized\n\
+              to NULL by global.c.  Please compile user_eg2.c with -Dqh_QHpointer_dllimport\n\
+              as well as -Dqh_QHpointer, or use libqhullstatic, or use a different tool chain.\n\n");
+      return -1;
+  }
+#endif
+
+
   ismalloc= False;      /* True if qh_freeqhull should 'free(array)' */
   /*
     Run 1: convex hull
   */
-  qh_init_A(qh, stdin, stdout, stderr, 0, NULL);
-  exitcode= setjmp(qh->errexit);
+  qh_init_A(stdin, stdout, stderr, 0, NULL);
+  exitcode= setjmp(qh errexit);
   if (!exitcode) {
     coordT array[TOTpoints][DIM];
 
-    strcat(qh->rbox_command, "user_eg cube");
+    strcat(qh rbox_command, "user_eg cube");
     sprintf(options, "qhull s Tcv Q11 %s ", argc >= 2 ? argv[1] : "");
-    qh_initflags(qh, options);
+    qh_initflags(options);
     printf( "\ncompute triangulated convex hull of cube after rotating input\n");
     makecube(array[0], SIZEcube, DIM);
-    qh_init_B(qh, array[0], SIZEcube, DIM, ismalloc);
-    qh_qhull(qh);
-    qh_check_output(qh);
-    qh_triangulate(qh);  /* requires option 'Q11' if want to add points */
-    print_summary(qh);
-    if (qh->VERIFYoutput && !qh->STOPpoint && !qh->STOPcone)
-      qh_check_points(qh);
+    qh_init_B(array[0], SIZEcube, DIM, ismalloc);
+    qh_qhull();
+    qh_check_output();
+    qh_triangulate();  /* requires option 'Q11' if want to add points */
+    print_summary();
+    if (qh VERIFYoutput && !qh STOPpoint && !qh STOPcone)
+      qh_check_points();
     printf( "\nadd points in a diamond\n");
-    adddiamond(qh, array[0], SIZEcube, SIZEdiamond, DIM);
-    qh_check_output(qh);
-    print_summary(qh);
-    qh_produce_output(qh);  /* delete this line to help avoid io.c */
-    if (qh->VERIFYoutput && !qh->STOPpoint && !qh->STOPcone)
-      qh_check_points(qh);
+    adddiamond(array[0], SIZEcube, SIZEdiamond, DIM);
+    qh_check_output();
+    print_summary();
+    qh_produce_output();  /* delete this line to help avoid io.c */
+    if (qh VERIFYoutput && !qh STOPpoint && !qh STOPcone)
+      qh_check_points();
   }
-  qh->NOerrexit= True;
-  qh_freeqhull(qh, !qh_ALL);
-  qh_memfreeshort(qh, &curlong, &totlong);
+  qh NOerrexit= True;
+  qh_freeqhull(!qh_ALL);
+  qh_memfreeshort(&curlong, &totlong);
   /*
     Run 2: Delaunay triangulation
   */
-  qh_init_A(qh, stdin, stdout, stderr, 0, NULL);
-  exitcode= setjmp(qh->errexit);
+  qh_init_A(stdin, stdout, stderr, 0, NULL);
+  exitcode= setjmp(qh errexit);
   if (!exitcode) {
     coordT array[TOTpoints][DIM];
 
-    strcat(qh->rbox_command, "user_eg Delaunay");
+    strcat(qh rbox_command, "user_eg Delaunay");
     sprintf(options, "qhull s d Tcv %s", argc >= 3 ? argv[2] : "");
-    qh_initflags(qh, options);
+    qh_initflags(options);
     printf( "\ncompute %d-d Delaunay triangulation\n", DIM-1);
-    makeDelaunay(qh, array[0], SIZEcube, DIM);
+    makeDelaunay(array[0], SIZEcube, DIM);
     /* Instead of makeDelaunay with qh_setdelaunay, you may
        produce a 2-d array of points, set DIM to 2, and set
-       qh->PROJECTdelaunay to True.  qh_init_B will call
+       qh PROJECTdelaunay to True.  qh_init_B will call
        qh_projectinput to project the points to the paraboloid
        and add a point "at-infinity".
     */
-    qh_init_B(qh, array[0], SIZEcube, DIM, ismalloc);
-    qh_qhull(qh);
+    qh_init_B(array[0], SIZEcube, DIM, ismalloc);
+    qh_qhull();
     /* If you want Voronoi ('v') without qh_produce_output(), call
        qh_setvoronoi_all() after qh_qhull() */
-    qh_check_output(qh);
-    print_summary(qh);
-    qh_produce_output(qh);  /* delete this line to help avoid io.c */
-    if (qh->VERIFYoutput && !qh->STOPpoint && !qh->STOPcone)
-      qh_check_points(qh);
+    qh_check_output();
+    print_summary();
+    qh_produce_output();  /* delete this line to help avoid io.c */
+    if (qh VERIFYoutput && !qh STOPpoint && !qh STOPcone)
+      qh_check_points();
     printf( "\nadd points to triangulation\n");
-    addDelaunay(qh, array[0], SIZEcube, SIZEdiamond, DIM);
-    qh_check_output(qh);
-    qh_produce_output(qh);  /* delete this line to help avoid io.c */
-    if (qh->VERIFYoutput && !qh->STOPpoint && !qh->STOPcone)
-      qh_check_points(qh);
+    addDelaunay(array[0], SIZEcube, SIZEdiamond, DIM);
+    qh_check_output();
+    qh_produce_output();  /* delete this line to help avoid io.c */
+    if (qh VERIFYoutput && !qh STOPpoint && !qh STOPcone)
+      qh_check_points();
     printf( "\nfind Delaunay triangle closest to [0.5, 0.5, ...]\n");
-    findDelaunay(qh, DIM);
+    findDelaunay(DIM);
   }
-  qh->NOerrexit= True;
-  qh_freeqhull(qh, !qh_ALL);
-  qh_memfreeshort(qh, &curlong, &totlong);
+  qh NOerrexit= True;
+  qh_freeqhull(!qh_ALL);
+  qh_memfreeshort(&curlong, &totlong);
   /*
     Run 3: halfspace intersection
   */
-  qh_init_A(qh, stdin, stdout, stderr, 0, NULL);
-  exitcode= setjmp(qh->errexit);
+  qh_init_A(stdin, stdout, stderr, 0, NULL);
+  exitcode= setjmp(qh errexit);
   if (!exitcode) {
     coordT array[TOTpoints][DIM+1];  /* +1 for halfspace offset */
     pointT *points;
 
-    strcat(qh->rbox_command, "user_eg halfspaces");
+    strcat(qh rbox_command, "user_eg halfspaces");
     sprintf(options, "qhull H0 s Tcv %s", argc >= 4 ? argv[3] : "");
-    qh_initflags(qh, options);
+    qh_initflags(options);
     printf( "\ncompute halfspace intersection about the origin for a diamond\n");
     makehalf(array[0], SIZEcube, DIM);
-    qh_setfeasible(qh, DIM); /* from io.c, sets qh->feasible_point from 'Hn,n' */
-    /* you may malloc and set qh->feasible_point directly.  It is only used for
+    qh_setfeasible(DIM); /* from io.c, sets qh feasible_point from 'Hn,n' */
+    /* you may malloc and set qh feasible_point directly.  It is only used for
        option 'Fp' */
-    points= qh_sethalfspace_all(qh, DIM+1, SIZEcube, array[0], qh->feasible_point);
-    qh_init_B(qh, points, SIZEcube, DIM, True); /* qh_freeqhull frees points */
-    qh_qhull(qh);
-    qh_check_output(qh);
-    qh_produce_output(qh);  /* delete this line to help avoid io.c */
-    if (qh->VERIFYoutput && !qh->STOPpoint && !qh->STOPcone)
-      qh_check_points(qh);
+    points= qh_sethalfspace_all( DIM+1, SIZEcube, array[0], qh feasible_point);
+    qh_init_B(points, SIZEcube, DIM, True); /* qh_freeqhull frees points */
+    qh_qhull();
+    qh_check_output();
+    qh_produce_output();  /* delete this line to help avoid io.c */
+    if (qh VERIFYoutput && !qh STOPpoint && !qh STOPcone)
+      qh_check_points();
     printf( "\nadd halfspaces for cube to intersection\n");
-    addhalf(qh, array[0], SIZEcube, SIZEdiamond, DIM, qh->feasible_point);
-    qh_check_output(qh);
-    qh_produce_output(qh);  /* delete this line to help avoid io.c */
-    if (qh->VERIFYoutput && !qh->STOPpoint && !qh->STOPcone)
-      qh_check_points(qh);
+    addhalf(array[0], SIZEcube, SIZEdiamond, DIM, qh feasible_point);
+    qh_check_output();
+    qh_produce_output();  /* delete this line to help avoid io.c */
+    if (qh VERIFYoutput && !qh STOPpoint && !qh STOPcone)
+      qh_check_points();
   }
-  qh->NOerrexit= True;
-  qh->NOerrexit= True;
-  qh_freeqhull(qh, !qh_ALL);
-  qh_memfreeshort(qh, &curlong, &totlong);
+  qh NOerrexit= True;
+  qh NOerrexit= True;
+  qh_freeqhull(!qh_ALL);
+  qh_memfreeshort(&curlong, &totlong);
   if (curlong || totlong)  /* could also check previous runs */
     fprintf(stderr, "qhull internal warning (main): did not free %d bytes of long memory (%d pieces)\n",
        totlong, curlong);
@@ -475,37 +485,37 @@ please remove user_eg2.c from your project.\n\n");
   prints useful information
   see qh_errexit2() in libqhull.c for 2 facets
 */
-void qh_errexit(qhT *qh, int exitcode, facetT *facet, ridgeT *ridge) {
+void qh_errexit(int exitcode, facetT *facet, ridgeT *ridge) {
   QHULL_UNUSED(facet);
   QHULL_UNUSED(ridge);
 
-  if (qh->ERREXITcalled) {
-    fprintf(qh->ferr, "qhull error while processing previous error.  Exit program\n");
+  if (qh ERREXITcalled) {
+    fprintf(qh ferr, "qhull error while processing previous error.  Exit program\n");
     exit(1);
   }
-  qh->ERREXITcalled= True;
-  if (!qh->QHULLfinished)
-    qh->hulltime= (unsigned)clock() - qh->hulltime;
-  fprintf(qh->ferr, "\nWhile executing: %s | %s\n", qh->rbox_command, qh->qhull_command);
-  fprintf(qh->ferr, "Options selected:\n%s\n", qh->qhull_options);
-  if (qh->furthest_id >= 0) {
-    fprintf(qh->ferr, "\nLast point added to hull was p%d", qh->furthest_id);
+  qh ERREXITcalled= True;
+  if (!qh QHULLfinished)
+    qh hulltime= (unsigned)clock() - qh hulltime;
+  fprintf(qh ferr, "\nWhile executing: %s | %s\n", qh rbox_command, qh qhull_command);
+  fprintf(qh ferr, "Options selected:\n%s\n", qh qhull_options);
+  if (qh furthest_id >= 0) {
+    fprintf(qh ferr, "\nLast point added to hull was p%d", qh furthest_id);
     if (zzval_(Ztotmerge))
-      fprintf(qh->ferr, "  Last merge was #%d.", zzval_(Ztotmerge));
-    if (qh->QHULLfinished)
-      fprintf(qh->ferr, "\nQhull has finished constructing the hull.");
-    else if (qh->POSTmerging)
-      fprintf(qh->ferr, "\nQhull has started post-merging");
-    fprintf(qh->ferr, "\n\n");
+      fprintf(qh ferr, "  Last merge was #%d.", zzval_(Ztotmerge));
+    if (qh QHULLfinished)
+      fprintf(qh ferr, "\nQhull has finished constructing the hull.");
+    else if (qh POSTmerging)
+      fprintf(qh ferr, "\nQhull has started post-merging");
+    fprintf(qh ferr, "\n\n");
   }
-  if (qh->NOerrexit) {
-    fprintf(qh->ferr, "qhull error while ending program.  Exit program\n");
+  if (qh NOerrexit) {
+    fprintf(qh ferr, "qhull error while ending program.  Exit program\n");
     exit(1);
   }
   if (!exitcode)
     exitcode= qh_ERRqhull;
-  qh->NOerrexit= True;
-  longjmp(qh->errexit, exitcode);
+  qh NOerrexit= True;
+  longjmp(qh errexit, exitcode);
 } /* errexit */
 
 
@@ -513,27 +523,27 @@ void qh_errexit(qhT *qh, int exitcode, facetT *facet, ridgeT *ridge) {
 -errprint- prints out the information of the erroneous object
     any parameter may be NULL, also prints neighbors and geomview output
 */
-void qh_errprint(qhT *qh, const char *string, facetT *atfacet, facetT *otherfacet, ridgeT *atridge, vertexT *atvertex) {
+void qh_errprint(const char *string, facetT *atfacet, facetT *otherfacet, ridgeT *atridge, vertexT *atvertex) {
 
-  fprintf(qh->ferr, "%s facets f%d f%d ridge r%d vertex v%d\n",
+  fprintf(qh ferr, "%s facets f%d f%d ridge r%d vertex v%d\n",
            string, getid_(atfacet), getid_(otherfacet), getid_(atridge),
            getid_(atvertex));
 } /* errprint */
 
 
-void qh_printfacetlist(qhT *qh, facetT *facetlist, setT *facets, boolT printall) {
+void qh_printfacetlist(facetT *facetlist, setT *facets, boolT printall) {
   facetT *facet, **facetp;
 
   /* remove these calls to help avoid io.c */
-  qh_printbegin(qh, qh->ferr, qh_PRINTfacets, facetlist, facets, printall);/*io.c*/
+  qh_printbegin(qh ferr, qh_PRINTfacets, facetlist, facets, printall);/*io.c*/
   FORALLfacet_(facetlist)                                              /*io.c*/
-    qh_printafacet(qh, qh->ferr, qh_PRINTfacets, facet, printall);          /*io.c*/
+    qh_printafacet(qh ferr, qh_PRINTfacets, facet, printall);          /*io.c*/
   FOREACHfacet_(facets)                                                /*io.c*/
-    qh_printafacet(qh, qh->ferr, qh_PRINTfacets, facet, printall);          /*io.c*/
-  qh_printend(qh, qh->ferr, qh_PRINTfacets, facetlist, facets, printall);  /*io.c*/
+    qh_printafacet(qh ferr, qh_PRINTfacets, facet, printall);          /*io.c*/
+  qh_printend(qh ferr, qh_PRINTfacets, facetlist, facets, printall);  /*io.c*/
 
   FORALLfacet_(facetlist)
-    fprintf( qh->ferr, "facet f%d\n", facet->id);
+    fprintf( qh ferr, "facet f%d\n", facet->id);
 } /* printfacetlist */
 
 /* qh_printhelp_degenerate( fp )
@@ -542,15 +552,15 @@ void qh_printfacetlist(qhT *qh, facetT *facetlist, setT *facets, boolT printall)
   notes:
     no message if qh_QUICKhelp
 */
-void qh_printhelp_degenerate(qhT *qh, FILE *fp) {
+void qh_printhelp_degenerate(FILE *fp) {
 
-  if (qh->MERGEexact || qh->PREmerge || qh->JOGGLEmax < REALmax/2)
-    qh_fprintf(qh, fp, 9368, "\n\
+  if (qh MERGEexact || qh PREmerge || qh JOGGLEmax < REALmax/2)
+    qh_fprintf(fp, 9368, "\n\
 A Qhull error has occurred.  Qhull should have corrected the above\n\
 precision error.  Please send the input and all of the output to\n\
 qhull_bug@qhull.org\n");
   else if (!qh_QUICKhelp) {
-    qh_fprintf(qh, fp, 9369, "\n\
+    qh_fprintf(fp, 9369, "\n\
 Precision problems were detected during construction of the convex hull.\n\
 This occurs because convex hull algorithms assume that calculations are\n\
 exact, but floating-point arithmetic has roundoff errors.\n\
@@ -566,23 +576,23 @@ Qhull may produce a ridge with four neighbors or two facets with the same \n\
 vertices.  Qhull reports these events when they occur.  It stops when a\n\
 concave ridge, flipped facet, or duplicate facet occurs.\n");
 #if REALfloat
-    qh_fprintf(qh, fp, 9370, "\
+    qh_fprintf(fp, 9370, "\
 \n\
 Qhull is currently using single precision arithmetic.  The following\n\
 will probably remove the precision problems:\n\
   - recompile qhull for realT precision(#define REALfloat 0 in user.h).\n");
 #endif
-    if (qh->DELAUNAY && !qh->SCALElast && qh->MAXabs_coord > 1e4)
-      qh_fprintf(qh, fp, 9371, "\
+    if (qh DELAUNAY && !qh SCALElast && qh MAXabs_coord > 1e4)
+      qh_fprintf(fp, 9371, "\
 \n\
 When computing the Delaunay triangulation of coordinates > 1.0,\n\
   - use 'Qbb' to scale the last coordinate to [0,m] (max previous coordinate)\n");
-    if (qh->DELAUNAY && !qh->ATinfinity)
-      qh_fprintf(qh, fp, 9372, "\
+    if (qh DELAUNAY && !qh ATinfinity)
+      qh_fprintf(fp, 9372, "\
 When computing the Delaunay triangulation:\n\
   - use 'Qz' to add a point at-infinity.  This reduces precision problems.\n");
 
-    qh_fprintf(qh, fp, 9373, "\
+    qh_fprintf(fp, 9373, "\
 \n\
 If you need triangular output:\n\
   - use option 'Qt' to triangulate the output\n\
@@ -596,8 +606,8 @@ try one or more of the following options.  They can not guarantee an output.\n\
   - use 'V0' to set min. distance to visible facet as 0 instead of roundoff\n\
   - use 'En' to specify a maximum roundoff error less than %2.2g.\n\
   - options 'Qf', 'Qbb', and 'QR0' may also help\n",
-               qh->DISTround);
-    qh_fprintf(qh, fp, 9374, "\
+               qh DISTround);
+    qh_fprintf(fp, 9374, "\
 \n\
 To guarantee simplicial output:\n\
   - use option 'Qt' to triangulate the output\n\
@@ -616,9 +626,9 @@ To guarantee simplicial output:\n\
     Alternatively, reduce qh_WARNnarrow in user.h
 
 */
-void qh_printhelp_narrowhull(qhT *qh, FILE *fp, realT minangle) {
+void qh_printhelp_narrowhull(FILE *fp, realT minangle) {
 
-    qh_fprintf(qh, fp, 9375, "qhull precision warning: \n\
+    qh_fprintf(fp, 9375, "qhull precision warning: \n\
 The initial hull is narrow (cosine of min. angle is %.16f).\n\
 A coplanar point may lead to a wide facet.  Options 'QbB' (scale to unit box)\n\
 or 'Qbb' (scale last coordinate) may remove this warning.  Use 'Pp' to skip\n\
@@ -629,62 +639,62 @@ this warning.  See 'Limitations' in qh-impre.htm.\n",
 /* qh_printhelp_singular
       prints descriptive message for singular input
 */
-void qh_printhelp_singular(qhT *qh, FILE *fp) {
+void qh_printhelp_singular(FILE *fp) {
   facetT *facet;
   vertexT *vertex, **vertexp;
   realT min, max, *coord, dist;
   int i,k;
 
-  qh_fprintf(qh, fp, 9376, "\n\
+  qh_fprintf(fp, 9376, "\n\
 The input to qhull appears to be less than %d dimensional, or a\n\
 computation has overflowed.\n\n\
 Qhull could not construct a clearly convex simplex from points:\n",
-           qh->hull_dim);
-  qh_printvertexlist(qh, fp, "", qh->facet_list, NULL, qh_ALL);
+           qh hull_dim);
+  qh_printvertexlist(fp, "", qh facet_list, NULL, qh_ALL);
   if (!qh_QUICKhelp)
-    qh_fprintf(qh, fp, 9377, "\n\
+    qh_fprintf(fp, 9377, "\n\
 The center point is coplanar with a facet, or a vertex is coplanar\n\
 with a neighboring facet.  The maximum round off error for\n\
 computing distances is %2.2g.  The center point, facets and distances\n\
-to the center point are as follows:\n\n", qh->DISTround);
-  qh_printpointid(qh, fp, "center point", qh->hull_dim, qh->interior_point, -1);
-  qh_fprintf(qh, fp, 9378, "\n");
+to the center point are as follows:\n\n", qh DISTround);
+  qh_printpointid(fp, "center point", qh hull_dim, qh interior_point, -1);
+  qh_fprintf(fp, 9378, "\n");
   FORALLfacets {
-    qh_fprintf(qh, fp, 9379, "facet");
+    qh_fprintf(fp, 9379, "facet");
     FOREACHvertex_(facet->vertices)
-      qh_fprintf(qh, fp, 9380, " p%d", qh_pointid(qh, vertex->point));
+      qh_fprintf(fp, 9380, " p%d", qh_pointid(vertex->point));
     zinc_(Zdistio);
-    qh_distplane(qh, qh->interior_point, facet, &dist);
-    qh_fprintf(qh, fp, 9381, " distance= %4.2g\n", dist);
+    qh_distplane(qh interior_point, facet, &dist);
+    qh_fprintf(fp, 9381, " distance= %4.2g\n", dist);
   }
   if (!qh_QUICKhelp) {
-    if (qh->HALFspace)
-      qh_fprintf(qh, fp, 9382, "\n\
+    if (qh HALFspace)
+      qh_fprintf(fp, 9382, "\n\
 These points are the dual of the given halfspaces.  They indicate that\n\
 the intersection is degenerate.\n");
-    qh_fprintf(qh, fp, 9383,"\n\
+    qh_fprintf(fp, 9383,"\n\
 These points either have a maximum or minimum x-coordinate, or\n\
 they maximize the determinant for k coordinates.  Trial points\n\
 are first selected from points that maximize a coordinate.\n");
-    if (qh->hull_dim >= qh_INITIALmax)
-      qh_fprintf(qh, fp, 9384, "\n\
+    if (qh hull_dim >= qh_INITIALmax)
+      qh_fprintf(fp, 9384, "\n\
 Because of the high dimension, the min x-coordinate and max-coordinate\n\
 points are used if the determinant is non-zero.  Option 'Qs' will\n\
 do a better, though much slower, job.  Instead of 'Qs', you can change\n\
 the points by randomly rotating the input with 'QR0'.\n");
   }
-  qh_fprintf(qh, fp, 9385, "\nThe min and max coordinates for each dimension are:\n");
-  for (k=0; k < qh->hull_dim; k++) {
+  qh_fprintf(fp, 9385, "\nThe min and max coordinates for each dimension are:\n");
+  for (k=0; k < qh hull_dim; k++) {
     min= REALmax;
     max= -REALmin;
-    for (i=qh->num_points, coord= qh->first_point+k; i--; coord += qh->hull_dim) {
+    for (i=qh num_points, coord= qh first_point+k; i--; coord += qh hull_dim) {
       maximize_(max, *coord);
       minimize_(min, *coord);
     }
-    qh_fprintf(qh, fp, 9386, "  %d:  %8.4g  %8.4g  difference= %4.4g\n", k, min, max, max-min);
+    qh_fprintf(fp, 9386, "  %d:  %8.4g  %8.4g  difference= %4.4g\n", k, min, max, max-min);
   }
   if (!qh_QUICKhelp) {
-    qh_fprintf(qh, fp, 9387, "\n\
+    qh_fprintf(fp, 9387, "\n\
 If the input should be full dimensional, you have several options that\n\
 may determine an initial simplex:\n\
   - use 'QJ'  to joggle the input and make it full dimensional\n\
@@ -693,12 +703,12 @@ may determine an initial simplex:\n\
   - use 'Qs'  to search all points for the initial simplex\n\
   - use 'En'  to specify a maximum roundoff error less than %2.2g.\n\
   - trace execution with 'T3' to see the determinant for each point.\n",
-                     qh->DISTround);
+                     qh DISTround);
 #if REALfloat
-    qh_fprintf(qh, fp, 9388, "\
+    qh_fprintf(fp, 9388, "\
   - recompile qhull for realT precision(#define REALfloat 0 in libqhull.h).\n");
 #endif
-    qh_fprintf(qh, fp, 9389, "\n\
+    qh_fprintf(fp, 9389, "\n\
 If the input is lower dimensional:\n\
   - use 'QJ' to joggle the input and make it full dimensional\n\
   - use 'Qbk:0Bk:0' to delete coordinate k from the input.  You should\n\
@@ -708,8 +718,8 @@ If the input is lower dimensional:\n\
     into a coordinate plane, and delete the other coordinates.\n\
   - add one or more points to make the input full dimensional.\n\
 ");
-    if (qh->DELAUNAY && !qh->ATinfinity)
-      qh_fprintf(qh, fp, 9390, "\n\n\
+    if (qh DELAUNAY && !qh ATinfinity)
+      qh_fprintf(fp, 9390, "\n\n\
 This is a Delaunay triangulation and the input is co-circular or co-spherical:\n\
   - use 'Qz' to add a point \"at infinity\" (i.e., above the paraboloid)\n\
   - or use 'QJ' to joggle the input and avoid co-circular data\n");
@@ -720,9 +730,9 @@ This is a Delaunay triangulation and the input is co-circular or co-spherical:\n
 /*-----------------------------------------
 -user_memsizes- allocate up to 10 additional, quick allocation sizes
 */
-void qh_user_memsizes(qhT *qh) {
+void qh_user_memsizes(void) {
 
-  /* qh_memsize(qh, size); */
+  /* qh_memsize(size); */
 } /* user_memsizes */
 
 #endif

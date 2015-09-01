@@ -8,13 +8,13 @@
    see qh-qhull.htm
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2011/qhull/src/qhull/unix.c#7 $$Change: 1810 $
-   $DateTime: 2015/01/17 18:28:15 $$Author: bbarber $
+   $Id: //main/2011/qhull/src/qhull/unix.c#11 $$Change: 1951 $
+   $DateTime: 2015/08/30 21:30:30 $$Author: bbarber $
 */
 
-#include "mem.h"
-#include "qset.h"
-#include "libqhull.h"
+#include "libqhull/mem.h"
+#include "libqhull/qset.h"
+#include "libqhull/libqhull.h"
 
 #include <ctype.h>
 #include <math.h>
@@ -22,13 +22,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#if __MWERKS__ && __POWERPC__
-#include <SIOUX.h>
-#include <Files.h>
-#include <console.h>
-#include <Desk.h>
-
-#elif __cplusplus
+#if __cplusplus
 extern "C" {
   int isatty(int);
 }
@@ -36,7 +30,7 @@ extern "C" {
 #elif _MSC_VER
 #include <io.h>
 #define isatty _isatty
-int _isatty(int);
+/* int _isatty(int); */
 
 #else
 int isatty(int);  /* returns 1 if stdin is a tty
@@ -254,12 +248,12 @@ Output options (subset):\n\
     TO file- output results to file, may be enclosed in single quotes\n\
 \n\
 examples:\n\
-    rbox c d D2 | qhull Qc s f Fx | more      rbox 1000 s | qhull Tv s FA\n\
+    rbox D4 | qhull Tv                        rbox 1000 s | qhull Tv s FA\n\
     rbox 10 D2 | qhull d QJ s i TO result     rbox 10 D2 | qhull v Qbb Qt p\n\
     rbox 10 D2 | qhull d Qu QJ m              rbox 10 D2 | qhull v Qu QJ o\n\
-    rbox c | qhull n                          rbox c | qhull FV n | qhull H Fp\n\
+    rbox c d D2 | qhull Qc s f Fx | more      rbox c | qhull FV n | qhull H Fp\n\
     rbox d D12 | qhull QR0 FA                 rbox c D7 | qhull FA TF1000\n\
-    rbox y 1000 W0 | qhull                    rbox 10 | qhull v QJ o Fv\n\
+    rbox y 1000 W0 | qhull                    rbox c | qhull n\n\
 \n\
 ";
 /* for opts, don't assign 'e' or 'E' to a flag (already used for exponent) */
@@ -329,17 +323,7 @@ int main(int argc, char *argv[]) {
   coordT *points;
   boolT ismalloc;
 
-#if __MWERKS__ && __POWERPC__
-  char inBuf[BUFSIZ], outBuf[BUFSIZ], errBuf[BUFSIZ];
-  SIOUXSettings.showstatusline= false;
-  SIOUXSettings.tabspaces= 1;
-  SIOUXSettings.rows= 40;
-  if (setvbuf(stdin, inBuf, _IOFBF, sizeof(inBuf)) < 0   /* w/o, SIOUX I/O is slow*/
-  || setvbuf(stdout, outBuf, _IOFBF, sizeof(outBuf)) < 0
-  || (stdout != stderr && setvbuf(stderr, errBuf, _IOFBF, sizeof(errBuf)) < 0))
-    fprintf(stderr, "qhull internal warning (main): could not change stdio to fully buffered.\n");
-  argc= ccommand(&argv);
-#endif
+  QHULL_LIB_CHECK
 
   if ((argc == 1) && isatty( 0 /*stdin*/)) {
     fprintf(stdout, qh_prompt2, qh_version);

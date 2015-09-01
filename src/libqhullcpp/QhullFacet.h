@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/QhullFacet.h#14 $$Change: 1810 $
-** $DateTime: 2015/01/17 18:28:15 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullcpp/QhullFacet.h#19 $$Change: 1914 $
+** $DateTime: 2015/06/21 22:08:19 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -14,7 +14,7 @@
 #include "QhullSet.h"
 #include "QhullPointSet.h"
 extern "C" {
-    #include "libqhullr/qhull_ra.h"
+    #include "libqhull_r/qhull_ra.h"
 }
 
 #include <ostream>
@@ -42,18 +42,19 @@ public:
 
 private:
 #//!\name Fields -- no additions (QhullFacetSet of facetT*)
-    facetT *            qh_facet;  //! May be 0 (!isDefined) for corner cases (e.g., *facetSet.end()==0) and tricoplanarOwner()
-    QhullQh *           qh_qh;     //! qhT
+    facetT *            qh_facet;  //!< Corresponding facetT, may be 0 for corner cases (e.g., *facetSet.end()==0) and tricoplanarOwner()
+    QhullQh *           qh_qh;     //!< QhullQh/qhT for facetT, may be 0
 
 #//!\name Class objects
     static facetT       s_empty_facet; // needed for shallow copy
 
 public:
 #//!\name Constructors
+                        QhullFacet() : qh_facet(&s_empty_facet), qh_qh(0) {}
     explicit            QhullFacet(const Qhull &q);
                         QhullFacet(const Qhull &q, facetT *f);
-    explicit            QhullFacet(QhullQh *qh) : qh_facet(&s_empty_facet), qh_qh(qh) {}
-                        QhullFacet(QhullQh *qh, facetT *f) : qh_facet(f ? f : &s_empty_facet), qh_qh(qh) {}
+    explicit            QhullFacet(QhullQh *qqh) : qh_facet(&s_empty_facet), qh_qh(qqh) {}
+                        QhullFacet(QhullQh *qqh, facetT *f) : qh_facet(f ? f : &s_empty_facet), qh_qh(qqh) {}
                         // Creates an alias.  Does not copy QhullFacet.  Needed for return by value and parameter passing
                         QhullFacet(const QhullFacet &other) : qh_facet(other.qh_facet ? other.qh_facet : &s_empty_facet), qh_qh(other.qh_qh) {}
                         // Creates an alias.  Does not copy QhullFacet.  Needed for vector<QhullFacet>
@@ -62,16 +63,16 @@ public:
 
 
 #//!\name GetSet
-    int                 dimension() const { return qh_qh->hull_dim; }
+    int                 dimension() const { return (qh_qh ? qh_qh->hull_dim : 0); }
     QhullPoint          getCenter() { return getCenter(qh_PRINTpoints); }
     QhullPoint          getCenter(qh_PRINT printFormat);
     facetT *            getBaseT() const { return getFacetT(); } //!< For QhullSet<QhullFacet>
                         // Do not define facetT().  It conflicts with return type facetT*
     facetT *            getFacetT() const { return qh_facet; }
     QhullHyperplane     hyperplane() const { return QhullHyperplane(qh_qh, dimension(), qh_facet->normal, qh_facet->offset); }
-    countT              id() const { return (qh_facet ? qh_facet->id : -1); }
+    countT              id() const { return (qh_facet ? qh_facet->id : (int)qh_IDunknown); }
     QhullHyperplane     innerplane() const;
-    bool                isDefined() const { return qh_facet && qh_facet != &s_empty_facet; }
+    bool                isValid() const { return qh_qh && qh_facet && qh_facet != &s_empty_facet; }
     bool                isGood() const { return qh_facet && qh_facet->good; }
     bool                isSimplicial() const { return qh_facet && qh_facet->simplicial; }
     bool                isTopOrient() const { return qh_facet && qh_facet->toporient; }
@@ -112,9 +113,10 @@ public:
 
     struct PrintFacet{
         QhullFacet *    facet;  // non-const due to f->center()
-        explicit        PrintFacet(QhullFacet &f) : facet(&f) {}
+        const char *    message;
+        explicit        PrintFacet(QhullFacet &f, const char * s) : facet(&f), message(s) {}
     };//PrintFacet
-    PrintFacet          print() { return PrintFacet(*this); }
+    PrintFacet          print(const char *message) { return PrintFacet(*this, message); }
 
     struct PrintFlags{
         const QhullFacet *facet;
@@ -141,11 +143,11 @@ public:
 
 #//!\name Global
 
+std::ostream &operator<<(std::ostream &os, const orgQhull::QhullFacet::PrintFacet &pr);
 std::ostream &operator<<(std::ostream &os, const orgQhull::QhullFacet::PrintCenter &pr);
 std::ostream &operator<<(std::ostream &os, const orgQhull::QhullFacet::PrintFlags &pr);
 std::ostream &operator<<(std::ostream &os, const orgQhull::QhullFacet::PrintHeader &pr);
 std::ostream &operator<<(std::ostream &os, const orgQhull::QhullFacet::PrintRidges &pr);
-std::ostream &operator<<(std::ostream &os, const orgQhull::QhullFacet::PrintFacet &pr);
 std::ostream &operator<<(std::ostream &os, orgQhull::QhullFacet &f); // non-const due to qh_getcenter()
 
 #endif // QHULLFACET_H

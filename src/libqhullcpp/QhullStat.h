@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/QhullStat.h#9 $$Change: 1810 $
-** $DateTime: 2015/01/17 18:28:15 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullcpp/QhullStat.h#11 $$Change: 1914 $
+** $DateTime: 2015/06/21 22:08:19 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -10,7 +10,7 @@
 #define QHULLSTAT_H
 
 extern "C" {
-    #include "libqhullr/qhull_ra.h"
+    #include "libqhull_r/qhull_ra.h"
 }
 
 #include <string>
@@ -32,7 +32,6 @@ public:
 #//!\name Constants
 
 #//!\name class methods
-    static void         clearStatistics();
 
 #//!\name constructor, assignment, destructor, invariant
                         QhullStat();

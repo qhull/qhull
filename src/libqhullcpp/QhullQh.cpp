@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/QhullQh.cpp#9 $$Change: 1810 $
-** $DateTime: 2015/01/17 18:28:15 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullcpp/QhullQh.cpp#15 $$Change: 1868 $
+** $DateTime: 2015/03/26 20:13:15 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -13,7 +13,7 @@
 #include "QhullError.h"
 #include "QhullQh.h"
 #include "QhullStat.h"
-#include "Qhull.h"
+// #include "Qhull.h"
 
 #include <sstream>
 #include <iostream>
@@ -32,11 +32,11 @@ using std::ostream;
 
 namespace orgQhull {
 
-#//Global variables
+#//!\name Global variables
 const double QhullQh::
 default_factor_epsilon= 1.0;
 
-#//Constructor, destructor, etc.
+#//!\name Constructor, destructor, etc.
 
 //! Derived from qh_new_qhull[user.c]
 QhullQh::
@@ -46,15 +46,13 @@ QhullQh()
 , error_stream(0)
 , output_stream(0)
 , factor_epsilon(QhullQh::default_factor_epsilon)
-, useOutputStream(false)
+, use_output_stream(false)
 {
-    // NOerrors -- Does not call qh_errexit()
+    // NOerrors: TRY_QHULL_ not needed since these routines do not call qh_errexit()
     qh_meminit(this, NULL);
-    this->ISqhullQh= True;
-    // NOerrors -- Does not call qh_errexit()
     qh_initstatistics(this);
-    // NOerrors -- Does not call qh_errexit()
-    qh_initqhull_start2(this, NULL, NULL, qh_FILEstderr);
+    qh_initqhull_start2(this, NULL, NULL, qh_FILEstderr);  // Initialize qhT
+    this->ISqhullQh= True;
 }//QhullQh
 
 QhullQh::
@@ -65,12 +63,18 @@ QhullQh::
 
 #//!\name Methods
 
+//! Check memory for internal consistency
+//! Free global memory used by qh_initbuild and qh_buildhull
+//! Zero the qhT data structure, except for memory (qhmemT) and statistics (qhstatT)
+//! Check and free short memory (e.g., facetT)
+//! Zero the qhmemT data structure
 void QhullQh::
 checkAndFreeQhullMemory()
 {
 #ifdef qh_NOmem
     qh_freeqhull(this, qh_ALL);
 #else
+    qh_memcheck(this);
     qh_freeqhull(this, !qh_ALL);
     countT curlong;
     countT totlong;
@@ -80,12 +84,12 @@ checkAndFreeQhullMemory()
 #endif
 }//checkAndFreeQhullMemory
 
-#//Messaging
+#//!\name Messaging
 
 void QhullQh::
 appendQhullMessage(const string &s)
 {
-    if(output_stream && useOutputStream && this->USEstdout){ 
+    if(output_stream && use_output_stream && this->USEstdout){ 
         *output_stream << s;
     }else if(error_stream){
         *error_stream << s;
@@ -114,6 +118,17 @@ hasQhullMessage() const
 void QhullQh::
 maybeThrowQhullMessage(int exitCode)
 {
+    if(!NOerrexit){
+        if(qhull_message.size()>0){
+            qhull_message.append("\n");
+        }
+        if(exitCode || qhull_status==qh_ERRnone){
+            qhull_status= 10073;
+        }else{
+            qhull_message.append("QH10073: ");
+        }
+        qhull_message.append("Cannot call maybeThrowQhullMessage() from QH_TRY_().  Or missing 'qh->NOerrexit=true;' after QH_TRY_(){...}.");
+    }
     if(qhull_status==qh_ERRnone){
         qhull_status= exitCode;
     }
@@ -134,7 +149,7 @@ maybeThrowQhullMessage(int exitCode, int noThrow)  throw()
     }
     if(qhull_status!=qh_ERRnone){
         QhullError e(qhull_status, qhull_message);
-        e.logError();
+        e.logErrorLastResort();
     }
 }//maybeThrowQhullMessage
 
@@ -161,12 +176,12 @@ setErrorStream(ostream *os)
     error_stream= os;
 }//setErrorStream
 
-//! Updates useOutputStream
+//! Updates use_output_stream
 void QhullQh::
 setOutputStream(ostream *os)
 {
     output_stream= os;
-    useOutputStream= (os!=0);
+    use_output_stream= (os!=0);
 }//setOutputStream
 
 }//namespace orgQhull
@@ -175,7 +190,7 @@ setOutputStream(ostream *os)
  >-------------------------------</a><a name="qh_fprintf">-</a>
 
   qh_fprintf(qhT *qh, fp, msgcode, format, list of args )
-    FIXUP s_qhull_output vs. fp is ignored (replaces qh_fprintf() in userprintf_r.c)
+    replaces qh_fprintf() in userprintf_r.c
 
 notes:
     only called from libqhull
@@ -208,7 +223,7 @@ void qh_fprintf(qhT *qh, FILE *fp, int msgcode, const char *fmt, ... ) {
         va_end(args);
         return;
     }
-    if(qhullQh->output_stream && qhullQh->useOutputStream){
+    if(qhullQh->output_stream && qhullQh->use_output_stream){
         char newMessage[MSG_MAXLEN];
         vsnprintf(newMessage, sizeof(newMessage), fmt, args);
         *qhullQh->output_stream << newMessage;

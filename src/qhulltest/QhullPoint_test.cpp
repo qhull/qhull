@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/qhulltest/QhullPoint_test.cpp#11 $$Change: 1810 $
-** $DateTime: 2015/01/17 18:28:15 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/qhulltest/QhullPoint_test.cpp#14 $$Change: 1868 $
+** $DateTime: 2015/03/26 20:13:15 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -10,13 +10,13 @@
 #include <iostream>
 #include "RoadTest.h"
 
-#include "QhullPoint.h"
-#include "Coordinates.h"
-#include "RboxPoints.h"
-#include "QhullError.h"
-#include "QhullFacet.h"
-#include "QhullPoint.h"
-#include "Qhull.h"
+#include "libqhullcpp/QhullPoint.h"
+#include "libqhullcpp/Coordinates.h"
+#include "libqhullcpp/RboxPoints.h"
+#include "libqhullcpp/QhullError.h"
+#include "libqhullcpp/QhullFacet.h"
+#include "libqhullcpp/QhullPoint.h"
+#include "libqhullcpp/Qhull.h"
 
 #include <numeric>
 
@@ -32,7 +32,7 @@ class QhullPoint_test : public RoadTest
 {
     Q_OBJECT
 
-#//Test slots
+#//!\name Test slots
 private slots:
     void cleanup();
     void t_construct();
@@ -64,7 +64,7 @@ void QhullPoint_test::
 t_construct()
 {
     QhullPoint p12;
-    QVERIFY(!p12.isDefined());
+    QVERIFY(!p12.isValid());
     QCOMPARE(p12.coordinates(), (coordT *)0);
     QCOMPARE(p12.dimension(), 0);
     QCOMPARE(p12.qh(), (QhullQh *)0);
@@ -75,7 +75,7 @@ t_construct()
     RboxPoints rcube("c");
     Qhull q(rcube, "Qt QR0");  // triangulation of rotated unit cube
     QhullPoint p(q);
-    QVERIFY(!p.isDefined());
+    QVERIFY(!p.isValid());
     QCOMPARE(p.dimension(),3);
     QCOMPARE(p.coordinates(),static_cast<double *>(0));
     QhullPoint p7(q.qh());
@@ -84,10 +84,10 @@ t_construct()
     // copy constructor and copy assignment
     QhullVertex v2(q.beginVertex());
     QhullPoint p2(v2.point());
-    QVERIFY(p2.isDefined());
+    QVERIFY(p2.isValid());
     QCOMPARE(p2.dimension(),3);
     QVERIFY(p2!=p12);
-    p= p2;  
+    p= p2;
     QCOMPARE(p, p2);
 
     QhullPoint p3(q, p2.dimension(), p2.coordinates());
@@ -144,7 +144,7 @@ t_readonly()
             QhullPoint p= i.next().point();
             int id= p.id();
             cout << "p" << id << endl;
-            QVERIFY(p.isDefined());
+            QVERIFY(p.isValid());
             QCOMPARE(p.dimension(),3);
             QCOMPARE(id, p.id());
             QVERIFY(p.id()>=0 && p.id()<9);

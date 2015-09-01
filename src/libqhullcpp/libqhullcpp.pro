@@ -1,5 +1,7 @@
 # -------------------------------------------------
 # libqhullcpp.pro -- Qt project for Qhull cpp shared library
+#
+# It uses reentrant Qhull
 # -------------------------------------------------
 
 include(../qhull-warn.pri)

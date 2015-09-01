@@ -1,19 +1,19 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/qhulltest/Qhull_test.cpp#8 $$Change: 1810 $
-** $DateTime: 2015/01/17 18:28:15 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/qhulltest/Qhull_test.cpp#15 $$Change: 1879 $
+** $DateTime: 2015/04/18 08:36:07 $$Author: bbarber $
 **
 ****************************************************************************/
 
 //pre-compiled headers
 #include <iostream>
-#include "RoadTest.h" // QT_VERSION
+#include "qhulltest/RoadTest.h" // QT_VERSION
 
-#include "Qhull.h"
-#include "QhullError.h"
-#include "RboxPoints.h"
-#include "QhullFacetList.h"
+#include "libqhullcpp/Qhull.h"
+#include "libqhullcpp/QhullError.h"
+#include "libqhullcpp/RboxPoints.h"
+#include "libqhullcpp/QhullFacetList.h"
 
 using std::cout;
 using std::endl;
@@ -27,7 +27,7 @@ class Qhull_test : public RoadTest
 {
     Q_OBJECT
 
-#//Test slots
+#//!\name Test slots
 private slots:
     void cleanup();
     void t_construct();
@@ -59,7 +59,7 @@ t_construct()
     {
         Qhull q;
         QCOMPARE(q.dimension(),0);
-        QVERIFY(q.qhullQh()!=0);
+        QVERIFY(q.qh()!=0);
         QCOMPARE(QString(q.qhullCommand()),QString(""));
         QCOMPARE(QString(q.rboxCommand()),QString(""));
         try{
@@ -68,12 +68,7 @@ t_construct()
         }catch (const std::exception &e) {
             cout << "INFO   : Caught " << e.what();
         }
-        Qhull q2(q);  // Copy constructor and copy assignment OK if not q.initialized()
-        QCOMPARE(q2.dimension(),0);
-        q= q2;
-        QCOMPARE(q.dimension(),0);
         q.checkAndFreeQhullMemory();
-        q2.checkAndFreeQhullMemory();
     }
     {
         RboxPoints rbox("10000");
@@ -81,28 +76,6 @@ t_construct()
         QCOMPARE(q.dimension(),3);
         QVERIFY(q.volume() < 1.0);
         QVERIFY(q.volume() > 0.99);
-        try{
-            Qhull q2(q);
-            QFAIL("Copy constructor did not fail for initialized Qhull.");
-        }catch (const std::exception &e) {
-            cout << "INFO   : Caught " << e.what();
-        }
-        try{
-            Qhull q3;
-            q3= q;
-            QFAIL("Copy assignment did not fail for initialized Qhull source.");
-        }catch (const std::exception &e) {
-            cout << "INFO   : Caught " << e.what();
-        }
-        QCOMPARE(q.dimension(),3);
-        try{
-            Qhull q4;
-            q= q4;
-            QFAIL("Copy assignment did not fail for initialized Qhull destination.");
-        }catch (const std::exception &e) {
-            cout << "INFO   : Caught " << e.what();
-        }
-        QCOMPARE(q.dimension(),3);
         q.checkAndFreeQhullMemory();
     }
     {
@@ -134,15 +107,18 @@ t_attribute()
             0,   1, -0.5
         };
         Qhull q;
-        q.feasiblePoint << 0.0 << 0.0;
+        Coordinates feasible;
+        feasible << 0.0 << 0.0;
+        q.setFeasiblePoint(feasible);
         Coordinates c(std::vector<double>(2, 0.0));
-        QVERIFY(q.feasiblePoint==c);
+        QVERIFY(q.feasiblePoint()==c);
         q.setOutputStream(&cout);
         q.runQhull("normals of square", 3, 4, normals, "H"); // halfspace intersect
+        QVERIFY(q.feasiblePoint()==c); // from qh.feasible_point after runQhull()
         QCOMPARE(q.facetList().count(), 4); // Vertices of square
-        cout << "Expecting summary of halfspace intersect\n";
+        cout << "Expecting summary of halfspace intersection\n";
         q.outputQhull();
-        q.useOutputStream= false;
+        q.qh()->disableOutputStream();  // Same as q.disableOutputStream()
         cout << "Expecting no output from qh_fprintf() in Qhull.cpp\n";
         q.outputQhull();
         q.checkAndFreeQhullMemory();
@@ -213,7 +189,7 @@ t_message()
         }catch (const std::exception &e) {
             const char *s= e.what();
             cout << "INFO   : Caught " << s;
-            QCOMPARE(QString::fromAscii(s).left(6), QString("QH6023"));
+            QCOMPARE(QString::fromLatin1(s).left(6), QString("QH6023"));
         }
         //FIXUP QH11026 Qhullmessage cleared when QhullError thrown.  Switched to e
         //QVERIFY(q.hasQhullMessage());
@@ -234,7 +210,7 @@ t_message()
         }catch (const std::exception &e) {
             const char *s= e.what();
             cout << "INFO   : Caught " << s;
-            QCOMPARE(QString::fromAscii(s).left(6), QString("QH6029"));
+            QCOMPARE(QString::fromLatin1(s).left(6), QString("QH6029"));
         }
         //FIXUP QH11026 Qhullmessage cleared when QhullError thrown.  Switched to e
         //QVERIFY(q.hasQhullMessage());
@@ -284,17 +260,17 @@ t_getQh()
         QCOMPARE(q.facetCount(), 6);
         QCOMPARE(q.vertexCount(), 8);
         // Sample fields from Qhull's qhT [libqhull.h]
-        QCOMPARE(q.qhullQh()->ALLpoints, 0u);
-        QCOMPARE(q.qhullQh()->GOODpoint, 0);
-        QCOMPARE(q.qhullQh()->IStracing, 0);
-        QCOMPARE(q.qhullQh()->MAXcoplanar+1.0, 1.0); // fuzzy compare
-        QCOMPARE(q.qhullQh()->MERGING, 1u);
-        QCOMPARE(q.qhullQh()->input_dim, 3);
-        QCOMPARE(QString(q.qhullQh()->qhull_options).left(8), QString("  run-id"));
-        QCOMPARE(q.qhullQh()->num_facets, 6);
-        QCOMPARE(q.qhullQh()->hasTriangulation, 0u);
-        QCOMPARE(q.qhullQh()->max_outside - q.qhullQh()->min_vertex + 1.0, 1.0); // fuzzy compare
-        QCOMPARE(*q.qhullQh()->gm_matrix+1.0, 1.0); // fuzzy compare
+        QCOMPARE(q.qh()->ALLpoints, 0u);
+        QCOMPARE(q.qh()->GOODpoint, 0);
+        QCOMPARE(q.qh()->IStracing, 0);
+        QCOMPARE(q.qh()->MAXcoplanar+1.0, 1.0); // fuzzy compare
+        QCOMPARE(q.qh()->MERGING, 1u);
+        QCOMPARE(q.qh()->input_dim, 3);
+        QCOMPARE(QString(q.qh()->qhull_options).left(8), QString("  run-id"));
+        QCOMPARE(q.qh()->num_facets, 6);
+        QCOMPARE(q.qh()->hasTriangulation, 0u);
+        QCOMPARE(q.qh()->max_outside - q.qh()->min_vertex + 1.0, 1.0); // fuzzy compare
+        QCOMPARE(*q.qh()->gm_matrix+1.0, 1.0); // fuzzy compare
         q.checkAndFreeQhullMemory();
     }
 }//t_getQh

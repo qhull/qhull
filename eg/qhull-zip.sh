@@ -6,8 +6,8 @@
 #   can not use path with $zip_file 
 #   odd error messages if can't locate directory
 #
-# $Id: //main/2011/qhull/eg/qhull-zip.sh#16 $$Change: 1493 $
-# $DateTime: 2012/02/20 09:31:24 $$Author: bbarber $
+# $Id: //main/2011/qhull/eg/qhull-zip.sh#23 $$Change: 1954 $
+# $DateTime: 2015/08/30 22:57:35 $$Author: bbarber $
 
 if [[ $# -eq 0 ]]; then
         echo 'Missing date stamp, e.g., qhull-zip.sh 2007.1' 
@@ -111,48 +111,48 @@ md5_zip_file=qhull-$version-zip.md5sum
 md5_tgz_file=qhull-$version-src-tgz.md5sum
 
 # recursive 
-qhull_dirs="qhull/config qhull/eg qhull/html qhull/src"
-qhull_files="qhull/build/*.sln qhull/build/*.vcproj \
+qhull_dirs="qhull/eg qhull/html qhull/src"
+qhull_files="qhull/build/*.sln qhull/build/*.vcproj qhull/build/qhulltest/*.vcproj \
     qhull/Announce.txt qhull/CMakeLists.txt qhull/COPYING.txt \
     qhull/File_id.diz qhull/QHULL-GO.lnk qhull/README.txt \
-    qhull/REGISTER.txt qhull/index.htm qhull/Makefile qhull/bin/qhull.dll \
+    qhull/REGISTER.txt qhull/index.htm qhull/Makefile  \
     qhull/bin/qconvex.exe qhull/bin/qdelaunay.exe qhull/bin/qhalf.exe \
-    qhull/bin/qhull.exe qhull/bin/qhull_p.dll qhull/bin/qvoronoi.exe \
+    qhull/bin/qhull.exe qhull/bin/qhull_r.dll qhull/bin/qvoronoi.exe \
     qhull/bin/rbox.exe qhull/bin/user_eg.exe qhull/bin/user_eg2.exe \
+    qhull/bin/testqset_r.exe \
     qhull/bin/user_eg3.exe qhull/bin/testqset.exe qhull/bin/msvcr80.dll"
 qhull_ufiles="$qhull_dirs qhull/build/*.sln qhull/build/*.vcproj \
     qhull/Announce.txt qhull/CMakeLists.txt qhull/COPYING.txt \
     qhull/File_id.diz qhull/QHULL-GO.lnk qhull/README.txt \
     qhull/REGISTER.txt qhull/index.htm qhull/Makefile"
-qhull_d2ufiles="config/changelog config/patches/00list config/Makefile-am-eg \
-    config/Makefile-am-html config/Makefile-am-libqhull 
-    config/Makefile-am-main config/README Makefile src/libqhull/Makefile 
+qhull_d2ufiles="Makefile src/libqhull/Makefile src/libqhull_r/Makefile \
+    src/*/DEPRECATED.txt src/*/*.pro src/*/*.htm html/*.htm html/*.txt \
     src/libqhull/MBorland eg/q_eg eg/q_egtest eg/q_test "
     
 #############################
 log_step $LINENO "Clean distribution directories"
 #############################
 
-if [[ -f qhull/src/Make-config.sh || -d qhull/src/debian ]]; then
-    exit_err $LINENO "Before continuing, remove debian build from src/"
-fi    
 p4 sync -f qhull/build/...
 exit_if_err $LINENO "Can not 'p4 sync -f qhull.sln *.vcproj'"
 cd qhull && make clean
 exit_if_err $LINENO "Can not 'make clean'"
 cd ..
+# Includes many files from 'cleanall' (Makefile)
 rm -f qhull/src/qhull-all.pro.user* qhull/src/libqhull/BCC32tmp.cfg
 rm -f qhull/eg/eg.* qhull/*.x qhull/x.* qhull/x qhull/eg/x
-rm -f qhull/bin/qhulltest.exe qhull/bin/qhulltest qhull/configure.in
+rm -f qhull/bin/qhulltest.exe qhull/bin/qhulltest
 rm -f qhull/src/libqhull/*.exe qhull/src/libqhull/*.a
 rm -f qhull/src/libqhull/qconvex.c qhull/src/libqhull/unix.c 
 rm -f qhull/src/libqhull/qdelaun.c qhull/src/libqhull/qhalf.c
 rm -f qhull/src/libqhull/qvoronoi.c qhull/src/libqhull/rbox.c
 rm -f qhull/src/libqhull/user_eg.c qhull/src/libqhull/user_eg2.c  
-rm -f qhull/src/libqhull/testqset.c qhull/Makefile.am 
-rm -f qhull/src/libqhull/Makefile.am qhull/html/Makefile.am
-rm -f qhull/src/Makefile.am qhull/eg/Makefile.am 
-rm -f qhull/configure.ac
+rm -f qhull/src/libqhull/testqset.c 
+rm -f qhull/src/libqhull_r/qconvex_r.c qhull/src/libqhull_r/unix_r.c 
+rm -f qhull/src/libqhull_r/qdelaun_r.c qhull/src/libqhull_r/qhalf_r.c
+rm -f qhull/src/libqhull_r/qvoronoi_r.c qhull/src/libqhull_r/rbox_r.c
+rm -f qhull/src/libqhull_r/user_eg_r.c qhull/src/libqhull_r/user_eg2_r.c  
+rm -f qhull/src/libqhull_r/testqset_r.c 
     
 set noglob
 
@@ -163,7 +163,7 @@ if [[ -e /bin/msysinfo && $(type -p wzzip) && $(type -p wzunzip) ]]; then
     #############################
 
     ls -l $qhull_files $qhull_dirs >>$err_log 
-    exit_if_err $LINENO "Missing files for zip directory"
+    exit_if_err $LINENO "Missing files for zip directory.  Release build only"
 
     log_note $LINENO "Copy \$qhull_files \$qhull_dirs to $TEMP_DIR/qhull"
     exit_if_fail $LINENO "rm -rf $TEMP_DIR && mkdir $TEMP_DIR"
@@ -249,6 +249,9 @@ if [[ -r $root_dir/$qhull_tgz_file ]]; then
 fi
 
 #############################
+log_step $LINENO "Test qhull -- cd $TEMP_DIR/zip/qhull* && make testall >../q_test.txt 2>&1"
+log_step $LINENO "Build testqhull -- cd /c/bash/local/qhull && bin/qhulltest --all >eg/qhulltest.txt 2>&1"
+log_step $LINENO "Compare eg/q_test-ok.txt to ../test.log"
 log_step $LINENO "Compare previous zip release, Dates.txt, and md5sum.  Check for virus."
 log_step $LINENO "Compare zip and tgz for CRLF vs LF"
 log_step $LINENO "Search xml files for UNDEFINED. Check page links"

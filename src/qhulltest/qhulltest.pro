@@ -6,11 +6,13 @@
 include(../qhull-app-cpp.pri)
 
 TARGET = qhulltest
-CONFIG += qtestlib
+QT += testlib
 MOC_DIR = moc
 INCLUDEPATH += ..  # for MOC_DIR
 
 PRECOMPILED_HEADER = RoadTest.h
+
+HEADERS += RoadTest.h
 
 SOURCES += ../libqhullcpp/qt-qhull.cpp
 SOURCES += Coordinates_test.cpp
@@ -28,7 +30,7 @@ SOURCES += QhullRidge_test.cpp
 SOURCES += QhullSet_test.cpp
 SOURCES += qhulltest.cpp
 SOURCES += QhullVertex_test.cpp
+SOURCES += QhullVertexSet_test.cpp
 SOURCES += RboxPoints_test.cpp
 SOURCES += RoadTest.cpp
 
-HEADERS += RoadTest.h

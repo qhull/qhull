@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/QhullFacetList.h#10 $$Change: 1810 $
-** $DateTime: 2015/01/17 18:28:15 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullcpp/QhullFacetList.h#12 $$Change: 1835 $
+** $DateTime: 2015/02/16 22:32:04 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -26,7 +26,8 @@ namespace orgQhull {
     class QhullQh;
 
 #//!\name Defined here
-    //! QhullFacetList -- List of Qhull facets, as a C++ class.  See QhullFacetSet.h
+    //! QhullFacetList -- List of QhullFacet/facetT, as a C++ class.  
+    //!\see QhullFacetSet.h
     class QhullFacetList;
     //! QhullFacetListIterator -- if(f.isGood()){ ... }
     typedef QhullLinkedListIterator<QhullFacet> QhullFacetListIterator;
@@ -40,11 +41,11 @@ private:
 #//!\name Constructors
 public:
                         QhullFacetList(const Qhull &q, facetT *b, facetT *e);
-                        QhullFacetList(QhullQh *qh, facetT *b, facetT *e);
+                        QhullFacetList(QhullQh *qqh, facetT *b, facetT *e);
                         QhullFacetList(QhullFacet b, QhullFacet e) : QhullLinkedList<QhullFacet>(b, e), select_all(false) {}
                         //Copy constructor copies pointer but not contents.  Needed for return by value and parameter passing.
                         QhullFacetList(const QhullFacetList &other) : QhullLinkedList<QhullFacet>(*other.begin(), *other.end()), select_all(other.select_all) {}
-    QhullFacetList &    operator=(const QhullFacetList &other) { QhullLinkedList<QhullFacet>::operator =(other); select_all= other.select_all; }
+    QhullFacetList &    operator=(const QhullFacetList &other) { QhullLinkedList<QhullFacet>::operator =(other); select_all= other.select_all; return *this; }
                         ~QhullFacetList() {}
 
 private:                //!Disable default constructor.  See QhullLinkedList
@@ -75,9 +76,10 @@ public:
 #//!\name IO
     struct PrintFacetList{
         const QhullFacetList *facet_list;
-                        PrintFacetList(const QhullFacetList &fl) : facet_list(&fl) {}
+        const char *    print_message;   //!< non-null message
+                        PrintFacetList(const QhullFacetList &fl, const char *message) : facet_list(&fl), print_message(message) {}
     };//PrintFacetList
-    PrintFacetList      print() const  { return PrintFacetList(*this); }
+    PrintFacetList      print(const char *message) const  { return PrintFacetList(*this, message); }
 
     struct PrintFacets{
         const QhullFacetList *facet_list;

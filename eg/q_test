@@ -18,9 +18,16 @@ if ! user_eg >/dev/null; then
     echo user_eg failed to run.  It uses the shared qhull library 
     echo 'On Linux, export LD_LIBRARY_PATH=$PWD/lib:$LD_LIBRARY_PATH'
 fi
+echo ==============================
+echo ========= eg/q_test ==========
+echo == Check qhull programs ======
+echo ==============================
+echo
+echo ==============================
+echo == check user_eg, user_eg2, and user_eg3
+echo == errors if 'user_eg' and 'user_eg2' not found
+echo ==============================
 set -v
-echo === errors if 'user_eg' and 'user_eg2' not found ===
-echo === check user_eg ${d:-`date`} =====================
 user_eg "QR1 p n Qt" "v p" Fp
 user_eg2 "QR1 p" "v p" Fp
 user_eg3 rbox "10 D2" "2 D2" qhull "p"

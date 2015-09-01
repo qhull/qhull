@@ -1,20 +1,22 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/qhulltest/QhullFacetList_test.cpp#7 $$Change: 1810 $
-** $DateTime: 2015/01/17 18:28:15 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/qhulltest/QhullFacetList_test.cpp#11 $$Change: 1879 $
+** $DateTime: 2015/04/18 08:36:07 $$Author: bbarber $
 **
 ****************************************************************************/
 
 //pre-compiled headers
 #include <iostream>
-#include "RoadTest.h" // QT_VERSION
+#include "qhulltest/RoadTest.h" // QT_VERSION
 
-#include "QhullFacetList.h"
-#include "QhullError.h"
-#include "QhullFacet.h"
-#include "QhullVertexSet.h"
-#include "Qhull.h"
+#include "libqhullcpp/QhullFacetList.h"
+#include "libqhullcpp/QhullError.h"
+#include "libqhullcpp/QhullFacet.h"
+#include "libqhullcpp/QhullVertex.h"
+#include "libqhullcpp/QhullVertexSet.h"
+#include "libqhullcpp/Qhull.h"
+#include "libqhullcpp/RboxPoints.h"
 
 using std::cout;
 using std::endl;
@@ -28,7 +30,7 @@ class QhullFacetList_test : public RoadTest
 {
     Q_OBJECT
 
-#//Test slots
+#//!\name Test slots
 private slots:
     void cleanup();
     void t_construct_qh();
@@ -184,13 +186,13 @@ t_io()
         Qhull q(rcube,"QR0 QV0");   // good facets are adjacent to point 0
         QhullFacetList fs= q.facetList();
         ostringstream os;
-        os << fs.print(); // Runs all print options
-        os << "\nFacets only\n" << fs; 
-        os << "\nVertices\n" << fs.printVertices()
+        os << fs.print("Show all of FacetList\n");
+        os << "\nFacets only\n" << fs;
+        os << "\nVertices only\n" << fs.printVertices();
         cout << os.str();
         QString facets= QString::fromStdString(os.str());
-        QCOMPARE(facets.count("(v"), 7+12*3*2);
-        QCOMPARE(facets.count(QRegExp("f\\d")), 3*7 + 13*3*2);
+        QCOMPARE(facets.count("(v"), 2*7+12*3*2);
+        QCOMPARE(facets.count(QRegExp("f\\d")), 2*3*7 + 13*3*2);
         q.checkAndFreeQhullMemory();
     }
 }//t_io

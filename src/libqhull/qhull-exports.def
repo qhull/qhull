@@ -2,15 +2,15 @@
 ;
 ;   Generated from depends.exe by cut-and-paste of exported symbols by mingw gcc
 ;   [mar'11] 399 symbols 
-;   Annotate as DATA qh_last_random qh_qh qh_qhstat qhmem qhull_inuse rbox rbox_inuse
+;   Annotate as DATA qh_last_random qh_qh qh_qhstat qhmem rbox rbox_inuse
 ;   Annotate as __declspec for outside access in win32 -- qh_qh qh_qhstat
 ;   Same as ../libqhullp/qhull_p-exports.def without qh_save_qhull and qh_restore_qhull
 ;
-; $Id: //main/2011/qhull/src/libqhull/qhull-exports.def#6 $$Change: 1663 $
-; $DateTime: 2014/01/19 17:59:16 $$Author: bbarber $
+; $Id: //main/2011/qhull/src/libqhull/qhull-exports.def#9 $$Change: 1951 $
+; $DateTime: 2015/08/30 21:30:30 $$Author: bbarber $
 ; 
 ; Define qhull_VERSION in CMakeLists.txt, Makefile, qhull-exports.def, qhull_p-exports.def, qhull_r-exports.def, and qhull-warn.pri
-VERSION 6.3
+VERSION 7.0
 EXPORTS
 qh_addhash
 qh_addpoint
@@ -159,8 +159,9 @@ qh_initthresholds
 qh_inthresholds
 qh_isvertex
 qh_joggleinput
-; Mark as DATA, otherwise links a separate qh_last_random.  No __declspec
+; Mark as DATA, otherwise links a separate qh_last_random.  No __declspec.
 qh_last_random      DATA
+qh_lib_check
 qh_makenew_nonsimplicial
 qh_makenew_simplicial
 qh_makenewfacet
@@ -409,6 +410,5 @@ qh_voronoi_center
 qh_willdelete
 ; Mark as DATA, otherwise links a separate qhmem.  No __declspec
 qhmem                   DATA
-qhull_inuse             DATA
 rbox			DATA
 rbox_inuse              DATA

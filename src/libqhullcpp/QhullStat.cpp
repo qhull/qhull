@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/QhullStat.cpp#5 $$Change: 1810 $
-** $DateTime: 2015/01/17 18:28:15 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullcpp/QhullStat.cpp#6 $$Change: 1868 $
+** $DateTime: 2015/03/26 20:13:15 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -25,7 +25,7 @@ using std::ostream;
 
 namespace orgQhull {
 
-#//Constructor, destructor, etc.
+#//!\name Constructor, destructor, etc.
 
 //! If qh_QHpointer==0, invoke with placement new on qh_stat;
 QhullStat::

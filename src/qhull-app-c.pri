@@ -19,6 +19,6 @@ build_pass:CONFIG(debug, debug|release){
 }
 win32-msvc* : QMAKE_LFLAGS += /INCREMENTAL:NO
 
-INCLUDEPATH += ../libqhull
+INCLUDEPATH += ..
 CONFIG += qhull_warn_conversion
 

@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2009-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/QhullPointSet.h#15 $$Change: 1810 $
-** $DateTime: 2015/01/17 18:28:15 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullcpp/QhullPointSet.h#18 $$Change: 1914 $
+** $DateTime: 2015/06/21 22:08:19 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -12,7 +12,7 @@
 #include "QhullSet.h"
 #include "QhullPoint.h"
 extern "C" {
-    #include "libqhullr/qhull_ra.h"
+    #include "libqhull_r/qhull_ra.h"
 }
 
 #include <ostream>
@@ -38,10 +38,11 @@ public:
 #//!\name Construct
                         QhullPointSet(const Qhull &q, setT *s) : QhullSet<QhullPoint>(q, s) {}
                         //Conversion from setT* is not type-safe.  Implicit conversion for void* to T
-                        QhullPointSet(QhullQh *qh, setT *s) : QhullSet<QhullPoint>(qh, s) {}
+                        QhullPointSet(QhullQh *qqh, setT *s) : QhullSet<QhullPoint>(qqh, s) {}
                         //Copy constructor copies pointer but not contents.  Needed for return by value and parameter passing.
                         QhullPointSet(const QhullPointSet &other) : QhullSet<QhullPoint>(other) {}
-    QhullPointSet &     operator=(const QhullPointSet &other) { QhullSet<QhullPoint>::operator=(other); }
+                        //!Assignment copies pointers but not contents.
+    QhullPointSet &     operator=(const QhullPointSet &other) { QhullSet<QhullPoint>::operator=(other); return *this; }
                         ~QhullPointSet() {}
 
                         //!Default constructor disabled.
@@ -52,14 +53,14 @@ public:
 #//!\name IO
     struct PrintIdentifiers{
         const QhullPointSet *point_set;
-        const char *    print_message;
+        const char *    print_message; //!< non-null message
         PrintIdentifiers(const char *message, const QhullPointSet *s) : point_set(s), print_message(message) {}
     };//PrintIdentifiers
     PrintIdentifiers printIdentifiers(const char *message) const { return PrintIdentifiers(message, this); }
 
     struct PrintPointSet{
         const QhullPointSet *point_set;
-        const char *    print_message;
+        const char *    print_message;  //!< non-null message
         PrintPointSet(const char *message, const QhullPointSet &s) : point_set(&s), print_message(message) {}
     };//PrintPointSet
     PrintPointSet       print(const char *message) const { return PrintPointSet(message, *this); }

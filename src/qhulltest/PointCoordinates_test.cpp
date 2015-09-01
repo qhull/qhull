@@ -1,19 +1,19 @@
 /****************************************************************************
 **
 ** Copyright (c) 2009-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/qhulltest/PointCoordinates_test.cpp#9 $$Change: 1810 $
-** $DateTime: 2015/01/17 18:28:15 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/qhulltest/PointCoordinates_test.cpp#15 $$Change: 1868 $
+** $DateTime: 2015/03/26 20:13:15 $$Author: bbarber $
 **
 ****************************************************************************/
 
 //pre-compiled headers
 #include <iostream>
-#include "RoadTest.h" // QT_VERSION
+#include "qhulltest/RoadTest.h" // QT_VERSION
 
-#include "PointCoordinates.h"
-#include "QhullError.h"
-#include "RboxPoints.h"
-#include "Qhull.h"
+#include "libqhullcpp/PointCoordinates.h"
+#include "libqhullcpp/QhullError.h"
+#include "libqhullcpp/RboxPoints.h"
+#include "libqhullcpp/Qhull.h"
 
 using std::cout;
 using std::endl;
@@ -28,7 +28,7 @@ class PointCoordinates_test : public RoadTest
 {
     Q_OBJECT
 
-#//Test slots
+#//!\name Test slots
 private slots:
     void t_construct_q();
     void t_construct_qh();
@@ -60,11 +60,11 @@ t_construct_q()
     QCOMPARE(pc.coordinates(), (coordT *)0);
     QVERIFY(pc.isEmpty());
     pc.checkValid();
-    PointCoordinates pc7(q, 2);
+    PointCoordinates pc7(q, 2, "test explicit dimension");
     QCOMPARE(pc7.dimension(), 2);
     QCOMPARE(pc7.count(), 0);
     QVERIFY(pc7.isEmpty());
-    QVERIFY(pc7.comment().empty());
+    QCOMPARE(pc7.comment(), std::string("test explicit dimension"));
     pc7.checkValid();
     PointCoordinates pc2(q, "Test pc2");
     QCOMPARE(pc2.count(), 0);
@@ -124,30 +124,30 @@ void PointCoordinates_test::
 t_construct_qh()
 {
     QhullQh qh;
-    PointCoordinates pc(qh);
+    PointCoordinates pc(&qh);
     QCOMPARE(pc.size(), 0U);
     QCOMPARE(pc.coordinateCount(), 0);
     QCOMPARE(pc.dimension(), 0);
     QCOMPARE(pc.coordinates(), (coordT *)0);
     QVERIFY(pc.isEmpty());
     pc.checkValid();
-    PointCoordinates pc7(qh, 2);
+    PointCoordinates pc7(&qh, 2, "test explicit dimension");
     QCOMPARE(pc7.dimension(), 2);
     QCOMPARE(pc7.count(), 0);
     QVERIFY(pc7.isEmpty());
-    QVERIFY(pc7.comment().empty());
+    QCOMPARE(pc7.comment(), std::string("test explicit dimension"));
     pc7.checkValid();
-    PointCoordinates pc2(qh, "Test pc2");
+    PointCoordinates pc2(&qh, "Test pc2");
     QCOMPARE(pc2.count(), 0);
     QVERIFY(pc2.isEmpty());
     QCOMPARE(pc2.comment(), std::string("Test pc2"));
     pc2.checkValid();
-    PointCoordinates pc3(qh, 3, "Test 3-d pc3");
+    PointCoordinates pc3(&qh, 3, "Test 3-d pc3");
     QCOMPARE(pc3.dimension(), 3);
     QVERIFY(pc3.isEmpty());
     pc3.checkValid();
     coordT c[]= { 0.0, 1.0, 2.0, 3.0, 4.0, 5.0 };
-    PointCoordinates pc4(qh, 2, "Test 2-d pc4", 6, c);
+    PointCoordinates pc4(&qh, 2, "Test 2-d pc4", 6, c);
     QCOMPARE(pc4.dimension(), 2);
     QCOMPARE(pc4.count(), 3);
     QCOMPARE(pc4.size(), 3u);
@@ -158,7 +158,7 @@ t_construct_qh()
     // QhullPoint refers to PointCoordinates
     p[1] += 1.0;
     QCOMPARE(pc4[2][1], 6.0);
-    PointCoordinates pc5(qh, 4, "Test 4-d pc5 with insufficient coordinates", 6, c);
+    PointCoordinates pc5(&qh, 4, "Test 4-d pc5 with insufficient coordinates", 6, c);
     QCOMPARE(pc5.dimension(), 4);
     QCOMPARE(pc5.count(), 1);
     QCOMPARE(pc5.extraCoordinatesCount(), 2);
@@ -173,7 +173,7 @@ t_construct_qh()
     vc.push_back(9.0);
     pc5.append(2, &vc[3]); // Copy of vc[]
     pc5.checkValid();
-    QhullPoint p5(qh, 4, &vc[1]);
+    QhullPoint p5(&qh, 4, &vc[1]);
     QCOMPARE(pc5[1], p5);
     PointCoordinates pc6(pc5); // Makes copy of point_coordinates
     QCOMPARE(pc6[1], p5);
@@ -185,7 +185,7 @@ t_construct_qh()
     QVERIFY(pc6!=pc5);
     pc6= pc5;
     QVERIFY(pc6==pc5);
-    PointCoordinates pc8(qh);
+    PointCoordinates pc8(&qh);
     pc6= pc8;
     QVERIFY(pc6!=pc5);
     QVERIFY(pc6.isEmpty());
@@ -335,7 +335,7 @@ t_modify()
     coordT c[]= {0.0, 1.0, 2.0, 3.0, 4.0, 5.0};
     PointCoordinates pc(q, 2, "2-d points", 6, c);
     coordT c3[]= {0.0, 1.0, 2.0, 3.0, 4.0, 5.0};
-    PointCoordinates pc5(q, 2);
+    PointCoordinates pc5(q, 2, "test explicit dimension");
     pc5.append(6, c3); // 0-5
     QVERIFY(pc5==pc);
     PointCoordinates pc2(q, 2, "2-d");
@@ -403,14 +403,14 @@ void PointCoordinates_test::
 t_coord_iterator()
 {
     Qhull q;
-    PointCoordinates c(q, 2);
+    PointCoordinates c(q, 2, "2-d");
     c << 0.0 << 1.0 << 2.0 << 3.0 << 4.0 << 5.0;
     PointCoordinatesIterator i(c);
     QhullPoint p0(c[0]);
     QhullPoint p1(c[1]);
     QhullPoint p2(c[2]);
     coordT c2[] = {-1.0, -2.0};
-    QhullPoint p3(2, c2);
+    QhullPoint p3(q, 2, c2);
     PointCoordinatesIterator i2= c;
     QVERIFY(i.findNext(p1));
     QVERIFY(!i.findNext(p1));
@@ -462,15 +462,15 @@ t_io()
 {
     Qhull q;
     PointCoordinates c(q);
-    c << 1.0 << 2.0 << 3.0 << 1.0 << 2.0 << 3.0;
     ostringstream os;
     os << "PointCoordinates 0-d\n" << c;
     c.setDimension(2);
-    os << "PointCoordinates 1-3-2\n" << c;
+    c << 1.0 << 2.0 << 3.0 << 1.0 << 2.0 << 3.0;
+    os << "PointCoordinates 1,2 3,1 2,3\n" << c;
     cout << os.str();
     QString s= QString::fromStdString(os.str());
     QCOMPARE(s.count("0"), 3);
-    QCOMPARE(s.count("2"), 4);
+    QCOMPARE(s.count("2"), 5);
 }//t_io
 
 }//orgQhull

@@ -9,8 +9,8 @@
    frequently used code is in poly.c
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2011/qhull/src/libqhull/poly2.c#8 $$Change: 1810 $
-   $DateTime: 2015/01/17 18:28:15 $$Author: bbarber $
+   $Id: //main/2011/qhull/src/libqhull/poly2.c#11 $$Change: 1951 $
+   $DateTime: 2015/08/30 21:30:30 $$Author: bbarber $
 */
 
 #include "qhull_a.h"
@@ -884,7 +884,7 @@ void qh_checkpolygon(facetT *facetlist) {
       if (!vertex->seen) {
         vertex->seen= True;
         numvertices++;
-        if (qh_pointid(vertex->point) == -1) {
+        if (qh_pointid(vertex->point) == qh_IDunknown) {
           qh_fprintf(qh ferr, 6139, "qhull internal error (qh_checkpolygon): unknown point %p for vertex v%d first_point %p\n",
                    vertex->point, vertex->id, qh first_point);
           waserror= True;
@@ -951,7 +951,7 @@ void qh_checkvertex(vertexT *vertex) {
   boolT waserror= False;
   facetT *neighbor, **neighborp, *errfacet=NULL;
 
-  if (qh_pointid(vertex->point) == -1) {
+  if (qh_pointid(vertex->point) == qh_IDunknown) {
     qh_fprintf(qh ferr, 6144, "qhull internal error (qh_checkvertex): unknown point id %p\n", vertex->point);
     waserror= True;
   }
@@ -1073,7 +1073,7 @@ void qh_createsimplex(setT *vertices) {
     ridges also freed in qh_freeqhull
 */
 void qh_delridge(ridgeT *ridge) {
-  void **freelistp; /* used !qh_NOmem */
+  void **freelistp; /* used if !qh_NOmem by qh_memfree_() */
 
   qh_setdel(ridge->top->ridges, ridge);
   qh_setdel(ridge->bottom->ridges, ridge);
@@ -1633,7 +1633,7 @@ void qh_initbuild( void) {
   realT dist;
   boolT isoutside;
 
-  qh furthest_id= -1;
+  qh furthest_id= qh_IDunknown;
   qh lastreport= 0;
   qh facet_id= qh vertex_id= qh ridge_id= 0;
   qh visit_id= qh vertex_visit= 0;
@@ -2274,16 +2274,14 @@ vertexT *qh_newvertex(pointT *point) {
   zinc_(Ztotvertices);
   vertex= (vertexT *)qh_memalloc((int)sizeof(vertexT));
   memset((char *) vertex, (size_t)0, sizeof(vertexT));
-  if (qh vertex_id == 0xFFFFFF) {
-    qh_fprintf(qh ferr, 6159, "qhull error: more than %d vertices.  ID field overflows and two vertices\n\
-may have the same identifier.  Vertices will not be sorted correctly.\n", 0xFFFFFF);
+  if (qh vertex_id == 0xFFFFFFFF) {
+    qh_fprintf(qh ferr, 6159, "qhull error: more than 2^32 vertices.  vertexT.id field overflows.  Vertices would not be sorted correctly.\n");
     qh_errexit(qh_ERRqhull, NULL, NULL);
   }
   if (qh vertex_id == qh tracevertex_id)
     qh tracevertex= vertex;
   vertex->id= qh vertex_id++;
   vertex->point= point;
-  vertex->dim= (unsigned char)(qh hull_dim <= MAX_vdim ? qh hull_dim : 0);
   trace4((qh ferr, 4060, "qh_newvertex: vertex p%d(v%d) created\n", qh_pointid(vertex->point),
           vertex->id));
   return(vertex);

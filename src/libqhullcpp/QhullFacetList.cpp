@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/QhullFacetList.cpp#8 $$Change: 1810 $
-** $DateTime: 2015/01/17 18:28:15 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullcpp/QhullFacetList.cpp#9 $$Change: 1816 $
+** $DateTime: 2015/01/21 22:51:49 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -130,6 +130,7 @@ using orgQhull::QhullVertexSet;
 ostream &
 operator<<(ostream &os, const QhullFacetList::PrintFacetList &pr)
 {
+    os << pr.print_message;
     QhullFacetList fs= *pr.facet_list;
     os << "Vertices for " << fs.count() << " facets" << endl;
     os << fs.printVertices();
@@ -144,7 +145,7 @@ operator<<(ostream &os, const QhullFacetList::PrintFacets &pr)
     for(QhullFacetList::const_iterator i= pr.facet_list->begin(); i != pr.facet_list->end(); ++i){
         QhullFacet f= *i;
         if(pr.facet_list->isSelectAll() || f.isGood()){
-            os << f.print();
+            os << f.print("");
         }
     }
     return os;

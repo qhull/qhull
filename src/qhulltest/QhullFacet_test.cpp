@@ -1,24 +1,24 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/qhulltest/QhullFacet_test.cpp#10 $$Change: 1810 $
-** $DateTime: 2015/01/17 18:28:15 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/qhulltest/QhullFacet_test.cpp#14 $$Change: 1879 $
+** $DateTime: 2015/04/18 08:36:07 $$Author: bbarber $
 **
 ****************************************************************************/
 
 //pre-compiled headers
 #include <iostream>
-#include "RoadTest.h"
+#include "qhulltest/RoadTest.h"
 
-#include "QhullFacet.h"
-#include "QhullError.h"
-#include "Coordinates.h"
-#include "RboxPoints.h"
-#include "QhullFacetList.h"
-#include "QhullFacetSet.h"
-#include "QhullPointSet.h"
-#include "QhullRidge.h"
-#include "Qhull.h"
+#include "libqhullcpp/QhullFacet.h"
+#include "libqhullcpp/QhullError.h"
+#include "libqhullcpp/Coordinates.h"
+#include "libqhullcpp/RboxPoints.h"
+#include "libqhullcpp/QhullFacetList.h"
+#include "libqhullcpp/QhullFacetSet.h"
+#include "libqhullcpp/QhullPointSet.h"
+#include "libqhullcpp/QhullRidge.h"
+#include "libqhullcpp/Qhull.h"
 
 using std::cout;
 using std::endl;
@@ -32,7 +32,7 @@ class QhullFacet_test : public RoadTest
 {
     Q_OBJECT
 
-#//Test slots
+#//!\name Test slots
 private slots:
     void cleanup();
     void t_construct_qh();
@@ -60,9 +60,9 @@ void QhullFacet_test::
 t_construct_qh()
 {
     // Qhull.runQhull() constructs QhullFacets as facetT
-    QhullQh qh;  
-    QhullFacet f(qh);
-    QVERIFY(!f.isDefined());
+    QhullQh qh;
+    QhullFacet f(&qh);
+    QVERIFY(!f.isValid());
     QCOMPARE(f.dimension(),0);
 }//t_construct_qh
 
@@ -70,23 +70,23 @@ void QhullFacet_test::
 t_constructConvert()
 {
     // Qhull.runQhull() constructs QhullFacets as facetT
-    Qhull q2;  
+    Qhull q2;
     QhullFacet f(q2);
-    QVERIFY(!f.isDefined());
+    QVERIFY(!f.isValid());
     QCOMPARE(f.dimension(),0);
     RboxPoints rcube("c");
     Qhull q(rcube,"Qt QR0");  // triangulation of rotated unit cube
     QhullFacet f2(q.beginFacet());
     QCOMPARE(f2.dimension(),3);
     f= f2; // copy assignment
-    QVERIFY(f.isDefined());
+    QVERIFY(f.isValid());
     QCOMPARE(f.dimension(),3);
     QhullFacet f5= f2;
     QVERIFY(f5==f2);
     QVERIFY(f5==f);
-    QhullFacet f3= f2.getFacetT();
+    QhullFacet f3(q, f2.getFacetT());
     QCOMPARE(f,f3);
-    QhullFacet f4= f2.getBaseT();
+    QhullFacet f4(q, f2.getBaseT());
     QCOMPARE(f,f4);
     q.checkAndFreeQhullMemory();
     q2.checkAndFreeQhullMemory();
@@ -106,7 +106,7 @@ t_getSet()
             cout << f.id() << endl;
             QCOMPARE(f.dimension(),3);
             QVERIFY(f.id()>0 && f.id()<=39);
-            QVERIFY(f.isDefined());
+            QVERIFY(f.isValid());
             if(i.hasNext()){
                 QCOMPARE(f.next(), i.peekNext());
                 QVERIFY(f.next()!=f);
@@ -114,9 +114,6 @@ t_getSet()
             QVERIFY(i.hasPrevious());
             QCOMPARE(f, i.peekPrevious());
         }
-        QhullFacetListIterator i2(i);
-        QEXPECT_FAIL("", "ListIterator copy constructor not reset to BOT", Continue);
-        QVERIFY(!i2.hasPrevious());
 
         // test tricoplanarOwner
         QhullFacet facet = q.beginFacet();
@@ -133,7 +130,7 @@ t_getSet()
         int tricoplanarCount2= 0;
         foreach (QhullFacet f, q.facetList()){  // Qt only
             QhullHyperplane h= f.hyperplane();
-            cout << "Hyperplane: " << h << endl;
+            cout << "Hyperplane: " << h;
             QCOMPARE(h.count(), 3);
             QCOMPARE(h.offset(), -0.5);
             double n= h.norm();
@@ -141,12 +138,12 @@ t_getSet()
             QhullHyperplane hi= f.innerplane();
             QCOMPARE(hi.count(), 3);
             double innerOffset= hi.offset()+0.5;
-            cout << "InnerPlane: " << hi << "innerOffset+0.5 " << innerOffset << endl;
+            cout << "InnerPlane: " << hi << "   innerOffset+0.5 " << innerOffset << endl;
             QVERIFY(innerOffset >= 0.0);
             QhullHyperplane ho= f.outerplane();
             QCOMPARE(ho.count(), 3);
             double outerOffset= ho.offset()+0.5;
-            cout << "OuterPlane: " << ho << "outerOffset+0.5 " << outerOffset << endl;
+            cout << "OuterPlane: " << ho << "   outerOffset+0.5 " << outerOffset << endl;
             QVERIFY(outerOffset <= 0.0);
             QVERIFY(outerOffset-innerOffset < 1e-7);
             for(int k= 0; k<3; k++){
@@ -154,7 +151,7 @@ t_getSet()
                 QVERIFY(ho[k]==h[k]);
             }
             QhullPoint center= f.getCenter();
-            cout << "Center: " << center << endl;
+            cout << "Center: " << center;
             double d= f.distance(center);
             QVERIFY(d < innerOffset-outerOffset);
             QhullPoint center2= f.getCenter(qh_PRINTcentrums);
@@ -162,6 +159,7 @@ t_getSet()
             if(f.tricoplanarOwner()==tricoplanarOwner){
                 tricoplanarCount2++;
             }
+            cout << endl;
         }
         QCOMPARE(tricoplanarCount2, 2);
         Qhull q2(rcube,"d Qz Qt QR0");  // 3-d triangulation of Delaunay triangulation (the cube)
@@ -169,21 +167,25 @@ t_getSet()
         QhullPoint center3= f2.getCenter(qh_PRINTtriangles);
         QCOMPARE(center3.dimension(), 3);
         QhullPoint center4= f2.getCenter();
-        QCOMPARE(center4.dimension(), 3);
+        QCOMPARE(center4.dimension(), 4);
         for(int k= 0; k<3; k++){
             QVERIFY(center4[k]==center3[k]);
         }
         Qhull q3(rcube,"v Qz QR0");  // Voronoi diagram of a cube (one vertex)
 
-        q->setFactorEpsilon(100); // Voronoi vertices are not necessarily within distance episilon
+        q3.setFactorEpsilon(100); // Voronoi vertices are not necessarily within distance episilon
+        QhullPoint origin= q3.inputOrigin();
+        int voronoiCount= 0;
         foreach(QhullFacet f, q3.facetList()){ //Qt only
             if(f.isGood()){
-                QhullPoint p= f.voronoiVertex(q3.runId());
-                cout << p.print(q3.runId(), "Voronoi vertex: ")
-                    << " DistanceEpsilon " << q->distanceEpsilon() << endl;
-                QCOMPARE(p, q3.origin());
+                ++voronoiCount;
+                QhullPoint p= f.voronoiVertex();
+                cout << p.print("Voronoi vertex: ")
+                    << " DistanceEpsilon " << q3.distanceEpsilon() << endl;
+                QCOMPARE(p, origin);
             }
         }
+        QCOMPARE(voronoiCount, 1);
         q.checkAndFreeQhullMemory();
         q2.checkAndFreeQhullMemory();
         q3.checkAndFreeQhullMemory();
@@ -209,8 +211,8 @@ t_value()
                 QVERIFY(maxoutside<1e-7);
             #endif
         }
+        q.checkAndFreeQhullMemory();
     }
-    q.checkAndFreeQhullMemory();
 }//t_value
 
 void QhullFacet_test::
@@ -242,8 +244,8 @@ t_foreach()
             QCOMPARE(ridgeCount, 4);
         }
         QCOMPARE(coplanarCount, 300);
+        q.checkAndFreeQhullMemory();
     }
-    q.checkAndFreeQhullMemory();
 }//t_foreach
 
 void QhullFacet_test::
@@ -255,25 +257,28 @@ t_io()
         QhullFacet f= q.beginFacet();
         cout << f;
         ostringstream os;
+        os << f.print("\nWith a message\n");
+        os << "\nPrint header for the same facet\n";
         os << f.printHeader();
+        os << "\nPrint each component\n";
         os << f.printFlags("    - flags:");
-        os << f.printCenter(qh_PRINTfacets, "    - center:");
+        os << f.printCenter(qh_PRINTfacets, "    - center: ");
         os << f.printRidges();
         cout << os.str();
         ostringstream os2;
-        os2 << f.print();  // invokes print*()
+        os2 << f;
         QString facetString2= QString::fromStdString(os2.str());
         facetString2.replace(QRegExp("\\s\\s+"), " ");
         ostringstream os3;
-        q.setOutputStream(&os3);
+        q.qh()->setOutputStream(&os3);
         q.outputQhull("f");
         QString facetsString= QString::fromStdString(os3.str());
         QString facetString3= facetsString.mid(facetsString.indexOf("- f1\n"));
         facetString3= facetString3.left(facetString3.indexOf("\n- f")+1);
         facetString3.replace(QRegExp("\\s\\s+"), " ");
         QCOMPARE(facetString2, facetString3);
+        q.checkAndFreeQhullMemory();
     }
-    q.checkAndFreeQhullMemory();
 }//t_io
 
 // toQhullFacet is static_cast only

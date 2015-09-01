@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2009-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/QhullPoints.h#12 $$Change: 1810 $
-** $DateTime: 2015/01/17 18:28:15 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullcpp/QhullPoints.h#17 $$Change: 1931 $
+** $DateTime: 2015/07/12 21:29:14 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -11,9 +11,10 @@
 
 #include "QhullPoint.h"
 extern "C" {
-    #include "libqhullr/qhull_ra.h"
+    #include "libqhull_r/qhull_ra.h"
 }
 
+#include <cstddef>  // ptrdiff_t, size_t
 #include <ostream>
 
 namespace orgQhull {
@@ -22,6 +23,8 @@ namespace orgQhull {
     class QhullPoints;          //!< One or more points Coordinate pointers with dimension and iterators
     class QhullPointsIterator;  //!< Java-style iterator
 
+//! QhullPoints are an array of QhullPoint as pointers into an array of coordinates.
+//! For Qhull/QhullQh, QhullPoints must use hull_dim.  Can change QhullPoint to input_dim if needed for Delaunay input site
 class QhullPoints {
 
 private:
@@ -29,6 +32,7 @@ private:
     coordT *            point_first; //!< First coordinate of an array of points of point_dimension
     coordT *            point_end;   //!< End of point coordinates (end>=first).  Trailing coordinates ignored
     QhullQh *           qh_qh;       //!< Maybe initialized NULL to allow ownership by RboxPoints
+                                     //!< qh_qh used for QhullPoint() and qh_qh->hull_dim in constructor
     int                 point_dimension;  //!< Dimension, >=0
 
 public:
@@ -39,12 +43,17 @@ public:
     typedef QhullPoints::iterator       Iterator;
 
 #//!\name Construct
+    //! QhullPoint, PointCoordinates, and QhullPoints have similar constructors
+    //! If Qhull/QhullQh is not initialized, then QhullPoints.dimension() is zero unless explicitly set
+    //! Cannot define QhullPoints(int pointDimension) since it is ambiguous with QhullPoints(QhullQh *qqh)
+                        QhullPoints() : point_first(0), point_end(0), qh_qh(0), point_dimension(0) { }
+                        QhullPoints(int pointDimension, countT coordinateCount2, coordT *c) : point_first(c), point_end(c+coordinateCount2), qh_qh(0), point_dimension(pointDimension) { QHULL_ASSERT(pointDimension>=0); }
     explicit            QhullPoints(const Qhull &q);
-                        QhullPoints(const Qhull &q, int pointDimension);
+                        QhullPoints(const Qhull &q, countT coordinateCount2, coordT *c);
                         QhullPoints(const Qhull &q, int pointDimension, countT coordinateCount2, coordT *c);
-    explicit            QhullPoints(QhullQh *qh) : point_first(0), point_end(0), qh_qh(qh), point_dimension(qh ? qh->hull_dim : 0) {}
-                        QhullPoints(QhullQh *qh, int pointDimension) : point_first(0), point_end(0), qh_qh(qh), point_dimension(pointDimension) { QHULL_ASSERT(pointDimension>=0); }
-                        QhullPoints(QhullQh *qh, int pointDimension, countT coordinateCount2, coordT *c);
+    explicit            QhullPoints(QhullQh *qqh) : point_first(0), point_end(0), qh_qh(qqh), point_dimension(qqh ? qqh->hull_dim : 0) { }
+                        QhullPoints(QhullQh *qqh, countT coordinateCount2, coordT *c) : point_first(c), point_end(c+coordinateCount2), qh_qh(qqh), point_dimension(qqh ? qqh->hull_dim : 0) { QHULL_ASSERT(qqh && qqh->hull_dim>0); }
+                        QhullPoints(QhullQh *qqh, int pointDimension, countT coordinateCount2, coordT *c);
                         //! Copy constructor copies pointers but not contents.  Needed for return by value and parameter passing.
                         QhullPoints(const QhullPoints &other)  : point_first(other.point_first), point_end(other.point_end), qh_qh(other.qh_qh), point_dimension(other.point_dimension) {}
     QhullPoints &       operator=(const QhullPoints &other) { point_first= other.point_first; point_end= other.point_end; qh_qh= other.qh_qh; point_dimension= other.point_dimension; return *this; }
@@ -68,30 +77,31 @@ public:
     Iterator            begin() { return Iterator(*this); }
     ConstIterator       constBegin() const { return ConstIterator(*this); }
     const coordT *      constData() const { return point_first; }
-    ConstIterator       constEnd() const { return ConstIterator(qh_qh, point_end); }
+    ConstIterator       constEnd() const { return ConstIterator(qh_qh, point_dimension, point_end); }
     coordT *            coordinates() const { return point_first; }
     countT              coordinateCount() const { return (countT)(point_end-point_first); } // WARN64
     countT              count() const { return (countT)size(); } // WARN64
     coordT *            data() { return point_first; }
     const coordT *      data() const { return point_first; }
-    void                defineAs(countT coordinatesCount, coordT *c) { QHULL_ASSERT((coordinatesCount>=0 && c!=0) || (c==0 && coordinatesCount==0)); point_first= c; point_end= c+coordinatesCount; }
+    void                defineAs(int pointDimension, countT coordinatesCount, coordT *c) { QHULL_ASSERT(pointDimension>=0 && coordinatesCount>=0 && c!=0); point_first= c; point_end= c+coordinatesCount; point_dimension= pointDimension; }
+    void                defineAs(countT coordinatesCount, coordT *c) { QHULL_ASSERT((point_dimension>0 && coordinatesCount>=0 && c!=0) || (c==0 && coordinatesCount==0)); point_first= c; point_end= c+coordinatesCount; }
     void                defineAs(const QhullPoints &other) { point_first= other.point_first; point_end= other.point_end; qh_qh= other.qh_qh; point_dimension= other.point_dimension; }
     int                 dimension() const { return point_dimension; }
-    ConstIterator       end() const { return ConstIterator(qh_qh, point_end); }
-    Iterator            end() { return Iterator(qh_qh, point_end); }
+    ConstIterator       end() const { return ConstIterator(qh_qh, point_dimension, point_end); }
+    Iterator            end() { return Iterator(qh_qh, point_dimension, point_end); }
     coordT *            extraCoordinates() const { return extraCoordinatesCount() ? (point_end-extraCoordinatesCount()) : 0; }
     countT              extraCoordinatesCount() const;  // WARN64
     QhullPoint          first() const { return QhullPoint(qh_qh, point_dimension, point_first); }
     QhullPoint          front() const { return first(); }
     bool                includesCoordinates(const coordT *c) const { return c>=point_first && c<point_end; }
-    bool                isEmpty() const { return point_end==point_first; }
+    bool                isEmpty() const { return (point_end==point_first || point_dimension==0); }
     QhullPoint          last() const { QHULL_ASSERT(point_first!=0); return QhullPoint(qh_qh, point_dimension, point_end - point_dimension); }
     bool                operator==(const QhullPoints &other) const;
-    bool                operator!=(const QhullPoints &other) const { return !operator==(other); }
+    bool                operator!=(const QhullPoints &other) const { return ! operator==(other); }
     QhullPoint          operator[](countT idx) const { return at(idx); }
     QhullQh *           qh() const { return qh_qh; }
+    void                resetQhullQh(QhullQh *qqh);
     void                setDimension(int d) { point_dimension= d; }
-    void                setQhullQh(QhullQh *qh);
     size_t              size() const { return point_dimension ? (point_end-point_first)/point_dimension : 0; }
     QhullPoint          value(countT idx) const;
     // Non-const since copy is an alias
@@ -121,25 +131,26 @@ public:
         typedef ptrdiff_t       difference_type;
 
         explicit        iterator(const QhullPoints &ps) : QhullPoint(ps.qh(), ps.dimension(), ps.coordinates()) {}
+                        iterator(const int pointDimension, coordT *c): QhullPoint(pointDimension, c) {}
                         iterator(const Qhull &q, coordT *c): QhullPoint(q, c) {}
                         iterator(const Qhull &q, int pointDimension, coordT *c): QhullPoint(q, pointDimension, c) {}
-                        iterator(QhullQh *qh, coordT *c): QhullPoint(qh, c) {}
-                        iterator(QhullQh *qh, int pointDimension, coordT *c): QhullPoint(qh, pointDimension, c) {}
+                        iterator(QhullQh *qqh, coordT *c): QhullPoint(qqh, c) {}
+                        iterator(QhullQh *qqh, int pointDimension, coordT *c): QhullPoint(qqh, pointDimension, c) {}
                         iterator(const iterator &other): QhullPoint(*other) {}
         iterator &      operator=(const iterator &other) { defineAs( const_cast<iterator &>(other)); return *this; }
- 
+
         QhullPoint *    operator->() { return this; }
         // value instead of reference since advancePoint() modifies self
         QhullPoint      operator*() const { return *this; }
         QhullPoint      operator[](countT idx) const { QhullPoint n= *this; n.advancePoint(idx); return n; }
-        bool            operator==(const iterator &o) const { return point_coordinates==o.point_coordinates; }
+        bool            operator==(const iterator &o) const { QHULL_ASSERT(qh_qh==o.qh_qh); return (point_coordinates==o.point_coordinates && point_dimension==o.point_dimension); }
         bool            operator!=(const iterator &o) const { return !operator==(o); }
-        bool            operator<(const iterator &o) const  { return point_coordinates < o.point_coordinates; }
-        bool            operator<=(const iterator &o) const { return point_coordinates <= o.point_coordinates; }
-        bool            operator>(const iterator &o) const  { return point_coordinates > o.point_coordinates; }
-        bool            operator>=(const iterator &o) const { return point_coordinates >= o.point_coordinates; }
+        bool            operator<(const iterator &o) const  { QHULL_ASSERT(qh_qh==o.qh_qh); return point_coordinates < o.point_coordinates; }
+        bool            operator<=(const iterator &o) const { QHULL_ASSERT(qh_qh==o.qh_qh); return point_coordinates <= o.point_coordinates; }
+        bool            operator>(const iterator &o) const  { QHULL_ASSERT(qh_qh==o.qh_qh); return point_coordinates > o.point_coordinates; }
+        bool            operator>=(const iterator &o) const { QHULL_ASSERT(qh_qh==o.qh_qh); return point_coordinates >= o.point_coordinates; }
         // reinterpret_cast to break circular dependency
-        bool            operator==(const QhullPoints::const_iterator &o) const { QHULL_ASSERT(qh_qh==reinterpret_cast<const iterator &>(o).qh_qh); return point_coordinates==reinterpret_cast<const iterator &>(o).point_coordinates; }
+        bool            operator==(const QhullPoints::const_iterator &o) const { QHULL_ASSERT(qh_qh==reinterpret_cast<const iterator &>(o).qh_qh); return (point_coordinates==reinterpret_cast<const iterator &>(o).point_coordinates && point_dimension==reinterpret_cast<const iterator &>(o).point_dimension); }
         bool            operator!=(const QhullPoints::const_iterator &o) const { return !operator==(reinterpret_cast<const iterator &>(o)); }
         bool            operator<(const QhullPoints::const_iterator &o) const  { QHULL_ASSERT(qh_qh==reinterpret_cast<const iterator &>(o).qh_qh); return point_coordinates < reinterpret_cast<const iterator &>(o).point_coordinates; }
         bool            operator<=(const QhullPoints::const_iterator &o) const { QHULL_ASSERT(qh_qh==reinterpret_cast<const iterator &>(o).qh_qh); return point_coordinates <= reinterpret_cast<const iterator &>(o).point_coordinates; }
@@ -157,7 +168,7 @@ public:
     };//QhullPoints::iterator
 
 #//!\name QhullPoints::const_iterator
-    //!\todo FIXUP QH11018 const_iterator same as iterator
+    //!\todo FIXUP QH11018 const_iterator same as iterator.  SHould have a common definition
     class const_iterator : public QhullPoint {
 
     public:
@@ -169,10 +180,11 @@ public:
 
                         const_iterator(const QhullPoints::iterator &o) : QhullPoint(*o) {}
         explicit        const_iterator(const QhullPoints &ps) : QhullPoint(ps.qh(), ps.dimension(), ps.coordinates()) {}
+                        const_iterator(const int pointDimension, coordT *c): QhullPoint(pointDimension, c) {}
                         const_iterator(const Qhull &q, coordT *c): QhullPoint(q, c) {}
                         const_iterator(const Qhull &q, int pointDimension, coordT *c): QhullPoint(q, pointDimension, c) {}
-                        const_iterator(QhullQh *qh, coordT *c): QhullPoint(qh, c) {}
-                        const_iterator(QhullQh *qh, int pointDimension, coordT *c): QhullPoint(qh, pointDimension, c) {}
+                        const_iterator(QhullQh *qqh, coordT *c): QhullPoint(qqh, c) {}
+                        const_iterator(QhullQh *qqh, int pointDimension, coordT *c): QhullPoint(qqh, pointDimension, c) {}
                         const_iterator(const const_iterator &o) : QhullPoint(*o) {}
         const_iterator &operator=(const const_iterator &o) { defineAs(const_cast<const_iterator &>(o)); return *this; }
 
@@ -180,12 +192,12 @@ public:
         QhullPoint      operator*() const { return *this; }
         QhullPoint *    operator->() { return this; }
         QhullPoint      operator[](countT idx) const { QhullPoint n= *this; n.advancePoint(idx); return n; }
-        bool            operator==(const const_iterator &o) const { return point_coordinates==o.point_coordinates; }
-        bool            operator!=(const const_iterator &o) const { return !operator==(o); }
-        bool            operator<(const const_iterator &o) const  { return point_coordinates < o.point_coordinates; }
-        bool            operator<=(const const_iterator &o) const { return point_coordinates <= o.point_coordinates; }
-        bool            operator>(const const_iterator &o) const  { return point_coordinates > o.point_coordinates; }
-        bool            operator>=(const const_iterator &o) const { return point_coordinates >= o.point_coordinates; }
+        bool            operator==(const const_iterator &o) const { QHULL_ASSERT(qh_qh==o.qh_qh); return (point_coordinates==o.point_coordinates && point_dimension==o.point_dimension); }
+        bool            operator!=(const const_iterator &o) const { return ! operator==(o); }
+        bool            operator<(const const_iterator &o) const  { QHULL_ASSERT(qh_qh==o.qh_qh); return point_coordinates < o.point_coordinates; }
+        bool            operator<=(const const_iterator &o) const { QHULL_ASSERT(qh_qh==o.qh_qh); return point_coordinates <= o.point_coordinates; }
+        bool            operator>(const const_iterator &o) const  { QHULL_ASSERT(qh_qh==o.qh_qh); return point_coordinates > o.point_coordinates; }
+        bool            operator>=(const const_iterator &o) const { QHULL_ASSERT(qh_qh==o.qh_qh); return point_coordinates >= o.point_coordinates; }
         const_iterator &operator++() { advancePoint(1); return *this; }
         const_iterator  operator++(int) { const_iterator n= *this; operator++(); return const_iterator(n); }
         const_iterator &operator--() { advancePoint(-1); return *this; }
@@ -204,10 +216,8 @@ public:
         bool            with_identifier;
         PrintPoints(const char *message, bool withIdentifier, const QhullPoints &ps) : points(&ps), point_message(message), with_identifier(withIdentifier) {}
     };//PrintPoints
-    PrintPoints          print() const { return  PrintPoints("", false, *this); }
     PrintPoints          print(const char *message) const { return PrintPoints(message, false, *this); }
     PrintPoints          printWithIdentifier(const char *message) const { return PrintPoints(message, true, *this); }
-    //FIXUP remove message for print()?
 };//QhullPoints
 
 // Instead of QHULL_DECLARE_SEQUENTIAL_ITERATOR because next(),etc would return a reference to a temporary

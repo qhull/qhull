@@ -90,17 +90,17 @@ int qh_rboxpoints(FILE* fout, FILE* ferr, char* rbox_command) {
   int i,j,k;
   int gendim;
   int cubesize, diamondsize, seed=0, count, apex;
-  int dim=3 , numpoints= 0, totpoints, addpoints=0;
-  int issphere=0, isaxis=0,  iscdd= 0, islens= 0, isregular=0, iswidth=0, addcube=0;
-  int isgap=0, isspiral=0, NOcommand= 0, adddiamond=0;
+  int dim=3, numpoints=0, totpoints, addpoints=0;
+  int issphere=0, isaxis=0,  iscdd=0, islens=0, isregular=0, iswidth=0, addcube=0;
+  int isgap=0, isspiral=0, NOcommand=0, adddiamond=0;
   int israndom=0, istime=0;
   int isbox=0, issimplex=0, issimplex2=0, ismesh=0;
-  double width=0.0, gap=0.0, radius= 0.0;
+  double width=0.0, gap=0.0, radius=0.0;
   double coord[MAXdim], offset, meshm=3.0, meshn=4.0, meshr=5.0;
   double *simplex= NULL, *simplexp;
   int nthroot, mult[MAXdim];
-  double norm, factor, randr, rangap, lensangle= 0, lensbase= 1;
-  double anglediff, angle, x, y, cube= 0.0, diamond= 0.0;
+  double norm, factor, randr, rangap, lensangle=0, lensbase=1;
+  double anglediff, angle, x, y, cube=0.0, diamond=0.0;
   double box= qh_DEFAULTbox; /* scale all numbers before output */
   double randmax= qh_RANDOMmax;
   char command[200], seedbuf[200];
@@ -118,7 +118,7 @@ int qh_rboxpoints(FILE* fout, FILE* ferr, char* rbox_command) {
 
   exitcode= setjmp(rbox.errexit);
   if (exitcode) {
-    /* same code for error exit and normal return */
+    /* same code for error exit and normal return.  qh.NOerrexit is set */
     if (simplex)
         qh_free(simplex);
     rbox_inuse= False;
@@ -366,6 +366,7 @@ int qh_rboxpoints(FILE* fout, FILE* ferr, char* rbox_command) {
   else if (NOcommand)
       qh_fprintf_rbox(rbox.fout, 9392, "%d\n%d\n", dim, totpoints);
   else
+      /* qh_fprintf_rbox special cases 9393 to append 'command' to the RboxPoints.comment() */
       qh_fprintf_rbox(rbox.fout, 9393, "%d %s\n%d\n", dim, command, totpoints);
 
   /* ============= explicit points =============== */
@@ -640,7 +641,7 @@ int qh_rboxpoints(FILE* fout, FILE* ferr, char* rbox_command) {
       }else if (isspiral) {
         if (dim != 3) {
           qh_fprintf_rbox(rbox.ferr, 6199, "rbox error: spiral distribution is available only in 3d\n\n");
-          qh_errexit_rbox(qh, qh_ERRinput);
+          qh_errexit_rbox(qh_ERRinput);
         }
         coord[0]= cos(2*PI*i/(numpoints - 1));
         coord[1]= sin(2*PI*i/(numpoints - 1));

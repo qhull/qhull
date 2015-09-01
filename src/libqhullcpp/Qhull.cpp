@@ -1,13 +1,13 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/Qhull.cpp#16 $$Change: 1810 $
-** $DateTime: 2015/01/17 18:28:15 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullcpp/Qhull.cpp#23 $$Change: 1951 $
+** $DateTime: 2015/08/30 21:30:30 $$Author: bbarber $
 **
 ****************************************************************************/
 
 #//! Qhull -- invoke qhull from C++
-#//! Compile libqhull and Qhull together due to use of setjmp/longjmp()
+#//! Compile libqhull_r and Qhull together due to use of setjmp/longjmp()
 
 #include "QhullError.h"
 #include "RboxPoints.h"
@@ -16,7 +16,7 @@
 #include "QhullFacetList.h"
 #include "Qhull.h"
 extern "C" {
-    #include "libqhullr/qhull_ra.h"
+    #include "libqhull_r/qhull_ra.h"
 }
 
 #include <iostream>
@@ -33,23 +33,23 @@ using std::ostream;
 
 namespace orgQhull {
 
-#//Global variables
+#//!\name Global variables
 
 const char s_unsupported_options[]=" Fd TI ";
 const char s_not_output_options[]= " Fd TI A C d E H P Qb QbB Qbb Qc Qf Qg Qi Qm QJ Qr QR Qs Qt Qv Qx Qz Q0 Q1 Q2 Q3 Q4 Q5 Q6 Q7 Q8 Q9 Q10 Q11 R Tc TC TM TP TR Tv TV TW U v V W ";
 
-#//Constructor, destructor, etc.
+#//!\name Constructor, destructor, etc.
 Qhull::
 Qhull()
 : qh_qh(0)
 , origin_point()
 , run_called(false)
-, feasiblePoint()
+, feasible_point()
 {
     allocateQhullQh();
 }//Qhull
 
-//! Invokes Qhull on rboxPoints 
+//! Invokes Qhull on rboxPoints
 //! Same as runQhull()
 //! For rbox commands, see http://www.qhull.org/html/rbox.htm or html/rbox.htm
 //! For qhull commands, see http://www.qhull.org/html/qhull.htm or html/qhull.htm
@@ -58,7 +58,7 @@ Qhull(const RboxPoints &rboxPoints, const char *qhullCommand2)
 : qh_qh(0)
 , origin_point()
 , run_called(false)
-, feasiblePoint()
+, feasible_point()
 {
     allocateQhullQh();
     runQhull(rboxPoints, qhullCommand2);
@@ -68,22 +68,28 @@ Qhull(const RboxPoints &rboxPoints, const char *qhullCommand2)
 //! Same as runQhull()
 //! For qhull commands, see http://www.qhull.org/html/qhull.htm or html/qhull.htm
 Qhull::
-Qhull(const char *inputComment, int pointDimension, int pointCount, const realT *pointCoordinates, const char *qhullCommand2)
+Qhull(const char *inputComment2, int pointDimension, int pointCount, const realT *pointCoordinates, const char *qhullCommand2)
 : qh_qh(0)
 , origin_point()
 , run_called(false)
-, feasiblePoint()
+, feasible_point()
 {
     allocateQhullQh();
-    runQhull(inputComment, pointDimension, pointCount, pointCoordinates, qhullCommand2);
+    runQhull(inputComment2, pointDimension, pointCount, pointCoordinates, qhullCommand2);
 }//Qhull points
 
 void Qhull::
 allocateQhullQh()
 {
+    QHULL_LIB_CHECK
+
     qh_qh= new QhullQh;
-    if(qh_qh!=static_cast<qhT *>(qh_qh)){
-        throw QhullError(10074, "Qhull error: QhullQh at a different address than base type QhT (%d bytes).  Please report compiler to qhull.org", (int)(static_cast<qhT *>(qh_qh)-qh_qh));
+    void *p= qh_qh;
+    void *p2= static_cast<qhT *>(qh_qh);
+    char *s= static_cast<char *>(p);
+    char *s2= static_cast<char *>(p2);
+    if(s!=s2){
+        throw QhullError(10074, "Qhull error: QhullQh at a different address than base type QhT (%d bytes).  Please report compiler to qhull.org", int(s2-s));
     }
 }//allocateQhullQh
 
@@ -110,7 +116,30 @@ checkIfQhullInitialized()
     }
 }//checkIfQhullInitialized
 
-#//GetValue
+//! Return feasiblePoint for halfspace intersection
+//! If called before runQhull(), then it returns the value from setFeasiblePoint.  qh.feasible_string overrides this value if it is defined.
+Coordinates Qhull::
+feasiblePoint() const
+{
+    Coordinates result;
+    if(qh_qh->feasible_point){
+        result.append(qh_qh->hull_dim, qh_qh->feasible_point);
+    }else{
+        result= feasible_point;
+    }
+    return result;
+}//feasiblePoint
+
+//! Return origin point for qh.input_dim
+QhullPoint Qhull::
+inputOrigin()
+{
+    QhullPoint result= origin();
+    result.setDimension(qh_qh->input_dim);
+    return result;
+}//inputOrigin
+
+#//!\name GetValue
 
 double Qhull::
 area(){
@@ -119,6 +148,7 @@ area(){
         QH_TRY_(qh_qh){ // no object creation -- destructors skipped on longjmp()
             qh_getarea(qh_qh, qh_qh->facet_list);
         }
+        qh_qh->NOerrexit= true;
         qh_qh->maybeThrowQhullMessage(QH_TRY_status);
     }
     return qh_qh->totarea;
@@ -131,6 +161,7 @@ volume(){
         QH_TRY_(qh_qh){ // no object creation -- destructors skipped on longjmp()
             qh_getarea(qh_qh, qh_qh->facet_list);
         }
+        qh_qh->NOerrexit= true;
         qh_qh->maybeThrowQhullMessage(QH_TRY_status);
     }
     return qh_qh->totvol;
@@ -148,6 +179,7 @@ defineVertexNeighborFacets(){
         QH_TRY_(qh_qh){ // no object creation -- destructors skipped on longjmp()
             qh_vertexneighbors(qh_qh);
         }
+        qh_qh->NOerrexit= true;
         qh_qh->maybeThrowQhullMessage(QH_TRY_status);
     }
 }//defineVertexNeighborFacets
@@ -184,6 +216,7 @@ outputQhull()
     QH_TRY_(qh_qh){ // no object creation -- destructors skipped on longjmp()
         qh_produce_output2(qh_qh);
     }
+    qh_qh->NOerrexit= true;
     qh_qh->maybeThrowQhullMessage(QH_TRY_status);
 }//outputQhull
 
@@ -216,6 +249,7 @@ outputQhull(const char *outputflags)
             qh_check_points(qh_qh);
         }
     }
+    qh_qh->NOerrexit= true;
     qh_qh->maybeThrowQhullMessage(QH_TRY_status);
 }//outputQhull
 
@@ -231,7 +265,7 @@ runQhull(const RboxPoints &rboxPoints, const char *qhullCommand2)
 //! For rbox commands, see http://www.qhull.org/html/rbox.htm or html/rbox.htm
 //! For qhull commands, see http://www.qhull.org/html/qhull.htm or html/qhull.htm
 void Qhull::
-runQhull(const char *inputComment, int pointDimension, int pointCount, const realT *pointCoordinates, const char *qhullCommand2)
+runQhull(const char *inputComment2, int pointDimension, int pointCount, const realT *pointCoordinates, const char *qhullCommand2)
 {
     if(run_called){
         throw QhullError(10027, "Qhull error: runQhull called twice.  Only one call allowed.");
@@ -240,21 +274,21 @@ runQhull(const char *inputComment, int pointDimension, int pointCount, const rea
     string s("qhull ");
     s += qhullCommand2;
     char *command= const_cast<char*>(s.c_str());
-    /* FIXUP
-    int QH_TRY_status; 
-    if(qh_qh->NOerrexit){ 
-        qh_qh->NOerrexit= False; 
-        QH_TRY_status= setjmp(qh_qh->errexit); 
-    }else{ 
-    QH_TRY_status= QH_TRY_ERROR; 
-    } 
-    if(!QH_TRY_status){ 
-*/
+    /************* Expansion of QH_TRY_ for debugging
+    int QH_TRY_status;
+    if(qh_qh->NOerrexit){
+        qh_qh->NOerrexit= False;
+        QH_TRY_status= setjmp(qh_qh->errexit);
+    }else{
+        QH_TRY_status= QH_TRY_ERROR;
+    }
+    if(!QH_TRY_status){
+    *************/
     QH_TRY_(qh_qh){ // no object creation -- destructors are skipped on longjmp()
         qh_checkflags(qh_qh, command, const_cast<char *>(s_unsupported_options));
         qh_initflags(qh_qh, command);
         *qh_qh->rbox_command= '\0';
-        strncat( qh_qh->rbox_command, inputComment, sizeof(qh_qh->rbox_command)-1);
+        strncat( qh_qh->rbox_command, inputComment2, sizeof(qh_qh->rbox_command)-1);
         if(qh_qh->DELAUNAY){
             qh_qh->PROJECTdelaunay= True;   // qh_init_B() calls qh_projectinput()
         }
@@ -275,26 +309,30 @@ runQhull(const char *inputComment, int pointDimension, int pointCount, const rea
             qh_check_points(qh_qh);
         }
     }
+    qh_qh->NOerrexit= true;
     for(int k= qh_qh->hull_dim; k--; ){  // Do not move into QH_TRY block.  It may throw an error
         origin_point << 0.0;
     }
     qh_qh->maybeThrowQhullMessage(QH_TRY_status);
 }//runQhull
 
-#//Helpers -- be careful of allocating C++ objects due to setjmp/longjmp() error handling by qh_... routines
+#//!\name Helpers -- be careful of allocating C++ objects due to setjmp/longjmp() error handling by qh_... routines
 
+//! initialize qh.feasible_point for half-space intersection
+//! Sets from qh.feasible_string if available, otherwise from Qhull::feasible_point
+//! called only once from runQhull(), otherwise it leaks memory (the same as qh_setFeasible)
 void Qhull::
 initializeFeasiblePoint(int hulldim)
 {
     if(qh_qh->feasible_string){
         qh_setfeasible(qh_qh, hulldim);
     }else{
-        if(feasiblePoint.isEmpty()){
-            qh_fprintf(qh_qh, qh_qh->ferr, 6209, "qhull error: missing feasible point for halfspace intersection.  Use option 'Hn,n' or set qh_qh.feasiblePoint\n");
+        if(feasible_point.isEmpty()){
+            qh_fprintf(qh_qh, qh_qh->ferr, 6209, "qhull error: missing feasible point for halfspace intersection.  Use option 'Hn,n' or Qhull::setFeasiblePoint before runQhull()\n");
             qh_errexit(qh_qh, qh_ERRmem, NULL, NULL);
         }
-        if(feasiblePoint.size()!=(size_t)hulldim){
-            qh_fprintf(qh_qh, qh_qh->ferr, 6210, "qhull error: dimension of feasiblePoint should be %d.  It is %u", hulldim, feasiblePoint.size());
+        if(feasible_point.size()!=(size_t)hulldim){
+            qh_fprintf(qh_qh, qh_qh->ferr, 6210, "qhull error: dimension of feasiblePoint should be %d.  It is %u", hulldim, feasible_point.size());
             qh_errexit(qh_qh, qh_ERRmem, NULL, NULL);
         }
         if (!(qh_qh->feasible_point= (coordT*)qh_malloc(hulldim * sizeof(coordT)))) {
@@ -303,7 +341,7 @@ initializeFeasiblePoint(int hulldim)
         }
         coordT *t= qh_qh->feasible_point;
         // No qh_... routines after here -- longjmp() ignores destructor
-        for(Coordinates::ConstIterator p=feasiblePoint.begin(); p<feasiblePoint.end(); p++){
+        for(Coordinates::ConstIterator p=feasible_point.begin(); p<feasible_point.end(); p++){
             *t++= *p;
         }
     }

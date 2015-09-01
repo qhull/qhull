@@ -1,19 +1,20 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/qhulltest/QhullFacetSet_test.cpp#7 $$Change: 1810 $
-** $DateTime: 2015/01/17 18:28:15 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/qhulltest/QhullFacetSet_test.cpp#12 $$Change: 1880 $
+** $DateTime: 2015/04/19 21:29:35 $$Author: bbarber $
 **
 ****************************************************************************/
 
 //pre-compiled headers
 #include <iostream>
-#include "RoadTest.h"
+#include "qhulltest/RoadTest.h"
 
-#include "QhullFacetSet.h"
-#include "QhullError.h"
-#include "QhullFacet.h"
-#include "Qhull.h"
+#include "libqhullcpp/QhullFacetSet.h"
+#include "libqhullcpp/QhullError.h"
+#include "libqhullcpp/QhullFacet.h"
+#include "libqhullcpp/Qhull.h"
+#include "libqhullcpp/RboxPoints.h"
 
 using std::cout;
 using std::endl;
@@ -27,7 +28,7 @@ class QhullFacetSet_test : public RoadTest
 {
     Q_OBJECT
 
-#//Test slots
+#//!\name Test slots
 private slots:
     void cleanup();
     void t_construct();
@@ -61,7 +62,7 @@ t_construct()
     QCOMPARE(fs2.count(),4);
     QhullFacetSet fs4= fs2; // copy constructor
     QVERIFY(fs4==fs2);
-    QhullFacetSet fs3(q.qhullQh()->facet_mergeset);
+    QhullFacetSet fs3(q, q.qh()->facet_mergeset);
     QVERIFY(fs3.isEmpty());
     q.checkAndFreeQhullMemory();
 }//t_construct
@@ -126,7 +127,7 @@ t_foreach()
     QVERIFY(!fs.contains(q.firstFacet()));
     QVERIFY(fs.contains(fs.first()));
     QhullFacet f= q.firstFacet().next();
-    if(!fs.contains(f)){
+    if(!fs.contains(f)){  // check if 'f' is the facet opposite firstFacet()
         f= f.next();
     }
     QVERIFY(fs.contains(f));

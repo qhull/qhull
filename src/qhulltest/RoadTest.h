@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/qhulltest/RoadTest.h#3 $$Change: 1810 $
-** $Date: 2015/01/17 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/qhulltest/RoadTest.h#4 $$Change: 1868 $
+** $Date: 2015/03/26 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -30,7 +30,7 @@ Template:
 class Name_test : public RoadTest
 {
     Q_OBJECT
-#//Test slot
+#//!\name Test slot
 private slots:
     void t_name();
     //Executed before any test
@@ -72,7 +72,7 @@ public:
     RoadTest()  { s_testcases.append(this); }
     ~RoadTest() { s_testcases.removeAll(this); }
 
-#//Helper
+#//!\name Helper
     void                recordFailedTest();
 
 

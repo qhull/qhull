@@ -13,7 +13,12 @@ if ! qconvex >/dev/null 2>&1; then
 	PATH=$PWD/bin:$PATH
     fi
 fi
-mkdir -p
+mkdir -p eg
+echo ==============================
+echo ========= eg/q_egtest ========
+echo == Create geomview tests =====
+echo ==============================
+echo
 set -v
 rbox d D3 | qconvex s Gnrv Tc Tv >eg/eg.t01.spheres.3
 rbox d D2 | qconvex s Gnv  Tc Tv >eg/eg.t02.spheres.2

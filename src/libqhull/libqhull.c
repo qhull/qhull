@@ -11,8 +11,8 @@
    see qhull_a.h for internal functions
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2011/qhull/src/libqhull/libqhull.c#7 $$Change: 1810 $
-   $DateTime: 2015/01/17 18:28:15 $$Author: bbarber $
+   $Id: //main/2011/qhull/src/libqhull/libqhull.c#9 $$Change: 1951 $
+   $DateTime: 2015/08/30 21:30:30 $$Author: bbarber $
 */
 
 #include "qhull_a.h"
@@ -174,7 +174,7 @@ boolT qh_addpoint(pointT *furthest, facetT *facet, boolT checkdist) {
   int numpart, numpoints, numnew, firstnew;
 
   qh maxoutdone= False;
-  if (qh_pointid(furthest) == -1)
+  if (qh_pointid(furthest) == qh_IDunknown)
     qh_setappend(&qh other_points, furthest);
   if (!facet) {
     qh_fprintf(qh ferr, 6213, "qhull internal error (qh_addpoint): NULL facet.  Need to call qh_findbestfacet first\n");
@@ -296,7 +296,7 @@ void qh_build_withrestart(void) {
       zzinc_(Zretry);
       wmax_(Wretrymax, qh JOGGLEmax);
       /* QH7078 warns about using 'TCn' with 'QJn' */
-      qh STOPcone= -1; /* if break from joggle, prevents normal output */
+      qh STOPcone= qh_IDunknown; /* if break from joggle, prevents normal output */
     }
     if (!qh RERUN && qh JOGGLEmax < REALmax/2) {
       if (qh build_cnt > qh_JOGGLEmaxretry) {
@@ -322,7 +322,7 @@ void qh_build_withrestart(void) {
     qh_option("_run", &qh build_cnt, NULL);
     if (qh build_cnt == qh RERUN) {
       qh IStracing= qh TRACElastrun;  /* duplicated from qh_initqhull_globals */
-      if (qh TRACEpoint != -1 || qh TRACEdist < REALmax/2 || qh TRACEmerge) {
+      if (qh TRACEpoint != qh_IDunknown || qh TRACEdist < REALmax/2 || qh TRACEmerge) {
         qh TRACElevel= (qh IStracing? qh IStracing : 3);
         qh IStracing= 0;
       }
@@ -458,7 +458,7 @@ At %02d:%02d:%02d & %2.5g CPU secs, qhull has created %d facets and merged %d.\n
   if (qh TRACEpoint == furthestid) {
     qh IStracing= qh TRACElevel;
     qhmem.IStracing= qh TRACElevel;
-  }else if (qh TRACEpoint != -1 && qh TRACEdist < REALmax/2) {
+  }else if (qh TRACEpoint != qh_IDunknown && qh TRACEdist < REALmax/2) {
     qh IStracing= 0;
     qhmem.IStracing= 0;
   }
@@ -494,7 +494,7 @@ At %02d:%02d:%02d & %2.5g CPU secs, qhull has created %d facets and merged %d.\n
       facet->visitid= 0;
   }
   zmax_(Zvvisit2max, (int)qh vertex_visit/2);
-  if (qh vertex_visit > (unsigned) INT_MAX/2) { /* 31 bits */
+  if (qh vertex_visit > (unsigned) INT_MAX) {
     zinc_(Zvvisit);
     qh vertex_visit= 0;
     FORALLvertices

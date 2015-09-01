@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/RoadLogEvent.h#5 $$Change: 1810 $
-** $DateTime: 2015/01/17 18:28:15 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullcpp/RoadLogEvent.h#6 $$Change: 1816 $
+** $DateTime: 2015/01/21 22:51:49 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -51,7 +51,7 @@ public:
     //! Default copy constructor and assignment
 
 #//!\name GetSet
-    bool                isDefined() const { return format_string!=0; }
+    bool                isValid() const { return format_string!=0; }
     int                 int1() const { return int_1; };
     int                 int2() const { return int_2; };
     float               float1() const { return float_1; };

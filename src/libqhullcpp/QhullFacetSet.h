@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/QhullFacetSet.h#12 $$Change: 1810 $
-** $DateTime: 2015/01/17 18:28:15 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullcpp/QhullFacetSet.h#14 $$Change: 1835 $
+** $DateTime: 2015/02/16 22:32:04 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -10,7 +10,7 @@
 #define QHULLFACETSET_H
 
 #include "QhullSet.h"
-#include "QhullFacet.h"   
+#include "QhullFacet.h"
 
 #include <ostream>
 
@@ -38,10 +38,11 @@ public:
 #//!\name Constructor
                         //Conversion from setT* is not type-safe.  Implicit conversion for void* to T
                         QhullFacetSet(const Qhull &q, setT *s) : QhullSet<QhullFacet>(q, s), select_all(false) {}
-                        QhullFacetSet(QhullQh *qh, setT *s) : QhullSet<QhullFacet>(qh, s), select_all(false) {}
-                        //Copy constructor copies pointer but not contents.  Needed for return by value and parameter passing.
+                        QhullFacetSet(QhullQh *qqh, setT *s) : QhullSet<QhullFacet>(qqh, s), select_all(false) {}
+                        //!Copy constructor copies pointers but not contents.  Needed for return by value and parameter passing.
                         QhullFacetSet(const QhullFacetSet &other) : QhullSet<QhullFacet>(other), select_all(other.select_all) {}
-    QhullFacetSet &     operator=(const QhullFacetSet &other) { QhullSet<QhullFacet>::operator=(other); select_all= other.select_all; }
+                        //!Assignment copies pointers but not contents.
+    QhullFacetSet &     operator=(const QhullFacetSet &other) { QhullSet<QhullFacet>::operator=(other); select_all= other.select_all; return *this; }
 
 private:
                         //!Disable default constructor.  See QhullSetBase
@@ -71,14 +72,14 @@ public:
 
     struct PrintFacetSet{
         const QhullFacetSet *facet_set;
-        const char *    print_message;
+        const char *    print_message;  //!< non-null message
                         PrintFacetSet(const char *message, const QhullFacetSet *s) : facet_set(s), print_message(message) {}
     };//PrintFacetSet
     const PrintFacetSet print(const char *message) const { return PrintFacetSet(message, this); }
 
     struct PrintIdentifiers{
         const QhullFacetSet *facet_set;
-        const char *    print_message;
+        const char *    print_message;  //!< non-null message
                         PrintIdentifiers(const char *message, const QhullFacetSet *s) : facet_set(s), print_message(message) {}
     };//PrintIdentifiers
     PrintIdentifiers    printIdentifiers(const char *message) const { return PrintIdentifiers(message, this); }

@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/QhullRidge.cpp#9 $$Change: 1810 $
-** $DateTime: 2015/01/17 18:28:15 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullcpp/QhullRidge.cpp#11 $$Change: 1835 $
+** $DateTime: 2015/02/16 22:32:04 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -47,8 +47,12 @@ QhullRidge::QhullRidge(const Qhull &q, ridgeT *r)
 bool QhullRidge::
 hasNextRidge3d(const QhullFacet &f) const
 {
+    if(!qh_qh){
+        return false;
+    }
     vertexT *v= 0;
-    ridgeT *ridge= qh_nextridge3d(qh_qh, getRidgeT(), f.getFacetT(), &v);
+    // Does not call qh_errexit(), TRY_QHULL_ not needed
+    ridgeT *ridge= qh_nextridge3d(getRidgeT(), f.getFacetT(), &v);
     return (ridge!=0);
 }//hasNextRidge3d
 
@@ -58,15 +62,20 @@ QhullRidge QhullRidge::
 nextRidge3d(const QhullFacet &f, QhullVertex *nextVertex) const
 {
     vertexT *v= 0;
-    ridgeT *ridge= qh_nextridge3d(qh_qh, getRidgeT(), f.getFacetT(), &v);
-    if(!ridge){
-        throw QhullError(10030, "Qhull error nextRidge3d:  missing next ridge for facet %d ridge %d.  Does facet contain ridge?", f.id(), id());
+    ridgeT *ridge= 0;
+    if(qh_qh){
+        // Does not call qh_errexit(), TRY_QHULL_ not needed
+        ridge= qh_nextridge3d(getRidgeT(), f.getFacetT(), &v);
+        if(!ridge){
+            throw QhullError(10030, "Qhull error nextRidge3d:  missing next ridge for facet %d ridge %d.  Does facet contain ridge?", f.id(), id());
+        }
     }
     if(nextVertex!=0){
         *nextVertex= QhullVertex(qh_qh, v);
     }
     return QhullRidge(qh_qh, ridge);
 }//nextRidge3d
+
 }//namespace orgQhull
 
 #//!\name Global functions
@@ -87,9 +96,13 @@ operator<<(ostream &os, const QhullRidge &r)
 ostream &
 operator<<(ostream &os, const QhullRidge::PrintRidge &pr)
 {
-    os << pr.print_message;
+    if(*pr.print_message){
+        os << pr.print_message << " ";
+    }else{
+        os << "     - ";
+    }
     QhullRidge r= *pr.ridge;
-    os << "     - r" << r.id();
+    os << "r" << r.id();
     if(r.getRidgeT()->tested){
         os << " tested";
     }

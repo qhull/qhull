@@ -67,17 +67,17 @@ Functions and macros from qset.h.  Counts occurrences in this test.  Does not co
     SETtruncate_ -- 2 tests
 
     Copyright (c) 2012-2015 C.B. Barber. All rights reserved.
-    $Id: //main/2011/qhull/src/testqset/testqset.c#5 $$Change: 1810 $
-    $DateTime: 2015/01/17 18:28:15 $$Author: bbarber $
+    $Id: //main/2011/qhull/src/testqset/testqset.c#11 $$Change: 1914 $
+    $DateTime: 2015/06/21 22:08:19 $$Author: bbarber $
 */
+
+#include "libqhull/qset.h"
+#include "libqhull/mem.h"
 
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-#include "qset.h"
-#include "mem.h"
 
 typedef int i2T;
 #define MAXerrorCount 100 /* quit after n errors */
@@ -93,9 +93,14 @@ enum {
 };
 
 char prompt[]= "testqset N [M] [T5] -- Test qset.c and mem.c\n\
+  \n\
+  If this test fails then qhull will not work.\n\
+  \n\
   Test qsets of 0..N integers with a check every M iterations (default ~log10)\n\
   Additional checking and logging if M is 1\n\
+  \n\
   T5 turns on memory logging (qset does not log)\n\
+  \n\
   For example:\n\
     testqset 10000\n\
 ";
@@ -131,7 +136,8 @@ void *qh_malloc(size_t size) {
 
 void    qh_errexit(int exitcode, void *f, void *r)
 {
-    f= r; /* unused */
+    (void)f; /* unused */
+    (void)r; /* unused */
     qh_exit(exitcode);
 }
 
@@ -343,7 +349,7 @@ void testSetappendSettruncate(int numInts, int *intarray, int checkEvery)
 void testSetdelSetadd(int numInts, int *intarray, int checkEvery)
 {
     setT *ints=qh_setnew(1);
-    int i,j, isCheck;
+    int i,j,isCheck;
 
     qh_fprintf(stderr, 8003, "\n\nTesting qh_setdelnthsorted and qh_setaddnth 1..%d. Test", numInts-1);
     for(j=1; j<numInts; j++){  /* size 0 not valid */
@@ -354,6 +360,7 @@ void testSetdelSetadd(int numInts, int *intarray, int checkEvery)
             checkSetContents("qh_setappend", ints, j, 0, -1, -1);
             for(i= 0; i<j && i<100; i++){  /* otherwise too slow */
                 isCheck= log_i(ints, "", i, numInts, checkEvery);
+                (void)isCheck; /* unused */
                 qh_setdelnthsorted(ints, i);
                 qh_setaddnth(&ints, i, intarray+i);
                 if(checkEvery==1){
@@ -462,7 +469,6 @@ void testSetdelsortedEtc(int numInts, int *intarray, int checkEvery)
                 qh_setdelnthsorted(ints, i/2);
                 if (checkEvery==1)
                   checkSetContents("qh_setdelnthsorted", ints, j-1, 0, i/2+1, -1);
-                /* FIXUP qh_setdelnth  move-to-front */
                 qh_setdelsorted(ints, intarray+i/2+1);
                 checkSetContents("qh_setdelsorted 2", ints, j-2, 0, i/2+2, -1);
                 qh_setaddsorted(&ints, intarray+i/2+1);

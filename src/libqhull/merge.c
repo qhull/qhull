@@ -21,8 +21,8 @@
    vertex->neighbors not set until the first merge occurs
 
    Copyright (c) 1993-2015 C.B. Barber.
-   $Id: //main/2011/qhull/src/libqhull/merge.c#7 $$Change: 1810 $
-   $DateTime: 2015/01/17 18:28:15 $$Author: bbarber $
+   $Id: //main/2011/qhull/src/libqhull/merge.c#8 $$Change: 1831 $
+   $DateTime: 2015/02/07 20:31:47 $$Author: bbarber $
 */
 
 #include "qhull_a.h"
@@ -216,7 +216,7 @@ void qh_all_merges(boolT othermerge, boolT vneighbors) {
   facetT *facet1, *facet2;
   mergeT *merge;
   boolT wasmerge= True, isreduce;
-  void **freelistp;  /* used !qh_NOmem */
+  void **freelistp;  /* used if !qh_NOmem by qh_memfree_() */
   vertexT *vertex;
   mergeType mergetype;
   int numcoplanar=0, numconcave=0, numdegenredun= 0, numnewmerges= 0;
@@ -319,7 +319,7 @@ void qh_all_merges(boolT othermerge, boolT vneighbors) {
 */
 void qh_appendmergeset(facetT *facet, facetT *neighbor, mergeType mergetype, realT *angle) {
   mergeT *merge, *lastmerge;
-  void **freelistp; /* used !qh_NOmem */
+  void **freelistp; /* used if !qh_NOmem by qh_memalloc_() */
 
   if (facet->redundant)
     return;
@@ -2083,7 +2083,7 @@ void qh_mergecycle_ridges(facetT *samecycle, facetT *newfacet) {
   unsigned int samevisitid;
   ridgeT *ridge, **ridgep;
   boolT toporient;
-  void **freelistp; /* used !qh_NOmem */
+  void **freelistp; /* used if !qh_NOmem by qh_memfree_() */
 
   trace4((qh ferr, 4033, "qh_mergecycle_ridges: delete shared ridges from newfacet\n"));
   samevisitid= qh visit_id -1;

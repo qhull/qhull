@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/qhulltest/RoadTest.cpp#3 $$Change: 1810 $
-** $Date: 2015/01/17 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/qhulltest/RoadTest.cpp#4 $$Change: 1868 $
+** $Date: 2015/03/26 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -16,7 +16,7 @@ using std::endl;
 
 namespace orgQhull {
 
-#//class variable
+#//!\name class variable
 
 QList<RoadTest*> RoadTest::
 s_testcases;
@@ -30,7 +30,7 @@ s_test_fail= 0;
 QStringList RoadTest::
 s_failed_tests;
 
-#//Slot
+#//!\name Slot
 
 //! Executed after each test
 void RoadTest::
@@ -42,7 +42,7 @@ cleanup()
     }
 }//cleanup
 
-#//Helper
+#//!\name Helper
 
 void RoadTest::
 recordFailedTest()
@@ -52,7 +52,7 @@ recordFailedTest()
     s_failed_tests << className + "::" + QTest::currentTestFunction();
 }
 
-#//class function
+#//!\name class function
 
 int RoadTest::
 runTests(QStringList arguments)

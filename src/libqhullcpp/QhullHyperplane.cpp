@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2009-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/QhullHyperplane.cpp#11 $$Change: 1810 $
-** $DateTime: 2015/01/17 18:28:15 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullcpp/QhullHyperplane.cpp#17 $$Change: 1914 $
+** $DateTime: 2015/06/21 22:08:19 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -24,18 +24,18 @@ namespace orgQhull {
 QhullHyperplane::
 QhullHyperplane(const Qhull &q) 
 : hyperplane_coordinates(0)
-, hyperplane_dimension(0)
-, hyperplane_offset(0.0)
 , qh_qh(q.qh())
+, hyperplane_offset(0.0)
+, hyperplane_dimension(0)
 {
 }
 
 QhullHyperplane::
 QhullHyperplane(const Qhull &q, int hyperplaneDimension, coordT *c, coordT hyperplaneOffset) 
 : hyperplane_coordinates(c)
-, hyperplane_dimension(hyperplaneDimension)
-, hyperplane_offset(hyperplaneOffset)
 , qh_qh(q.qh())
+, hyperplane_offset(hyperplaneOffset)
+, hyperplane_dimension(hyperplaneDimension)
 {
 }
 
@@ -59,27 +59,23 @@ toStdVector() const
 
 #//!\name GetSet
 
+//! Return true if equal
+//! If qh_qh defined, tests qh.distanceEpsilon and qh.angleEpsilon
+//! otherwise, tests equal coordinates and offset
 bool QhullHyperplane::
 operator==(const QhullHyperplane &other) const
 {
-    if(hyperplane_dimension!=other.hyperplane_dimension){
+    if(hyperplane_dimension!=other.hyperplane_dimension || !hyperplane_coordinates || !other.hyperplane_coordinates){
         return false;
     }
     double d= fabs(hyperplane_offset-other.hyperplane_offset);
-    if(d>qh_qh->distanceEpsilon()){
+    if(d > (qh_qh ? qh_qh->distanceEpsilon() : 0.0)){
         return false;
     }
-    const coordT *c= hyperplane_coordinates;
-    const coordT *c2= other.hyperplane_coordinates;
-    if(c==c2){
-        return true;
-    }
-    double dist2= 0.0;
-    for(int k= hyperplane_dimension; k--; ){
-        double diff= *c++ - *c2++;
-        dist2 += diff*diff;
-    }
-    if(dist2 > qh_qh->angleEpsilon()){
+    double angle= hyperplaneAngle(other);
+
+    double a= fabs(angle-1.0);
+    if(a > (qh_qh ? qh_qh->angleEpsilon() : 0.0)){
         return false;
     }
     return true;
@@ -132,6 +128,18 @@ distance(const QhullPoint &p) const
 }//distance
 
 double QhullHyperplane::
+hyperplaneAngle(const QhullHyperplane &other) const
+{
+    realT result= 0.0;
+    QH_TRY_(qh_qh){ // no object creation -- destructors skipped on longjmp()
+        result= qh_getangle(qh_qh, hyperplane_coordinates, other.hyperplane_coordinates);
+    }
+    qh_qh->NOerrexit= true;
+    qh_qh->maybeThrowQhullMessage(QH_TRY_status);
+    return result;
+}//hyperplaneAngle
+
+double QhullHyperplane::
 norm() const {
     double d= 0.0;
     const coordT *c= coordinates();
@@ -154,16 +162,14 @@ using orgQhull::QhullHyperplane;
 ostream &
 operator<<(ostream &os, const QhullHyperplane &p)
 {
-    os << p.print();
+    os << p.print("");
     return os;
 }
 
 ostream &
 operator<<(ostream &os, const QhullHyperplane::PrintHyperplane &pr)
 {
-    if(pr.print_message){
-        os << pr.print_message;
-    }
+    os << pr.print_message;
     QhullHyperplane p= *pr.hyperplane;
     const realT *c= p.coordinates();
     for(int k=p.dimension(); k--; ){
@@ -174,11 +180,7 @@ operator<<(ostream &os, const QhullHyperplane::PrintHyperplane &pr)
             os << " " << r; // FIXUP QH11010 qh_REAL_1
         }
     }
-    if(pr.hyperplane_offset_message){
-        os << pr.hyperplane_offset_message << " " << p.offset();
-    }else{
-        os << " " << p.offset();
-    }
+    os << pr.hyperplane_offset_message << " " << p.offset();
     os << std::endl;
     return os;
 }//PrintHyperplane

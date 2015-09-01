@@ -1,22 +1,24 @@
 /****************************************************************************
 **
 ** Copyright (c) 2009-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/qhulltest/QhullHyperplane_test.cpp#9 $$Change: 1810 $
-** $DateTime: 2015/01/17 18:28:15 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/qhulltest/QhullHyperplane_test.cpp#15 $$Change: 1880 $
+** $DateTime: 2015/04/19 21:29:35 $$Author: bbarber $
 **
 ****************************************************************************/
 
 //pre-compiled headers
 #include <iostream>
 #include <vector>
-#include "RoadTest.h"
+#include "qhulltest/RoadTest.h"
 
-#include "QhullHyperplane.h"
-#include "QhullError.h"
-#include "RboxPoints.h"
-#include "QhullFacet.h"
-#include "QhullFacetList.h"
-#include "Qhull.h"
+#include "libqhullcpp/QhullHyperplane.h"
+#include "libqhullcpp/QhullError.h"
+#include "libqhullcpp/RboxPoints.h"
+#include "libqhullcpp/QhullFacet.h"
+#include "libqhullcpp/QhullFacetList.h"
+#include "libqhullcpp/QhullFacetSet.h"
+#include "libqhullcpp/Qhull.h"
+
 #include <numeric>
 
 using std::cout;
@@ -31,10 +33,11 @@ class QhullHyperplane_test : public RoadTest
 {
     Q_OBJECT
 
-#//Test slots
+#//!\name Test slots
 private slots:
     void cleanup();
     void t_construct();
+    void t_construct_qh();
     void t_convert();
     void t_readonly();
     void t_define();
@@ -62,24 +65,46 @@ cleanup()
 void QhullHyperplane_test::
 t_construct()
 {
+    QhullHyperplane h4;
+    QVERIFY(!h4.isValid());
+    QCOMPARE(h4.dimension(), 0);
     // Qhull.runQhull() constructs QhullFacets as facetT
-    QhullHyperplane h;
-    QVERIFY(!h.isDefined());
-    QCOMPARE(h.dimension(),0);
-    QCOMPARE(h.coordinates(),static_cast<double *>(0));
     RboxPoints rcube("c");
     Qhull q(rcube,"Qt QR0");  // triangulation of rotated unit cube
+    QhullHyperplane h(q);
+    QVERIFY(!h.isValid());
+    QCOMPARE(h.dimension(), 0);
+    QCOMPARE(h.coordinates(),static_cast<double *>(0));
     QhullFacet f= q.firstFacet();
     QhullHyperplane h2(f.hyperplane());
-    QVERIFY(h2.isDefined());
-    QCOMPARE(h2.dimension(),3);
-    // h= h2;  // copy assignment disabled, ambiguous
-    QhullHyperplane h3(h2.dimension(), h2.coordinates(), h2.offset());
+    QVERIFY(h2.isValid());
+    QCOMPARE(h2.dimension(), 3);
+    h= h2;
+    QCOMPARE(h, h2);
+    QhullHyperplane h3(q, h2.dimension(), h2.coordinates(), h2.offset());
     QCOMPARE(h2, h3);
     QhullHyperplane h5= h2; // copy constructor
     QVERIFY(h5==h2);
     q.checkAndFreeQhullMemory();
 }//t_construct
+
+void QhullHyperplane_test::
+t_construct_qh()
+{
+    // Qhull.runQhull() constructs QhullFacets as facetT
+    RboxPoints rcube("c");
+    Qhull q(rcube,"Qt QR0");  // triangulation of rotated unit cube
+    QhullFacet f= q.firstFacet();
+    QhullHyperplane h2(f.hyperplane());
+    QVERIFY(h2.isValid());
+    QCOMPARE(h2.dimension(), 3);
+    // h= h2;  // copy assignment disabled, ambiguous
+    QhullHyperplane h3(q.qh(), h2.dimension(), h2.coordinates(), h2.offset());
+    QCOMPARE(h2, h3);
+    QhullHyperplane h5= h2; // copy constructor
+    QVERIFY(h5==h2);
+    q.checkAndFreeQhullMemory();
+}//t_construct_qh
 
 void QhullHyperplane_test::
 t_convert()
@@ -117,7 +142,7 @@ t_readonly()
             QhullHyperplane h= f.hyperplane();
             int id= f.id();
             cout << "h" << id << endl;
-            QVERIFY(h.isDefined());
+            QVERIFY(h.isValid());
             QCOMPARE(h.dimension(),3);
             const coordT *c= h.coordinates();
             coordT *c2= h.coordinates();
@@ -175,11 +200,19 @@ t_value()
 {
     RboxPoints rcube("c G1");
     Qhull q(rcube,"Qt QR0");  // triangulation of rotated unit cube
-    const QhullHyperplane h= q.firstFacet().hyperplane();
+    QhullFacet f= q.firstFacet();
+    QhullFacet f2= f.neighborFacets().at(0);
+    const QhullHyperplane h= f.hyperplane();
+    const QhullHyperplane h2= f2.hyperplane();   // At right angles
     double dist= h.distance(q.origin());
     QCOMPARE(dist, -1.0);
     double norm= h.norm();
     QCOMPARE(norm, 1.0);
+    double angle= h.hyperplaneAngle(h2);
+    cout << "angle " << angle << endl;
+    QCOMPARE(angle+1.0, 1.0); // qFuzzyCompare does not work for 0.0
+    QVERIFY(h==h);
+    QVERIFY(h!=h2);
     q.checkAndFreeQhullMemory();
 }//t_value
 
@@ -206,10 +239,6 @@ t_iterator()
 {
     RboxPoints rcube("c");
     {
-        QhullHyperplane h2;
-        QCOMPARE(h2.begin(), h2.end());
-        QCOMPARE(h2.count(), 0);
-        QCOMPARE(h2.size(), 0u);
         Qhull q(rcube,"QR0");  // rotated unit cube
         QhullHyperplane h= q.firstFacet().hyperplane();
         QCOMPARE(h.count(), 3);
@@ -349,21 +378,12 @@ t_const_iterator()
 void QhullHyperplane_test::
 t_qhullHyperplane_iterator()
 {
-    QhullHyperplane h2;
-    QhullHyperplaneIterator i= h2;
-    QCOMPARE(h2.dimension(), 0);
-    QVERIFY(!i.hasNext());
-    QVERIFY(!i.hasPrevious());
-    i.toBack();
-    QVERIFY(!i.hasNext());
-    QVERIFY(!i.hasPrevious());
-
     RboxPoints rcube("c");
     Qhull q(rcube,"QR0");  // rotated unit cube
     QhullHyperplane h = q.firstFacet().hyperplane();
     QhullHyperplaneIterator i2(h);
     QCOMPARE(h.dimension(), 3);
-    i= h;
+    QhullHyperplaneIterator i= h;
     QVERIFY(i2.hasNext());
     QVERIFY(!i2.hasPrevious());
     QVERIFY(i.hasNext());
@@ -404,8 +424,7 @@ t_io()
         ostringstream os;
         os << "Hyperplane:\n";
         os << h;
-        os << "Hyperplane as print(), FIXUP drop?\n";
-        os << h.print();
+        os << h.print("message");
         os << h.print(" and a message ", " offset ");
         cout << os.str();
         QString s= QString::fromStdString(os.str());

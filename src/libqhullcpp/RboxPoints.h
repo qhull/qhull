@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/RboxPoints.h#12 $$Change: 1810 $
-** $DateTime: 2015/01/17 18:28:15 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullcpp/RboxPoints.h#13 $$Change: 1914 $
+** $DateTime: 2015/06/21 22:08:19 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -12,7 +12,7 @@
 #include "QhullPoint.h"
 #include "PointCoordinates.h"
 extern "C" {
-#include "libqhullr/qhull_ra.h"
+#include "libqhull_r/qhull_ra.h"
 }
 
 #include <stdarg.h>
@@ -32,11 +32,11 @@ class RboxPoints : public PointCoordinates {
 
 private:
 #//!\name Fields and friends
-                        //! PointCoordinates.qh() is owned by RboxPoints 
+                        //! PointCoordinates.qh() is owned by RboxPoints
     countT              rbox_new_count;     //! Number of points for PointCoordinates
     int                 rbox_status;    //! error status from rboxpoints.  qh_ERRnone if none.
     std::string         rbox_message;   //! stderr from rboxpoints
- 
+
     // '::' is required for friend references
     friend void ::qh_fprintf_rbox(qhT *qh, FILE *fp, int msgcode, const char *fmt, ... );
 

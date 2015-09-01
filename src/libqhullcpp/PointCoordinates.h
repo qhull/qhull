@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2009-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/PointCoordinates.h#10 $$Change: 1810 $
-** $DateTime: 2015/01/17 18:28:15 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullcpp/PointCoordinates.h#14 $$Change: 1914 $
+** $DateTime: 2015/06/21 22:08:19 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -12,7 +12,7 @@
 #include "QhullPoints.h"
 #include "Coordinates.h"
 extern "C" {
-    #include "libqhullr/qhull_ra.h"
+    #include "libqhull_r/qhull_ra.h"
 }
 
 #include <ostream>
@@ -25,7 +25,8 @@ extern "C" {
 namespace orgQhull {
 
 #//!\name Defined here
-    //! Zero or more QhullPoints with Coordinates and description
+    //! QhullPoints with Coordinates and description
+    //! Inherited by RboxPoints
     class PointCoordinates;
 
 class PointCoordinates : public QhullPoints {
@@ -38,17 +39,21 @@ private:
 
 public:
 #//!\name Construct
+    //! QhullPoint, PointCoordinates, and QhullPoints have similar constructors
+    //! If Qhull/QhullQh is not initialized, then dimension()==0                        PointCoordinates();
+                        PointCoordinates();
+    explicit            PointCoordinates(const std::string &aComment);
+                        PointCoordinates(int pointDimension, const std::string &aComment);
+                        //! Qhull/QhullQh used for dimension() and QhullPoint equality
     explicit            PointCoordinates(const Qhull &q);
-                        PointCoordinates(const Qhull &q, int pointDimension);
                         PointCoordinates(const Qhull &q, const std::string &aComment);
                         PointCoordinates(const Qhull &q, int pointDimension, const std::string &aComment);
                         PointCoordinates(const Qhull &q, int pointDimension, const std::string &aComment, countT coordinatesCount, const coordT *c); // may be invalid
                         //! Use append() and appendPoints() for Coordinates and vector<coordT>
-    explicit            PointCoordinates(QhullQh *qh);
-                        PointCoordinates(QhullQh *qh, int pointDimension);
-                        PointCoordinates(QhullQh *qh, const std::string &aComment);
-                        PointCoordinates(QhullQh *qh, int pointDimension, const std::string &aComment);
-                        PointCoordinates(QhullQh *qh, int pointDimension, const std::string &aComment, countT coordinatesCount, const coordT *c); // may be invalid
+    explicit            PointCoordinates(QhullQh *qqh);
+                        PointCoordinates(QhullQh *qqh, const std::string &aComment);
+                        PointCoordinates(QhullQh *qqh, int pointDimension, const std::string &aComment);
+                        PointCoordinates(QhullQh *qqh, int pointDimension, const std::string &aComment, countT coordinatesCount, const coordT *c); // may be invalid
                         //! Use append() and appendPoints() for Coordinates and vector<coordT>
                         PointCoordinates(const PointCoordinates &other);
     PointCoordinates &  operator=(const PointCoordinates &other);
@@ -75,8 +80,8 @@ public:
     void                setDimension(int i);
 
 private:
+    //! disable QhullPoints.defineAs()
     void                defineAs(countT coordinatesCount, coordT *c) { QhullPoints::defineAs(coordinatesCount, c); }
-    //! defineAs() otherwise disabled
 public:
 
 #//!\name ElementAccess

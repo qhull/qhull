@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (p) 2009-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/qhulltest/QhullPointSet_test.cpp#13 $$Change: 1810 $
-** $DateTime: 2015/01/17 18:28:15 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/qhulltest/QhullPointSet_test.cpp#15 $$Change: 1868 $
+** $DateTime: 2015/03/26 20:13:15 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -10,12 +10,12 @@
 #include <iostream>
 #include "RoadTest.h" // QT_VERSION
 
-#include "QhullPointSet.h"
-#include "RboxPoints.h"
-#include "QhullPoint.h"
-#include "QhullFacet.h"
-#include "QhullFacetList.h"
-#include "Qhull.h"
+#include "libqhullcpp/QhullPointSet.h"
+#include "libqhullcpp/RboxPoints.h"
+#include "libqhullcpp/QhullPoint.h"
+#include "libqhullcpp/QhullFacet.h"
+#include "libqhullcpp/QhullFacetList.h"
+#include "libqhullcpp/Qhull.h"
 
 using std::cout;
 using std::endl;
@@ -27,7 +27,7 @@ class QhullPointSet_test : public RoadTest
 {
     Q_OBJECT
 
-#//Test slots
+#//!\name Test slots
 private slots:
     void cleanup();
     void t_construct();

@@ -14,8 +14,8 @@
    This allows the user to avoid loading io.o from qhull.a
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2011/qhull/src/libqhull/io.c#6 $$Change: 1810 $
-   $DateTime: 2015/01/17 18:28:15 $$Author: bbarber $
+   $Id: //main/2011/qhull/src/libqhull/io.c#8 $$Change: 1868 $
+   $DateTime: 2015/03/26 20:13:15 $$Author: bbarber $
 */
 
 #include "qhull_a.h"
@@ -1531,9 +1531,9 @@ void qh_printbegin(FILE *fp, qh_PRINT format, facetT *facetlist, setT *facets, b
         + numfacets - numsimplicial, numsimplicial + numridges, totneighbors/2);
     }
     FORALLpoints
-      qh_printpointid(qh fout, NULL, num, point, -1);
+      qh_printpointid(qh fout, NULL, num, point, qh_IDunknown);
     FOREACHpoint_(qh other_points)
-      qh_printpointid(qh fout, NULL, num, point, -1);
+      qh_printpointid(qh fout, NULL, num, point, qh_IDunknown);
     if (format == qh_PRINTtriangles && qh hull_dim > 2) {
       FORALLfacets {
         if (!facet->simplicial && facet->visitid)
@@ -2516,7 +2516,7 @@ void qh_printfacetheader(FILE *fp, facetT *facet) {
     qh_fprintf(fp, 9164, "    - was horizon to f%d\n", facet->f.newcycle->id);
   if (facet->nummerge)
     qh_fprintf(fp, 9165, "    - merges: %d\n", facet->nummerge);
-  qh_printpointid(fp, "    - normal: ", qh hull_dim, facet->normal, -1);
+  qh_printpointid(fp, "    - normal: ", qh hull_dim, facet->normal, qh_IDunknown);
   qh_fprintf(fp, 9166, "    - offset: %10.7g\n", facet->offset);
   if (qh CENTERtype == qh_ASvoronoi || facet->center)
     qh_printcenter(fp, qh_PRINTfacets, "    - center: ", facet);
@@ -2657,7 +2657,7 @@ void qh_printfacets(FILE *fp, qh_PRINT format, facetT *facetlist, setT *facets, 
     vertices= qh_facetvertices(facetlist, facets, printall);
     center= qh_getcenter(vertices);
     qh_fprintf(fp, 9186, "%d 1\n", qh hull_dim);
-    qh_printpointid(fp, NULL, qh hull_dim, center, -1);
+    qh_printpointid(fp, NULL, qh hull_dim, center, qh_IDunknown);
     qh_memfree(center, qh normal_size);
     qh_settempfree(&vertices);
   }else if (format == qh_PRINTextremes) {
@@ -2843,11 +2843,10 @@ void qh_printneighborhood(FILE *fp, qh_PRINT format, facetT *facetA, facetT *fac
 
   returns:
     if string is defined
-      prints 'string p%d' (skips p%d if id=-1)
+      prints 'string p%d'. Skips p%d if id=qh_IDunknown(-1)
 
   notes:
     nop if point is NULL
-    prints id unless it is undefined (-1)
     Same as QhullPoint's printPoint
 */
 void qh_printpoint(FILE *fp, const char *string, pointT *point) {
@@ -2864,7 +2863,7 @@ void qh_printpointid(FILE *fp, const char *string, int dim, pointT *point, int i
     return;
   if (string) {
     qh_fprintf(fp, 9211, "%s", string);
-   if (id != -1)
+    if (id != qh_IDunknown)
       qh_fprintf(fp, 9212, " p%d: ", id);
   }
   for (k=dim; k--; ) {
@@ -3580,7 +3579,7 @@ void qh_projectdim3(pointT *source, pointT *destination) {
 
   returns:
     number of lines read from qh.fin
-    sets qh.FEASIBLEpoint with malloc'd coordinates
+    sets qh.feasible_point with malloc'd coordinates
 
   notes:
     checks for qh.HALFspace
@@ -3958,7 +3957,7 @@ Type 'qhull' for a short list of options.\n");
   >-------------------------------</a><a name="setfeasible">-</a>
 
   qh_setfeasible( dim )
-    set qh.FEASIBLEpoint from qh.feasible_string in "n,n,n" or "n n n" format
+    set qh.feasible_point from qh.feasible_string in "n,n,n" or "n n n" format
 
   notes:
     "n,n,n" already checked by qh_initflags()

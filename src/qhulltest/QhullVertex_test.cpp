@@ -1,22 +1,22 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/qhulltest/QhullVertex_test.cpp#9 $$Change: 1810 $
-** $DateTime: 2015/01/17 18:28:15 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/qhulltest/QhullVertex_test.cpp#12 $$Change: 1868 $
+** $DateTime: 2015/03/26 20:13:15 $$Author: bbarber $
 **
 ****************************************************************************/
 //pre-compiled headers
 #include <iostream>
 #include "RoadTest.h"
 
-#include "QhullVertex.h"
-#include "Coordinates.h"
-#include "QhullError.h"
-#include "RboxPoints.h"
-#include "QhullFacet.h"
-#include "QhullFacetSet.h"
-#include "QhullVertexSet.h"
-#include "Qhull.h"
+#include "libqhullcpp/QhullVertex.h"
+#include "libqhullcpp/Coordinates.h"
+#include "libqhullcpp/QhullError.h"
+#include "libqhullcpp/RboxPoints.h"
+#include "libqhullcpp/QhullFacet.h"
+#include "libqhullcpp/QhullFacetSet.h"
+#include "libqhullcpp/QhullVertexSet.h"
+#include "libqhullcpp/Qhull.h"
 
 using std::cout;
 using std::endl;
@@ -30,7 +30,7 @@ class QhullVertex_test : public RoadTest
 {
     Q_OBJECT
 
-#//Test slots
+#//!\name Test slots
 private slots:
     void cleanup();
     void t_constructConvert();
@@ -55,23 +55,26 @@ cleanup()
 void QhullVertex_test::
 t_constructConvert()
 {
+    QhullVertex v6;
+    QVERIFY(!v6.isValid());
+    QCOMPARE(v6.dimension(),0);
     // Qhull.runQhull() constructs QhullFacets as facetT
-    QhullVertex v;
-    QVERIFY(!v.isDefined());
-    QCOMPARE(v.dimension(),0);
     RboxPoints rcube("c");
     Qhull q(rcube,"Qt QR0");  // triangulation of rotated unit cube
+    QhullVertex v(q);
+    QVERIFY(!v.isValid());
+    QCOMPARE(v.dimension(),3);
     QhullVertex v2(q.beginVertex());
     QCOMPARE(v2.dimension(),3);
     v= v2;  // copy assignment
-    QVERIFY(v.isDefined());
+    QVERIFY(v.isValid());
     QCOMPARE(v.dimension(),3);
     QhullVertex v5= v2; // copy constructor
     QVERIFY(v5==v2);
     QVERIFY(v5==v);
-    QhullVertex v3= v2.getVertexT();
+    QhullVertex v3(q, v2.getVertexT());
     QCOMPARE(v,v3);
-    QhullVertex v4= v2.getBaseT();
+    QhullVertex v4(q, v2.getBaseT());
     QCOMPARE(v,v4);
     q.checkAndFreeQhullMemory();
 }//t_constructConvert
@@ -93,7 +96,7 @@ t_getSet()
             cout << v.id() << endl;
             QCOMPARE(v.dimension(),3);
             QVERIFY(v.id()>=0 && v.id()<9);
-            QVERIFY(v.isDefined());
+            QVERIFY(v.isValid());
             if(i.hasNext()){
                 QCOMPARE(v.next(), i.peekNext());
                 QVERIFY(v.next()!=v);
@@ -102,15 +105,12 @@ t_getSet()
             QVERIFY(i.hasPrevious());
             QCOMPARE(v, i.peekPrevious());
         }
-        QhullVertexListIterator i2(i);
-        QEXPECT_FAIL("", "ListIterator copy constructor not reset to BOT", Continue);
-        QVERIFY(!i2.hasPrevious());
 
         // test point()
         foreach (QhullVertex v, q.vertexList()){  // Qt only
             QhullPoint p= v.point();
             int j= p.id();
-            cout << "Point " << j << ":\n" << p.print() << endl;
+            cout << "Point " << j << ":\n" << p << endl;
             QVERIFY(j>=0 && j<8);
         }
         q.checkAndFreeQhullMemory();
@@ -142,13 +142,13 @@ t_io()
         Qhull q(rcube, "");
         QhullVertex v= q.beginVertex();
         ostringstream os;
-        os << "Vertex and vertices w/o runId:\n";
+        os << "Vertex and vertices:\n";
         os << v;
         QhullVertexSet vs= q.firstFacet().vertices();
         os << vs;
-        os << "Vertex and vertices w/ FIXUP runId:\n";
-        os << v.print();
-        os << vs.print("vertices:");
+        os << "\nVertex and vertices with message:\n";
+        os << v.print("Vertex");
+        os << vs.print("\nVertices:");
         cout << os.str();
         QString s= QString::fromStdString(os.str());
         QCOMPARE(s.count("(v"), 10);

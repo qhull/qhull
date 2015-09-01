@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2009-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/QhullPoints.cpp#11 $$Change: 1810 $
-** $DateTime: 2015/01/17 18:28:15 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullcpp/QhullPoints.cpp#14 $$Change: 1868 $
+** $DateTime: 2015/03/26 20:13:15 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -23,7 +23,7 @@ namespace orgQhull {
 #//!\name Constructors
 
 QhullPoints::
-QhullPoints(const Qhull &q) 
+QhullPoints(const Qhull &q)
 : point_first(0)
 , point_end(0)
 , qh_qh(q.qh())
@@ -32,17 +32,18 @@ QhullPoints(const Qhull &q)
 }//QhullPoints Qhull
 
 QhullPoints::
-QhullPoints(const Qhull &q, int pointDimension) 
-: point_first(0)
-, point_end(0)
+QhullPoints(const Qhull &q, countT coordinateCount2, coordT *c)
+: point_first(c)
+, point_end(c+coordinateCount2)
 , qh_qh(q.qh())
-, point_dimension(pointDimension)
+, point_dimension(q.hullDimension())
 {
-    QHULL_ASSERT(pointDimension>=0);
+    QHULL_ASSERT(q.hullDimension());
+    QHULL_ASSERT(coordinateCount2>=0);
 }//QhullPoints Qhull dim
 
 QhullPoints::
-QhullPoints(const Qhull &q, int pointDimension, countT coordinateCount2, coordT *c) 
+QhullPoints(const Qhull &q, int pointDimension, countT coordinateCount2, coordT *c)
 : point_first(c)
 , point_end(c+coordinateCount2)
 , qh_qh(q.qh())
@@ -53,10 +54,10 @@ QhullPoints(const Qhull &q, int pointDimension, countT coordinateCount2, coordT 
 }//QhullPoints Qhull dim coordT
 
 QhullPoints::
-QhullPoints(QhullQh *qh, int pointDimension, countT coordinateCount2, coordT *c) 
+QhullPoints(QhullQh *qqh, int pointDimension, countT coordinateCount2, coordT *c)
 : point_first(c)
 , point_end(c+coordinateCount2)
-, qh_qh(qh)
+, qh_qh(qqh)
 , point_dimension(pointDimension)
 {
     QHULL_ASSERT(pointDimension>=0);
@@ -98,34 +99,49 @@ operator==(const QhullPoints &other) const
     if((point_end-point_first) != (other.point_end-other.point_first)){
         return false;
     }
+    if(point_dimension!=other.point_dimension){
+        return false;
+    }
     if(point_first==other.point_first){
         return true;
     }
-    const coordT *c= point_first;
-    const coordT *c2= other.point_first;
-    while(c<point_end){
-        if(*c++!=*c2++){
-            return false;
+    if(!qh_qh || qh_qh->hull_dim==0){
+        const coordT *c= point_first;
+        const coordT *c2= other.point_first;
+        while(c<point_end){
+            if(*c++!=*c2++){
+                return false;
+            }
+        }
+    }else{
+        const_iterator i= begin();
+        const_iterator i2= other.begin();
+        while(i<end()){
+            if(*i++!=*i2++){
+                return false;
+            }
         }
     }
     return true;
 }//operator==
 
+//! Reset QhullPoints to QhullQh and its hullDimension()
+//! Does not free up old qh_qh
 void QhullPoints::
-setQhullQh(QhullQh *qh)
+resetQhullQh(QhullQh *qqh)
 {
-    if(qh && qh_qh){
-        throw QhullError(10073, "Qhull error: QhullQh already set for QhullPoints");
-    }
-    qh_qh= qh;
-}//setQhullQh
+    qh_qh= qqh;
+    point_dimension= (qqh ? qqh->hull_dim : 0);
+    point_first= 0;
+    point_end= 0;
+}//resetQhullQh
 
 QhullPoint QhullPoints::
 value(countT idx) const
 {
     QhullPoint p(qh_qh);
     if(idx>=0 && idx<count()){
-        p.defineAs(qh_qh->hull_dim, point_first+idx*qh_qh->hull_dim);
+        p.defineAs(point_dimension, point_first+idx*point_dimension);
     }
     return p;
 }//value
@@ -135,14 +151,14 @@ value(countT idx, QhullPoint &defaultValue) const
 {
     QhullPoint p(qh_qh);
     if(idx>=0 && idx<count()){
-        p.defineAs(qh_qh->hull_dim, point_first+idx*qh_qh->hull_dim);
+        p.defineAs(point_dimension, point_first+idx*point_dimension);
     }else{
         p.defineAs(defaultValue);
     }
     return p;
 }//value
 
-#//! Methods
+#//!\name Methods
 
 bool QhullPoints::
 contains(const QhullPoint &t) const
@@ -240,7 +256,7 @@ mid(countT idx, countT length) const
     }else{
         n -= idx+length;
     }
-    return QhullPoints(qh_qh, qh_qh->hull_dim, n*qh_qh->hull_dim, point_first+idx*qh_qh->hull_dim);
+    return QhullPoints(qh_qh, point_dimension, n*point_dimension, point_first+idx*point_dimension);
 }//mid
 
 #//!\name QhullPointsIterator

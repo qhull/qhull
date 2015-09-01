@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/QhullFacet.cpp#14 $$Change: 1810 $
-** $DateTime: 2015/01/17 18:28:15 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullcpp/QhullFacet.cpp#16 $$Change: 1868 $
+** $DateTime: 2015/03/26 20:13:15 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -60,19 +60,22 @@ QhullFacet(const Qhull &q, facetT *f)
 #//!\name GetSet
 
 //! Return voronoi center or facet centrum.  Derived from qh_printcenter [io_r.c]
-//! printFormat=qh_PRINTtriangles if return centrum of a Delaunay facet
+//! if printFormat=qh_PRINTtriangles and qh.DELAUNAY, returns centrum of a Delaunay facet
 //! Sets center if needed
 //! Code duplicated for PrintCenter and getCenter
 //! Returns QhullPoint() if none or qh_INFINITE
 QhullPoint QhullFacet::
 getCenter(qh_PRINT printFormat)
 {
-    if(qh_qh->CENTERtype==qh_ASvoronoi){
+    if(!qh_qh){
+        // returns QhullPoint()
+    }else if(qh_qh->CENTERtype==qh_ASvoronoi){
         if(!qh_facet->normal || !qh_facet->upperdelaunay || !qh_qh->ATinfinity){
             if(!qh_facet->center){
                 QH_TRY_(qh_qh){ // no object creation -- destructors skipped on longjmp()
                     qh_facet->center= qh_facetcenter(qh_qh, qh_facet->vertices);
                 }
+                qh_qh->NOerrexit= true;
                 qh_qh->maybeThrowQhullMessage(QH_TRY_status);
             }
             return QhullPoint(qh_qh, qh_qh->hull_dim-1, qh_facet->center);
@@ -86,22 +89,26 @@ getCenter(qh_PRINT printFormat)
             QH_TRY_(qh_qh){ // no object creation -- destructors skipped on longjmp()
                 qh_facet->center= qh_getcentrum(qh_qh, getFacetT());
             }
+            qh_qh->NOerrexit= true;
             qh_qh->maybeThrowQhullMessage(QH_TRY_status);
         }
         return QhullPoint(qh_qh, numCoords, qh_facet->center);
     }
-    return QhullPoint(qh_qh);
+    return QhullPoint();
  }//getCenter
 
 //! Return innerplane clearly below the vertices
 //! from io_r.c[qh_PRINTinner]
 QhullHyperplane QhullFacet::
 innerplane() const{
-    realT inner;
-    // Does not error
-    qh_outerinner(qh_qh, const_cast<facetT *>(getFacetT()), NULL, &inner);
-    QhullHyperplane h= hyperplane();
-    h.setOffset(h.offset()-inner); //inner is negative
+    QhullHyperplane h;
+    if(qh_qh){
+        realT inner;
+        // Does not error, TRY_QHULL_ not needed
+        qh_outerinner(qh_qh, const_cast<facetT *>(getFacetT()), NULL, &inner);
+        h= hyperplane();
+        h.setOffset(h.offset()-inner); //inner is negative
+    }
     return h;
 }//innerplane
 
@@ -109,11 +116,14 @@ innerplane() const{
 //! from io_r.c[qh_PRINTouter]
 QhullHyperplane QhullFacet::
 outerplane() const{
-    realT outer;
-    // Does not error
-    qh_outerinner(qh_qh, const_cast<facetT *>(getFacetT()), &outer, NULL);
-    QhullHyperplane h= hyperplane();
-    h.setOffset(h.offset()-outer); //outer is positive
+    QhullHyperplane h;
+    if(qh_qh){
+        realT outer;
+        // Does not error, TRY_QHULL_ not needed
+        qh_outerinner(qh_qh, const_cast<facetT *>(getFacetT()), &outer, NULL);
+        h= hyperplane();
+        h.setOffset(h.offset()-outer); //outer is positive
+    }
     return h;
 }//outerplane
 
@@ -134,23 +144,24 @@ tricoplanarOwner() const
 QhullPoint QhullFacet::
 voronoiVertex()
 {
-    if(qh_qh->CENTERtype!=qh_ASvoronoi){
+    if(qh_qh && qh_qh->CENTERtype!=qh_ASvoronoi){
           throw QhullError(10052, "Error: QhullFacet.voronoiVertex() requires option 'v' (qh_ASvoronoi)");
     }
     return getCenter();
 }//voronoiVertex
 
-#//Value
+#//!\name Value
 
 //! Disables tricoplanarOwner()
 double QhullFacet::
 facetArea()
 {
-    if(!qh_facet->isarea){
+    if(qh_qh && !qh_facet->isarea){
         QH_TRY_(qh_qh){ // no object creation -- destructors skipped on longjmp()
             qh_facet->f.area= qh_facetarea(qh_qh, qh_facet);
             qh_facet->isarea= True;
         }
+        qh_qh->NOerrexit= true;
         qh_qh->maybeThrowQhullMessage(QH_TRY_status);
     }
     return qh_facet->f.area;
@@ -190,7 +201,7 @@ vertices() const
 
 }//namespace orgQhull
 
-#//!\name GetSet<<
+#//!\name operator<<
 
 using std::ostream;
 
@@ -206,6 +217,7 @@ using orgQhull::QhullVertexSet;
 ostream &
 operator<<(ostream &os, const QhullFacet::PrintFacet &pr)
 {
+    os << pr.message;
     QhullFacet f= *pr.facet;
     if(f.getFacetT()==0){ // Special values from set iterator
         os << " NULLfacet" << endl;
@@ -413,7 +425,7 @@ operator<<(ostream &os, const QhullFacet::PrintHeader &pr)
             os << "    - coplanar set:  " << cs.size() << " points.";
             os << furthest.print("  Furthest");
         }
-        // FIXUP zinc_(Zdistio);
+        // FIXUP QH11027 Can/should zinc_(Zdistio) be called from C++ interface
         double d= facet.distance(furthest);
         os << "      furthest distance= " << d << endl; //FIXUP QH11010 %2.2g
     }
@@ -501,6 +513,6 @@ operator<<(ostream &os, const QhullFacet::PrintRidges &pr)
 ostream &
 operator<<(ostream &os, QhullFacet &f)
 {
-    os << f.print();
+    os << f.print("");
     return os;
 }//<< QhullFacet

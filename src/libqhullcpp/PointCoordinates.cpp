@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2009-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/PointCoordinates.cpp#12 $$Change: 1810 $
-** $DateTime: 2015/01/17 18:28:15 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullcpp/PointCoordinates.cpp#15 $$Change: 1868 $
+** $DateTime: 2015/03/26 20:13:15 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -27,6 +27,31 @@ namespace orgQhull {
 
 #//!\name Constructors
 
+PointCoordinates::
+PointCoordinates()
+: QhullPoints()
+, point_coordinates()
+, describe_points()
+{
+}
+
+PointCoordinates::
+PointCoordinates(const std::string &aComment)
+: QhullPoints()
+, point_coordinates()
+, describe_points(aComment)
+{
+}
+
+PointCoordinates::
+PointCoordinates(int pointDimension, const std::string &aComment)
+: QhullPoints()
+, point_coordinates()
+, describe_points(aComment)
+{
+    setDimension(pointDimension);
+}
+
 //! Qhull and QhullQh constructors are the same
 PointCoordinates::
 PointCoordinates(const Qhull &q)
@@ -34,16 +59,6 @@ PointCoordinates(const Qhull &q)
 , point_coordinates()
 , describe_points()
 {
-    makeValid();
-}
-
-PointCoordinates::
-PointCoordinates(const Qhull &q, int pointDimension)
-: QhullPoints(q, pointDimension)
-, point_coordinates()
-, describe_points()
-{
-    makeValid();
 }
 
 PointCoordinates::
@@ -52,69 +67,59 @@ PointCoordinates(const Qhull &q, const std::string &aComment)
 , point_coordinates()
 , describe_points(aComment)
 {
-    makeValid();
 }
 
 PointCoordinates::
 PointCoordinates(const Qhull &q, int pointDimension, const std::string &aComment)
-: QhullPoints(q, pointDimension)
+: QhullPoints(q)
 , point_coordinates()
 , describe_points(aComment)
 {
-    makeValid();
+    setDimension(pointDimension);
 }
 
 PointCoordinates::
 PointCoordinates(const Qhull &q, int pointDimension, const std::string &aComment, countT coordinatesCount, const coordT *c)
-: QhullPoints(q, pointDimension)
+: QhullPoints(q)
 , point_coordinates()
 , describe_points(aComment)
 {
+    setDimension(pointDimension);
     append(coordinatesCount, c);
 }
 
 PointCoordinates::
-PointCoordinates(QhullQh *qh)
-: QhullPoints(qh)
+PointCoordinates(QhullQh *qqh)
+: QhullPoints(qqh)
 , point_coordinates()
 , describe_points()
 {
-    makeValid();
 }
 
 PointCoordinates::
-PointCoordinates(QhullQh *qh, int pointDimension)
-: QhullPoints(qh, pointDimension)
-, point_coordinates()
-, describe_points()
-{
-    makeValid();
-}
-
-PointCoordinates::
-PointCoordinates(QhullQh *qh, const std::string &aComment)
-: QhullPoints(qh)
+PointCoordinates(QhullQh *qqh, const std::string &aComment)
+: QhullPoints(qqh)
 , point_coordinates()
 , describe_points(aComment)
 {
-    makeValid();
 }
 
 PointCoordinates::
-PointCoordinates(QhullQh *qh, int pointDimension, const std::string &aComment)
-: QhullPoints(qh, pointDimension)
+PointCoordinates(QhullQh *qqh, int pointDimension, const std::string &aComment)
+: QhullPoints(qqh)
 , point_coordinates()
 , describe_points(aComment)
 {
-    makeValid();
+    setDimension(pointDimension);
 }
 
 PointCoordinates::
-PointCoordinates(QhullQh *qh, int pointDimension, const std::string &aComment, countT coordinatesCount, const coordT *c)
-: QhullPoints(qh, pointDimension)
+PointCoordinates(QhullQh *qqh, int pointDimension, const std::string &aComment, countT coordinatesCount, const coordT *c)
+: QhullPoints(qqh)
 , point_coordinates()
 , describe_points(aComment)
 {
+    setDimension(pointDimension);
     append(coordinatesCount, c);
 }
 
@@ -295,7 +300,7 @@ reserveCoordinates(countT newCoordinates)
     makeValid();
 }//reserveCoordinates
 
-#//Helpers
+#//!\name Helpers
 
 countT PointCoordinates::
 indexOffset(countT i) const {

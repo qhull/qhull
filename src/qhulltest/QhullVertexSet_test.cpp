@@ -1,18 +1,21 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/qhulltest/QhullVertexSet_test.cpp#4 $$Change: 1810 $
-** $DateTime: 2015/01/17 18:28:15 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/qhulltest/QhullVertexSet_test.cpp#10 $$Change: 1880 $
+** $DateTime: 2015/04/19 21:29:35 $$Author: bbarber $
 **
 ****************************************************************************/
 
 #include <iostream>
-#include "../road/RoadTest.h" // FIXUP First for QHULL_USES_QT
+#include "qhulltest/RoadTest.h" // FIXUP First for QHULL_USES_QT
 
-#include "Qhull.h"
-#include "QhullError.h"
-#include "QhullFacet.h"
-#include "QhullFacetSet.h"
+#include "libqhullcpp/QhullVertexSet.h"
+#include "libqhullcpp/QhullVertex.h"
+#include "libqhullcpp/Qhull.h"
+#include "libqhullcpp/QhullError.h"
+#include "libqhullcpp/QhullFacet.h"
+#include "libqhullcpp/RboxPoints.h"
+
 
 using std::cout;
 using std::endl;
@@ -22,11 +25,11 @@ using std::string;
 
 namespace orgQhull {
 
-class QhullFacetSet_test : public RoadTest
+class QhullVertexSet_test : public RoadTest
 {
     Q_OBJECT
 
-#//Test slots
+#//!\name Test slots
 private slots:
     void cleanup();
     void t_construct();
@@ -34,147 +37,131 @@ private slots:
     void t_readonly();
     void t_foreach();
     void t_io();
-};//QhullFacetSet_test
+};//QhullVertexSet_test
 
 void
-add_QhullFacetSet_test()
+add_QhullVertexSet_test()
 {
-    new QhullFacetSet_test();
+    new QhullVertexSet_test();
 }
 
 //Executed after each testcase
-void QhullFacetSet_test::
+void QhullVertexSet_test::
 cleanup()
 {
     RoadTest::cleanup();
-    UsingQhullLib::checkQhullMemoryEmpty();
 }
 
-void QhullFacetSet_test::
+void QhullVertexSet_test::
 t_construct()
 {
     RboxPoints rcube("c");
     Qhull q(rcube,"QR0");  // rotated unit cube
+    cout << "INFO   : Cube rotated by QR" << q.rotateRandom() << std::endl;
     QhullFacet f= q.firstFacet();
-    QhullFacetSet fs2= f.neighborFacets();
-    QVERIFY(!fs2.isEmpty());
-    QCOMPARE(fs2.count(),4);
-    QhullFacetSet fs4= fs2; // copy constructor
-    QVERIFY(fs4==fs2);
-    QhullFacetSet fs3(q.qhullQh()->facet_mergeset);
-    QVERIFY(fs3.isEmpty());
+    QhullVertexSet vs= f.vertices();
+    QVERIFY(!vs.isEmpty());
+    QCOMPARE(vs.count(),4);
+    QhullVertexSet vs4= vs; // copy constructor
+    QVERIFY(vs4==vs);
+    QhullVertexSet vs3(q, q.qh()->del_vertices);
+    QVERIFY(vs3.isEmpty());
+    q.checkAndFreeQhullMemory();
 }//t_construct
 
-void QhullFacetSet_test::
+void QhullVertexSet_test::
 t_convert()
 {
     RboxPoints rcube("c");
-    Qhull q(rcube,"QR0 QV2");  // rotated unit cube
+    Qhull q(rcube,"QR0 QV2");  // rotated unit cube with "good" facets adjacent to point 0
+    cout << "INFO   : Cube rotated by QR" << q.rotateRandom() << std::endl;
     QhullFacet f= q.firstFacet();
-    QhullFacetSet fs2= f.neighborFacets();
-    QVERIFY(!fs2.isSelectAll());
-    QCOMPARE(fs2.count(),2);
-    std::vector<QhullFacet> fv= fs2.toStdVector();
-    QCOMPARE(fv.size(), 2u);
-    QList<QhullFacet> fv2= fs2.toQList();
-    QCOMPARE(fv2.size(), 2);
-    fs2.selectAll();
-    QVERIFY(fs2.isSelectAll());
-    std::vector<QhullFacet> fv3= fs2.toStdVector();
+    QhullVertexSet vs2= f.vertices();
+    QCOMPARE(vs2.count(),4);
+    std::vector<QhullVertex> fv= vs2.toStdVector();
+    QCOMPARE(fv.size(), 4u);
+    QList<QhullVertex> fv2= vs2.toQList();
+    QCOMPARE(fv2.size(), 4);
+    std::vector<QhullVertex> fv3= vs2.toStdVector();
     QCOMPARE(fv3.size(), 4u);
-    QList<QhullFacet> fv4= fs2.toQList();
+    QList<QhullVertex> fv4= vs2.toQList();
     QCOMPARE(fv4.size(), 4);
+    q.checkAndFreeQhullMemory();
 }//t_convert
 
 //! Spot check properties and read-only.  See QhullSet_test
-void QhullFacetSet_test::
+void QhullVertexSet_test::
 t_readonly()
 {
     RboxPoints rcube("c");
     Qhull q(rcube,"QV0");  // good facets are adjacent to point 0
-    QhullFacetSet fs= q.firstFacet().neighborFacets();
-    QVERIFY(!fs.isSelectAll());
-    QCOMPARE(fs.count(), 2);
-    fs.selectAll();
-    QVERIFY(fs.isSelectAll());
-    QCOMPARE(fs.count(), 4);
-    fs.selectGood();
-    QVERIFY(!fs.isSelectAll());
-    QCOMPARE(fs.count(), 2);
-    QhullFacet f= fs.first();
-    QhullFacet f2= fs.last();
-    fs.selectAll();
-    QVERIFY(fs.contains(f));
-    QVERIFY(fs.contains(f2));
-    QVERIFY(f.isGood());
-    QVERIFY(!f2.isGood());
-    fs.selectGood();
-    QVERIFY(fs.contains(f));
-    QVERIFY(!fs.contains(f2));
+    QhullVertexSet vs= q.firstFacet().vertices();
+    QCOMPARE(vs.count(), 4);
+    QCOMPARE(vs.count(), 4);
+    QhullVertex v= vs.first();
+    QhullVertex v2= vs.last();
+    QVERIFY(vs.contains(v));
+    QVERIFY(vs.contains(v2));
+    q.checkAndFreeQhullMemory();
 }//t_readonly
 
-void QhullFacetSet_test::
+void QhullVertexSet_test::
 t_foreach()
 {
     RboxPoints rcube("c");
     // Spot check predicates and accessors.  See QhullLinkedList_test
     Qhull q(rcube,"QR0");  // rotated unit cube
-    QhullFacetSet fs= q.firstFacet().neighborFacets();
-    QVERIFY(!fs.contains(q.firstFacet()));
-    QVERIFY(fs.contains(fs.first()));
-    QhullFacet f= q.firstFacet().next();
-    if(!fs.contains(f)){
-        f= f.next();
-    }
-    QVERIFY(fs.contains(f));
-    QCOMPARE(fs.first(), *fs.begin());
-    QCOMPARE(*(fs.end()-1), fs.last());
+    cout << "INFO   : Cube rotated by QR" << q.rotateRandom() << std::endl;
+    QhullVertexSet vs= q.firstFacet().vertices();
+    QVERIFY(vs.contains(vs.first()));
+    QVERIFY(vs.contains(vs.last()));
+    QCOMPARE(vs.first(), *vs.begin());
+    QCOMPARE(*(vs.end()-1), vs.last());
+    q.checkAndFreeQhullMemory();
 }//t_foreach
 
-void QhullFacetSet_test::
+void QhullVertexSet_test::
 t_io()
 {
     RboxPoints rcube("c");
     {
         Qhull q(rcube,"QR0 QV0");   // good facets are adjacent to point 0
-        QhullFacetSet fs= q.firstFacet().neighborFacets();
+        cout << "INFO   : Cube rotated by QR" << q.rotateRandom() << std::endl;
+        QhullVertexSet vs= q.firstFacet().vertices();
         ostringstream os;
-        os << fs.print(q.runId(), "Neighbors of first facet with point 0");
-        os << fs.printIdentifiers("\nFacet identifiers: ");
+        os << vs.print("Vertices of first facet with point 0");
+        os << vs.printIdentifiers("\nVertex identifiers: ");
         cout<< os.str();
-        QString facets= QString::fromStdString(os.str());
-        QCOMPARE(facets.count(QRegExp(" f[0-9]")), 2+13*2);
+        QString vertices= QString::fromStdString(os.str());
+        QCOMPARE(vertices.count(QRegExp(" v[0-9]")), 4);
+        q.checkAndFreeQhullMemory();
     }
 }//t_io
 
-//FIXUP -- Move conditional, QhullFacetSet code to QhullFacetSet.cpp
+//FIXUP -- Move conditional, QhullVertexSet code to QhullVertexSet.cpp
 #ifndef QHULL_NO_STL
-std::vector<QhullFacet> QhullFacetSet::
+std::vector<QhullVertex> QhullVertexSet::
 toStdVector() const
 {
-    QhullSetIterator<QhullFacet> i(*this);
-    std::vector<QhullFacet> vs;
+    QhullSetIterator<QhullVertex> i(*this);
+    std::vector<QhullVertex> vs;
     while(i.hasNext()){
-        QhullFacet f= i.next();
-        if(isSelectAll() || f.isGood()){
-            vs.push_back(f);
-        }
+        QhullVertex v= i.next();
+        vs.push_back(v);
     }
     return vs;
 }//toStdVector
 #endif //QHULL_NO_STL
 
 #ifdef QHULL_USES_QT
-QList<QhullFacet> QhullFacetSet::
+QList<QhullVertex> QhullVertexSet::
 toQList() const
 {
-    QhullSetIterator<QhullFacet> i(*this);
-    QList<QhullFacet> vs;
+    QhullSetIterator<QhullVertex> i(*this);
+    QList<QhullVertex> vs;
     while(i.hasNext()){
-        QhullFacet f= i.next();
-        if(isSelectAll() || f.isGood()){
-            vs.append(f);
-        }
+        QhullVertex v= i.next();
+        vs.append(v);
     }
     return vs;
 }//toQList
@@ -182,4 +169,4 @@ toQList() const
 
 }//orgQhull
 
-#include "moc/QhullFacetSet_test.moc"
+#include "moc/QhullVertexSet_test.moc"

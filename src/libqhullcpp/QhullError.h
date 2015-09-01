@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/QhullError.h#12 $$Change: 1810 $
-** $DateTime: 2015/01/17 18:28:15 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullcpp/QhullError.h#16 $$Change: 1835 $
+** $DateTime: 2015/02/16 22:32:04 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -29,8 +29,8 @@ public:
 #//!\name Constants
     enum {
         QHULLfirstError= 10000, //MSG_QHULL_ERROR in Qhull's user.h
-        QHULLlastError= 10076,
-        NOthrow= 1 //! For flag to UsingLibQhull()
+        QHULLlastError= 10078,
+        NOthrow= 1 //! For flag to indexOf()
     };
 
 #//!\name Constructors
