@@ -10,7 +10,7 @@ Convex hull, Delaunay triangulation, Voronoi diagrams, Halfspace intersection
 
       Available from:
         <http://www.qhull.org>
-        <git@gitorious.org:qhull/qhull.git>
+        <git@github.com:qhull/qhull.git>
  
       News and a paper:
         <http://www.qhull.org/news>
@@ -55,8 +55,8 @@ To cite Qhull, please use
 
 To contribute to Qhull
 
-  Qhull is on Gitorious 
-     (http://gitorious.org:qhull, git@gitorious.org:qhull/qhull.git)
+  Qhull is on GitHub 
+     (http://github.com/qhull/qhull, git@github.com:qhull/qhull.git)
   
   For internal documentation, see html/qh-code.htm
 
@@ -115,7 +115,7 @@ Installing Qhull on Windows 7+ (32- or 64-bit), Windows XP, and Windows NT
 Installing Qhull on Unix with gcc
 
   To build Qhull, static libraries, shared library, and C++ interface
-  - Download and extract Qhull (either gitorious or the .tgz or .zip file)
+  - Download and extract Qhull (either GitHub or the .tgz or .zip file)
   - make
   - export LD_LIBRARY_PATH=$PWD/lib:$LD_LIBRARY_PATH
 
@@ -133,7 +133,7 @@ Installing Qhull on Unix with gcc
 Installing Qhull with CMake 2.6 or later
 
   To build Qhull, static libraries, shared library, and C++ interface
-  - Download and extract Qhull (either gitorious or the .tgz or .zip file)
+  - Download and extract Qhull (either GitHub or the .tgz or .zip file)
   - cd build
   - cmake --help  # List build generators
   - make -G "<generator>" .. && cmake ..
@@ -148,7 +148,7 @@ Installing Qhull with CMake 2.6 or later
 Installing Qhull with Qt
 
   To build Qhull, including its C++ test (qhulltest)
-  - Download and extract Qhull (either gitorious or the .tgz or .zip file)
+  - Download and extract Qhull (either GitHub or the .tgz or .zip file)
   - Load src/qhull-all.pro into QtCreator
   - Build
 
@@ -163,11 +163,11 @@ Working with Qhull's C++ interface
     user_eg3_r.cpp
     qhulltest/*_test.cpp
 
-  Qhull's C++ interface is likely to change.  Stay current with Gitorious.
+  Qhull's C++ interface is likely to change.  Stay current with GitHub.
 
-  To clone Qhull's next branch from http://gitorious.org/qhull
+  To clone Qhull's next branch from http://github.com/qhull/qhull
     git init
-    git clone git://gitorious.org/qhull/qhull.git
+    git clone git@github.com:qhull/qhull.git
     cd qhull
     git checkout next
     ...
@@ -201,7 +201,7 @@ Calling Qhull from C programs
 Compiling Qhull with Microsoft Visual C++
 
   To compile Qhull with Microsoft Visual C++
-  - Download and extract Qhull (either gitorious or the .tgz or .zip file)
+  - Download and extract Qhull (either GitHub or the .tgz or .zip file)
   - Load solution build/qhull.sln 
   - Build target 'win32' (not 'x64')
   - Project qhulltest requires Qt for DevStudio (http://www.qt.io)
@@ -224,7 +224,7 @@ Compiling Qhull with Qt Creator
   Qhull uses QTestLib to test qhull's C++ interface (qhulltest)
   
   To compile Qhull with Qt Creator
-  - Download and extract Qhull (either gitorious or the .tgz or .zip file)
+  - Download and extract Qhull (either GitHub or the .tgz or .zip file)
   - Download the Qt SDK
   - Start Qt Creator
   - Load src/qhull-all.pro
@@ -234,7 +234,7 @@ Compiling Qhull with Qt Creator
 Compiling Qhull with mingw on Windows
 
   To compile Qhull with MINGW
-  - Download and extract Qhull (either gitorious or the .tgz or .zip file)
+  - Download and extract Qhull (either GitHub or the .tgz or .zip file)
   - Install Road Bash (http://www.qhull.org/bash)
     or install MSYS (http://www.mingw.org/wiki/msys)
   - Install MINGW-w64 (http://sourceforge.net/projects/mingw-w64).  
@@ -245,7 +245,7 @@ Compiling Qhull with mingw on Windows
 Compiling Qhull with cygwin on Windows
 
   To compile Qhull with cygwin
-  - Download and extract Qhull (either gitorious or the .tgz or .zip file)
+  - Download and extract Qhull (either GitHub or the .tgz or .zip file)
   - Install cygwin (http://www.cygwin.com)
   - Include packages for gcc, make, ar, and ln
   - make

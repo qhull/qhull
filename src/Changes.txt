@@ -8,7 +8,7 @@ Need help
  - Qhull needs a mirror/archive site for old and new builds
  - Constrained delaunay triangulation via Shewchuk's algorithm (ACM Symp. Comp. Geo., 1998)
  - The C++ interface needs work.  Give it a try and make it better.
-   http://gitorious.org/qhull/
+   http://github.com/qhull/qhull
  - Produce conformant triangulations for merged facets using option 'Qt' 
  - Write an incremental addPoint using bucketed inputs and facet location search
  - Compute hyperplanes in parallel (cf. qh_setfactplane)
@@ -50,11 +50,36 @@ To do for a furture version of the C++ interface
  - Generalize QhullPointSetIterator
 
 -----------
-To Do
+To Do for Qhull 2015.1
+ - Review Qhull email
  - vertex_id should be 'countT'
+ - Fix rare "no more facets" error at initialization
+ - Compare libqhull to libqhull_r
+ - Review all FIXUP
+ - Review all C++ classes and C++ tests
+   QhullVertexSet uses QhullSetBase::referenceSetT() to free it's memory.   Probably needed elsewhere
+ - CMakelists.txt: Fix name of qhull6_p_d.dll
+ - CMakelists.txt:  Why all files duplicated for cmake build
+ - Add sln/vcproj builds for Win64 
+ - qhull.pro: It should build with reentrant Qhull  
+ - qhull-all.pro: Review other files
+ - Review -Wshadow warnings.  Need naming convention for parameter vs. member, 'qqh' doesn't genealize
+ - rboxlib.c: Review -Wclobbered warnings. 'simplex' is used at longjmp, add volatile comments
+ - Break up -Wextra into its components or figure out how to override -Wunused-but-set-variable
+   unused-but-set-variable is reporting incorrectly.  All instances are annotated.
+ - qh-get.htm: Add list of download build repositories
+ - qh-code.htm: Document changes to C++ interface.  See Changes.txt
+      Organize C++ documentation into collection classes, etc.
+ - qh-code.htm: May also use libqhull_r (e.g., FOREACHfacet_(...))
+   
+------------
+Qhull 2015.0.2 2015/9/1
+ - global_r.c: Fixed spelling of /* duplicated in...qh_clear_outputflags */ [K. Schwehr]
+ - Replaced Gitorious with GitHub
+ - Moved 'to do' comments into Changes.txt
 
 ------------
-Qhull 2015.0.2
+Qhull 2015.0.2 2015/8/31
 
  Source code changes
  - Increased size of vertexT.id and ridgeT.id to 2^32
@@ -70,6 +95,7 @@ Qhull 2015.0.2
    
  Other source code changes
  - Define ptr_intT as 'long long' for __MINGW64__ [A. Voskov]
+ - poly_r.c: initialize horizon_skip [K. Schwehr]
  - Removed vertexT.dim and MAX_vdim.  It is not used by reentrant Qhull.
  - Removed qhull_inuse.  Not used by C++
  - Removed old __MWERKS__/__POWERPC__ code that speed up SIOUX I/O
@@ -119,6 +145,8 @@ Qhull documentation
  - gobal_r.c: Version includes a '.r' suffix to indicate 'reentrant'
 
 Qhull builds
+ - Development moved to http://github.com/qhull/qhull
+   git clone git@github.com:qhull/qhull.git
  - Exchanged make targets for testing.  
    'make test' is a quick test of qhull programs.  
    'make testall' is a thorough test
@@ -141,7 +169,7 @@ Qhull builds
  - Removed Debian 'config/...'.  It was needed for Qhull 2012.
 
 libqhull_r (reentrant Qhull)
- - Replaced qh_qh with a parameter to each procedure
+ - Replaced qh_qh with a parameter to each procedure [P. Klosterman]
    No more globally defined data structures in Qhull
    Simplified multithreading and C++ user interface
    All functions are reentrant (Qt: "A reentrant function can ... be called simultaneously from multiple threads, but only if each invocation uses its own data.")

@@ -46,7 +46,7 @@ SYNOPSIS
         - installation:   README.txt
         - see also:       COPYING.txt, REGISTER.txt, Changes.txt
         - WWW:            <http://www.qhull.org>
-        - GIT:            <git@gitorious.org:qhull/qhull.git>
+        - GIT:            <git@github.com:qhull/qhull.git>
         - mirror:         <http://www6.uniovi.es/ftp/pub/mirrors/geom.umn.edu/software/ghindex.html>
         - news:           <http://www.qhull.org/news>
         - Geomview:       <http://www.geomview.org>

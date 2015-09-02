@@ -2,7 +2,7 @@
  Qhull 2015.0.2  2015/08/30
 
         http://www.qhull.org
-        git@gitorious.org:qhull/qhull.git
+        git@github.com:qhull/qhull.git
         http://packages.debian.org/sid/libqhull5 [out-of-date]      
         http://www6.uniovi.es/ftp/pub/mirrors/geom.umn.edu/software/ghindex.html
         http://www.geomview.org
@@ -21,9 +21,8 @@ You can view the results in 2-d, 3-d and 4-d with Geomview.
 
 To download Qhull:
         http://www.qhull.org/download
-        git@gitorious.org:qhull/qhull.git
-        http://packages.debian.org/sid/libqhull5 [out-of-date]       
-
+        git@github.com:qhull/qhull.git
+ 
 Download qhull-96.ps for:
 
         Barber, C. B., D.P. Dobkin, and H.T. Huhdanpaa, "The
