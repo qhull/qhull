@@ -229,7 +229,7 @@ void readOptions(qhT *qh, int argc, char **argv, const char *promptstr, int *num
     int isTracing= 0;
 
     if (argc < 2 || argc > 4) {
-        printf(promptstr);
+        printf("%s",promptstr);
         exit(0);
     }
     numIntsArg= strtol(argv[1], &endp, 10);

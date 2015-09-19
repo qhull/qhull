@@ -55,7 +55,7 @@ input (stdin):\n\
     other lines: point coordinates, best if one point per line\n\
     comments:    start with a non-numeric character\n\
     halfspaces:  use dim plus one and put offset after coefficients.\n\
-                 May be preceeded by a single interior point ('H').\n\
+                 May be preceded by a single interior point ('H').\n\
 \n\
 options:\n\
     d    - Delaunay triangulation by lifting points to a paraboloid\n\

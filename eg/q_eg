@@ -71,7 +71,7 @@ rbox 10 r s Z1 G0.3 | qconvex FQ FV n | qhalf FQ s Fp | qconvex G >eg/eg.33c.con
 
 echo ==the following should generate flipped and concave facets== >/dev/null
 rbox 200 s | qhull Q0 s R0.014 Gav Po >eg/eg.21a.roundoff.errors
-echo ==the preceeding should report flipped and concave facets== >/dev/null
+echo ==the preceding should report flipped and concave facets== >/dev/null
 
 
 
