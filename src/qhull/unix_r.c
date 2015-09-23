@@ -8,8 +8,8 @@
    see qh-qhull.htm
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2011/qhull/src/qhull/unix_r.c#5 $$Change: 1951 $
-   $DateTime: 2015/08/30 21:30:30 $$Author: bbarber $
+   $Id: //main/2011/qhull/src/qhull/unix_r.c#6 $$Change: 1965 $
+   $DateTime: 2015/09/22 22:38:32 $$Author: bbarber $
 */
 
 #include "libqhull_r/mem_r.h"
@@ -55,7 +55,7 @@ input (stdin):\n\
     other lines: point coordinates, best if one point per line\n\
     comments:    start with a non-numeric character\n\
     halfspaces:  use dim plus one and put offset after coefficients.\n\
-                 May be preceeded by a single interior point ('H').\n\
+                 May be preceded by a single interior point ('H').\n\
 \n\
 options:\n\
     d    - Delaunay triangulation by lifting points to a paraboloid\n\

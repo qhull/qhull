@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2009-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/QhullVertexSet.cpp#15 $$Change: 1835 $
-** $DateTime: 2015/02/16 22:32:04 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/libqhullcpp/QhullVertexSet.cpp#16 $$Change: 1965 $
+** $DateTime: 2015/09/22 22:38:32 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -80,7 +80,7 @@ operator=(const QhullVertexSet &other)
         throw QhullError(10078, "QhullVertexSet: Cannot use copy constructor since qhsettemp_defined (e.g., QhullVertexSet for a set and/or list of QhFacet).  Contains %d vertices", other.count());
     }
     return *this;
-}//copy constructor
+}//assignment
 
 void QhullVertexSet::
 freeQhSetTemp()
@@ -100,6 +100,21 @@ QhullVertexSet::
 {
     freeQhSetTemp();
 }//~QhullVertexSet
+
+//FIXUP -- Move conditional, QhullVertexSet code to QhullVertexSet.cpp
+#ifndef QHULL_NO_STL
+std::vector<QhullVertex> QhullVertexSet::
+toStdVector() const
+{
+    QhullSetIterator<QhullVertex> i(*this);
+    std::vector<QhullVertex> vs;
+    while(i.hasNext()){
+        QhullVertex v= i.next();
+        vs.push_back(v);
+    }
+    return vs;
+}//toStdVector
+#endif //QHULL_NO_STL
 
 }//namespace orgQhull
 
