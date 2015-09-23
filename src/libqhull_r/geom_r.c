@@ -7,8 +7,8 @@
    see qh-geom_r.htm and geom_r.h
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2011/qhull/src/libqhull_r/geom_r.c#3 $$Change: 1965 $
-   $DateTime: 2015/09/22 22:38:32 $$Author: bbarber $
+   $Id: //main/2011/qhull/src/libqhull_r/geom_r.c#2 $$Change: 1951 $
+   $DateTime: 2015/08/30 21:30:30 $$Author: bbarber $
 
    infrequent code goes into geom2_r.c
 */
@@ -465,7 +465,7 @@ facetT *qh_findbestnew(qhT *qh, pointT *point, facetT *startfacet,
       } /* end of !flipped */
     } /* FORALLfacet from startfacet or qh->newfacet_list */
   }
-  if (testhorizon || !bestfacet) /* testhorizon is always True.  Keep the same code as qh_findbest */
+  if (testhorizon || !bestfacet)
     bestfacet= qh_findbesthorizon(qh, !qh_IScheckmax, point, bestfacet ? bestfacet : startfacet,
                                         !qh_NOupper, &bestdist, numpart);
   *dist= bestdist;
@@ -682,7 +682,7 @@ pointT *qh_getcenter(qhT *qh, setT *vertices) {
     *coord= 0.0;
     FOREACHvertex_(vertices)
       *coord += vertex->point[k];
-    *coord /= count;  /* count>=2 by QH6003 */
+    *coord /= count;
   }
   return(center);
 } /* getcenter */

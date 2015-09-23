@@ -9,8 +9,8 @@
    frequently used code is in poly_r.c
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2011/qhull/src/libqhull_r/poly2_r.c#3 $$Change: 1965 $
-   $DateTime: 2015/09/22 22:38:32 $$Author: bbarber $
+   $Id: //main/2011/qhull/src/libqhull_r/poly2_r.c#2 $$Change: 1951 $
+   $DateTime: 2015/08/30 21:30:30 $$Author: bbarber $
 */
 
 #include "qhull_ra.h"
@@ -219,7 +219,7 @@ void qh_check_maxout(qhT *qh) {
         }
         if (dist > qh->TRACEdist || (bestfacet && bestfacet == qh->tracefacet))
           qh_fprintf(qh, qh->ferr, 8094, "qh_check_maxout: p%d is %.2g above f%d\n",
-          qh_pointid(qh, point), dist, (bestfacet ? bestfacet->id : UINT_MAX));
+                     qh_pointid(qh, point), dist, bestfacet->id);
       }
     }
   }while
@@ -742,7 +742,7 @@ void qh_checkfacet(qhT *qh, facetT *facet, boolT newmerge, boolT *waserrorp) {
       if (neighbor->simplicial) {
         skipA= SETindex_(facet->neighbors, neighbor);
         skipB= qh_setindex(neighbor->neighbors, facet);
-        if (skipA<0 || skipB<0 || !qh_setequal_skip(facet->vertices, skipA, neighbor->vertices, skipB)) {
+        if (!qh_setequal_skip(facet->vertices, skipA, neighbor->vertices, skipB)) {
           qh_fprintf(qh, qh->ferr, 6135, "qhull internal error (qh_checkfacet): facet f%d skip %d and neighbor f%d skip %d do not match \n",
                    facet->id, skipA, neighbor->id, skipB);
           errother= neighbor;
@@ -1196,8 +1196,8 @@ facetT *qh_findbestfacet(qhT *qh, pointT *point, boolT bestoutside,
   if (*bestdist < -qh->DISTround) {
     bestfacet= qh_findfacet_all(qh, point, bestdist, isoutside, &numpart);
     totpart += numpart;
-    if ((isoutside && *isoutside && bestoutside)
-    || (isoutside && !*isoutside && bestfacet->upperdelaunay)) {
+    if ((isoutside && bestoutside)
+    || (!isoutside && bestfacet->upperdelaunay)) {
       bestfacet= qh_findbest(qh, point, bestfacet,
                             bestoutside, False, bestoutside,
                             bestdist, isoutside, &totpart);
@@ -1205,7 +1205,7 @@ facetT *qh_findbestfacet(qhT *qh, pointT *point, boolT bestoutside,
     }
   }
   trace3((qh, qh->ferr, 3014, "qh_findbestfacet: f%d dist %2.2g isoutside %d totpart %d\n",
-          bestfacet->id, *bestdist, (isoutside ? *isoutside : UINT_MAX), totpart));
+          bestfacet->id, *bestdist, *isoutside, totpart));
   return bestfacet;
 } /* findbestfacet */
 
@@ -2105,7 +2105,7 @@ void qh_matchduplicates(qhT *qh, facetT *atfacet, int atskip, int hashsize, int 
                      atfacet->id, atskip, hash);
         qh_errexit(qh, qh_ERRqhull, atfacet, NULL);
       }
-      SETelem_(maxmatch->neighbors, maxskip)= maxmatch2; /* maxmatch!=0 by QH6157 */
+      SETelem_(maxmatch->neighbors, maxskip)= maxmatch2;
       SETelem_(maxmatch2->neighbors, maxskip2)= maxmatch;
       *hashcount -= 2; /* removed two unmatched facets */
       zzinc_(Zmultiridge);
@@ -2227,12 +2227,8 @@ vertexT *qh_nearvertex(qhT *qh, facetT *facet, pointT *point, realT *bestdistp) 
   if (facet->tricoplanar)
     qh_settempfree(qh, &vertices);
   *bestdistp= sqrt(bestdist);
-  if (!bestvertex) {
-      qh_fprintf(qh, qh->ferr, 6261, "qhull internal error (qh_nearvertex): did not find bestvertex for f%d p%d\n", facet->id, qh_pointid(qh, point));
-      qh_errexit(qh, qh_ERRqhull, facet, NULL);
-  }
   trace3((qh, qh->ferr, 3019, "qh_nearvertex: v%d dist %2.2g for f%d p%d\n",
-        bestvertex->id, *bestdistp, facet->id, qh_pointid(qh, point))); /* bestvertex!=0 by QH2161 */
+        bestvertex->id, *bestdistp, facet->id, qh_pointid(qh, point)));
   return bestvertex;
 } /* nearvertex */
 
@@ -2278,7 +2274,7 @@ vertexT *qh_newvertex(qhT *qh, pointT *point) {
   zinc_(Ztotvertices);
   vertex= (vertexT *)qh_memalloc(qh, (int)sizeof(vertexT));
   memset((char *) vertex, (size_t)0, sizeof(vertexT));
-  if (qh->vertex_id == UINT_MAX) {
+  if (qh->vertex_id == 0xFFFFFFFF) {
     qh_fprintf(qh, qh->ferr, 6159, "qhull error: more than 2^32 vertices.  vertexT.id field overflows.  Vertices would not be sorted correctly.\n");
     qh_errexit(qh, qh_ERRqhull, NULL, NULL);
   }
@@ -2824,7 +2820,7 @@ void qh_triangulate(qhT *qh /*qh.facet_list*/) {
         owner= NULL;
       }
     }else if (facet->tricoplanar) {
-      if (facet->f.triowner != visible || visible==NULL) {
+      if (facet->f.triowner != visible) {
         qh_fprintf(qh, qh->ferr, 6162, "qhull error (qh_triangulate): tricoplanar facet f%d not owned by its visible, non-simplicial facet f%d\n", facet->id, getid_(visible));
         qh_errexit2(qh, qh_ERRqhull, facet, visible);
       }
@@ -2832,7 +2828,7 @@ void qh_triangulate(qhT *qh /*qh.facet_list*/) {
         facet->f.triowner= owner;
       else if (!facet->degenerate) {
         owner= facet;
-        nextfacet= visible->next; /* rescan tricoplanar facets with owner, visible!=0 by QH6162 */
+        nextfacet= visible->next; /* rescan tricoplanar facets with owner */
         facet->keepcentrum= True;  /* one facet owns ->normal, etc. */
         facet->coplanarset= visible->coplanarset;
         facet->outsideset= visible->outsideset;

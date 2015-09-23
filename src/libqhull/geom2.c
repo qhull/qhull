@@ -8,8 +8,8 @@
    see qh-geom.htm and geom.h
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2011/qhull/src/libqhull/geom2.c#6 $$Change: 1965 $
-   $DateTime: 2015/09/22 22:38:32 $$Author: bbarber $
+   $Id: //main/2011/qhull/src/libqhull/geom2.c#5 $$Change: 1810 $
+   $DateTime: 2015/01/17 18:28:15 $$Author: bbarber $
 
    frequently used code goes into geom.c
 */
@@ -34,7 +34,7 @@ coordT *qh_copypoints(coordT *points, int numpoints, int dimension) {
         numpoints);
     qh_errexit(qh_ERRmem, NULL, NULL);
   }
-  memcpy((char *)newpoints, (char *)points, (size_t)size); /* newpoints!=0 by QH6004 */
+  memcpy((char *)newpoints, (char *)points, (size_t)size);
   return newpoints;
 } /* copypoints */
 

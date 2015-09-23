@@ -1,14 +1,14 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/qhulltest/QhullRidge_test.cpp#12 $$Change: 1965 $
-** $DateTime: 2015/09/22 22:38:32 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/qhulltest/QhullRidge_test.cpp#11 $$Change: 1868 $
+** $DateTime: 2015/03/26 20:13:15 $$Author: bbarber $
 **
 ****************************************************************************/
 
 //pre-compiled headers
 #include <iostream>
-#include "RoadTest.h" // QT_VERSION
+#include "RoadTest.h"
 
 #include "libqhullcpp/QhullRidge.h"
 #include "libqhullcpp/QhullError.h"
@@ -111,12 +111,12 @@ t_foreach()
     {
         Qhull q(rcube, "QR0"); // rotated cube
         QhullFacet f(q.firstFacet());
-        foreach (const QhullRidge &r, f.ridges()){  // Qt only
+        foreach (QhullRidge r, f.ridges()){  // Qt only
             QhullVertexSet vs= r.vertices();
             QCOMPARE(vs.count(), 2);
-            foreach (const QhullVertex &v, vs){  // Qt only
-                QVERIFY(f.vertices().contains(v));
-            }
+ //FIXUP           foreach (const QhullVertex v, vs){  // Qt only
+        //        QVERIFY(f.vertices().contains(v));
+          //  }
         }
         QhullRidgeSet rs= f.ridges();
         QhullRidge r= rs.first();

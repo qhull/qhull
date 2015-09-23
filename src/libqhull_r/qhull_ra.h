@@ -13,8 +13,8 @@
    defines internal functions for libqhull_r.c global_r.c
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2011/qhull/src/libqhull_r/qhull_ra.h#3 $$Change: 1965 $
-   $DateTime: 2015/09/22 22:38:32 $$Author: bbarber $
+   $Id: //main/2011/qhull/src/libqhull_r/qhull_ra.h#2 $$Change: 1914 $
+   $DateTime: 2015/06/21 22:08:19 $$Author: bbarber $
 
    Notes:  grep for ((" and (" to catch fprintf("lkasdjf");
            full parens around (x?y:z)
@@ -102,7 +102,7 @@
 #elif defined(__MWERKS__) && defined(__INTEL__)
 #   define QHULL_OS_WIN
 #endif
-#if defined(__cplusplus) && defined(__INTEL_COMPILER) && !defined(QHULL_OS_WIN)
+#if defined(__INTEL_COMPILER) && !defined(QHULL_OS_WIN)
 template <typename T>
 inline void qhullUnused(typename T &x) { (void)x; }
 #  define QHULL_UNUSED(x) qhullUnused(x);

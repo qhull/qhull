@@ -7,8 +7,8 @@
    see qh-qhull.htm, qhull_ra.h
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2011/qhull/src/libqhull_r/libqhull_r.h#4 $$Change: 1965 $
-   $DateTime: 2015/09/22 22:38:32 $$Author: bbarber $
+   $Id: //main/2011/qhull/src/libqhull_r/libqhull_r.h#3 $$Change: 1951 $
+   $DateTime: 2015/08/30 21:30:30 $$Author: bbarber $
 
    includes function prototypes for libqhull_r.c, geom_r.c, global_r.c, io_r.c, user.c
 
@@ -27,7 +27,7 @@
 
 #include "user_r.h"      /* user definable constants (e.g., realT) */
 
-#include "mem_r.h"
+#include "mem_r.h" 
 /* stat_r.h included realT */
 
 #include <setjmp.h>
@@ -47,7 +47,7 @@
 
 /*============ constants and basic types ====================*/
 
-extern const char qh_version[]; /* defined in global_r.c */
+extern const char *qh_version; /* defined in global_r.c */
 
 /*-<a                             href="qh-geom.htm#TOC"
   >--------------------------------</a><a name="coordT">-</a>
@@ -69,8 +69,8 @@ extern const char qh_version[]; /* defined in global_r.c */
 
   pointT
     a point is an array of coordinates, usually qh.hull_dim
-    qh_pointid returns
-      qh_IDnone if point==0 or qh is undefined
+    qh_pointid returns 
+      qh_IDnone if point==0 or qh is undefined 
       qh_IDinterior for qh.interior_point
       qh_IDunknown if point is neither in qh.first_point... nor qh.other_points
 
@@ -115,7 +115,7 @@ qh_pointT;
 #define qh_False 0
 #define qh_True 1
 
-#include "stat_r.h"
+#include "stat_r.h" 
 
 /*-<a                             href="qh-qhull.htm#TOC"
   >--------------------------------</a><a name="CENTERtype">-</a>
@@ -404,8 +404,8 @@ struct vertexT {
   qhT
    All global variables for qhull are in qhT.  It includes qhmemT, qhstatT, and rbox globals
 
-   This version of Qhull is reentrant, but it is not thread-safe.
-
+   This version of Qhull is reentrant, but it is not thread-safe.  
+   
    Do not run separate threads on the same instance of qhT.
 */
 
@@ -629,7 +629,7 @@ struct qhT {
                              previous facets do not have outside sets
                              NARROWhull: previous facets may have coplanar outside sets for qh_outcoplanar */
   facetT *newfacet_list;  /* list of new facets to end of facet_list */
-  facetT *visible_list;   /* list of visible facets preceding newfacet_list,
+  facetT *visible_list;   /* list of visible facets preceeding newfacet_list,
                              facet->visible set */
   int       num_visible;  /* current number of visible facets */
   unsigned tracefacet_id;  /* set at init, then can print whenever */

@@ -10,8 +10,8 @@
    (all but top 50 and their callers 12/3/95)
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2011/qhull/src/libqhull/poly.c#13 $$Change: 1965 $
-   $DateTime: 2015/09/22 22:38:32 $$Author: bbarber $
+   $Id: //main/2011/qhull/src/libqhull/poly.c#12 $$Change: 1951 $
+   $DateTime: 2015/08/30 21:30:30 $$Author: bbarber $
 */
 
 #include "qhull_a.h"
@@ -779,12 +779,7 @@ void qh_matchneighbor(facetT *newfacet, int newskip, int hashsize, int *hashcoun
           qh_setfacetplane(facet);
         if (matchfacet) {
           matchskip= qh_setindex(matchfacet->neighbors, facet);
-          if (matchskip<0) {
-              qh_fprintf(qh ferr, 6260, "qhull internal error (qh_matchneighbor): matchfacet f%d is in f%d neighbors but not vice versa.  Can not continue.\n",
-                  matchfacet->id, facet->id);
-              qh_errexit2(qh_ERRqhull, matchfacet, facet);
-          }
-          SETelem_(matchfacet->neighbors, matchskip)= qh_DUPLICATEridge; /* matchskip>=0 by QH6260 */
+          SETelem_(matchfacet->neighbors, matchskip)= qh_DUPLICATEridge;
           matchfacet->dupridge= True;
           if (!matchfacet->normal)
             qh_setfacetplane(matchfacet);
@@ -863,7 +858,6 @@ void qh_matchnewfacets(void /* qh.newfacet_list */) {
   hashsize= qh_setsize(qh hash_table);
   FORALLnew_facets {
     for (newskip=1; newskip<qh hull_dim; newskip++) /* furthest/horizon already matched */
-      /* hashsize>0 because hull_dim>1 and numnew>0 */
       qh_matchneighbor(newfacet, newskip, hashsize, &hashcount);
 #if 0   /* use the following to trap hashcount errors */
     {
@@ -1022,7 +1016,7 @@ ridgeT *qh_newridge(void) {
   qh_memalloc_((int)sizeof(ridgeT), freelistp, ridge, ridgeT);
   memset((char *)ridge, (size_t)0, sizeof(ridgeT));
   zinc_(Ztotridges);
-  if (qh ridge_id == UINT_MAX) {
+  if (qh ridge_id == 0xFFFFFFFF) {
     qh_fprintf(qh ferr, 7074, "\
 qhull warning: more than 2^32 ridges.  Qhull results are OK.  The ridge ID wraps around to 0.  Two ridges may have the same identifier.\n");
   }

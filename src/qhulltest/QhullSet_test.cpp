@@ -1,21 +1,20 @@
 /****************************************************************************
 **
 ** Copyright (c) 2009-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/qhulltest/QhullSet_test.cpp#11 $$Change: 1965 $
-** $DateTime: 2015/09/22 22:38:32 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/qhulltest/QhullSet_test.cpp#10 $$Change: 1868 $
+** $DateTime: 2015/03/26 20:13:15 $$Author: bbarber $
 **
 ****************************************************************************/
 
 //pre-compiled headers
 #include <iostream>
+#include <QtCore/QList>
 #include "RoadTest.h" // QT_VERSION
 
 #include "libqhullcpp/QhullRidge.h"
 #include "libqhullcpp/QhullFacetSet.h"
 #include "libqhullcpp/Qhull.h"
 #include "libqhullcpp/RboxPoints.h"
-
-#include <QtCore/QList>
 
 using std::cout;
 using std::endl;

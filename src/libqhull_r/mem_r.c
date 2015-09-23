@@ -30,8 +30,8 @@
     global_r.c (qh_initbuffers) for an example of using mem_r.c
 
   Copyright (c) 1993-2015 The Geometry Center.
-  $Id: //main/2011/qhull/src/libqhull_r/mem_r.c#4 $$Change: 1965 $
-  $DateTime: 2015/09/22 22:38:32 $$Author: bbarber $
+  $Id: //main/2011/qhull/src/libqhull_r/mem_r.c#3 $$Change: 1951 $
+  $DateTime: 2015/08/30 21:30:30 $$Author: bbarber $
 */
 
 #include "mem_r.h"
@@ -126,7 +126,7 @@ void *qh_memalloc(qhT *qh, int insize) {
           qh_errexit(qh, qhmem_ERRmem, NULL, NULL);
         }
         *((void **)newbuffer)= qh->qhmem.curbuffer;  /* prepend newbuffer to curbuffer
-                                                    list.  newbuffer!=0 by QH6080 */
+                                                    list */
         qh->qhmem.curbuffer= newbuffer;
         size= (sizeof(void **) + qh->qhmem.ALIGNmask) & ~qh->qhmem.ALIGNmask;
         qh->qhmem.freemem= (void *)((char *)newbuffer+size);
@@ -245,9 +245,9 @@ void qh_memfree(qhT *qh, void *object, int insize) {
   }else {
     qh->qhmem.freelong++;
     qh->qhmem.totlong -= insize;
+    qh_free(object);
     if (qh->qhmem.IStracing >= 5)
       qh_fprintf(qh, qh->qhmem.ferr, 8058, "qh_mem %p n %8d free long: %d bytes (tot %d cnt %d)\n", object, qh->qhmem.cntlong+qh->qhmem.freelong, insize, qh->qhmem.totlong, qh->qhmem.cntlong-qh->qhmem.freelong);
-    qh_free(object);
   }
 } /* memfree */
 

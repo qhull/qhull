@@ -1,6 +1,6 @@
 Name
 
-      qhull, rbox         2015.0.3       2015/09/22
+      qhull, rbox         2015.0.2       2015/08/30
   
 Convex hull, Delaunay triangulation, Voronoi diagrams, Halfspace intersection
  
@@ -136,7 +136,7 @@ Installing Qhull with CMake 2.6 or later
   - Download and extract Qhull (either GitHub or the .tgz or .zip file)
   - cd build
   - cmake --help  # List build generators
-  - make -G "<generator>" .. && cmake ..  # '..' refers to the qhull directory
+  - make -G "<generator>" .. && cmake ..
   - cmake ..
   - make
   - make install
@@ -336,7 +336,6 @@ Distributed files
   QHULL-GO.lnk         // Windows icon for eg/qhull-go.bat
   Announce.txt         // Announcement 
   CMakeLists.txt       // CMake build file (2.6 or later)
-  CMakeModules/CheckLFS.cmake // enables Large File Support in cmake
   File_id.diz          // Package descriptor
   index.htm            // Home page 
   Makefile             // Makefile for gcc and other compilers

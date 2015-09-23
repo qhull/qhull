@@ -21,8 +21,8 @@
    vertex->neighbors not set until the first merge occurs
 
    Copyright (c) 1993-2015 C.B. Barber.
-   $Id: //main/2011/qhull/src/libqhull/merge.c#9 $$Change: 1965 $
-   $DateTime: 2015/09/22 22:38:32 $$Author: bbarber $
+   $Id: //main/2011/qhull/src/libqhull/merge.c#8 $$Change: 1831 $
+   $DateTime: 2015/02/07 20:31:47 $$Author: bbarber $
 */
 
 #include "qhull_a.h"
@@ -528,7 +528,7 @@ boolT qh_checkzero(boolT testall) {
           goto LABELnonconvex;
       }
     }
-    if (!testall && horizon) {
+    if (!testall) {
       FOREACHvertex_(horizon->vertices) {
         if (vertex->visitid != qh vertex_visit) {
           zzinc_(Zdistzero);
@@ -3155,9 +3155,9 @@ void qh_renameridgevertex(ridgeT *ridge, vertexT *oldvertex, vertexT *newvertex)
       zinc_(Zdelridge);
       if (ridge->nonconvex) /* only one ridge has nonconvex set */
         qh_copynonconvex(ridge);
+      qh_delridge(ridge);
       trace2((qh ferr, 2038, "qh_renameridgevertex: ridge r%d deleted.  It contained both v%d and v%d\n",
         ridge->id, oldvertex->id, newvertex->id));
-      qh_delridge(ridge);
       return;
     }
     if (vertex->id < newvertex->id)

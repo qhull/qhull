@@ -1,14 +1,13 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/qhulltest/QhullVertexSet_test.cpp#11 $$Change: 1965 $
-** $DateTime: 2015/09/22 22:38:32 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/qhulltest/QhullVertexSet_test.cpp#10 $$Change: 1880 $
+** $DateTime: 2015/04/19 21:29:35 $$Author: bbarber $
 **
 ****************************************************************************/
 
-//pre-compiled headers
 #include <iostream>
-#include "qhulltest/RoadTest.h" // QT_VERSION
+#include "qhulltest/RoadTest.h" // FIXUP First for QHULL_USES_QT
 
 #include "libqhullcpp/QhullVertexSet.h"
 #include "libqhullcpp/QhullVertex.h"
@@ -16,6 +15,7 @@
 #include "libqhullcpp/QhullError.h"
 #include "libqhullcpp/QhullFacet.h"
 #include "libqhullcpp/RboxPoints.h"
+
 
 using std::cout;
 using std::endl;
@@ -137,6 +137,21 @@ t_io()
         q.checkAndFreeQhullMemory();
     }
 }//t_io
+
+//FIXUP -- Move conditional, QhullVertexSet code to QhullVertexSet.cpp
+#ifndef QHULL_NO_STL
+std::vector<QhullVertex> QhullVertexSet::
+toStdVector() const
+{
+    QhullSetIterator<QhullVertex> i(*this);
+    std::vector<QhullVertex> vs;
+    while(i.hasNext()){
+        QhullVertex v= i.next();
+        vs.push_back(v);
+    }
+    return vs;
+}//toStdVector
+#endif //QHULL_NO_STL
 
 #ifdef QHULL_USES_QT
 QList<QhullVertex> QhullVertexSet::

@@ -12,8 +12,8 @@
    of the set (i.e., setelemT).
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2011/qhull/src/libqhull_r/qset_r.c#3 $$Change: 1965 $
-   $DateTime: 2015/09/22 22:38:32 $$Author: bbarber $
+   $Id: //main/2011/qhull/src/libqhull_r/qset_r.c#2 $$Change: 1951 $
+   $DateTime: 2015/08/30 21:30:30 $$Author: bbarber $
 */
 
 #include "qset_r.h"
@@ -426,6 +426,7 @@ void *qh_setdelnth(qhT *qh, setT *set, int nth) {
   setelemT *sizep;
   setelemT *elemp, *lastp;
 
+  elemp= (setelemT *)SETelemaddr_(set, nth, void);
   sizep= SETsizeaddr_(set);
   if ((sizep->i--)==0)         /*  if was a full set */
     sizep->i= set->maxsize;  /*     *sizep= (maxsize-1)+ 1 */
@@ -434,7 +435,6 @@ void *qh_setdelnth(qhT *qh, setT *set, int nth) {
     qh_setprint(qh, qh->qhmem.ferr, "", set);
     qh_errexit(qh, qhmem_ERRqhull, NULL, NULL);
   }
-  elemp= (setelemT *)SETelemaddr_(set, nth, void); /* nth valid by QH6174 */
   lastp= (setelemT *)SETelemaddr_(set, sizep->i-1, void);
   elem= elemp->p;
   elemp->p= lastp->p;      /* may overwrite itself */

@@ -6,8 +6,8 @@
 #   can not use path with $zip_file 
 #   odd error messages if can't locate directory
 #
-# $Id: //main/2011/qhull/eg/qhull-zip.sh#24 $$Change: 1965 $
-# $DateTime: 2015/09/22 22:38:32 $$Author: bbarber $
+# $Id: //main/2011/qhull/eg/qhull-zip.sh#23 $$Change: 1954 $
+# $DateTime: 2015/08/30 22:57:35 $$Author: bbarber $
 
 if [[ $# -eq 0 ]]; then
         echo 'Missing date stamp, e.g., qhull-zip.sh 2007.1' 
@@ -249,9 +249,6 @@ if [[ -r $root_dir/$qhull_tgz_file ]]; then
 fi
 
 #############################
-log_step $LINENO "====================================================================="
-log_step $LINENO "Test unix compile -- cd .. && scp $qhull_tgz_file qhull@qhull.org:"
-log_step $LINENO "   tar zxf $qhull_tgz_file && cd qhull-$version && make >../make.x 2>&1"
 log_step $LINENO "Test qhull -- cd $TEMP_DIR/zip/qhull* && make testall >../q_test.txt 2>&1"
 log_step $LINENO "Build testqhull -- cd /c/bash/local/qhull && bin/qhulltest --all >eg/qhulltest.txt 2>&1"
 log_step $LINENO "Compare eg/q_test-ok.txt to ../test.log"

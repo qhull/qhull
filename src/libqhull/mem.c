@@ -30,8 +30,8 @@
     global.c (qh_initbuffers) for an example of using mem.c
 
   Copyright (c) 1993-2015 The Geometry Center.
-  $Id: //main/2011/qhull/src/libqhull/mem.c#9 $$Change: 1965 $
-  $DateTime: 2015/09/22 22:38:32 $$Author: bbarber $
+  $Id: //main/2011/qhull/src/libqhull/mem.c#8 $$Change: 1930 $
+  $DateTime: 2015/07/12 15:15:42 $$Author: bbarber $
 */
 
 #include "mem.h"
@@ -146,7 +146,7 @@ void *qh_memalloc(int insize) {
           qh_errexit(qhmem_ERRmem, NULL, NULL);
         }
         *((void **)newbuffer)= qhmem.curbuffer;  /* prepend newbuffer to curbuffer
-                                                    list.  newbuffer!=0 by QH6080 */
+                                                    list */
         qhmem.curbuffer= newbuffer;
         size= (sizeof(void **) + qhmem.ALIGNmask) & ~qhmem.ALIGNmask;
         qhmem.freemem= (void *)((char *)newbuffer+size);
@@ -261,9 +261,9 @@ void qh_memfree(void *object, int insize) {
   }else {
     qhmem.freelong++;
     qhmem.totlong -= insize;
+    qh_free(object);
     if (qhmem.IStracing >= 5)
       qh_fprintf(qhmem.ferr, 8058, "qh_mem %p n %8d free long: %d bytes (tot %d cnt %d)\n", object, qhmem.cntlong+qhmem.freelong, insize, qhmem.totlong, qhmem.cntlong-qhmem.freelong);
-    qh_free(object);
   }
 } /* memfree */
 
