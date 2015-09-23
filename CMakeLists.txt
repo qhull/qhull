@@ -46,8 +46,8 @@
 #   Remove CMAKE_INTDIR from PreprocessorDefinitions
 #   Adjust target names and destinations (e.g., lib/libqhullstatic_rd.a)
 #  
-# $Id: //main/2011/qhull/CMakeLists.txt#36 $$Change: 1965 $
-# $DateTime: 2015/09/22 22:38:32 $$Author: bbarber $
+# $Id: //main/2011/qhull/CMakeLists.txt#37 $$Change: 1966 $
+# $DateTime: 2015/09/22 23:24:53 $$Author: bbarber $
 
 project(qhull)
 cmake_minimum_required(VERSION 2.6)
@@ -55,7 +55,7 @@ cmake_minimum_required(VERSION 2.6)
 # Define qhull_VERSION in CMakeLists.txt, Makefile, qhull-exports.def, qhull_p-exports.def, qhull-warn.pri
 set(qhull_VERSION2 "2015.0.3 2015/09/22")  # not used, See global.c, global_r.c, rbox.c, rbox_r.c
 string(REGEX REPLACE ".* ([0-9]+) .*"
-    "7.0.3.\\1"  qhull_VERSION "$Change: 1965 $")
+    "7.0.3.\\1"  qhull_VERSION "$Change: 1966 $")
 
 # SOVERSION -- qhull 2003 = empty, 2009 = 5, 2010-2012 = 6, 2015 (reentrant) = 7
 set(qhull_SOVERSION 7) # For SOVERSION 
