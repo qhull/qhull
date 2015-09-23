@@ -1,15 +1,14 @@
 /****************************************************************************
 **
 ** Copyright (c) 2009-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/qhulltest/QhullHyperplane_test.cpp#15 $$Change: 1880 $
-** $DateTime: 2015/04/19 21:29:35 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/qhulltest/QhullHyperplane_test.cpp#16 $$Change: 1965 $
+** $DateTime: 2015/09/22 22:38:32 $$Author: bbarber $
 **
 ****************************************************************************/
 
 //pre-compiled headers
 #include <iostream>
-#include <vector>
-#include "qhulltest/RoadTest.h"
+#include "qhulltest/RoadTest.h" // QT_VERSION
 
 #include "libqhullcpp/QhullHyperplane.h"
 #include "libqhullcpp/QhullError.h"
@@ -20,6 +19,7 @@
 #include "libqhullcpp/Qhull.h"
 
 #include <numeric>
+#include <vector>
 
 using std::cout;
 using std::endl;

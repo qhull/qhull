@@ -1,22 +1,23 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/qhulltest/qhulltest.cpp#19 $$Change: 1951 $
-** $DateTime: 2015/08/30 21:30:30 $$Author: bbarber $
+** $Id: //main/2011/qhull/src/qhulltest/qhulltest.cpp#20 $$Change: 1965 $
+** $DateTime: 2015/09/22 22:38:32 $$Author: bbarber $
 **
 ****************************************************************************/
 
 //pre-compiled headers
 #include <iostream>
-#include <sstream>
-#include <string>
-#include <stdexcept>
-#include "RoadTest.h"
+#include "RoadTest.h" // QT_VERSION
 
 #include "libqhullcpp/RoadError.h"
 extern "C" {
 #include "libqhull_r/qhull_ra.h"
 }
+
+#include <sstream>
+#include <stdexcept>
+#include <string>
 
 using std::cout;
 using std::endl;
@@ -25,7 +26,7 @@ namespace orgQhull {
 
 void addQhullTests(QStringList &args)
 {
-    TESTadd_(add_QhullVertexSet_test); //copied from below
+    TESTadd_(add_QhullRidge_test); //copied from below
 
     if(args.contains("--all")){
         args.removeAll("--all");

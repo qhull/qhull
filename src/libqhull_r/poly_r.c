@@ -10,8 +10,8 @@
    (all but top 50 and their callers 12/3/95)
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2011/qhull/src/libqhull_r/poly_r.c#3 $$Change: 1951 $
-   $DateTime: 2015/08/30 21:30:30 $$Author: bbarber $
+   $Id: //main/2011/qhull/src/libqhull_r/poly_r.c#4 $$Change: 1965 $
+   $DateTime: 2015/09/22 22:38:32 $$Author: bbarber $
 */
 
 #include "qhull_ra.h"
@@ -779,7 +779,12 @@ void qh_matchneighbor(qhT *qh, facetT *newfacet, int newskip, int hashsize, int 
           qh_setfacetplane(qh, facet);
         if (matchfacet) {
           matchskip= qh_setindex(matchfacet->neighbors, facet);
-          SETelem_(matchfacet->neighbors, matchskip)= qh_DUPLICATEridge;
+          if (matchskip<0) {
+              qh_fprintf(qh, qh->ferr, 6260, "qhull error: matchfacet f%d is in f%d neighbors but not vice versa.  Can not continue.\n",
+                  matchfacet->id, facet->id);
+              qh_errexit2(qh, qh_ERRqhull, matchfacet, facet);
+          }
+          SETelem_(matchfacet->neighbors, matchskip)= qh_DUPLICATEridge; /* matchskip>=0 by QH6260 */
           matchfacet->dupridge= True;
           if (!matchfacet->normal)
             qh_setfacetplane(qh, matchfacet);
@@ -858,6 +863,7 @@ void qh_matchnewfacets(qhT *qh /* qh.newfacet_list */) {
   hashsize= qh_setsize(qh, qh->hash_table);
   FORALLnew_facets {
     for (newskip=1; newskip<qh->hull_dim; newskip++) /* furthest/horizon already matched */
+      /* hashsize>0 because hull_dim>1 and numnew>0 */
       qh_matchneighbor(qh, newfacet, newskip, hashsize, &hashcount);
 #if 0   /* use the following to trap hashcount errors */
     {
@@ -1016,7 +1022,7 @@ ridgeT *qh_newridge(qhT *qh) {
   qh_memalloc_(qh, (int)sizeof(ridgeT), freelistp, ridge, ridgeT);
   memset((char *)ridge, (size_t)0, sizeof(ridgeT));
   zinc_(Ztotridges);
-  if (qh->ridge_id == 0xFFFFFFFF) {
+  if (qh->ridge_id == UINT_MAX) {
     qh_fprintf(qh, qh->ferr, 7074, "\
 qhull warning: more than 2^32 ridges.  Qhull results are OK.  Since the ridge ID wraps around to 0, two ridges may have the same identifier.\n");
   }

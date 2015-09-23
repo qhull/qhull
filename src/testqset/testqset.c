@@ -67,8 +67,8 @@ Functions and macros from qset.h.  Counts occurrences in this test.  Does not co
     SETtruncate_ -- 2 tests
 
     Copyright (c) 2012-2015 C.B. Barber. All rights reserved.
-    $Id: //main/2011/qhull/src/testqset/testqset.c#11 $$Change: 1914 $
-    $DateTime: 2015/06/21 22:08:19 $$Author: bbarber $
+    $Id: //main/2011/qhull/src/testqset/testqset.c#12 $$Change: 1965 $
+    $DateTime: 2015/09/22 22:38:32 $$Author: bbarber $
 */
 
 #include "libqhull/qset.h"
@@ -469,6 +469,7 @@ void testSetdelsortedEtc(int numInts, int *intarray, int checkEvery)
                 qh_setdelnthsorted(ints, i/2);
                 if (checkEvery==1)
                   checkSetContents("qh_setdelnthsorted", ints, j-1, 0, i/2+1, -1);
+                /* test qh_setdelnth and move-to-front */
                 qh_setdelsorted(ints, intarray+i/2+1);
                 checkSetContents("qh_setdelsorted 2", ints, j-2, 0, i/2+2, -1);
                 qh_setaddsorted(&ints, intarray+i/2+1);
