@@ -89,9 +89,9 @@ PRINTC = enscript -2r
 # PRINTC = lpr
 
 #for Gnu's gcc compiler, -O3 for optimization, -g for debugging
-# -fPIC needed for gcc x86_64-linux-gnu.  Not needed for mingw
+# -fpic needed for gcc x86_64-linux-gnu.  Not needed for mingw
 CC        = gcc
-CC_OPTS1  = -O3 -ansi -Isrc -fPIC $(CC_WARNINGS)
+CC_OPTS1  = -O3 -ansi -Isrc -fpic $(CC_WARNINGS)
 CXX       = g++
 
 # libqhullcpp must be before libqhull_r
@@ -132,8 +132,8 @@ CXX_OPTS2 = $(CXX_OPTS1)
 CC_WARNINGS  = -Wall -Wcast-qual -Wextra -Wwrite-strings -Wshadow
 CXX_WARNINGS = -Wall -Wcast-qual -Wextra -Wwrite-strings -Wno-sign-conversion -Wshadow -Wconversion 
 
-# FIXUP -Wunused-but-set-variable
-# Compiles OK with all gcc warnings except for -Wno-sign-conversion and -Wconversion
+# [mar'11] Compiles OK with all gcc warnings except for -Wno-sign-conversion and -Wconversion
+# Qhull reports -Wunused-but-set-variable warnings but these are OK (see annotations)
 # --help=warnings
 # Compiles OK with all g++ warnings except Qt source errors on -Wshadow and -Wconversion
 #    -Waddress -Warray-bounds -Wchar-subscripts -Wclobbered -Wcomment -Wunused-variable

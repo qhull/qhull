@@ -131,8 +131,14 @@ Qhull's C++ interface allows you to explore the results of running Qhull.
 It provides access to Qhull's data structures.
 Most of the classes derive from the corresponding qhull data structure.
 For example, <a href="#facet-cpp">QhullFacet</a> is an instance of Qhull's <a href="../src/libqhull/libqhull.h#facetT">facetT</a>.
+</p>
+
+<p>You can retain most of the data in Qhull and use the C++ interface to explore its results.
 Each object contains a reference the Qhull's data structure (via QhullQh), making the C++ representation less memory efficient.
-You should retain most of the data in Qhull and use the C++ interface to explore its results.
+</p>
+
+<p>Besides using the C++ interface, you can also use libqhull_r directly.  For example,
+the FOREACHfacet_(...) macro will visit each facet in turn.
 </p>
 
 <p>The C++ interface to Qhull is incomplete. You may need to extend the interface.

@@ -1,4 +1,4 @@
-$Id: //main/2011/qhull/src/Changes.txt#82 $
+$Id: //main/2011/qhull/src/Changes.txt#90 $
 
 .............This file lists all changes to qhull and rbox.....................
 
@@ -23,7 +23,7 @@ To do for a future verson of Qhull
 
  - Can countT be defined as 'int', 'unsigned int', or 64-bit int?  
    countT is currently defined as 'int' in qset_r.h
-   Vertex ID and ridge ID perhaps should be countT
+   Vertex ID and ridge ID perhaps should be countT, They are currently 'unsigned'
    Check use of 'int' vs. countT in all cpp code
    Check use of 'int' vs. countT in all c code
    qset_r.h defines countT -- duplicates code in user_r.h -- need to add to qset.h/user.h
@@ -48,30 +48,57 @@ To do for a furture version of the C++ interface
  - Write QhullStat and QhullStat_test
  - Add QList and vector instance of facetT*, etc.
  - Generalize QhullPointSetIterator
+ - testqset: test qh_setdelnth and move-to-front
+ - Makefile: Re-review gcc/g++ warnings.  OK in 2011.
+ - Break up -Wextra into its components or figure out how to override -Wunused-but-set-variable
+   unused-but-set-variable is reporting incorrectly.  All instances are annotated.
+ - qh-code.htm: Document changes to C++ interface.  See Changes.txt
+      Organize C++ documentation into collection classes, etc.
+ - CMakelists.txt:  Why are files duplicated for cmake build
+ - Review all C++ classes and C++ tests
+   QhullVertexSet uses QhullSetBase::referenceSetT() to free it's memory.   Probably needed elsewhere
+ - CMakeLists.txt: configure the 'ctest' target 
 
 -----------
 To Do for Qhull 2015.1
- - Review Qhull email
- - vertex_id should be 'countT'
- - Fix rare "no more facets" error at initialization
- - Compare libqhull to libqhull_r
- - Review all FIXUP
- - Review all C++ classes and C++ tests
-   QhullVertexSet uses QhullSetBase::referenceSetT() to free it's memory.   Probably needed elsewhere
- - CMakelists.txt: Fix name of qhull6_p_d.dll
- - CMakelists.txt:  Why all files duplicated for cmake build
  - Add sln/vcproj builds for Win64 
- - qhull.pro: It should build with reentrant Qhull  
- - qhull-all.pro: Review other files
- - Review -Wshadow warnings.  Need naming convention for parameter vs. member, 'qqh' doesn't genealize
- - rboxlib.c: Review -Wclobbered warnings. 'simplex' is used at longjmp, add volatile comments
- - Break up -Wextra into its components or figure out how to override -Wunused-but-set-variable
-   unused-but-set-variable is reporting incorrectly.  All instances are annotated.
- - qh-get.htm: Add list of download build repositories
- - qh-code.htm: Document changes to C++ interface.  See Changes.txt
-      Organize C++ documentation into collection classes, etc.
+   Fix upgrade warnings for sln/vcproj 32-bit
+ - Fix rare "no more facets" QH7228 error at initialization
+ - Compare libqhull to libqhull_r
+ - Include lib version number in Unix tarball (e.g., qhull-2015-7.1.0.tar.gz) [Hauptman, 4/5/12]
+ - Review Qhull email
+ 
+------------
+Qhull 2015.0.3 2015/9/22
+ - qh_mem, qh_merge: Log before 'delete' instead of afterwards [Coverity, K. Schwehr]
+ - qh_merge: Test for NULL horizon in qh_checkzero [Coverity, K. Schwehr]
+ - qh_matchneighbor: Check for matchfacet not a neighbor of facet [Coverity, K. Schwehr]
+ - qh_triangulate: Explicit check for visible==NULL [Coverity, K. Schwehr]
+ - qh_findbestfacet (unused by qhull): Fix test of isoutside [Coverity, K. Schwehr]
+ - qh_check_maxout: Check bestfacet!=0 for logging its id [Coverity, K. Schwehr]
+ - qh_nearvertex: Check for bestvertex not found [Coverity, K. Schwehr]
+ - qh_checkfacet: Check for missing neighbors of simplicial facets [Coverity, K. Schwehr]
+ - qh_setdelnth: Check 'nth' before using it [Coverity, K. Schwehr]
+ - Annotate code for Coverity warnings (most of these protected by qh_errexit) [K. Schwehr]
+
+ - qh_printfacet3math: explicit format string (duplicates change to io.c) [B. Pearlmutter]
+ - libqhull_r.h: fix spelling error (duplicates change to libqhull.h) [B. Pearlmutter]
+ - unix_r.c: fix spelling error (duplicates change to unix.c) [B. Pearlmutter]
+ - qhull_a.h: define qhullUnused() only if defined(__cplusplus) [R. Stogner]
+ - qh_version: Use const char str[]= "string" instead of const char * str= "string" [U. Drepper, p. 27]
+ - qh_newvertex: Use UINT_MAX instead of 0xFFFFFFFF
+ - qh_newridge: Use UINT_MAX instead of 0xFFFFFFFF
+ - Reviewed FIXUP notes
+
+ - QhullRidge_test: t_foreach use 'foreach(const QhullVertex &v, vertices) 
+ - Made '#include "RoadTest.h" consistent across all C++ tests
+
  - qh-code.htm: May also use libqhull_r (e.g., FOREACHfacet_(...))
-   
+ - qh-get.htm: Add list of download build repositories
+
+ - Add CMakeModules/CheckLFS.cmake: Enables Large File Support [B. Pearlmutter]
+ - Makefile: Use -fpic at all times instead of -fPIC, [U. Drepper p. 15]
+
 ------------
 Qhull 2015.0.2 2015/9/1
  - global_r.c: Fixed spelling of /* duplicated in...qh_clear_outputflags */ [K. Schwehr]
@@ -353,7 +380,7 @@ C++ interface by class
    Dropped implicit conversion from ridgeT
    Converted otherFacet() to 'const &'
    Converted nextRidge3d() to 'const &'
-   Message for '<< QhullRidge' replaces "   - " instead of preceeding it
+   Message for '<< QhullRidge' replaces "   - " instead of preceding it
  - QhullSet
    Removed empty().  Use isEmpty() instead
    Constructor requires Qhull or QhullQh* pointer
@@ -625,7 +652,7 @@ Changes to C++ interface
  - Added Qhull::defineVertexFacetNeighbors() for facetNeighbors of vertices.
    Automatically called for facet merging and Voronoi diagrams
    Do not print QhullVertex::facetNeighbors is !facetNeighborsDefined()
- - Add Fixup identifiers
+ - Assigned FIXUP identifiers
  - QhullError: Add copy constructor, assignment operator, and destructor
  - Add throw() specifiers to RoadError and QhullError
  - Renamed RoadError::defined() to RoadError::isDefined()

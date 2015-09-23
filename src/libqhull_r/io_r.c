@@ -14,8 +14,8 @@
    This allows the user to avoid loading io_r.o from qhull.a
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2011/qhull/src/libqhull_r/io_r.c#2 $$Change: 1951 $
-   $DateTime: 2015/08/30 21:30:30 $$Author: bbarber $
+   $Id: //main/2011/qhull/src/libqhull_r/io_r.c#3 $$Change: 1965 $
+   $DateTime: 2015/09/22 22:38:32 $$Author: bbarber $
 */
 
 #include "qhull_ra.h"
@@ -2240,7 +2240,7 @@ void qh_printfacet3math(qhT *qh, FILE *fp, facetT *facet, qh_PRINT format, int n
     qh_memfree(qh, point, qh->normal_size);
   qh_settempfree(qh, &points);
   qh_settempfree(qh, &vertices);
-  qh_fprintf(qh, fp, 9110, endfmt);
+  qh_fprintf(qh, fp, 9110, "%s", endfmt);
 } /* printfacet3math */
 
 
@@ -3792,7 +3792,7 @@ coordT *qh_readpoints(qhT *qh, int *numpoints, int *dimension, boolT *ismalloc) 
   maximize_(qh->maxline, 500);
   qh->line= (char*)qh_malloc((qh->maxline+1) * sizeof(char));
   *ismalloc= True;  /* use malloc since memory not setup */
-  coords= points= qh->temp_malloc=
+  coords= points= qh->temp_malloc=  /* numinput and diminput >=2 by QH6220 */
         (coordT*)qh_malloc((*numpoints)*(*dimension)*sizeof(coordT));
   if (!coords || !qh->line || (qh->HALFspace && !qh->half_space)) {
     qh_fprintf(qh, qh->ferr, 6076, "qhull error: insufficient memory to read %d points\n",

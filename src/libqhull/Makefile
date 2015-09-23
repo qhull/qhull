@@ -63,9 +63,9 @@ PRINTC = enscript -2r
 # PRINTC = lpr
 
 #for Gnu's gcc compiler, -O3 for optimization, -g for debugging
-#  -fPIC is no longer needed
+#   -fpic needed for gcc x86_64-linux-gnu.  Not needed for mingw
 CC        = gcc
-CC_OPTS1  = -O3 -ansi -I.. $(CC_WARNINGS)
+CC_OPTS1  = -O3 -ansi -I.. -fpic $(CC_WARNINGS)
 
 # for Sun's cc compiler, -fast or O2 for optimization, -g for debugging, -Xc for ANSI
 #CC       = cc
