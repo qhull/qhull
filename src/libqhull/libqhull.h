@@ -7,8 +7,8 @@
    see qh-qhull.htm, qhull_a.h
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2011/qhull/src/libqhull/libqhull.h#18 $$Change: 1966 $
-   $DateTime: 2015/09/22 23:24:53 $$Author: bbarber $
+   $Id: //main/2015/qhull/src/libqhull/libqhull.h#1 $$Change: 1981 $
+   $DateTime: 2015/09/28 20:26:32 $$Author: bbarber $
 
    NOTE: access to qh_qh is via the 'qh' macro.  This allows
    qh_qh to be either a pointer or a structure.  An example
@@ -57,6 +57,7 @@
 /*============ constants and basic types ====================*/
 
 extern const char qh_version[]; /* defined in global.c */
+extern const char qh_version2[]; /* defined in global.c */
 
 /*-<a                             href="qh-geom.htm#TOC"
   >--------------------------------</a><a name="coordT">-</a>
@@ -415,31 +416,41 @@ struct vertexT {
    qhmem may be shared across multiple instances of Qhull.
    Rbox uses global variables rbox_inuse and rbox, but does not persist data across calls.
 
-   Qhull is not multithreaded.  Global state could be stored in thread-local storage.
+   Qhull is not multi-threaded.  Global state could be stored in thread-local storage.
+
+   QHULL_LIB_CHECK checks that a program and the corresponding
+   qhull library were built with the same type of header files.
 */
 
 typedef struct qhT qhT;
+
+#define QHULL_NON_REENTRANT 0
+#define QHULL_QH_POINTER 1
+#define QHULL_REENTRANT 2
+
 #if qh_QHpointer_dllimport
 #define qh qh_qh->
 __declspec(dllimport) extern qhT *qh_qh;     /* allocated in global.c */
-#define QHULL_LIB_CHECK qh_lib_check(1, sizeof(qhT), sizeof(vertexT), sizeof(ridgeT), sizeof(facetT), sizeof(setT), sizeof(qhmemT));
-#define QHULL_LIB_CHECK_RBOX qh_lib_check(1, sizeof(qhT), sizeof(vertexT), sizeof(ridgeT), sizeof(facetT), 0, 0);
+#define QHULL_LIB_TYPE QHULL_QH_POINTER
+
 #elif qh_QHpointer
 #define qh qh_qh->
 extern qhT *qh_qh;     /* allocated in global.c */
-#define QHULL_LIB_CHECK qh_lib_check(1, sizeof(qhT), sizeof(vertexT), sizeof(ridgeT), sizeof(facetT), sizeof(setT), sizeof(qhmemT));
-#define QHULL_LIB_CHECK_RBOX qh_lib_check(1, sizeof(qhT), sizeof(vertexT), sizeof(ridgeT), sizeof(facetT), 0, 0);
+#define QHULL_LIB_TYPE QHULL_QH_POINTER
+
 #elif qh_dllimport
 #define qh qh_qh.
 __declspec(dllimport) extern qhT qh_qh;      /* allocated in global.c */
-#define QHULL_LIB_CHECK qh_lib_check(0, sizeof(qhT), sizeof(vertexT), sizeof(ridgeT), sizeof(facetT), sizeof(setT), sizeof(qhmemT));
-#define QHULL_LIB_CHECK_RBOX qh_lib_check(0, sizeof(qhT), sizeof(vertexT), sizeof(ridgeT), sizeof(facetT), 0, 0);
+#define QHULL_LIB_TYPE QHULL_NON_REENTRANT
+
 #else
 #define qh qh_qh.
 extern qhT qh_qh;
-#define QHULL_LIB_CHECK qh_lib_check(0, sizeof(qhT), sizeof(vertexT), sizeof(ridgeT), sizeof(facetT), sizeof(setT), sizeof(qhmemT));
-#define QHULL_LIB_CHECK_RBOX qh_lib_check(0, sizeof(qhT), sizeof(vertexT), sizeof(ridgeT), sizeof(facetT), 0, 0);
+#define QHULL_LIB_TYPE QHULL_NON_REENTRANT
 #endif
+
+#define QHULL_LIB_CHECK qh_lib_check(QHULL_LIB_TYPE, sizeof(qhT), sizeof(vertexT), sizeof(ridgeT), sizeof(facetT), sizeof(setT), sizeof(qhmemT));
+#define QHULL_LIB_CHECK_RBOX qh_lib_check(QHULL_LIB_TYPE, sizeof(qhT), sizeof(vertexT), sizeof(ridgeT), sizeof(facetT), 0, 0);
 
 struct qhT {
 
@@ -1069,7 +1080,7 @@ void    qh_initqhull_outputflags(void);
 void    qh_initqhull_start(FILE *infile, FILE *outfile, FILE *errfile);
 void    qh_initqhull_start2(FILE *infile, FILE *outfile, FILE *errfile);
 void    qh_initthresholds(char *command);
-void    qh_lib_check(int isQHpointer, int qhTsize, int vertexTsize, int ridgeTsize, int facetTsize, int setTsize, int qhmemTsize);
+void    qh_lib_check(int qhullLibraryType, int qhTsize, int vertexTsize, int ridgeTsize, int facetTsize, int setTsize, int qhmemTsize);
 void    qh_option(const char *option, int *i, realT *r);
 #if qh_QHpointer
 void    qh_restore_qhull(qhT **oldqh);

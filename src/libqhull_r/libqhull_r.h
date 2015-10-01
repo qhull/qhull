@@ -7,8 +7,8 @@
    see qh-qhull.htm, qhull_ra.h
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2011/qhull/src/libqhull_r/libqhull_r.h#4 $$Change: 1965 $
-   $DateTime: 2015/09/22 22:38:32 $$Author: bbarber $
+   $Id: //main/2015/qhull/src/libqhull_r/libqhull_r.h#1 $$Change: 1981 $
+   $DateTime: 2015/09/28 20:26:32 $$Author: bbarber $
 
    includes function prototypes for libqhull_r.c, geom_r.c, global_r.c, io_r.c, user.c
 
@@ -48,6 +48,7 @@
 /*============ constants and basic types ====================*/
 
 extern const char qh_version[]; /* defined in global_r.c */
+extern const char qh_version2[]; /* defined in global_r.c */
 
 /*-<a                             href="qh-geom.htm#TOC"
   >--------------------------------</a><a name="coordT">-</a>
@@ -194,6 +195,10 @@ For C++ interface.  Must redefine qh_fprintf_qhull
    all realT and coordT fields occur at the beginning of a structure
         (otherwise space may be wasted due to alignment)
    define all flags together and pack into 32-bit number
+
+   DEFqhT, DEFsetT, and DEFqhstatT are likewise defined in
+   mem_r.h, qset_r.h, stat_r.h.  They are not needed for libqhull.
+
 */
 
 typedef struct vertexT vertexT;
@@ -407,10 +412,19 @@ struct vertexT {
    This version of Qhull is reentrant, but it is not thread-safe.
 
    Do not run separate threads on the same instance of qhT.
+
+   QHULL_LIB_CHECK checks that a program and the corresponding
+   qhull library were built with the same type of header files.
 */
 
-#define QHULL_LIB_CHECK qh_lib_check(2, sizeof(qhT), sizeof(vertexT), sizeof(ridgeT), sizeof(facetT), sizeof(setT), sizeof(qhmemT));
-#define QHULL_LIB_CHECK_RBOX qh_lib_check(2, sizeof(qhT), sizeof(vertexT), sizeof(ridgeT), sizeof(facetT), 0, 0);
+#define QHULL_NON_REENTRANT 0
+#define QHULL_QH_POINTER 1
+#define QHULL_REENTRANT 2
+
+#define QHULL_LIB_TYPE QHULL_REENTRANT
+
+#define QHULL_LIB_CHECK qh_lib_check(QHULL_LIB_TYPE, sizeof(qhT), sizeof(vertexT), sizeof(ridgeT), sizeof(facetT), sizeof(setT), sizeof(qhmemT));
+#define QHULL_LIB_CHECK_RBOX qh_lib_check(QHULL_LIB_TYPE, sizeof(qhT), sizeof(vertexT), sizeof(ridgeT), sizeof(facetT), 0, 0);
 
 struct qhT {
 
@@ -1062,7 +1076,7 @@ void    qh_initqhull_outputflags(qhT *qh);
 void    qh_initqhull_start(qhT *qh, FILE *infile, FILE *outfile, FILE *errfile);
 void    qh_initqhull_start2(qhT *qh, FILE *infile, FILE *outfile, FILE *errfile);
 void    qh_initthresholds(qhT *qh, char *command);
-void    qh_lib_check(int isQHpointer, int qhTsize, int vertexTsize, int ridgeTsize, int facetTsize, int setTsize, int qhmemTsize);
+void    qh_lib_check(int qhullLibraryType, int qhTsize, int vertexTsize, int ridgeTsize, int facetTsize, int setTsize, int qhmemTsize);
 void    qh_option(qhT *qh, const char *option, int *i, realT *r);
 void    qh_zero(qhT *qh, FILE *errfile);
 

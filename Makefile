@@ -74,6 +74,11 @@
 #
 # You may build the qhull programs without using a library
 #   make qhullx
+#
+# To test all of qhull (build qhulltest with Qt)
+#   make testall >q_test.txt 2>&1
+#   bin/qhulltest --all >qhulltest.txt 2>&1
+#   Compare to eg/q_test-ok.txt and eg/qhulltest-ok.txt
 
 DESTDIR = /usr/local
 BINDIR	= $(DESTDIR)/bin
@@ -150,7 +155,7 @@ all: bin-lib bin/rbox bin/qconvex bin/qdelaunay bin/qhalf bin/qvoronoi bin/qhull
      bin/testqset_r qtest bin/user_eg2 bin/user_eg3 bin/user_eg qconvex-prompt
 
 help:
-	head -n 78 Makefile
+	head -n 82 Makefile
 
 bin-lib:
 	mkdir -p bin lib
@@ -166,12 +171,13 @@ clean:
 # Remove intermediate files and targets for all builds
 # DevStudio prevents build/qhull.ncb deletes
 cleanall: clean
+	rm -f *.x *.tmp
 	rm -rf build/*.dir/ 
 	-rm -rf build/qhull.ncb
 	rm -rf buildvc/
 	rm -rf buildqt/
 	rm -rf build-qhull-all*/
-	rm -f eg/eg.*
+	rm -f eg/eg.* eg/t*.tmp
 	rm -f bin/qconvex bin/qdelaunay bin/qhalf bin/qvoronoi bin/qhull
 	rm -f bin/rbox core bin/core bin/user_eg bin/user_eg2 bin/user_eg3
 	rm -f lib/libqhull* lib/qhull*.lib lib/qhull*.exp  lib/qhull*.dll

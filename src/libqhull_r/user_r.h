@@ -52,7 +52,7 @@ Code flags --
   See QhullError.h for 10000 errors.
 
   def counters =  [27, 1047, 2059, 3025, 4068, 5003,
-     6261, 7079, 8145, 9410, 10000, 11028]
+     6263, 7079, 8145, 9410, 10000, 11029]
 
   See: qh_ERR* [libqhull_r.h]
 */
@@ -158,11 +158,11 @@ Code flags --
 
 /*-<a                             href="qh-user.htm#TOC"
   >--------------------------------</a><a name="countT">-</a>
-  
+
   countT
     The type for counts and identifiers (e.g., the number of points, vertex identifiers)
 
-    Typically 'int' or 'long long'.   
+    Typically 'int' or 'long long'.
 
     FIXUP QH11026 countT may be defined as a unsigned value, but several code issues need to be solved first.  See countT in Changes.txt
 
@@ -171,7 +171,7 @@ Code flags --
 
 #ifndef DEFcountT
 #define DEFcountT 1
-typedef int countT;          
+typedef int countT;
 #endif
 #define COUNTmax 0x7fffffff
 

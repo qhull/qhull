@@ -13,8 +13,8 @@
    defines internal functions for libqhull.c global.c
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2011/qhull/src/libqhull/qhull_a.h#7 $$Change: 1965 $
-   $DateTime: 2015/09/22 22:38:32 $$Author: bbarber $
+   $Id: //main/2015/qhull/src/libqhull/qhull_a.h#1 $$Change: 1981 $
+   $DateTime: 2015/09/28 20:26:32 $$Author: bbarber $
 
    Notes:  grep for ((" and (" to catch fprintf("lkasdjf");
            full parens around (x?y:z)

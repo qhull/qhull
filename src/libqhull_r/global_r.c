@@ -12,8 +12,8 @@
    see qhull_ra.h for internal functions
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2011/qhull/src/libqhull_r/global_r.c#4 $$Change: 1965 $
-   $DateTime: 2015/09/22 22:38:32 $$Author: bbarber $
+   $Id: //main/2015/qhull/src/libqhull_r/global_r.c#2 $$Change: 1984 $
+   $DateTime: 2015/09/30 21:51:10 $$Author: bbarber $
  */
 
 #include "qhull_ra.h"
@@ -25,19 +25,22 @@
 
   qh_version
     version string by year and date
+    qh_version2 for Unix users and -V
 
     the revision increases on code changes only
 
   notes:
     change date:    Changes.txt, Announce.txt, index.htm, README.txt,
                     qhull-news.html, Eudora signatures, CMakeLists.txt
-    change version: README.txt, qh-get.htm, File_id.diz, Makefile.txt
+    change version: README.txt, qh-get.htm, File_id.diz, Makefile.txt, CMakeLists.txt
+    check that CmakeLists @version is the same as qh_version2
     change year:    Copying.txt
     check download size
     recompile user_eg_r.c, rbox_r.c, libqhull_r.c, qconvex_r.c, qdelaun_r.c qvoronoi_r.c, qhalf_r.c, testqset_r.c
 */
 
-const char qh_version[]= "2015.0.3.r 2015/09/22";
+const char qh_version[]= "2015.0.4.r 2015/09/30";
+const char qh_version2[]= "qhull_r 7.0.4.1984 (2015.0.4.r 2015/09/30)";
 
 /*-<a                             href="qh-globa.htm#TOC"
   >-------------------------------</a><a name="appendprint">-</a>
@@ -1981,20 +1984,23 @@ void qh_initthresholds(qhT *qh, char *command) {
 /*-<a                             href="qh-globa_r.htm#TOC"
   >-------------------------------</a><a name="lib_check">-</a>
 
-  qh_lib_check( isQHpointer, qhTsize, vertexTsize, ridgeTsize, facetTsize, setTsize, qhmemTsize )
+  qh_lib_check( qhullLibraryType, qhTsize, vertexTsize, ridgeTsize, facetTsize, setTsize, qhmemTsize )
     Report error if library does not agree with caller
 
   notes:
     NOerrors -- qh_lib_check can not call qh_errexit()
 */
-void qh_lib_check(int libraryType, int qhTsize, int vertexTsize, int ridgeTsize, int facetTsize, int setTsize, int qhmemTsize) {
+void qh_lib_check(int qhullLibraryType, int qhTsize, int vertexTsize, int ridgeTsize, int facetTsize, int setTsize, int qhmemTsize) {
     boolT iserror= False;
 
-    if (libraryType==0) {
+    if (qhullLibraryType==QHULL_NON_REENTRANT) { /* 0 */
         qh_fprintf(NULL, stderr, 6257, "qh_lib_check: Incorrect qhull library called.  Caller uses non-reentrant Qhull with a static qhT.  Library is reentrant.\n");
         iserror= True;
-    }else if (libraryType==1) {
+    }else if (qhullLibraryType==QHULL_QH_POINTER) { /* 1 */
         qh_fprintf(NULL, stderr, 6258, "qh_lib_check: Incorrect qhull library called.  Caller uses non-reentrant Qhull with a dynamic qhT via qh_QHpointer.  Library is reentrant.\n");
+        iserror= True;
+    }else if (qhullLibraryType!=QHULL_REENTRANT) { /* 2 */
+        qh_fprintf(NULL, stderr, 6262, "qh_lib_check: Expecting qhullLibraryType QHULL_NON_REENTRANT(0), QHULL_QH_POINTER(1), or QHULL_REENTRANT(2).  Got %d\n", qhullLibraryType);
         iserror= True;
     }
     if (qhTsize != sizeof(qhT)) {
@@ -2022,7 +2028,7 @@ void qh_lib_check(int libraryType, int qhTsize, int vertexTsize, int ridgeTsize,
         iserror= True;
     }
     if (iserror) {
-        qh_fprintf(NULL, stderr, 6259, "qh_lib_check: Cannot continue.  Library '%s' is reentrant (e.g., qhull_r.so)\n", qh_version);
+        qh_fprintf(NULL, stderr, 6259, "qh_lib_check: Cannot continue.  Library '%s' is reentrant (e.g., qhull_r.so)\n", qh_version2);
         qh_exit(qh_ERRqhull);  /* can not use qh_errexit() */
     }
 } /* lib_check */

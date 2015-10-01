@@ -76,7 +76,7 @@
   facetT *facet;            /* set by FORALLfacets */
   int curlong, totlong;     /* memory remaining after qh_memfreeshort */
 
-  QHULL_LIB_CHECK
+  QHULL_LIB_CHECK /* Check for compatible library */
 
 #if qh_QHpointer  /* see user.h */
   if (qh_qh){

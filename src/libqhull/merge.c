@@ -21,8 +21,8 @@
    vertex->neighbors not set until the first merge occurs
 
    Copyright (c) 1993-2015 C.B. Barber.
-   $Id: //main/2011/qhull/src/libqhull/merge.c#9 $$Change: 1965 $
-   $DateTime: 2015/09/22 22:38:32 $$Author: bbarber $
+   $Id: //main/2015/qhull/src/libqhull/merge.c#1 $$Change: 1981 $
+   $DateTime: 2015/09/28 20:26:32 $$Author: bbarber $
 */
 
 #include "qhull_a.h"

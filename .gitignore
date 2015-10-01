@@ -1,18 +1,11 @@
 # git-ls-files --others --ignored
 # Lines that start with '#' are comments.
 
-# Working files 2015
-# Need to clean up bin/ and build/ for git
-bin/
-src/qhulltest/qhulltest-mini.pro
-src/qhulltest/RoadTest.h.cpp
-
 # Backup and data files
 eg/eg.*
 *~
 *.bak
 *.off
-*.tmp
 *.x
 x.*
 r
@@ -25,7 +18,7 @@ r?
 
 # Build products
 tmp/*
-build-*/
+build-cmake/*
 build/Debug/*
 build/moc/*
 build/qhulltest/*
@@ -35,15 +28,13 @@ build/CMakeCache.txt
 build/CMakeFiles
 build/install_manifest.txt
 build/Makefile*
-build/Testing/*
-build/CTest*
 build/*/Makefile*
 build/*/object_script*
 build/*/Release/*
 build/*/Debug/*
 build/*/MinSizeRel/*
 build/*/RelWithDebInfo/*
-lib/
+lib
 *.a
 *.dll
 *.idb

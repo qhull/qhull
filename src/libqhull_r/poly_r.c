@@ -10,8 +10,8 @@
    (all but top 50 and their callers 12/3/95)
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2011/qhull/src/libqhull_r/poly_r.c#4 $$Change: 1965 $
-   $DateTime: 2015/09/22 22:38:32 $$Author: bbarber $
+   $Id: //main/2015/qhull/src/libqhull_r/poly_r.c#1 $$Change: 1981 $
+   $DateTime: 2015/09/28 20:26:32 $$Author: bbarber $
 */
 
 #include "qhull_ra.h"
@@ -780,7 +780,7 @@ void qh_matchneighbor(qhT *qh, facetT *newfacet, int newskip, int hashsize, int 
         if (matchfacet) {
           matchskip= qh_setindex(matchfacet->neighbors, facet);
           if (matchskip<0) {
-              qh_fprintf(qh, qh->ferr, 6260, "qhull error: matchfacet f%d is in f%d neighbors but not vice versa.  Can not continue.\n",
+              qh_fprintf(qh, qh->ferr, 6260, "qhull internal error (qh_matchneighbor): matchfacet f%d is in f%d neighbors but not vice versa.  Can not continue.\n",
                   matchfacet->id, facet->id);
               qh_errexit2(qh, qh_ERRqhull, matchfacet, facet);
           }

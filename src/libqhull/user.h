@@ -53,7 +53,7 @@ Code flags --
   See QhullError.h for 10000 errors.
 
   def counters =  [27, 1048, 2059, 3025, 4068, 5003,
-     6262, 7079, 8143, 9410, 10000, 11026]
+     6263, 7079, 8145, 9410, 10000, 11029]
 
   See: qh_ERR* [libqhull.h]
 */

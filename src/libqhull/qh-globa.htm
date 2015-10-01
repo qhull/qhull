@@ -67,6 +67,7 @@ variables</a></h3>
 <li><a href=global.c#qh_version>qh_version</a> version string
 <li><a href="libqhull.h#qh">qh</a> all global variables for
 qhull are in <tt>qh,qhmem</tt>, and <tt>qhstat</tt></li>
+<li><a href="libqhull_r.h#qh">QHULL_LIB_CHECK</a> Check for compatible library</li>
 <li><a href="libqhull.h#qh-const">qh constants</a> configuration
 flags and constants for Qhull </li>
 <li><a href="libqhull.h#qh-prec">qh precision constants</a>
@@ -116,7 +117,7 @@ allocate qh_qh and call qh_initqhull_start2()
 initialize default values at Qhull startup </li>
 <li><a href="global.c#initthresholds">qh_initthresholds</a>
 initialize 'Pdn' and 'PDn' thresholds </li>
-<li><a href="global.c#lib_check">qh_lib_check</a> check for compatible Qhull library</li>
+<li><a href="global.c#lib_check">qh_lib_check</a> check for compatible Qhull library.  Invoked by QHULL_LIB_CHECK at start of each program.</li>
 <li><a href="global.c#option">qh_option</a> append option
 description to <tt>qh.global_options</tt> </li>
 <li><a href="global.c#restore_qhull">qh_restore_qhull</a>

@@ -6,14 +6,16 @@
 #   can not use path with $zip_file 
 #   odd error messages if can't locate directory
 #
-# $Id: //main/2011/qhull/eg/qhull-zip.sh#24 $$Change: 1965 $
-# $DateTime: 2015/09/22 22:38:32 $$Author: bbarber $
+# $Id: //main/2015/qhull/eg/qhull-zip.sh#3 $$Change: 1987 $
+# $DateTime: 2015/09/30 22:44:39 $$Author: bbarber $
 
-if [[ $# -eq 0 ]]; then
-        echo 'Missing date stamp, e.g., qhull-zip.sh 2007.1' 
+if [[ $# -ne 3 ]]; then
+        echo 'Missing date stamp, e.g., qhull-zip.sh 2015 2015.1 7.1.0.1940' 
         exit
 fi
-version=$1
+versionyear=$1
+version=$2
+versionunix=$3
 
 err_program=qhull-zip
 err_log=/var/tmp/qhull-zip.log
@@ -41,7 +43,7 @@ TEMP_DIR="$TMP/qhull-zip-$(ro_today2)"
 TEMP_FILE="$TMP/qhull-zip-$(ro_today2).txt"
 
 qhull_zip_file=qhull-$version.zip # no path or spaces
-qhull_tgz_file=qhull-$version-src.tgz
+qhull_tgz_file=qhull-$versionyear-src-$versionunix.tgz
 qhullmd5_file=qhull-$version.md5sum
 
 exit_if_fail $LINENO "rm -f $qhull_zip_file $qhull_tgz_file $qhullmd5_file"
@@ -108,7 +110,7 @@ log_step $LINENO "Configure $0 for $(pwd)/qhull"
 #############################
 
 md5_zip_file=qhull-$version-zip.md5sum
-md5_tgz_file=qhull-$version-src-tgz.md5sum
+md5_tgz_file=qhull-$versionyear-src-$versionunix-tgz.md5sum
 
 # recursive 
 qhull_dirs="qhull/eg qhull/html qhull/src"
@@ -259,5 +261,6 @@ log_step $LINENO "Compare previous zip release, Dates.txt, and md5sum.  Check fo
 log_step $LINENO "Compare zip and tgz for CRLF vs LF"
 log_step $LINENO "Search xml files for UNDEFINED. Check page links"
 log_step $LINENO "Extract zip to Qhull/ and compare directories"
+log_step $LINENO "Rename Unix tarball with version number"
 log_step $LINENO "Finished successfully"
 #############################

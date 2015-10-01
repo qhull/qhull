@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/qhulltest/Qhull_test.cpp#15 $$Change: 1879 $
-** $DateTime: 2015/04/18 08:36:07 $$Author: bbarber $
+** $Id: //main/2015/qhull/src/qhulltest/Qhull_test.cpp#1 $$Change: 1981 $
+** $DateTime: 2015/09/28 20:26:32 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -171,7 +171,7 @@ t_message()
             cout << "INFO   : Caught " << e;
             QCOMPARE(e.errorCode(), 6029);
         }
-        //FIXUP QH11026 Qhullmessage cleared when QhullError thrown.  Switched to e
+        //FIXUP QH11025 Qhullmessage cleared when QhullError thrown.  Switched to e
         //QVERIFY(q.hasQhullMessage());
         //QCOMPARE(QString::fromStdString(q.qhullMessage()).left(6), QString("QH6029"));
         q.clearQhullMessage();
@@ -191,7 +191,7 @@ t_message()
             cout << "INFO   : Caught " << s;
             QCOMPARE(QString::fromLatin1(s).left(6), QString("QH6023"));
         }
-        //FIXUP QH11026 Qhullmessage cleared when QhullError thrown.  Switched to e
+        //FIXUP QH11025 Qhullmessage cleared when QhullError thrown.  Switched to e
         //QVERIFY(q.hasQhullMessage());
         //QCOMPARE(QString::fromStdString(q.qhullMessage()).left(17), QString("qhull: no message"));
         //QCOMPARE(q.qhullStatus(), 6023);
@@ -212,7 +212,7 @@ t_message()
             cout << "INFO   : Caught " << s;
             QCOMPARE(QString::fromLatin1(s).left(6), QString("QH6029"));
         }
-        //FIXUP QH11026 Qhullmessage cleared when QhullError thrown.  Switched to e
+        //FIXUP QH11025 Qhullmessage cleared when QhullError thrown.  Switched to e
         //QVERIFY(q.hasQhullMessage());
         //QCOMPARE(QString::fromStdString(q.qhullMessage()).left(9), QString("qhull err"));
         //QCOMPARE(q.qhullStatus(), 6029);

@@ -95,25 +95,32 @@ Contents </a></h2>
 
 <h2><a href="#TOC">&#187;</a><a name="reentrant">Reentrant Qhull</a></h2>
 
-<p>Qhull-2015 introduces reentrant Qhull (libqhull_r).   Reentrant Qhull replaces Qhull's global data structures with a qhT pointer.
-The pointer is the first argument to most Qhull routines.  It allows multiple instances of Qhull to run at the same time.
+<p>Qhull-2015 introduces reentrant Qhull (libqhull_r).   Reentrant Qhull uses a qhT* argument instead of global data structures.
+The qhT* pointer is the first argument to most Qhull routines.  It allows multiple instances of Qhull to run at the same time.
 It simplifies the C++ interface to Qhull.
 
 <p>New code should be written with libqhull_r.   Existing users of libqhull should consider converting to libqhull_r.
 Although libqhull will be supported indefinitely, improvements may not be implemented.
 Reentrant qhull is 1-2% slower than non-reentrant qhull.
 
-<p>C++ users need to convert to libqhull_r.  The previous C++ interface was unusual
-due to Qhull's global data structures (e.g., UsingLibQhull.cpp).
+<p>C++ users need to convert to libqhull_r.
 The new C++ interface does a better, but not perfect, job of hiding Qhull's C data structures.
+The previous C++ interface was unusual
+due to Qhull's global data structures (e.g., UsingLibQhull.cpp).
 
-<b>Note:</b> Reentrant Qhull is <i>not</i> thread safe.   Do not invoke Qhull routines with the same qhT pointer from multiple threads.
+<b>Note:</b> Reentrant Qhull is <i>not</i> thread safe.   Do not invoke Qhull routines with the same qhT* pointer from multiple threads.
 
 <h2><a href="#TOC">&#187;</a><a name="64bit">Qhull on 64-bit hosts</a></h2>
 
 <p>Qhull compiles for 64-bit hosts.  Since the size of a pointer on a 64-bit host is double the size on a 32-bit host,
-memory consumption increases about 50% for simplicial facets and up-to 100% for non-simplicial facets.  You can check
-memory consumption with option <a href="qh-optt.htm#Ts">Ts</a>.
+memory consumption increases about 50% for simplicial facets and up-to 100% for non-simplicial facets.
+
+You can check memory consumption with option <a href="qh-optt.htm#Ts">Ts</a>.   It includes the size of
+each data structure:
+<ul>
+<li>32-bit -- merge 24 ridge 20 vertex 28 facet 88 normal 24 ridge vertices 16 facet vertices or neighbors 20
+<li>64-bit -- merge 32 ridge 32 vertex 48 facet 120 normal 32 ridge vertices 40 facet vertices or neighbors 48
+</ul>
 
 <p>A custom version of Qhull for 3-D Delaunay triangulations may reduce space requirements substantially.
 
@@ -329,7 +336,7 @@ and FIXUP notes in the code.
 Please add notes to <a href="http://github.com/qhull/qhull/wiki">Qhull Wiki</a>.
 
 <ul>
-<li>FIXUP QH11026 Should return reference, but get reference to temporary
+<li>FIXUP QH11028 Should return reference, but get reference to temporary
 <pre>iterator Coordinates::operator++() { return iterator(++i); }</pre>
 <li>size() as size_t, size_type, or int
 <li>Should all containers have a reserve()?

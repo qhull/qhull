@@ -1,12 +1,9 @@
 
- Qhull 2015.0.3  2015/09/22
+ Qhull 2015.0.4  2015/09/30
 
         http://www.qhull.org
         git@github.com:qhull/qhull.git
-        http://packages.debian.org/sid/libqhull5 [out-of-date]      
-        http://www6.uniovi.es/ftp/pub/mirrors/geom.umn.edu/software/ghindex.html
         http://www.geomview.org
-        http://www.geom.uiuc.edu
 
 Qhull computes convex hulls, Delaunay triangulations, Voronoi diagrams,
 furthest-site Voronoi diagrams, and halfspace intersections about a point.

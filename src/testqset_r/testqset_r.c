@@ -67,8 +67,8 @@ Functions and macros from qset.h.  Counts occurrences in this test.  Does not co
     SETtruncate_ -- 2 tests
 
     Copyright (c) 2012-2015 C.B. Barber. All rights reserved.
-    $Id: //main/2011/qhull/src/testqset_r/testqset_r.c#3 $$Change: 1965 $
-    $DateTime: 2015/09/22 22:38:32 $$Author: bbarber $
+    $Id: //main/2015/qhull/src/testqset_r/testqset_r.c#1 $$Change: 1981 $
+    $DateTime: 2015/09/28 20:26:32 $$Author: bbarber $
 */
 
 #include "libqhull_r/qset_r.h"

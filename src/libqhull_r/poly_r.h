@@ -7,8 +7,8 @@
    see qh-poly.htm, libqhull_r.h and poly_r.c
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2011/qhull/src/libqhull_r/poly_r.h#1 $$Change: 1905 $
-   $DateTime: 2015/06/21 12:05:06 $$Author: bbarber $
+   $Id: //main/2015/qhull/src/libqhull_r/poly_r.h#1 $$Change: 1981 $
+   $DateTime: 2015/09/28 20:26:32 $$Author: bbarber $
 */
 
 #ifndef qhDEFpoly

@@ -171,6 +171,7 @@ Print options:\n\
 \n\
     .    - list of all options\n\
     -    - one line descriptions of all options\n\
+    -V   - version\n\
 ";
 /* for opts, don't assign 'e' or 'E' to a flag (already used for exponent) */
 
@@ -191,6 +192,7 @@ options (qconvex.htm):\n\
     Tv   - verify result: structure, convexity, and point inclusion\n\
     .    - concise list of all options\n\
     -    - one-line description of all options\n\
+    -V   - version\n\
 \n\
 output options (subset):\n\
     s    - summary of results (default)\n\
@@ -275,7 +277,7 @@ int main(int argc, char *argv[]) {
   qhT qh_qh;
   qhT *qh= &qh_qh;
 
-  QHULL_LIB_CHECK
+  QHULL_LIB_CHECK /* Check for compatible library */
 
   if ((argc == 1) && isatty( 0 /*stdin*/)) {
     fprintf(stdout, qh_prompt2, qh_version);
@@ -286,9 +288,13 @@ int main(int argc, char *argv[]) {
                 qh_promptb, qh_promptc, qh_promptd, qh_prompte);
     exit(qh_ERRnone);
   }
-  if (argc >1 && *argv[1] == '.' && !*(argv[1]+1)) {
+  if (argc > 1 && *argv[1] == '.' && !*(argv[1]+1)) {
     fprintf(stdout, qh_prompt3, qh_version);
     exit(qh_ERRnone);
+  }
+  if (argc > 1 && *argv[1] == '-' && *(argv[1]+1)=='V') {
+      fprintf(stdout, "%s\n", qh_version2);
+      exit(qh_ERRnone);
   }
   qh_init_A(qh, stdin, stdout, stderr, argc, argv);  /* sets qh->qhull_command */
   exitcode= setjmp(qh->errexit); /* simple statement for CRAY J916 */

@@ -4,8 +4,8 @@
 ;   [jan'14] 391 symbols 
 ;   Same as ../libqhullp/qhull-exports.def without DATA items (reentrant)
 ;
-; $Id: //main/2011/qhull/src/libqhull_r/qhull_r-exports.def#3 $$Change: 1951 $
-; $DateTime: 2015/08/30 21:30:30 $$Author: bbarber $
+; $Id: //main/2015/qhull/src/libqhull_r/qhull_r-exports.def#1 $$Change: 1981 $
+; $DateTime: 2015/09/28 20:26:32 $$Author: bbarber $
 ; 
 ; Define qhull_VERSION in CMakeLists.txt, Makefile, qhull-exports.def, qhull_p-exports.def, qhull_r-exports.def, and qhull-warn.pri
 VERSION 7.0
@@ -390,6 +390,7 @@ qh_updatetested
 qh_updatevertices
 qh_user_memsizes
 qh_version
+qh_version2
 qh_vertexintersect
 qh_vertexintersect_new
 qh_vertexneighbors

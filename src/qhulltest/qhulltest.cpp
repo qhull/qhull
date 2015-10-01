@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/qhulltest/qhulltest.cpp#20 $$Change: 1965 $
-** $DateTime: 2015/09/22 22:38:32 $$Author: bbarber $
+** $Id: //main/2015/qhull/src/qhulltest/qhulltest.cpp#1 $$Change: 1981 $
+** $DateTime: 2015/09/28 20:26:32 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -57,7 +57,7 @@ int main(int argc, char *argv[])
     QStringList args= app.arguments();
     bool isAll= args.contains("--all");
 
-    QHULL_LIB_CHECK
+    QHULL_LIB_CHECK /* Check for compatible library */
 
     addQhullTests(args);
     int status=1010;

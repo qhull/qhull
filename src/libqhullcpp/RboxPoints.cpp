@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/RboxPoints.cpp#14 $$Change: 1951 $
-** $DateTime: 2015/08/30 21:30:30 $$Author: bbarber $
+** $Id: //main/2015/qhull/src/libqhullcpp/RboxPoints.cpp#1 $$Change: 1981 $
+** $DateTime: 2015/09/28 20:26:32 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -27,7 +27,7 @@ using std::ws;
 namespace orgQhull {
 
 #//! RboxPoints -- generate random PointCoordinates for qhull (rbox)
-  
+
 
 #//!\name Constructors
 RboxPoints::
@@ -68,7 +68,7 @@ RboxPoints::
 void RboxPoints::
 allocateQhullQh()
 {
-    QHULL_LIB_CHECK
+    QHULL_LIB_CHECK /* Check for compatible library */
     resetQhullQh(new QhullQh);
 }//allocateQhullQh
 
@@ -125,7 +125,7 @@ appendPoints(const char *rboxCommand)
     countT previousCount= count();
     qh()->cpp_object= this;           // for qh_fprintf_rbox()
     int status= qh_rboxpoints(qh(), command);
-    qh()->cpp_object= 0;         
+    qh()->cpp_object= 0;
     if(rbox_status==qh_ERRnone){
         rbox_status= status;
     }

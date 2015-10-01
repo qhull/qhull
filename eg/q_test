@@ -23,6 +23,12 @@ echo ========= eg/q_test ==========
 echo == Check qhull programs ======
 echo ==============================
 echo
+echo "qhull => $(qhull -V)"
+echo "qconvex => $(qconvex -V)"
+echo "qvoronoi => $(qconvex -V)"
+echo "qdelaunay => $(qdelaunay -V)"
+echo "qhalf => $(qhalf -V)"
+echo
 echo ==============================
 echo == check user_eg, user_eg2, and user_eg3
 echo == errors if 'user_eg' and 'user_eg2' not found

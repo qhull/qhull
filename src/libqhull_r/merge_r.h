@@ -7,8 +7,8 @@
    see qh-merge.htm and merge_r.c
 
    Copyright (c) 1993-2015 C.B. Barber.
-   $Id: //main/2011/qhull/src/libqhull_r/merge_r.h#1 $$Change: 1905 $
-   $DateTime: 2015/06/21 12:05:06 $$Author: bbarber $
+   $Id: //main/2015/qhull/src/libqhull_r/merge_r.h#1 $$Change: 1981 $
+   $DateTime: 2015/09/28 20:26:32 $$Author: bbarber $
 */
 
 #ifndef qhDEFmerge

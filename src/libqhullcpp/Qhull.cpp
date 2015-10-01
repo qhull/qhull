@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2011/qhull/src/libqhullcpp/Qhull.cpp#23 $$Change: 1951 $
-** $DateTime: 2015/08/30 21:30:30 $$Author: bbarber $
+** $Id: //main/2015/qhull/src/libqhullcpp/Qhull.cpp#1 $$Change: 1981 $
+** $DateTime: 2015/09/28 20:26:32 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -81,7 +81,7 @@ Qhull(const char *inputComment2, int pointDimension, int pointCount, const realT
 void Qhull::
 allocateQhullQh()
 {
-    QHULL_LIB_CHECK
+  QHULL_LIB_CHECK /* Check for compatible library */
 
     qh_qh= new QhullQh;
     void *p= qh_qh;

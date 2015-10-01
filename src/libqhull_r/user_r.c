@@ -79,9 +79,9 @@
   qhT qh_qh;                /* Qhull's data structure.  First argument of most calls */
   qhT *qh= &qh_qh;          /* Alternatively -- qhT *qh= (qhT*)malloc(sizeof(qhT)) */
 
-  QHULL_LIB_CHECK
+  QHULL_LIB_CHECK /* Check for compatible library */
 
-  qh_zero(qh, errfile);   
+  qh_zero(qh, errfile);
 
   /* initialize dim, numpoints, points[], ismalloc here */
   exitcode= qh_new_qhull(qh, dim, numpoints, points, ismalloc,
@@ -103,7 +103,7 @@
   >-------------------------------</a><a name="new_qhull">-</a>
 
   qh_new_qhull(qh, dim, numpoints, points, ismalloc, qhull_cmd, outfile, errfile )
-    Run qhull and return results in qh. 
+    Run qhull and return results in qh.
     Returns exitcode (0 if no errors).
     Before first call, either call qh_zero(qh, errfile), or set qh to all zero.
 
