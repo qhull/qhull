@@ -11,6 +11,7 @@
 
 #include <cstdio>   /* for printf() of help message */
 #include <ostream>
+#include <stdexcept>
 
 using std::cerr;
 using std::cin;

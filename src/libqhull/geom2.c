@@ -8,8 +8,8 @@
    see qh-geom.htm and geom.h
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull/geom2.c#1 $$Change: 1981 $
-   $DateTime: 2015/09/28 20:26:32 $$Author: bbarber $
+   $Id: //main/2015/qhull/src/libqhull/geom2.c#2 $$Change: 1995 $
+   $DateTime: 2015/10/13 21:59:42 $$Author: bbarber $
 
    frequently used code goes into geom.c
 */
@@ -367,8 +367,7 @@ realT qh_distnorm(int dim, pointT *point, pointT *normal, realT *offsetp) {
     max dist round for REALepsilon
 
   notes:
-    calculate roundoff error according to
-    Lemma 3.2-1 of Golub and van Loan "Matrix Computation"
+    calculate roundoff error according to Golub & van Loan, 1983, Lemma 3.2-1, "Rounding Errors"
     use sqrt(dim) since one vector is normalized
       or use maxsumabs since one vector is < 1
 */
@@ -748,7 +747,7 @@ void qh_getarea(facetT *facetlist) {
     overwrites rows[dim][dim]
 
   notes:
-    see Golub & van Loan Algorithm 6.2-2
+    see Golub & van Loan, 1983, Algorithm 6.2-2, "Modified Gram-Schmidt"
     overflow due to small divisors not handled
 
   design:
@@ -1031,8 +1030,9 @@ REALepsilon %g REALmin %g REALmax %g -REALmax %g\n",
     qh MAXsumcoord += maxcoord;
     qh_setappend(&set, maximum);
     qh_setappend(&set, minimum);
-    /* calculation of qh NEARzero is based on error formula 4.4-13 of
-       Golub & van Loan, authors say n^3 can be ignored and 10 be used in
+    /* calculation of qh NEARzero is based on Golub & van Loan, 1983,
+       Eq. 4.4-13 for "Gaussian elimination with complete pivoting".
+       Golub & van Loan say that n^3 can be ignored and 10 be used in
        place of rho */
     qh NEARzero[k]= 80 * qh MAXsumcoord * REALepsilon;
   }

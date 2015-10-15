@@ -13,12 +13,12 @@
    defines internal functions for libqhull.c global.c
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull/qhull_a.h#1 $$Change: 1981 $
-   $DateTime: 2015/09/28 20:26:32 $$Author: bbarber $
+   $Id: //main/2015/qhull/src/libqhull/qhull_a.h#2 $$Change: 1995 $
+   $DateTime: 2015/10/13 21:59:42 $$Author: bbarber $
 
    Notes:  grep for ((" and (" to catch fprintf("lkasdjf");
            full parens around (x?y:z)
-           use '#include qhull/qhull_a.h' to avoid name clashes
+           use '#include "libqhull/qhull_a.h"' to avoid name clashes
 */
 
 #ifndef qhDEFqhulla

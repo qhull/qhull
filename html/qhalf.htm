@@ -35,11 +35,11 @@ height="100"></a>qhalf -- halfspace intersection about a point</h1>
 polytope may be unbounded. See Preparata &amp; Shamos [<a
 href="index.htm#pre-sha85">'85</a>] for a discussion. In low
 dimensions, halfspace intersection may be used for linear
-programming. </p>
+programming.
 
 <blockquote>
 <dl compact>
-    <dt><b>Example:</b> rbox c | qconvex <a href="qh-optf.htm#FQ">FQ</a> <a href="qh-optf.htm#FV">FV</a>
+    <dt><p><b>Example:</b> rbox c | qconvex <a href="qh-optf.htm#FQ">FQ</a> <a href="qh-optf.htm#FV">FV</a>
         <a href="qh-opto.htm#n">n</a> | qhalf <a
         href="qh-optf.htm#Fp">Fp</a></dt>
     <dd>Print the intersection of the facets of a cube.  <tt>rbox c</tt>
@@ -65,8 +65,21 @@ programming. </p>
         the intersection points.  Three facets define each intersection
         point.  There are two duplicates of the diamond and four duplicates of the cube.
         </dd>
+
+    <dt><p><b>Example:</b> rbox 10 s t10 | qconvex <a href="qh-optf.htm#FQ">FQ</a> <a href="qh-optf.htm#FV">FV</a>
+        <a href="qh-opto.htm#n">n</a> | qhalf <a
+        href="qh-optf.htm#Fp">Fp</a> <a
+        href="qh-optf.htm#Fn">Fn</a></dt>
+    <dd>Print the intersection of the facets of the convex hull of 10 cospherical points.
+        Include the intersection points and the neighboring intersections.
+        As in the previous examples, the intersection points are nearly the same as the
+        original input points.
+        </dd>
 </dl>
 </blockquote>
+
+<p>In Qhull, a <i>halfspace</i> is defined by the points on or below a hyperplane.
+The distance of each point to the hyperplane is less than or equal to zero.
 
 <p>Qhull computes a halfspace intersection by the geometric
 duality between points and halfspaces.
@@ -74,24 +87,26 @@ See <a href="qh-eg.htm#half">halfspace examples</a>,
 <a href="#notes">qhalf notes</a>, and
 option 'p' of <a href="#outputs">qhalf outputs</a>. </p>
 
-<p>By default, halfspace intersections may be defined by more than
-<i>d</i> halfspaces.  See the previous cube and diamond example.
-This is the expected output for halfspace intersection.
+<p>Qhalf's <a href="#outputs">outputs</a> are the intersection
+points (<a href="qh-optf.htm#Fp">Fp</a>) and
+the neighboring intersection points (<a href="qh-optf.htm#Fn">Fn</a>).
+For random inputs, halfspace
+intersections are usually defined by more than <i>d</i> halfspaces.  See the sphere example.
 
-<p>You can try triangulated output and joggled input.  It demonstrates
-that triangulated output is more accurate than joggled input.
+<p>You can try triangulated output ('<a href="qh-optq.htm#Qt">Qt</a>') and joggled input ('<a href="qh-optq.htm#QJn">QJ</a>').
+It demonstrates that triangulated output is more accurate than joggled input.
 
 <p>If you use '<a href="qh-optq.htm#Qt">Qt</a>' (triangulated output), all
 halfspace intersections are simplicial (e.g., three halfspaces per
 intersection in 3-d).  In 3-d, if more than three halfspaces intersect
 at the same point, triangulated output will produce
-duplicate intersections, one for each additional halfspace.  See the previous
-cube and diamond example.</p>
+duplicate intersections, one for each additional halfspace.  See the third example, or
+add 'Qt' to the sphere example.</p>
 
 <p>If you use '<a href="qh-optq.htm#QJn">QJ</a>' (joggled input), all halfspace
 intersections are simplicial.  This may lead to nearly identical
-intersections.  For example, replace 'Qt' with 'QJ' above and
-compare the duplicated intersections.
+intersections.  For example, either replace 'Qt' with 'QJ' above, or add
+'QJ' to the sphere example.
 See <a
 href="qh-impre.htm#joggle">Merged facets or joggled input</a>. </p>
 
@@ -160,19 +175,25 @@ or the '<a href=qh-optt.htm#TI>TI</a>' option (e.g., qhalf TI data.txt).
 
 <p>Qhull needs an interior point to compute the halfspace
 intersection. An interior point is clearly inside all of the halfspaces.
-The interior point may be in the input.  If not, option
+A point is <i>inside</i> a halfspace if its distance to the corresponding hyperplane is negative.
+
+<p>The interior point may be listed at the beginning of the input (as shown above).
+If not, option
 'Hn,n' defines the interior point as
 [n,n,0,...] where <em>0</em> is the default coordinate (e.g.,
 'H0' is the origin).  Use linear programming if you do not know
 the interior point (see <a href="#notes">halfspace notes</a>),</p>
 
-<p>The input to qhalf is a set of halfspaces. Each halfspace is defined by
+<p>The input to qhalf is a set of halfspaces that are defined by their hyperplanes.
+Each halfspace is defined by
 <em>d</em> coefficients followed by a signed offset. This defines
 a linear inequality. The coefficients define a vector that is
-normal to the halfspace. The vector may have any length. If it
+normal to the halfspace.
+The vector may have any length. If it
 has length one, the offset is the distance from the origin to the
-halfspace's boundary.  The distance from the interior point to each
-halfspace is negative.</p>
+halfspace's boundary.  Points in the halfspace have a negative distance to the hyperplane.
+The distance from the interior point to each
+halfspace is likewise negative.</p>
 
 <p>The halfspace format is the same as Qhull's output options '<a
 href="qh-opto.htm#n">n</a>', '<a href="qh-optf.htm#Fo">Fo</a>',
@@ -251,9 +272,14 @@ intersection.</p>
             is the number of intersection points.  Each remaining line
                 starts with the number of neighboring intersections.  For the cube
                 example, each intersection point has three neighboring intersections.
+                <p>
                 In 3-d, a non-simplicial intersection has more than three neighboring
-                intersections.  Use option '<a href="qh-optq.htm#QJn">QJ</a>' to
-                avoid non-simplicial intersections.
+                intersections.  For random data (e.g., the sphere example), non-simplicial intersections are the norm.
+                Option '<a href="qh-optq.htm#Qt">Qt</a>' produces three
+                neighboring intersections per intersection by duplicating the intersection
+                points.  Option <a href="qh-optq.htm#QJn">QJ</a>' produces three
+                neighboring intersections per intersection by joggling the hyperplanes and
+                hence their intersections.
              </dd>
     <dt><a href="qh-optf.htm#Fp">Fp</a></dt>
     <dd>print intersection coordinates.  The first line is the dimension and the
@@ -387,24 +413,24 @@ href="qh-eg.htm#half">Halfspace examples</a>.</p>
 
 <p>If you do not know an interior point for the halfspaces, use
 linear programming to find one. Assume, <em>n</em> halfspaces
-defined by: <em>aj*x1+bj*x2+cj*x3+dj&gt;=0, j=1..n</em>. Perform
+defined by: <em>aj*x1+bj*x2+cj*x3+dj&lt;=0, j=1..n</em>.  Perform
 the following linear program: </p>
 
 <blockquote>
-    <p>max(x5) aj*x1+bj*x2+cj*x3+dj*x4-x5&gt;=0, j=1..n</p>
+    <p>max(x5) aj*x1+bj*x2+cj*x3+dj*x4+x5&lt;=0, j=1..n</p>
 </blockquote>
 
 <p>Then, if <em>[x1,x2,x3,x4,x5]</em> is an optimal solution with
-<em>x4,x5&gt;0</em> we get: </p>
+<em>x4&gt;0</em> and <em>x5&gt;0</em> we get: </p>
 
 <blockquote>
-    <p>aj*(x1/x4)+bj*(x2/x4)+cj*(x3/x4)+dj&gt;=(x5/x4)&gt;0,
-    j=1..n </p>
+    <p>aj*(x1/x4)+bj*(x2/x4)+cj*(x3/x4)+dj&lt;=(-x5/x4) j=1..n and (-x5/x4)&lt;0,
+    </p>
 </blockquote>
 
 <p>and conclude that the point <em>[x1/x4,x2/x4,x3/x4]</em> is in
-the interior of all the halfspaces. Note that <em>x5</em> is
-optimal, so this point is &quot;way in&quot; the interior (good
+the interior of all the halfspaces. Since <em>x5</em> is
+optimal, this point is &quot;way in&quot; the interior (good
 for precision errors).</p>
 
 <p>After finding an interior point, the rest of the intersection
@@ -417,7 +443,7 @@ regard to the unit sphere (i.e., halfspaces at distance <em>d</em>
 from the origin are dual to vertices at distance <em>1/d</em>).
 Then calculate the resulting polytope, which is the dual of the
 dual polytope, and translate the origin back to the interior
-point [S. Spitz and S. Teller].</p>
+point [S. Spitz, S. Teller, D. Strawn].</p>
 
 
 </blockquote>

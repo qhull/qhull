@@ -62,22 +62,22 @@ PRINTC = enscript -2r
 # PRINTMAN = lpr
 # PRINTC = lpr
 
-#for Gnu's gcc compiler, -O3 for optimization, -g for debugging
+#for Gnu's gcc compiler, -O3 for optimization, -g for debugging, -pg for profiling
 # -fpic  needed for gcc x86_64-linux-gnu.  Not needed for mingw
 CC        = gcc
-CC_OPTS1  = -O3 -ansi -Isrc -fpic $(CC_WARNINGS)
+CC_OPTS1  = -O3 -ansi -I../../src -fpic $(CC_WARNINGS)
 
 # for Sun's cc compiler, -fast or O2 for optimization, -g for debugging, -Xc for ANSI
 #CC       = cc
-#CC_OPTS1 = -Xc -v -fast -I.. 
+#CC_OPTS1 = -Xc -v -fast -I../../src 
 
 # for Silicon Graphics cc compiler, -O2 for optimization, -g for debugging
 #CC       = cc
-#CC_OPTS1 = -ansi -O2 -I.. 
+#CC_OPTS1 = -ansi -O2 -I../../src 
 
 # for Next cc compiler with fat executable
 #CC       = cc
-#CC_OPTS1 = -ansi -O2 -I.. -arch m68k -arch i386 -arch hppa
+#CC_OPTS1 = -ansi -O2 -I../../src -arch m68k -arch i386 -arch hppa
 
 # For loader, ld, 
 CC_OPTS2 = $(CC_OPTS1)

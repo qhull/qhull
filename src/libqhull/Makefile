@@ -62,7 +62,7 @@ PRINTC = enscript -2r
 # PRINTMAN = lpr
 # PRINTC = lpr
 
-#for Gnu's gcc compiler, -O3 for optimization, -g for debugging
+#for Gnu's gcc compiler, -O3 for optimization, -g for debugging, -pg for profiling
 #   -fpic needed for gcc x86_64-linux-gnu.  Not needed for mingw
 CC        = gcc
 CC_OPTS1  = -O3 -ansi -I.. -fpic $(CC_WARNINGS)
@@ -171,7 +171,7 @@ qhull_all: qconvex.o qdelaun.o qhalf.o qvoronoi.o unix.o user_eg.o user_eg2.o rb
 	$(CC) -o qhalf $(CC_OPTS2) -lm $(LIBQHULLS_OBJS_2) qhalf.o 
 	$(CC) -o qvoronoi $(CC_OPTS2) -lm $(LIBQHULLS_OBJS_2) qvoronoi.o 
 	$(CC) -o qhull $(CC_OPTS2) -lm $(LIBQHULLS_OBJS_2) unix.o
-	$(CC) -o rbox $(CC_OPTS2) -lm rbox.o rboxlib.o random.o usermem.o userprintf_rbox.o
+	$(CC) -o rbox $(CC_OPTS2) -lm $(LIBQHULLS_OBJS) rbox.o
 	$(CC) -o user_eg $(CC_OPTS2) -lm $(LIBQHULLS_OBJS_2) user_eg.o
 	$(CC) -o user_eg2 $(CC_OPTS2) -lm $(LIBQHULLS_OBJS_1) user_eg2.o  usermem.o userprintf.o io.o
 	$(CC) -o testqset $(CC_OPTS2) -lm mem.o qset.o testqset.o

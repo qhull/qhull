@@ -281,6 +281,7 @@ int main(int argc, char *argv[]) {
   qh_init_A(qh, stdin, stdout, stderr, argc, argv);  /* sets qh->qhull_command */
   exitcode= setjmp(qh->errexit); /* simple statement for CRAY J916 */
   if (!exitcode) {
+    qh->NOerrexit = False;
     qh_option(qh, "Halfspace", NULL, NULL);
     qh->HALFspace= True;    /* 'H'   */
     qh_checkflags(qh, qh->qhull_command, hidden_options);

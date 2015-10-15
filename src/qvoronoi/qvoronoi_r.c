@@ -272,6 +272,7 @@ int main(int argc, char *argv[]) {
   qh_init_A(qh, stdin, stdout, stderr, argc, argv);  /* sets qh->qhull_command */
   exitcode= setjmp(qh->errexit); /* simple statement for CRAY J916 */
   if (!exitcode) {
+    qh->NOerrexit = False;
     qh_option(qh, "voronoi  _bbound-last  _coplanar-keep", NULL, NULL);
     qh->DELAUNAY= True;     /* 'v'   */
     qh->VORONOI= True;

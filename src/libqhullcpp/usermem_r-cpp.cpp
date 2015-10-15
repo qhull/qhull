@@ -1,25 +1,27 @@
 /*<html><pre>  -<a                             href="qh-user_r.htm"
   >-------------------------------</a><a name="TOP">-</a>
 
-   usermem_r.c
-   qh_exit(), qh_free(), and qh_malloc()
+   usermem_r-cpp.cpp
 
-   See README.txt.
+   Redefine qh_exit() as 'throw std::runtime_error("QH10003 ...")'
 
-   If you redefine one of these functions you must redefine all of them.
-   If you recompile and load this file, then usermem.o will not be loaded
-   from qhull.a or qhull.lib
+   This file is not included in the Qhull builds. 
 
-   See libqhull_r.h for data structures, macros, and user-callable functions.
-   See user_r.c for qhull-related, redefinable functions
-   see user_r.h for user-definable constants
-   See userprintf_r.c for qh_fprintf and userprintf_rbox_r.c for qh_fprintf_rbox
+   qhull_r calls qh_exit() when qh_errexit() is not available.  For example, 
+   it calls qh_exit() if you linked the wrong qhull library.  
+   
+   The C++ interface avoids most of the calls to qh_exit().
 
-   Please report any errors that you fix to qhull@qhull.org
+   If needed, include usermem_r-cpp.o before libqhullstatic_r.a.  You may need to
+   override duplicate symbol errors (e.g. /FORCE:MULTIPLE for DevStudio).  It 
+   may produce a warning about throwing an error from C code.
 */
 
-#include "libqhull_r.h"
+extern "C" {
+    void    qh_exit(int exitcode);
+}
 
+#include <stdexcept>
 #include <stdlib.h>
 
 /*-<a                             href="qh-user_r.htm#TOC"
@@ -29,11 +31,11 @@
     exit program
 
   notes:
-    qh_exit() is called when qh_errexit() and longjmp() are not available.
     same as exit()
 */
 void qh_exit(int exitcode) {
-    exit(exitcode);
+    exitcode= exitcode;
+    throw std::runtime_error("QH10003 Qhull error.  See stderr or errfile.");
 } /* exit */
 
 /*-<a                             href="qh-user_r.htm#TOC"

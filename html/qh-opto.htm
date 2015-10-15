@@ -167,6 +167,11 @@ normal coefficients.</p>
 &lt;= -b </i>where <i>A</i> is the matrix of coefficients and <i>b</i>
 is the vector of offsets.</p>
 
+<p>A point is <i>inside</i> or <i>below</i> a hyperplane if its distance
+to the hyperplane is negative.  A point is <i>outside</i> or <i>above</i> a hyperplane
+if its distance to the hyperplane is positive.  Otherwise a point is <i>on</i> or
+<i>coplanar to</i> the hyperplane.
+
 <p>If cdd output is specified ('<a href="qh-optf.htm#FD">FD</a>'),
 Qhull prints the command line, the keyword &quot;begin&quot;, the
 number of facets, the dimension (plus one), the keyword

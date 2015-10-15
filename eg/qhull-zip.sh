@@ -6,8 +6,8 @@
 #   can not use path with $zip_file 
 #   odd error messages if can't locate directory
 #
-# $Id: //main/2015/qhull/eg/qhull-zip.sh#3 $$Change: 1987 $
-# $DateTime: 2015/09/30 22:44:39 $$Author: bbarber $
+# $Id: //main/2015/qhull/eg/qhull-zip.sh#4 $$Change: 1995 $
+# $DateTime: 2015/10/13 21:59:42 $$Author: bbarber $
 
 if [[ $# -ne 3 ]]; then
         echo 'Missing date stamp, e.g., qhull-zip.sh 2015 2015.1 7.1.0.1940' 
@@ -135,6 +135,7 @@ qhull_d2ufiles="Makefile src/libqhull/Makefile src/libqhull_r/Makefile \
 log_step $LINENO "Clean distribution directories"
 #############################
 
+rm -r qhull/build/*
 p4 sync -f qhull/build/...
 exit_if_err $LINENO "Can not 'p4 sync -f qhull.sln *.vcproj'"
 cd qhull && make clean
@@ -142,9 +143,10 @@ exit_if_err $LINENO "Can not 'make clean'"
 cd ..
 # Includes many files from 'cleanall' (Makefile)
 rm -f qhull/src/qhull-all.pro.user* qhull/src/libqhull/BCC32tmp.cfg
-rm -f qhull/eg/eg.* qhull/*.x qhull/x.* qhull/x qhull/eg/x
+rm -f qhull/eg/eg.* qhull/eg/*.x qhull/*.x qhull/x.* qhull/x qhull/eg/x
 rm -f qhull/bin/qhulltest.exe qhull/bin/qhulltest
 rm -f qhull/src/libqhull/*.exe qhull/src/libqhull/*.a
+rm -f qhull/src/libqhull_r/*.exe qhull/src/libqhull_r/*.a
 rm -f qhull/src/libqhull/qconvex.c qhull/src/libqhull/unix.c 
 rm -f qhull/src/libqhull/qdelaun.c qhull/src/libqhull/qhalf.c
 rm -f qhull/src/libqhull/qvoronoi.c qhull/src/libqhull/rbox.c
@@ -244,6 +246,7 @@ if [[ -r $root_dir/$qhull_zip_file ]]; then
     log_step $LINENO "Search for date stamps to zip/Dates.txt"
     find . -type f | grep -v '/bin/' | xargs grep '\-20' | grep -v -E '(page=|ISBN|sql-2005|utility-2000|written 2002-2003|tail -n -20|Spinellis|WEBSIDESTORY|D:06-5-2007|server-2005)' >Dates.txt
     find . -type f | grep -v '/bin/' | xargs grep -i 'qhull *20' >>Dates.txt
+    find . -type f | grep -v '/bin/' | xargs grep -E 'SO=|SO |VERSION' >>Dates.txt
 fi
 if [[ -r $root_dir/$qhull_tgz_file ]]; then
     exit_if_fail $LINENO "mkdir -p $TEMP_DIR/tgz && cd $TEMP_DIR/tgz"
@@ -252,15 +255,26 @@ fi
 
 #############################
 log_step $LINENO "====================================================================="
-log_step $LINENO "Test unix compile -- cd .. && scp $qhull_tgz_file qhull@qhull.org:"
-log_step $LINENO "   tar zxf $qhull_tgz_file && cd qhull-$version && make >../make.x 2>&1"
-log_step $LINENO "Test qhull -- cd $TEMP_DIR/zip/qhull* && make testall >../q_test.txt 2>&1"
-log_step $LINENO "Build testqhull -- cd /c/bash/local/qhull && bin/qhulltest --all >eg/qhulltest.txt 2>&1"
-log_step $LINENO "Compare eg/q_test-ok.txt to ../test.log"
+log_step $LINENO "Test unix compile"
+log_step $LINENO " cd .. && scp $qhull_tgz_file qhull@qhull.org:"
+log_step $LINENO " tar zxf $qhull_tgz_file && cd qhull-$version && make >../make.x 2>&1"
+log_step $LINENO "Build qhull"
+log_step $LINENO " cd $TEMP_DIR/zip/qhull* && make SO=dll" 
+log_step $LINENO "Test qhull"
+log_step $LINENO " cp -p lib/libqhull*.dll bin && make testall >/c/bash/local/qhull/eg/q_test.x 2>&1"
+log_step $LINENO "Build testqhull"
+log_step $LINENO " cd /c/bash/local/qhull && bin/qhulltest --all >eg/qhulltest.x 2>&1"
+log_step $LINENO "Compare eg/q_test-ok.txt to eg/q_test.x"
+log_step $LINENO "Build and test libqhull and libqhull_r"
+log_step $LINENO " cd /c/bash/local/qhull/src/libqhull && make && cp *.exe ../../bin && cd ../.. && make test && ls -l bin/qhull.exe"
+log_step $LINENO " cd /c/bash/local/qhull/src/libqhull_r && make && cp *.exe ../../bin && cd ../.. && make test && ls -l bin/qhull.exe"
+log_step $LINENO "Full test of libqhull_r"
+log_step $LINENO " cd /c/bash/local/qhull/ && make testall >/c/bash/local/qhull/eg/q_test_r.x 2>&1"
 log_step $LINENO "Compare previous zip release, Dates.txt, and md5sum.  Check for virus."
 log_step $LINENO "Compare zip and tgz for CRLF vs LF"
 log_step $LINENO "Search xml files for UNDEFINED. Check page links"
 log_step $LINENO "Extract zip to Qhull/ and compare directories"
-log_step $LINENO "Rename Unix tarball with version number"
+log_step $LINENO "Copy tarballs to qhull.org"
+log_step $LINENO " scp qhull-2015*.0.5* qhull@qhull.org:web/download/"
 log_step $LINENO "Finished successfully"
 #############################

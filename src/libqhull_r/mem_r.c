@@ -30,8 +30,8 @@
     global_r.c (qh_initbuffers) for an example of using mem_r.c
 
   Copyright (c) 1993-2015 The Geometry Center.
-  $Id: //main/2015/qhull/src/libqhull_r/mem_r.c#1 $$Change: 1981 $
-  $DateTime: 2015/09/28 20:26:32 $$Author: bbarber $
+  $Id: //main/2015/qhull/src/libqhull_r/mem_r.c#2 $$Change: 1995 $
+  $DateTime: 2015/10/13 21:59:42 $$Author: bbarber $
 */
 
 #include "mem_r.h"
@@ -181,11 +181,11 @@ void qh_memcheck(qhT *qh) {
   void *object;
 
   if (!qh) {
-    fprintf(stderr, "QH6243 qh_memcheck(qh): qh is 0.  It does not point to a qhT");
+    fprintf(stderr, "QH6243 qh_memcheck(qh) error: qh is 0.  It does not point to a qhT");
     qh_exit(qhmem_ERRqhull);  /* can not use qh_errexit() */
   }
   if (qh->qhmem.ferr == 0 || qh->qhmem.IStracing < 0 || qh->qhmem.IStracing > 10 || (((qh->qhmem.ALIGNmask+1) & qh->qhmem.ALIGNmask) != 0)) {
-    qh_fprintf(qh, stderr, 6244, "qh_memcheck: either qh->qhmem is overwritten or qh->qhmem is not initialized.  Call qh_mem_new() or qh_new_qhull() before calling qh_mem routines.  ferr 0x%x IsTracing %d ALIGNmask 0x%x", qh->qhmem.ferr, qh->qhmem.IStracing, qh->qhmem.ALIGNmask);
+    qh_fprintf(qh, stderr, 6244, "qh_memcheck error: either qh->qhmem is overwritten or qh->qhmem is not initialized.  Call qh_mem_new() or qh_new_qhull() before calling qh_mem routines.  ferr 0x%x IsTracing %d ALIGNmask 0x%x", qh->qhmem.ferr, qh->qhmem.IStracing, qh->qhmem.ALIGNmask);
     qh_exit(qhmem_ERRqhull);  /* can not use qh_errexit() */
   }
   if (qh->qhmem.IStracing != 0)

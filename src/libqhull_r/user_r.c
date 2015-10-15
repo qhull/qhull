@@ -114,7 +114,7 @@
       The qhull data structure is not initialized until qh_new_qhull().
     do not call qh_init_A (global_r.c)
 
-    errfile must be defined, outfile may be null
+    Default errfile is stderr, outfile may be null
     qhull_cmd must start with "qhull "
     projects points to a new point array for Delaunay triangulations ('d' and 'v')
     transforms points into a new point array for halfspace intersection ('H')
@@ -128,14 +128,17 @@ int qh_new_qhull(qhT *qh, int dim, int numpoints, coordT *points, boolT ismalloc
   boolT new_ismalloc;
   coordT *new_points;
 
+  if(!errfile){
+    errfile= stderr;
+  }
   if (!qh->qhmem.ferr) {
     qh_meminit(qh, errfile);
   } else {
     qh_memcheck(qh);
   }
-  if (strncmp(qhull_cmd,"qhull ", (size_t)6)) {
+  if (strncmp(qhull_cmd, "qhull ", (size_t)6)) {
     qh_fprintf(qh, errfile, 6186, "qhull error (qh_new_qhull): start qhull_cmd argument with \"qhull \"\n");
-    qh_exit(qh_ERRinput);
+    return qh_ERRinput;
   }
   qh_initqhull_start(qh, NULL, outfile, errfile);
   trace1((qh, qh->ferr, 1044, "qh_new_qhull: build new Qhull for %d %d-d points with %s\n", numpoints, dim, qhull_cmd));

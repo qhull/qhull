@@ -1,5 +1,5 @@
 
- Qhull 2015.0.4  2015/09/30
+ Qhull 2015.0.5  2015/10/12
 
         http://www.qhull.org
         git@github.com:qhull/qhull.git

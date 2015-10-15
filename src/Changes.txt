@@ -1,4 +1,4 @@
-$Id: //main/2015/qhull/src/Changes.txt#3 $
+$Id: //main/2015/qhull/src/Changes.txt#4 $
 
 .............This file lists all changes to qhull and rbox.....................
 
@@ -10,7 +10,7 @@ Need help
  - The C++ interface needs work.  Give it a try and make it better.
    http://github.com/qhull/qhull
  - Produce conformant triangulations for merged facets using option 'Qt' 
- - Write an incremental addPoint using bucketed inputs and facet location search
+ - Write an incremental addPoint using bucketed inputs and facet location search (see CGAL)
  - Compute hyperplanes in parallel (cf. qh_setfactplane)
  - Create Voronoi volumes and topology using a parallel implementation
 
@@ -20,7 +20,8 @@ To do for a future verson of Qhull
  - Run through valgrind
  - Notes to compgeom on conformant triangulation and Voronoi volume
  - Git: Create signed tags for Qhull versions
-
+ - Implement weighted Delaunay triangulation and weighted Voronoi diagram [A. Liebscher]
+   e.g., Sugihara, "Three-dimensional convex hull as a fruitful source of diagrams," Theoretical Computer Science, 2000, 235:325-337
  - Can countT be defined as 'int', 'unsigned int', or 64-bit int?  
    countT is currently defined as 'int' in qset_r.h
    Vertex ID and ridge ID perhaps should be countT, They are currently 'unsigned'
@@ -34,43 +35,72 @@ To do for a future verson of Qhull
    Coordinates.lastIndexOf assumes countT is signed (from end)
    All error messages with countT are wrong, convert to int?
    RboxPoints.qh_fprintf_rbox, etc. message 9393 assumes countT but may be int, va_arg(args, countT);  Need to split
+ - testqset: test qh_setdelnth and move-to-front
+ - Makefile: Re-review gcc/g++ warnings.  OK in 2011.
+ - Break up -Wextra into its components or figure out how to override -Wunused-but-set-variable
+   unused-but-set-variable is reporting incorrectly.  All instances are annotated.
+ - CMakelists.txt:  Why are files duplicated for cmake build
+ - CMakeLists.txt: configure the 'ctest' target 
  
 ------------
 To do for a furture version of the C++ interface 
  - Document C++ using Doxygen conventions (//! and //!<)
  - Create a shared library for libqhullcpp.  It must include all uses of QH_TRY and setjmp().
+   protobuf documentation advises that C++ should be statically linked
  - Should Qhull manage the output formats for doubles?  QH11010 user_r.h defines qh_REAL_1 as %6.8g
  - Allocate memory for QhullSet using Qhull.qhmem.  Create default constructors for QhullVertexSet etc.  Also mid() etc.
  - Add interior point for automatic translation?
  - Add hasNext() to all next() iterators (e.g., QhullVertex)
- - Add defineAs to each object
+ - Add defineAs() to each object
  - Write a program with concurrent Qhull
  - Write QhullStat and QhullStat_test
  - Add QList and vector instance of facetT*, etc.
  - Generalize QhullPointSetIterator
- - testqset: test qh_setdelnth and move-to-front
- - Makefile: Re-review gcc/g++ warnings.  OK in 2011.
- - Break up -Wextra into its components or figure out how to override -Wunused-but-set-variable
-   unused-but-set-variable is reporting incorrectly.  All instances are annotated.
  - qh-code.htm: Document changes to C++ interface.  See Changes.txt
       Organize C++ documentation into collection classes, etc.
- - CMakelists.txt:  Why are files duplicated for cmake build
  - Review all C++ classes and C++ tests
    QhullVertexSet uses QhullSetBase::referenceSetT() to free it's memory.   Probably needed elsewhere
- - CMakeLists.txt: configure the 'ctest' target 
 
 -----------
 To Do for Qhull 2015.1
- - Fix rare "no more facets" QH7228 error at initialization
- - Compare libqhull to libqhull_r
- - Review Qhull email
+ - Fix rare "no more facets" error (QH7228 error at initialization)
+ - Fix return type of operator-> in QhullLinkedList and other collection classes [F. Jares]
+ - Review return types of iterators
+ - Review references to stderr and stdout [D. Sterratt]
+ - Compare libqhull to libqhull_r and resolve differences
 
+------------
+Qhull 2015.0.5 2015/10/12 (7.0.5.1995)
+
+- qh_new_qhull: default 'errfile' is 'stderr'.  outfile and errfile are optional [B. Pearlmutter]
+- qh_new_qhull: returns qh_ERRinput instead of exit() if qhull_cmd is not "qhull ..." [B. Pearlmutter]
+- qhalf_r.c,etc: Add clear of qh.NOerrexit
+- global.c: gcc 4.4.0 mingw32 segfault cleared by adding comment
+- usermem_r-cpp.cpp: Optional file to redefine qh_exit() as throw "QH10003.." [B. Pearlmutter]
+  qh_exit() is called by qhull_r when qh_errexit() is not available.
+
+- html/index.htm:  Add bibliographic reference to Golub & van Loan and annotated the source references
+- qhalf.htm: A halfspace is the points on or below a hyperplane [D. Strawn]
+- qh-opto.htm#n: Defined inside, outside, on, above, and below a hyperplane [D. Strawn]
+- qhalf.htm#notes: Recast the linear program using negative halfspaces (as used by Qhull) [D. Strawn]
+- qhull_a.h: Fix comment '#include "libqhull/qhull_a.h" [fe rew]
+
+- build/qhull*.pc.in: Templates for pkg-config (derived from Fedorra) [P. McMunn]
+  https://bitbucket.org/mgorny/pkg-config-spec/src/c1bf12afe0df6d95f2fe3f5e1ffb4c50f018825d/pkg-config-spec.txt?at=master&fileviewer=file-view-default
+- Makefile: Remove user_eg3.o from LIBQHULLCPP_OBJS
+- Makefile: Add .h dependencies for unix_r.o, etc.
+- libqhull/Makefile: Fix build of rbox
+- libqhull_r/Makefile: Fix build -I
+- qhull.sln/user_eg3:  Add dependency on libcpp
+- Removed bin/libqhull_r.dll (should be qhull_r.dll) 
+- Removed  build/qhulltest.vcproj (see build/qhulltest/qhulltest.vcproj)
+  
 ------------
 Qhull 2015.0.4 2015/9/30 (7.0.4.1984)
  - qh-get.htm: Unix tarball includes version number (e.g., qhull-2015-src-7.1.0.1940.tgz) [Hauptman]
  - qglobal.c: Add qh_version2 with Unix version for "-V" option [Hauptman]
  - build/qhull-32.sln, *-32.vcxproj: Add Visual Studio 32-bit build for 2010+
- - build/qhull-64.sln, *-64.vcxproj: Add Visual Studio 64-bit build for 2010+
+ - build/qhull-64.sln, *-64.vcxproj: Add Visual Studio 64-bit build for 2010+ [G. Lodron]
  - make-vcproj.sh: Restore to eg/... It is required for Visual Studio builds
  - README.txt: updated builds and reentrant Qhull
  - Add documentation for QHULL_LIB_CHECK

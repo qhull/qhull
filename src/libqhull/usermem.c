@@ -29,6 +29,7 @@
     exit program
 
   notes:
+    qh_exit() is called when qh_errexit() and longjmp() are not available.
     same as exit()
 */
 void qh_exit(int exitcode) {

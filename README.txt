@@ -1,6 +1,6 @@
 Name
 
-      qhull, rbox         2015.0.4       2015/09/30
+      qhull, rbox         2015.0.5       2015/10/12
   
 Convex hull, Delaunay triangulation, Voronoi diagrams, Halfspace intersection
  
@@ -149,9 +149,11 @@ Installing Qhull with CMake 2.6 or later
 
   On Windows, CMake installs to C:/Program Files/qhull.  64-bit generators
   have a "Win64" tag.
+  
+  If creating a qhull package, please include a pkg-config file based on build/qhull*.pc.in
 
   If cmake fails with "No CMAKE_C_COMPILER could be found"
-  - cmake was not able to find the corresponding build environment for -G
+  - cmake was not able to find the build environment specified by -G "..."
   
 -----------------
 Installing Qhull with Qt
@@ -348,6 +350,7 @@ Distributed files
   qhull*.md5sum        // md5sum for all files
 
   bin/*                // Qhull executables and dll (.zip only)
+  build/qhull*.pc.in   // pkg-config templates for qhull_r, qhull, and qhull_p
   build/qhull-32.sln   // 32-bit DevStudio solution and project files (2010 and later)
   build/*-32.vcxproj
   build/qhull-64.sln   // 64-bit DevStudio solution and project files (2010 and later)
@@ -556,6 +559,7 @@ src/libqhullcpp/
   RoadError.h
   RoadLogEvent.cpp
   RoadLogEvent.h
+  usermem_r-cpp.cpp    // Optional override for qh_exit() to throw an error
 
 src/libqhullstatic/
   libqhullstatic.pro   // Qt project for non-reentrant, static library     

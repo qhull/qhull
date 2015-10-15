@@ -7,8 +7,8 @@
    see qh-geom_r.htm and geom_r.h
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull_r/geom_r.c#1 $$Change: 1981 $
-   $DateTime: 2015/09/28 20:26:32 $$Author: bbarber $
+   $Id: //main/2015/qhull/src/libqhull_r/geom_r.c#2 $$Change: 1995 $
+   $DateTime: 2015/10/13 21:59:42 $$Author: bbarber $
 
    infrequent code goes into geom2_r.c
 */
@@ -502,7 +502,7 @@ LABELreturn_bestnew:
   notes:
      assumes numrow == numcol-1
 
-     see Golub & van Loan 4.4-9 for back substitution
+     see Golub & van Loan, 1983, Eq. 4.4-9 for "Gaussian elimination with complete pivoting"
 
      solves Ux=b where Ax=b and PA=LU
      b= [0,...,0,sign or 0]  (sign is either -1 or +1)

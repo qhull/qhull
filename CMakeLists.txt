@@ -38,6 +38,8 @@
 # To uninstall on Windows
 #   Delete C:/Program Files/qhull
 #
+# If creating a qhull package, please include a pkg-config file based on build/qhull*.pc.in
+#
 # For qhulltest, use the Qt build (src/qhull-all.pro)
 #
 # Qhull ships with cmake-derived sln and proj files for DevStudio 8 2005
@@ -50,16 +52,16 @@
 #   Remove CMAKE_INTDIR from PreprocessorDefinitions
 #   Adjust target names and destinations (e.g., lib/libqhullstatic_rd.a)
 #  
-# $Id: //main/2015/qhull/CMakeLists.txt#2 $$Change: 1984 $
-# $DateTime: 2015/09/30 21:51:10 $$Author: bbarber $
+# $Id: //main/2015/qhull/CMakeLists.txt#3 $$Change: 1995 $
+# $DateTime: 2015/10/13 21:59:42 $$Author: bbarber $
 
 project(qhull)
 cmake_minimum_required(VERSION 2.6)
 
-# Define qhull_VERSION in CMakeLists.txt, Makefile, qhull-exports.def, qhull_p-exports.def, qhull-warn.pri
-set(qhull_VERSION2 "2015.0.4 2015/09/30")  # not used, See global.c, global_r.c, rbox.c, rbox_r.c
+# Define qhull_VERSION in CMakeLists.txt, Makefile, qhull-exports.def, qhull_p-exports.def, qhull_r-exports.def, qhull-warn.pri
+set(qhull_VERSION2 "2015.0.5 2015/10/12")  # not used, See global.c, global_r.c, rbox.c, rbox_r.c
 string(REGEX REPLACE ".* ([0-9]+) .*"
-    "7.0.4.\\1"  qhull_VERSION "$Change: 1984 $")
+    "7.0.5.\\1"  qhull_VERSION "$Change: 1995 $")
 
 # SOVERSION -- qhull 2003 = empty, 2009 = 5, 2010-2012 = 6, 2015 (reentrant) = 7
 set(qhull_SOVERSION 7) # For SOVERSION 

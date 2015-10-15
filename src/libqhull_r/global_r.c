@@ -12,8 +12,8 @@
    see qhull_ra.h for internal functions
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull_r/global_r.c#2 $$Change: 1984 $
-   $DateTime: 2015/09/30 21:51:10 $$Author: bbarber $
+   $Id: //main/2015/qhull/src/libqhull_r/global_r.c#4 $$Change: 1997 $
+   $DateTime: 2015/10/14 22:02:45 $$Author: bbarber $
  */
 
 #include "qhull_ra.h"
@@ -39,8 +39,8 @@
     recompile user_eg_r.c, rbox_r.c, libqhull_r.c, qconvex_r.c, qdelaun_r.c qvoronoi_r.c, qhalf_r.c, testqset_r.c
 */
 
-const char qh_version[]= "2015.0.4.r 2015/09/30";
-const char qh_version2[]= "qhull_r 7.0.4.1984 (2015.0.4.r 2015/09/30)";
+const char qh_version[]= "2015.0.5.r 2015/10/12";
+const char qh_version2[]= "qhull_r 7.0.5.1995 (2015.0.5.r 2015/10/12)";
 
 /*-<a                             href="qh-globa.htm#TOC"
   >-------------------------------</a><a name="appendprint">-</a>
@@ -590,7 +590,7 @@ void qh_initflags(qhT *qh, char *command) {
   realT r;
 
   if(qh->NOerrexit){
-    qh_fprintf(qh, qh->ferr, 6245, "qhull error: qh.NOerrexit not cleared after setjmp() and before qh_initflags().  Exiting with error.");
+    qh_fprintf(qh, qh->ferr, 6245, "qhull initflags error: qh.NOerrexit was not cleared before calling qh_initflags().  It should be cleared after setjmp().  Exit qhull.");
     qh_exit(6245);
   }
   if (command <= &qh->qhull_command[0] || command > &qh->qhull_command[0] + sizeof(qh->qhull_command)) {

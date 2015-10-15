@@ -93,7 +93,7 @@ PRINTC = enscript -2r
 # PRINTMAN = lpr
 # PRINTC = lpr
 
-#for Gnu's gcc compiler, -O3 for optimization, -g for debugging
+#for Gnu's gcc compiler, -O3 for optimization, -g for debugging, -pg for profiling
 # -fpic needed for gcc x86_64-linux-gnu.  Not needed for mingw
 CC        = gcc
 CC_OPTS1  = -O3 -ansi -Isrc -fpic $(CC_WARNINGS)
@@ -111,7 +111,7 @@ CC_OPTS3  =
 #  qhull_p.so -- allocated qh_qhT global data structure (qh_QHpointer=1).  Required for libqhullcpp
 #  qhull_m.so -- future version of Qhull with qh_qhT passed as an argument.
 qhull_SOVERSION=7
-SO  = so.7.0.1
+SO  = so.7.0.5
 
 # On MinGW, 
 #   make SO=dll
@@ -415,8 +415,7 @@ LIBQHULLCPP_OBJS = $(LCPP)/RoadError.o $(LCPP)/RoadLogEvent.o $(LCPP)/Coordinate
 	$(LCPP)/QhullHyperplane.o $(LCPP)/QhullPoint.o \
 	$(LCPP)/QhullPoints.o $(LCPP)/QhullPointSet.o $(LCPP)/QhullQh.o \
 	$(LCPP)/QhullRidge.o $(LCPP)/QhullSet.o $(LCPP)/QhullStat.o \
-	$(LCPP)/QhullVertex.o $(LCPP)/QhullVertexSet.o $(LCPP)/RboxPoints.o \
-	src/user_eg3/user_eg3_r.o
+	$(LCPP)/QhullVertex.o $(LCPP)/QhullVertexSet.o $(LCPP)/RboxPoints.o
 
 # CFILES for non-reentrant Qhull, ordered alphabetically after libqhull.c
 CFILES= src/qhull/unix.c $(L)/libqhull.c $(L)/geom.c $(L)/geom2.c $(L)/global.c $(L)/io.c \
@@ -469,6 +468,11 @@ qconvex/qconvex.o:       $(L)/libqhull.h $(L)/user.h $(L)/mem.h
 qdelanay/qdelaun.o:      $(L)/libqhull.h $(L)/user.h $(L)/mem.h
 qhalf/qhalf.o:           $(L)/libqhull.h $(L)/user.h $(L)/mem.h
 qvoronoi/qvoronoi.o:     $(L)/libqhull.h $(L)/user.h $(L)/mem.h
+qhull/unix_r.o:          $(LR)/libqhull_r.h $(LR)/user_r.h $(LR)/mem_r.h
+qconvex/qconvex_r.o:     $(LR)/libqhull_r.h $(LR)/user_r.h $(LR)/mem_r.h
+qdelanay/qdelaun_r.o:    $(LR)/libqhull_r.h $(LR)/user_r.h $(LR)/mem_r.h
+qhalf/qhalf_r.o:         $(LR)/libqhull_r.h $(LR)/user_r.h $(LR)/mem_r.h
+qvoronoi/qvoronoi_r.o:   $(LR)/libqhull_r.h $(LR)/user_r.h $(LR)/mem_r.h
 $(LS)/libqhull.o: $(LIBQHULL_HDRS)
 $(LS)/geom.o:     $(LIBQHULL_HDRS)
 $(LS)/geom2.o:    $(LIBQHULL_HDRS)
