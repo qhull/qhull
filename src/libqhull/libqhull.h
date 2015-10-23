@@ -7,8 +7,8 @@
    see qh-qhull.htm, qhull_a.h
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull/libqhull.h#1 $$Change: 1981 $
-   $DateTime: 2015/09/28 20:26:32 $$Author: bbarber $
+   $Id: //main/2015/qhull/src/libqhull/libqhull.h#2 $$Change: 2010 $
+   $DateTime: 2015/10/19 22:23:22 $$Author: bbarber $
 
    NOTE: access to qh_qh is via the 'qh' macro.  This allows
    qh_qh to be either a pointer or a structure.  An example
@@ -1036,6 +1036,7 @@ void    qh_user_memsizes(void);
 
 /********* -usermem.c prototypes (alphabetical) **********************/
 void    qh_exit(int exitcode);
+void    qh_fprintf_stderr(int msgcode, const char *fmt, ... );
 void    qh_free(void *mem);
 void   *qh_malloc(size_t size);
 

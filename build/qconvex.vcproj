@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="qconvex"
-	ProjectGUID="{54DAEE1F-3E94-4759-91C2-C8BE355DC339}"
+	ProjectGUID="{F909F400-6805-477F-B85B-5230DED4CB55}"
 	Keyword="Win32Proj">
 	<Platforms>
 		<Platform

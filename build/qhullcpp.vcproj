@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="qhullcpp"
-	ProjectGUID="{58A56158-DD5B-4F7D-9204-6D168DE37C27}"
+	ProjectGUID="{7326816B-C401-4ACA-8027-03BA7A98C16B}"
 	Keyword="Win32Proj">
 	<Platforms>
 		<Platform

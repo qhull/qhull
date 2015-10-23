@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type"
 content="text/html; charset=iso-8859-1">
-<title>Qhull functions, macros, and data structures</title>
+<title>Reentrant Qhull functions, macros, and data structures</title>
 </head>
 
 <body>
@@ -31,10 +31,10 @@ href="http://www.qhull.org">Home page</a> for Qhull<br>
 <hr>
 <!-- Main text of document. -->
 
-<h1>Qhull functions, macros, and data structures</h1>
+<h1>Reentrant Qhull functions, macros, and data structures</h1>
 <blockquote>
 <p>The following sections provide an overview and index to
-Qhull's functions, macros, and data structures. Each
+reentrant Qhull's functions, macros, and data structures. Each
 section starts with an introduction. If you use Opera, the source code links back to this documentation.
 See also <a href=../../html/qh-code.htm#library>Calling
 Qhull from C programs</a> and <a href="../../html/qh-code.htm#cpp">Calling Qhull from C++ programs</a>.</p>
@@ -59,11 +59,12 @@ Qhull from C programs</a> and <a href="../../html/qh-code.htm#cpp">Calling Qhull
 </ul>
 </blockquote>
 <p>
-When reading the code, please note that the
-global data structure, 'qh', is a macro.  It
-either expands to &quot;qh_qh.&quot; or to
-&quot;qh_qh-&gt;&quot;. The later is used for
-applications which run concurrent calls to qh_qhull().
+Reentrant Qhull is nearly the same as non-reentrant Qhull.  In reentrant
+Qhull the qhT data structure is the first parameter to most programs. Qhull accesses
+this data structure with 'qh->...'.
+In non-reentrant Qhull, the global data structure is either a struct (qh_QHpointer==0)
+or a pointer (qh_QHpointer==1).  The non-reentrant code looks different because this data
+structure is accessed via the 'qh' macro.   This macro expands to 'qh_qh.' or 'qh_qh->' (resp.).
 <p>
 When reading code with an editor, a search for
 <i>&quot;procedure</i>
@@ -204,6 +205,7 @@ its implementation. </dd>
 <a href="../user_eg/user_eg_r.c"><b>user_eg_r.c</b></a><b>, </b>
 <a href="../user_eg2/user_eg2_r.c"><b>user_eg2_r.c</b></a><b>, </b>
 <a href="../user_eg3/user_eg3_r.cpp"><b>user_eg3_r.cpp</b></a><b>, </b>
+</dt>
 <dd>User-defined routines. Qhull allows the user to configure
 the code with defined constants and specialized routines.
 </dd>

@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGUID>{BC1C8C12-2C2E-452C-9DAD-8D1F904D7D2F}</ProjectGUID>
+    <ProjectGUID>{1221417E-1198-4D98-9BCD-3E11AAB7A65D}</ProjectGUID>
     <Keyword>Win32Proj</Keyword>
     <Platform>Win32</Platform>
     <ProjectName>rbox</ProjectName>
@@ -263,7 +263,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="../build/qhullstatic.vcxproj">
-      <Project>EA8DEE97-A130-443D-8F00-4E13259E265A</Project>
+      <Project>0E1ED901-6EFB-494A-88D0-9B6D6CDCCB6E</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

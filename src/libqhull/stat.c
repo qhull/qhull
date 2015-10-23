@@ -7,8 +7,8 @@
    see qh-stat.htm and stat.h
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull/stat.c#1 $$Change: 1981 $
-   $DateTime: 2015/09/28 20:26:32 $$Author: bbarber $
+   $Id: //main/2015/qhull/src/libqhull/stat.c#2 $$Change: 2010 $
+   $DateTime: 2015/10/19 22:23:22 $$Author: bbarber $
 */
 
 #include "qhull_a.h"
@@ -456,7 +456,7 @@ void qh_initstatistics(void) {
       qh_qhstat= 0;
   }
   if (!(qh_qhstat= (qhstatT *)qh_malloc(sizeof(qhstatT)))) {
-    fprintf(qhmem.ferr, "QH6183 qhull error (qh_initstatistics): insufficient memory\n");
+    qh_fprintf_stderr(6183, "qhull error (qh_initstatistics): insufficient memory\n");
     qh_exit(qh_ERRmem);  /* can not use qh_errexit() */
   }
 #endif

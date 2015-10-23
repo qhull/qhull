@@ -1,16 +1,17 @@
 Name
 
-      qhull, rbox         2015.0.5       2015/10/12
+      qhull, rbox         2015.0.6       2015/10/20
   
 Convex hull, Delaunay triangulation, Voronoi diagrams, Halfspace intersection
  
       Documentation:
         html/index.htm
-        http://www.qhull.org/html
+        <http://www.qhull.org/html>
 
       Available from:
         <http://www.qhull.org>
-        <git@github.com:qhull/qhull.git>
+        <http://www.qhull.org/download>
+        <http://github.com/qhull/qhull> (git@github.com:qhull/qhull.git)
  
       News and a paper:
         <http://www.qhull.org/news>
@@ -94,7 +95,7 @@ Installing Qhull on Windows 10, 8, 7 (32- or 64-bit), Windows XP, and Windows NT
   - Execute 'rbox 10 | qconvex i TO file' to write results to 'file'.
   - Browse the documentation: qhull\html\index.htm
   - If an error occurs, Windows sends the error to stdout instead of stderr.
-    Use 'TO xxx' to send normal output to xxx and error output to stdout
+    Use 'TO xxx' to send normal output to xxx
 
   To improve the command window
   - Double-click the window bar to increase the size of the window

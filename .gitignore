@@ -6,6 +6,7 @@ eg/eg.*
 *~
 *.bak
 *.off
+*.tmp
 *.x
 x.*
 r
@@ -18,23 +19,24 @@ r?
 
 # Build products
 tmp/*
-build-cmake/*
+build?*/
 build/Debug/*
 build/moc/*
-build/qhulltest/*
 build/Release/*
 build/cmake_install.cmake
 build/CMakeCache.txt
 build/CMakeFiles
 build/install_manifest.txt
 build/Makefile*
+build/Testing/*
+build/CTest*
 build/*/Makefile*
 build/*/object_script*
 build/*/Release/*
 build/*/Debug/*
 build/*/MinSizeRel/*
 build/*/RelWithDebInfo/*
-lib
+lib/
 *.a
 *.dll
 *.idb

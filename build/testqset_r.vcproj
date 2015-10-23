@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="testqset_r"
-	ProjectGUID="{54CA28AA-178A-411D-99DC-E6FD8F117C70}"
+	ProjectGUID="{8C831027-7179-451A-9C7C-805381706037}"
 	Keyword="Win32Proj">
 	<Platforms>
 		<Platform
@@ -261,6 +261,9 @@
 			</File>
 			<File
 				RelativePath="..\src\libqhull_r\mem_r.c">
+			</File>
+			<File
+				RelativePath="..\src\libqhull_r\usermem_r.c">
 			</File>
 			<File
 				RelativePath="..\src\testqset_r\testqset_r.c">

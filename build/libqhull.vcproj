@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="libqhull"
-	ProjectGUID="{325DAFCC-0151-4B12-B5FC-E976AE866ACA}"
+	ProjectGUID="{51BD63AB-336E-4215-B725-21F144BCBCBC}"
 	Keyword="Win32Proj">
 	<Platforms>
 		<Platform

@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGUID>{28AEFA8A-6D0B-4B89-B03D-96353731E28F}</ProjectGUID>
+    <ProjectGUID>{1C47DA1F-57B5-4FC4-B0D7-FCF5E9DD1C20}</ProjectGUID>
     <Keyword>x64Proj</Keyword>
     <Platform>x64</Platform>
     <ProjectName>testqset_r</ProjectName>
@@ -263,6 +263,7 @@
     <ClInclude Include="..\src\libqhull_r\qset_r.h" />
     <ClCompile Include="..\src\libqhull_r\qset_r.c"  />
     <ClCompile Include="..\src\libqhull_r\mem_r.c"  />
+    <ClCompile Include="..\src\libqhull_r\usermem_r.c"  />
     <ClCompile Include="..\src\testqset_r\testqset_r.c"  />
   </ItemGroup>
   <ItemGroup>

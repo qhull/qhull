@@ -6,8 +6,8 @@
 #   can not use path with $zip_file 
 #   odd error messages if can't locate directory
 #
-# $Id: //main/2015/qhull/eg/qhull-zip.sh#4 $$Change: 1995 $
-# $DateTime: 2015/10/13 21:59:42 $$Author: bbarber $
+# $Id: //main/2015/qhull/eg/qhull-zip.sh#6 $$Change: 2000 $
+# $DateTime: 2015/10/14 23:28:12 $$Author: bbarber $
 
 if [[ $# -ne 3 ]]; then
         echo 'Missing date stamp, e.g., qhull-zip.sh 2015 2015.1 7.1.0.1940' 

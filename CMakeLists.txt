@@ -52,16 +52,16 @@
 #   Remove CMAKE_INTDIR from PreprocessorDefinitions
 #   Adjust target names and destinations (e.g., lib/libqhullstatic_rd.a)
 #  
-# $Id: //main/2015/qhull/CMakeLists.txt#3 $$Change: 1995 $
-# $DateTime: 2015/10/13 21:59:42 $$Author: bbarber $
+# $Id: //main/2015/qhull/CMakeLists.txt#4 $$Change: 2013 $
+# $DateTime: 2015/10/20 23:04:17 $$Author: bbarber $
 
 project(qhull)
 cmake_minimum_required(VERSION 2.6)
 
 # Define qhull_VERSION in CMakeLists.txt, Makefile, qhull-exports.def, qhull_p-exports.def, qhull_r-exports.def, qhull-warn.pri
-set(qhull_VERSION2 "2015.0.5 2015/10/12")  # not used, See global.c, global_r.c, rbox.c, rbox_r.c
+set(qhull_VERSION2 "2015.0.6 2015/10/20")  # not used, See global.c, global_r.c, rbox.c, rbox_r.c
 string(REGEX REPLACE ".* ([0-9]+) .*"
-    "7.0.5.\\1"  qhull_VERSION "$Change: 1995 $")
+    "7.0.6.\\1"  qhull_VERSION "$Change: 2013 $")
 
 # SOVERSION -- qhull 2003 = empty, 2009 = 5, 2010-2012 = 6, 2015 (reentrant) = 7
 set(qhull_SOVERSION 7) # For SOVERSION 
@@ -186,6 +186,7 @@ set(
     testqset_SOURCES
         src/libqhull/qset.c
         src/libqhull/mem.c
+        src/libqhull/usermem.c
         src/testqset/testqset.c
         ${testqset_HEADERS}
 )
@@ -252,6 +253,7 @@ set(
     testqsetr_SOURCES
         src/libqhull_r/qset_r.c
         src/libqhull_r/mem_r.c
+        src/libqhull_r/usermem_r.c
         src/testqset_r/testqset_r.c
         ${testqsetr_HEADERS}
 )

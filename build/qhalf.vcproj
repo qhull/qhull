@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="qhalf"
-	ProjectGUID="{363FBD97-FD1B-4DFA-A6A1-8C76385816DE}"
+	ProjectGUID="{4C67E982-8B07-43B8-836E-EB7495176740}"
 	Keyword="Win32Proj">
 	<Platforms>
 		<Platform

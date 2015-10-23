@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2015/qhull/src/libqhullcpp/QhullQh.cpp#1 $$Change: 1981 $
-** $DateTime: 2015/09/28 20:26:32 $$Author: bbarber $
+** $Id: //main/2015/qhull/src/libqhullcpp/QhullQh.cpp#2 $$Change: 2010 $
+** $DateTime: 2015/10/19 22:23:22 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -205,7 +205,7 @@ void qh_fprintf(qhT *qh, FILE *fp, int msgcode, const char *fmt, ... ) {
     using namespace orgQhull;
 
     if(!qh->ISqhullQh){
-        fprintf(stderr, "QH10025 Qhull error: qh_fprintf called from a Qhull instance without QhullQh defined\n");
+        qh_fprintf_stderr(10025, "Qhull error: qh_fprintf called from a Qhull instance without QhullQh defined\n");
         qh_exit(10025);
     }
     QhullQh *qhullQh= static_cast<QhullQh *>(qh);

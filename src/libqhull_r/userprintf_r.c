@@ -43,10 +43,11 @@ void qh_fprintf(qhT *qh, FILE *fp, int msgcode, const char *fmt, ... ) {
 
     if (!fp) {
         if(!qh){
-            fprintf(stderr, "QH6241 userprintf_r.c: fp and qh not defined for qh_fprintf '%s'", fmt);
+            qh_fprintf_stderr(6241, "userprintf_r.c: fp and qh not defined for qh_fprintf '%s'", fmt);
             qh_exit(qhmem_ERRqhull);  /* can not use qh_errexit() */
         }
-        fprintf(qh->qhmem.ferr, "QH6232 Qhull internal error (userprintf_r.c): fp is 0.  Wrong qh_fprintf called.\n");
+        /* could use qh->qhmem.ferr, but probably better to be cautious */
+        qh_fprintf_stderr(6232, "Qhull internal error (userprintf_r.c): fp is 0.  Wrong qh_fprintf called.\n");
         qh_errexit(qh, 6232, NULL, NULL);
     }
     va_start(args, fmt);

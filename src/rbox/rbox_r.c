@@ -24,7 +24,7 @@
 char prompt[]= "\n\
 -rbox- generate various point distributions.  Default is random in cube.\n\
 \n\
-args (any order, space separated):                    Version: 2015/10/12 r\n\
+args (any order, space separated):                    Version: 2015/10/20 r\n\
   3000    number of random points in cube, lens, spiral, sphere or grid\n\
   D3      dimension 3-d\n\
   c       add a unit cube to the output ('c G2.0' sets size)\n\
@@ -67,7 +67,7 @@ int main(int argc, char **argv) {
     return 1;
   }
   if (argc == 2 && strcmp(argv[1], "D4")==0)
-    fprintf(stderr, "\nStarting the rbox smoketest for qhull.  An immediate failure indicates\nthat reentrant rbox was linked to non-reentrant routines.  An immediate\nfailure of qhull may indicate that qhull was linked to the wrong\nqhull library.  Also try 'rbox D4 | qhull T1'\n");
+    qh_fprintf_stderr(0, "\nStarting the rbox smoketest for qhull.  An immediate failure indicates\nthat reentrant rbox was linked to non-reentrant routines.  An immediate\nfailure of qhull may indicate that qhull was linked to the wrong\nqhull library.  Also try 'rbox D4 | qhull T1'\n");
 
   qh_init_A(qh, stdin, stdout, stderr, argc, argv);  /*no qh_errexit, sets qh->qhull_command */
   return_status= qh_rboxpoints(qh, qh->qhull_command); /* Traps its own errors, qh_errexit_rbox() */

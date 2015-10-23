@@ -10,7 +10,7 @@
 
    see libqhull_r.h for data structures, macros, and user-callable functions.
 
-   see user_eg_r.c, unix_r.c, and qhull_interface.cpp for examples.
+   see user_eg.c, user_eg2.c, and unix.c for examples.
 
    see user.h for user-definable constants
 
@@ -27,7 +27,7 @@
 
    Please report any errors that you fix to qhull@qhull.org
 
-   call_qhull is a template for calling qhull from within your application
+   Qhull-template is a template for calling qhull from within your application
 
    if you recompile and load this module, then user.o will not be loaded
    from qhull.a
@@ -45,11 +45,10 @@
 #include <stdarg.h>
 
 /*-<a                             href="qh-user_r.htm#TOC"
-  >-------------------------------</a><a name="call_qhull">-</a>
+  >-------------------------------</a><a name="qhull_template">-</a>
 
-  qh_call_qhull(qh, void )
-    template for calling qhull from inside your program
-    remove #if 0, #endif to compile
+  Qhull-template
+    Template for calling qhull from inside your program
 
   returns:
     exit code(see qh_ERR... in libqhull_r.h)
@@ -57,9 +56,6 @@
 
   notes:
     This can be called any number of times.
-
-  see:
-    qh_call_qhull_once()
 
 */
 #if 0
@@ -120,7 +116,8 @@
     transforms points into a new point array for halfspace intersection ('H')
 
   see:
-    user_eg.c for an example
+    Qhull-template at the beginning of this file.
+    An example of using qh_new_qhull is user_eg_r.c
 */
 int qh_new_qhull(qhT *qh, int dim, int numpoints, coordT *points, boolT ismalloc,
                 char *qhull_cmd, FILE *outfile, FILE *errfile) {

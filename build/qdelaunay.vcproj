@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="qdelaunay"
-	ProjectGUID="{BC76A867-82E4-4450-B23A-EE0B1D651618}"
+	ProjectGUID="{10EB0D60-E1A6-41FC-BD86-A4BC5814B535}"
 	Keyword="Win32Proj">
 	<Platforms>
 		<Platform

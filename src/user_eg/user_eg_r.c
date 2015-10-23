@@ -174,7 +174,7 @@ void makehalf(coordT *points, int numpoints, int dim) {
 #define TOTpoints (SIZEcube + SIZEdiamond)
 
 /*--------------------------------------------------
--main- derived from call_qhull in user.c
+-main- derived from Qhull-template in user.c
 
   see program header
 

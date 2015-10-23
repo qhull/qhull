@@ -45,9 +45,9 @@ height="100"></a> Qhull code</h1>
 Contents </a></h2>
 
 <ul>
-    <li><a href="#reentrant">Reentrant Qhull</a>
-    <li><a href="#64bit">Qhull on 64-bit hosts</a>
-    <li><a href="#cpp">Calling Qhull</a> from C++ programs
+    <li><a href="#reentrant">Reentrant</a> Qhull
+    <li><a href="#64bit">Qhull</a> on 64-bit computers
+    <li><a href="#cpp">Calling</a> Qhull from C++ programs
     <ul>
         <li><a href="#questions-cpp">Cpp questions for Qhull</a></li>
         <li><a href="#coordinate-cpp">CoordinateIterator</a></li>
@@ -69,8 +69,9 @@ Contents </a></h2>
         <li><a href="#vertexset-cpp">QhullVertexSet</a></li>
         <li><a href="#rbox-cpp">RboxPoints</a></li>
     </ul>
-    <li><a href="#library">Calling Qhull</a> from C programs
+    <li><a href="#library">Calling</a> Qhull from C programs
     <ul>
+            <li><a href="#exit">How to avoid</a> exit(), fprintf(), stderr, and stdout</li>
             <li><a href="#constrained">Constrained Delaunay</a>
                 triangulation</li>
             <li><a href="#dids">Delaunay triangulations</a> and point indices</li>
@@ -87,7 +88,7 @@ Contents </a></h2>
     </li>
     <li><a href="#performance">Performance</a> of Qhull</li>
     <li><a href="#enhance">Enhancements</a> to Qhull</li>
-    <li><a href="../src/libqhull/index.htm">Qhull functions</a>, macros, and data
+    <li><a href="../src/libqhull/index.htm">Qhull</a> functions, macros, and data
         structures </li>
 </ul>
 
@@ -110,7 +111,7 @@ due to Qhull's global data structures (e.g., UsingLibQhull.cpp).
 
 <b>Note:</b> Reentrant Qhull is <i>not</i> thread safe.   Do not invoke Qhull routines with the same qhT* pointer from multiple threads.
 
-<h2><a href="#TOC">&#187;</a><a name="64bit">Qhull on 64-bit hosts</a></h2>
+<h2><a href="#TOC">&#187;</a><a name="64bit">Qhull on 64-bit computers</a></h2>
 
 <p>Qhull compiles for 64-bit hosts.  Since the size of a pointer on a 64-bit host is double the size on a 32-bit host,
 memory consumption increases about 50% for simplicial facets and up-to 100% for non-simplicial facets.
@@ -211,8 +212,9 @@ QhullError is derived from <code>std::exception</code>.  It reports errors from 
 </p>
 
 <p>
-If error handling is not set up, Qhull exits with a code from 1 to 5
-[qh_ERR* in libqhull.h via qh_exit() in usermem.c].  The C++ interface does not report the
+If error handling is not set up, Qhull exits with a code from 1 to 5.  The codes are defined by
+qh_ERR* in libqhull_r.h.  The exit is via qh_exit() in usermem_r.c.
+The C++ interface does not report the
 captured output in QhullError.  Call Qhull::setErrorStream to send output to cerr instead.
 </p>
 
@@ -392,7 +394,7 @@ Standard Template Library.  It would provide a good interface to Qhull.
 If you are interested in adapting BGL to Qhull, please contact
 <a href="mailto:bradb@shore.net">bradb@shore.net</a>.
 
-<p>See <a href="../src/libqhull/index.htm">Qhull functions, macros, and data
+<p>See <a href="../src/libqhull_r/index.htm">Reentrant Qhull functions, macros, and data
 structures</a> for internal documentation of Qhull. The
 documentation provides an overview and index. To use the library
 you will need to read and understand the code. For most users, it
@@ -429,6 +431,31 @@ Qhull program. These are usually due to feature interactions that
 do not occur in the Qhull program. Please report all errors that
 you find in the Qhull library. Please include suggestions for
 improvement. </p>
+
+<h3><a href="#TOC">&#187;</a><a name="exit">How to avoid exit(), fprintf(), stderr, and stdout</a></h3>
+
+<p>Qhull sends output to qh.fout and errors, log messages, and summaries to qh.ferr.  qh.fout is normally
+stdout and qh.ferr is stderr.  qh.fout may be redefined by option '<a
+href="qh-optt.htm#TO">TO</a>' or the caller.  qh.ferr may be redirected to qh.fout by option  '<a
+href="qh-optt.htm#Tz">Tz</a>'.</p>
+
+<p>Qhull does not use stderr, stdout, fprintf(), or exit() directly.</p>
+
+<p>Qhull reports errors via qh_errexit() by writting a message to qh.ferr and invoking longjmp().
+This returns the caller to the corresponding setjmp() (c.f., QH_TRY_ in QhullQh.h).  If
+qh_errexit() is not available, Qhull functions call qh_exit().   qh_exit() normally calls exit(),
+but may be redefined by the user.  An example is
+libqhullcpp/usermem_r-cpp.cpp.   It redefines qh_exit() as a 'throw'.</p>
+
+<p>If qh_meminit() or qh_new_qhull() is called with ferr==NULL, then they set ferr to stderr.
+Otherwise the Qhull libraries use qh->ferr and qh->qhmem.ferr for error output.</p>
+
+<p>If an error occurs before qh->ferr is initialized, Qhull invokes qh_fprintf_stderr().  The user
+may redefine this function along with qh_exit(), qh_malloc(), and qh_free().
+
+<p>The Qhull libraries write output via qh_fprintf() [userprintf_r.c].  Otherwise, the Qhull
+libraries do not use stdout, fprintf(), or printf().  Like qh_exit(), the user may redefine
+qh_fprintf().</p>
 
 <h3><a href="#TOC">&#187;</a><a name="mem">sets and quick memory
 allocation</a></h3>

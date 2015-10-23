@@ -23,6 +23,7 @@ INCLUDEPATH += ..
 SOURCES += testqset_r.c
 SOURCES += ../libqhull_r/qset_r.c
 SOURCES += ../libqhull_r/mem_r.c
+SOURCES += ../libqhull_r/usermem_r.c
 
 HEADERS += ../libqhull_r/mem_r.h
 HEADERS += ../libqhull_r/qset_r.h

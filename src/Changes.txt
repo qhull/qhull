@@ -1,4 +1,4 @@
-$Id: //main/2015/qhull/src/Changes.txt#4 $
+$Id: //main/2015/qhull/src/Changes.txt#10 $
 
 .............This file lists all changes to qhull and rbox.....................
 
@@ -66,12 +66,32 @@ To Do for Qhull 2015.1
  - Fix rare "no more facets" error (QH7228 error at initialization)
  - Fix return type of operator-> in QhullLinkedList and other collection classes [F. Jares]
  - Review return types of iterators
- - Review references to stderr and stdout [D. Sterratt]
  - Compare libqhull to libqhull_r and resolve differences
+ - qh_fprintf_rbox uses qh_fprintf_stderr OK?
+ - can rbox be separated again from qhull?
+ - Review qhull-news.html: In poly2.c, qh_findbestfacet() is not implemented for triangulated output.
+   If Qhull appears to work but user_eg.c or your program reports no results
+
+------------
+Qhull 2015.0.6 2015/10/20 (7.0.6.2013)
+ - In the libraries, exit() is only called from qh_exit().  qh_exit may be redefined.
+ - Add qh_fprintf_stderr to usermem.c.  May be overridden to avoid use of stderr [D. Sterratt]
+   Add usermem to testqset builds
+ - Remove most instances of stderr/stdout from libqhull, libqhull_r, and libqhullcpp [D. Sterratt]
+   qh_fprintf_stderr may be redefined.  qh_meminit and qh_new_qhull use stderr as the default ferr
+ - qh_initflags: Use qh.fout instead of stdout for 'TO file'.  A library caller may define a different qh.fout.
+ - qh_settemppush: Call qh_fprintf() instead of fprintf() on error.
+ - Rename qh_call_qhull as "Qhull-template" from user.c.  Updated its references.
+
+ - qh-code.htm: "How to avoid</a> exit(), fprintf(), stderr, and stdout"
+ - html/index.htm: Fix table of contents for qh-code
+ - libqhull_r/index.htm: Rewrite introduction to Reentrant Qhull
+ - qh-faq.htm: Rewrite "Can Qhull use coordinates without placing  them in a data file?"
+ - qh-get.html: Link to github
+ - Remove qhull_interface.cpp from the documentation
 
 ------------
 Qhull 2015.0.5 2015/10/12 (7.0.5.1995)
-
 - qh_new_qhull: default 'errfile' is 'stderr'.  outfile and errfile are optional [B. Pearlmutter]
 - qh_new_qhull: returns qh_ERRinput instead of exit() if qhull_cmd is not "qhull ..." [B. Pearlmutter]
 - qhalf_r.c,etc: Add clear of qh.NOerrexit
@@ -277,8 +297,6 @@ libqhull_r (reentrant Qhull)
  - Guarantee that qh->run_id!=0.  Old code assumed that qh_RANDOMint was 31 bits
 
 Changes to libqhullcpp
- - Removed qhull_interface.cpp -- better to use Qhull.cpp.  
-   If math.h breaks '#include qhull_a.h', preceed it with '#include math.h'
  - Added QhullVertexSet.h to libqhullcpp.pro and libqhullpcpp.pro
  - QhullVertexSet: error if qhsettemp_defined at copy constructor/assignment (otherwise double free)
  - Enable QhullSet.operator=.  Copy constructor and assignment only copies pointers
@@ -819,7 +837,8 @@ Preliminary C++ support:
  - C++ declarations may change without warning
  - Preliminary documentation for Qhull's C++ interface [qh-code.htm#cpp, qhull-cpp.xml]
  - Added user_eg3 as an example of Qhull.cpp
- - Removed qhull_interface.cpp
+ - Removed qhull_interface.cpp.  Use Qhull.cpp instead.
+   If math.h breaks '#include qhull_a.h', preceed it with '#include math.h'
 
 Changes to qhull options and results
  - Allow 'd' and 'v' as the filename for 'TO ..' and 'TI ...' in qdelaunay [M. Jambon]

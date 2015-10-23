@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGUID>{2B744971-FEDA-49C1-88E5-C1D3277161D1}</ProjectGUID>
+    <ProjectGUID>{8B10DBA8-ACF5-4706-867C-76B4CDAE1F01}</ProjectGUID>
     <Keyword>Win32Proj</Keyword>
     <Platform>Win32</Platform>
     <ProjectName>testqset</ProjectName>
@@ -263,6 +263,7 @@
     <ClInclude Include="..\src\libqhull\qset.h" />
     <ClCompile Include="..\src\libqhull\qset.c"  />
     <ClCompile Include="..\src\libqhull\mem.c"  />
+    <ClCompile Include="..\src\libqhull\usermem.c"  />
     <ClCompile Include="..\src\testqset\testqset.c"  />
   </ItemGroup>
   <ItemGroup>

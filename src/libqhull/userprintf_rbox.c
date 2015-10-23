@@ -41,7 +41,7 @@ void qh_fprintf_rbox(FILE *fp, int msgcode, const char *fmt, ... ) {
     va_list args;
 
     if (!fp) {
-        fprintf(stderr, "QH6231 Qhull internal error (userprintf.c): fp is 0.  Wrong qh_fprintf_rbox called.\n");
+        qh_fprintf_stderr(6231, "Qhull internal error (userprintf_rbox.c): fp is 0.  Wrong qh_fprintf_rbox called.\n");
         qh_errexit_rbox(6231);
     }
     if (msgcode >= MSG_ERROR && msgcode < MSG_STDERR)

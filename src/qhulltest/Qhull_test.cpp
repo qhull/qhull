@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2015/qhull/src/qhulltest/Qhull_test.cpp#1 $$Change: 1981 $
-** $DateTime: 2015/09/28 20:26:32 $$Author: bbarber $
+** $Id: //main/2015/qhull/src/qhulltest/Qhull_test.cpp#2 $$Change: 2013 $
+** $DateTime: 2015/10/20 23:04:17 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -341,11 +341,20 @@ t_modify()
 
 }//orgQhull
 
-// Redefine Qhull's usermem.c
+// Redefine Qhull's usermem_r.c in order to report erroneous calls to qh_exit
 void qh_exit(int exitcode) {
     cout << "FAIL!  : Qhull called qh_exit().  Qhull's error handling not available.\n.. See the corresponding Qhull:qhull_message or setErrorStream().\n";
     exit(exitcode);
 }
+void qh_fprintf_stderr(int msgcode, const char *fmt, ... ) {
+    va_list args;
+
+    va_start(args, fmt);
+    if(msgcode)
+        fprintf(stderr, "QH%.4d ", msgcode);
+    vfprintf(stderr, fmt, args);
+    va_end(args);
+} /* fprintf_stderr */
 void qh_free(void *mem) {
     free(mem);
 }

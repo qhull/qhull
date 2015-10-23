@@ -7,8 +7,8 @@
    see qh-qhull.htm, qhull_ra.h
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull_r/libqhull_r.h#1 $$Change: 1981 $
-   $DateTime: 2015/09/28 20:26:32 $$Author: bbarber $
+   $Id: //main/2015/qhull/src/libqhull_r/libqhull_r.h#2 $$Change: 2010 $
+   $DateTime: 2015/10/19 22:23:22 $$Author: bbarber $
 
    includes function prototypes for libqhull_r.c, geom_r.c, global_r.c, io_r.c, user.c
 
@@ -1033,6 +1033,7 @@ void    qh_user_memsizes(qhT *qh);
 
 /********* -usermem_r.c prototypes (alphabetical) **********************/
 void    qh_exit(int exitcode);
+void    qh_fprintf_stderr(int msgcode, const char *fmt, ... );
 void    qh_free(void *mem);
 void   *qh_malloc(size_t size);
 

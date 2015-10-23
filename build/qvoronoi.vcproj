@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="qvoronoi"
-	ProjectGUID="{71B25045-5B56-4D69-B8DA-1F16D3D8B6E5}"
+	ProjectGUID="{0807C09D-455C-417A-A979-2081F170C923}"
 	Keyword="Win32Proj">
 	<Platforms>
 		<Platform

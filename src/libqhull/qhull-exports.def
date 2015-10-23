@@ -6,8 +6,8 @@
 ;   Annotate as __declspec for outside access in win32 -- qh_qh qh_qhstat
 ;   Same as ../libqhullp/qhull_p-exports.def without qh_save_qhull and qh_restore_qhull
 ;
-; $Id: //main/2015/qhull/src/libqhull/qhull-exports.def#1 $$Change: 1981 $
-; $DateTime: 2015/09/28 20:26:32 $$Author: bbarber $
+; $Id: //main/2015/qhull/src/libqhull/qhull-exports.def#2 $$Change: 2010 $
+; $DateTime: 2015/10/19 22:23:22 $$Author: bbarber $
 ; 
 ; Define qhull_VERSION in CMakeLists.txt, Makefile, qhull-exports.def, qhull_p-exports.def, qhull_r-exports.def, and qhull-warn.pri
 VERSION 7.0
@@ -119,6 +119,7 @@ qh_flippedmerges
 qh_forcedmerges
 qh_fprintf
 qh_fprintf_rbox
+qh_fprintf_stderr
 qh_free
 qh_freebuffers
 qh_freebuild

@@ -12,8 +12,8 @@
    see qhull_ra.h for internal functions
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull_r/global_r.c#4 $$Change: 1997 $
-   $DateTime: 2015/10/14 22:02:45 $$Author: bbarber $
+   $Id: //main/2015/qhull/src/libqhull_r/global_r.c#7 $$Change: 2018 $
+   $DateTime: 2015/10/22 21:03:58 $$Author: bbarber $
  */
 
 #include "qhull_ra.h"
@@ -39,8 +39,8 @@
     recompile user_eg_r.c, rbox_r.c, libqhull_r.c, qconvex_r.c, qdelaun_r.c qvoronoi_r.c, qhalf_r.c, testqset_r.c
 */
 
-const char qh_version[]= "2015.0.5.r 2015/10/12";
-const char qh_version2[]= "qhull_r 7.0.5.1995 (2015.0.5.r 2015/10/12)";
+const char qh_version[]= "2015.0.6.r 2015/10/20";
+const char qh_version2[]= "qhull_r 7.0.6.2013 (2015.0.6.r 2015/10/20)";
 
 /*-<a                             href="qh-globa.htm#TOC"
   >-------------------------------</a><a name="appendprint">-</a>
@@ -535,6 +535,7 @@ void qh_init_B(qhT *qh, coordT *points, int numpoints, int dim, boolT ismalloc) 
 
   qh_init_qhull_command(qh, argc, argv )
     build qh.qhull_command from argc/argv
+    Calls qh_exit if qhull_command is too short
 
   returns:
     a space-delimited string of options (just as typed)
@@ -548,7 +549,7 @@ void qh_init_qhull_command(qhT *qh, int argc, char *argv[]) {
 
   if (!qh_argv_to_command(argc, argv, qh->qhull_command, (int)sizeof(qh->qhull_command))){
     /* Assumes qh.ferr is defined. */
-    qh_fprintf(qh, qh->ferr, 6033, "qhull input error: more than %d characters in command line\n",
+    qh_fprintf(qh, qh->ferr, 6033, "qhull input error: more than %d characters in command line.\n",
           (int)sizeof(qh->qhull_command));
     qh_exit(qh_ERRinput);  /* error reported, can not use qh_errexit */
   }
@@ -559,6 +560,7 @@ void qh_init_qhull_command(qhT *qh, int argc, char *argv[]) {
 
   qh_initflags(qh, commandStr )
     set flags and initialized constants from commandStr
+    calls qh_exit() if qh->NOerrexit
 
   returns:
     sets qh.qhull_command to command if needed
@@ -1313,7 +1315,9 @@ void qh_initflags(qhT *qh, char *command) {
 
               qh_copyfilename(qh, filename, (int)sizeof(filename), s, (int)(t-s));  /* WARN64 */
               s= t;
-              if (!freopen(filename, "w", stdout)) {
+              if (!qh->fout) {
+                qh_fprintf(qh, qh->ferr, 6266, "qhull input warning: qh.fout was not set by caller.  Cannot use option 'TO' to redirect output.  Ignoring option 'TO'\n");
+              }else if (!freopen(filename, "w", qh->fout)) {
                 qh_fprintf(qh, qh->ferr, 6044, "qhull error: could not open file \"%s\".", filename);
                 qh_errexit(qh, qh_ERRinput, NULL, NULL);
               }else {
@@ -1994,41 +1998,41 @@ void qh_lib_check(int qhullLibraryType, int qhTsize, int vertexTsize, int ridgeT
     boolT iserror= False;
 
     if (qhullLibraryType==QHULL_NON_REENTRANT) { /* 0 */
-        qh_fprintf(NULL, stderr, 6257, "qh_lib_check: Incorrect qhull library called.  Caller uses non-reentrant Qhull with a static qhT.  Library is reentrant.\n");
+        qh_fprintf_stderr(6257, "qh_lib_check: Incorrect qhull library called.  Caller uses non-reentrant Qhull with a static qhT.  Library is reentrant.\n");
         iserror= True;
     }else if (qhullLibraryType==QHULL_QH_POINTER) { /* 1 */
-        qh_fprintf(NULL, stderr, 6258, "qh_lib_check: Incorrect qhull library called.  Caller uses non-reentrant Qhull with a dynamic qhT via qh_QHpointer.  Library is reentrant.\n");
+        qh_fprintf_stderr(6258, "qh_lib_check: Incorrect qhull library called.  Caller uses non-reentrant Qhull with a dynamic qhT via qh_QHpointer.  Library is reentrant.\n");
         iserror= True;
     }else if (qhullLibraryType!=QHULL_REENTRANT) { /* 2 */
-        qh_fprintf(NULL, stderr, 6262, "qh_lib_check: Expecting qhullLibraryType QHULL_NON_REENTRANT(0), QHULL_QH_POINTER(1), or QHULL_REENTRANT(2).  Got %d\n", qhullLibraryType);
+        qh_fprintf_stderr(6262, "qh_lib_check: Expecting qhullLibraryType QHULL_NON_REENTRANT(0), QHULL_QH_POINTER(1), or QHULL_REENTRANT(2).  Got %d\n", qhullLibraryType);
         iserror= True;
     }
     if (qhTsize != sizeof(qhT)) {
-        qh_fprintf(NULL, stderr, 6249, "qh_lib_check: Incorrect qhull library called.  Size of qhT for caller is %d, but for library is %d.\n", qhTsize, sizeof(qhT));
+        qh_fprintf_stderr(6249, "qh_lib_check: Incorrect qhull library called.  Size of qhT for caller is %d, but for library is %d.\n", qhTsize, sizeof(qhT));
         iserror= True;
     }
     if (vertexTsize != sizeof(vertexT)) {
-        qh_fprintf(NULL, stderr, 6250, "qh_lib_check: Incorrect qhull library called.  Size of vertexT for caller is %d, but for library is %d.\n", vertexTsize, sizeof(vertexT));
+        qh_fprintf_stderr(6250, "qh_lib_check: Incorrect qhull library called.  Size of vertexT for caller is %d, but for library is %d.\n", vertexTsize, sizeof(vertexT));
         iserror= True;
     }
     if (ridgeTsize != sizeof(ridgeT)) {
-        qh_fprintf(NULL, stderr, 6251, "qh_lib_check: Incorrect qhull library called.  Size of ridgeT for caller is %d, but for library is %d.\n", ridgeTsize, sizeof(ridgeT));
+        qh_fprintf_stderr(6251, "qh_lib_check: Incorrect qhull library called.  Size of ridgeT for caller is %d, but for library is %d.\n", ridgeTsize, sizeof(ridgeT));
         iserror= True;
     }
     if (facetTsize != sizeof(facetT)) {
-        qh_fprintf(NULL, stderr, 6252, "qh_lib_check: Incorrect qhull library called.  Size of facetT for caller is %d, but for library is %d.\n", facetTsize, sizeof(facetT));
+        qh_fprintf_stderr(6252, "qh_lib_check: Incorrect qhull library called.  Size of facetT for caller is %d, but for library is %d.\n", facetTsize, sizeof(facetT));
         iserror= True;
     }
     if (setTsize && setTsize != sizeof(setT)) {
-        qh_fprintf(NULL, stderr, 6253, "qh_lib_check: Incorrect qhull library called.  Size of setT for caller is %d, but for library is %d.\n", setTsize, sizeof(setT));
+        qh_fprintf_stderr(6253, "qh_lib_check: Incorrect qhull library called.  Size of setT for caller is %d, but for library is %d.\n", setTsize, sizeof(setT));
         iserror= True;
     }
     if (qhmemTsize && qhmemTsize != sizeof(qhmemT)) {
-        qh_fprintf(NULL, stderr, 6254, "qh_lib_check: Incorrect qhull library called.  Size of qhmemT for caller is %d, but for library is %d.\n", qhmemTsize, sizeof(qhmemT));
+        qh_fprintf_stderr(6254, "qh_lib_check: Incorrect qhull library called.  Size of qhmemT for caller is %d, but for library is %d.\n", qhmemTsize, sizeof(qhmemT));
         iserror= True;
     }
     if (iserror) {
-        qh_fprintf(NULL, stderr, 6259, "qh_lib_check: Cannot continue.  Library '%s' is reentrant (e.g., qhull_r.so)\n", qh_version2);
+        qh_fprintf_stderr(6259, "qh_lib_check: Cannot continue.  Library '%s' is reentrant (e.g., qhull_r.so)\n", qh_version2);
         qh_exit(qh_ERRqhull);  /* can not use qh_errexit() */
     }
 } /* lib_check */

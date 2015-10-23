@@ -67,8 +67,8 @@ Functions and macros from qset.h.  Counts occurrences in this test.  Does not co
     SETtruncate_ -- 2 tests
 
     Copyright (c) 2012-2015 C.B. Barber. All rights reserved.
-    $Id: //main/2015/qhull/src/testqset_r/testqset_r.c#1 $$Change: 1981 $
-    $DateTime: 2015/09/28 20:26:32 $$Author: bbarber $
+    $Id: //main/2015/qhull/src/testqset_r/testqset_r.c#3 $$Change: 2013 $
+    $DateTime: 2015/10/20 23:04:17 $$Author: bbarber $
 */
 
 #include "libqhull_r/qset_r.h"
@@ -113,19 +113,14 @@ int error_count= 0;  /* Global error_count.  checkSetContents(qh) keeps its own 
 
 /* Macros normally defined in QhullSet.h */
 
-/* Functions normally defined in usermem.h */
+/* Functions normally defined in user_r.h for usermem_r.c */
 
-void qh_exit(int exitcode) {
-    exit(exitcode);
-} /* exit */
+void    qh_exit(int exitcode);
+void    qh_fprintf_stderr(int msgcode, const char *fmt, ... );
+void    qh_free(void *mem);
+void   *qh_malloc(size_t size);
 
-void qh_free(void *mem) {
-    free(mem);
-} /* free */
-
-void *qh_malloc(size_t size) {
-    return malloc(size);
-} /* malloc */
+/* Normally defined in user_r.c */
 
 void    qh_errexit(qhT *qh, int exitcode, facetT *f, ridgeT *r)
 {
@@ -135,6 +130,8 @@ void    qh_errexit(qhT *qh, int exitcode, facetT *f, ridgeT *r)
     qh_exit(exitcode);
 }
 
+/* Normally defined in userprintf.c */
+
 void    qh_fprintf(qhT *qh, FILE *fp, int msgcode, const char *fmt, ... )
 {
     static int needs_cr= 0;  /* True if qh_fprintf needs a CR. testqset_r is not itself reentrant */
@@ -143,6 +140,7 @@ void    qh_fprintf(qhT *qh, FILE *fp, int msgcode, const char *fmt, ... )
     va_list args;
 
     if (!fp) {
+        /* Do not use qh_fprintf_stderr.  This is a standalone program */
         if(!qh)
             fprintf(stderr, "QH6241 qh_fprintf: fp and qh not defined for '%s'", fmt);
         else

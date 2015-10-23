@@ -8,8 +8,8 @@
    see qh-qhull.htm
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/qhull/unix_r.c#1 $$Change: 1981 $
-   $DateTime: 2015/09/28 20:26:32 $$Author: bbarber $
+   $Id: //main/2015/qhull/src/qhull/unix_r.c#2 $$Change: 2010 $
+   $DateTime: 2015/10/19 22:23:22 $$Author: bbarber $
 */
 
 #include "libqhull_r/mem_r.h"
@@ -367,7 +367,7 @@ int main(int argc, char *argv[]) {
   qh_freeqhull(qh, False);
   qh_memfreeshort(qh, &curlong, &totlong);
   if (curlong || totlong)
-    fprintf(stderr, "qhull internal warning (main): did not free %d bytes of long memory(%d pieces)\n",
+    qh_fprintf_stderr(6263, "qhull internal warning (main): did not free %d bytes of long memory(%d pieces)\n",
        totlong, curlong);
 #endif
   return exitcode;

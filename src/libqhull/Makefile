@@ -174,7 +174,7 @@ qhull_all: qconvex.o qdelaun.o qhalf.o qvoronoi.o unix.o user_eg.o user_eg2.o rb
 	$(CC) -o rbox $(CC_OPTS2) -lm $(LIBQHULLS_OBJS) rbox.o
 	$(CC) -o user_eg $(CC_OPTS2) -lm $(LIBQHULLS_OBJS_2) user_eg.o
 	$(CC) -o user_eg2 $(CC_OPTS2) -lm $(LIBQHULLS_OBJS_1) user_eg2.o  usermem.o userprintf.o io.o
-	$(CC) -o testqset $(CC_OPTS2) -lm mem.o qset.o testqset.o
+	$(CC) -o testqset $(CC_OPTS2) -lm mem.o qset.o usermem.o testqset.o
 	-ar -rs libqhullstatic.a $(LIBQHULLS_OBJS)
 	#libqhullstatic.a is not needed for qhull
 	#If 'ar -rs' fails try using 'ar -s' with 'ranlib'

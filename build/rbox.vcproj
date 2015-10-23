@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="rbox"
-	ProjectGUID="{253F7FE0-0402-460C-8D9C-51A5E998A0B5}"
+	ProjectGUID="{1B7A1D90-AEDB-42A4-A1BD-B0C5CD430BF2}"
 	Keyword="Win32Proj">
 	<Platforms>
 		<Platform

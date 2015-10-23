@@ -12,8 +12,8 @@
    see qhull_a.h for internal functions
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull/global.c#5 $$Change: 1999 $
-   $DateTime: 2015/10/14 22:53:01 $$Author: bbarber $
+   $Id: //main/2015/qhull/src/libqhull/global.c#8 $$Change: 2018 $
+   $DateTime: 2015/10/22 21:03:58 $$Author: bbarber $
  */
 
 #include "qhull_a.h"
@@ -47,8 +47,8 @@ qhT qh_qh;              /* all global variables.
     recompile user_eg.c, rbox.c, libqhull.c, qconvex.c, qdelaun.c qvoronoi.c, qhalf.c, testqset.c
 */
 
-const char qh_version[]= "2015.0.5 2015/10/12";
-const char qh_version2[]= "qhull 7.0.5.1995 (2015.0.5 2015/10/12)";
+const char qh_version[]= "2015.0.6 2015/10/20";
+const char qh_version2[]= "qhull 7.0.6.2013 (2015.0.6 2015/10/20)";
 
 /*-<a                             href="qh-globa.htm#TOC"
   >-------------------------------</a><a name="appendprint">-</a>
@@ -1339,7 +1339,7 @@ void qh_initflags(char *command) {
 
               qh_copyfilename(filename, (int)sizeof(filename), s, (int)(t-s));  /* WARN64 */
               s= t;
-              if (!freopen(filename, "w", stdout)) {
+              if (!freopen(filename, "w", qh fout)) {
                 qh_fprintf(qh ferr, 6044, "qhull error: could not open file \"%s\".", filename);
                 qh_errexit(qh_ERRinput, NULL, NULL);
               }else {
@@ -2032,50 +2032,50 @@ void qh_lib_check(int qhullLibraryType, int qhTsize, int vertexTsize, int ridgeT
 
     if (qhullLibraryType==QHULL_NON_REENTRANT) { /* 0 */
         if (qh_QHpointer) {
-            qh_fprintf(stderr, 6246, "qh_lib_check: Incorrect qhull library called.  Caller uses a static qhT while library uses a dynamic qhT via qh_QHpointer.  Both caller and library are non-reentrant.\n");
+            qh_fprintf_stderr(6246, "qh_lib_check: Incorrect qhull library called.  Caller uses a static qhT while library uses a dynamic qhT via qh_QHpointer.  Both caller and library are non-reentrant.\n");
             iserror= True;
         }
     }else if (qhullLibraryType==QHULL_QH_POINTER) { /* 1 */
         if (!qh_QHpointer) {
-            qh_fprintf(stderr, 6247, "qh_lib_check: Incorrect qhull library called.  Caller uses a dynamic qhT via qh_QHpointer while library uses a static qhT.  Both caller and library are non-reentrant.\n");
+            qh_fprintf_stderr(6247, "qh_lib_check: Incorrect qhull library called.  Caller uses a dynamic qhT via qh_QHpointer while library uses a static qhT.  Both caller and library are non-reentrant.\n");
             iserror= True;
         }
     }else if (qhullLibraryType==QHULL_REENTRANT) { /* 2 */
-        qh_fprintf(stderr, 6248, "qh_lib_check: Incorrect qhull library called.  Caller uses reentrant Qhull while library is non-reentrant\n");
+        qh_fprintf_stderr(6248, "qh_lib_check: Incorrect qhull library called.  Caller uses reentrant Qhull while library is non-reentrant\n");
         iserror= True;
     }else{
-        qh_fprintf(stderr, 6262, "qh_lib_check: Expecting qhullLibraryType QHULL_NON_REENTRANT(0), QHULL_QH_POINTER(1), or QHULL_REENTRANT(2).  Got %d\n", qhullLibraryType);
+        qh_fprintf_stderr(6262, "qh_lib_check: Expecting qhullLibraryType QHULL_NON_REENTRANT(0), QHULL_QH_POINTER(1), or QHULL_REENTRANT(2).  Got %d\n", qhullLibraryType);
         iserror= True;
     }
     if (qhTsize != sizeof(qhT)) {
-        qh_fprintf(stderr, 6249, "qh_lib_check: Incorrect qhull library called.  Size of qhT for caller is %d, but for library is %d.\n", qhTsize, sizeof(qhT));
+        qh_fprintf_stderr(6249, "qh_lib_check: Incorrect qhull library called.  Size of qhT for caller is %d, but for library is %d.\n", qhTsize, sizeof(qhT));
         iserror= True;
     }
     if (vertexTsize != sizeof(vertexT)) {
-        qh_fprintf(stderr, 6250, "qh_lib_check: Incorrect qhull library called.  Size of vertexT for caller is %d, but for library is %d.\n", vertexTsize, sizeof(vertexT));
+        qh_fprintf_stderr(6250, "qh_lib_check: Incorrect qhull library called.  Size of vertexT for caller is %d, but for library is %d.\n", vertexTsize, sizeof(vertexT));
         iserror= True;
     }
     if (ridgeTsize != sizeof(ridgeT)) {
-        qh_fprintf(stderr, 6251, "qh_lib_check: Incorrect qhull library called.  Size of ridgeT for caller is %d, but for library is %d.\n", ridgeTsize, sizeof(ridgeT));
+        qh_fprintf_stderr(6251, "qh_lib_check: Incorrect qhull library called.  Size of ridgeT for caller is %d, but for library is %d.\n", ridgeTsize, sizeof(ridgeT));
         iserror= True;
     }
     if (facetTsize != sizeof(facetT)) {
-        qh_fprintf(stderr, 6252, "qh_lib_check: Incorrect qhull library called.  Size of facetT for caller is %d, but for library is %d.\n", facetTsize, sizeof(facetT));
+        qh_fprintf_stderr(6252, "qh_lib_check: Incorrect qhull library called.  Size of facetT for caller is %d, but for library is %d.\n", facetTsize, sizeof(facetT));
         iserror= True;
     }
     if (setTsize && setTsize != sizeof(setT)) {
-        qh_fprintf(stderr, 6253, "qh_lib_check: Incorrect qhull library called.  Size of setT for caller is %d, but for library is %d.\n", setTsize, sizeof(setT));
+        qh_fprintf_stderr(6253, "qh_lib_check: Incorrect qhull library called.  Size of setT for caller is %d, but for library is %d.\n", setTsize, sizeof(setT));
         iserror= True;
     }
     if (qhmemTsize && qhmemTsize != sizeof(qhmemT)) {
-        qh_fprintf(stderr, 6254, "qh_lib_check: Incorrect qhull library called.  Size of qhmemT for caller is %d, but for library is %d.\n", qhmemTsize, sizeof(qhmemT));
+        qh_fprintf_stderr(6254, "qh_lib_check: Incorrect qhull library called.  Size of qhmemT for caller is %d, but for library is %d.\n", qhmemTsize, sizeof(qhmemT));
         iserror= True;
     }
     if (iserror) {
         if(qh_QHpointer){
-            qh_fprintf(stderr, 6255, "qh_lib_check: Cannot continue.  Library '%s' uses a dynamic qhT via qh_QHpointer (e.g., qhull_p.so)\n", qh_version2);
+            qh_fprintf_stderr(6255, "qh_lib_check: Cannot continue.  Library '%s' uses a dynamic qhT via qh_QHpointer (e.g., qhull_p.so)\n", qh_version2);
         }else{
-            qh_fprintf(stderr, 6256, "qh_lib_check: Cannot continue.  Library '%s' uses a static qhT (e.g., libqhull.so)\n", qh_version2);
+            qh_fprintf_stderr(6256, "qh_lib_check: Cannot continue.  Library '%s' uses a static qhT (e.g., libqhull.so)\n", qh_version2);
         }
         qh_exit(qh_ERRqhull);  /* can not use qh_errexit() */
     }

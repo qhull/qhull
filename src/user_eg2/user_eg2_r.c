@@ -335,7 +335,7 @@ void addhalf(qhT *qh, coordT *points, int numpoints, int numnew, int dim, coordT
 #define TOTpoints (SIZEcube + SIZEdiamond)
 
 /*--------------------------------------------------
--main- derived from call_qhull in user.c
+-main- Similar to unix.c, the main program for qhull
 
   see program header
 

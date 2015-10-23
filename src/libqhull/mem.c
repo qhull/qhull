@@ -30,8 +30,8 @@
     global.c (qh_initbuffers) for an example of using mem.c
 
   Copyright (c) 1993-2015 The Geometry Center.
-  $Id: //main/2015/qhull/src/libqhull/mem.c#2 $$Change: 1995 $
-  $DateTime: 2015/10/13 21:59:42 $$Author: bbarber $
+  $Id: //main/2015/qhull/src/libqhull/mem.c#3 $$Change: 2010 $
+  $DateTime: 2015/10/19 22:23:22 $$Author: bbarber $
 */
 
 #include "mem.h"
@@ -49,6 +49,7 @@ typedef struct facetT facetT;
 void    qh_errexit(int exitcode, facetT *, ridgeT *);
 void    qh_exit(int exitcode);
 void    qh_fprintf(FILE *fp, int msgcode, const char *fmt, ... );
+void    qh_fprintf_stderr(int msgcode, const char *fmt, ... );
 void    qh_free(void *mem);
 void   *qh_malloc(size_t size);
 #endif
@@ -201,7 +202,7 @@ void qh_memcheck() {
   void *object;
 
   if (qhmem.ferr == 0 || qhmem.IStracing < 0 || qhmem.IStracing > 10 || (((qhmem.ALIGNmask+1) & qhmem.ALIGNmask) != 0)) {
-    qh_fprintf(stderr, 6244, "qh_memcheck error: either qhmem is overwritten or qhmem is not initialized.  Call qh_meminit() or qh_new_qhull() before calling qh_mem routines.  ferr 0x%x IsTracing %d ALIGNmask 0x%x", qhmem.ferr, qhmem.IStracing, qhmem.ALIGNmask);
+    qh_fprintf_stderr(6244, "qh_memcheck error: either qhmem is overwritten or qhmem is not initialized.  Call qh_meminit() or qh_new_qhull() before calling qh_mem routines.  ferr 0x%x IsTracing %d ALIGNmask 0x%x", qhmem.ferr, qhmem.IStracing, qhmem.ALIGNmask);
     qh_exit(qhmem_ERRqhull);  /* can not use qh_errexit() */
   }
   if (qhmem.IStracing != 0)

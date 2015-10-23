@@ -1207,12 +1207,14 @@ each ridge once (instead of twice).  For example,
 </blockquote><h4><A href="#TOC">&#187;</A><a name="call">Can</a> Qhull use coordinates without placing
                         them in a data file?</h4><blockquote>
 
-<p>Use qh_call_qhull().  See user_eg.c for an example.
-See the manual for an introduction to the Qhull library.
+<p>You may call Qhull from a program.  Please use the reentrant Qhull library (libqhullstatic_r.a, libqhull_r.so, or qhull_r.dll).
 
-<p>Start with a small example for which you know the
+See user_eg.c and "Qhull-template" in user_r.c for examples..
+
+See <a href="qh-code.htm">Qhull internals</a> for an introduction to Qhull's reentrant library and its C++ interface.
+
+<p>Hint: Start with a small example for which you know the
   answer.</p>
-
 
 </blockquote><h4><A href="#TOC">&#187;</A><a name="size">How</a> large are Qhull's data structures?</h4><blockquote>
 
@@ -1400,7 +1402,7 @@ how do you determine the subdivision containing each point of the set?
 Efficiency is important -- an exhaustive search of the subdivision
 is too slow.
 
-<p>First compute the Delaunay triangle with qh_call_qhull().
+<p>First compute the Delaunay triangle with qh_new_qhull() in user_r.c or Qhull::runQhull().
 Lift the point to the paraboloid by summing the squares of the
 coordinates. Use qh_findbestfacet() [poly2.c] to find the closest Delaunay
 triangle. Determine the closest vertex to find the corresponding

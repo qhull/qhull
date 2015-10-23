@@ -76,8 +76,8 @@
 #   make qhullx
 #
 # To test all of qhull (build qhulltest with Qt)
-#   make testall >q_test.txt 2>&1
-#   bin/qhulltest --all >qhulltest.txt 2>&1
+#   make testall >eg/q_test.x 2>&1
+#   bin/qhulltest --all >eg/qhulltest.x 2>&1
 #   Compare to eg/q_test-ok.txt and eg/qhulltest-ok.txt
 
 DESTDIR = /usr/local
@@ -111,7 +111,7 @@ CC_OPTS3  =
 #  qhull_p.so -- allocated qh_qhT global data structure (qh_QHpointer=1).  Required for libqhullcpp
 #  qhull_m.so -- future version of Qhull with qh_qhT passed as an argument.
 qhull_SOVERSION=7
-SO  = so.7.0.5
+SO  = so.7.0.6
 
 # On MinGW, 
 #   make SO=dll
@@ -164,14 +164,13 @@ bin-lib:
 clean:
 	rm -f src/*/*.o src/qhulltest/RoadTest.h.cpp build/*/*/*.o  build/*/*.o
 	rm -f src/*/*.obj build/*/*/*.obj build/*/*/*/*/*.obj build/*/*.obj 
-	rm -f bin/*.idb lib/*.idb build-cmake/*/*.idb 
+	rm -f bin/*.idb lib/*.idb build-cmake/*/*.idb eg/*.x *.x *.tmp
 	rm -f build/*/*/*.a build/*/*/*.rsp build/moc/*.moc
 	rm -f build-cmake/*/*.obj build-cmake/*/*/*.obj build-cmake/*/*.ilk
 
 # Remove intermediate files and targets for all builds
 # DevStudio prevents build/qhull.ncb deletes
 cleanall: clean
-	rm -f *.x *.tmp
 	rm -rf build/*.dir/ 
 	-rm -rf build/qhull.ncb
 	rm -rf buildvc/
@@ -527,7 +526,7 @@ $(LCPP)/RboxPoints.o:       $(LIBQHULLCPP_HDRS) $(LIBQHULLR_HDRS)
 .cpp.o:
 	$(CXX) -c $(CXX_OPTS1) -o $@ $<
 
-# qhullx -- Compile qhull with using a qhull library.  Must be after LIBQHULLS_RBOX_OBJS
+# qhullx -- Compile qhull without using a qhull library.  Must be after LIBQHULLS_RBOX_OBJS
 # For qconvex, rbox, and other programs, qhullx produces the same results as libqhull/Makefile
 # For qhull, 'make qhullx' produces the same results as libqhull_r/Makefile
 qhullx: src/qconvex/qconvex.o src/qdelaunay/qdelaun.o src/qhalf/qhalf.o \
@@ -539,6 +538,8 @@ qhullx: src/qconvex/qconvex.o src/qdelaunay/qdelaun.o src/qhalf/qhalf.o \
 	$(CC) -o bin/qvoronoi $(CC_OPTS2) -lm $(LIBQHULLS_USER_OBJS) src/qvoronoi/qvoronoi.o
 	$(CC) -o bin/qhull $(CC_OPTS2) -lm $(LIBQHULLSR_USER_OBJS) src/qhull/unix_r.o
 	$(CC) -o bin/rbox $(CC_OPTS2) -lm $(LIBQHULLS_RBOX_OBJS) src/rbox/rbox.o
+	$(CC) -o bin/testqset $(CC_OPTS2) -lm mem.o qset.o usermem.o testqset.o
+	$(CC) -o bin/testqset_r $(CC_OPTS2) -lm mem_r.o qset_r.o usermem_r.o testqset_r.o
 	-bin/rbox D4 | bin/qhull
 
 # The static library, libqhullstatic, contains non-reentrant code for Qhull.  It is somewhat faster than reentrant libqhullstatic_r
@@ -655,10 +656,10 @@ bin/qhull: src/qhull/unix_r.o lib/libqhullstatic_r.a
 bin/rbox: src/rbox/rbox.o lib/libqhullstatic.a
 	$(CC) -o $@ $< $(CC_OPTS2) -Llib -lqhullstatic -lm
 
-bin/testqset: src/testqset/testqset.o src/libqhull/qset.o src/libqhull/mem.o
+bin/testqset: src/testqset/testqset.o src/libqhull/qset.o src/libqhull/mem.o src/libqhull/usermem.o
 	$(CC) -o $@ $^ $(CC_OPTS2) -lm
 
-bin/testqset_r: src/testqset_r/testqset_r.o src/libqhull_r/qset_r.o src/libqhull_r/mem_r.o
+bin/testqset_r: src/testqset_r/testqset_r.o src/libqhull_r/qset_r.o src/libqhull_r/mem_r.o src/libqhull/usermem_r.o
 	$(CC) -o $@ $^ $(CC_OPTS2) -lm
 
 # You may use  -lqhullstatic_r instead of -lqhull_r

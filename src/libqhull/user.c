@@ -10,7 +10,7 @@
 
    see libqhull.h for data structures, macros, and user-callable functions.
 
-   see user_eg.c, unix.c, and qhull_interface.cpp for examples.
+   see user_eg.c, user_eg2.c, and unix.c for examples.
 
    see user.h for user-definable constants
 
@@ -27,7 +27,7 @@
 
    Please report any errors that you fix to qhull@qhull.org
 
-   call_qhull is a template for calling qhull from within your application
+   Qhull-template is a template for calling qhull from within your application
 
    if you recompile and load this module, then user.o will not be loaded
    from qhull.a
@@ -45,11 +45,10 @@
 #include <stdarg.h>
 
 /*-<a                             href="qh-user.htm#TOC"
-  >-------------------------------</a><a name="call_qhull">-</a>
+  >-------------------------------</a><a name="qhull_template">-</a>
 
-  qh_call_qhull( void )
-    template for calling qhull from inside your program
-    remove #if 0, #endif to compile
+  Qhull-template
+    Template for calling qhull from inside your program
 
   returns:
     exit code(see qh_ERR... in libqhull.h)
@@ -57,10 +56,6 @@
 
   notes:
     This can be called any number of times.
-
-  see:
-    qh_call_qhull_once()
-
 */
 #if 0
 {
@@ -79,11 +74,11 @@
   QHULL_LIB_CHECK /* Check for compatible library */
 
 #if qh_QHpointer  /* see user.h */
-  if (qh_qh){
-      printf ("QH6238: Qhull link error.  The global variable qh_qh was not initialized\n\
+  if (qh_qh){ /* should be NULL */
+      qh_printf_stderr(6238, "Qhull link error.  The global variable qh_qh was not initialized\n\
               to NULL by global.c.  Please compile this program with -Dqh_QHpointer_dllimport\n\
               as well as -Dqh_QHpointer, or use libqhullstatic, or use a different tool chain.\n\n");
-      exit -1;
+      exit(1);
   }
 #endif
 
@@ -128,7 +123,8 @@
     - use qh_freeqhull(qh_ALL) to free intermediate convex hulls
 
   see:
-    user_eg.c for an example
+      Qhull-template at the beginning of this file.
+      An example of using qh_new_qhull is user_eg.c
 */
 int qh_new_qhull(int dim, int numpoints, coordT *points, boolT ismalloc,
                 char *qhull_cmd, FILE *outfile, FILE *errfile) {

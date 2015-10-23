@@ -322,7 +322,7 @@ int main(int argc, char *argv[]) {
   qh_freeqhull(qh, False);
   qh_memfreeshort(qh, &curlong, &totlong);
   if (curlong || totlong)
-    fprintf(stderr, "qhull internal warning (main): did not free %d bytes of long memory(%d pieces)\n",
+    qh_fprintf_stderr(6263, "qhull internal warning (main): did not free %d bytes of long memory(%d pieces)\n",
        totlong, curlong);
 #endif
   return exitcode;

@@ -12,8 +12,8 @@
    of the set (i.e., setelemT).
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull/qset.c#1 $$Change: 1981 $
-   $DateTime: 2015/09/28 20:26:32 $$Author: bbarber $
+   $Id: //main/2015/qhull/src/libqhull/qset.c#2 $$Change: 2010 $
+   $DateTime: 2015/10/19 22:23:22 $$Author: bbarber $
 */
 
 #include "qset.h"
@@ -1244,10 +1244,10 @@ setT *qh_settemppop(void) {
     append set to tempstack
 */
 void qh_settemppush(setT *set) {
-    if (!set) {
-        fprintf (qhmem.ferr, "qhull error (qh_settemppush): can not push a NULL temp\n");
-        qh_errexit(qhmem_ERRqhull, NULL, NULL);
-    }
+  if (!set) {
+    qh_fprintf(qhmem.ferr, 6267, "qhull error (qh_settemppush): can not push a NULL temp\n");
+    qh_errexit(qhmem_ERRqhull, NULL, NULL);
+  }
   qh_setappend(&qhmem.tempstack, set);
   if (qhmem.IStracing >= 5)
     qh_fprintf(qhmem.ferr, 8125, "qh_settemppush: depth %d temp set %p of %d elements\n",

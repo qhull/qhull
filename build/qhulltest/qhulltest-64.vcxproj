@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{59F000B6-1AEC-3107-979D-510DA098577A}</ProjectGuid>
+    <RootNamespace>qhulltest</RootNamespace>
+    <Keyword>Qt4VSv1.0</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;" Label="Configuration">
+    <PlatformToolSet>v110</PlatformToolSet>
+    <OutputDirectory>..\..\bin\</OutputDirectory>
+    <ATLMinimizesCRunTimeLibraryUsage>false</ATLMinimizesCRunTimeLibraryUsage>
+    <CharacterSet>NotSet</CharacterSet>
+    <ConfigurationType>Application</ConfigurationType>
+    <IntermediateDirectory>Release\</IntermediateDirectory>
+    <PrimaryOutput>qhulltest</PrimaryOutput>
+  </PropertyGroup>
+  <PropertyGroup Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;" Label="Configuration">
+    <PlatformToolSet>v110</PlatformToolSet>
+    <OutputDirectory>..\..\bin\</OutputDirectory>
+    <ATLMinimizesCRunTimeLibraryUsage>false</ATLMinimizesCRunTimeLibraryUsage>
+    <CharacterSet>NotSet</CharacterSet>
+    <ConfigurationType>Application</ConfigurationType>
+    <IntermediateDirectory>Debug\</IntermediateDirectory>
+    <PrimaryOutput>qhulltest</PrimaryOutput>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings" />
+  <ImportGroup Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists(&apos;$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props&apos;)" />
+  </ImportGroup>
+  <ImportGroup Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists(&apos;$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props&apos;)" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <OutDir Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">..\..\bin\</OutDir>
+    <IntDir Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">Release\</IntDir>
+    <TargetName Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">qhulltest</TargetName>
+    <IgnoreImportLibrary Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">true</IgnoreImportLibrary>
+    <LinkIncremental Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">false</LinkIncremental>
+    <OutDir Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">..\..\bin\</OutDir>
+    <IntDir Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">Debug\</IntDir>
+    <TargetName Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">qhulltest</TargetName>
+    <IgnoreImportLibrary Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">true</IgnoreImportLibrary>
+    <LinkIncremental Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">
+    <ClCompile>
+      <AdditionalIncludeDirectories>&quot;..\..\src&quot;;&quot;..\..\src&quot;;&quot;$(QTDIR)\include&quot;;&quot;$(QTDIR)\include\QtTest&quot;;&quot;$(QTDIR)\..\Src\qtbase\include&quot;;&quot;$(QTDIR)\..\Src\qtbase\include\QtGui&quot;;&quot;$(QTDIR)\..\Src\qtbase\include\QtANGLE&quot;;&quot;C:\include&quot;;&quot;C:\include\QtGui&quot;;&quot;$(QTDIR)\include\QtCore&quot;;&quot;moc&quot;;&quot;.&quot;;$(QTDIR)\mkspecs\win32-msvc2012;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>-Zm200 -w34100 -w34189 %(AdditionalOptions)</AdditionalOptions>
+      <AssemblerListingLocation>Release\</AssemblerListingLocation>
+      <BrowseInformation>false</BrowseInformation>
+      <DebugInformationFormat>None</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <ForcedIncludeFiles>..\..\src\qhulltest\RoadTest.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ObjectFileName>Release\</ObjectFileName>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>..\..\src\qhulltest\RoadTest.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>$(IntDir)\qhulltest.pch</PrecompiledHeaderOutputFile>
+      <PreprocessorDefinitions>_CONSOLE;UNICODE;WIN32;QT_NO_DEBUG;QT_TESTLIB_LIB;QT_GUI_LIB;QT_CORE_LIB;QT_OPENGL_ES_2;QT_OPENGL_ES_2_ANGLE;QT_TESTCASE_BUILDDIR=&quot;../../build/qhulltest&quot;;QT_NO_DYNAMIC_CAST;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessToFile>false</PreprocessToFile>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <WarningLevel>Level3</WarningLevel>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>..\..\lib\qhullcpp.lib;..\..\lib\qhullstatic_r.lib;$(QTDIR)\lib\Qt5Test.lib;$(QTDIR)\lib\Qt5Gui.lib;$(QTDIR)\lib\Qt5Core.lib;libEGL.lib;libGLESv2.lib;gdi32.lib;user32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\lib;$(QTDIR)\lib;\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>&quot;/MANIFESTDEPENDENCY:type=&apos;win32&apos; name=&apos;Microsoft.Windows.Common-Controls&apos; version=&apos;6.0.0.0&apos; publicKeyToken=&apos;6595b64144ccf1df&apos; language=&apos;*&apos; processorArchitecture=&apos;*&apos;&quot; %(AdditionalOptions)</AdditionalOptions>
+      <DataExecutionPrevention>true</DataExecutionPrevention>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreImportLibrary>true</IgnoreImportLibrary>
+      <LinkIncremental>false</LinkIncremental>
+      <OutputFile>$(OutDir)\qhulltest.exe</OutputFile>
+      <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <SubSystem>Console</SubSystem>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Link>
+    <Midl>
+      <DefaultCharType>Unsigned</DefaultCharType>
+      <EnableErrorChecks>None</EnableErrorChecks>
+      <WarningLevel>0</WarningLevel>
+    </Midl>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_CONSOLE;UNICODE;WIN32;QT_NO_DEBUG;QT_TESTLIB_LIB;QT_GUI_LIB;QT_CORE_LIB;QT_OPENGL_ES_2;QT_OPENGL_ES_2_ANGLE;QT_TESTCASE_BUILDDIR=\&quot;../../build/qhulltest\&quot;;QT_NO_DYNAMIC_CAST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">
+    <ClCompile>
+      <AdditionalIncludeDirectories>&quot;..\..\src&quot;;&quot;..\..\src&quot;;&quot;$(QTDIR)\include&quot;;&quot;$(QTDIR)\include\QtTest&quot;;&quot;$(QTDIR)\..\Src\qtbase\include&quot;;&quot;$(QTDIR)\..\Src\qtbase\include\QtGui&quot;;&quot;$(QTDIR)\..\Src\qtbase\include\QtANGLE&quot;;&quot;C:\include&quot;;&quot;C:\include\QtGui&quot;;&quot;$(QTDIR)\include\QtCore&quot;;&quot;moc&quot;;&quot;.&quot;;$(QTDIR)\mkspecs\win32-msvc2012;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>-Zm200 -w34100 -w34189 %(AdditionalOptions)</AdditionalOptions>
+      <AssemblerListingLocation>Debug\</AssemblerListingLocation>
+      <BrowseInformation>false</BrowseInformation>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <ForcedIncludeFiles>..\..\src\qhulltest\RoadTest.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ObjectFileName>Debug\</ObjectFileName>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>..\..\src\qhulltest\RoadTest.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>$(IntDir)\qhulltest.pch</PrecompiledHeaderOutputFile>
+      <PreprocessorDefinitions>_CONSOLE;UNICODE;WIN32;QT_TESTLIB_LIB;QT_GUI_LIB;QT_CORE_LIB;QT_OPENGL_ES_2;QT_OPENGL_ES_2_ANGLE;QT_TESTCASE_BUILDDIR=&quot;../../build/qhulltest&quot;;QT_NO_DYNAMIC_CAST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessToFile>false</PreprocessToFile>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <WarningLevel>Level3</WarningLevel>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>..\..\lib\qhullcpp_d.lib;..\..\lib\qhullstatic_rd.lib;$(QTDIR)\lib\Qt5Testd.lib;$(QTDIR)\lib\Qt5Guid.lib;$(QTDIR)\lib\Qt5Cored.lib;libEGLd.lib;libGLESv2d.lib;gdi32.lib;user32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\lib;$(QTDIR)\lib;\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>&quot;/MANIFESTDEPENDENCY:type=&apos;win32&apos; name=&apos;Microsoft.Windows.Common-Controls&apos; version=&apos;6.0.0.0&apos; publicKeyToken=&apos;6595b64144ccf1df&apos; language=&apos;*&apos; processorArchitecture=&apos;*&apos;&quot; %(AdditionalOptions)</AdditionalOptions>
+      <DataExecutionPrevention>true</DataExecutionPrevention>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreImportLibrary>true</IgnoreImportLibrary>
+      <LinkIncremental>false</LinkIncremental>
+      <OutputFile>$(OutDir)\qhulltest.exe</OutputFile>
+      <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <SubSystem>Console</SubSystem>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Link>
+    <Midl>
+      <DefaultCharType>Unsigned</DefaultCharType>
+      <EnableErrorChecks>None</EnableErrorChecks>
+      <WarningLevel>0</WarningLevel>
+    </Midl>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_CONSOLE;UNICODE;WIN32;QT_TESTLIB_LIB;QT_GUI_LIB;QT_CORE_LIB;QT_OPENGL_ES_2;QT_OPENGL_ES_2_ANGLE;QT_TESTCASE_BUILDDIR=\&quot;../../build/qhulltest\&quot;;QT_NO_DYNAMIC_CAST;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\qhulltest\Coordinates_test.cpp" />
+    <ClCompile Include="..\..\src\qhulltest\PointCoordinates_test.cpp" />
+    <ClCompile Include="..\..\src\qhulltest\QhullFacetList_test.cpp" />
+    <ClCompile Include="..\..\src\qhulltest\QhullFacetSet_test.cpp" />
+    <ClCompile Include="..\..\src\qhulltest\QhullFacet_test.cpp" />
+    <ClCompile Include="..\..\src\qhulltest\QhullHyperplane_test.cpp" />
+    <ClCompile Include="..\..\src\qhulltest\QhullLinkedList_test.cpp" />
+    <ClCompile Include="..\..\src\qhulltest\QhullPointSet_test.cpp" />
+    <ClCompile Include="..\..\src\qhulltest\QhullPoint_test.cpp" />
+    <ClCompile Include="..\..\src\qhulltest\QhullPoints_test.cpp" />
+    <ClCompile Include="..\..\src\qhulltest\QhullRidge_test.cpp" />
+    <ClCompile Include="..\..\src\qhulltest\QhullSet_test.cpp" />
+    <ClCompile Include="..\..\src\qhulltest\QhullVertexSet_test.cpp" />
+    <ClCompile Include="..\..\src\qhulltest\QhullVertex_test.cpp" />
+    <ClCompile Include="..\..\src\qhulltest\Qhull_test.cpp" />
+    <ClCompile Include="..\..\src\qhulltest\RboxPoints_test.cpp" />
+    <ClCompile Include="..\..\src\qhulltest\RoadTest.cpp" />
+    <ClCompile Include="..\..\src\qhulltest\qhulltest.cpp" />
+    <ClCompile Include="..\..\src\libqhullcpp\qt-qhull.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\..\src\qhulltest\RoadTest.h">
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">..\..\src\qhulltest\RoadTest.h;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_TESTLIB_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -DQT_TESTCASE_BUILDDIR=\&quot;../../build/qhulltest\&quot; -DQT_NO_DYNAMIC_CAST -D_MSC_VER=1700 -D_WIN32 -I&quot;..\..\src&quot; -I&quot;..\..\src&quot; -I&quot;$(QTDIR)\include&quot; -I&quot;$(QTDIR)\include\QtTest&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include\QtGui&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include\QtANGLE&quot; -I&quot;C:\include&quot; -I&quot;C:\include\QtGui&quot; -I&quot;$(QTDIR)\include\QtCore&quot; -I&quot;moc&quot; -I&quot;.&quot; -I$(QTDIR)\mkspecs\win32-msvc2012 ..\..\src\qhulltest\RoadTest.h -o moc\moc_RoadTest.cpp&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;echo /*-------------------------------------------------------------------- >..\..\src\qhulltest\RoadTest.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;echo * Precompiled header source file used by Visual Studio.NET to generate>>..\..\src\qhulltest\RoadTest.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;echo * the .pch file.>>..\..\src\qhulltest\RoadTest.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;echo *>>..\..\src\qhulltest\RoadTest.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;echo * Due to issues with the dependencies checker within the IDE, it>>..\..\src\qhulltest\RoadTest.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;echo * sometimes fails to recompile the PCH file, if we force the IDE to>>..\..\src\qhulltest\RoadTest.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;echo * create the PCH file directly from the header file.>>..\..\src\qhulltest\RoadTest.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;echo *>>..\..\src\qhulltest\RoadTest.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;echo * This file is auto-generated by qmake since no PRECOMPILED_SOURCE was>>..\..\src\qhulltest\RoadTest.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;echo * specified, and is used as the common stdafx.cpp. The file is only>>..\..\src\qhulltest\RoadTest.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;echo * generated when creating .vcxproj project files, and is not used for>>..\..\src\qhulltest\RoadTest.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;echo * command line compilations by nmake.>>..\..\src\qhulltest\RoadTest.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;echo *>>..\..\src\qhulltest\RoadTest.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;echo * WARNING: All changes made in this file will be lost.>>..\..\src\qhulltest\RoadTest.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;echo --------------------------------------------------------------------*/>>..\..\src\qhulltest\RoadTest.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;echo #include &quot;RoadTest.h&quot;>>..\..\src\qhulltest\RoadTest.h.cpp</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">Generating precompiled header source file &apos;..\..\src\qhulltest\RoadTest.h.cpp&apos; ...</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">moc\moc_RoadTest.cpp;..\..\src\qhulltest\RoadTest.h.cpp;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">..\..\src\qhulltest\RoadTest.h;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_TESTLIB_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -DQT_TESTCASE_BUILDDIR=\&quot;../../build/qhulltest\&quot; -DQT_NO_DYNAMIC_CAST -D_MSC_VER=1700 -D_WIN32 -I&quot;..\..\src&quot; -I&quot;..\..\src&quot; -I&quot;$(QTDIR)\include&quot; -I&quot;$(QTDIR)\include\QtTest&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include\QtGui&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include\QtANGLE&quot; -I&quot;C:\include&quot; -I&quot;C:\include\QtGui&quot; -I&quot;$(QTDIR)\include\QtCore&quot; -I&quot;moc&quot; -I&quot;.&quot; -I$(QTDIR)\mkspecs\win32-msvc2012 ..\..\src\qhulltest\RoadTest.h -o moc\moc_RoadTest.cpp&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;echo /*-------------------------------------------------------------------- >..\..\src\qhulltest\RoadTest.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;echo * Precompiled header source file used by Visual Studio.NET to generate>>..\..\src\qhulltest\RoadTest.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;echo * the .pch file.>>..\..\src\qhulltest\RoadTest.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;echo *>>..\..\src\qhulltest\RoadTest.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;echo * Due to issues with the dependencies checker within the IDE, it>>..\..\src\qhulltest\RoadTest.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;echo * sometimes fails to recompile the PCH file, if we force the IDE to>>..\..\src\qhulltest\RoadTest.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;echo * create the PCH file directly from the header file.>>..\..\src\qhulltest\RoadTest.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;echo *>>..\..\src\qhulltest\RoadTest.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;echo * This file is auto-generated by qmake since no PRECOMPILED_SOURCE was>>..\..\src\qhulltest\RoadTest.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;echo * specified, and is used as the common stdafx.cpp. The file is only>>..\..\src\qhulltest\RoadTest.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;echo * generated when creating .vcxproj project files, and is not used for>>..\..\src\qhulltest\RoadTest.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;echo * command line compilations by nmake.>>..\..\src\qhulltest\RoadTest.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;echo *>>..\..\src\qhulltest\RoadTest.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;echo * WARNING: All changes made in this file will be lost.>>..\..\src\qhulltest\RoadTest.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;echo --------------------------------------------------------------------*/>>..\..\src\qhulltest\RoadTest.h.cpp&#x000D;&#x000A;if errorlevel 1 goto VCEnd&#x000D;&#x000A;echo #include &quot;RoadTest.h&quot;>>..\..\src\qhulltest\RoadTest.h.cpp</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">Generating precompiled header source file &apos;..\..\src\qhulltest\RoadTest.h.cpp&apos; ...</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">moc\moc_RoadTest.cpp;..\..\src\qhulltest\RoadTest.h.cpp;%(Outputs)</Outputs>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="moc\Coordinates_test.moc">
+      <FileType>Document</FileType>
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">..\..\src\qhulltest\Coordinates_test.cpp;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_TESTLIB_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -DQT_TESTCASE_BUILDDIR=\&quot;../../build/qhulltest\&quot; -DQT_NO_DYNAMIC_CAST -D_MSC_VER=1700 -D_WIN32 -I&quot;..\..\src&quot; -I&quot;..\..\src&quot; -I&quot;$(QTDIR)\include&quot; -I&quot;$(QTDIR)\include\QtTest&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include\QtGui&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include\QtANGLE&quot; -I&quot;C:\include&quot; -I&quot;C:\include\QtGui&quot; -I&quot;$(QTDIR)\include\QtCore&quot; -I&quot;moc&quot; -I&quot;.&quot; -I$(QTDIR)\mkspecs\win32-msvc2012 ..\..\src\qhulltest\Coordinates_test.cpp -o moc\Coordinates_test.moc</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">MOC ..\..\src\qhulltest\Coordinates_test.cpp</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">moc\Coordinates_test.moc;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">..\..\src\qhulltest\Coordinates_test.cpp;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_TESTLIB_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -DQT_TESTCASE_BUILDDIR=\&quot;../../build/qhulltest\&quot; -DQT_NO_DYNAMIC_CAST -D_MSC_VER=1700 -D_WIN32 -I&quot;..\..\src&quot; -I&quot;..\..\src&quot; -I&quot;$(QTDIR)\include&quot; -I&quot;$(QTDIR)\include\QtTest&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include\QtGui&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include\QtANGLE&quot; -I&quot;C:\include&quot; -I&quot;C:\include\QtGui&quot; -I&quot;$(QTDIR)\include\QtCore&quot; -I&quot;moc&quot; -I&quot;.&quot; -I$(QTDIR)\mkspecs\win32-msvc2012 ..\..\src\qhulltest\Coordinates_test.cpp -o moc\Coordinates_test.moc</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">MOC ..\..\src\qhulltest\Coordinates_test.cpp</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">moc\Coordinates_test.moc;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="moc\PointCoordinates_test.moc">
+      <FileType>Document</FileType>
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">..\..\src\qhulltest\PointCoordinates_test.cpp;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_TESTLIB_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -DQT_TESTCASE_BUILDDIR=\&quot;../../build/qhulltest\&quot; -DQT_NO_DYNAMIC_CAST -D_MSC_VER=1700 -D_WIN32 -I&quot;..\..\src&quot; -I&quot;..\..\src&quot; -I&quot;$(QTDIR)\include&quot; -I&quot;$(QTDIR)\include\QtTest&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include\QtGui&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include\QtANGLE&quot; -I&quot;C:\include&quot; -I&quot;C:\include\QtGui&quot; -I&quot;$(QTDIR)\include\QtCore&quot; -I&quot;moc&quot; -I&quot;.&quot; -I$(QTDIR)\mkspecs\win32-msvc2012 ..\..\src\qhulltest\PointCoordinates_test.cpp -o moc\PointCoordinates_test.moc</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">MOC ..\..\src\qhulltest\PointCoordinates_test.cpp</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">moc\PointCoordinates_test.moc;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">..\..\src\qhulltest\PointCoordinates_test.cpp;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_TESTLIB_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -DQT_TESTCASE_BUILDDIR=\&quot;../../build/qhulltest\&quot; -DQT_NO_DYNAMIC_CAST -D_MSC_VER=1700 -D_WIN32 -I&quot;..\..\src&quot; -I&quot;..\..\src&quot; -I&quot;$(QTDIR)\include&quot; -I&quot;$(QTDIR)\include\QtTest&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include\QtGui&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include\QtANGLE&quot; -I&quot;C:\include&quot; -I&quot;C:\include\QtGui&quot; -I&quot;$(QTDIR)\include\QtCore&quot; -I&quot;moc&quot; -I&quot;.&quot; -I$(QTDIR)\mkspecs\win32-msvc2012 ..\..\src\qhulltest\PointCoordinates_test.cpp -o moc\PointCoordinates_test.moc</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">MOC ..\..\src\qhulltest\PointCoordinates_test.cpp</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">moc\PointCoordinates_test.moc;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="moc\QhullFacetList_test.moc">
+      <FileType>Document</FileType>
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">..\..\src\qhulltest\QhullFacetList_test.cpp;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_TESTLIB_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -DQT_TESTCASE_BUILDDIR=\&quot;../../build/qhulltest\&quot; -DQT_NO_DYNAMIC_CAST -D_MSC_VER=1700 -D_WIN32 -I&quot;..\..\src&quot; -I&quot;..\..\src&quot; -I&quot;$(QTDIR)\include&quot; -I&quot;$(QTDIR)\include\QtTest&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include\QtGui&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include\QtANGLE&quot; -I&quot;C:\include&quot; -I&quot;C:\include\QtGui&quot; -I&quot;$(QTDIR)\include\QtCore&quot; -I&quot;moc&quot; -I&quot;.&quot; -I$(QTDIR)\mkspecs\win32-msvc2012 ..\..\src\qhulltest\QhullFacetList_test.cpp -o moc\QhullFacetList_test.moc</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">MOC ..\..\src\qhulltest\QhullFacetList_test.cpp</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">moc\QhullFacetList_test.moc;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">..\..\src\qhulltest\QhullFacetList_test.cpp;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_TESTLIB_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -DQT_TESTCASE_BUILDDIR=\&quot;../../build/qhulltest\&quot; -DQT_NO_DYNAMIC_CAST -D_MSC_VER=1700 -D_WIN32 -I&quot;..\..\src&quot; -I&quot;..\..\src&quot; -I&quot;$(QTDIR)\include&quot; -I&quot;$(QTDIR)\include\QtTest&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include\QtGui&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include\QtANGLE&quot; -I&quot;C:\include&quot; -I&quot;C:\include\QtGui&quot; -I&quot;$(QTDIR)\include\QtCore&quot; -I&quot;moc&quot; -I&quot;.&quot; -I$(QTDIR)\mkspecs\win32-msvc2012 ..\..\src\qhulltest\QhullFacetList_test.cpp -o moc\QhullFacetList_test.moc</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">MOC ..\..\src\qhulltest\QhullFacetList_test.cpp</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">moc\QhullFacetList_test.moc;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="moc\QhullFacetSet_test.moc">
+      <FileType>Document</FileType>
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">..\..\src\qhulltest\QhullFacetSet_test.cpp;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_TESTLIB_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -DQT_TESTCASE_BUILDDIR=\&quot;../../build/qhulltest\&quot; -DQT_NO_DYNAMIC_CAST -D_MSC_VER=1700 -D_WIN32 -I&quot;..\..\src&quot; -I&quot;..\..\src&quot; -I&quot;$(QTDIR)\include&quot; -I&quot;$(QTDIR)\include\QtTest&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include\QtGui&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include\QtANGLE&quot; -I&quot;C:\include&quot; -I&quot;C:\include\QtGui&quot; -I&quot;$(QTDIR)\include\QtCore&quot; -I&quot;moc&quot; -I&quot;.&quot; -I$(QTDIR)\mkspecs\win32-msvc2012 ..\..\src\qhulltest\QhullFacetSet_test.cpp -o moc\QhullFacetSet_test.moc</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">MOC ..\..\src\qhulltest\QhullFacetSet_test.cpp</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">moc\QhullFacetSet_test.moc;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">..\..\src\qhulltest\QhullFacetSet_test.cpp;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_TESTLIB_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -DQT_TESTCASE_BUILDDIR=\&quot;../../build/qhulltest\&quot; -DQT_NO_DYNAMIC_CAST -D_MSC_VER=1700 -D_WIN32 -I&quot;..\..\src&quot; -I&quot;..\..\src&quot; -I&quot;$(QTDIR)\include&quot; -I&quot;$(QTDIR)\include\QtTest&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include\QtGui&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include\QtANGLE&quot; -I&quot;C:\include&quot; -I&quot;C:\include\QtGui&quot; -I&quot;$(QTDIR)\include\QtCore&quot; -I&quot;moc&quot; -I&quot;.&quot; -I$(QTDIR)\mkspecs\win32-msvc2012 ..\..\src\qhulltest\QhullFacetSet_test.cpp -o moc\QhullFacetSet_test.moc</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">MOC ..\..\src\qhulltest\QhullFacetSet_test.cpp</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">moc\QhullFacetSet_test.moc;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="moc\QhullFacet_test.moc">
+      <FileType>Document</FileType>
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">..\..\src\qhulltest\QhullFacet_test.cpp;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_TESTLIB_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -DQT_TESTCASE_BUILDDIR=\&quot;../../build/qhulltest\&quot; -DQT_NO_DYNAMIC_CAST -D_MSC_VER=1700 -D_WIN32 -I&quot;..\..\src&quot; -I&quot;..\..\src&quot; -I&quot;$(QTDIR)\include&quot; -I&quot;$(QTDIR)\include\QtTest&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include\QtGui&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include\QtANGLE&quot; -I&quot;C:\include&quot; -I&quot;C:\include\QtGui&quot; -I&quot;$(QTDIR)\include\QtCore&quot; -I&quot;moc&quot; -I&quot;.&quot; -I$(QTDIR)\mkspecs\win32-msvc2012 ..\..\src\qhulltest\QhullFacet_test.cpp -o moc\QhullFacet_test.moc</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">MOC ..\..\src\qhulltest\QhullFacet_test.cpp</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">moc\QhullFacet_test.moc;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">..\..\src\qhulltest\QhullFacet_test.cpp;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_TESTLIB_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -DQT_TESTCASE_BUILDDIR=\&quot;../../build/qhulltest\&quot; -DQT_NO_DYNAMIC_CAST -D_MSC_VER=1700 -D_WIN32 -I&quot;..\..\src&quot; -I&quot;..\..\src&quot; -I&quot;$(QTDIR)\include&quot; -I&quot;$(QTDIR)\include\QtTest&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include\QtGui&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include\QtANGLE&quot; -I&quot;C:\include&quot; -I&quot;C:\include\QtGui&quot; -I&quot;$(QTDIR)\include\QtCore&quot; -I&quot;moc&quot; -I&quot;.&quot; -I$(QTDIR)\mkspecs\win32-msvc2012 ..\..\src\qhulltest\QhullFacet_test.cpp -o moc\QhullFacet_test.moc</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">MOC ..\..\src\qhulltest\QhullFacet_test.cpp</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">moc\QhullFacet_test.moc;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="moc\QhullHyperplane_test.moc">
+      <FileType>Document</FileType>
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">..\..\src\qhulltest\QhullHyperplane_test.cpp;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_TESTLIB_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -DQT_TESTCASE_BUILDDIR=\&quot;../../build/qhulltest\&quot; -DQT_NO_DYNAMIC_CAST -D_MSC_VER=1700 -D_WIN32 -I&quot;..\..\src&quot; -I&quot;..\..\src&quot; -I&quot;$(QTDIR)\include&quot; -I&quot;$(QTDIR)\include\QtTest&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include\QtGui&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include\QtANGLE&quot; -I&quot;C:\include&quot; -I&quot;C:\include\QtGui&quot; -I&quot;$(QTDIR)\include\QtCore&quot; -I&quot;moc&quot; -I&quot;.&quot; -I$(QTDIR)\mkspecs\win32-msvc2012 ..\..\src\qhulltest\QhullHyperplane_test.cpp -o moc\QhullHyperplane_test.moc</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">MOC ..\..\src\qhulltest\QhullHyperplane_test.cpp</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">moc\QhullHyperplane_test.moc;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">..\..\src\qhulltest\QhullHyperplane_test.cpp;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_TESTLIB_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -DQT_TESTCASE_BUILDDIR=\&quot;../../build/qhulltest\&quot; -DQT_NO_DYNAMIC_CAST -D_MSC_VER=1700 -D_WIN32 -I&quot;..\..\src&quot; -I&quot;..\..\src&quot; -I&quot;$(QTDIR)\include&quot; -I&quot;$(QTDIR)\include\QtTest&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include\QtGui&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include\QtANGLE&quot; -I&quot;C:\include&quot; -I&quot;C:\include\QtGui&quot; -I&quot;$(QTDIR)\include\QtCore&quot; -I&quot;moc&quot; -I&quot;.&quot; -I$(QTDIR)\mkspecs\win32-msvc2012 ..\..\src\qhulltest\QhullHyperplane_test.cpp -o moc\QhullHyperplane_test.moc</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">MOC ..\..\src\qhulltest\QhullHyperplane_test.cpp</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">moc\QhullHyperplane_test.moc;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="moc\QhullLinkedList_test.moc">
+      <FileType>Document</FileType>
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">..\..\src\qhulltest\QhullLinkedList_test.cpp;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_TESTLIB_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -DQT_TESTCASE_BUILDDIR=\&quot;../../build/qhulltest\&quot; -DQT_NO_DYNAMIC_CAST -D_MSC_VER=1700 -D_WIN32 -I&quot;..\..\src&quot; -I&quot;..\..\src&quot; -I&quot;$(QTDIR)\include&quot; -I&quot;$(QTDIR)\include\QtTest&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include\QtGui&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include\QtANGLE&quot; -I&quot;C:\include&quot; -I&quot;C:\include\QtGui&quot; -I&quot;$(QTDIR)\include\QtCore&quot; -I&quot;moc&quot; -I&quot;.&quot; -I$(QTDIR)\mkspecs\win32-msvc2012 ..\..\src\qhulltest\QhullLinkedList_test.cpp -o moc\QhullLinkedList_test.moc</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">MOC ..\..\src\qhulltest\QhullLinkedList_test.cpp</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">moc\QhullLinkedList_test.moc;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">..\..\src\qhulltest\QhullLinkedList_test.cpp;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_TESTLIB_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -DQT_TESTCASE_BUILDDIR=\&quot;../../build/qhulltest\&quot; -DQT_NO_DYNAMIC_CAST -D_MSC_VER=1700 -D_WIN32 -I&quot;..\..\src&quot; -I&quot;..\..\src&quot; -I&quot;$(QTDIR)\include&quot; -I&quot;$(QTDIR)\include\QtTest&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include\QtGui&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include\QtANGLE&quot; -I&quot;C:\include&quot; -I&quot;C:\include\QtGui&quot; -I&quot;$(QTDIR)\include\QtCore&quot; -I&quot;moc&quot; -I&quot;.&quot; -I$(QTDIR)\mkspecs\win32-msvc2012 ..\..\src\qhulltest\QhullLinkedList_test.cpp -o moc\QhullLinkedList_test.moc</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">MOC ..\..\src\qhulltest\QhullLinkedList_test.cpp</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">moc\QhullLinkedList_test.moc;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="moc\QhullPointSet_test.moc">
+      <FileType>Document</FileType>
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">..\..\src\qhulltest\QhullPointSet_test.cpp;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_TESTLIB_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -DQT_TESTCASE_BUILDDIR=\&quot;../../build/qhulltest\&quot; -DQT_NO_DYNAMIC_CAST -D_MSC_VER=1700 -D_WIN32 -I&quot;..\..\src&quot; -I&quot;..\..\src&quot; -I&quot;$(QTDIR)\include&quot; -I&quot;$(QTDIR)\include\QtTest&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include\QtGui&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include\QtANGLE&quot; -I&quot;C:\include&quot; -I&quot;C:\include\QtGui&quot; -I&quot;$(QTDIR)\include\QtCore&quot; -I&quot;moc&quot; -I&quot;.&quot; -I$(QTDIR)\mkspecs\win32-msvc2012 ..\..\src\qhulltest\QhullPointSet_test.cpp -o moc\QhullPointSet_test.moc</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">MOC ..\..\src\qhulltest\QhullPointSet_test.cpp</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">moc\QhullPointSet_test.moc;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">..\..\src\qhulltest\QhullPointSet_test.cpp;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_TESTLIB_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -DQT_TESTCASE_BUILDDIR=\&quot;../../build/qhulltest\&quot; -DQT_NO_DYNAMIC_CAST -D_MSC_VER=1700 -D_WIN32 -I&quot;..\..\src&quot; -I&quot;..\..\src&quot; -I&quot;$(QTDIR)\include&quot; -I&quot;$(QTDIR)\include\QtTest&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include\QtGui&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include\QtANGLE&quot; -I&quot;C:\include&quot; -I&quot;C:\include\QtGui&quot; -I&quot;$(QTDIR)\include\QtCore&quot; -I&quot;moc&quot; -I&quot;.&quot; -I$(QTDIR)\mkspecs\win32-msvc2012 ..\..\src\qhulltest\QhullPointSet_test.cpp -o moc\QhullPointSet_test.moc</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">MOC ..\..\src\qhulltest\QhullPointSet_test.cpp</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">moc\QhullPointSet_test.moc;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="moc\QhullPoint_test.moc">
+      <FileType>Document</FileType>
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">..\..\src\qhulltest\QhullPoint_test.cpp;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_TESTLIB_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -DQT_TESTCASE_BUILDDIR=\&quot;../../build/qhulltest\&quot; -DQT_NO_DYNAMIC_CAST -D_MSC_VER=1700 -D_WIN32 -I&quot;..\..\src&quot; -I&quot;..\..\src&quot; -I&quot;$(QTDIR)\include&quot; -I&quot;$(QTDIR)\include\QtTest&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include\QtGui&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include\QtANGLE&quot; -I&quot;C:\include&quot; -I&quot;C:\include\QtGui&quot; -I&quot;$(QTDIR)\include\QtCore&quot; -I&quot;moc&quot; -I&quot;.&quot; -I$(QTDIR)\mkspecs\win32-msvc2012 ..\..\src\qhulltest\QhullPoint_test.cpp -o moc\QhullPoint_test.moc</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">MOC ..\..\src\qhulltest\QhullPoint_test.cpp</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">moc\QhullPoint_test.moc;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">..\..\src\qhulltest\QhullPoint_test.cpp;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_TESTLIB_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -DQT_TESTCASE_BUILDDIR=\&quot;../../build/qhulltest\&quot; -DQT_NO_DYNAMIC_CAST -D_MSC_VER=1700 -D_WIN32 -I&quot;..\..\src&quot; -I&quot;..\..\src&quot; -I&quot;$(QTDIR)\include&quot; -I&quot;$(QTDIR)\include\QtTest&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include\QtGui&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include\QtANGLE&quot; -I&quot;C:\include&quot; -I&quot;C:\include\QtGui&quot; -I&quot;$(QTDIR)\include\QtCore&quot; -I&quot;moc&quot; -I&quot;.&quot; -I$(QTDIR)\mkspecs\win32-msvc2012 ..\..\src\qhulltest\QhullPoint_test.cpp -o moc\QhullPoint_test.moc</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">MOC ..\..\src\qhulltest\QhullPoint_test.cpp</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">moc\QhullPoint_test.moc;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="moc\QhullPoints_test.moc">
+      <FileType>Document</FileType>
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">..\..\src\qhulltest\QhullPoints_test.cpp;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_TESTLIB_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -DQT_TESTCASE_BUILDDIR=\&quot;../../build/qhulltest\&quot; -DQT_NO_DYNAMIC_CAST -D_MSC_VER=1700 -D_WIN32 -I&quot;..\..\src&quot; -I&quot;..\..\src&quot; -I&quot;$(QTDIR)\include&quot; -I&quot;$(QTDIR)\include\QtTest&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include\QtGui&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include\QtANGLE&quot; -I&quot;C:\include&quot; -I&quot;C:\include\QtGui&quot; -I&quot;$(QTDIR)\include\QtCore&quot; -I&quot;moc&quot; -I&quot;.&quot; -I$(QTDIR)\mkspecs\win32-msvc2012 ..\..\src\qhulltest\QhullPoints_test.cpp -o moc\QhullPoints_test.moc</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">MOC ..\..\src\qhulltest\QhullPoints_test.cpp</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">moc\QhullPoints_test.moc;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">..\..\src\qhulltest\QhullPoints_test.cpp;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_TESTLIB_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -DQT_TESTCASE_BUILDDIR=\&quot;../../build/qhulltest\&quot; -DQT_NO_DYNAMIC_CAST -D_MSC_VER=1700 -D_WIN32 -I&quot;..\..\src&quot; -I&quot;..\..\src&quot; -I&quot;$(QTDIR)\include&quot; -I&quot;$(QTDIR)\include\QtTest&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include\QtGui&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include\QtANGLE&quot; -I&quot;C:\include&quot; -I&quot;C:\include\QtGui&quot; -I&quot;$(QTDIR)\include\QtCore&quot; -I&quot;moc&quot; -I&quot;.&quot; -I$(QTDIR)\mkspecs\win32-msvc2012 ..\..\src\qhulltest\QhullPoints_test.cpp -o moc\QhullPoints_test.moc</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">MOC ..\..\src\qhulltest\QhullPoints_test.cpp</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">moc\QhullPoints_test.moc;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="moc\QhullRidge_test.moc">
+      <FileType>Document</FileType>
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">..\..\src\qhulltest\QhullRidge_test.cpp;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_TESTLIB_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -DQT_TESTCASE_BUILDDIR=\&quot;../../build/qhulltest\&quot; -DQT_NO_DYNAMIC_CAST -D_MSC_VER=1700 -D_WIN32 -I&quot;..\..\src&quot; -I&quot;..\..\src&quot; -I&quot;$(QTDIR)\include&quot; -I&quot;$(QTDIR)\include\QtTest&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include\QtGui&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include\QtANGLE&quot; -I&quot;C:\include&quot; -I&quot;C:\include\QtGui&quot; -I&quot;$(QTDIR)\include\QtCore&quot; -I&quot;moc&quot; -I&quot;.&quot; -I$(QTDIR)\mkspecs\win32-msvc2012 ..\..\src\qhulltest\QhullRidge_test.cpp -o moc\QhullRidge_test.moc</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">MOC ..\..\src\qhulltest\QhullRidge_test.cpp</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">moc\QhullRidge_test.moc;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">..\..\src\qhulltest\QhullRidge_test.cpp;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_TESTLIB_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -DQT_TESTCASE_BUILDDIR=\&quot;../../build/qhulltest\&quot; -DQT_NO_DYNAMIC_CAST -D_MSC_VER=1700 -D_WIN32 -I&quot;..\..\src&quot; -I&quot;..\..\src&quot; -I&quot;$(QTDIR)\include&quot; -I&quot;$(QTDIR)\include\QtTest&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include\QtGui&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include\QtANGLE&quot; -I&quot;C:\include&quot; -I&quot;C:\include\QtGui&quot; -I&quot;$(QTDIR)\include\QtCore&quot; -I&quot;moc&quot; -I&quot;.&quot; -I$(QTDIR)\mkspecs\win32-msvc2012 ..\..\src\qhulltest\QhullRidge_test.cpp -o moc\QhullRidge_test.moc</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">MOC ..\..\src\qhulltest\QhullRidge_test.cpp</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">moc\QhullRidge_test.moc;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="moc\QhullSet_test.moc">
+      <FileType>Document</FileType>
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">..\..\src\qhulltest\QhullSet_test.cpp;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_TESTLIB_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -DQT_TESTCASE_BUILDDIR=\&quot;../../build/qhulltest\&quot; -DQT_NO_DYNAMIC_CAST -D_MSC_VER=1700 -D_WIN32 -I&quot;..\..\src&quot; -I&quot;..\..\src&quot; -I&quot;$(QTDIR)\include&quot; -I&quot;$(QTDIR)\include\QtTest&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include\QtGui&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include\QtANGLE&quot; -I&quot;C:\include&quot; -I&quot;C:\include\QtGui&quot; -I&quot;$(QTDIR)\include\QtCore&quot; -I&quot;moc&quot; -I&quot;.&quot; -I$(QTDIR)\mkspecs\win32-msvc2012 ..\..\src\qhulltest\QhullSet_test.cpp -o moc\QhullSet_test.moc</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">MOC ..\..\src\qhulltest\QhullSet_test.cpp</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">moc\QhullSet_test.moc;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">..\..\src\qhulltest\QhullSet_test.cpp;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_TESTLIB_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -DQT_TESTCASE_BUILDDIR=\&quot;../../build/qhulltest\&quot; -DQT_NO_DYNAMIC_CAST -D_MSC_VER=1700 -D_WIN32 -I&quot;..\..\src&quot; -I&quot;..\..\src&quot; -I&quot;$(QTDIR)\include&quot; -I&quot;$(QTDIR)\include\QtTest&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include\QtGui&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include\QtANGLE&quot; -I&quot;C:\include&quot; -I&quot;C:\include\QtGui&quot; -I&quot;$(QTDIR)\include\QtCore&quot; -I&quot;moc&quot; -I&quot;.&quot; -I$(QTDIR)\mkspecs\win32-msvc2012 ..\..\src\qhulltest\QhullSet_test.cpp -o moc\QhullSet_test.moc</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">MOC ..\..\src\qhulltest\QhullSet_test.cpp</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">moc\QhullSet_test.moc;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="moc\QhullVertexSet_test.moc">
+      <FileType>Document</FileType>
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">..\..\src\qhulltest\QhullVertexSet_test.cpp;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_TESTLIB_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -DQT_TESTCASE_BUILDDIR=\&quot;../../build/qhulltest\&quot; -DQT_NO_DYNAMIC_CAST -D_MSC_VER=1700 -D_WIN32 -I&quot;..\..\src&quot; -I&quot;..\..\src&quot; -I&quot;$(QTDIR)\include&quot; -I&quot;$(QTDIR)\include\QtTest&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include\QtGui&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include\QtANGLE&quot; -I&quot;C:\include&quot; -I&quot;C:\include\QtGui&quot; -I&quot;$(QTDIR)\include\QtCore&quot; -I&quot;moc&quot; -I&quot;.&quot; -I$(QTDIR)\mkspecs\win32-msvc2012 ..\..\src\qhulltest\QhullVertexSet_test.cpp -o moc\QhullVertexSet_test.moc</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">MOC ..\..\src\qhulltest\QhullVertexSet_test.cpp</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">moc\QhullVertexSet_test.moc;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">..\..\src\qhulltest\QhullVertexSet_test.cpp;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_TESTLIB_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -DQT_TESTCASE_BUILDDIR=\&quot;../../build/qhulltest\&quot; -DQT_NO_DYNAMIC_CAST -D_MSC_VER=1700 -D_WIN32 -I&quot;..\..\src&quot; -I&quot;..\..\src&quot; -I&quot;$(QTDIR)\include&quot; -I&quot;$(QTDIR)\include\QtTest&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include\QtGui&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include\QtANGLE&quot; -I&quot;C:\include&quot; -I&quot;C:\include\QtGui&quot; -I&quot;$(QTDIR)\include\QtCore&quot; -I&quot;moc&quot; -I&quot;.&quot; -I$(QTDIR)\mkspecs\win32-msvc2012 ..\..\src\qhulltest\QhullVertexSet_test.cpp -o moc\QhullVertexSet_test.moc</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">MOC ..\..\src\qhulltest\QhullVertexSet_test.cpp</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">moc\QhullVertexSet_test.moc;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="moc\QhullVertex_test.moc">
+      <FileType>Document</FileType>
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">..\..\src\qhulltest\QhullVertex_test.cpp;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_TESTLIB_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -DQT_TESTCASE_BUILDDIR=\&quot;../../build/qhulltest\&quot; -DQT_NO_DYNAMIC_CAST -D_MSC_VER=1700 -D_WIN32 -I&quot;..\..\src&quot; -I&quot;..\..\src&quot; -I&quot;$(QTDIR)\include&quot; -I&quot;$(QTDIR)\include\QtTest&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include\QtGui&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include\QtANGLE&quot; -I&quot;C:\include&quot; -I&quot;C:\include\QtGui&quot; -I&quot;$(QTDIR)\include\QtCore&quot; -I&quot;moc&quot; -I&quot;.&quot; -I$(QTDIR)\mkspecs\win32-msvc2012 ..\..\src\qhulltest\QhullVertex_test.cpp -o moc\QhullVertex_test.moc</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">MOC ..\..\src\qhulltest\QhullVertex_test.cpp</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">moc\QhullVertex_test.moc;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">..\..\src\qhulltest\QhullVertex_test.cpp;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_TESTLIB_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -DQT_TESTCASE_BUILDDIR=\&quot;../../build/qhulltest\&quot; -DQT_NO_DYNAMIC_CAST -D_MSC_VER=1700 -D_WIN32 -I&quot;..\..\src&quot; -I&quot;..\..\src&quot; -I&quot;$(QTDIR)\include&quot; -I&quot;$(QTDIR)\include\QtTest&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include\QtGui&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include\QtANGLE&quot; -I&quot;C:\include&quot; -I&quot;C:\include\QtGui&quot; -I&quot;$(QTDIR)\include\QtCore&quot; -I&quot;moc&quot; -I&quot;.&quot; -I$(QTDIR)\mkspecs\win32-msvc2012 ..\..\src\qhulltest\QhullVertex_test.cpp -o moc\QhullVertex_test.moc</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">MOC ..\..\src\qhulltest\QhullVertex_test.cpp</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">moc\QhullVertex_test.moc;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="moc\Qhull_test.moc">
+      <FileType>Document</FileType>
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">..\..\src\qhulltest\Qhull_test.cpp;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_TESTLIB_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -DQT_TESTCASE_BUILDDIR=\&quot;../../build/qhulltest\&quot; -DQT_NO_DYNAMIC_CAST -D_MSC_VER=1700 -D_WIN32 -I&quot;..\..\src&quot; -I&quot;..\..\src&quot; -I&quot;$(QTDIR)\include&quot; -I&quot;$(QTDIR)\include\QtTest&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include\QtGui&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include\QtANGLE&quot; -I&quot;C:\include&quot; -I&quot;C:\include\QtGui&quot; -I&quot;$(QTDIR)\include\QtCore&quot; -I&quot;moc&quot; -I&quot;.&quot; -I$(QTDIR)\mkspecs\win32-msvc2012 ..\..\src\qhulltest\Qhull_test.cpp -o moc\Qhull_test.moc</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">MOC ..\..\src\qhulltest\Qhull_test.cpp</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">moc\Qhull_test.moc;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">..\..\src\qhulltest\Qhull_test.cpp;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_TESTLIB_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -DQT_TESTCASE_BUILDDIR=\&quot;../../build/qhulltest\&quot; -DQT_NO_DYNAMIC_CAST -D_MSC_VER=1700 -D_WIN32 -I&quot;..\..\src&quot; -I&quot;..\..\src&quot; -I&quot;$(QTDIR)\include&quot; -I&quot;$(QTDIR)\include\QtTest&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include\QtGui&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include\QtANGLE&quot; -I&quot;C:\include&quot; -I&quot;C:\include\QtGui&quot; -I&quot;$(QTDIR)\include\QtCore&quot; -I&quot;moc&quot; -I&quot;.&quot; -I$(QTDIR)\mkspecs\win32-msvc2012 ..\..\src\qhulltest\Qhull_test.cpp -o moc\Qhull_test.moc</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">MOC ..\..\src\qhulltest\Qhull_test.cpp</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">moc\Qhull_test.moc;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="moc\RboxPoints_test.moc">
+      <FileType>Document</FileType>
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">..\..\src\qhulltest\RboxPoints_test.cpp;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_TESTLIB_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -DQT_TESTCASE_BUILDDIR=\&quot;../../build/qhulltest\&quot; -DQT_NO_DYNAMIC_CAST -D_MSC_VER=1700 -D_WIN32 -I&quot;..\..\src&quot; -I&quot;..\..\src&quot; -I&quot;$(QTDIR)\include&quot; -I&quot;$(QTDIR)\include\QtTest&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include\QtGui&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include\QtANGLE&quot; -I&quot;C:\include&quot; -I&quot;C:\include\QtGui&quot; -I&quot;$(QTDIR)\include\QtCore&quot; -I&quot;moc&quot; -I&quot;.&quot; -I$(QTDIR)\mkspecs\win32-msvc2012 ..\..\src\qhulltest\RboxPoints_test.cpp -o moc\RboxPoints_test.moc</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">MOC ..\..\src\qhulltest\RboxPoints_test.cpp</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">moc\RboxPoints_test.moc;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">..\..\src\qhulltest\RboxPoints_test.cpp;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_TESTLIB_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -DQT_TESTCASE_BUILDDIR=\&quot;../../build/qhulltest\&quot; -DQT_NO_DYNAMIC_CAST -D_MSC_VER=1700 -D_WIN32 -I&quot;..\..\src&quot; -I&quot;..\..\src&quot; -I&quot;$(QTDIR)\include&quot; -I&quot;$(QTDIR)\include\QtTest&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include\QtGui&quot; -I&quot;$(QTDIR)\..\Src\qtbase\include\QtANGLE&quot; -I&quot;C:\include&quot; -I&quot;C:\include\QtGui&quot; -I&quot;$(QTDIR)\include\QtCore&quot; -I&quot;moc&quot; -I&quot;.&quot; -I$(QTDIR)\mkspecs\win32-msvc2012 ..\..\src\qhulltest\RboxPoints_test.cpp -o moc\RboxPoints_test.moc</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">MOC ..\..\src\qhulltest\RboxPoints_test.cpp</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">moc\RboxPoints_test.moc;%(Outputs)</Outputs>
+    </CustomBuild>
+    <ClCompile Include="..\..\src\qhulltest\RoadTest.h.cpp">
+      <ForcedIncludeFiles Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">$(NOINHERIT)</ForcedIncludeFiles>
+      <PrecompiledHeaderFile Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">RoadTest.h</PrecompiledHeaderFile>
+      <PrecompiledHeader Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">Create</PrecompiledHeader>
+      <ForcedIncludeFiles Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">$(NOINHERIT)</ForcedIncludeFiles>
+      <PrecompiledHeaderFile Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">RoadTest.h</PrecompiledHeaderFile>
+      <PrecompiledHeader Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">Create</PrecompiledHeader>
+    </ClCompile>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets" />
+</Project>
