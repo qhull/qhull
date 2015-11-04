@@ -659,7 +659,7 @@ bin/rbox: src/rbox/rbox.o lib/libqhullstatic.a
 bin/testqset: src/testqset/testqset.o src/libqhull/qset.o src/libqhull/mem.o src/libqhull/usermem.o
 	$(CC) -o $@ $^ $(CC_OPTS2) -lm
 
-bin/testqset_r: src/testqset_r/testqset_r.o src/libqhull_r/qset_r.o src/libqhull_r/mem_r.o src/libqhull/usermem_r.o
+bin/testqset_r: src/testqset_r/testqset_r.o src/libqhull_r/qset_r.o src/libqhull_r/mem_r.o src/libqhull_r/usermem_r.o
 	$(CC) -o $@ $^ $(CC_OPTS2) -lm
 
 # You may use  -lqhullstatic_r instead of -lqhull_r
