@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2015/qhull/src/qhulltest/QhullFacet_test.cpp#1 $$Change: 1981 $
-** $DateTime: 2015/09/28 20:26:32 $$Author: bbarber $
+** $Id: //main/2015/qhull/src/qhulltest/QhullFacet_test.cpp#2 $$Change: 2026 $
+** $DateTime: 2015/11/07 22:44:39 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -98,6 +98,7 @@ t_getSet()
     RboxPoints rcube("c");
     {
         Qhull q(rcube,"Qt QR0");  // triangulation of rotated unit cube
+        cout << " rbox c | qhull Qt QR0 QR" << q.rotateRandom() << "   distanceEpsilon " << q.distanceEpsilon() << endl;
         QCOMPARE(q.facetCount(), 12);
         QCOMPARE(q.vertexCount(), 8);
         QhullFacetListIterator i(q.facetList());
@@ -139,12 +140,12 @@ t_getSet()
             QCOMPARE(hi.count(), 3);
             double innerOffset= hi.offset()+0.5;
             cout << "InnerPlane: " << hi << "   innerOffset+0.5 " << innerOffset << endl;
-            QVERIFY(innerOffset >= 0.0);
+            QVERIFY(innerOffset >= 0.0-(2*q.distanceEpsilon())); // A guessed epsilon.  It needs to account for roundoff due to rotation of the vertices
             QhullHyperplane ho= f.outerplane();
             QCOMPARE(ho.count(), 3);
             double outerOffset= ho.offset()+0.5;
             cout << "OuterPlane: " << ho << "   outerOffset+0.5 " << outerOffset << endl;
-            QVERIFY(outerOffset <= 0.0);
+            QVERIFY(outerOffset <= 0.0+(2*q.distanceEpsilon())); // A guessed epsilon.  It needs to account for roundoff due to rotation of the vertices
             QVERIFY(outerOffset-innerOffset < 1e-7);
             for(int k= 0; k<3; k++){
                 QVERIFY(ho[k]==hi[k]);
@@ -163,6 +164,7 @@ t_getSet()
         }
         QCOMPARE(tricoplanarCount2, 2);
         Qhull q2(rcube,"d Qz Qt QR0");  // 3-d triangulation of Delaunay triangulation (the cube)
+        cout << " rbox c | qhull d Qz Qt QR0 QR" << q2.rotateRandom() << "   distanceEpsilon " << q2.distanceEpsilon() << endl;
         QhullFacet f2= q2.firstFacet();
         QhullPoint center3= f2.getCenter(qh_PRINTtriangles);
         QCOMPARE(center3.dimension(), 3);
@@ -172,8 +174,9 @@ t_getSet()
             QVERIFY(center4[k]==center3[k]);
         }
         Qhull q3(rcube,"v Qz QR0");  // Voronoi diagram of a cube (one vertex)
+        cout << " rbox c | qhull v Qz QR0 QR" << q3.rotateRandom() << "   distanceEpsilon " << q3.distanceEpsilon() << endl;
 
-        q3.setFactorEpsilon(100); // Voronoi vertices are not necessarily within distance episilon
+        q3.setFactorEpsilon(400); // Voronoi vertices are not necessarily within distance episilon
         QhullPoint origin= q3.inputOrigin();
         int voronoiCount= 0;
         foreach(QhullFacet f, q3.facetList()){ //Qt only
@@ -181,7 +184,7 @@ t_getSet()
                 ++voronoiCount;
                 QhullPoint p= f.voronoiVertex();
                 cout << p.print("Voronoi vertex: ")
-                    << " DistanceEpsilon " << q3.distanceEpsilon() << endl;
+                    << " Is it within " << q3.factorEpsilon() << " * distanceEpsilon (" << q3.distanceEpsilon() << ") of the origin?" << endl;
                 QCOMPARE(p, origin);
             }
         }

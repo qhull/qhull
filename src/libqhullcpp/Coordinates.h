@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2009-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2015/qhull/src/libqhullcpp/Coordinates.h#1 $$Change: 1981 $
-** $DateTime: 2015/09/28 20:26:32 $$Author: bbarber $
+** $Id: //main/2015/qhull/src/libqhullcpp/Coordinates.h#3 $$Change: 2027 $
+** $DateTime: 2015/11/09 23:18:11 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -143,6 +143,7 @@ public:
 
 #//!\name Coordinates::iterator -- from QhullPoints, forwarding to coordinate_array
     // before const_iterator for conversion with comparison operators
+    // Reviewed corelib/tools/qlist.h and corelib/tools/qvector.h w/o QT_STRICT_ITERATORS
     class iterator {
 
     private:
@@ -161,8 +162,8 @@ public:
         explicit        iterator(const std::vector<coordT>::iterator &vi) { i= vi; }
         iterator &      operator=(const iterator &other) { i= other.i; return *this; }
         std::vector<coordT>::iterator &base() { return i; }
-                        // No operator-> for base types
         coordT &        operator*() const { return *i; }
+        // No operator->() when the base type is double
         coordT &        operator[](countT idx) const { return i[idx]; }
 
         bool            operator==(const iterator &other) const { return i==other.i; }
@@ -179,12 +180,12 @@ public:
         bool            operator>(const Coordinates::const_iterator &other) const { return *this>reinterpret_cast<const iterator &>(other); }
         bool            operator>=(const Coordinates::const_iterator &other) const { return *this>=reinterpret_cast<const iterator &>(other); }
 
-        iterator        operator++() { return iterator(++i); } //FIXUP QH11012 Should return reference, but get reference to temporary
+        iterator &      operator++() { ++i; return *this; }
         iterator        operator++(int) { return iterator(i++); }
-        iterator        operator--() { return iterator(--i); }
+        iterator &      operator--() { --i; return *this; }
         iterator        operator--(int) { return iterator(i--); }
-        iterator        operator+=(countT idx) { return iterator(i += idx); }
-        iterator        operator-=(countT idx) { return iterator(i -= idx); }
+        iterator &      operator+=(countT idx) { i += idx; return *this; }
+        iterator &      operator-=(countT idx) { i -= idx; return *this; }
         iterator        operator+(countT idx) const { return iterator(i+idx); }
         iterator        operator-(countT idx) const { return iterator(i-idx); }
         difference_type operator-(iterator other) const { return i-other.i; }
@@ -205,12 +206,11 @@ public:
 
                         const_iterator() {}
                         const_iterator(const const_iterator &other) { i= other.i; }
-                        const_iterator(iterator o) : i(o.i) {}
+                        const_iterator(const iterator &o) : i(o.i) {}
         explicit        const_iterator(const std::vector<coordT>::const_iterator &vi) { i= vi; }
         const_iterator &operator=(const const_iterator &other) { i= other.i; return *this; }
-                        // No operator-> for base types
-                        // No reference to a base type for () and []
         const coordT &  operator*() const { return *i; }
+        // No operator->() when the base type is double
         const coordT &  operator[](countT idx) const { return i[idx]; }
 
         bool            operator==(const const_iterator &other) const { return i==other.i; }
@@ -220,12 +220,12 @@ public:
         bool            operator>(const const_iterator &other) const { return i>other.i; }
         bool            operator>=(const const_iterator &other) const { return i>=other.i; }
 
-        const_iterator  operator++() { return const_iterator(++i); } //FIXUP QH11014 -- too much copying
+        const_iterator & operator++() { ++i; return *this; } 
         const_iterator  operator++(int) { return const_iterator(i++); }
-        const_iterator  operator--() { return const_iterator(--i); }
+        const_iterator & operator--() { --i; return *this; }
         const_iterator  operator--(int) { return const_iterator(i--); }
-        const_iterator  operator+=(countT idx) { return const_iterator(i += idx); }
-        const_iterator  operator-=(countT idx) { return const_iterator(i -= idx); }
+        const_iterator & operator+=(countT idx) { i += idx; return *this; }
+        const_iterator & operator-=(countT idx) { i -= idx; return *this; }
         const_iterator  operator+(countT idx) const { return const_iterator(i+idx); }
         const_iterator  operator-(countT idx) const { return const_iterator(i-idx); }
         difference_type operator-(const_iterator other) const { return i-other.i; }

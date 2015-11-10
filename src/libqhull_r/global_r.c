@@ -12,8 +12,8 @@
    see qhull_ra.h for internal functions
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull_r/global_r.c#7 $$Change: 2018 $
-   $DateTime: 2015/10/22 21:03:58 $$Author: bbarber $
+   $Id: //main/2015/qhull/src/libqhull_r/global_r.c#8 $$Change: 2024 $
+   $DateTime: 2015/11/03 21:58:49 $$Author: bbarber $
  */
 
 #include "qhull_ra.h"
@@ -39,8 +39,8 @@
     recompile user_eg_r.c, rbox_r.c, libqhull_r.c, qconvex_r.c, qdelaun_r.c qvoronoi_r.c, qhalf_r.c, testqset_r.c
 */
 
-const char qh_version[]= "2015.0.6.r 2015/10/20";
-const char qh_version2[]= "qhull_r 7.0.6.2013 (2015.0.6.r 2015/10/20)";
+const char qh_version[]= "2015.0.7.r 2015/11/09";
+const char qh_version2[]= "qhull_r 7.0.7 (2015.0.7.r 2015/11/09)";
 
 /*-<a                             href="qh-globa.htm#TOC"
   >-------------------------------</a><a name="appendprint">-</a>

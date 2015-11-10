@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="/road/road-faq/xsl/road-faq.xsl"?>
+<?xml-stylesheet type="text/xsl" href="../../road-faq/xsl/road-faq.xsl"?>
 
 <rf:topic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
     xsi:schemaLocation="http://schemas.roadintranet.org/road-faq-1 /road/road-faq/xsl/road-faq.xsd"  
    xmlns:rf="http://schemas.roadintranet.org/road-faq-1"
  title=" C++ interface to Qhull"
  file="qhull-cpp.xml"
- fileid="$Id: //main/2015/qhull/html/qhull-cpp.xml#1 $$Change: 1981 $"
- fileChange="$DateTime: 2015/09/28 20:26:32 $$Author: bbarber $">
+ fileid="$Id: //main/2015/qhull/html/qhull-cpp.xml#2 $$Change: 2027 $"
+ fileChange="$DateTime: 2015/11/09 23:18:11 $$Author: bbarber $">
     <div><h4>Qhull C++  -- C++ interface to Qhull</h4></div>
     <rf:copyright>
         <a href="../cpp/COPYING.txt">Copyright</a> (c) 2009-2015, C.B. Barber
     </rf:copyright>
    <rf:section id="cpp-cpp-links" title="Useful Links for Qhull C++">
        <div>
-           <p> This
-               document records
+           <p> This draft
+               document records some of the design decisions for Qhull C++.  Convert it to HTML by road-faq.xsl from <a href="http://www.qhull.org/road/road-faq/road-faq.html">road-faq</a>.
                
                Please send comments and suggestions to <a
                    href="mailto:bradb@shore.net">bradb@shore.net</a>
@@ -43,13 +43,14 @@
     <rf:section id="qhull-api" title="Qhull's collection classes">
   
          <rf:item id="collection-api" title="API for Qhull collections" date="Feb 2009" author="bbarber">
-             Qhull's collection APIs are modeled on Qt's collection API (QList, QVector, QHash).  They support STL and Qt programming.  
+             Qhull's collection APIs are modeled on Qt's collection API (QList, QVector, QHash) w/o QT_STRICT_ITERATORS.  They support STL and Qt programming.  
              
-             Some of Qhull's collection classes derive from STL classes.  If so, 
+             <p>Some of Qhull's collection classes derive from STL classes.  If so, 
              please avoid additional STL functions and operators added by inheritance.
              These collection classes may be rewritten to derive from Qt classes instead.
-
-See <rf:iref item="cpp-collection-api"/>.
+             See Road's <rf:iref item="cpp-collection-api"/>.
+	     </p>
+	     
              
              Qhull's collection API (where applicable).  For documentation, see Qt's QList, QMap, QListIterator, QMapIterator, QMutableListIterator, and QMutableMapIterator
              <ul><li>

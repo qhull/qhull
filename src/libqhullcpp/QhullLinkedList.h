@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2015/qhull/src/libqhullcpp/QhullLinkedList.h#1 $$Change: 1981 $
-** $DateTime: 2015/09/28 20:26:32 $$Author: bbarber $
+** $Id: //main/2015/qhull/src/libqhullcpp/QhullLinkedList.h#2 $$Change: 2027 $
+** $DateTime: 2015/11/09 23:18:11 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -68,15 +68,16 @@ private:
 #//!\name Constructors
 public:
                         QhullLinkedList<T>(T b, T e) : begin_node(b), end_node(e) {}
-                        //Copy constructor copies pointer but not contents.  Needed for return by value and parameter passing.
+                        //! Copy constructor copies begin_node and end_node, but not the list elements.  Needed for return by value and parameter passing.
                         QhullLinkedList<T>(const QhullLinkedList<T> &other) : begin_node(other.begin_node), end_node(other.end_node) {}
+                        //! Copy assignment copies begin_node and end_node, but not the list elements.
                         QhullLinkedList<T> & operator=(const QhullLinkedList<T> &other) { begin_node= other.begin_node; end_node= other.end_node; return *this; }
                         ~QhullLinkedList<T>() {}
 
 private:
                         //!disabled since a sentinel must be allocated as the private type
                         QhullLinkedList<T>() {}
-                        //!disabled since qs= qs2 is ambiguous (pointer vs. contents)
+
 public:
 
 #//!\name Conversions
@@ -97,10 +98,14 @@ public:
 
 #//!\name Element access
     //! Return by value which contains a pointer (e.g., typedef vertexT * QhullVertex).  A reference does not make sense.
-    T                   back() const { return last(); }
-    T                   first() const { QHULL_ASSERT(!isEmpty()); return *begin(); }
-    T                   front() const { return first(); }
-    T                   last() const { QHULL_ASSERT(!isEmpty()); return *--end(); }
+    const T &           back() const { return last(); }
+    T &                 back() { return last(); }
+    const T &           first() const { QHULL_ASSERT(!isEmpty()); return begin_node; }
+    T &                 first() { QHULL_ASSERT(!isEmpty()); return begin_node; }
+    const T &           front() const { return first(); }
+    T &                 front() { return first(); }
+    const T &           last() const { QHULL_ASSERT(!isEmpty()); return *--end(); }
+    T &                 last() { QHULL_ASSERT(!isEmpty()); return *--end(); }
 
 #//!\name Modify -- Allocation of opaque types not implemented.
 
@@ -134,8 +139,11 @@ public:
                         iterator(const iterator &o) : i(o.i) {}
         iterator &      operator=(const iterator &o) { i= o.i; return *this; }
 
-        T               operator*() const { return i; }
-        T               operator->() const { return i; }
+        const T &       operator*() const { return i; }
+        T &             operator*() { return i; }
+        // Do not define operator[]
+        const T *       operator->() const { return &i; }
+        T *             operator->() { return &i; }
         bool            operator==(const iterator &o) const { return i == o.i; }
         bool            operator!=(const iterator &o) const { return !operator==(o); }
         bool            operator==(const const_iterator &o) const { return i==reinterpret_cast<const iterator &>(o).i; }
@@ -146,8 +154,8 @@ public:
         iterator        operator--(int) { iterator o= i; i= i.previous(); return o; }
         iterator        operator+(int j) const;
         iterator        operator-(int j) const { return operator+(-j); }
-        iterator &      operator+=(int j) { return *this= *this + j; }
-        iterator &      operator-=(int j) { return *this= *this - j; }
+        iterator &      operator+=(int j) { return (*this= *this + j); }
+        iterator &      operator-=(int j) { return (*this= *this - j); }
     };//QhullLinkedList::iterator
 
     class const_iterator {
@@ -168,8 +176,8 @@ public:
                         const_iterator(const const_iterator &o) : i(o.i) {}
         const_iterator &operator=(const const_iterator &o) { i= o.i; return *this; }
 
-        T               operator*() const { return i; }
-        T               operator->() const { return i; }
+        const T &       operator*() const { return i; }
+        const T *       operator->() const { return i; }
         bool            operator==(const const_iterator &o) const { return i == o.i; }
         bool            operator!=(const const_iterator &o) const { return !operator==(o); }
                         // No comparisons or iterator diff
@@ -179,8 +187,8 @@ public:
         const_iterator  operator--(int) { const_iterator o= i; i= i.previous(); return o; }
         const_iterator  operator+(int j) const;
         const_iterator  operator-(int j) const { return operator+(-j); }
-        const_iterator &operator+=(int j) { return *this= *this + j; }
-        const_iterator &operator-=(int j) { return *this= *this - j; }
+        const_iterator &operator+=(int j) { return (*this= *this + j); }
+        const_iterator &operator-=(int j) { return (*this= *this - j); }
     };//QhullLinkedList::const_iterator
 
 };//QhullLinkedList

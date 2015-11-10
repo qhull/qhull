@@ -6,11 +6,11 @@
 #   can not use path with $zip_file 
 #   odd error messages if can't locate directory
 #
-# $Id: //main/2015/qhull/eg/qhull-zip.sh#6 $$Change: 2000 $
-# $DateTime: 2015/10/14 23:28:12 $$Author: bbarber $
+# $Id: //main/2015/qhull/eg/qhull-zip.sh#7 $$Change: 2024 $
+# $DateTime: 2015/11/03 21:58:49 $$Author: bbarber $
 
 if [[ $# -ne 3 ]]; then
-        echo 'Missing date stamp, e.g., qhull-zip.sh 2015 2015.1 7.1.0.1940' 
+        echo 'Missing date stamp, e.g., qhull-zip.sh 2015 2015.1 7.1.0' 
         exit
 fi
 versionyear=$1
@@ -109,8 +109,8 @@ function create_md5sum #md5_file -- create md5sum of current directory
 log_step $LINENO "Configure $0 for $(pwd)/qhull"
 #############################
 
-md5_zip_file=qhull-$version-zip.md5sum
-md5_tgz_file=qhull-$versionyear-src-$versionunix-tgz.md5sum
+md5_zip_file=qhull-$version.zip.md5sum
+md5_tgz_file=qhull-$versionyear-src-$versionunix.tgz.md5sum
 
 # recursive 
 qhull_dirs="qhull/eg qhull/html qhull/src"
@@ -275,6 +275,6 @@ log_step $LINENO "Compare zip and tgz for CRLF vs LF"
 log_step $LINENO "Search xml files for UNDEFINED. Check page links"
 log_step $LINENO "Extract zip to Qhull/ and compare directories"
 log_step $LINENO "Copy tarballs to qhull.org"
-log_step $LINENO " scp qhull-2015*.0.5* qhull@qhull.org:web/download/"
+log_step $LINENO " scp qhull-2015*.0.7* qhull@qhull.org:web/download/"
 log_step $LINENO "Finished successfully"
 #############################

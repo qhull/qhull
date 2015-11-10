@@ -7,8 +7,8 @@
    see qh-qhull.htm, qhull_a.h
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull/libqhull.h#2 $$Change: 2010 $
-   $DateTime: 2015/10/19 22:23:22 $$Author: bbarber $
+   $Id: //main/2015/qhull/src/libqhull/libqhull.h#3 $$Change: 2026 $
+   $DateTime: 2015/11/07 22:44:39 $$Author: bbarber $
 
    NOTE: access to qh_qh is via the 'qh' macro.  This allows
    qh_qh to be either a pointer or a structure.  An example
@@ -1117,7 +1117,7 @@ setT   *qh_pointvertex(void /*qh.facet_list*/);
 void    qh_setvoronoi_all(void);
 void    qh_triangulate(void /*qh.facet_list*/);
 
-/********* -rboxpoints.c prototypes **********************/
+/********* -rboxlib.c prototypes **********************/
 int     qh_rboxpoints(FILE* fout, FILE* ferr, char* rbox_command);
 void    qh_errexit_rbox(int exitcode);
 

@@ -1,7 +1,7 @@
 /*<html><pre>  -<a                             href="index.htm#TOC"
   >-------------------------------</a><a name="TOP">-</a>
 
-   random.c -- utilities
+   random.c and utilities
      Park & Miller's minimimal standard random number generator
      argc/argv conversion
 

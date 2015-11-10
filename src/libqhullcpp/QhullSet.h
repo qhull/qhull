@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2015/qhull/src/libqhullcpp/QhullSet.h#1 $$Change: 1981 $
-** $DateTime: 2015/09/28 20:26:32 $$Author: bbarber $
+** $Id: //main/2015/qhull/src/libqhullcpp/QhullSet.h#2 $$Change: 2027 $
+** $DateTime: 2015/11/09 23:18:11 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -88,13 +88,13 @@ public:
 
 
 //! QhullSet<T> -- A read-only wrapper to Qhull's collection class, setT.
-//!  QhullSet is similar to STL's <vector> and Qt's QVector.
+//!  QhullSet is similar to STL's <vector> and Qt's QVector
 //!  QhullSet is unrelated to STL and Qt's set and map types (e.g., QSet and QMap)
 //!  T is a Qhull type that defines 'base_type' and getBaseT() (e.g., QhullFacet with base_type 'facetT *'
 //!  A QhullSet does not own its contents -- erase(), clear(), removeFirst(), removeLast(), pop_back(), pop_front(), fromStdList() not defined
 //!  QhullSetIterator is faster than STL-style iterator/const_iterator
 //!  Qhull's FOREACHelement_() [qset_r.h] maybe more efficient than QhullSet.  It uses a NULL terminator instead of an end pointer.  STL requires an end pointer.
-//!  Derived from QhullLinkedList.h and Qt/core/tools/qvector.h
+//!  Derived from QhullLinkedList.h and Qt/core/tools/qlist.h w/o QT_STRICT_ITERATORS
 template <typename T>
 class QhullSet : public QhullSetBase {
 
@@ -142,26 +142,32 @@ public:
     bool                operator!=(const QhullSet<T> &other) const { return !operator==(other); }
 
 #//!\name Element access
+    // Constructs T.  Cannot return reference.
     const T             at(countT idx) const { return operator[](idx); }
+    // Constructs T.  Cannot return reference.
+    const T             back() const { return last(); }
     T                   back() { return last(); }
-    T                   back() const { return last(); }
     //! end element is NULL
     const typename T::base_type * constData() const { return reinterpret_cast<const typename T::base_type *>(beginPointer()); }
     typename T::base_type *     data() { return reinterpret_cast<typename T::base_type *>(beginPointer()); }
     const typename T::base_type *data() const { return reinterpret_cast<const typename T::base_type *>(beginPointer()); }
     typename T::base_type *     endData() { return reinterpret_cast<typename T::base_type *>(endPointer()); }
     const typename T::base_type * endData() const { return reinterpret_cast<const typename T::base_type *>(endPointer()); }
-    T                   first() { QHULL_ASSERT(!isEmpty()); return T(qh(), *data()); }
+    // Constructs T.  Cannot return reference.
     const T             first() const { QHULL_ASSERT(!isEmpty()); return T(qh(), *data()); }
-    T                   front() { return first(); }
+    T                   first() { QHULL_ASSERT(!isEmpty()); return T(qh(), *data()); }
+    // Constructs T.  Cannot return reference.
     const T             front() const { return first(); }
+    T                   front() { return first(); }
+    // Constructs T.  Cannot return reference.
+    const T             last() const { QHULL_ASSERT(!isEmpty()); return T(qh(), *(endData()-1)); }
     T                   last() { QHULL_ASSERT(!isEmpty()); return T(qh(), *(endData()-1)); }
-    const T             last() const {  QHULL_ASSERT(!isEmpty()); return T(qh(), *(endData()-1)); }
     // mid() not available.  No setT constructor
-    T                   operator[](countT idx) { typename T::base_type *p= reinterpret_cast<typename T::base_type *>(elementPointer(idx)); QHULL_ASSERT(idx>=0 && p < endData()); return T(qh(), *p); }
+    // Constructs T.  Cannot return reference.
     const T             operator[](countT idx) const { const typename T::base_type *p= reinterpret_cast<typename T::base_type *>(elementPointer(idx)); QHULL_ASSERT(idx>=0 && p < endData()); return T(qh(), *p); }
-    T                   second() { return operator[](1); }
+    T                   operator[](countT idx) { typename T::base_type *p= reinterpret_cast<typename T::base_type *>(elementPointer(idx)); QHULL_ASSERT(idx>=0 && p < endData()); return T(qh(), *p); }
     const T             second() const { return operator[](1); }
+    T                   second() { return operator[](1); }
     T                   value(countT idx) const;
     T                   value(countT idx, const T &defaultValue) const;
 
@@ -197,16 +203,18 @@ public:
                         iterator(const iterator &o) : i(o.i), qh_qh(o.qh_qh) {}
         iterator &      operator=(const iterator &o) { i= o.i; qh_qh= o.qh_qh; return *this; }
 
+        // Constructs T.  Cannot return reference.  
         T               operator*() const { return T(qh_qh, *i); }
         //operator->() n/a, value-type
-        T               operator[](countT idx) { return T(qh_qh, *(i+idx)); } //!< No error checking
+        // Constructs T.  Cannot return reference.  
+        T               operator[](countT idx) const { return T(qh_qh, *(i+idx)); } //!< No error checking
         bool            operator==(const iterator &o) const { return i == o.i; }
         bool            operator!=(const iterator &o) const { return !operator==(o); }
         bool            operator==(const const_iterator &o) const { return (i==reinterpret_cast<const iterator &>(o).i); }
         bool            operator!=(const const_iterator &o) const { return !operator==(o); }
 
         //! Assumes same point set
-        countT          operator-(const iterator &o) { return (countT)(i-o.i); } //WARN64
+        countT          operator-(const iterator &o) const { return (countT)(i-o.i); } //WARN64
         bool            operator>(const iterator &o) const { return i>o.i; }
         bool            operator<=(const iterator &o) const { return !operator>(o); }
         bool            operator<(const iterator &o) const { return i<o.i; }
@@ -242,8 +250,9 @@ public:
                         const_iterator(const iterator &o) : i(o.i), qh_qh(o.qh_qh) {}
         const_iterator &operator=(const const_iterator &o) { i= o.i; qh_qh= o.qh_qh; return *this; }
 
-        T               operator*() const { return T(qh_qh, *i); }
-        T               operator[](countT idx) { return T(qh_qh, *(i+idx)); }  //!< No error checking
+        // Constructs T.  Cannot return reference.  Retaining 'const T' return type for consistency with QList/QVector
+        const T         operator*() const { return T(qh_qh, *i); }
+        const T         operator[](countT idx) const { return T(qh_qh, *(i+idx)); }  //!< No error checking
         //operator->() n/a, value-type
         bool            operator==(const const_iterator &o) const { return i == o.i; }
         bool            operator!=(const const_iterator &o) const { return !operator==(o); }

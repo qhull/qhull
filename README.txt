@@ -1,6 +1,6 @@
 Name
 
-      qhull, rbox         2015.0.6       2015/10/20
+      qhull, rbox         2015.0.7       2015/11/09
   
 Convex hull, Delaunay triangulation, Voronoi diagrams, Halfspace intersection
  

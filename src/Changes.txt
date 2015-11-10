@@ -1,4 +1,4 @@
-$Id: //main/2015/qhull/src/Changes.txt#10 $
+$Id: //main/2015/qhull/src/Changes.txt#12 $
 
 .............This file lists all changes to qhull and rbox.....................
 
@@ -22,6 +22,12 @@ To do for a future verson of Qhull
  - Git: Create signed tags for Qhull versions
  - Implement weighted Delaunay triangulation and weighted Voronoi diagram [A. Liebscher]
    e.g., Sugihara, "Three-dimensional convex hull as a fruitful source of diagrams," Theoretical Computer Science, 2000, 235:325-337
+ - testqset: test qh_setdelnth and move-to-front
+ - Makefile: Re-review gcc/g++ warnings.  OK in 2011.
+ - Break up -Wextra into its components or figure out how to override -Wunused-but-set-variable
+   unused-but-set-variable is reporting incorrectly.  All instances are annotated.
+ - CMakelists.txt:  Why are files duplicated for cmake build
+ - CMakeLists.txt: configure the 'ctest' target 
  - Can countT be defined as 'int', 'unsigned int', or 64-bit int?  
    countT is currently defined as 'int' in qset_r.h
    Vertex ID and ridge ID perhaps should be countT, They are currently 'unsigned'
@@ -35,18 +41,10 @@ To do for a future verson of Qhull
    Coordinates.lastIndexOf assumes countT is signed (from end)
    All error messages with countT are wrong, convert to int?
    RboxPoints.qh_fprintf_rbox, etc. message 9393 assumes countT but may be int, va_arg(args, countT);  Need to split
- - testqset: test qh_setdelnth and move-to-front
- - Makefile: Re-review gcc/g++ warnings.  OK in 2011.
- - Break up -Wextra into its components or figure out how to override -Wunused-but-set-variable
-   unused-but-set-variable is reporting incorrectly.  All instances are annotated.
- - CMakelists.txt:  Why are files duplicated for cmake build
- - CMakeLists.txt: configure the 'ctest' target 
  
 ------------
 To do for a furture version of the C++ interface 
  - Document C++ using Doxygen conventions (//! and //!<)
- - Create a shared library for libqhullcpp.  It must include all uses of QH_TRY and setjmp().
-   protobuf documentation advises that C++ should be statically linked
  - Should Qhull manage the output formats for doubles?  QH11010 user_r.h defines qh_REAL_1 as %6.8g
  - Allocate memory for QhullSet using Qhull.qhmem.  Create default constructors for QhullVertexSet etc.  Also mid() etc.
  - Add interior point for automatic translation?
@@ -56,27 +54,39 @@ To do for a furture version of the C++ interface
  - Write QhullStat and QhullStat_test
  - Add QList and vector instance of facetT*, etc.
  - Generalize QhullPointSetIterator
- - qh-code.htm: Document changes to C++ interface.  See Changes.txt
+ - qh-code.htm: Document changes to C++ interface.
       Organize C++ documentation into collection classes, etc.
  - Review all C++ classes and C++ tests
    QhullVertexSet uses QhullSetBase::referenceSetT() to free it's memory.   Probably needed elsewhere
 
 -----------
-To Do for Qhull 2015.1
+To do for Qhull 2015.1
  - Fix rare "no more facets" error (QH7228 error at initialization)
- - Fix return type of operator-> in QhullLinkedList and other collection classes [F. Jares]
- - Review return types of iterators
  - Compare libqhull to libqhull_r and resolve differences
- - qh_fprintf_rbox uses qh_fprintf_stderr OK?
- - can rbox be separated again from qhull?
- - Review qhull-news.html: In poly2.c, qh_findbestfacet() is not implemented for triangulated output.
-   If Qhull appears to work but user_eg.c or your program reports no results
+
+------------
+Qhull 2015.0.7 2015/11/09 (7.0.7)
+ - Fix return type of operator-> in QhullLinkedList and other collection classes [F. Jares]
+ - Fix return types for QhullLinkedList
+ - Fix return types for QhullPoints
+ - Simplify return type for Coordinates::operator[] (same as QList) 
+ - Add const to operators for QhullSet::iterator and add documentation
+ - Coordinates.h: Fix return types for operations of iterator and const_iterator
+ - Drop use of Perforce changelist number in qhull_VERSION of CMakeLists.txt
+ - Rename the md5sum files as *.tgz.md5sum instead of *-tgz.md5sum
+ - Fix build dependency for testqset_r [asekez]
+ - rbox.c depends on Qhull due to qh_lib_check which uses qh_version2 for error messages
+ - QhullFacet_test.cpp: Annotate Qhull invocations.   Allows their repetition.
+ - QhullFacet_test.cpp: Adjust epsilon on distance tests
+ - Do not create libqhullcpp as a shared library.  Qhull C++ classes may change layout and size. 
+ - qhull-cpp.xml: Make a relative path to road-faq.xsl
 
 ------------
 Qhull 2015.0.6 2015/10/20 (7.0.6.2013)
  - In the libraries, exit() is only called from qh_exit().  qh_exit may be redefined.
  - Add qh_fprintf_stderr to usermem.c.  May be overridden to avoid use of stderr [D. Sterratt]
    Add usermem to testqset builds
+   Used by qh_fprintf_rbox
  - Remove most instances of stderr/stdout from libqhull, libqhull_r, and libqhullcpp [D. Sterratt]
    qh_fprintf_stderr may be redefined.  qh_meminit and qh_new_qhull use stderr as the default ferr
  - qh_initflags: Use qh.fout instead of stdout for 'TO file'.  A library caller may define a different qh.fout.

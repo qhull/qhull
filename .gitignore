@@ -22,6 +22,7 @@ tmp/*
 build?*/
 build/Debug/*
 build/moc/*
+build/qhulltest/moc/
 build/Release/*
 build/cmake_install.cmake
 build/CMakeCache.txt
@@ -36,6 +37,7 @@ build/*/Release/*
 build/*/Debug/*
 build/*/MinSizeRel/*
 build/*/RelWithDebInfo/*
+src/qhulltest/RoadTest.h.cpp
 lib/
 *.a
 *.dll

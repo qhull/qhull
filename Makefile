@@ -111,7 +111,7 @@ CC_OPTS3  =
 #  qhull_p.so -- allocated qh_qhT global data structure (qh_QHpointer=1).  Required for libqhullcpp
 #  qhull_m.so -- future version of Qhull with qh_qhT passed as an argument.
 qhull_SOVERSION=7
-SO  = so.7.0.6
+SO  = so.7.0.7
 
 # On MinGW, 
 #   make SO=dll
@@ -365,7 +365,7 @@ LR=   src/libqhull_r
 LS=   src/libqhullstatic
 LSR=  src/libqhullstatic_r
 
-# libqhullcpp is a shared library for C++ files and libqhull_r
+# libqhullcpp is a static library for C++ files and libqhull_r
 # qhulltest is a Qt test of libqhullcpp
 LCPP= src/libqhullcpp
 TCPP= src/qhulltest
@@ -628,6 +628,7 @@ lib/libqhullstatic_r.a: $(LIBQHULLSR_RBOX_OBJS)
 	ar -rs $@ $^
 	#ranlib $@
 
+# Do not create libqhullcpp as a shared library.  Qhull C++ classes may change layout and size. 
 lib/libqhullcpp.a: $(LIBQHULLCPP_OBJS)
 	ar -rs $@ $^
 	#ranlib $@
