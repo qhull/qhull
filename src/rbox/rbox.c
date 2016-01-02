@@ -34,7 +34,8 @@ args (any order, space separated):                    Version: 2015/11/09\n\
   s       generate cospherical points\n\
   x       generate random points in simplex, may use 'r' or 'Wn'\n\
   y       same as 'x', plus simplex\n\
-  Pn,m,r  add point [n,m,r] first, pads with 0\n\
+  Cn,r,m  add n nearly coincident points within radius r of m points\n\
+  Pn,m,r  add point [n,m,r] first, pads with 0, maybe repeated\n\
 \n\
   Ln      lens distribution of radius n.  Also 's', 'r', 'G', 'W'.\n\
   Mn,m,r  lattice(Mesh) rotated by [n,-m,0], [m,n,0], [0,0,r], ...\n\

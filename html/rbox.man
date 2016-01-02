@@ -126,6 +126,9 @@ add a unit diamond to the output.
 d Gm
 add a diamond made of 0, +m and \-m to the output
 .TP
+Cn,r,m  
+add n nearly coincident points within radius r of m points
+.TP
 Pn,m,r
 add point [n,m,r] to the output first.  Pad coordinates with 0.0.
 .TP

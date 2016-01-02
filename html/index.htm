@@ -52,7 +52,7 @@ Geometry in C</i>.
 </p>
 
 <p>There are six programs.  Except for rbox, they use
-the same code.
+the same code.  Each program includes instructions and examples.
 <blockquote>
 <ul>
 <li><a href="qconvex.htm">qconvex</a> -- convex hulls
@@ -118,14 +118,12 @@ Contents </a></h2>
                 href="#input">in</a>put &#149; <a href="#output">ou</a>tput
                 &#149; <a href="#algorithm">al</a>gorithm &#149; <a
                 href="#structure">da</a>ta structure </li>
-    <li><a href="qh-impre.htm">Imprecision</a> in Qhull</li>
-    <LI><a href="qh-impre.htm#joggle">Merged facets</a> or joggled input
-                <li><a href="#geomview">Geomview</a>, Qhull's graphical
-                        viewer</li>
-                <li><a href="qh-eg.htm">Examples</a> of Qhull using Geomview</li>
+            <li><a href="qh-impre.htm">Imprecision</a> in Qhull</li>
+            <li><a href="qh-impre.htm#joggle">Merged facets</a> or joggled input
+            <li><a href="qh-eg.htm">Examples</a> of Qhull</li>
         </ul>
         <p>
-  <li><a href=qh-quick.htm#programs>Qhull programs</a>
+   <li><a href=qh-quick.htm#programs>Qhull programs</a>, with instructions and examples
         <ul>
         <li><a href="qconvex.htm">qconvex</a> -- convex hulls
         <li><a href="qdelaun.htm">qdelaunay</a> -- Delaunay triangulations and
@@ -136,6 +134,45 @@ Contents </a></h2>
           furthest-site Voronoi diagrams
         <li><a href="rbox.htm">rbox</a> -- generate point distributions for qhull
         </ul>
+        <p>
+    <li><a href="qh-quick.htm#options">Qhull options</a><ul>
+            <li><a href="qh-opto.htm#output">Output</a> formats</li>
+            <li><a href="qh-optf.htm#format">Additional</a> I/O
+                formats</li>
+            <li><a href="qh-optg.htm#geomview">Geomview</a>
+                output options</li>
+            <li><a href="qh-optp.htm#print">Print</a> options</li>
+            <li><a href="qh-optq.htm#qhull">Qhull</a> control
+                options</li>
+            <li><a href="qh-optc.htm#prec">Precision</a> options</li>
+            <li><a href="qh-optt.htm#trace">Trace</a> options</li>
+        </ul>
+    </li>
+        <p>
+    <li><a href="#geomview">Geomview</a>, Qhull's graphical viewer</li>
+        <ul>
+          <li><a href="#geomview-install">Installing Geomview</a></li>
+          <li><a href="#geomview-use">Using Geomview</a></li>
+          <li><a href="#geomview-win">Building Geomview for Windows</a></li>
+        </ul>
+        <p>
+    <li><a href="qh-code.htm">Qhull internals</a><ul>
+            <li><a href="qh-code.htm#reentrant">Reentrant</a> Qhull</li>
+            <li><a href="qh-code.htm#64bit">Qhull</a> on 64-bit computers</li>
+            <li><a href="qh-code.htm#cpp">Calling</a> Qhull
+                from C++ programs</li>
+            <li><a href="qh-code.htm#library">Calling</a> Qhull
+                from C programs</li>
+            <li><a href="qh-code.htm#performance">Performance</a>
+                of Qhull</li>
+            <li><a href="qh-code.htm#enhance">Enhancements</a> to
+                Qhull</li>
+            <li><a href="../src/libqhull_r/index.htm">Reentrant</a> Qhull functions, macros, and
+                data structures </li>
+            <li><a href="../src/libqhull/index.htm">Qhull</a> functions, macros, and
+                data structures </li>
+        </ul>
+    </li>
         <p>
     <li>Related URLs
          <ul>
@@ -158,38 +195,6 @@ Contents </a></h2>
         href="http://www.cs.sunysb.edu/~algorith/major_section/1.6.shtml">Algorithm Repository</a> on computational geometry.
     </li>
      </ul>
-        <p>
-    <li><a href="qh-quick.htm#options">Qhull options</a><ul>
-            <li><a href="qh-opto.htm#output">Output</a> formats</li>
-            <li><a href="qh-optf.htm#format">Additional</a> I/O
-                formats</li>
-            <li><a href="qh-optg.htm#geomview">Geomview</a>
-                output options</li>
-            <li><a href="qh-optp.htm#print">Print</a> options</li>
-            <li><a href="qh-optq.htm#qhull">Qhull</a> control
-                options</li>
-            <li><a href="qh-optc.htm#prec">Precision</a> options</li>
-            <li><a href="qh-optt.htm#trace">Trace</a> options</li>
-        </ul>
-    </li>
-        <p>
-    <li><a href="qh-code.htm">Qhull internals</a><ul>
-            <li><a href="qh-code.htm#reentrant">Reentrant</a> Qhull</li>
-            <li><a href="qh-code.htm#64bit">Qhull</a> on 64-bit computers</li>
-            <li><a href="qh-code.htm#cpp">Calling</a> Qhull
-                from C++ programs</li>
-            <li><a href="qh-code.htm#library">Calling</a> Qhull
-                from C programs</li>
-            <li><a href="qh-code.htm#performance">Performance</a>
-                of Qhull</li>
-            <li><a href="qh-code.htm#enhance">Enhancements</a> to
-                Qhull</li>
-            <li><a href="../src/libqhull_r/index.htm">Reentrant</a> Qhull functions, macros, and
-                data structures </li>
-            <li><a href="../src/libqhull/index.htm">Qhull</a> functions, macros, and
-                data structures </li>
-        </ul>
-    </li>
         <p>
     <li><a href="#bugs">What to do</a> if something goes wrong</li>
     <li><a href="#email">Email</a></li>
@@ -525,29 +530,14 @@ design documentation. </p>
 <h3><a href="#TOC">&#187;</a>Imprecision in Qhull</h3>
 <blockquote>
 
-<p>See <a href="qh-impre.htm">Imprecision in Qhull</a>.</p>
+<p>See <a href="qh-impre.htm">Imprecision in Qhull</a> and <a href="qh-impre.htm#joggle">Merged facets or joggled input</a></p>
 
 </blockquote>
-<h3><a href="#TOC">&#187;</a><a name="geomview">Geomview, Qhull's
-graphical viewer</a></h3>
+<h3><a href="#TOC">&#187;</a>Examples of Qhull</h3>
 <blockquote>
 
-<p><a href="http://www.geomview.org">Geomview</a>
-is an interactive geometry viewing program for Linux, SGI workstations,
-Sun workstations, AIX workstations, NeXT workstations, and X-windows.
-It is an
-<a href=http://sourceforge.net/projects/geomview>open source project</a>
-under SourceForge.
-Besides a 3-d viewer, it includes a 4-d viewer, an n-d viewer and
-many features for viewing mathematical objects. You may need to
-ftp <tt>ndview</tt> from the <tt>newpieces</tt> directory. </p>
-
-</blockquote>
-<h3><a href="#TOC">&#187;</a>Description of Qhull examples</h3>
-<blockquote>
-
-<p>See <a href="qh-eg.htm">Examples</a>. Some of the examples
-have <a
+<p>See <a href="qh-eg.htm">Examples of Qhull</a>.  Most of these examples require <a href="#geomview">Geomview</a>.
+Some of the examples have <a
 href="http://www.geom.uiuc.edu/graphics/pix/Special_Topics/Computational_Geometry/welcome.html">pictures
 </a>.</p>
 
@@ -564,6 +554,153 @@ href="http://www.geom.uiuc.edu/graphics/pix/Special_Topics/Computational_Geometr
 
 <p>See <a href="qh-code.htm">Internals</a>.</p>
 
+</blockquote>
+<h2><a href="#TOC">&#187;</a><a name="geomview">Geomview, Qhull's
+graphical viewer</a></h2>
+<blockquote>
+
+<p><a href="http://www.geomview.org">Geomview</a>
+is an interactive geometry viewing program.
+Geomview provides a good visualization of Qhull's 2-d and 3-d results.
+
+<p>Qhull includes <a href="qh-eg.htm">Examples of Qhull</a> that may be viewed with Geomview.
+
+<p>Geomview can help visulalize a 3-d Delaunay triangulation or the surface of a 4-d convex hull,
+Use option '<a href="qh-optq.htm#QVn">QVn</a>' to select the 3-D facets adjacent to a vertex.
+
+<p>You may use Geomview to create movies that animate your objects (c.f., <a href="http://www.geomview.org/FAQ/answers.shtml#mpeg">How can I create a video animation?</a>).
+Geomview helped create the <a href="http://www.geom.uiuc.edu/video/">mathematical videos</a> "Not Knot", "Outside In", and "The Shape of Space" from the Geometry Center.
+
+
+<h3><a href="#TOC">&#187;</a><a name="geomview-install">Installing Geomview</a></h3>
+<blockquote>
+
+<p>Geomview is an <a href=http://sourceforge.net/projects/geomview>open source project</a>
+under SourceForge.
+
+<p>
+For build instructions see
+<a href="http://www.geomview.org/download/">Downloading Geomview</a>.
+Geomview builds under Linux, Unix, Macintosh OS X, and Windows.
+
+<p>Geomview has <a href="https://packages.debian.org/search?keywords=geomview">installable packages</a> for Debian and Ubuntu.
+The OS X build needs Xcode, an X11 SDK, and Lesstif or Motif.
+The Windows build uses Cygwin (see <a href="#geomview-win">Building Geomview</a> below for instructions).
+
+<p>If using Xforms (e.g., for Geomview's <a href="http://www.geomview.org/docs/html/Modules.html">External Modules</a>), install the 'libXpm-devel' package from cygwin and move the xforms directory into your geomview directory, e.g.,<br><tt>mv xforms-1.2.4 geomview-1.9.5/xforms</tt>
+
+<p>Geomview's <a href="http://www.geom.uiuc.edu/software/geomview/docs/NDview/manpagehelp.html">ndview<a/> provides multiple views into 4-d and higher objects.
+This module is out-of-date (<a href="http://sourceforge.net/p/geomview/mailman/message/2004152/">geomview-users: 4dview</a>).
+Download NDview-sgi.tar.Z at <a href="ftp://www.geom.uiuc.edu/pub/software/geomview/newpieces/sgi">newpieces</a> and 4dview at <a href="https://stuff.mit.edu/afs/sipb/project/3d/arch/sgi_62/lib/Geomview/modules/">Geomview/modules</a>.
+
+</blockquote>
+<h3><a href="#TOC">&#187;</a><a name="geomview-use">Using Geomview</a></h3>
+<blockquote>
+
+<p>Use Geomview to view <a href="qh-eg.htm">Examples of Qhull</a>.   You can spin the convex hull, fly a camera through its facets,
+and see how Qhull produces thick facets in response to round-off error.
+
+<p>Follow these instructions to view 'eg,01.cube' from Examples of Qhull
+<ol>
+<li>Launch an XTerm command shell
+<ul>
+<li>If needed, start the X terminal server, Use 'xinit' or 'startx' in /usr/X11R6/bin<br><tt>xinit -- -multiwindow -clipboard</tt><br><tt>startx</tt>
+<li>Start an XTerm command shell.  In Windows, click the Cygwin/bash icon on your desktop.
+<li>Set the DISPLAY variable, e.g.,<br><tt>export DISPLAY=:0</tt><br><tt>export DISPLAY=:0 >>~/.bashenv</tt>
+</ul>
+<li>Use Qhull's <a href="qh-optg.htm">Geomview options</a> to create a geomview object
+<ul>
+<li><tt>rbox c D3 | qconvex G >eg.01.cube</tt>
+<li>On windows, convert the output to Unix text format with 'd2u'<br><tt>rbox c D3 | qconvex G | d2u >eg.01.cube</tt><br><tt>d2u eg.*</tt>
+</ul>
+<li>Run Geomview
+<ul>
+<li>Start Geomview with your example<br><tt>./geomview eg.01.cube</tt>
+<li>Follow the instructions in <a href="http://www.geomview.org/docs/html/Tutorial.html">Gemoview Tutorial</a>
+<li>Geomview creates the <i>Geomview control panel</i> with Targets and External Module, the <i>Geomview toolbar</i> with buttons for controlling Geomview, and the <i>Geomview camera window</i> showing a cube.
+<li>Clear the camera window by selecting your object in the Targets list and 'Edit > Delete' or 'dd'
+<li>Load the <i>Geomview files panel</i>.  Select 'Open' in the 'File' menu.
+<li>Set 'Filter' in the files panel to your example directory followed by '/*' (e.g., '/usr/local/qhull-2015.1/eg/*')
+<li>Click 'Filter' in the files panel to view your examples in the 'Files' list.
+<li>Load another example into the camera window by selecting it and clicking 'OK'.
+<li>Review the instructions for <a href="http://www.geomview.org/docs/html/Interaction.html">Interacting with Geomview</a>
+<li>When viewing multiple objects at once, you may want to turn off normalization.  In the 'Inspect > Apperance' control panel, set 'Normalize' to 'None'.
+</ul>
+</ol>
+
+<p>Geomview defines GGL (a textual API for controlling Geomview) and OOGL (a textual file format for defining objects).
+<ul>
+<li>To control Geomview, you may use any program that reads and writes from stdin and stdout.  For example, it could report Qhull's information about a vertex identified by a double-click 'pick' event.
+<li><a href="http://www.geomview.org/docs/html/GCL.html">GCL</a> command language for controlling Geomview
+<li><a href="http://www.geomview.org/docs/html/OOGL-File-Formats.html">OOGL</a> file format for defining objects (<a href="http://www.geomview.org/docs/oogltour.html">tutorial</a>).
+<li><a href="http://www.geomview.org/docs/html/Modules.html">External Modules</a> for interacting with Geomview via GCL
+<li>Interact with your objects via <a href="http://www.geomview.org/docs/html/pick.html">pick</a> commands in response to right-mouse double clicks.  Enable pick events with the <a href="http://www.geomview.org/docs/html/interest.html">interest</a> command.
+</ul>
+
+</blockquote>
+<h3><a href="#TOC">&#187;</a><a name="geomview-win">Building Geomview for Windows</a></h3>
+<blockquote>
+
+<p>Compile Geomview under Cygwin.  For detailed instructions, see
+<a href="http://www.ee.surrey.ac.uk/Personal/L.Wood/software/SaVi/building-under-Windows/"
+>Building Savi and Geomview under Windows</a>.  These instructions are somewhat out-of-date.  Updated
+instructions follow.
+
+<p>How to compile Geomview under Cygwin (October 2015)</p>
+<ol>
+<li>Install <a href="http://cygwin.com/">Cygwin</a> as follows.
+For additional guidance, see Cygwin's <a href="https://cygwin.com/install.html">Installing and Updating Cygwin Packages</a>
+and <a href="http://www.qhull.org/road/road-faq/xml/cmdline.xml#setup-cygwin">Setup cygwin</a>.
+<ul>
+<li>Launch the cygwin installer.
+<li>Select a mirror from <a href="http://cygwin.com/mirrors.html">Cygwin mirrors</a> (e.g., http://mirrors.kernel.org/sourceware/cygwin/ in California).
+<li>Select the packages to install.  Besides the cygwin packages listed in the Savi/Windows instructions consider adding
+<ul>
+<li><b>Default</b> -- libXm-devel (required for /usr/include/Xm/Xm.h)
+<li><b>Devel</b> -- bashdb, gcc-core (in place of gcc), gdb
+<li><b>Lib</b> -- libGL-devel, libGLU1 (required, obsolete), libGLU-devel (required, obsolete), libjpeg-devel(XForms), libXext-devel (required), libXpm-devel (Xforms)
+libGL and lib
+<li><b>Math</b> -- bc
+<li><b>Net</b> -- autossh, inetutils, openssh
+<li><b>System</b> -- chere
+<li><b>Utils</b> -- dos2unix (required for qhull), keychain
+<li>If installing perl, ActiveState Perl may be a better choice than cygwin's perl.  Perl is not used by Geomview or Qhull.
+<li><a href="https://cygwin.com/cgi-bin2/package-grep.cgi">Cygwin Package Search</a> -- Search for cygwin programs and packages
+</ul>
+<li>Click 'Next' to download and install the packages.
+<li>If the download is incomplete, try again.
+<li>If you try again after a successful install, cygwin will uninstall and reinstall all modules..
+<li>Click on the 'Cywin Terminal' icon on the Desktop.  It sets up a user directory in /home from /etc/skel/...
+<li>Mount your disk drives<br>mount c: /c # Ignore the warning /c does not exist
+<li>Consider adding 'cygwin\bin' to '<tt>Control Panel > System > Advanced > Environment > PATH</tt>'. If so, cygwin commands such as 'ls' may be used from the Windows command shell.
+</ul>
+<li>Consider installing the <a href="http://www.qhull.org/bash/doc/road-bash.html">Road Bash</a> scripts (/etc/road-*) from <a href="http://www.qhull.org/road/">Road</a>.
+They define aliases and functions for Unix command shells (Unix, Linux, Mac OS X, Windows),
+<ul>
+<li>Download Road Bash and unzip the downloaded file
+<li>Copy .../bash/etc/road-* to the Cywin /etc directory (by default, C:\cygwin\etc).
+<li>Using the cygwin terminal, convert the road scripts to Unix format<br>d2u /etc/road-*
+<li>Try it<br>source /etc/road-home.bashrc
+<li>Install it<br>cp /etc/road-home.bashrc ~/.bashrc
+</ul>
+<li>Launch the X terminal server from '<tt>Start > All programs > Cygwin-X > Xwin Server</tt>'.  Alternatively, run 'startx'
+<li>Launch an XTerm shell
+<ul>
+<li>Right click the Cywin icon on the system tray in the Windows taskbar.
+<li>Select '<tt>System Tools > XTerm</tt>'
+</ul>
+<li>Download and extract Geomview -- <a href="http://www.geomview.org/download/">Downloading Geomview</a>
+<li>Compile Geomview
+<ul>
+<li>./configure
+<li>make
+</ul>
+<li>If './configure' fails, check 'config.log' at the failing step.  Look carefully for missing libraries, etc.  The <a href="http://www.geomview.org/FAQ/answers.shtml">Geomview FAQ</a> contains suggestions (e.g., "configure claims it can't find OpenGl").
+<li>If 'make' fails, read the output carefully for error messages.  Usually it is a missing include file or package.  Locate and install the missing cygwin packages
+(<a href="https://cygwin.com/cgi-bin2/package-grep.cgi">Cygwin Package Search</a>).
+</ol>
+
+</blockquote>
 </blockquote>
 <h2><a href="#TOC">&#187;</a><a name="bugs">What to do if something
 goes wrong</a></h2>
@@ -630,9 +767,7 @@ paper, please send a reference and abstract.</p>
 
 <p>If you would like to get Qhull announcements (e.g., a new
 version) and news (any bugs that get fixed, etc.), let us know
-and we will add you to our mailing list. If you would like to
-communicate with other Qhull users, I will add you to the
-qhull_users alias. For Internet news about geometric algorithms
+and we will add you to our mailing list. For Internet news about geometric algorithms
 and convex hulls, look at comp.graphics.algorithms and
 sci.math.num-analysis. For Qhull news look at <a
 href="http://www.qhull.org/news">qhull-news.html</a>.</p>
