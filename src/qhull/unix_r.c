@@ -8,8 +8,8 @@
    see qh-qhull.htm
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/qhull/unix_r.c#2 $$Change: 2010 $
-   $DateTime: 2015/10/19 22:23:22 $$Author: bbarber $
+   $Id: //main/2015/qhull/src/qhull/unix_r.c#3 $$Change: 2042 $
+   $DateTime: 2016/01/03 13:26:21 $$Author: bbarber $
 */
 
 #include "libqhull_r/mem_r.h"
@@ -102,6 +102,7 @@ char qh_promptb[]= "\
     Q9   - process furthest of furthest points\n\
     Q10  - no special processing for narrow distributions\n\
     Q11  - copy normals and recompute centrums for tricoplanar facets\n\
+    Q12  - no error on wide merge due to duplicate ridge\n\
 \n\
 ";
 char qh_promptc[]= "\
@@ -294,7 +295,7 @@ Except for 'F.' and 'PG', upper-case options take an argument.\n\
 \n\
  Q0_no_premerge Q1_no_angle    Q2_no_independ Q3_no_redundant Q4_no_old\n\
  Q5_no_check_out Q6_no_concave Q7_depth_first Q8_no_near_in  Q9_pick_furthest\n\
- Q10_no_narrow  Q11_trinormals\n\
+ Q10_no_narrow  Q11_trinormals Q12_no_wide_dup\n\
 \n\
  T4_trace       Tannotate      Tcheck_often   Tstatistics    Tverify\n\
  Tz_stdout      TFacet_log     TInput_file    TPoint_trace   TMerge_trace\n\

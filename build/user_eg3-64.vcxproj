@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGUID>{FFA3319B-8F60-4FF2-9A15-7FA1668859A9}</ProjectGUID>
+    <ProjectGUID>{D62C4A45-A873-40AC-BF9F-5A2092FA6607}</ProjectGUID>
     <Keyword>x64Proj</Keyword>
     <Platform>x64</Platform>
     <ProjectName>user_eg3</ProjectName>
@@ -263,10 +263,10 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="../build/qhullcpp.vcxproj">
-      <Project>3F25AAEF-5005-4E80-BBFD-203BBB6AC5EB</Project>
+      <Project>11670B0D-C3D6-485C-B761-11C9683FE065</Project>
     </ProjectReference>
     <ProjectReference Include="../build/qhullstatic_r.vcxproj">
-      <Project>E875CBA5-4319-49FB-BB26-D82DF3961150</Project>
+      <Project>06D173DF-5E39-41E4-B445-8CA6F6038642</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

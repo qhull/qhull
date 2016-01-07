@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGUID>{8A7F4769-719C-49A7-957D-6D32BDD44148}</ProjectGUID>
+    <ProjectGUID>{CEA4409E-EFE1-4E8E-8218-4376E5CD7E92}</ProjectGUID>
     <Keyword>x64Proj</Keyword>
     <Platform>x64</Platform>
     <ProjectName>qhull_r</ProjectName>

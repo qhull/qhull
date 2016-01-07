@@ -19,7 +19,8 @@ href="http://www.qhull.org">Home page</a> for Qhull<br>
 &#149; <a href="../../html/qh-optp.htm#print">Print</a>
 &#149; <a href="../../html/qh-optq.htm#qhull">Qhull</a>
 &#149; <a href="../../html/qh-optc.htm#prec">Precision</a>
-&#149; <a href="../../html/qh-optt.htm#trace">Trace</a><br>
+&#149; <a href="../../html/qh-optt.htm#trace">Trace</a>
+&#149; <a href="index.htm">Functions</a><br>
 <b>Up:</b> <a href="../../html/qh-code.htm#TOC">Qhull code: Table of Contents</a><br>
 <b>To:</b> <a href="index.htm">Qhull functions</a>, macros, and data structures<br>
 <b>To:</b> <a href="qh-geom.htm">Geom</a> &#149; <a href="qh-globa.htm">Global</a>
@@ -110,7 +111,7 @@ plane is defined by <tt>facet-&gt;maxoutside</tt> while
 the inner plane is computed from the facet's vertices.</p>
 
 <p>Qhull 3.1 includes triangulation of non-simplicial facets
-('<A href="../../html/qh-optq.htm#Qt">Qt</A>').
+('<a href="../../html/qh-optq.htm#Qt">Qt</a>').
 These facets,
 called <i>tricoplanar</i>, share the same normal. centrum, and Voronoi center.
 One facet (keepcentrum) owns these data structures.
@@ -417,6 +418,8 @@ functions</a></h3>
 <ul>
 <li><a href="poly2.c#check_bestdist">qh_check_bestdist</a>
 check that points are not outside of facets </li>
+<li><a href="poly2.c#check_dupridge">qh_check_dupridge</a>
+check duplicate ridge between facet1 and facet2 for wide merge </li>
 <li><a href="poly2.c#check_maxout">qh_check_maxout</a>
 updates qh.max_outside and checks all points
 against bestfacet </li>
@@ -459,7 +462,8 @@ Qhull</a> <br>
 &#149; <a href="../../html/qh-optp.htm#print">Print</a>
 &#149; <a href="../../html/qh-optq.htm#qhull">Qhull</a>
 &#149; <a href="../../html/qh-optc.htm#prec">Precision</a>
-&#149; <a href="../../html/qh-optt.htm#trace">Trace</a><br>
+&#149; <a href="../../html/qh-optt.htm#trace">Trace</a>
+&#149; <a href="index.htm">Functions</a><br>
 <b>Up:</b> <a href="../../html/qh-code.htm#TOC">Qhull code: Table of Contents</a> <br>
 <b>To:</b> <a href="index.htm">Qhull functions</a>, macros, and data structures<br>
 <b>To:</b> <a href="qh-geom.htm">Geom</a> &#149;

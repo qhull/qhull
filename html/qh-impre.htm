@@ -19,7 +19,8 @@ Contents<br>
 &#149; <a href="qh-optp.htm#print">Print</a>
 &#149; <a href="qh-optq.htm#qhull">Qhull</a>
 &#149; <a href="qh-optc.htm#prec">Precision</a>
-&#149; <a href="qh-optt.htm#trace">Trace</a><br>
+&#149; <a href="qh-optt.htm#trace">Trace</a>
+&#149; <a href="../src/libqhull_r/index.htm">Functions</a><br>
 <b>To: </b><a href="#TOC">Qhull imprecision</a>: Table of Contents
 (please wait while loading)
 
@@ -478,22 +479,32 @@ In this case, quadratic running time is avoided if you use qdelaunay,
 add option '<a href="qh-optq.htm#Qbb">Qbb</a>',
 or add the origin ('P0') to the input.
 <p>
-<li><b>Nearly coincident points on an edge</b> -- Nearly coincident points on an edge may lead to wide facets or quadratic running time.
-For example, the convex hull in 4-D of a narrow lens with nearly coincident points and the Delaunay triangulation of
+<li><b>Nearly coincident points on an edge</b> -- Multiple, nearly coincident points on
+an edge with non-simplicial facets may lead to wide facets or quadratic running time.
+For example, either the convex hull
+in 4-D of a narrow lens with coincident points or the Delaunay triangulation of
 nearly coincident points may lead to very wide facets (e.g., 2267021951.3x).
-A very wide facet can occur for nearly coincident points at the
-boundary of the upper and lower convex hull. Four facets share the same ridge and must be merged.
-Some of these facets may be long and narrow, leading to a very wide merged facet.  Starting with Qhull 2015.1, an error is reported.
 
-<p>Duplicate ridges occur when the horizon for a new point is "pinched" (i.e., a sub-ridge, a line segment in 3-d, is shared by two horizon facets).
-The new 'Cn,r,m' option for rbox generates nearly coincident points.  For example, every point of the following
-distributions has a nearly coincident point within a 1e-13 ball.  Substantially smaller and larger balls do not lead to pinched horizons.
+<p>For Delaunay triangulations an edge occurs between the corresponding upper
+and lower convex hull.  Points on this edge correspond to vertices of the convex hull of the input sites.
+After multiple facet merges, four facets may share the same, duplicate ridge and must be merged.
+Some of these facets may be long and narrow, leading to a very wide merged facet.
+Starting with Qhull 2015.1, an error is reported.
+
+<p>Duplicate ridges occur when the horizon facets for a new point is "pinched".
+In a duplicate ridge, a subridge (e.g., a line segment in 3-d) is shared by two horizon facets.
+At least two of its vertices are nearly coincident.  Qhull 2015.1 adds the 'Cn,r,m' option to rbox.
+This option generates nearly coincident points.  For example, every point of the following
+distributions has a nearly coincident point within a 1e-13 ball.
+Substantially smaller or larger balls do not lead to pinched horizons.
 <pre>
-        rbox L100 10000 D4 s C1,1e-13 t2 | qhull
-        rbox 50 C1,1E-13 t1447644703 | qhull d
+        rbox L100 1000 D4 s C1,1e-13 t | qhull
+        rbox 75 C1,1E-13 t | qhull d
 </pre>
-For Delaunay triangulations, a simple workaround is to surround the input sites with a bounding box.  Then the boundary between upper and lower convex hulls is well defined.
-A later release of qhull will avoid pinched horizons by merging duplicate sub-ridges.  A sub-ridge is merged by merging adjacent vertices.
+For Delaunay triangulations, a simple workaround is to surround the input sites with a bounding box.
+The boundary between upper and lower convex hulls is defined by the bounding box.
+A later release of qhull will avoid pinched horizons by merging duplicate subridges.  A subridge is
+merged by merging adjacent vertices.
 <p>
 <li><b>Facet with zero-area</b> --
 It is possible for a zero-area facet to be convex with its
@@ -797,7 +808,8 @@ Contents<br>
 &#149; <a href="qh-optp.htm#print">Print</a>
 &#149; <a href="qh-optq.htm#qhull">Qhull</a>
 &#149; <a href="qh-optc.htm#prec">Precision</a>
-&#149; <a href="qh-optt.htm#trace">Trace</a><br>
+&#149; <a href="qh-optt.htm#trace">Trace</a>
+&#149; <a href="../src/libqhull_r/index.htm">Functions</a><br>
 <b>To:</b> <a href="#TOC">Qhull imprecision: Table of Contents</a>
 
 <!-- GC common information -->

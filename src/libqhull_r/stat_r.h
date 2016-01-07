@@ -1,14 +1,14 @@
-/*<html><pre>  -<a                             href="qh-stat.htm"
+/*<html><pre>  -<a                             href="qh-stat_r.htm"
   >-------------------------------</a><a name="TOP">-</a>
 
    stat_r.h
      contains all statistics that are collected for qhull
 
-   see qh-stat.htm and stat_r.c
+   see qh-stat_r.htm and stat_r.c
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull_r/stat_r.h#1 $$Change: 1981 $
-   $DateTime: 2015/09/28 20:26:32 $$Author: bbarber $
+   $Id: //main/2015/qhull/src/libqhull_r/stat_r.h#3 $$Change: 2042 $
+   $DateTime: 2016/01/03 13:26:21 $$Author: bbarber $
 
    recompile qhull if you change this file
 
@@ -33,7 +33,7 @@ typedef struct qhT qhT;         /* Defined by libqhull_r.h */
 typedef struct qhstatT qhstatT; /* Defined here */
 #endif
 
-/*-<a                             href="qh-stat.htm#TOC"
+/*-<a                             href="qh-stat_r.htm#TOC"
   >-------------------------------</a><a name="KEEPstatistics">-</a>
 
   qh_KEEPstatistics
@@ -43,7 +43,7 @@ typedef struct qhstatT qhstatT; /* Defined here */
 #define qh_KEEPstatistics 1
 #endif
 
-/*-<a                             href="qh-stat.htm#TOC"
+/*-<a                             href="qh-stat_r.htm#TOC"
   >-------------------------------</a><a name="statistics">-</a>
 
   Zxxx for integers, Wxxx for reals
@@ -76,6 +76,8 @@ enum qh_statistics {     /* alphabetical after Z/W */
     Zbestcentrum,
     Zbestdist,
     Zbestlower,
+    Zbestlowerall,
+    Zbestloweralln,
     Zbestlowerv,
     Zcentrumtests,
     Zcheckpart,
@@ -285,7 +287,7 @@ enum qh_statistics {     /* alphabetical after Z/W */
     Zwidevertices,
     ZEND};
 
-/*-<a                             href="qh-stat.htm#TOC"
+/*-<a                             href="qh-stat_r.htm#TOC"
   >-------------------------------</a><a name="ZZstat">-</a>
 
   Zxxx/Wxxx statistics that remain defined if qh_KEEPstatistics=0
@@ -343,7 +345,7 @@ enum qh_statistics {     /* for zzdef etc. macros */
     ZEND};
 #endif
 
-/*-<a                             href="qh-stat.htm#TOC"
+/*-<a                             href="qh-stat_r.htm#TOC"
   >-------------------------------</a><a name="ztype">-</a>
 
   ztype
@@ -356,7 +358,7 @@ enum ztypes {zdoc,zinc,zadd,zmax,zmin,ZTYPEreal,wadd,wmax,wmin,ZTYPEend};
 
 /*========== macros and constants =============*/
 
-/*-<a                             href="qh-stat.htm#TOC"
+/*-<a                             href="qh-stat_r.htm#TOC"
   >--------------------------------</a><a name="MAYdebugx">-</a>
 
   MAYdebugx
@@ -364,7 +366,7 @@ enum ztypes {zdoc,zinc,zadd,zmax,zmin,ZTYPEreal,wadd,wmax,wmin,ZTYPEend};
 */
 #define MAYdebugx
 
-/*-<a                             href="qh-stat.htm#TOC"
+/*-<a                             href="qh-stat_r.htm#TOC"
   >--------------------------------</a><a name="zdef_">-</a>
 
   zzdef_, zdef_( type, name, doc, -1)
@@ -383,7 +385,7 @@ enum ztypes {zdoc,zinc,zadd,zmax,zmin,ZTYPEreal,wadd,wmax,wmin,ZTYPEend};
 #define zdef_(type,name,doc,count)
 #endif
 
-/*-<a                             href="qh-stat.htm#TOC"
+/*-<a                             href="qh-stat_r.htm#TOC"
   >--------------------------------</a><a name="zinc_">-</a>
 
   zzinc_( name ), zinc_( name)
@@ -396,7 +398,7 @@ enum ztypes {zdoc,zinc,zadd,zmax,zmin,ZTYPEreal,wadd,wmax,wmin,ZTYPEend};
 #define zinc_(id) {}
 #endif
 
-/*-<a                             href="qh-stat.htm#TOC"
+/*-<a                             href="qh-stat_r.htm#TOC"
   >--------------------------------</a><a name="zadd_">-</a>
 
   zzadd_( name, value ), zadd_( name, value ), wadd_( name, value )
@@ -412,7 +414,7 @@ enum ztypes {zdoc,zinc,zadd,zmax,zmin,ZTYPEreal,wadd,wmax,wmin,ZTYPEend};
 #define wadd_(id, val) {}
 #endif
 
-/*-<a                             href="qh-stat.htm#TOC"
+/*-<a                             href="qh-stat_r.htm#TOC"
   >--------------------------------</a><a name="zval_">-</a>
 
   zzval_( name ), zval_( name ), wwval_( name )
@@ -428,7 +430,7 @@ enum ztypes {zdoc,zinc,zadd,zmax,zmin,ZTYPEreal,wadd,wmax,wmin,ZTYPEend};
 #define wval_(id) qh->qhstat.tempr
 #endif
 
-/*-<a                             href="qh-stat.htm#TOC"
+/*-<a                             href="qh-stat_r.htm#TOC"
   >--------------------------------</a><a name="zmax_">-</a>
 
   zmax_( id, val ), wmax_( id, value )
@@ -443,7 +445,7 @@ enum ztypes {zdoc,zinc,zadd,zmax,zmin,ZTYPEreal,wadd,wmax,wmin,ZTYPEend};
 #define wmax_(id, val) {}
 #endif
 
-/*-<a                             href="qh-stat.htm#TOC"
+/*-<a                             href="qh-stat_r.htm#TOC"
   >--------------------------------</a><a name="zmin_">-</a>
 
   zmin_( id, val ), wmin_( id, value )
@@ -460,7 +462,7 @@ enum ztypes {zdoc,zinc,zadd,zmax,zmin,ZTYPEreal,wadd,wmax,wmin,ZTYPEend};
 /*================== stat_r.h types ==============*/
 
 
-/*-<a                             href="qh-stat.htm#TOC"
+/*-<a                             href="qh-stat_r.htm#TOC"
   >--------------------------------</a><a name="intrealT">-</a>
 
   intrealT
@@ -472,7 +474,7 @@ union intrealT {
     realT r;
 };
 
-/*-<a                             href="qh-stat.htm#TOC"
+/*-<a                             href="qh-stat_r.htm#TOC"
   >--------------------------------</a><a name="qhstat">-</a>
 
   qhstat

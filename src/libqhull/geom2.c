@@ -8,8 +8,8 @@
    see qh-geom.htm and geom.h
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull/geom2.c#2 $$Change: 1995 $
-   $DateTime: 2015/10/13 21:59:42 $$Author: bbarber $
+   $Id: //main/2015/qhull/src/libqhull/geom2.c#3 $$Change: 2044 $
+   $DateTime: 2016/01/03 20:43:44 $$Author: bbarber $
 
    frequently used code goes into geom.c
 */
@@ -89,13 +89,13 @@ realT qh_determinant(realT **rows, int dim, boolT *nearzero) {
   }else if (dim == 2) {
     det= det2_(rows[0][0], rows[0][1],
                  rows[1][0], rows[1][1]);
-    if (fabs_(det) < qh NEARzero[1])  /* not really correct, what should this be? */
+    if (fabs_(det) < 10*qh NEARzero[1])  /* not really correct, what should this be? */
       *nearzero= True;
   }else if (dim == 3) {
     det= det3_(rows[0][0], rows[0][1], rows[0][2],
                  rows[1][0], rows[1][1], rows[1][2],
                  rows[2][0], rows[2][1], rows[2][2]);
-    if (fabs_(det) < qh NEARzero[2])  /* not really correct, what should this be? */
+    if (fabs_(det) < 10*qh NEARzero[2])  /* what should this be?  det 5.5e-12 was flat for qh_maxsimplex of qdelaunay 0,0 27,27 -36,36 -9,63  */
       *nearzero= True;
   }else {
     qh_gausselim(rows, dim, dim, &sign, nearzero);  /* if nearzero, diagonal still ok*/

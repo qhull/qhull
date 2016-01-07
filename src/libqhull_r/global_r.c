@@ -1,5 +1,5 @@
 
-/*<html><pre>  -<a                             href="qh-globa.htm"
+/*<html><pre>  -<a                             href="qh-globa_r.htm"
   >-------------------------------</a><a name="TOP">-</a>
 
    global_r.c
@@ -12,15 +12,15 @@
    see qhull_ra.h for internal functions
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull_r/global_r.c#8 $$Change: 2024 $
-   $DateTime: 2015/11/03 21:58:49 $$Author: bbarber $
+   $Id: //main/2015/qhull/src/libqhull_r/global_r.c#12 $$Change: 2044 $
+   $DateTime: 2016/01/03 20:43:44 $$Author: bbarber $
  */
 
 #include "qhull_ra.h"
 
 /*========= qh->definition -- globals defined in libqhull_r.h =======================*/
 
-/*-<a                             href  ="qh-globa.htm#TOC"
+/*-<a                             href  ="qh-globa_r.htm#TOC"
   >--------------------------------</a><a name="qh_version">-</a>
 
   qh_version
@@ -39,10 +39,10 @@
     recompile user_eg_r.c, rbox_r.c, libqhull_r.c, qconvex_r.c, qdelaun_r.c qvoronoi_r.c, qhalf_r.c, testqset_r.c
 */
 
-const char qh_version[]= "2015.0.7.r 2015/11/09";
-const char qh_version2[]= "qhull_r 7.0.7 (2015.0.7.r 2015/11/09)";
+const char qh_version[]= "2015.1.r 2016/01/03";
+const char qh_version2[]= "qhull_r 7.1.0 (2015.1.r 2016/01/03)";
 
-/*-<a                             href="qh-globa.htm#TOC"
+/*-<a                             href="qh-globa_r.htm#TOC"
   >-------------------------------</a><a name="appendprint">-</a>
 
   qh_appendprint(qh, printFormat )
@@ -61,7 +61,7 @@ void qh_appendprint(qhT *qh, qh_PRINT format) {
   }
 } /* appendprint */
 
-/*-<a                             href="qh-globa.htm#TOC"
+/*-<a                             href="qh-globa_r.htm#TOC"
   >-------------------------------</a><a name="checkflags">-</a>
 
   qh_checkflags(qh, commandStr, hiddenFlags )
@@ -150,7 +150,7 @@ void qh_checkflags(qhT *qh, char *command, char *hiddenflags) {
     qh_errexit(qh, qh_ERRinput, NULL, NULL);
 } /* checkflags */
 
-/*-<a                             href="qh-globa.htm#TOC"
+/*-<a                             href="qh-globa_r.htm#TOC"
   >-------------------------------</a><a name="qh_clear_outputflags">-</a>
 
   qh_clear_outputflags(qh)
@@ -217,7 +217,7 @@ void qh_clear_outputflags(qhT *qh) {
   }
 } /* clear_outputflags */
 
-/*-<a                             href="qh-globa.htm#TOC"
+/*-<a                             href="qh-globa_r.htm#TOC"
   >-------------------------------</a><a name="clock">-</a>
 
   qh_clock()
@@ -256,7 +256,7 @@ unsigned long qh_clock(qhT *qh) {
 #endif
 } /* clock */
 
-/*-<a                             href="qh-globa.htm#TOC"
+/*-<a                             href="qh-globa_r.htm#TOC"
   >-------------------------------</a><a name="freebuffers">-</a>
 
   qh_freebuffers()
@@ -308,7 +308,7 @@ void qh_freebuffers(qhT *qh) {
 } /* freebuffers */
 
 
-/*-<a                             href="qh-globa.htm#TOC"
+/*-<a                             href="qh-globa_r.htm#TOC"
   >-------------------------------</a><a name="freebuild">-</a>
 
   qh_freebuild(qh, allmem )
@@ -407,12 +407,12 @@ void qh_freebuild(qhT *qh, boolT allmem) {
   qh_settempfree_all(qh);
 } /* freebuild */
 
-/*-<a                             href="qh-globa.htm#TOC"
+/*-<a                             href="qh-globa_r.htm#TOC"
   >-------------------------------</a><a name="freeqhull">-</a>
 
   qh_freeqhull(qh, allmem )
 
-  free global memory
+  free global memory and set qhT to 0
   if !allmem,
     does not free short memory (freed by qh_memfreeshort)
 
@@ -422,11 +422,11 @@ notes:
 
 see:
   see qh_initqhull_start2()
+  For libqhull_r, qhstatT is part of qhT
 
 design:
   free global and temporary memory from qh_initbuild and qh_buildhull
   free buffers
-  free statistics
 */
 void qh_freeqhull(qhT *qh, boolT allmem) {
 
@@ -439,7 +439,7 @@ void qh_freeqhull(qhT *qh, boolT allmem) {
   qh->NOerrexit= True;
 } /* freeqhull2 */
 
-/*-<a                             href="qh-globa.htm#TOC"
+/*-<a                             href="qh-globa_r.htm#TOC"
   >-------------------------------</a><a name="init_A">-</a>
 
   qh_init_A(qh, infile, outfile, errfile, argc, argv )
@@ -463,7 +463,7 @@ void qh_init_A(qhT *qh, FILE *infile, FILE *outfile, FILE *errfile, int argc, ch
   qh_init_qhull_command(qh, argc, argv);
 } /* init_A */
 
-/*-<a                             href="qh-globa.htm#TOC"
+/*-<a                             href="qh-globa_r.htm#TOC"
   >-------------------------------</a><a name="init_B">-</a>
 
   qh_init_B(qh, points, numpoints, dim, ismalloc )
@@ -530,7 +530,7 @@ void qh_init_B(qhT *qh, coordT *points, int numpoints, int dim, boolT ismalloc) 
   }
 } /* init_B */
 
-/*-<a                             href="qh-globa.htm#TOC"
+/*-<a                             href="qh-globa_r.htm#TOC"
   >-------------------------------</a><a name="init_qhull_command">-</a>
 
   qh_init_qhull_command(qh, argc, argv )
@@ -555,7 +555,7 @@ void qh_init_qhull_command(qhT *qh, int argc, char *argv[]) {
   }
 } /* init_qhull_command */
 
-/*-<a                             href="qh-globa.htm#TOC"
+/*-<a                             href="qh-globa_r.htm#TOC"
   >-------------------------------</a><a name="initflags">-</a>
 
   qh_initflags(qh, commandStr )
@@ -1130,6 +1130,10 @@ void qh_initflags(qhT *qh, char *command) {
             qh->TRInormals= True;
             qh->TRIangulate= True;
             break;
+          case '2':
+              qh_option(qh, "Q12-no-wide-dup", NULL, NULL);
+              qh->NOwide= True;
+            break;
           default:
             s--;
             qh_fprintf(qh, qh->ferr, 7016, "qhull warning: unknown 'Q' qhull option 1%c, rest ignored\n", (int)s[0]);
@@ -1399,7 +1403,7 @@ void qh_initflags(qhT *qh, char *command) {
 } /* initflags */
 
 
-/*-<a                             href="qh-globa.htm#TOC"
+/*-<a                             href="qh-globa_r.htm#TOC"
   >-------------------------------</a><a name="initqhull_buffers">-</a>
 
   qh_initqhull_buffers(qh)
@@ -1432,7 +1436,7 @@ void qh_initqhull_buffers(qhT *qh) {
   qh->gm_row= (coordT **)qh_memalloc(qh, (qh->hull_dim+1) * sizeof(coordT *));
 } /* initqhull_buffers */
 
-/*-<a                             href="qh-globa.htm#TOC"
+/*-<a                             href="qh-globa_r.htm#TOC"
   >-------------------------------</a><a name="initqhull_globals">-</a>
 
   qh_initqhull_globals(qh, points, numpoints, dim, ismalloc )
@@ -1632,7 +1636,7 @@ qhull configuration warning (qh_RANDOMmax in user.h):\n\
   qh_initqhull_outputflags(qh);
 } /* initqhull_globals */
 
-/*-<a                             href="qh-globa.htm#TOC"
+/*-<a                             href="qh-globa_r.htm#TOC"
   >-------------------------------</a><a name="initqhull_mem">-</a>
 
   qh_initqhull_mem(qh, )
@@ -1672,7 +1676,7 @@ void qh_initqhull_mem(qhT *qh) {
   qh_memsetup(qh);
 } /* initqhull_mem */
 
-/*-<a                             href="qh-globa.htm#TOC"
+/*-<a                             href="qh-globa_r.htm#TOC"
   >-------------------------------</a><a name="initqhull_outputflags">-</a>
 
   qh_initqhull_outputflags
@@ -1787,7 +1791,7 @@ available for 4-d output(ignored).  Could use 'GDn' instead.\n");
   }
 } /* qh_initqhull_outputflags */
 
-/*-<a                             href="qh-globa.htm#TOC"
+/*-<a                             href="qh-globa_r.htm#TOC"
   >-------------------------------</a><a name="initqhull_start">-</a>
 
   qh_initqhull_start(qh, infile, outfile, errfile )
@@ -1799,7 +1803,7 @@ void qh_initqhull_start(qhT *qh, FILE *infile, FILE *outfile, FILE *errfile) {
   qh_initqhull_start2(qh, infile, outfile, errfile);
 } /* initqhull_start */
 
-/*-<a                             href="qh-globa.htm#TOC"
+/*-<a                             href="qh-globa_r.htm#TOC"
   >-------------------------------</a><a name="initqhull_start2">-</a>
 
   qh_initqhull_start2(qh, infile, outfile, errfile )
@@ -1866,7 +1870,7 @@ void qh_initqhull_start2(qhT *qh, FILE *infile, FILE *outfile, FILE *errfile) {
   strcat(qh->qhull, "qhull");
 } /* initqhull_start2 */
 
-/*-<a                             href="qh-globa.htm#TOC"
+/*-<a                             href="qh-globa_r.htm#TOC"
   >-------------------------------</a><a name="initthresholds">-</a>
 
   qh_initthresholds(qh, commandString )
@@ -2037,7 +2041,7 @@ void qh_lib_check(int qhullLibraryType, int qhTsize, int vertexTsize, int ridgeT
     }
 } /* lib_check */
 
-/*-<a                             href="qh-globa.htm#TOC"
+/*-<a                             href="qh-globa_r.htm#TOC"
   >-------------------------------</a><a name="option">-</a>
 
   qh_option(qh, option, intVal, realVal )
@@ -2068,7 +2072,7 @@ void qh_option(qhT *qh, const char *option, int *i, realT *r) {
   strncat(qh->qhull_options, buf, (size_t)maxlen);
 } /* option */
 
-/*-<a                             href="qh-globa.htm#TOC"
+/*-<a                             href="qh-globa_r.htm#TOC"
   >-------------------------------</a><a name="zero">-</a>
 
   qh_zero( qh, errfile )

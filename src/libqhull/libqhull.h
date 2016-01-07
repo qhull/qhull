@@ -7,8 +7,8 @@
    see qh-qhull.htm, qhull_a.h
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull/libqhull.h#3 $$Change: 2026 $
-   $DateTime: 2015/11/07 22:44:39 $$Author: bbarber $
+   $Id: //main/2015/qhull/src/libqhull/libqhull.h#5 $$Change: 2043 $
+   $DateTime: 2016/01/03 15:41:27 $$Author: bbarber $
 
    NOTE: access to qh_qh is via the 'qh' macro.  This allows
    qh_qh to be either a pointer or a structure.  An example
@@ -508,6 +508,7 @@ struct qhT {
   boolT NOnarrow;         /* true 'Q10' if no special processing for narrow distributions */
   boolT NOnearinside;     /* true 'Q8' if ignore near-inside points when partitioning */
   boolT NOpremerge;       /* true 'Q0' if no defaults for C-0 or Qx */
+  boolT NOwide;           /* true 'Q12' if no error on wide merge due to duplicate ridge */
   boolT ONLYgood;         /* true 'Qg' if process points with good visible or horizon facets */
   boolT ONLYmax;          /* true 'Qm' if only process points that increase max_outside */
   boolT PICKfurthest;     /* true 'Q9' if process furthest of furthest points*/
@@ -642,9 +643,9 @@ struct qhT {
     internal constants for Qhull
 */
   char qhull[sizeof("qhull")]; /* "qhull" for checking ownership while debugging */
-  jmp_buf errexit;        /* exit label for qh_errexit, defined by setjmp() */
+  jmp_buf errexit;        /* exit label for qh_errexit, defined by setjmp() and NOerrexit */
   char jmpXtra[40];       /* extra bytes in case jmp_buf is defined wrong by compiler */
-  jmp_buf restartexit;    /* restart label for qh_errexit, defined by setjmp() */
+  jmp_buf restartexit;    /* restart label for qh_errexit, defined by setjmp() and ALLOWrestart */
   char jmpXtra2[40];      /* extra bytes in case jmp_buf is defined wrong by compiler*/
   FILE *fin;              /* pointer to input file, init by qh_meminit */
   FILE *fout;             /* pointer to output file */

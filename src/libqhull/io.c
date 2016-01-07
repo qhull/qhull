@@ -14,8 +14,8 @@
    This allows the user to avoid loading io.o from qhull.a
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull/io.c#1 $$Change: 1981 $
-   $DateTime: 2015/09/28 20:26:32 $$Author: bbarber $
+   $Id: //main/2015/qhull/src/libqhull/io.c#3 $$Change: 2047 $
+   $DateTime: 2016/01/04 22:03:18 $$Author: bbarber $
 */
 
 #include "qhull_a.h"
@@ -82,7 +82,7 @@ void qh_produce_output2(void) {
 } /* produce_output2 */
 
 /*-<a                             href="qh-io.htm#TOC"
-  >-------------------------------</a><a name="qh_dfacet">-</a>
+  >-------------------------------</a><a name="dfacet">-</a>
 
   qh_dfacet( id )
     print facet by id, for debugging
@@ -97,11 +97,11 @@ void qh_dfacet(unsigned id) {
       break;
     }
   }
-} /* qh_dfacet */
+} /* dfacet */
 
 
 /*-<a                             href="qh-io.htm#TOC"
-  >-------------------------------</a><a name="qh_dvertex">-</a>
+  >-------------------------------</a><a name="dvertex">-</a>
 
   qh_dvertex( id )
     print vertex by id, for debugging
@@ -115,7 +115,7 @@ void qh_dvertex(unsigned id) {
       break;
     }
   }
-} /* qh_dvertex */
+} /* dvertex */
 
 
 /*-<a                             href="qh-io.htm#TOC"
@@ -3962,6 +3962,7 @@ Type 'qhull' for a short list of options.\n");
   notes:
     "n,n,n" already checked by qh_initflags()
     see qh_readfeasible()
+    called only once from qh_new_qhull, otherwise leaks memory
 */
 void qh_setfeasible(int dim) {
   int tokcount= 0;

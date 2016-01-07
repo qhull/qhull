@@ -43,8 +43,14 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "rbox", "rbox.vcproj", "{1B7
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testqset", "testqset.vcproj", "{2D714931-0586-42C5-A0F9-1A4ECD251890}"
+	ProjectSection(ProjectDependencies) = postProject
+		{5B24F2E7-EF6E-4AF6-B2CE-1E049B1A12AC} = {5B24F2E7-EF6E-4AF6-B2CE-1E049B1A12AC}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testqset_r", "testqset_r.vcproj", "{8C831027-7179-451A-9C7C-805381706037}"
+	ProjectSection(ProjectDependencies) = postProject
+		{635EC42D-5C25-4D20-B5C2-D0A0034EB9B8} = {635EC42D-5C25-4D20-B5C2-D0A0034EB9B8}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "user_eg", "user_eg.vcproj", "{6FE77AAD-0F23-416B-ABAC-C8A0A24F1441}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -58,8 +64,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "user_eg2", "user_eg2.vcproj
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "user_eg3", "user_eg3.vcproj", "{83203305-79D5-412C-9819-0F9AD5C34EC1}"
 	ProjectSection(ProjectDependencies) = postProject
-		{635EC42D-5C25-4D20-B5C2-D0A0034EB9B8} = {635EC42D-5C25-4D20-B5C2-D0A0034EB9B8}
 		{7326816B-C401-4ACA-8027-03BA7A98C16B} = {7326816B-C401-4ACA-8027-03BA7A98C16B}
+		{635EC42D-5C25-4D20-B5C2-D0A0034EB9B8} = {635EC42D-5C25-4D20-B5C2-D0A0034EB9B8}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "qhulltest", "qhulltest\qhulltest.vcproj", "{E12E04D0-C11C-36C0-950E-A203DCBFB37C}"
@@ -213,9 +219,11 @@ Global
 		{83203305-79D5-412C-9819-0F9AD5C34EC1}.RelWithDebInfo|Win32.ActiveCfg = RelWithDebInfo|Win32
 		{83203305-79D5-412C-9819-0F9AD5C34EC1}.RelWithDebInfo|Win32.Build.0 = RelWithDebInfo|Win32
 		{E12E04D0-C11C-36C0-950E-A203DCBFB37C}.Debug|Win32.ActiveCfg = Debug|Win32
+		{E12E04D0-C11C-36C0-950E-A203DCBFB37C}.Debug|Win32.Build.0 = Debug|Win32
 		{E12E04D0-C11C-36C0-950E-A203DCBFB37C}.MinSizeRel|Win32.ActiveCfg = Release|Win32
 		{E12E04D0-C11C-36C0-950E-A203DCBFB37C}.MinSizeRel|Win32.Build.0 = Release|Win32
 		{E12E04D0-C11C-36C0-950E-A203DCBFB37C}.Release|Win32.ActiveCfg = Release|Win32
+		{E12E04D0-C11C-36C0-950E-A203DCBFB37C}.Release|Win32.Build.0 = Release|Win32
 		{E12E04D0-C11C-36C0-950E-A203DCBFB37C}.RelWithDebInfo|Win32.ActiveCfg = Release|Win32
 		{E12E04D0-C11C-36C0-950E-A203DCBFB37C}.RelWithDebInfo|Win32.Build.0 = Release|Win32
 	EndGlobalSection

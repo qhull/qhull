@@ -1,14 +1,18 @@
-<?xml version="1.0" encoding = "Windows-1252"?>
+<?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="qhullcpp"
 	ProjectGUID="{7326816B-C401-4ACA-8027-03BA7A98C16B}"
-	Keyword="Win32Proj">
+	Keyword="Win32Proj"
+	>
 	<Platforms>
 		<Platform
-			Name="Win32"/>
+			Name="Win32"
+		/>
 	</Platforms>
+	<ToolFiles>
+	</ToolFiles>
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
@@ -16,52 +20,81 @@
 			IntermediateDirectory="qhullcpp.dir\Debug"
 			ConfigurationType="4"
 			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="FALSE"
-			CharacterSet="2">
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			CharacterSet="2"
+			>
 			<Tool
-				Name="VCCLCompilerTool"
-				AdditionalOptions=" /Zm1000"
-				AdditionalIncludeDirectories="..\src;"
-				BasicRuntimeChecks="3"
-				CompileAs="2"
-				DebugInformationFormat="3"
-				ExceptionHandling="1"
-				InlineFunctionExpansion="0"
-				Optimization="0"
-				RuntimeTypeInfo="false"  RuntimeLibrary="3"
-
-				WarningLevel="3"
-				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG"
-				AssemblerListingLocation="Debug"
-				ObjectFile="$(IntDir)\"
-				ProgramDataBaseFileName="..\bin\qhullcpp.pdb"
-/>
+				Name="VCPreBuildEventTool"
+			/>
 			<Tool
-				Name="VCCustomBuildTool"/>
+				Name="VCCustomBuildTool"
+			/>
 			<Tool
-				Name="VCResourceCompilerTool"
-				AdditionalIncludeDirectories="..\src;"
-				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG"/>
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
 			<Tool
 				Name="VCMIDLTool"
-				MkTypLibCompatible="FALSE"
+				MkTypLibCompatible="false"
 				TargetEnvironment="1"
-				GenerateStublessProxies="TRUE"
+				GenerateStublessProxies="true"
 				TypeLibraryName="$(InputName).tlb"
 				OutputDirectory="$(IntDir)"
 				HeaderFileName="$(InputName).h"
 				DLLDataFileName=""
 				InterfaceIdentifierFileName="$(InputName)_i.c"
-				ProxyFileName="$(InputName)_p.c"/>
+				ProxyFileName="$(InputName)_p.c"
+			/>
 			<Tool
-				Name="VCPreBuildEventTool"/>
+				Name="VCCLCompilerTool"
+				AdditionalOptions=" /Zm1000"
+				Optimization="0"
+				InlineFunctionExpansion="0"
+				AdditionalIncludeDirectories="..\src;"
+				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG"
+				ExceptionHandling="1"
+				BasicRuntimeChecks="3"
+				RuntimeLibrary="3"
+				RuntimeTypeInfo="false"
+				AssemblerListingLocation="Debug"
+				ObjectFile="$(IntDir)\"
+				ProgramDataBaseFileName="..\bin\qhullcpp.pdb"
+				WarningLevel="3"
+				DebugInformationFormat="3"
+				CompileAs="2"
+			/>
 			<Tool
-				Name="VCPreLinkEventTool"/>
+				Name="VCManagedResourceCompilerTool"
+			/>
 			<Tool
-				Name="VCPostBuildEventTool"/>
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG"
+				AdditionalIncludeDirectories="..\src;"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\lib\qhullcpp_d.lib"/>
+				OutputFile="..\lib\qhullcpp_d.lib"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
@@ -69,50 +102,79 @@
 			IntermediateDirectory="qhullcpp.dir\Release"
 			ConfigurationType="4"
 			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="FALSE"
-			CharacterSet="2">
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			CharacterSet="2"
+			>
 			<Tool
-				Name="VCCLCompilerTool"
-				AdditionalOptions=" /Zm1000"
-				AdditionalIncludeDirectories="..\src;"
-				CompileAs="2"
-				ExceptionHandling="1"
-				InlineFunctionExpansion="2"
-				Optimization="2"
-				RuntimeTypeInfo="false"  RuntimeLibrary="2"
-
-				WarningLevel="3"
-				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG"
-				AssemblerListingLocation="Release"
-				ObjectFile="$(IntDir)\"
-				ProgramDataBaseFileName="..\bin\qhullcpp.pdb"
-/>
+				Name="VCPreBuildEventTool"
+			/>
 			<Tool
-				Name="VCCustomBuildTool"/>
+				Name="VCCustomBuildTool"
+			/>
 			<Tool
-				Name="VCResourceCompilerTool"
-				AdditionalIncludeDirectories="..\src;"
-				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG"/>
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
 			<Tool
 				Name="VCMIDLTool"
-				MkTypLibCompatible="FALSE"
+				MkTypLibCompatible="false"
 				TargetEnvironment="1"
-				GenerateStublessProxies="TRUE"
+				GenerateStublessProxies="true"
 				TypeLibraryName="$(InputName).tlb"
 				OutputDirectory="$(IntDir)"
 				HeaderFileName="$(InputName).h"
 				DLLDataFileName=""
 				InterfaceIdentifierFileName="$(InputName)_i.c"
-				ProxyFileName="$(InputName)_p.c"/>
+				ProxyFileName="$(InputName)_p.c"
+			/>
 			<Tool
-				Name="VCPreBuildEventTool"/>
+				Name="VCCLCompilerTool"
+				AdditionalOptions=" /Zm1000"
+				Optimization="2"
+				InlineFunctionExpansion="2"
+				AdditionalIncludeDirectories="..\src;"
+				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG"
+				ExceptionHandling="1"
+				RuntimeLibrary="2"
+				RuntimeTypeInfo="false"
+				AssemblerListingLocation="Release"
+				ObjectFile="$(IntDir)\"
+				ProgramDataBaseFileName="..\bin\qhullcpp.pdb"
+				WarningLevel="3"
+				CompileAs="2"
+			/>
 			<Tool
-				Name="VCPreLinkEventTool"/>
+				Name="VCManagedResourceCompilerTool"
+			/>
 			<Tool
-				Name="VCPostBuildEventTool"/>
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG"
+				AdditionalIncludeDirectories="..\src;"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\lib\qhullcpp.lib"/>
+				OutputFile="..\lib\qhullcpp.lib"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
 		</Configuration>
 		<Configuration
 			Name="MinSizeRel|Win32"
@@ -120,50 +182,79 @@
 			IntermediateDirectory="qhullcpp.dir\MinSizeRel"
 			ConfigurationType="4"
 			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="FALSE"
-			CharacterSet="2">
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			CharacterSet="2"
+			>
 			<Tool
-				Name="VCCLCompilerTool"
-				AdditionalOptions=" /Zm1000"
-				AdditionalIncludeDirectories="..\src;"
-				CompileAs="2"
-				ExceptionHandling="1"
-				InlineFunctionExpansion="1"
-				Optimization="1"
-				RuntimeTypeInfo="false"  RuntimeLibrary="2"
-
-				WarningLevel="3"
-				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG"
-				AssemblerListingLocation="MinSizeRel"
-				ObjectFile="$(IntDir)\"
-				ProgramDataBaseFileName="..\bin\qhullcpp.pdb"
-/>
+				Name="VCPreBuildEventTool"
+			/>
 			<Tool
-				Name="VCCustomBuildTool"/>
+				Name="VCCustomBuildTool"
+			/>
 			<Tool
-				Name="VCResourceCompilerTool"
-				AdditionalIncludeDirectories="..\src;"
-				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG"/>
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
 			<Tool
 				Name="VCMIDLTool"
-				MkTypLibCompatible="FALSE"
+				MkTypLibCompatible="false"
 				TargetEnvironment="1"
-				GenerateStublessProxies="TRUE"
+				GenerateStublessProxies="true"
 				TypeLibraryName="$(InputName).tlb"
 				OutputDirectory="$(IntDir)"
 				HeaderFileName="$(InputName).h"
 				DLLDataFileName=""
 				InterfaceIdentifierFileName="$(InputName)_i.c"
-				ProxyFileName="$(InputName)_p.c"/>
+				ProxyFileName="$(InputName)_p.c"
+			/>
 			<Tool
-				Name="VCPreBuildEventTool"/>
+				Name="VCCLCompilerTool"
+				AdditionalOptions=" /Zm1000"
+				Optimization="1"
+				InlineFunctionExpansion="1"
+				AdditionalIncludeDirectories="..\src;"
+				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG"
+				ExceptionHandling="1"
+				RuntimeLibrary="2"
+				RuntimeTypeInfo="false"
+				AssemblerListingLocation="MinSizeRel"
+				ObjectFile="$(IntDir)\"
+				ProgramDataBaseFileName="..\bin\qhullcpp.pdb"
+				WarningLevel="3"
+				CompileAs="2"
+			/>
 			<Tool
-				Name="VCPreLinkEventTool"/>
+				Name="VCManagedResourceCompilerTool"
+			/>
 			<Tool
-				Name="VCPostBuildEventTool"/>
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG"
+				AdditionalIncludeDirectories="..\src;"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\lib\qhullcpp.lib"/>
+				OutputFile="..\lib\qhullcpp.lib"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
 		</Configuration>
 		<Configuration
 			Name="RelWithDebInfo|Win32"
@@ -171,192 +262,267 @@
 			IntermediateDirectory="qhullcpp.dir\RelWithDebInfo"
 			ConfigurationType="4"
 			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="FALSE"
-			CharacterSet="2">
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			CharacterSet="2"
+			>
 			<Tool
-				Name="VCCLCompilerTool"
-				AdditionalOptions=" /Zm1000"
-				AdditionalIncludeDirectories="..\src;"
-				CompileAs="2"
-				DebugInformationFormat="3"
-				ExceptionHandling="1"
-				InlineFunctionExpansion="1"
-				Optimization="2"
-				RuntimeTypeInfo="false"  RuntimeLibrary="2"
-
-				WarningLevel="3"
-				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG"
-				AssemblerListingLocation="RelWithDebInfo"
-				ObjectFile="$(IntDir)\"
-				ProgramDataBaseFileName="..\bin\qhullcpp.pdb"
-/>
+				Name="VCPreBuildEventTool"
+			/>
 			<Tool
-				Name="VCCustomBuildTool"/>
+				Name="VCCustomBuildTool"
+			/>
 			<Tool
-				Name="VCResourceCompilerTool"
-				AdditionalIncludeDirectories="..\src;"
-				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG"/>
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
 			<Tool
 				Name="VCMIDLTool"
-				MkTypLibCompatible="FALSE"
+				MkTypLibCompatible="false"
 				TargetEnvironment="1"
-				GenerateStublessProxies="TRUE"
+				GenerateStublessProxies="true"
 				TypeLibraryName="$(InputName).tlb"
 				OutputDirectory="$(IntDir)"
 				HeaderFileName="$(InputName).h"
 				DLLDataFileName=""
 				InterfaceIdentifierFileName="$(InputName)_i.c"
-				ProxyFileName="$(InputName)_p.c"/>
+				ProxyFileName="$(InputName)_p.c"
+			/>
 			<Tool
-				Name="VCPreBuildEventTool"/>
+				Name="VCCLCompilerTool"
+				AdditionalOptions=" /Zm1000"
+				Optimization="2"
+				InlineFunctionExpansion="1"
+				AdditionalIncludeDirectories="..\src;"
+				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG"
+				ExceptionHandling="1"
+				RuntimeLibrary="2"
+				RuntimeTypeInfo="false"
+				AssemblerListingLocation="RelWithDebInfo"
+				ObjectFile="$(IntDir)\"
+				ProgramDataBaseFileName="..\bin\qhullcpp.pdb"
+				WarningLevel="3"
+				DebugInformationFormat="3"
+				CompileAs="2"
+			/>
 			<Tool
-				Name="VCPreLinkEventTool"/>
+				Name="VCManagedResourceCompilerTool"
+			/>
 			<Tool
-				Name="VCPostBuildEventTool"/>
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG"
+				AdditionalIncludeDirectories="..\src;"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\lib\qhullcpp.lib"/>
+				OutputFile="..\lib\qhullcpp.lib"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
 		</Configuration>
 	</Configurations>
+	<References>
+	</References>
 	<Files>
 		<Filter
 			Name="Source Files"
-			Filter="">
+			>
 			<File
-				RelativePath="..\src\libqhullcpp\Coordinates.cpp">
+				RelativePath="..\src\libqhullcpp\Coordinates.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\src\libqhullcpp\PointCoordinates.cpp">
+				RelativePath="..\src\libqhullcpp\PointCoordinates.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\src\libqhullcpp\Qhull.cpp">
+				RelativePath="..\src\libqhullcpp\Qhull.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\src\libqhullcpp\QhullFacet.cpp">
+				RelativePath="..\src\libqhullcpp\QhullFacet.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\src\libqhullcpp\QhullFacetList.cpp">
+				RelativePath="..\src\libqhullcpp\QhullFacetList.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\src\libqhullcpp\QhullFacetSet.cpp">
+				RelativePath="..\src\libqhullcpp\QhullFacetSet.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\src\libqhullcpp\QhullHyperplane.cpp">
+				RelativePath="..\src\libqhullcpp\QhullHyperplane.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\src\libqhullcpp\QhullPoint.cpp">
+				RelativePath="..\src\libqhullcpp\QhullPoint.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\src\libqhullcpp\QhullPointSet.cpp">
+				RelativePath="..\src\libqhullcpp\QhullPoints.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\src\libqhullcpp\QhullPoints.cpp">
+				RelativePath="..\src\libqhullcpp\QhullPointSet.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\src\libqhullcpp\QhullQh.cpp">
+				RelativePath="..\src\libqhullcpp\QhullQh.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\src\libqhullcpp\QhullRidge.cpp">
+				RelativePath="..\src\libqhullcpp\QhullRidge.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\src\libqhullcpp\QhullSet.cpp">
+				RelativePath="..\src\libqhullcpp\QhullSet.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\src\libqhullcpp\QhullStat.cpp">
+				RelativePath="..\src\libqhullcpp\QhullStat.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\src\libqhullcpp\QhullVertex.cpp">
+				RelativePath="..\src\libqhullcpp\QhullVertex.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\src\libqhullcpp\QhullVertexSet.cpp">
+				RelativePath="..\src\libqhullcpp\QhullVertexSet.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\src\libqhullcpp\RboxPoints.cpp">
+				RelativePath="..\src\libqhullcpp\RboxPoints.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\src\libqhullcpp\RoadError.cpp">
+				RelativePath="..\src\libqhullcpp\RoadError.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\src\libqhullcpp\RoadLogEvent.cpp">
+				RelativePath="..\src\libqhullcpp\RoadLogEvent.cpp"
+				>
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
-			Filter="">
+			>
 			<File
-				RelativePath="..\src\libqhullcpp\Coordinates.h">
+				RelativePath="..\src\libqhullcpp\Coordinates.h"
+				>
 			</File>
 			<File
-				RelativePath="..\src\libqhullcpp\functionObjects.h">
+				RelativePath="..\src\libqhullcpp\functionObjects.h"
+				>
 			</File>
 			<File
-				RelativePath="..\src\libqhullcpp\PointCoordinates.h">
+				RelativePath="..\src\libqhullcpp\PointCoordinates.h"
+				>
 			</File>
 			<File
-				RelativePath="..\src\libqhullcpp\Qhull.h">
+				RelativePath="..\src\libqhullcpp\Qhull.h"
+				>
 			</File>
 			<File
-				RelativePath="..\src\libqhullcpp\QhullError.h">
+				RelativePath="..\src\libqhullcpp\QhullError.h"
+				>
 			</File>
 			<File
-				RelativePath="..\src\libqhullcpp\QhullFacet.h">
+				RelativePath="..\src\libqhullcpp\QhullFacet.h"
+				>
 			</File>
 			<File
-				RelativePath="..\src\libqhullcpp\QhullFacetList.h">
+				RelativePath="..\src\libqhullcpp\QhullFacetList.h"
+				>
 			</File>
 			<File
-				RelativePath="..\src\libqhullcpp\QhullFacetSet.h">
+				RelativePath="..\src\libqhullcpp\QhullFacetSet.h"
+				>
 			</File>
 			<File
-				RelativePath="..\src\libqhullcpp\QhullHyperplane.h">
+				RelativePath="..\src\libqhullcpp\QhullHyperplane.h"
+				>
 			</File>
 			<File
-				RelativePath="..\src\libqhullcpp\QhullIterator.h">
+				RelativePath="..\src\libqhullcpp\QhullIterator.h"
+				>
 			</File>
 			<File
-				RelativePath="..\src\libqhullcpp\QhullLinkedList.h">
+				RelativePath="..\src\libqhullcpp\QhullLinkedList.h"
+				>
 			</File>
 			<File
-				RelativePath="..\src\libqhullcpp\QhullPoint.h">
+				RelativePath="..\src\libqhullcpp\QhullPoint.h"
+				>
 			</File>
 			<File
-				RelativePath="..\src\libqhullcpp\QhullPoints.h">
+				RelativePath="..\src\libqhullcpp\QhullPoints.h"
+				>
 			</File>
 			<File
-				RelativePath="..\src\libqhullcpp\QhullPointSet.h">
+				RelativePath="..\src\libqhullcpp\QhullPointSet.h"
+				>
 			</File>
 			<File
-				RelativePath="..\src\libqhullcpp\QhullQh.h">
+				RelativePath="..\src\libqhullcpp\QhullQh.h"
+				>
 			</File>
 			<File
-				RelativePath="..\src\libqhullcpp\QhullRidge.h">
+				RelativePath="..\src\libqhullcpp\QhullRidge.h"
+				>
 			</File>
 			<File
-				RelativePath="..\src\libqhullcpp\QhullSet.h">
+				RelativePath="..\src\libqhullcpp\QhullSet.h"
+				>
 			</File>
 			<File
-				RelativePath="..\src\libqhullcpp\QhullSets.h">
+				RelativePath="..\src\libqhullcpp\QhullSets.h"
+				>
 			</File>
 			<File
-				RelativePath="..\src\libqhullcpp\QhullStat.h">
+				RelativePath="..\src\libqhullcpp\QhullStat.h"
+				>
 			</File>
 			<File
-				RelativePath="..\src\libqhullcpp\QhullVertex.h">
+				RelativePath="..\src\libqhullcpp\QhullVertex.h"
+				>
 			</File>
 			<File
-				RelativePath="..\src\libqhullcpp\QhullVertexSet.h">
+				RelativePath="..\src\libqhullcpp\QhullVertexSet.h"
+				>
 			</File>
 			<File
-				RelativePath="..\src\libqhullcpp\RboxPoints.h">
+				RelativePath="..\src\libqhullcpp\RboxPoints.h"
+				>
 			</File>
 			<File
-				RelativePath="..\src\libqhullcpp\RoadError.h">
+				RelativePath="..\src\libqhullcpp\RoadError.h"
+				>
 			</File>
 			<File
-				RelativePath="..\src\libqhullcpp\RoadLogEvent.h">
+				RelativePath="..\src\libqhullcpp\RoadLogEvent.h"
+				>
 			</File>
 			<File
-				RelativePath="..\src\qhulltest\RoadTest.h">
+				RelativePath="..\src\qhulltest\RoadTest.h"
+				>
 			</File>
 		</Filter>
 	</Files>

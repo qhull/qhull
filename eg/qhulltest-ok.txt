@@ -84,6 +84,7 @@ Config: Using QTest library 4.7.4, Qt 4.7.4
 PASS   : orgQhull::QhullFacet_test::initTestCase()
 PASS   : orgQhull::QhullFacet_test::t_construct_qh()
 PASS   : orgQhull::QhullFacet_test::t_constructConvert()
+ rbox c | qhull Qt QR0 QR1451878953   distanceEpsilon 1.19817e-015
 18
 19
 22
@@ -96,92 +97,94 @@ PASS   : orgQhull::QhullFacet_test::t_constructConvert()
 35
 38
 39
-Hyperplane:  -0.371343 0.735069 0.567254 -0.5
-InnerPlane:  -0.371343 0.735069 0.567254 -0.5
-   innerOffset+0.5 1.16573e-015
-OuterPlane:  -0.371343 0.735069 0.567254 -0.5
-   outerOffset+0.5 -2.33147e-015
-Center:  -0.185672 0.367535 0.283627
-
-Hyperplane:  -0.371343 0.735069 0.567254 -0.5
-InnerPlane:  -0.371343 0.735069 0.567254 -0.5
-   innerOffset+0.5 1.16573e-015
-OuterPlane:  -0.371343 0.735069 0.567254 -0.5
-   outerOffset+0.5 -2.33147e-015
-Center:  -0.185672 0.367535 0.283627
-
-Hyperplane:  0.883955 0.0929307 0.458243 -0.5
-InnerPlane:  0.883955 0.0929307 0.458243 -0.5
-   innerOffset+0.5 1.16573e-015
-OuterPlane:  0.883955 0.0929307 0.458243 -0.5
-   outerOffset+0.5 -2.33147e-015
-Center:  0.441978 0.0464654 0.229122
-
-Hyperplane:  0.883955 0.0929307 0.458243 -0.5
-InnerPlane:  0.883955 0.0929307 0.458243 -0.5
-   innerOffset+0.5 1.16573e-015
-OuterPlane:  0.883955 0.0929307 0.458243 -0.5
-   outerOffset+0.5 -2.33147e-015
-Center:  0.441978 0.0464654 0.229122
-
-Hyperplane:  0.284125 0.671593 -0.684277 -0.5
-InnerPlane:  0.284125 0.671593 -0.684277 -0.5
-   innerOffset+0.5 1.27676e-015
-OuterPlane:  0.284125 0.671593 -0.684277 -0.5
-   outerOffset+0.5 -2.33147e-015
-Center:  0.142062 0.335797 -0.342139
-
-Hyperplane:  0.284125 0.671593 -0.684277 -0.5
-InnerPlane:  0.284125 0.671593 -0.684277 -0.5
-   innerOffset+0.5 1.27676e-015
-OuterPlane:  0.284125 0.671593 -0.684277 -0.5
-   outerOffset+0.5 -2.33147e-015
-Center:  0.142062 0.335797 -0.342139
-
-Hyperplane:  -0.284125 -0.671593 0.684277 -0.5
-InnerPlane:  -0.284125 -0.671593 0.684277 -0.5
-   innerOffset+0.5 1.27676e-015
-OuterPlane:  -0.284125 -0.671593 0.684277 -0.5
-   outerOffset+0.5 -2.33147e-015
-Center:  -0.142062 -0.335797 0.342139
-
-Hyperplane:  -0.284125 -0.671593 0.684277 -0.5
-InnerPlane:  -0.284125 -0.671593 0.684277 -0.5
-   innerOffset+0.5 1.27676e-015
-OuterPlane:  -0.284125 -0.671593 0.684277 -0.5
-   outerOffset+0.5 -2.33147e-015
-Center:  -0.142062 -0.335797 0.342139
-
-Hyperplane:  -0.883955 -0.0929307 -0.458243 -0.5
-InnerPlane:  -0.883955 -0.0929307 -0.458243 -0.5
-   innerOffset+0.5 1.16573e-015
-OuterPlane:  -0.883955 -0.0929307 -0.458243 -0.5
-   outerOffset+0.5 -2.44249e-015
-Center:  -0.441978 -0.0464654 -0.229122
-
-Hyperplane:  -0.883955 -0.0929307 -0.458243 -0.5
-InnerPlane:  -0.883955 -0.0929307 -0.458243 -0.5
-   innerOffset+0.5 1.16573e-015
-OuterPlane:  -0.883955 -0.0929307 -0.458243 -0.5
-   outerOffset+0.5 -2.44249e-015
-Center:  -0.441978 -0.0464654 -0.229122
-
-Hyperplane:  0.371343 -0.735069 -0.567254 -0.5
-InnerPlane:  0.371343 -0.735069 -0.567254 -0.5
+Hyperplane:  0.598439 0.757812 0.259985 -0.5
+InnerPlane:  0.598439 0.757812 0.259985 -0.5
    innerOffset+0.5 1.22125e-015
-OuterPlane:  0.371343 -0.735069 -0.567254 -0.5
-   outerOffset+0.5 -2.33147e-015
-Center:  0.185672 -0.367535 -0.283627
+OuterPlane:  0.598439 0.757812 0.259985 -0.5
+   outerOffset+0.5 -2.44249e-015
+Center:  0.299219 0.378906 0.129992
 
-Hyperplane:  0.371343 -0.735069 -0.567254 -0.5
-InnerPlane:  0.371343 -0.735069 -0.567254 -0.5
+Hyperplane:  0.598439 0.757812 0.259985 -0.5
+InnerPlane:  0.598439 0.757812 0.259985 -0.5
    innerOffset+0.5 1.22125e-015
-OuterPlane:  0.371343 -0.735069 -0.567254 -0.5
-   outerOffset+0.5 -2.33147e-015
-Center:  0.185672 -0.367535 -0.283627
+OuterPlane:  0.598439 0.757812 0.259985 -0.5
+   outerOffset+0.5 -2.44249e-015
+Center:  0.299219 0.378906 0.129992
 
-Voronoi vertex:   0 8.32667e-017 0
- DistanceEpsilon 1.72004e-013
+Hyperplane:  -0.613125 0.224313 0.75747 -0.5
+InnerPlane:  -0.613125 0.224313 0.75747 -0.5
+   innerOffset+0.5 1.22125e-015
+OuterPlane:  -0.613125 0.224313 0.75747 -0.5
+   outerOffset+0.5 -2.44249e-015
+Center:  -0.306563 0.112157 0.378735
+
+Hyperplane:  -0.613125 0.224313 0.75747 -0.5
+InnerPlane:  -0.613125 0.224313 0.75747 -0.5
+   innerOffset+0.5 1.11022e-015
+OuterPlane:  -0.613125 0.224313 0.75747 -0.5
+   outerOffset+0.5 -2.44249e-015
+Center:  -0.306563 0.112157 0.378735
+
+Hyperplane:  -0.515702 0.612703 -0.598871 -0.5
+InnerPlane:  -0.515702 0.612703 -0.598871 -0.5
+   innerOffset+0.5 1.16573e-015
+OuterPlane:  -0.515702 0.612703 -0.598871 -0.5
+   outerOffset+0.5 -2.44249e-015
+Center:  -0.257851 0.306351 -0.299436
+
+Hyperplane:  -0.515702 0.612703 -0.598871 -0.5
+InnerPlane:  -0.515702 0.612703 -0.598871 -0.5
+   innerOffset+0.5 1.16573e-015
+OuterPlane:  -0.515702 0.612703 -0.598871 -0.5
+   outerOffset+0.5 -2.44249e-015
+Center:  -0.257851 0.306351 -0.299436
+
+Hyperplane:  0.515702 -0.612703 0.598871 -0.5
+InnerPlane:  0.515702 -0.612703 0.598871 -0.5
+   innerOffset+0.5 1.16573e-015
+OuterPlane:  0.515702 -0.612703 0.598871 -0.5
+   outerOffset+0.5 -2.44249e-015
+Center:  0.257851 -0.306351 0.299436
+
+Hyperplane:  0.515702 -0.612703 0.598871 -0.5
+InnerPlane:  0.515702 -0.612703 0.598871 -0.5
+   innerOffset+0.5 1.16573e-015
+OuterPlane:  0.515702 -0.612703 0.598871 -0.5
+   outerOffset+0.5 -2.44249e-015
+Center:  0.257851 -0.306351 0.299436
+
+Hyperplane:  0.613125 -0.224313 -0.75747 -0.5
+InnerPlane:  0.613125 -0.224313 -0.75747 -0.5
+   innerOffset+0.5 1.11022e-015
+OuterPlane:  0.613125 -0.224313 -0.75747 -0.5
+   outerOffset+0.5 -2.44249e-015
+Center:  0.306563 -0.112157 -0.378735
+
+Hyperplane:  0.613125 -0.224313 -0.75747 -0.5
+InnerPlane:  0.613125 -0.224313 -0.75747 -0.5
+   innerOffset+0.5 1.22125e-015
+OuterPlane:  0.613125 -0.224313 -0.75747 -0.5
+   outerOffset+0.5 -2.44249e-015
+Center:  0.306563 -0.112157 -0.378735
+
+Hyperplane:  -0.598439 -0.757812 -0.259985 -0.5
+InnerPlane:  -0.598439 -0.757812 -0.259985 -0.5
+   innerOffset+0.5 1.16573e-015
+OuterPlane:  -0.598439 -0.757812 -0.259985 -0.5
+   outerOffset+0.5 -2.55351e-015
+Center:  -0.299219 -0.378906 -0.129992
+
+Hyperplane:  -0.598439 -0.757812 -0.259985 -0.5
+InnerPlane:  -0.598439 -0.757812 -0.259985 -0.5
+   innerOffset+0.5 1.16573e-015
+OuterPlane:  -0.598439 -0.757812 -0.259985 -0.5
+   outerOffset+0.5 -2.55351e-015
+Center:  -0.299219 -0.378906 -0.129992
+
+ rbox c | qhull d Qz Qt QR0 QR1451878953   distanceEpsilon 1.74123e-015
+ rbox c | qhull v Qz QR0 QR1451878953   distanceEpsilon 1.74123e-015
+Voronoi vertex:   1.11022e-016 2.73566e-015 -1.40166e-015
+ Is it within 400 * distanceEpsilon (6.96491e-013) of the origin?
 PASS   : orgQhull::QhullFacet_test::t_getSet()
 PASS   : orgQhull::QhullFacet_test::t_value()
 PASS   : orgQhull::QhullFacet_test::t_foreach()
@@ -270,164 +273,164 @@ PASS   : orgQhull::QhullFacetList_test::t_readonly()
 PASS   : orgQhull::QhullFacetList_test::t_foreach()
 Show all of FacetList
 Vertices for 3 facets
-- p2 (v5):  -0.485587 0.656866 -0.287633
- neighborFacets: f3 f7 f11
-- p1 (v3):  0.114244 0.0782033 0.854888
+- p6 (v5):  0.347931 0.573101 -0.548178
+ neighborFacets: f6 f4 f11
+- p0 (v3):  0.250508 0.184711 0.808163
  neighborFacets: f3 f4 f8
-- p0 (v2):  0.398368 0.749796 0.17061
- neighborFacets: f3 f4 f7
-- p3 (v0):  -0.769712 -0.0147274 0.396644
- neighborFacets: f3 f8 f11
-- p5 (v6):  0.485587 -0.656866 0.287633
- neighborFacets: f8 f4 f14
-- p4 (v1):  0.769712 0.0147274 -0.396644
- neighborFacets: f4 f7 f14
-- p6 (v7):  -0.114244 -0.0782033 -0.854888
- neighborFacets: f11 f7 f14
-- f3
-    - flags: bottom tested seen
-    - merges: 1
-    - normal:  -0.371343 0.735069 0.567254
-    - offset:  -0.5
-    - center: -0.185672 0.367535 0.283627 
-    - vertices: p2(v5) p1(v3) p0(v2) p3(v0)
-    - neighboring facets: f4 f8 f11 f7
-    - ridges:
-     - r4 tested
-           vertices: p1(v3) p0(v2)
-           between f4 and f3
-     - r3 tested
-           vertices: p1(v3) p3(v0)
-           between f3 and f8
-     - r1 tested
-           vertices: p2(v5) p3(v0)
-           between f11 and f3
-     - r2 tested
-           vertices: p2(v5) p0(v2)
-           between f3 and f7
+- p2 (v2):  -0.265194 0.797414 0.209292
+ neighborFacets: f3 f4 f6
+- p4 (v1):  0.863633 -0.0396019 0.0506927
+ neighborFacets: f4 f8 f11
+- p1 (v6):  -0.347931 -0.573101 0.548178
+ neighborFacets: f8 f3 f13
+- p3 (v0):  -0.863633 0.0396019 -0.0506927
+ neighborFacets: f3 f6 f13
+- p5 (v8):  0.265194 -0.797414 -0.209292
+ neighborFacets: f8 f11 f13
 - f4
     - flags: top tested seen
     - merges: 1
-    - normal:  0.883955 0.0929307 0.458243
+    - normal:  0.598439 0.757812 0.259985
     - offset:  -0.5
-    - center: 0.441978 0.0464654 0.229122 
-    - vertices: p5(v6) p1(v3) p0(v2) p4(v1)
-    - neighboring facets: f7 f14 f3 f8
+    - center: 0.299219 0.378906 0.129992 
+    - vertices: p6(v5) p0(v3) p2(v2) p4(v1)
+    - neighboring facets: f3 f8 f11 f6
     - ridges:
      - r4 tested
-           vertices: p1(v3) p0(v2)
+           vertices: p0(v3) p2(v2)
            between f4 and f3
-     - r11 tested
-           vertices: p0(v2) p4(v1)
-           between f4 and f7
-     - r7 tested
-           vertices: p5(v6) p4(v1)
-           between f14 and f4
-     - r10 tested
-           vertices: p5(v6) p1(v3)
-           between f4 and f8
-- f7
-    - flags: bottom tested seen coplanar
-    - merges: 1
-    - normal:  0.284125 0.671593 -0.684277
-    - offset:  -0.5
-    - center: 0.142062 0.335797 -0.342139 
-    - vertices: p6(v7) p2(v5) p0(v2) p4(v1)
-    - neighboring facets: f4 f3 f14 f11
-    - ridges:
      - r2 tested
-           vertices: p2(v5) p0(v2)
-           between f3 and f7
-     - r14 tested
-           vertices: p6(v7) p2(v5)
-           between f11 and f7
-     - r13 tested
-           vertices: p6(v7) p4(v1)
-           between f7 and f14
+           vertices: p6(v5) p2(v2)
+           between f6 and f4
+     - r1 tested
+           vertices: p6(v5) p4(v1)
+           between f4 and f11
+     - r3 tested
+           vertices: p0(v3) p4(v1)
+           between f8 and f4
+- f3
+    - flags: bottom tested seen
+    - merges: 1
+    - normal:  -0.613125 0.224313 0.75747
+    - offset:  -0.5
+    - center: -0.306563 0.112157 0.378735 
+    - vertices: p1(v6) p0(v3) p2(v2) p3(v0)
+    - neighboring facets: f6 f13 f4 f8
+    - ridges:
+     - r4 tested
+           vertices: p0(v3) p2(v2)
+           between f4 and f3
+     - r10 tested
+           vertices: p1(v6) p0(v3)
+           between f8 and f3
+     - r6 tested
+           vertices: p1(v6) p3(v0)
+           between f3 and f13
      - r11 tested
-           vertices: p0(v2) p4(v1)
-           between f4 and f7
+           vertices: p2(v2) p3(v0)
+           between f6 and f3
+- f8
+    - flags: top tested seen coplanar
+    - merges: 1
+    - normal:  0.515702 -0.612703 0.598871
+    - offset:  -0.5
+    - center: 0.257851 -0.306351 0.299436 
+    - vertices: p5(v8) p1(v6) p0(v3) p4(v1)
+    - neighboring facets: f4 f3 f11 f13
+    - ridges:
+     - r3 tested
+           vertices: p0(v3) p4(v1)
+           between f8 and f4
+     - r16 tested
+           vertices: p5(v8) p4(v1)
+           between f11 and f8
+     - r17 tested
+           vertices: p5(v8) p1(v6)
+           between f8 and f13
+     - r10 tested
+           vertices: p1(v6) p0(v3)
+           between f8 and f3
 
 Facets only
-- f3
-    - flags: bottom tested seen
-    - merges: 1
-    - normal:  -0.371343 0.735069 0.567254
-    - offset:  -0.5
-    - center: -0.185672 0.367535 0.283627 
-    - vertices: p2(v5) p1(v3) p0(v2) p3(v0)
-    - neighboring facets: f4 f8 f11 f7
-    - ridges:
-     - r4 tested
-           vertices: p1(v3) p0(v2)
-           between f4 and f3
-     - r3 tested
-           vertices: p1(v3) p3(v0)
-           between f3 and f8
-     - r1 tested
-           vertices: p2(v5) p3(v0)
-           between f11 and f3
-     - r2 tested
-           vertices: p2(v5) p0(v2)
-           between f3 and f7
 - f4
     - flags: top tested seen
     - merges: 1
-    - normal:  0.883955 0.0929307 0.458243
+    - normal:  0.598439 0.757812 0.259985
     - offset:  -0.5
-    - center: 0.441978 0.0464654 0.229122 
-    - vertices: p5(v6) p1(v3) p0(v2) p4(v1)
-    - neighboring facets: f7 f14 f3 f8
+    - center: 0.299219 0.378906 0.129992 
+    - vertices: p6(v5) p0(v3) p2(v2) p4(v1)
+    - neighboring facets: f3 f8 f11 f6
     - ridges:
      - r4 tested
-           vertices: p1(v3) p0(v2)
+           vertices: p0(v3) p2(v2)
            between f4 and f3
-     - r11 tested
-           vertices: p0(v2) p4(v1)
-           between f4 and f7
-     - r7 tested
-           vertices: p5(v6) p4(v1)
-           between f14 and f4
-     - r10 tested
-           vertices: p5(v6) p1(v3)
-           between f4 and f8
-- f7
-    - flags: bottom tested seen coplanar
-    - merges: 1
-    - normal:  0.284125 0.671593 -0.684277
-    - offset:  -0.5
-    - center: 0.142062 0.335797 -0.342139 
-    - vertices: p6(v7) p2(v5) p0(v2) p4(v1)
-    - neighboring facets: f4 f3 f14 f11
-    - ridges:
      - r2 tested
-           vertices: p2(v5) p0(v2)
-           between f3 and f7
-     - r14 tested
-           vertices: p6(v7) p2(v5)
-           between f11 and f7
-     - r13 tested
-           vertices: p6(v7) p4(v1)
-           between f7 and f14
+           vertices: p6(v5) p2(v2)
+           between f6 and f4
+     - r1 tested
+           vertices: p6(v5) p4(v1)
+           between f4 and f11
+     - r3 tested
+           vertices: p0(v3) p4(v1)
+           between f8 and f4
+- f3
+    - flags: bottom tested seen
+    - merges: 1
+    - normal:  -0.613125 0.224313 0.75747
+    - offset:  -0.5
+    - center: -0.306563 0.112157 0.378735 
+    - vertices: p1(v6) p0(v3) p2(v2) p3(v0)
+    - neighboring facets: f6 f13 f4 f8
+    - ridges:
+     - r4 tested
+           vertices: p0(v3) p2(v2)
+           between f4 and f3
+     - r10 tested
+           vertices: p1(v6) p0(v3)
+           between f8 and f3
+     - r6 tested
+           vertices: p1(v6) p3(v0)
+           between f3 and f13
      - r11 tested
-           vertices: p0(v2) p4(v1)
-           between f4 and f7
+           vertices: p2(v2) p3(v0)
+           between f6 and f3
+- f8
+    - flags: top tested seen coplanar
+    - merges: 1
+    - normal:  0.515702 -0.612703 0.598871
+    - offset:  -0.5
+    - center: 0.257851 -0.306351 0.299436 
+    - vertices: p5(v8) p1(v6) p0(v3) p4(v1)
+    - neighboring facets: f4 f3 f11 f13
+    - ridges:
+     - r3 tested
+           vertices: p0(v3) p4(v1)
+           between f8 and f4
+     - r16 tested
+           vertices: p5(v8) p4(v1)
+           between f11 and f8
+     - r17 tested
+           vertices: p5(v8) p1(v6)
+           between f8 and f13
+     - r10 tested
+           vertices: p1(v6) p0(v3)
+           between f8 and f3
 
 Vertices only
-- p2 (v5):  -0.485587 0.656866 -0.287633
- neighborFacets: f3 f7 f11
-- p1 (v3):  0.114244 0.0782033 0.854888
+- p6 (v5):  0.347931 0.573101 -0.548178
+ neighborFacets: f6 f4 f11
+- p0 (v3):  0.250508 0.184711 0.808163
  neighborFacets: f3 f4 f8
-- p0 (v2):  0.398368 0.749796 0.17061
- neighborFacets: f3 f4 f7
-- p3 (v0):  -0.769712 -0.0147274 0.396644
- neighborFacets: f3 f8 f11
-- p5 (v6):  0.485587 -0.656866 0.287633
- neighborFacets: f8 f4 f14
-- p4 (v1):  0.769712 0.0147274 -0.396644
- neighborFacets: f4 f7 f14
-- p6 (v7):  -0.114244 -0.0782033 -0.854888
- neighborFacets: f11 f7 f14
+- p2 (v2):  -0.265194 0.797414 0.209292
+ neighborFacets: f3 f4 f6
+- p4 (v1):  0.863633 -0.0396019 0.0506927
+ neighborFacets: f4 f8 f11
+- p1 (v6):  -0.347931 -0.573101 0.548178
+ neighborFacets: f8 f3 f13
+- p3 (v0):  -0.863633 0.0396019 -0.0506927
+ neighborFacets: f3 f6 f13
+- p5 (v8):  0.265194 -0.797414 -0.209292
+ neighborFacets: f8 f11 f13
 PASS   : orgQhull::QhullFacetList_test::t_io()
 PASS   : orgQhull::QhullFacetList_test::cleanupTestCase()
 Totals: 8 passed, 0 failed, 0 skipped
@@ -439,50 +442,50 @@ PASS   : orgQhull::QhullFacetSet_test::t_construct()
 PASS   : orgQhull::QhullFacetSet_test::t_convert()
 PASS   : orgQhull::QhullFacetSet_test::t_readonly()
 PASS   : orgQhull::QhullFacetSet_test::t_foreach()
-Neighbors of first facet with point 0- f4
-    - flags: top tested seen
+Neighbors of first facet with point 0- f3
+    - flags: bottom tested seen
     - merges: 1
-    - normal:  0.883955 0.0929307 0.458243
+    - normal:  -0.613125 0.224313 0.75747
     - offset:  -0.5
-    - center: 0.441978 0.0464654 0.229122 
-    - vertices: p5(v6) p1(v3) p0(v2) p4(v1)
-    - neighboring facets: f7 f14 f3 f8
+    - center: -0.306563 0.112157 0.378735 
+    - vertices: p1(v6) p0(v3) p2(v2) p3(v0)
+    - neighboring facets: f6 f13 f4 f8
     - ridges:
      - r4 tested
-           vertices: p1(v3) p0(v2)
+           vertices: p0(v3) p2(v2)
            between f4 and f3
-     - r11 tested
-           vertices: p0(v2) p4(v1)
-           between f4 and f7
-     - r7 tested
-           vertices: p5(v6) p4(v1)
-           between f14 and f4
      - r10 tested
-           vertices: p5(v6) p1(v3)
-           between f4 and f8
-- f7
-    - flags: bottom tested seen coplanar
-    - merges: 1
-    - normal:  0.284125 0.671593 -0.684277
-    - offset:  -0.5
-    - center: 0.142062 0.335797 -0.342139 
-    - vertices: p6(v7) p2(v5) p0(v2) p4(v1)
-    - neighboring facets: f4 f3 f14 f11
-    - ridges:
-     - r2 tested
-           vertices: p2(v5) p0(v2)
-           between f3 and f7
-     - r14 tested
-           vertices: p6(v7) p2(v5)
-           between f11 and f7
-     - r13 tested
-           vertices: p6(v7) p4(v1)
-           between f7 and f14
+           vertices: p1(v6) p0(v3)
+           between f8 and f3
+     - r6 tested
+           vertices: p1(v6) p3(v0)
+           between f3 and f13
      - r11 tested
-           vertices: p0(v2) p4(v1)
-           between f4 and f7
+           vertices: p2(v2) p3(v0)
+           between f6 and f3
+- f8
+    - flags: top tested seen coplanar
+    - merges: 1
+    - normal:  0.515702 -0.612703 0.598871
+    - offset:  -0.5
+    - center: 0.257851 -0.306351 0.299436 
+    - vertices: p5(v8) p1(v6) p0(v3) p4(v1)
+    - neighboring facets: f4 f3 f11 f13
+    - ridges:
+     - r3 tested
+           vertices: p0(v3) p4(v1)
+           between f8 and f4
+     - r16 tested
+           vertices: p5(v8) p4(v1)
+           between f11 and f8
+     - r17 tested
+           vertices: p5(v8) p1(v6)
+           between f8 and f13
+     - r10 tested
+           vertices: p1(v6) p0(v3)
+           between f8 and f3
 
-Facet identifiers:  f4 f7
+Facet identifiers:  f3 f8
 PASS   : orgQhull::QhullFacetSet_test::t_io()
 PASS   : orgQhull::QhullFacetSet_test::cleanupTestCase()
 Totals: 7 passed, 0 failed, 0 skipped
@@ -507,7 +510,7 @@ h38
 h39
 PASS   : orgQhull::QhullHyperplane_test::t_readonly()
 PASS   : orgQhull::QhullHyperplane_test::t_define()
-angle 2.22045e-016
+angle 0
 PASS   : orgQhull::QhullHyperplane_test::t_value()
 PASS   : orgQhull::QhullHyperplane_test::t_operator()
 PASS   : orgQhull::QhullHyperplane_test::t_iterator()
@@ -532,22 +535,22 @@ PASS   : orgQhull::QhullLinkedList_test::t_iterator()
 PASS   : orgQhull::QhullLinkedList_test::t_const_iterator()
 PASS   : orgQhull::QhullLinkedList_test::t_QhullLinkedList_iterator()
 INFO:     empty QhullVertextList
-INFO:   - p0 (v2):  0.398368 0.749796 0.17061
- neighborFacets: f3 f4 f7
-- p7 (v8):  -0.398368 -0.749796 -0.17061
- neighborFacets: f8 f11 f14
-- p5 (v6):  0.485587 -0.656866 0.287633
- neighborFacets: f8 f4 f14
-- p3 (v0):  -0.769712 -0.0147274 0.396644
- neighborFacets: f3 f8 f11
-- p6 (v7):  -0.114244 -0.0782033 -0.854888
- neighborFacets: f11 f7 f14
-- p1 (v3):  0.114244 0.0782033 0.854888
+INFO:   - p2 (v2):  -0.265194 0.797414 0.209292
+ neighborFacets: f3 f4 f6
+- p5 (v8):  0.265194 -0.797414 -0.209292
+ neighborFacets: f8 f11 f13
+- p1 (v6):  -0.347931 -0.573101 0.548178
+ neighborFacets: f8 f3 f13
+- p4 (v1):  0.863633 -0.0396019 0.0506927
+ neighborFacets: f4 f8 f11
+- p7 (v7):  -0.250508 -0.184711 -0.808163
+ neighborFacets: f11 f6 f13
+- p0 (v3):  0.250508 0.184711 0.808163
  neighborFacets: f3 f4 f8
-- p2 (v5):  -0.485587 0.656866 -0.287633
- neighborFacets: f3 f7 f11
-- p4 (v1):  0.769712 0.0147274 -0.396644
- neighborFacets: f4 f7 f14
+- p6 (v5):  0.347931 0.573101 -0.548178
+ neighborFacets: f6 f4 f11
+- p3 (v0):  -0.863633 0.0396019 -0.0506927
+ neighborFacets: f3 f6 f13
 
 PASS   : orgQhull::QhullLinkedList_test::t_io()
 PASS   : orgQhull::QhullLinkedList_test::cleanupTestCase()
@@ -559,14 +562,14 @@ PASS   : orgQhull::QhullPoint_test::initTestCase()
 PASS   : orgQhull::QhullPoint_test::t_construct()
 PASS   : orgQhull::QhullPoint_test::t_convert()
 Point ids in 'rbox c'
-p2
-p1
-p0
-p3
-p5
-p4
 p6
+p0
+p2
+p4
+p1
+p3
 p7
+p5
 PASS   : orgQhull::QhullPoint_test::t_readonly()
 PASS   : orgQhull::QhullPoint_test::t_define()
 PASS   : orgQhull::QhullPoint_test::t_operator()
@@ -602,32 +605,32 @@ QhullPoints from c[]
  3 4 5
 
 QhullPoints
- 0.398368 0.749796 0.17061
- 0.114244 0.0782033 0.854888
- -0.485587 0.656866 -0.287633
- -0.769712 -0.0147274 0.396644
- 0.769712 0.0147274 -0.396644
- 0.485587 -0.656866 0.287633
- -0.114244 -0.0782033 -0.854888
- -0.398368 -0.749796 -0.17061
+ 0.250508 0.184711 0.808163
+ -0.347931 -0.573101 0.548178
+ -0.265194 0.797414 0.209292
+ -0.863633 0.0396019 -0.0506927
+ 0.863633 -0.0396019 0.0506927
+ 0.265194 -0.797414 -0.209292
+ 0.347931 0.573101 -0.548178
+ -0.250508 -0.184711 -0.808163
 message
- 0.398368 0.749796 0.17061
- 0.114244 0.0782033 0.854888
- -0.485587 0.656866 -0.287633
- -0.769712 -0.0147274 0.396644
- 0.769712 0.0147274 -0.396644
- 0.485587 -0.656866 0.287633
- -0.114244 -0.0782033 -0.854888
- -0.398368 -0.749796 -0.17061
+ 0.250508 0.184711 0.808163
+ -0.347931 -0.573101 0.548178
+ -0.265194 0.797414 0.209292
+ -0.863633 0.0396019 -0.0506927
+ 0.863633 -0.0396019 0.0506927
+ 0.265194 -0.797414 -0.209292
+ 0.347931 0.573101 -0.548178
+ -0.250508 -0.184711 -0.808163
 w/ identifiers
-p0:  0.398368 0.749796 0.17061
-p1:  0.114244 0.0782033 0.854888
-p2:  -0.485587 0.656866 -0.287633
-p3:  -0.769712 -0.0147274 0.396644
-p4:  0.769712 0.0147274 -0.396644
-p5:  0.485587 -0.656866 0.287633
-p6:  -0.114244 -0.0782033 -0.854888
-p7:  -0.398368 -0.749796 -0.17061
+p0:  0.250508 0.184711 0.808163
+p1:  -0.347931 -0.573101 0.548178
+p2:  -0.265194 0.797414 0.209292
+p3:  -0.863633 0.0396019 -0.0506927
+p4:  0.863633 -0.0396019 0.0506927
+p5:  0.265194 -0.797414 -0.209292
+p6:  0.347931 0.573101 -0.548178
+p7:  -0.250508 -0.184711 -0.808163
 PASS   : orgQhull::QhullPoints_test::t_io()
 PASS   : orgQhull::QhullPoints_test::cleanupTestCase()
 Totals: 12 passed, 0 failed, 0 skipped
@@ -770,104 +773,104 @@ PASS   : orgQhull::QhullSet_test::t_const_iterator()
 PASS   : orgQhull::QhullSet_test::t_qhullset_iterator()
 INFO:     empty set
 INFO:   Neighboring facets
-- f4
-    - flags: top tested seen
+- f3
+    - flags: bottom tested seen
     - merges: 1
-    - normal:  0.883955 0.0929307 0.458243
+    - normal:  -0.613125 0.224313 0.75747
     - offset:  -0.5
-    - center: 0.441978 0.0464654 0.229122 
-    - vertices: p5(v6) p1(v3) p0(v2) p4(v1)
-    - neighboring facets: f7 f14 f3 f8
+    - center: -0.306563 0.112157 0.378735 
+    - vertices: p1(v6) p0(v3) p2(v2) p3(v0)
+    - neighboring facets: f6 f13 f4 f8
     - ridges:
      - r4 tested
-           vertices: p1(v3) p0(v2)
+           vertices: p0(v3) p2(v2)
            between f4 and f3
+     - r10 tested
+           vertices: p1(v6) p0(v3)
+           between f8 and f3
+     - r6 tested
+           vertices: p1(v6) p3(v0)
+           between f3 and f13
      - r11 tested
-           vertices: p0(v2) p4(v1)
-           between f4 and f7
-     - r7 tested
-           vertices: p5(v6) p4(v1)
-           between f14 and f4
-     - r10 tested
-           vertices: p5(v6) p1(v3)
-           between f4 and f8
+           vertices: p2(v2) p3(v0)
+           between f6 and f3
 - f8
-    - flags: bottom tested seen coplanar
-    - merges: 1
-    - normal:  -0.284125 -0.671593 0.684277
-    - offset:  -0.5
-    - center: -0.142062 -0.335797 0.342139 
-    - vertices: p7(v8) p5(v6) p1(v3) p3(v0)
-    - neighboring facets: f3 f4 f11 f14
-    - ridges:
-     - r3 tested
-           vertices: p1(v3) p3(v0)
-           between f3 and f8
-     - r10 tested
-           vertices: p5(v6) p1(v3)
-           between f4 and f8
-     - r17 tested
-           vertices: p7(v8) p5(v6)
-           between f14 and f8
-     - r16 tested
-           vertices: p7(v8) p3(v0)
-           between f8 and f11
-- f11
     - flags: top tested seen coplanar
     - merges: 1
-    - normal:  -0.883955 -0.0929307 -0.458243
+    - normal:  0.515702 -0.612703 0.598871
     - offset:  -0.5
-    - center: -0.441978 -0.0464654 -0.229122 
-    - vertices: p7(v8) p6(v7) p2(v5) p3(v0)
-    - neighboring facets: f3 f8 f7 f14
+    - center: 0.257851 -0.306351 0.299436 
+    - vertices: p5(v8) p1(v6) p0(v3) p4(v1)
+    - neighboring facets: f4 f3 f11 f13
     - ridges:
-     - r1 tested
-           vertices: p2(v5) p3(v0)
-           between f11 and f3
+     - r3 tested
+           vertices: p0(v3) p4(v1)
+           between f8 and f4
      - r16 tested
-           vertices: p7(v8) p3(v0)
-           between f8 and f11
-     - r19 tested
-           vertices: p7(v8) p6(v7)
-           between f11 and f14
-     - r14 tested
-           vertices: p6(v7) p2(v5)
-           between f11 and f7
-- f7
+           vertices: p5(v8) p4(v1)
+           between f11 and f8
+     - r17 tested
+           vertices: p5(v8) p1(v6)
+           between f8 and f13
+     - r10 tested
+           vertices: p1(v6) p0(v3)
+           between f8 and f3
+- f11
     - flags: bottom tested seen coplanar
     - merges: 1
-    - normal:  0.284125 0.671593 -0.684277
+    - normal:  0.613125 -0.224313 -0.75747
     - offset:  -0.5
-    - center: 0.142062 0.335797 -0.342139 
-    - vertices: p6(v7) p2(v5) p0(v2) p4(v1)
-    - neighboring facets: f4 f3 f14 f11
+    - center: 0.306563 -0.112157 -0.378735 
+    - vertices: p5(v8) p7(v7) p6(v5) p4(v1)
+    - neighboring facets: f4 f8 f6 f13
+    - ridges:
+     - r1 tested
+           vertices: p6(v5) p4(v1)
+           between f4 and f11
+     - r14 tested
+           vertices: p7(v7) p6(v5)
+           between f6 and f11
+     - r19 tested
+           vertices: p5(v8) p7(v7)
+           between f13 and f11
+     - r16 tested
+           vertices: p5(v8) p4(v1)
+           between f11 and f8
+- f6
+    - flags: top tested seen coplanar
+    - merges: 1
+    - normal:  -0.515702 0.612703 -0.598871
+    - offset:  -0.5
+    - center: -0.257851 0.306351 -0.299436 
+    - vertices: p7(v7) p6(v5) p2(v2) p3(v0)
+    - neighboring facets: f3 f4 f13 f11
     - ridges:
      - r2 tested
-           vertices: p2(v5) p0(v2)
-           between f3 and f7
-     - r14 tested
-           vertices: p6(v7) p2(v5)
-           between f11 and f7
-     - r13 tested
-           vertices: p6(v7) p4(v1)
-           between f7 and f14
+           vertices: p6(v5) p2(v2)
+           between f6 and f4
      - r11 tested
-           vertices: p0(v2) p4(v1)
-           between f4 and f7
+           vertices: p2(v2) p3(v0)
+           between f6 and f3
+     - r13 tested
+           vertices: p7(v7) p3(v0)
+           between f13 and f6
+     - r14 tested
+           vertices: p7(v7) p6(v5)
+           between f6 and f11
 
 INFO:   Ridges for a facet
      - r4 tested
-           vertices: p1(v3) p0(v2)
+           vertices: p0(v3) p2(v2)
            between f4 and f3
      - r3 tested
-           vertices: p1(v3) p3(v0)
-           between f3 and f8
+           vertices: p0(v3) p4(v1)
+           between f8 and f4
      - r1 tested
-           vertices: p2(v5) p3(v0)
-           between f11 and f3
+           vertices: p6(v5) p4(v1)
+           between f4 and f11
      - r2 tested
-           vertices: p2(v5) p0(v2)
-           between f3 and f7
+           vertices: p6(v5) p2(v2)
+           between f6 and f4
 
 PASS   : orgQhull::QhullSet_test::t_io()
 PASS   : orgQhull::QhullSet_test::cleanupTestCase()
@@ -880,34 +883,34 @@ PASS   : orgQhull::QhullVertex_test::t_constructConvert()
 5
 3
 2
-0
-6
 1
+6
+0
 7
 8
-Point 2:
- -0.485587 0.656866 -0.287633
-
-Point 1:
- 0.114244 0.0782033 0.854888
+Point 6:
+ 0.347931 0.573101 -0.548178
 
 Point 0:
- 0.398368 0.749796 0.17061
+ 0.250508 0.184711 0.808163
 
-Point 3:
- -0.769712 -0.0147274 0.396644
-
-Point 5:
- 0.485587 -0.656866 0.287633
+Point 2:
+ -0.265194 0.797414 0.209292
 
 Point 4:
- 0.769712 0.0147274 -0.396644
+ 0.863633 -0.0396019 0.0506927
 
-Point 6:
- -0.114244 -0.0782033 -0.854888
+Point 1:
+ -0.347931 -0.573101 0.548178
+
+Point 3:
+ -0.863633 0.0396019 -0.0506927
 
 Point 7:
- -0.398368 -0.749796 -0.17061
+ -0.250508 -0.184711 -0.808163
+
+Point 5:
+ 0.265194 -0.797414 -0.209292
 
 PASS   : orgQhull::QhullVertex_test::t_getSet()
 PASS   : orgQhull::QhullVertex_test::t_foreach()
@@ -940,17 +943,17 @@ Totals: 6 passed, 0 failed, 0 skipped
 ********* Start testing of orgQhull::QhullVertexSet_test *********
 Config: Using QTest library 4.7.4, Qt 4.7.4
 PASS   : orgQhull::QhullVertexSet_test::initTestCase()
-INFO   : Cube rotated by QR1443662668
+INFO   : Cube rotated by QR1451878953
 PASS   : orgQhull::QhullVertexSet_test::t_construct()
-INFO   : Cube rotated by QR1443662668
+INFO   : Cube rotated by QR1451878953
 PASS   : orgQhull::QhullVertexSet_test::t_convert()
 PASS   : orgQhull::QhullVertexSet_test::t_readonly()
-INFO   : Cube rotated by QR1443662668
+INFO   : Cube rotated by QR1451878953
 PASS   : orgQhull::QhullVertexSet_test::t_foreach()
-INFO   : Cube rotated by QR1443662668
-Vertices of first facet with point 0 p2(v5) p1(v3) p0(v2) p3(v0)
+INFO   : Cube rotated by QR1451878953
+Vertices of first facet with point 0 p6(v5) p0(v3) p2(v2) p4(v1)
 
-Vertex identifiers:  v5 v3 v2 v0
+Vertex identifiers:  v5 v3 v2 v1
 PASS   : orgQhull::QhullVertexSet_test::t_io()
 PASS   : orgQhull::QhullVertexSet_test::cleanupTestCase()
 Totals: 7 passed, 0 failed, 0 skipped
@@ -1014,15 +1017,15 @@ INFO   : Caught QH6029 qhull error: option 'Fd' is not used with this program.
              It may be used with qhull.
 
 While executing:  | 
-Options selected for Qhull 2015.0.4.r 2015/09/30:
-  run-id 1368217270
+Options selected for Qhull 2015.1.r 2016/01/03:
+  run-id 2020365857
 INFO   : Error stream without output stream
 qhull error: option 'Fd' is not used with this program.
              It may be used with qhull.
 
 While executing:  | 
-Options selected for Qhull 2015.0.4.r 2015/09/30:
-  run-id 1368217270
+Options selected for Qhull 2015.1.r 2016/01/03:
+  run-id 2020365857
 INFO   : Caught QH6029 
 INFO   : Error output sent to output stream without error stream
 qhull input error: feasible point is not clearly inside halfspace
@@ -1032,16 +1035,16 @@ feasible point:      0      0
 The halfspace was at index 1
 
 While executing: rbox "c" | qhull Tz H0
-Options selected for Qhull 2015.0.4.r 2015/09/30:
-  run-id 1368217270  Tz-stdout  Halfspace-about  0
+Options selected for Qhull 2015.1.r 2016/01/03:
+  run-id 2020365857  Tz-stdout  Halfspace-about  0
 INFO   : Caught QH6023 
 INFO   : No error stream or output stream
 INFO   : Caught QH6029 qhull error: option 'Fd' is not used with this program.
              It may be used with qhull.
 
 While executing:  | 
-Options selected for Qhull 2015.0.4.r 2015/09/30:
-  run-id 1368217270
+Options selected for Qhull 2015.1.r 2016/01/03:
+  run-id 2020365857
 PASS   : orgQhull::Qhull_test::t_message()
 
 Convex hull of 8 points in 3-d:

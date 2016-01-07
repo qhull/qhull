@@ -14,8 +14,8 @@
    This allows the user to avoid loading io_r.o from qhull.a
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull_r/io_r.c#1 $$Change: 1981 $
-   $DateTime: 2015/09/28 20:26:32 $$Author: bbarber $
+   $Id: //main/2015/qhull/src/libqhull_r/io_r.c#3 $$Change: 2047 $
+   $DateTime: 2016/01/04 22:03:18 $$Author: bbarber $
 */
 
 #include "qhull_ra.h"
@@ -82,7 +82,7 @@ void qh_produce_output2(qhT *qh) {
 } /* produce_output2 */
 
 /*-<a                             href="qh-io_r.htm#TOC"
-  >-------------------------------</a><a name="qh_dfacet">-</a>
+  >-------------------------------</a><a name="dfacet">-</a>
 
   qh_dfacet(qh, id )
     print facet by id, for debugging
@@ -97,11 +97,11 @@ void qh_dfacet(qhT *qh, unsigned id) {
       break;
     }
   }
-} /* qh_dfacet */
+} /* dfacet */
 
 
 /*-<a                             href="qh-io_r.htm#TOC"
-  >-------------------------------</a><a name="qh_dvertex">-</a>
+  >-------------------------------</a><a name="dvertex">-</a>
 
   qh_dvertex(qh, id )
     print vertex by id, for debugging
@@ -115,7 +115,7 @@ void qh_dvertex(qhT *qh, unsigned id) {
       break;
     }
   }
-} /* qh_dvertex */
+} /* dvertex */
 
 
 /*-<a                             href="qh-io_r.htm#TOC"
@@ -689,7 +689,7 @@ int qh_eachvoronoi(qhT *qh, FILE *fp, printvridgeT printvridge, vertexT *atverte
 } /* eachvoronoi */
 
 
-/*-<a                             href="qh-poly.htm#TOC"
+/*-<a                             href="qh-poly_r.htm#TOC"
   >-------------------------------</a><a name="eachvoronoi_all">-</a>
 
   qh_eachvoronoi_all(qh, fp, printvridge, isUpper, innerouter, inorder )
@@ -836,7 +836,7 @@ setT *qh_facetvertices(qhT *qh, facetT *facetlist, setT *facets, boolT allfacets
   return vertices;
 } /* facetvertices */
 
-/*-<a                             href="qh-geom.htm#TOC"
+/*-<a                             href="qh-geom_r.htm#TOC"
   >-------------------------------</a><a name="geomplanes">-</a>
 
   qh_geomplanes(qh, facet, outerplane, innerplane )

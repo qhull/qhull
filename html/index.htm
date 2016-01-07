@@ -29,7 +29,8 @@ href="http://www.qhull.org/news">News</a> about Qhull<br>
 &#149; <a href="qh-optp.htm#print">Print</a>
 &#149; <a href="qh-optq.htm#qhull">Qhull</a>
 &#149; <a href="qh-optc.htm#prec">Precision</a>
-&#149; <a href="qh-optt.htm#trace">Trace</a><br>
+&#149; <a href="qh-optt.htm#trace">Trace</a>
+&#149; <a href="../src/libqhull_r/index.htm">Functions</a><br>
 
 <hr>
 <!-- Main text of document -->
@@ -628,7 +629,7 @@ and see how Qhull produces thick facets in response to round-off error.
 </ul>
 </ol>
 
-<p>Geomview defines GGL (a textual API for controlling Geomview) and OOGL (a textual file format for defining objects).
+<p>Geomview defines GCL (a textual API for controlling Geomview) and OOGL (a textual file format for defining objects).
 <ul>
 <li>To control Geomview, you may use any program that reads and writes from stdin and stdout.  For example, it could report Qhull's information about a vertex identified by a double-click 'pick' event.
 <li><a href="http://www.geomview.org/docs/html/GCL.html">GCL</a> command language for controlling Geomview
@@ -646,9 +647,11 @@ and see how Qhull produces thick facets in response to round-off error.
 >Building Savi and Geomview under Windows</a>.  These instructions are somewhat out-of-date.  Updated
 instructions follow.
 
-<p>How to compile Geomview under Cygwin (October 2015)</p>
+<p>How to compile Geomview under 32-bit Cygwin (October 2015)</p>
 <ol>
-<li>Install <a href="http://cygwin.com/">Cygwin</a> as follows.
+<li><b>Note:</b> L. Wood has run into multiple issues with Geomview on Cygwin.  He recommends Virtualbox/Ubuntu
+and a one-click install of geomview via the Ubuntu package.  See his Savi/Geomview link above.
+<li>Install 32-bit <a href="http://cygwin.com/">Cygwin</a> as follows.
 For additional guidance, see Cygwin's <a href="https://cygwin.com/install.html">Installing and Updating Cygwin Packages</a>
 and <a href="http://www.qhull.org/road/road-faq/xml/cmdline.xml#setup-cygwin">Setup cygwin</a>.
 <ul>
@@ -672,7 +675,6 @@ libGL and lib
 <li>If you try again after a successful install, cygwin will uninstall and reinstall all modules..
 <li>Click on the 'Cywin Terminal' icon on the Desktop.  It sets up a user directory in /home from /etc/skel/...
 <li>Mount your disk drives<br>mount c: /c # Ignore the warning /c does not exist
-<li>Consider adding 'cygwin\bin' to '<tt>Control Panel > System > Advanced > Environment > PATH</tt>'. If so, cygwin commands such as 'ls' may be used from the Windows command shell.
 </ul>
 <li>Consider installing the <a href="http://www.qhull.org/bash/doc/road-bash.html">Road Bash</a> scripts (/etc/road-*) from <a href="http://www.qhull.org/road/">Road</a>.
 They define aliases and functions for Unix command shells (Unix, Linux, Mac OS X, Windows),
@@ -895,7 +897,8 @@ href="http://www.qhull.org/news">News</a> about Qhull<br>
 &#149; <a href="qh-optp.htm#print">Print</a>
 &#149; <a href="qh-optq.htm#qhull">Qhull</a>
 &#149; <a href="qh-optc.htm#prec">Precision</a>
-&#149; <a href="qh-optt.htm#trace">Trace</a><br>
+&#149; <a href="qh-optt.htm#trace">Trace</a>
+&#149; <a href="../src/libqhull_r/index.htm">Functions</a><br>
 <b>Dn:</b> <a href="qh-impre.htm">Imprecision in Qhull</a><br>
 <b>Dn:</b> <a href="qh-eg.htm">Description of Qhull examples</a><br>
 <b>Dn:</b> <a href="qh-code.htm">Qhull internals</a><br>

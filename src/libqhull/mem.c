@@ -30,8 +30,8 @@
     global.c (qh_initbuffers) for an example of using mem.c
 
   Copyright (c) 1993-2015 The Geometry Center.
-  $Id: //main/2015/qhull/src/libqhull/mem.c#3 $$Change: 2010 $
-  $DateTime: 2015/10/19 22:23:22 $$Author: bbarber $
+  $Id: //main/2015/qhull/src/libqhull/mem.c#5 $$Change: 2044 $
+  $DateTime: 2016/01/03 20:43:44 $$Author: bbarber $
 */
 
 #include "mem.h"
@@ -309,6 +309,7 @@ void qh_memfreeshort(int *curlong, int *totlong) {
 
   qh_meminit( ferr )
     initialize qhmem and test sizeof( void*)
+    Does not throw errors.  qh_exit on failure
 */
 void qh_meminit(FILE *ferr) {
 
@@ -325,6 +326,7 @@ void qh_meminit(FILE *ferr) {
       qh_fprintf(qhmem.ferr, 6084, "qhull internal error (qh_meminit): sizeof(void*) %d > sizeof(ptr_intT) %d. Change ptr_intT in mem.h to 'long long'\n", (int)sizeof(void*), (int)sizeof(ptr_intT));
       qh_exit(qhmem_ERRqhull);  /* can not use qh_errexit() */
   }
+  qh_memcheck();
 } /* meminit */
 
 /*-<a                             href="qh-mem.htm#TOC"

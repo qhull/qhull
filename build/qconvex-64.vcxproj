@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGUID>{654967DE-0162-4726-B89C-38425777BE03}</ProjectGUID>
+    <ProjectGUID>{595AA5A4-AD06-43F3-8325-6A03A97EEF4A}</ProjectGUID>
     <Keyword>x64Proj</Keyword>
     <Platform>x64</Platform>
     <ProjectName>qconvex</ProjectName>
@@ -263,7 +263,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="../build/qhullstatic.vcxproj">
-      <Project>0E1ED901-6EFB-494A-88D0-9B6D6CDCCB6E</Project>
+      <Project>7AB605B7-14C5-496C-BFDC-DF2E6AE3FF54</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

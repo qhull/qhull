@@ -321,7 +321,7 @@ void qh_printfacetlist(qhT *qh, facetT *facetlist, setT *facets, boolT printall)
 } /* printfacetlist */
 
 
-/*-<a                             href="qh-io.htm#TOC"
+/*-<a                             href="qh-io_r.htm#TOC"
   >-------------------------------</a><a name="printhelp_degenerate">-</a>
 
   qh_printhelp_degenerate(qh, fp )
@@ -397,7 +397,7 @@ To guarantee simplicial output:\n\
 } /* printhelp_degenerate */
 
 
-/*-<a                             href="qh-globa.htm#TOC"
+/*-<a                             href="qh-globa_r.htm#TOC"
   >-------------------------------</a><a name="printhelp_narrowhull">-</a>
 
   qh_printhelp_narrowhull(qh, minangle )
@@ -418,7 +418,7 @@ See 'Limitations' in qh-impre.htm.\n",
           -minangle);   /* convert from angle between normals to angle between facets */
 } /* printhelp_narrowhull */
 
-/*-<a                             href="qh-io.htm#TOC"
+/*-<a                             href="qh-io_r.htm#TOC"
   >-------------------------------</a><a name="printhelp_singular">-</a>
 
   qh_printhelp_singular(qh, fp )
@@ -506,7 +506,7 @@ If the input is lower dimensional:\n\
   }
 } /* printhelp_singular */
 
-/*-<a                             href="qh-globa.htm#TOC"
+/*-<a                             href="qh-globa_r.htm#TOC"
   >-------------------------------</a><a name="user_memsizes">-</a>
 
   qh_user_memsizes(qh)

@@ -11,8 +11,8 @@
    see qhull_ra.h for internal functions
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull_r/libqhull_r.c#1 $$Change: 1981 $
-   $DateTime: 2015/09/28 20:26:32 $$Author: bbarber $
+   $Id: //main/2015/qhull/src/libqhull_r/libqhull_r.c#2 $$Change: 2047 $
+   $DateTime: 2016/01/04 22:03:18 $$Author: bbarber $
 */
 
 #include "qhull_ra.h"
@@ -488,14 +488,14 @@ At %02d:%02d:%02d & %2.5g CPU secs, qhull has created %d facets and merged %d.\n
       getid_(facet), qh->num_outside+1, cpu, qh->furthest_id);
   }
   zmax_(Zvisit2max, (int)qh->visit_id/2);
-  if (qh->visit_id > (unsigned) INT_MAX) {
+  if (qh->visit_id > (unsigned) INT_MAX) { /* 31 bits */
     zinc_(Zvisit);
     qh->visit_id= 0;
     FORALLfacets
       facet->visitid= 0;
   }
   zmax_(Zvvisit2max, (int)qh->vertex_visit/2);
-  if (qh->vertex_visit > (unsigned) INT_MAX) { 
+  if (qh->vertex_visit > (unsigned) INT_MAX) { /* 31 bits */ 
     zinc_(Zvvisit);
     qh->vertex_visit= 0;
     FORALLvertices

@@ -21,8 +21,8 @@
    vertex->neighbors not set until the first merge occurs
 
    Copyright (c) 1993-2015 C.B. Barber.
-   $Id: //main/2015/qhull/src/libqhull/merge.c#1 $$Change: 1981 $
-   $DateTime: 2015/09/28 20:26:32 $$Author: bbarber $
+   $Id: //main/2015/qhull/src/libqhull/merge.c#3 $$Change: 2042 $
+   $DateTime: 2016/01/03 13:26:21 $$Author: bbarber $
 */
 
 #include "qhull_a.h"
@@ -1043,6 +1043,7 @@ void qh_flippedmerges(facetT *facetlist, boolT *wasmerge) {
   design:
     for each duplicate ridge
       find current facets by chasing f.replace links
+      check for wide merge due to duplicate ridge
       determine best direction for facet
       merge one facet into the other
       remove duplicate ridges from qh.facet_mergeset
@@ -1063,6 +1064,8 @@ void qh_forcedmerges(boolT *wasmerge) {
   FOREACHmerge_(othermerges) {
     if (merge->type != MRGridge)
         continue;
+    if (qh TRACEmerge-1 == zzval_(Ztotmerge))
+        qhmem.IStracing= qh IStracing= qh TRACElevel;
     facet1= merge->facet1;
     facet2= merge->facet2;
     while (facet1->visible)      /* must exist, no qh_merge_degenredunant */
@@ -1076,12 +1079,9 @@ void qh_forcedmerges(boolT *wasmerge) {
                merge->facet1->id, merge->facet2->id, facet1->id, facet2->id);
       qh_errexit2(qh_ERRqhull, facet1, facet2);
     }
-    if (qh TRACEmerge-1 == zzval_(Ztotmerge))
-      qhmem.IStracing= qh IStracing= qh TRACElevel;
     dist1= qh_getdistance(facet1, facet2, &mindist1, &maxdist1);
     dist2= qh_getdistance(facet2, facet1, &mindist2, &maxdist2);
-    trace0((qh ferr, 16, "qh_forcedmerges: duplicate ridge between f%d and f%d, dist %2.2g and reverse dist %2.2g during p%d\n",
-            facet1->id, facet2->id, dist1, dist2, qh furthest_id));
+    qh_check_dupridge(facet1, dist1, facet2, dist2);
     if (dist1 < dist2)
       qh_mergefacet(facet1, facet2, &mindist1, &maxdist1, !qh_MERGEapex);
     else {
@@ -1432,7 +1432,7 @@ void qh_makeridges(facetT *facet) {
   notes:
     duplicate ridges occur when the horizon is pinched,
         i.e. a subridge occurs in more than two horizon ridges.
-    could rename vertices that pinch the horizon
+    could rename vertices that pinch the horizon (thus removing subridge)
     uses qh.visit_id
 
   design:

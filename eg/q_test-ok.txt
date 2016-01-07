@@ -1,7 +1,7 @@
 ============================================
 == make qtest ==============================
 ============================================
-== Wed Sep 30 21:17:42 EDT 2015
+== Sun Jan  3 22:41:20 EST 2016
 
 ============================================
 == Test non-reentrant qset.c with mem.c ====
@@ -300,94 +300,91 @@ input
     -0     -0      1 
 
 compute 3-d Delaunay triangulation
-seed: 1443662265
+seed: 1451878882
 input
- 0.268 -0.672  0.772 
- -0.41   0.36  0.754 
--0.599  0.565  0.713 
--0.533  0.642 -0.645 
-  0.41  -0.22 -0.722 
- 0.762  0.941  0.884 
- 0.611 -0.973 -0.017 
--0.0669 -0.482 -0.165 
+ 0.881   0.58 -0.156 
+ 0.532  -0.96  0.299 
+ 0.587 -0.688 -0.495 
+ 0.544 0.0213  0.141 
+ 0.389 -0.638  0.837 
+-0.0107 -0.182  0.979 
+-0.281 -0.842  0.693 
+  0.62   0.51  0.475 
 
-8 vertices and 17 facets with normals:
- -0.52   -0.3 -0.086   0.79 
-  0.19 -0.039  -0.68   0.71 
- -0.79  -0.56 -0.084   0.26 
- -0.53  -0.59   -0.6   0.15 
-  -0.5  -0.39   0.12   0.76 
- -0.78  -0.57 -0.062   0.25 
-  0.85  0.062   0.22  -0.48 
-  0.78   0.13   0.26  -0.56 
-  0.81 -0.011   0.21  -0.55 
- -0.16 -0.071   0.98  0.075 
-  -0.8  -0.54   0.26 -0.092 
-  0.59   0.24   0.42  -0.64 
-  0.12   0.87  0.081  -0.47 
- -0.85  0.045 -0.0096  -0.53 
-   0.5   0.55   0.12  -0.66 
-  0.38   0.69 -0.0037  -0.62 
-  0.31   0.65  -0.02   -0.7 
+8 vertices and 15 facets with normals:
+ -0.15  0.052  -0.27   0.95 
+ -0.79   0.33  -0.52 -0.086 
+  -0.1   -0.7 -0.044   -0.7 
+  0.95  -0.22  0.054  -0.22 
+ -0.82   0.45  -0.35 -0.097 
+-0.016    0.1 -0.0012   0.99 
+ -0.14   0.33   0.23    0.9 
+   0.1  -0.63   0.36  -0.69 
+ 0.046  -0.52   0.47  -0.71 
+ -0.81   0.48  -0.33  -0.11 
+ 0.053    0.4   0.41   0.82 
+  0.52 -0.038   0.71  -0.47 
+  0.93  -0.14   0.29  -0.18 
+  0.93  -0.13   0.32  -0.12 
+  0.92  -0.15   0.32  -0.19 
 
 find 3-d Delaunay triangle closest to [0.5, 0.5, ...]
--0.41  0.36  0.75 
--0.07 -0.48 -0.17 
- 0.41 -0.22 -0.72 
- 0.76  0.94  0.88 
+ 0.62  0.51  0.47 
+-0.01 -0.18  0.98 
+ 0.54  0.02  0.14 
+ 0.88  0.58 -0.16 
 
 Compute a new triangulation as a separate instance of Qhull
-seed: 1443662266
+seed: 1451878883
 input
- 0.268 -0.409  0.283 
- 0.508 -0.574 -0.808 
--0.505 -0.0769 0.0715 
--0.664 -0.591  0.394 
-0.0721 -0.151 -0.615 
--0.178  0.283  0.899 
--0.623 -0.839  0.818 
--0.693  0.696 -0.304 
+ 0.881  0.843 -0.645 
+ -0.55  0.106  0.737 
+ 0.681   0.67  0.864 
+ 0.413  0.788  -0.82 
+0.0507 -0.569  0.944 
+-0.951  -0.84  0.995 
+ 0.485 -0.709 -0.472 
+-0.00633 -0.312  0.336 
 
-8 vertices and 16 facets with normals:
-  0.38   0.45  0.081   0.81 
-  0.83  -0.13   0.46    0.3 
- -0.67  -0.36   -0.6   0.24 
- -0.86   0.23   0.43  -0.11 
- -0.85   0.23   0.42  -0.23 
-0.0065  -0.96  -0.07  -0.26 
- -0.17  -0.36   0.77   -0.5 
- -0.27  -0.27    0.7   -0.6 
- -0.66  -0.37  -0.65 0.0093 
- -0.72  -0.33   -0.6  -0.13 
- -0.14  -0.86  -0.26  -0.42 
- -0.24  -0.78  -0.22  -0.54 
-  0.71    0.7  -0.07 -0.035 
-  0.79   0.61 -0.0077  -0.11 
-   0.3   0.73   0.05  -0.61 
-  0.32    0.7  0.069  -0.63 
+8 vertices and 17 facets with normals:
+ -0.16  -0.36  -0.76   0.52 
+  0.69   0.19  -0.27  -0.65 
+ -0.49   0.78  0.088   0.39 
+  0.52   0.56   0.03  -0.64 
+  0.73  -0.47   0.12   0.49 
+  0.87  0.076  0.046  -0.48 
+ -0.55   0.78   0.11   0.28 
+0.0044    0.8   0.12  -0.59 
+ -0.78  -0.12   -0.6  -0.16 
+ -0.78  -0.18  -0.57  -0.19 
+ -0.77  -0.11   -0.6   -0.2 
+ -0.15  -0.94    0.1  -0.29 
+  0.73  -0.51    0.2   0.42 
+  0.83  -0.29   0.34  -0.33 
+ -0.47  -0.48   0.59  -0.45 
+ -0.11   0.15   0.98 -0.088 
+  0.16   0.15   0.85  -0.48 
 
 Free memory allocated by the new instance of Qhull, and redisplay the old results.
 
 
 
-8 vertices and 17 facets with normals:
- -0.52   -0.3 -0.086   0.79 
-  0.19 -0.039  -0.68   0.71 
- -0.79  -0.56 -0.084   0.26 
- -0.53  -0.59   -0.6   0.15 
-  -0.5  -0.39   0.12   0.76 
- -0.78  -0.57 -0.062   0.25 
-  0.85  0.062   0.22  -0.48 
-  0.78   0.13   0.26  -0.56 
-  0.81 -0.011   0.21  -0.55 
- -0.16 -0.071   0.98  0.075 
-  -0.8  -0.54   0.26 -0.092 
-  0.59   0.24   0.42  -0.64 
-  0.12   0.87  0.081  -0.47 
- -0.85  0.045 -0.0096  -0.53 
-   0.5   0.55   0.12  -0.66 
-  0.38   0.69 -0.0037  -0.62 
-  0.31   0.65  -0.02   -0.7 
+8 vertices and 15 facets with normals:
+ -0.15  0.052  -0.27   0.95 
+ -0.79   0.33  -0.52 -0.086 
+  -0.1   -0.7 -0.044   -0.7 
+  0.95  -0.22  0.054  -0.22 
+ -0.82   0.45  -0.35 -0.097 
+-0.016    0.1 -0.0012   0.99 
+ -0.14   0.33   0.23    0.9 
+   0.1  -0.63   0.36  -0.69 
+ 0.046  -0.52   0.47  -0.71 
+ -0.81   0.48  -0.33  -0.11 
+ 0.053    0.4   0.41   0.82 
+  0.52 -0.038   0.71  -0.47 
+  0.93  -0.14   0.29  -0.18 
+  0.93  -0.13   0.32  -0.12 
+  0.92  -0.15   0.32  -0.19 
 
 compute halfspace intersection about the origin for a diamond
 input as halfspace coefficients + offsets
@@ -439,19 +436,19 @@ all facets.  Will make 48 distance computations.
 Delaunay triangulation by the convex hull of 8 points in 4-d:
 
   Number of input sites: 8
-  Number of Delaunay regions: 10
+  Number of Delaunay regions: 11
 
 Statistics for:  | qhull s d Tcv 
 
   Number of points processed: 8
-  Number of hyperplanes created: 26
-  Number of facets in hull: 17
-  Number of distance tests for qhull: 29
+  Number of hyperplanes created: 22
+  Number of facets in hull: 15
+  Number of distance tests for qhull: 27
   CPU seconds to compute hull (after input):  0
 
 
-Output completed.  Verifying that all points are below 1.4e-014 of
-all facets.  Will make 80 distance computations.
+Output completed.  Verifying that all points are below 7.8e-015 of
+all facets.  Will make 88 distance computations.
 
 Delaunay triangulation by the convex hull of 8 points in 4-d:
 
@@ -461,13 +458,13 @@ Delaunay triangulation by the convex hull of 8 points in 4-d:
 Statistics for:  | qhull s d Tcv 
 
   Number of points processed: 8
-  Number of hyperplanes created: 28
-  Number of facets in hull: 16
-  Number of distance tests for qhull: 30
+  Number of hyperplanes created: 24
+  Number of facets in hull: 17
+  Number of distance tests for qhull: 29
   CPU seconds to compute hull (after input):  0
 
 
-Output completed.  Verifying that all points are below 1.1e-014 of
+Output completed.  Verifying that all points are below 1.6e-014 of
 all facets.  Will make 96 distance computations.
 
 Halfspace intersection by the convex hull of 8 points in 3-d:
@@ -543,21 +540,21 @@ add points in a diamond
     -0   0.71   0.71 
 
 compute 2-d Delaunay triangulation
-seed: 1443662265
+seed: 1451878882
 
 8 vertices and 12 facets with normals:
-  0.35   0.17   0.92 
-  0.84   0.27  -0.46 
-  0.29  0.098   0.95 
- -0.48  -0.59   0.65 
-  0.54  -0.58  -0.61 
- -0.82  -0.58  0.032 
- -0.59  -0.32  -0.74 
- -0.16   0.88  -0.45 
--0.068   0.44   -0.9 
-  0.66  -0.45   -0.6 
-  0.51 -0.047   0.86 
-  0.57  -0.56   -0.6 
+ -0.02  -0.22   0.98 
+  0.45   0.65  -0.61 
+  -0.5  -0.83   0.22 
+  -0.6  -0.63   -0.5 
+  0.91  -0.28   0.31 
+  0.63   0.41  -0.66 
+   0.7  -0.37  -0.61 
+  0.59  -0.25  -0.77 
+ -0.16   0.93   0.33 
+-0.0037      1 -0.055 
+ -0.71 -0.0015   -0.7 
+ -0.53   0.34  -0.78 
 
 add points to triangulation
 added point p8:        -1  -0.7369    1.543
@@ -574,9 +571,9 @@ added point p13:    -0.233  0.03883   0.0558
 14 points, 0 extra points, 14 vertices, and 24 facets in total
 
 find Delaunay triangle closest to [0.5, 0.5, ...]
+ 0.36  0.87 
  0.51 -0.08 
- 0.36  0.75 
- 0.77 -0.41 
+ 0.02  0.14 
 
 compute halfspace intersection about the origin for a diamond
 
@@ -620,19 +617,19 @@ all facets.  Will make 168 distance computations.
 Delaunay triangulation by the convex hull of 8 points in 3-d:
 
   Number of input sites: 8
-  Number of Delaunay regions: 7
+  Number of Delaunay regions: 8
 
 Statistics for: user_eg Delaunay | qhull s d Tcv 
 
   Number of points processed: 8
   Number of hyperplanes created: 19
   Number of facets in hull: 12
-  Number of distance tests for qhull: 26
+  Number of distance tests for qhull: 29
   CPU seconds to compute hull (after input):  0
 
 
 Output completed.  Verifying that all points are below 4.6e-015 of
-all facets.  Will make 56 distance computations.
+all facets.  Will make 64 distance computations.
 
 Delaunay triangulation by the convex hull of 14 points in 3-d:
 
@@ -642,9 +639,9 @@ Delaunay triangulation by the convex hull of 14 points in 3-d:
 Statistics for: user_eg Delaunay | qhull s d Tcv 
 
   Number of points processed: 14
-  Number of hyperplanes created: 50
+  Number of hyperplanes created: 51
   Number of facets in hull: 24
-  Number of distance tests for qhull: 68
+  Number of distance tests for qhull: 73
   CPU seconds to compute hull (after input):  0
 
 
@@ -755,7 +752,7 @@ Facets created by Qhull::runQhull()
 ============================================
 == make testall ============================
 ============================================
-== Wed Sep 30 21:17:45 EDT 2015
+== Sun Jan  3 22:41:22 EST 2016
 
 eg/q_eg
 ==============================
@@ -903,7 +900,7 @@ Statistics for: rbox d G0.6 s 500 | qconvex s G
   Number of distance tests for merging: 8153
   Number of distance tests for checking: 10136
   Number of merged facets: 1
-  CPU seconds to compute hull (after input):  0
+  CPU seconds to compute hull (after input): 0.015
 
 rbox 100 L3 G0.5 s | qconvex s G >eg/eg.09.lens
 
@@ -917,7 +914,7 @@ Statistics for: rbox 100 L3 G0.5 s | qconvex s G
   Number of points processed: 100
   Number of hyperplanes created: 483
   Number of distance tests for qhull: 1642
-  CPU seconds to compute hull (after input): 0.015
+  CPU seconds to compute hull (after input):  0
 
 rbox 100 s P0.5,0.5,0.5 | qconvex s Ga QG0 >eg/eg.10a.sphere.visible
 
@@ -1017,14 +1014,14 @@ Convex hull of 500 points in 3-d:
   Number of facets: 80
   Number of non-simplicial facets: 6
 
-Statistics for: rbox 500 W0 | qconvex s QR0 Qc Gvp QR1443662266
+Statistics for: rbox 500 W0 | qconvex s QR0 Qc Gvp QR1451878883
 
-  Number of points processed: 71
-  Number of hyperplanes created: 202
-  Number of distance tests for qhull: 7525
-  Number of distance tests for merging: 1875
+  Number of points processed: 68
+  Number of hyperplanes created: 201
+  Number of distance tests for qhull: 8813
+  Number of distance tests for merging: 1821
   Number of distance tests for checking: 6765
-  Number of merged facets: 58
+  Number of merged facets: 52
   CPU seconds to compute hull (after input):  0
 
 rbox 500 W0 | qconvex s QR0 Qt Qc Gvp >eg/eg.15b.triangle
@@ -1036,29 +1033,29 @@ Convex hull of 500 points in 3-d:
   Number of facets: 128
   Number of triangulated facets: 6
 
-Statistics for: rbox 500 W0 | qconvex s QR0 Qt Qc Gvp QR1443662266
+Statistics for: rbox 500 W0 | qconvex s QR0 Qt Qc Gvp QR1451878883
 
-  Number of points processed: 71
-  Number of hyperplanes created: 202
-  Number of distance tests for qhull: 7525
-  Number of distance tests for merging: 1941
+  Number of points processed: 68
+  Number of hyperplanes created: 201
+  Number of distance tests for qhull: 8813
+  Number of distance tests for merging: 1887
   Number of distance tests for checking: 6765
-  Number of merged facets: 58
+  Number of merged facets: 52
   CPU seconds to compute hull (after input):  0
 
 rbox 500 W0 | qconvex s QR0 QJ5e-2 Qc Gvp >eg/eg.15c.joggle
 
 Convex hull of 500 points in 3-d:
 
-  Number of vertices: 83
-  Number of coplanar points: 417
-  Number of facets: 162
+  Number of vertices: 72
+  Number of coplanar points: 428
+  Number of facets: 140
 
-Statistics for: rbox 500 W0 | qconvex s QR0 QJ5e-2 Qc Gvp QR1443662266
+Statistics for: rbox 500 W0 | qconvex s QR0 QJ5e-2 Qc Gvp QR1451878883
 
-  Number of points processed: 88
-  Number of hyperplanes created: 387
-  Number of distance tests for qhull: 18965
+  Number of points processed: 81
+  Number of hyperplanes created: 363
+  Number of distance tests for qhull: 19504
   CPU seconds to compute hull (after input):  0
   Input joggled by: 0.05
 
@@ -1280,7 +1277,7 @@ Statistics for: rbox 200 s | qconvex s Qc R0.014 Gpav
   Number of distance tests for merging: 4407
   Number of distance tests for checking: 4026
   Number of merged facets: 176
-  CPU seconds to compute hull (after input): 0.015
+  CPU seconds to compute hull (after input):  0
   Maximum distance of point above facet: 0.048 (0.9x)
   Maximum distance of vertex below facet: -0.098 (1.7x)
 
@@ -1301,7 +1298,7 @@ Statistics for: rbox 1000 s | qconvex s C0.01 Qc Gcrp
   Number of distance tests for merging: 79123
   Number of distance tests for checking: 8141
   Number of merged facets: 1879
-  CPU seconds to compute hull (after input): 0.031
+  CPU seconds to compute hull (after input): 0.015
   Maximum distance of vertex below facet: -0.04 (1.3x)
 
 rbox 1000 s| qconvex s C-0.01 Qc Gcrp >eg/eg.22b.merge.sphere.-01
@@ -1342,7 +1339,7 @@ Statistics for: rbox 1000 s | qconvex s C0.05 Qc Gcrpv
   Number of distance tests for merging: 83457
   Number of distance tests for checking: 7742
   Number of merged facets: 1970
-  CPU seconds to compute hull (after input): 0.015
+  CPU seconds to compute hull (after input): 0.016
   Maximum distance of vertex below facet: -0.21 (1.4x)
 
 rbox 1000 s| qconvex s C-0.05 Qc Gcrpv >eg/eg.22d.merge.sphere.-05
@@ -1383,7 +1380,7 @@ Statistics for: rbox 1000 | qconvex s Gcprvah C0.1 Qc
   Number of distance tests for merging: 5413
   Number of distance tests for checking: 6014
   Number of merged facets: 146
-  CPU seconds to compute hull (after input):  0
+  CPU seconds to compute hull (after input): 0.015
   Maximum distance of vertex below facet: -0.18 (0.6x)
 
 rbox 5000 D4 | qconvex s GD0v Pd0:0.5 C-0.02 C0.1 >eg/eg.24.merge.cube.4d-in-3d
@@ -1652,7 +1649,7 @@ Statistics for: rbox c D4 | qconvex s C0.05 GnpcD3 Pd3:0.5 Tc Tv
   Number of distance tests for merging: 963
   Number of distance tests for checking: 144
   Number of merged facets: 36
-  CPU seconds to compute hull (after input): 0.015
+  CPU seconds to compute hull (after input):  0
 
 
 Output completed.  Verifying that all points are below outer planes of
@@ -1856,7 +1853,7 @@ Statistics for: rbox c D4 | qconvex s GvD0 Pd0:0.5 Tc Tv
   Number of distance tests for merging: 788
   Number of distance tests for checking: 144
   Number of merged facets: 36
-  CPU seconds to compute hull (after input):  0
+  CPU seconds to compute hull (after input): 0.015
 
 
 Output completed.  Verifying that all points are below outer planes of
@@ -1900,7 +1897,7 @@ Statistics for: rbox c D4 | qconvex s GahD0 Pd0:0.5 Tc Tv
   Number of distance tests for merging: 788
   Number of distance tests for checking: 144
   Number of merged facets: 36
-  CPU seconds to compute hull (after input): 0.015
+  CPU seconds to compute hull (after input):  0
 
 
 Output completed.  Verifying that all points are below outer planes of
@@ -1922,7 +1919,7 @@ Statistics for: rbox 100 s | qconvex s C-0.05 Qc Gicvprh Tc Tv
   Number of distance tests for merging: 1030
   Number of distance tests for checking: 1347
   Number of merged facets: 29
-  CPU seconds to compute hull (after input): 0.015
+  CPU seconds to compute hull (after input):  0
   Maximum distance of point above facet: 0.092 (0.6x)
   Maximum distance of vertex below facet: -0.14 (0.9x)
 
@@ -2055,8 +2052,8 @@ ERRONEOUS OTHER FACET:
 ERRONEOUS and NEIGHBORING FACETS to output
 
 While executing: rbox 1000 D4 | qhull Q0 s Po R0.005 Ga Tc Tv
-Options selected for Qhull 2015.0.4.r 2015/09/30:
-  run-id 1361494470  Q0-no-premerge  summary  Poutput-forced
+Options selected for Qhull 2015.1.r 2016/01/03:
+  run-id 2019222981  Q0-no-premerge  summary  Poutput-forced
   Random_perturb 0.005  Gall-points  Tcheck-frequently  Tverify  _max-width  1
   Error-roundoff 0.0025  Visible-distance 0.0025  U-coplanar-distance 0.0025
   Width-outside 0.005  _wide-facet 0.015
@@ -2147,31 +2144,31 @@ Delaunay triangulation by the convex hull of 8 points in 4-d:
 Statistics for:  | qhull s d Tcv 
 
   Number of points processed: 8
-  Number of hyperplanes created: 24
-  Number of facets in hull: 17
-  Number of distance tests for qhull: 26
+  Number of hyperplanes created: 26
+  Number of facets in hull: 18
+  Number of distance tests for qhull: 31
   CPU seconds to compute hull (after input):  0
 
 
-Output completed.  Verifying that all points are below 1.2e-014 of
+Output completed.  Verifying that all points are below 1e-014 of
 all facets.  Will make 72 distance computations.
 
 Delaunay triangulation by the convex hull of 8 points in 4-d:
 
   Number of input sites: 8
-  Number of Delaunay regions: 12
+  Number of Delaunay regions: 16
 
 Statistics for:  | qhull s d Tcv 
 
   Number of points processed: 8
-  Number of hyperplanes created: 26
-  Number of facets in hull: 16
-  Number of distance tests for qhull: 27
+  Number of hyperplanes created: 28
+  Number of facets in hull: 18
+  Number of distance tests for qhull: 33
   CPU seconds to compute hull (after input):  0
 
 
-Output completed.  Verifying that all points are below 1e-014 of
-all facets.  Will make 96 distance computations.
+Output completed.  Verifying that all points are below 1.4e-014 of
+all facets.  Will make 128 distance computations.
 
 Halfspace intersection by the convex hull of 8 points in 3-d:
 
@@ -2198,11 +2195,11 @@ all facets.  Will make 48 distance computations.
 == Check qhull programs ======
 ==============================
 
-qhull => qhull_r 7.0.4.1984 (2015.0.4.r 2015/09/30)
-qconvex => qhull 7.0.4.1984 (2015.0.4 2015/09/30)
-qvoronoi => qhull 7.0.4.1984 (2015.0.4 2015/09/30)
-qdelaunay => qhull 7.0.4.1984 (2015.0.4 2015/09/30)
-qhalf => qhull 7.0.4.1984 (2015.0.4 2015/09/30)
+qhull => qhull_r 7.1.0 (2015.1.r 2016/01/03)
+qconvex => qhull 7.1.0 (2015.1 2016/01/03)
+qvoronoi => qhull 7.1.0 (2015.1 2016/01/03)
+qdelaunay => qhull 7.1.0 (2015.1 2016/01/03)
+qhalf => qhull 7.1.0 (2015.1 2016/01/03)
 
 ==============================
 == check user_eg, user_eg2, and user_eg3
@@ -2268,119 +2265,127 @@ input
  -0.74  -0.41  -0.52 
 
 compute 3-d Delaunay triangulation
-seed: 1443662269
+seed: 1451878885
 input
- 0.268   0.38  0.817 
- -0.74  0.623  0.506 
--0.223 -0.00368  0.147 
- 0.944  -0.29 -0.489 
--0.942 0.0564 -0.294 
-     1   0.31  0.946 
--0.322 -0.438 -0.677 
--0.573  0.229 -0.722 
+ 0.881 -0.631  0.377 
+-0.716  0.237 -0.387 
+ 0.869 -0.615 -0.419 
+ 0.152  0.322 -0.742 
+-0.625 -0.431 -0.843 
+-0.833 -0.155 -0.974 
+0.0191 -0.441 -0.802 
+ 0.741  0.044 0.0575 
 3
 9
--0.4389871993843257 -0.07582220242167516 -0.321282906857138 
--0.5063224700988941 0.5485048361416635 -0.1267287683991654 
-0.5120966548185686 -6.663619520044543 3.033841542018304 
-0.2411886246585716 0.1656761124475348 -0.5301728873144455 
-1.471196266677307 5.072622660458422 -1.306037768720493 
-0.2113973662115516 1.205741495877977 -0.2392117908852955 
-1.178489306154092 2.732348331262005 -0.9170319373877969 
-0.6140449261390121 -0.580839781734905 0.4889136150791894 
-0.5340926189769616 1.078801984150421 -0.4030959406944203 
+-0.2031232066094423 -0.4764783444833965 0.2740382466139305 
+-0.045238477672083 -0.09112145016671497 -0.07607617731572264 
+0.1723354869307346 -0.5329409986274675 -0.009280441082790913 
+0.4562516003290792 -0.1479849013932714 -0.4649717950659504 
+-0.382469492106376 -0.7264042411292255 0.3649072100915576 
+-0.4011690039511876 -3.455495332764409 -0.05967648661222147 
+-0.2876500951555138 0.01926794204694315 -0.9492725975266613 
+-0.3468588082907524 0.05745012253321097 -0.7765801262689038 
+-0.3044307139961454 0.001652112488906621 -0.6864151371570859 
 
-8 vertices and 17 facets with normals:
- -0.28   -0.8   0.53  0.089 
- -0.59   -0.1  -0.43  -0.67 
- -0.28   0.21  -0.32   0.88 
- -0.56    0.6  -0.14  -0.55 
- -0.21  -0.45  -0.26   0.83 
- -0.19  -0.19  -0.39   0.88 
-  -0.2  -0.29  -0.44   0.83 
-  0.07  -0.91   0.41 -0.068 
-  0.31   0.21  -0.68  -0.64 
-  0.27   0.93  -0.24 -0.092 
-  0.16    0.9  -0.18  -0.37 
-  0.37   0.87  -0.29  -0.16 
-  0.56  -0.53   0.45  -0.46 
-  0.39   0.79   -0.3  -0.37 
-  -0.3  -0.77   0.56  0.085 
- -0.33  -0.74   0.58    0.1 
- -0.34  -0.73   0.59  0.067 
+8 vertices and 18 facets with normals:
+  0.11   0.78   0.27   0.55 
+ 0.061   0.77   0.33   0.53 
+ -0.26  -0.62   0.36  -0.65 
+ 0.071   0.79    0.3   0.52 
+-0.088  -0.18  -0.15  -0.97 
+  0.32   0.69 0.0043   0.65 
+  0.34  0.043  -0.93   0.15 
+  0.45   0.71 0.0039   0.55 
+  0.23  -0.71 -0.012  -0.67 
+  0.55  -0.18  -0.56   -0.6 
+  -0.6  -0.38   0.68   0.19 
+ -0.37  -0.71   0.35  -0.49 
+ -0.11  -0.83 -0.019   0.54 
+  0.17  -0.51  -0.82   0.18 
+ -0.11  -0.98 -0.017  -0.14 
+ -0.26  0.017  -0.85  -0.45 
+ -0.35  0.058  -0.79  -0.51 
+ -0.34 0.0018  -0.76  -0.55 
 
 find 3-d Delaunay triangle closest to [0.5, 0.5, ...]
- 0.27  0.38  0.82 
- 0.94 -0.29 -0.49 
--0.22 -0.00  0.15 
--0.57  0.23 -0.72 
+-0.72  0.24 -0.39 
+ 0.02 -0.44 -0.80 
+ 0.74  0.04  0.06 
+ 0.88 -0.63  0.38 
 
 Compute a new triangulation as a separate instance of Qhull
-seed: 1443662270
+seed: 1451878886
 input
- 0.268  0.643  0.328 
- 0.177 -0.312  0.944 
--0.129 -0.646 -0.494 
- 0.814  0.477   0.55 
-  0.72  0.126 -0.187 
-0.0594 -0.348  0.961 
- 0.445 -0.304  0.158 
- 0.801 -0.593 -0.861 
+ 0.881 -0.368 -0.112 
+ 0.202 -0.697  0.051 
+ 0.964  0.743   0.94 
+0.0214 -0.911  0.296 
+-0.964 -0.361 -0.736 
+ 0.227 -0.813 -0.959 
+ 0.786 -0.308 0.0329 
+ 0.114 -0.778 -0.0816 
 3
-12
-1.091175737516309 -3.8330902148043 0.7709822654329955 
-0.4052728233975303 -0.3337091611750076 -0.4599934366544677 
-2.763232936562971 -1.02408120235939 0.5599713934162185 
--1.457137060135982 3.378949382616227 -4.64386639582138 
--0.5444861156222676 0.0100228053308159 0.1955356911012191 
--0.1255637468964428 0.1695491249243359 -0.2567203450283079 
-0.4982872950523556 0.1914961712702687 0.2677643810781618 
-6.331629066036639 -3.715913102010758 2.570037623463225 
-1.183907195920411 -3.868829901640747 0.8135272666239803 
--0.2328522673259046 2.011015671469584 3.432866509196296 
-0.3515121704077685 0.1099646061098807 0.5686719514655153 
--0.07910383823630229 0.05617450570168003 0.4213355866611481 
+16
+-0.7831837348778615 0.5975733785747828 0.7347628167094721 
+-0.329703486115648 0.7356863340405285 0.122093135739252 
+0.210866687628246 -0.03793596058946824 0.9124238645462447 
+-0.9273608715676975 -2.181093556579413 -0.6064543546328886 
+-0.626424379612915 -0.1884334560956681 0.1668400517562739 
+-0.004441433150749588 0.2424137301100392 -0.5838378704926109 
+-0.04255630702408694 0.2762917026207842 -0.4994394822800251 
+0.6641127835526267 2.943132338982983 -2.476218144472451 
+0.272844572746764 1.88760659364142 -1.330348812739169 
+0.1501051060400452 0.8452427483252768 -0.9779041304961688 
+8.324849976625561 -7.328948683419278 7.769576443399995 
+1.792555027439459 -3.000148950078486 -0.2251280283779415 
+0.2223602343731405 -0.09171419308582907 -0.5415337297799878 
+0.9996231440764511 -1.242139492956296 0.445155876306683 
+1.236290538313622 -1.944553825760028 0.008548345453736603 
+0.3162948526772705 -0.2575713809444139 -0.4111507863093711 
 
-8 vertices and 16 facets with normals:
-  0.27  -0.94   0.19  -0.12 
-  0.47  -0.39  -0.54  -0.58 
-  0.91  -0.34   0.18  -0.16 
- -0.73   0.34  -0.12   0.58 
-  -0.6   0.41 -0.045   0.68 
- -0.25   0.57  -0.78 -0.084 
-  0.29   0.78  -0.54   0.15 
- -0.71  0.013   0.26  -0.65 
- -0.21   0.28  -0.43  -0.83 
-  0.64   0.25   0.34  -0.64 
-  0.33  -0.21   0.46    0.8 
-  0.81  -0.48   0.33 -0.064 
-  0.28  -0.93    0.2  -0.12 
--0.058    0.5   0.85  -0.12 
-  0.42   0.13   0.68  -0.59 
- -0.12  0.085   0.64  -0.76 
+8 vertices and 18 facets with normals:
+ -0.19  -0.62   0.31   0.69 
+ -0.59   0.45   0.55  -0.38 
+ -0.34   0.77   0.13  -0.52 
+   0.2 -0.036   0.86  -0.47 
+ -0.37  -0.87  -0.24   -0.2 
+ -0.75  -0.22    0.2   -0.6 
+-0.0055    0.3  -0.72  -0.62 
+-0.056   0.36  -0.66  -0.66 
+  0.17   0.75  -0.63  -0.13 
+  0.11   0.79  -0.56  -0.21 
+  0.11   0.61   -0.7  -0.36 
+  0.56  -0.71   0.23   0.35 
+  0.61  -0.54   0.57 -0.037 
+  0.51  -0.85 -0.064  -0.14 
+  0.29  -0.12   -0.7  -0.64 
+  0.58  -0.72   0.26  -0.29 
+  0.52  -0.82 0.0036  -0.21 
+  0.41  -0.34  -0.54  -0.65 
 
 Free memory allocated by the new instance of Qhull, and redisplay the old results.
 
 
 
-8 vertices and 17 facets with normals:
- -0.28   -0.8   0.53  0.089 
- -0.59   -0.1  -0.43  -0.67 
- -0.28   0.21  -0.32   0.88 
- -0.56    0.6  -0.14  -0.55 
- -0.21  -0.45  -0.26   0.83 
- -0.19  -0.19  -0.39   0.88 
-  -0.2  -0.29  -0.44   0.83 
-  0.07  -0.91   0.41 -0.068 
-  0.31   0.21  -0.68  -0.64 
-  0.27   0.93  -0.24 -0.092 
-  0.16    0.9  -0.18  -0.37 
-  0.37   0.87  -0.29  -0.16 
-  0.56  -0.53   0.45  -0.46 
-  0.39   0.79   -0.3  -0.37 
-  -0.3  -0.77   0.56  0.085 
- -0.33  -0.74   0.58    0.1 
- -0.34  -0.73   0.59  0.067 
+8 vertices and 18 facets with normals:
+  0.11   0.78   0.27   0.55 
+ 0.061   0.77   0.33   0.53 
+ -0.26  -0.62   0.36  -0.65 
+ 0.071   0.79    0.3   0.52 
+-0.088  -0.18  -0.15  -0.97 
+  0.32   0.69 0.0043   0.65 
+  0.34  0.043  -0.93   0.15 
+  0.45   0.71 0.0039   0.55 
+  0.23  -0.71 -0.012  -0.67 
+  0.55  -0.18  -0.56   -0.6 
+  -0.6  -0.38   0.68   0.19 
+ -0.37  -0.71   0.35  -0.49 
+ -0.11  -0.83 -0.019   0.54 
+  0.17  -0.51  -0.82   0.18 
+ -0.11  -0.98 -0.017  -0.14 
+ -0.26  0.017  -0.85  -0.45 
+ -0.35  0.058  -0.79  -0.51 
+ -0.34 0.0018  -0.76  -0.55 
 
 compute halfspace intersection about the origin for a diamond
 input as halfspace coefficients + offsets
@@ -2437,31 +2442,31 @@ Voronoi diagram by the convex hull of 8 points in 4-d:
 Statistics for:  | qhull s d Tcv v p
 
   Number of points processed: 8
-  Number of hyperplanes created: 24
-  Number of facets in hull: 17
-  Number of distance tests for qhull: 26
+  Number of hyperplanes created: 26
+  Number of facets in hull: 18
+  Number of distance tests for qhull: 31
   CPU seconds to compute hull (after input):  0
 
 
-Output completed.  Verifying that all points are below 1.2e-014 of
+Output completed.  Verifying that all points are below 1e-014 of
 all facets.  Will make 72 distance computations.
 
 Voronoi diagram by the convex hull of 8 points in 4-d:
 
   Number of Voronoi regions: 8
-  Number of Voronoi vertices: 12
+  Number of Voronoi vertices: 16
 
 Statistics for:  | qhull s d Tcv v p
 
   Number of points processed: 8
-  Number of hyperplanes created: 26
-  Number of facets in hull: 16
-  Number of distance tests for qhull: 27
+  Number of hyperplanes created: 28
+  Number of facets in hull: 18
+  Number of distance tests for qhull: 33
   CPU seconds to compute hull (after input):  0
 
 
-Output completed.  Verifying that all points are below 1e-014 of
-all facets.  Will make 96 distance computations.
+Output completed.  Verifying that all points are below 1.4e-014 of
+all facets.  Will make 128 distance computations.
 
 Halfspace intersection by the convex hull of 8 points in 3-d:
 
@@ -2560,31 +2565,32 @@ add points in a diamond
      0      0      2 
 
 compute 2-d Delaunay triangulation
-seed: 1443662269
+seed: 1451878885
 
 8 vertices and 12 facets with normals:
- -0.21  -0.06   0.98 
- -0.62   0.54  -0.57 
- -0.44  -0.84   0.31 
- -0.75  -0.25  -0.62 
-  0.48  -0.48  -0.73 
-  -0.3   0.68  -0.67 
-  0.55  -0.39  -0.74 
-  0.78  -0.16   -0.6 
- -0.16   0.75  -0.64 
-  0.38   0.75  -0.54 
-  0.38   0.31   0.87 
-   0.7   0.39    0.6 
+-0.0066   0.78   0.63 
+  0.13  -0.99  0.077 
+ -0.96   0.26  -0.13 
+ -0.34  -0.42  -0.84 
+ -0.24  -0.85  -0.47 
+ -0.21  -0.79  -0.58 
+  0.34    0.9   0.27 
+  0.62   0.75  -0.24 
+  0.34  -0.71  -0.62 
+  0.66   -0.5  -0.57 
+  0.42  -0.87  -0.27 
+  0.57  -0.69  -0.44 
 2
-8
--0.544893788020848 0.4778327737551164 
--0.6014612725204109 -0.1992534490204564 
-0.3292295291000223 -0.3265774875806388 
--0.2217719341448913 0.5007621047972208 
-0.3745705640354179 -0.262564270750547 
-0.647733809086405 -0.1286982640642518 
--0.1215492434185768 0.5916727438913995 
-0.3563672852091802 0.6939517496348293 
+9
+-3.794108728356013 1.021138567786626 
+-0.2021221888642618 -0.2528129983639902 
+-0.2520492406537132 -0.8918531414650233 
+-0.1807451800118105 -0.6751613279754135 
+1.302116885568995 1.57793580063167 
+0.2707524739640899 -0.5668377303022898 
+0.5764139315845791 -0.4365526265217117 
+0.7918193187028474 -1.637182315839855 
+0.6471407600575192 -0.7813270988143927 
 
 add points to triangulation
 added point p8:        -1  -0.7369    1.543
@@ -2600,30 +2606,32 @@ added point p12:    0.3586   0.8694   0.8844
 added point p13:    -0.233  0.03883   0.0558
 14 points, 0 extra points, 14 vertices, and 24 facets in total
 2
-18
--0.6014612725204109 -0.1992534490204564 
--0.1215492434185768 0.5916727438913995 
--0.7338445329635721 -0.3575745844457826 
-1.588060619060253 0.01806553728584974 
-0.5244066478713012 0.219506085265271 
-0.1512044567653584 0.02334733474954588 
--0.09569945753762232 -2.913636284880243 
--0.3206288589923576 -1.542882008086666 
-0.4776298519708809 -0.4983411435264761 
--0.06024881851559388 -0.2732945325285147 
-0.1298584701269593 -0.1750218438345395 
-0.3856383676565736 0.6113071957722112 
-0.1628741257161043 0.6525422423555339 
--0.5903768329606821 -0.06657791325151199 
--0.5846117981483077 0.1662946315547762 
--0.4220671329844481 0.5092857454064818 
--0.1965034553157875 0.5236827981316736 
-0.09677080249449299 0.0930231404303221 
+20
+0.2707524739640899 -0.5668377303022898 
+0.5764139315845791 -0.4365526265217117 
+0.7918193187028474 -1.637182315839855 
+0.6471407600575192 -0.7813270988143927 
+-0.8049867005221094 -0.5932232680438203 
+0.5816938722301088 -0.4218959694582701 
+-0.2245197904082826 -1.247957235239996 
+-0.3456211342992239 -0.8413169329726706 
+0.2505369293403541 -0.5716878563290387 
+-0.7889293826388201 -0.04469308050836168 
+-1.148922855809108 -0.1727555520078705 
+3.262284670569787 1.038912392960245 
+2.216541533282793 0.6789371239333017 
+-0.3897029396056352 0.9003477650836403 
+-0.4782839739462674 -0.1548681049886516 
+-0.2511343471478524 -0.3447894833250408 
+-0.07207012066109941 -0.2558315496444297 
+0.1389539038285648 -0.02287343084827936 
+-0.05604114933037527 0.5387566952095257 
+0.2007957323480979 0.3558162000371691 
 
 find Delaunay triangle closest to [0.5, 0.5, ...]
+-0.23  0.04 
  0.36  0.87 
- 0.27  0.38 
- 0.62  0.51 
+ 0.51 -0.08 
 
 compute halfspace intersection about the origin for a diamond
 3
@@ -2700,36 +2708,36 @@ all facets.  Will make 192 distance computations.
 Voronoi diagram by the convex hull of 8 points in 3-d:
 
   Number of Voronoi regions: 8
-  Number of Voronoi vertices: 8
+  Number of Voronoi vertices: 9
 
 Statistics for: user_eg Delaunay | qhull s d Tcv v p
 
   Number of points processed: 8
-  Number of hyperplanes created: 19
+  Number of hyperplanes created: 20
   Number of facets in hull: 12
   Number of distance tests for qhull: 32
   CPU seconds to compute hull (after input):  0
 
 
-Output completed.  Verifying that all points are below 5.1e-015 of
-all facets.  Will make 64 distance computations.
+Output completed.  Verifying that all points are below 5.8e-015 of
+all facets.  Will make 72 distance computations.
 
 Voronoi diagram by the convex hull of 14 points in 3-d:
 
   Number of Voronoi regions: 14
-  Number of Voronoi vertices: 18
+  Number of Voronoi vertices: 20
 
 Statistics for: user_eg Delaunay | qhull s d Tcv v p
 
   Number of points processed: 14
-  Number of hyperplanes created: 47
+  Number of hyperplanes created: 50
   Number of facets in hull: 24
-  Number of distance tests for qhull: 69
+  Number of distance tests for qhull: 74
   CPU seconds to compute hull (after input):  0
 
 
-Output completed.  Verifying that all points are below 5.1e-015 of
-all facets.  Will make 252 distance computations.
+Output completed.  Verifying that all points are below 5.8e-015 of
+all facets.  Will make 280 distance computations.
 
 Halfspace intersection by the convex hull of 8 points in 3-d:
 
@@ -2785,11 +2793,11 @@ Results of p
 -0.3674659290047977 0.0001301793382784133 
 echo === check front ends ${d:-`date`} ==================
 date
-=== check front ends Wed Sep 30 21:17:49 EDT 2015 ==================
+=== check front ends Sun Jan 3 22:41:25 EST 2016 ==================
 qconvex -
 
 qconvex- compute the convex hull
-    http://www.qhull.org  2015.0.4 2015/09/30
+    http://www.qhull.org  2015.1 2016/01/03
 
 input (stdin):
     first lines: dimension and number of points (or vice-versa).
@@ -2903,7 +2911,7 @@ Print options:
     -V   - version
 qconvex .
 
-Qhull 2015.0.4 2015/09/30.
+Qhull 2015.1 2016/01/03.
 Except for 'F.' and 'PG', upper-case options take an argument.
 
  incidences     mathematica    normals        OFF_format     points
@@ -2932,7 +2940,7 @@ Except for 'F.' and 'PG', upper-case options take an argument.
  Angle_max      Centrum_size   Random_dist    Ucoplanar_max  Wide_outside
 qconvex
 
-qconvex- compute the convex hull.  Qhull 2015.0.4 2015/09/30
+qconvex- compute the convex hull.  Qhull 2015.1 2016/01/03
     input (stdin): dimension, number of points, point coordinates
     comments start with a non-numeric character
 
@@ -3039,7 +3047,7 @@ Statistics for: rbox 1000 s | qconvex s Tv FA
   Number of points processed: 1000
   Number of hyperplanes created: 5545
   Number of distance tests for qhull: 25488
-  CPU seconds to compute hull (after input):  0
+  CPU seconds to compute hull (after input): 0.015
   Total facet area:   3.1201951
   Total volume:       0.51650274
 
@@ -3108,7 +3116,7 @@ Convex hull of 24 points in 12-d:
   Number of vertices: 24
   Number of facets: 4096
 
-Statistics for: rbox d G1 D12 | qconvex QR0 FA QR1443662269
+Statistics for: rbox d G1 D12 | qconvex QR0 FA QR1451878885
 
   Number of points processed: 24
   Number of hyperplanes created: 4108
@@ -3116,7 +3124,7 @@ Statistics for: rbox d G1 D12 | qconvex QR0 FA QR1443662269
   Number of distance tests for merging: 121128
   Number of distance tests for checking: 98328
   Number of merged facets: 2036
-  CPU seconds to compute hull (after input): 0.062
+  CPU seconds to compute hull (after input): 0.078
   Approximate facet area:   0.00035546337
   Approximate volume:       8.5511197e-006
 
@@ -3136,24 +3144,24 @@ Statistics for: rbox c D6 | qconvex FA TF500
   Number of distance tests for merging: 14115
   Number of distance tests for checking: 832
   Number of merged facets: 1457
-  CPU seconds to compute hull (after input): 0.015
+  CPU seconds to compute hull (after input):  0
   Approximate facet area:   12
   Approximate volume:        1
 
 
-At 21:17:50 &  0 CPU secs, qhull has created 543 facets and merged 289.
+At 22:41:25 &  0 CPU secs, qhull has created 543 facets and merged 289.
  The current hull contains 91 facets and 23 vertices.  There are 41
  outside points.  Next is point p27(v24), 0.64 above f107.
 
-At 21:17:50 & 0.015 CPU secs, qhull has created 1061 facets and merged 737.
+At 22:41:25 &  0 CPU secs, qhull has created 1061 facets and merged 737.
  The current hull contains 69 facets and 33 vertices.  There are 31
  outside points.  Next is point p22(v34), 0.52 above f610.
 
-At 21:17:50 & 0.015 CPU secs, qhull has created 1575 facets and merged 1230.
+At 22:41:25 &  0 CPU secs, qhull has created 1575 facets and merged 1230.
  The current hull contains 25 facets and 51 vertices.  There are 13
  outside points.  Next is point p45(v52), 0.45 above f1476.
 
-At 21:17:50 & 0.015 CPU secs, qhull has created 1815 facets and merged 1457.
+At 22:41:25 &  0 CPU secs, qhull has created 1815 facets and merged 1457.
  The current hull contains 12 facets and 64 vertices.  Last point was p35
 
 Convex hull of 64 points in 6-d:
@@ -3174,7 +3182,7 @@ Statistics for: rbox c D6 | qconvex FA TF500
 
 First post-merge with 'C3.5e-015' and 'A1.8e+308'
 
-At 21:17:50 & 0.015 CPU secs, qhull has created 1815 facets and merged 1457.
+At 22:41:25 &  0 CPU secs, qhull has created 1815 facets and merged 1457.
  The current hull contains 12 facets and 64 vertices.  Last point was p35
 
 Testing all coplanar points.
@@ -3260,12 +3268,12 @@ QH6029 qhull error: option 'Q0' is not used with this program.
              It may be used with qhull.
 
 While executing:  | qconvex Q0
-Options selected for Qhull 2015.0.4 2015/09/30:
-  run-id 1361528084
+Options selected for Qhull 2015.1 2016/01/03:
+  run-id 2019239788
 qvoronoi -
 
 qvoronoi- compute the Voronoi diagram
-    http://www.qhull.org  2015.0.4 2015/09/30
+    http://www.qhull.org  2015.1 2016/01/03
 
 input (stdin):
     first lines: dimension and number of points (or vice-versa).
@@ -3359,7 +3367,7 @@ Print options:
     -V   - version
 qvoronoi .
 
-Qhull 2015.0.4 2015/09/30.
+Qhull 2015.1 2016/01/03.
 Except for 'F.' and 'PG', upper-case options take an argument.
 
  OFF_format     p_vertices     i_delaunay     summary        facet_dump
@@ -3383,7 +3391,7 @@ Except for 'F.' and 'PG', upper-case options take an argument.
  Angle_max      Centrum_size   Random_dist    Wide_outside
 qvoronoi
 
-qvoronoi- compute the Voronoi diagram.  Qhull 2015.0.4 2015/09/30
+qvoronoi- compute the Voronoi diagram.  Qhull 2015.1 2016/01/03
     input (stdin): dimension, number of points, point coordinates
     comments start with a non-numeric character
 
@@ -3613,7 +3621,7 @@ Statistics for: rbox P0 c D2 | qvoronoi s Fv QV0
 qdelaunay -
 
 qdelaunay- compute the Delaunay triangulation
-    http://www.qhull.org  2015.0.4 2015/09/30
+    http://www.qhull.org  2015.1 2016/01/03
 
 input (stdin):
     first lines: dimension and number of points (or vice-versa).
@@ -3716,7 +3724,7 @@ Print options:
     -V   - version
 qdelaunay .
 
-Qhull 2015.0.4 2015/09/30.
+Qhull 2015.1 2016/01/03.
 Except for 'F.' and 'PG', upper-case options take an argument.
 
  incidences     mathematica    OFF_format     points_lifted  summary
@@ -3744,7 +3752,7 @@ Except for 'F.' and 'PG', upper-case options take an argument.
  Angle_max      Centrum_size   Random_dist    Wide_outside
 qdelaunay
 
-qdelaunay- compute the Delaunay triangulation.  Qhull 2015.0.4 2015/09/30
+qdelaunay- compute the Delaunay triangulation.  Qhull 2015.1 2016/01/03
     input (stdin): dimension, number of points, point coordinates
     comments start with a non-numeric character
 
@@ -4020,7 +4028,7 @@ Statistics for: rbox P0 P0 c D2 | qdelaunay s FP QV0
 qhalf -
 
 qhalf- compute the intersection of halfspaces about a point
-    http://www.qhull.org  2015.0.4 2015/09/30
+    http://www.qhull.org  2015.1 2016/01/03
 
 input (stdin):
     optional interior point: dimension, 1, coordinates
@@ -4123,7 +4131,7 @@ Print options:
     -V   - version
 qhalf .
 
-Qhull 2015.0.4 2015/09/30.
+Qhull 2015.1 2016/01/03.
 Except for 'F.' and 'PG', upper_case options take an argument.
 
  incidences     Geomview       mathematica    OFF_format     point_dual
@@ -4149,7 +4157,7 @@ Except for 'F.' and 'PG', upper_case options take an argument.
  Angle_max      Centrum_size   Random_dist    Ucoplanar_max  Wide_outside
 qhalf
 
-qhalf- halfspace intersection about a point.  Qhull 2015.0.4 2015/09/30
+qhalf- halfspace intersection about a point.  Qhull 2015.1 2016/01/03
     input (stdin): [dim, 1, interior point], dim+1, n, coefficients+offset
     comments start with a non-numeric character
 
@@ -4300,7 +4308,7 @@ Statistics for: rbox d D2 | qhull FQ n | qhalf s H0 Fc FP Fn FN FQ Fv Fx
 echo === check quality of Qhull for ${d:-`hostname`} ${d:-`date`}
 hostname
 date
-=== check quality of Qhull for ispy Wed Sep 30 21:17:51 EDT 2015
+=== check quality of Qhull for ispy Sun Jan 3 22:41:26 EST 2016
 rbox 1000 W0 | qhull QR2 QJ s Fs Tv
 10 3 1000 144 284 144 284 0 0 33 0
 2 5.045982607091333e-011 -5.045982607091333e-011
@@ -4361,7 +4369,7 @@ Statistics for: rbox 1000 s | qhull C0.02 Qc Tv
   Number of distance tests for merging: 82226
   Number of distance tests for checking: 7929
   Number of merged facets: 1936
-  CPU seconds to compute hull (after input): 0.015
+  CPU seconds to compute hull (after input): 0.031
   Maximum distance of vertex below facet: -0.072 (1.2x)
 
 
@@ -4384,7 +4392,7 @@ Statistics for: rbox 500 s D4 | qhull C0.01 Qc Tv
   Number of distance tests for merging: 162691
   Number of distance tests for checking: 20813
   Number of merged facets: 2809
-  CPU seconds to compute hull (after input): 0.031
+  CPU seconds to compute hull (after input): 0.046
   Maximum distance of vertex below facet: -0.073 (1.8x)
 
 
@@ -4407,7 +4415,7 @@ Statistics for: rbox 1000 s | qhull C-0.02 Qc Tv
   Number of distance tests for merging: 2966
   Number of distance tests for checking: 24231
   Number of merged facets: 98
-  CPU seconds to compute hull (after input): 0.015
+  CPU seconds to compute hull (after input):  0
   Maximum distance of point above facet: 0.065 (1.1x)
   Maximum distance of vertex below facet: -0.062 (1.0x)
 
@@ -4455,7 +4463,7 @@ Statistics for: rbox 200 s D5 | qhull C-0.01 Qx Qc Tv
   Number of distance tests for merging: 143140
   Number of distance tests for checking: 46266
   Number of merged facets: 5940
-  CPU seconds to compute hull (after input): 0.046
+  CPU seconds to compute hull (after input): 0.062
   Maximum distance of point above facet: 0.059 (1.2x)
   Maximum distance of vertex below facet: -0.11 (2.1x)
 
@@ -4530,7 +4538,7 @@ Statistics for: rbox 1000 W5e-4 D4 | qhull C-1e-5 Qc Tv
   Number of distance tests for merging: 75580
   Number of distance tests for checking: 52937
   Number of merged facets: 1353
-  CPU seconds to compute hull (after input): 0.031
+  CPU seconds to compute hull (after input): 0.016
   Maximum distance of point above facet: 9.1e-005 (2.3x)
   Maximum distance of vertex below facet: -0.00012 (2.9x)
 
@@ -4565,7 +4573,7 @@ Output completed.  Verifying that all points are below outer planes of
 all facets.  Will make 2220800 distance computations.
 echo === check input format etc. ${d:-`date`}
 date
-=== check input format etc. Wed Sep 30 21:17:52 EDT 2015
+=== check input format etc. Sun Jan 3 22:41:27 EST 2016
 qhull <<EOF
 
 Convex hull of 4 points in 2-d:
@@ -4604,8 +4612,8 @@ point, line 1 is the first comment, line 2 is the first long line.  Continue wit
 QH6013 qhull input error: input is less than 2-dimensional since it has the same x coordinate
 
 While executing: #;laskdjf | qhull
-Options selected for Qhull 2015.0.4.r 2015/09/30:
-  run-id 1361561698  _pre-merge  _zero-centrum  _max-width  2
+Options selected for Qhull 2015.1.r 2016/01/03:
+  run-id 2019256595  _pre-merge  _zero-centrum  _max-width  2
   Error-roundoff 1.7e-015  _one-merge 8.6e-015  _near-inside 4.3e-014
   Visible-distance 3.4e-015  U-coplanar-distance 3.4e-015
   Width-outside 6.9e-015  _wide-facet 2.1e-014
@@ -4617,8 +4625,8 @@ line, line 4 is the first long line.  Continue with 3 points.
 QH6013 qhull input error: input is less than 2-dimensional since it has the same x coordinate
 
 While executing: #;laskdjf | qhull
-Options selected for Qhull 2015.0.4.r 2015/09/30:
-  run-id 1361561698  _pre-merge  _zero-centrum  _max-width  2
+Options selected for Qhull 2015.1.r 2016/01/03:
+  run-id 2019256595  _pre-merge  _zero-centrum  _max-width  2
   Error-roundoff 1.7e-015  _one-merge 8.6e-015  _near-inside 4.3e-014
   Visible-distance 3.4e-015  U-coplanar-distance 3.4e-015
   Width-outside 6.9e-015  _wide-facet 2.1e-014
@@ -4718,7 +4726,7 @@ Output completed.  Verifying that all points are below 2.5e-015 of
 all facets.  Will make 99 distance computations.
 echo === check rbox ${d:-`date`}
 date
-=== check rbox Wed Sep 30 21:17:52 EDT 2015
+=== check rbox Sun Jan 3 22:41:27 EST 2016
 rbox 3 n D2
 2
 3
@@ -4761,6 +4769,14 @@ rbox 3 B10 D2
 6.07777520648928 9.167769643634342 
 2.704250554278727 -9.661033665445665 
 7.007182209759188 9.71126632738045 
+rbox 3 B10 D2 C2,1E-13,1
+2 rbox 3 B10 D2 C2,1E-13,1
+5
+-9.999843472614739 -7.369244235911634 
+-9.999843472614687 -7.369244235911642 
+-9.999843472614732 -7.369244235911689 
+-9.05910767527214 3.577294343688799 
+3.585928123058684 8.693857927521558 
 rbox 3 z B10 D2
 2 rbox 3 z B10 D2
 3
@@ -4776,17 +4792,28 @@ rbox 4 L2 r D2
 -0.1736481776669304 0.1187823492277694
 -0.1736481776669304 -0.1187823492277694
   -0.5      0
-rbox 8 L2 D2
-2 rbox 8 L2 D2
-8
--9.037112801233254e-006 -0.1339745961747267 
--0.4680200990905804 0.01769241704257374 
--0.05424246984329754 -0.1325023897522757 
-0.07519664081423347 -0.1311433207603374 
-0.1915694083864337 0.1154536646477271 
-0.4772264523261766 0.01275495170842944 
--0.4048291575354194 0.04836693717712182 
-0.3401207718037282 -0.07435635943071228 
+rbox 4 L2 r D2
+2 rbox 4 L2 r D2
+6
+   0.5      0
+0.1736481776669304 0.1187823492277694
+0.1736481776669304 -0.1187823492277694
+-0.1736481776669304 0.1187823492277694
+-0.1736481776669304 -0.1187823492277694
+  -0.5      0
+rbox 8 L2 D2 C1,1E-13,2
+2 rbox 8 L2 D2 C1,1E-13,2
+10
+-0.4014722424908948 -0.04984578721860422 
+-0.4014722424908402 -0.04984578721870322 
+-0.3537770307209493 0.06930438433003638 
+-0.353777030720961 0.06930438433002231 
+-0.4536521880095642 -0.02515341795345205 
+0.09926382627500698 0.1290357464938974 
+0.4803069842605469 -0.01107504705944207 
+-0.4407884497398482 0.03158561585376829 
+-0.43365738760839 -0.03505243423659854 
+0.1399579896503841 -0.1241320388139711 
 rbox 4 L4 r D3
 3 rbox 4 L4 r D3
 12
@@ -4809,6 +4836,17 @@ rbox 4 L4 s D5 W1e-3
 0.08530477699633816 0.08551065958609008 0.2073152333839907 -0.05556059038062115 0.04824638578429845 
 -0.2043906348252541 0.01359444539903207 0.07833891569611255 -0.2253375927975145 0.03863248544102459 
 0.07678497944972421 0.03657959246981071 0.1769587053753909 0.1423142450665639 -0.04874898497507386 
+rbox 4 L4 s D5 W1e-3 C1,1E-12
+5 rbox 4 L4 s D5 W1e-3 C1,1E-12
+8
+0.0002946652970602764 0.01409557808797486 -0.004433138692070485 0.02830701320254122 0.06321803825410263 
+0.0002946652976213024 0.01409557808713995 -0.004433138692549452 0.02830701320252706 0.0632180382541969 
+0.0395007958298621 0.08424796754402081 0.05096384542027204 -0.09702947578293189 -0.05829868829611209 
+0.03950079583077567 0.08424796754434548 0.05096384542100907 -0.0970294757837081 -0.05829868829594329 
+-0.04232294908783042 0.03923635869829208 -0.002523757174853624 -0.007690531229328437 -0.06262981797685649 
+-0.04232294908753993 0.0392363586986717 -0.00252375717458491 -0.007690531229051642 -0.06262981797676299 
+-0.1462855747417375 0.02301178389047249 0.1483804611920676 -0.1253035217565061 -0.04852571310121132 
+-0.1462855747427029 0.0230117838896562 0.1483804611927586 -0.1253035217563368 -0.04852571310078617 
 rbox y
 3 rbox y
 4
@@ -4829,6 +4867,59 @@ rbox 10 M3,4
     -5     10      0 
     -2     14      0 
      0      0      5 
+rbox 10 M3,4 C1,1E-14
+3 rbox 10 M3,4 C1,1E-14
+20
+     0      0      0 
+2.814732056869875e-015 7.201579527185838e-015 -3.053021210295168e-015 
+     3      4      0 
+3.000000000000008 3.999999999999993 4.994823238807566e-015 
+     6      8      0 
+6.000000000000008 7.999999999999996 1.743024766205834e-015 
+    -4      3      0 
+-4.000000000000005 2.999999999999993 -4.748389036160325e-015 
+    -1      7      0 
+-1.000000000000006 7.000000000000004 -1.260957588684708e-016 
+     2     11      0 
+2.000000000000001 11.00000000000001 2.063112521602872e-016 
+    -8      6      0 
+-7.999999999999993 6.000000000000001 6.666691421220716e-016 
+    -5     10      0 
+-4.999999999999996 9.999999999999991 4.071436025268804e-015 
+    -2     14      0 
+-1.999999999999991     14 -7.015196799314765e-015 
+     0      0      5 
+-4.412629440811118e-015 -3.063055438048258e-015 4.999999999999999 
+rbox 27 M1,0,1
+3 rbox 27 M1,0,1
+27
+     0      0      0 
+     1      0      0 
+     2      0      0 
+     0      1      0 
+     1      1      0 
+     2      1      0 
+     0      2      0 
+     1      2      0 
+     2      2      0 
+     0      0      1 
+     1      0      1 
+     2      0      1 
+     0      1      1 
+     1      1      1 
+     2      1      1 
+     0      2      1 
+     1      2      1 
+     2      2      1 
+     0      0      2 
+     1      0      2 
+     2      0      2 
+     0      1      2 
+     1      1      2 
+     2      1      2 
+     0      2      2 
+     1      2      2 
+     2      2      2 
 rbox 10 L2 s D3 | qhull Tcv
 
 Convex hull of 10 points in 3-d:
@@ -4972,7 +5063,7 @@ Statistics for: rbox 12 D9 | qhull Tcv
   Number of points processed: 12
   Number of hyperplanes created: 89
   Number of distance tests for qhull: 47
-  CPU seconds to compute hull (after input):  0
+  CPU seconds to compute hull (after input): 0.015
 
 QH7076 qhull input warning: exact merge ('Qx').  Verify may report that a point
 is outside of a facet.  See qh-optq.htm#Qx
@@ -5095,24 +5186,24 @@ rbox 1000 s t | qhull Qm C0.05 Tcv
 
 Convex hull of 1000 points in 3-d:
 
-  Number of vertices: 46
-  Number of facets: 25
-  Number of non-simplicial facets: 25
+  Number of vertices: 42
+  Number of facets: 23
+  Number of non-simplicial facets: 23
 
-Statistics for: rbox 1000 s t1443662273 | qhull Qm C0.05 Tcv
+Statistics for: rbox 1000 s t1451878888 | qhull Qm C0.05 Tcv
 
   Number of points processed: 1000
-  Number of hyperplanes created: 5637
-  Number of distance tests for qhull: 58395
-  Number of distance tests for merging: 101813
-  Number of distance tests for checking: 6661
-  Number of merged facets: 1971
-  CPU seconds to compute hull (after input): 0.031
-  Maximum distance of vertex below facet: -0.17 (1.1x)
+  Number of hyperplanes created: 5575
+  Number of distance tests for qhull: 54147
+  Number of distance tests for merging: 100567
+  Number of distance tests for checking: 6685
+  Number of merged facets: 1973
+  CPU seconds to compute hull (after input): 0.016
+  Maximum distance of vertex below facet: -0.2 (1.3x)
 
 
 Output completed.  Verifying that all points are below outer planes of
-all facets.  Will make 25000 distance computations.
+all facets.  Will make 23000 distance computations.
 rbox 500 D2 | qhull n A-0.95 C0.1 Tcv
 3
 4
@@ -5278,7 +5369,7 @@ Statistics for: rbox c D4 | qhull Tcv Q0
   Number of points processed: 16
   Number of hyperplanes created: 62
   Number of distance tests for qhull: 163
-  CPU seconds to compute hull (after input):  0
+  CPU seconds to compute hull (after input): 0.015
 
 
 precision problems (corrected unless 'Q0' or an error)
@@ -5392,7 +5483,7 @@ Statistics for: rbox d D6 | qhull Tcv
   Number of distance tests for merging: 1176
   Number of distance tests for checking: 780
   Number of merged facets: 26
-  CPU seconds to compute hull (after input):  0
+  CPU seconds to compute hull (after input): 0.015
 
 QH7076 qhull input warning: exact merge ('Qx').  Verify may report that a point
 is outside of a facet.  See qh-optq.htm#Qx
@@ -5496,7 +5587,7 @@ Statistics for: rbox c D5 | qhull Tcv C-0
   Number of distance tests for merging: 4130
   Number of distance tests for checking: 352
   Number of merged facets: 210
-  CPU seconds to compute hull (after input): 0.015
+  CPU seconds to compute hull (after input):  0
 
 
 Output completed.  Verifying that all points are below outer planes of
@@ -5538,7 +5629,7 @@ Statistics for: rbox c D7 | qhull Tv C-0
   Number of distance tests for merging: 88772
   Number of distance tests for checking: 1920
   Number of merged facets: 11556
-  CPU seconds to compute hull (after input): 0.062
+  CPU seconds to compute hull (after input): 0.063
 
 
 Output completed.  Verifying that all points are below outer planes of
@@ -5572,7 +5663,7 @@ Statistics for: rbox 100 s D2 | qhull Tcv
   Number of points processed: 100
   Number of hyperplanes created: 198
   Number of distance tests for qhull: 898
-  CPU seconds to compute hull (after input):  0
+  CPU seconds to compute hull (after input): 0.015
 
 
 Output completed.  Verifying that all points are below 1.3e-015 of
@@ -5800,7 +5891,7 @@ Statistics for: rbox 100 s Z1e-5 G0.1 | qhull Tc Pp
 
 echo === check qhull output formats ${d:-`date`}
 date
-=== check qhull output formats Wed Sep 30 21:17:54 EDT 2015
+=== check qhull output formats Sun Jan 3 22:41:29 EST 2016
 rbox 5 r s D2 | qhull Tcv
 
 Convex hull of 5 points in 2-d:
@@ -6198,7 +6289,7 @@ Statistics for: rbox 50 D3 s | qhull C0.1 Qc Pd0d1d2 s p Tcv
   Number of distance tests for merging: 3999
   Number of distance tests for checking: 367
   Number of merged facets: 84
-  CPU seconds to compute hull (after input): 0.015
+  CPU seconds to compute hull (after input):  0
   Maximum distance of vertex below facet: -0.24 (0.8x)
 
 
@@ -6819,8 +6910,8 @@ rbox 6 s D3 | qhull C-0.1 Qc FF s FQ Fi n Fo FQ FI Fm Fn FN FO FO FQ Fs FS FV Fv
 1 1
 3 2 0 1
 3 3 0 1
-Options selected for Qhull 2015.0.4.r 2015/09/30:
-  run-id 1361628926  Centrum-premerge- 0.1  Qcoplanar-keep  FFacets-xridge
+Options selected for Qhull 2015.1.r 2016/01/03:
+  run-id 2019307016  Centrum-premerge- 0.1  Qcoplanar-keep  FFacets-xridge
   summary  FQhull  Finner  normals  Fouter  FQhull  FIDs  Fmerges  Fneighbors
   FNeighbors-vertex  FOptions  FQhull  Fsummary  FSize  FVertex-average
   Tcheck-frequently  Tverify  Fvertices  _max-width 0.86
@@ -6839,8 +6930,8 @@ rbox 6 s D3 | qhull C-0.1 Qc FF s FQ Fi n Fo FQ FI Fm Fn FN FO FO FQ Fs FS FV Fv
 3 2 5 4
 3 2 1 4
 3 2 1 5
-Options selected for Qhull 2015.0.4.r 2015/09/30:
-  run-id 1361628926  Centrum-premerge- 0.1  Qcoplanar-keep  FFacets-xridge
+Options selected for Qhull 2015.1.r 2016/01/03:
+  run-id 2019307016  Centrum-premerge- 0.1  Qcoplanar-keep  FFacets-xridge
   summary  FQhull  Finner  normals  Fouter  FQhull  FIDs  Fmerges  Fneighbors
   FNeighbors-vertex  FOptions  FQhull  Fsummary  FSize  FVertex-average
   Tcheck-frequently  Tverify  Fvertices  _max-width 0.86
@@ -6889,7 +6980,7 @@ QH7055 qhull warning: no facets printed
 
 echo === test Qt ${d:-`date`}
 date
-=== test Qt Wed Sep 30 21:17:56 EDT 2015
+=== test Qt Sun Jan 3 22:41:30 EST 2016
 rbox c | qhull Qt s o Tcv
 3
 8 12 18
@@ -7495,8 +7586,8 @@ rbox c | qhull Qt C-0.1 Qc FF s FQ Fi n Fo FQ FI Fm Fn FN FO FO FQ Fs FS FV Fv T
 6 11 5 4 2 3 10
 6 9 5 4 1 0 8
 3 11 5 9
-Options selected for Qhull 2015.0.4.r 2015/09/30:
-  run-id 1361628926  Qtriangulate  Centrum-premerge- 0.1  Qcoplanar-keep
+Options selected for Qhull 2015.1.r 2016/01/03:
+  run-id 2019323823  Qtriangulate  Centrum-premerge- 0.1  Qcoplanar-keep
   FFacets-xridge  summary  FQhull  Finner  normals  Fouter  FQhull  FIDs
   Fmerges  Fneighbors  FNeighbors-vertex  FOptions  FQhull  Fsummary  FSize
   FVertex-average  Tcheck-frequently  Tverify  Fvertices  _max-width  1
@@ -7523,8 +7614,8 @@ rbox c | qhull Qt C-0.1 Qc FF s FQ Fi n Fo FQ FI Fm Fn FN FO FO FQ Fs FS FV Fv T
 3 3 6 7
 3 3 5 1
 3 3 5 7
-Options selected for Qhull 2015.0.4.r 2015/09/30:
-  run-id 1361628926  Qtriangulate  Centrum-premerge- 0.1  Qcoplanar-keep
+Options selected for Qhull 2015.1.r 2016/01/03:
+  run-id 2019323823  Qtriangulate  Centrum-premerge- 0.1  Qcoplanar-keep
   FFacets-xridge  summary  FQhull  Finner  normals  Fouter  FQhull  FIDs
   Fmerges  Fneighbors  FNeighbors-vertex  FOptions  FQhull  Fsummary  FSize
   FVertex-average  Tcheck-frequently  Tverify  Fvertices  _max-width  1
@@ -7556,8 +7647,8 @@ all facets.  Will make 96 distance computations.
 rbox 6 r s c G0.1 D2 P0.1,0.1 | qhull s FP d FO Qt
 1
 0 10 36      0 
-Options selected for Qhull 2015.0.4.r 2015/09/30:
-  run-id 1361628926  summary  FPoint-nearest  delaunay  Qtriangulate
+Options selected for Qhull 2015.1.r 2016/01/03:
+  run-id 2019323823  summary  FPoint-nearest  delaunay  Qtriangulate
   _pre-merge  _zero-centrum  Pgood  Qcoplanar  _max-width  1
   Error-roundoff 6.9e-016  _one-merge 4.9e-015  _near-inside 2.4e-014
   Visible-distance 1.4e-015  U-coplanar-distance 1.4e-015
@@ -7605,7 +7696,7 @@ all facets.  Will make 8600 distance computations.
 
 echo === test unbounded intersection ${d:-`date`}
 date
-=== test unbounded intersection Wed Sep 30 21:17:56 EDT 2015
+=== test unbounded intersection Sun Jan 3 22:41:31 EST 2016
 rbox c | qhull PD0:0.5 n | qhull H0 Fp Tcv
 3
 5
@@ -7651,7 +7742,7 @@ Statistics for: rbox 1000 W1e-3 D3 | qhull PA8 Fa FS s n Tcv
   Number of points processed: 203
   Number of hyperplanes created: 1043
   Number of distance tests for qhull: 21470
-  CPU seconds to compute hull (after input):  0
+  CPU seconds to compute hull (after input): 0.015
   Total facet area:   5.8817432
   Total volume:       0.99685163
 
@@ -7704,8 +7795,8 @@ Output completed.  Verifying that all points are below outer planes of
 all facets.  Will make 8000 distance computations.
 rbox 10 | qhull FO Tz TO q_test.log.1
 cat q_test.log.1
-Options selected for Qhull 2015.0.4.r 2015/09/30:
-  run-id 1361645733  Tz-stdout  TOutput-file  q_test.log.1  _pre-merge
+Options selected for Qhull 2015.1.r 2016/01/03:
+  run-id 2019323823  Tz-stdout  TOutput-file  q_test.log.1  _pre-merge
   _zero-centrum  _max-width 0.92  Error-roundoff 6.8e-016  _one-merge 4.8e-015
   _near-inside 2.4e-014  Visible-distance 1.4e-015
   U-coplanar-distance 1.4e-015  Width-outside 2.7e-015  _wide-facet 8.2e-015
@@ -7725,7 +7816,7 @@ Statistics for: rbox 10 | qhull FO Tz TO q_test.log.1
 
 echo === check Delaunay/Voronoi ${d:-`date`}
 date
-=== check Delaunay/Voronoi Wed Sep 30 21:17:57 EDT 2015
+=== check Delaunay/Voronoi Sun Jan 3 22:41:31 EST 2016
 rbox 10 D2 | qhull d Tcv
 
 Delaunay triangulation by the convex hull of 10 points in 3-d:
@@ -8363,7 +8454,7 @@ Vertices and facets:
 
 echo === check Halfspace ${d:-`date`}
 date
-=== check Halfspace Wed Sep 30 21:17:57 EDT 2015
+=== check Halfspace Sun Jan 3 22:41:31 EST 2016
 rbox 100 s D4 | qhull FA FV n s Tcv | qhull H Fp Tcv | qhull FA  Tcv
 
 Convex hull of 100 points in 4-d:
@@ -8466,7 +8557,7 @@ all facets.  Will make 25 distance computations.
 
 echo === check qhull ${d:-`date`}
 date
-=== check qhull Wed Sep 30 21:17:58 EDT 2015
+=== check qhull Sun Jan 3 22:41:32 EST 2016
 rbox 10 s D3 | qhull Tcv
 
 Convex hull of 10 points in 3-d:
@@ -8547,7 +8638,7 @@ Convex hull of 10 points in 3-d:
   Number of vertices: 10
   Number of facets: 16
 
-Statistics for: rbox 10 s D3 | qhull QR-1 QR-1443662278
+Statistics for: rbox 10 s D3 | qhull QR-1 QR-1451878892
 
   Number of points processed: 10
   Number of hyperplanes created: 29
@@ -8572,8 +8663,8 @@ rbox 1000 D3 | qhull Tcvs
 
 
  qhull invoked by: rbox 1000 D3 | qhull Tcvs
-2015.0.4.r 2015/09/30 with options:
-  run-id 1361662540  Tcheck-frequently  Tverify  Tstatistics  _pre-merge
+2015.1.r 2016/01/03 with options:
+  run-id 2019340630  Tcheck-frequently  Tverify  Tstatistics  _pre-merge
   _zero-centrum  _max-width  1  Error-roundoff 6.9e-016  _one-merge 4.9e-015
   _near-inside 2.4e-014  Visible-distance 1.4e-015
   U-coplanar-distance 1.4e-015  Width-outside 2.8e-015  _wide-facet 8.3e-015
@@ -8675,7 +8766,7 @@ statistics for merging
 -6.9e-016 max distance of merged vertex below facet(or roundoff)
 
 memory usage statistics(in bytes)
-  21584 for fac
+  21584 for facet
 Convex hull of 1000 points in 3-d:
 
   Number of vertices: 73
@@ -8688,9 +8779,9 @@ Statistics for: rbox 1000 D3 | qhull Tcvs
   Number of distance tests for qhull: 12884
   CPU seconds to compute hull (after input):  0
 
-ets and their normals, neighbor and vertex sets
+s and their normals, neighbor and vertex sets
    2044 for vertices and their neighbor sets
-  30600 for input points, outside and coplanar sets, and qhT
+  30632 for input points, outside and coplanar sets, and qhT
 
 memory statistics:
    1166 quick allocations
@@ -8721,7 +8812,7 @@ qh_mem 00270170 n     1022 free short: 32 bytes (tot 9032 cnt 228)
 qh_mem 00270190 n     1023 free short: 32 bytes (tot 9000 cnt 227)
 qh_mem 002701B0 n     1024 free short: 32 bytes (tot 8968 cnt 226)
 qh_mem 002701D0 n     1025 free short: 32 bytes (tot 8936 cnt 225)
-qh_mem 00266208 n       30 free long: 96 bytes (tot 0 cnt 0)
+qh_mem 00263400 n       30 free long: 96 bytes (tot 0 cnt 0)
 qh_mem 002701F0 n     1026 free short: 16 bytes (tot 8920 cnt 224)
 qh_mem 00270050 n     1027 free short: 88 bytes (tot 8832 cnt 223)
 qh_mem 002700A8 n     1028 free short: 88 bytes (tot 8744 cnt 222)
@@ -8741,7 +8832,7 @@ Statistics for: rbox 100 s D3 | qhull TcvV-2
   Number of points processed: 78
   Number of hyperplanes created: 390
   Number of distance tests for qhull: 1489
-  CPU seconds to compute hull (after input): 0.015
+  CPU seconds to compute hull (after input):  0
 
 rbox 100 s D3 | qhull TcvC2
 
@@ -8792,8 +8883,8 @@ qh_readpoints: read in 100 3-dimensional points
 qh_initqhull_globals: for rbox 100 s D3 | qhull T1cvV2P2
 
 Trace level 1 for rbox 100 s D3 | qhull T1cvV2P2
-Options selected for Qhull 2015.0.4.r 2015/09/30:
-  run-id 1361662540  Tcheck-frequently  Tverify  TV-stop-after-point 2
+Options selected for Qhull 2015.1.r 2016/01/03:
+  run-id 2019340630  Tcheck-frequently  Tverify  TV-stop-after-point 2
   Trace-point 2  _pre-merge  _zero-centrum  _max-width 0.94
   Error-roundoff 6.7e-016  _one-merge 4.7e-015  _near-inside 2.3e-014
   Visible-distance 1.3e-015  U-coplanar-distance 1.3e-015
@@ -8840,22 +8931,22 @@ Statistics for: rbox 100 s D3 | qhull TcvF100
   Number of points processed: 100
   Number of hyperplanes created: 514
   Number of distance tests for qhull: 1691
-  CPU seconds to compute hull (after input):  0
+  CPU seconds to compute hull (after input): 0.015
 
 
-At 21:17:58 &  0 CPU secs, qhull has created 102 facets and merged 0.
+At 22:41:32 &  0 CPU secs, qhull has created 102 facets and merged 0.
  The current hull contains 46 facets and 25 vertices.  There are 75
  outside points.  Next is point p55(v26), 0.035 above f44.
 
-At 21:17:58 &  0 CPU secs, qhull has created 203 facets and merged 0.
+At 22:41:32 &  0 CPU secs, qhull has created 203 facets and merged 0.
  The current hull contains 86 facets and 45 vertices.  There are 55
  outside points.  Next is point p82(v46), 0.067 above f117.
 
-At 21:17:58 &  0 CPU secs, qhull has created 306 facets and merged 0.
+At 22:41:32 &  0 CPU secs, qhull has created 306 facets and merged 0.
  The current hull contains 122 facets and 63 vertices.  There are 37
  outside points.  Next is point p50(v64), 0.042 above f218.
 
-At 21:17:58 &  0 CPU secs, qhull has created 412 facets and merged 0.
+At 22:41:32 & 0.015 CPU secs, qhull has created 412 facets and merged 0.
  The current hull contains 160 facets and 82 vertices.  There are 18
  outside points.  Next is point p60(v83), 0.031 above f307.
 
@@ -8873,7 +8964,7 @@ Statistics for: rbox 100 s D3 | qhull Qf Tcv
   Number of points processed: 100
   Number of hyperplanes created: 504
   Number of distance tests for qhull: 4423
-  CPU seconds to compute hull (after input): 0.015
+  CPU seconds to compute hull (after input):  0
 
 
 Output completed.  Verifying that all points are below 2e-015 of
@@ -9210,8 +9301,8 @@ Statistics for: rbox 100 D3 | qhull QbB FO Tcv
   Number of distance tests for qhull: 1164
   CPU seconds to compute hull (after input):  0
 
-Options selected for Qhull 2015.0.4.r 2015/09/30:
-  run-id 1361679347  QbBound-unit-box 0.5  Tcheck-frequently  Tverify
+Options selected for Qhull 2015.1.r 2016/01/03:
+  run-id 2019340630  QbBound-unit-box 0.5  Tcheck-frequently  Tverify
   _pre-merge  _zero-centrum  _max-width  1  Error-roundoff 6.9e-016
   _one-merge 4.9e-015  _near-inside 2.4e-014  Visible-distance 1.4e-015
   U-coplanar-distance 1.4e-015  Width-outside 2.8e-015  _wide-facet 8.3e-015
@@ -9233,8 +9324,8 @@ Statistics for: rbox 1000 D2 B1e6 | qhull d Qbb FO Tcv
   Number of distance tests for qhull: 27767
   CPU seconds to compute hull (after input): 0.015
 
-Options selected for Qhull 2015.0.4.r 2015/09/30:
-  run-id 1361679347  delaunay  Qbbound-last  Tcheck-frequently  Tverify
+Options selected for Qhull 2015.1.r 2016/01/03:
+  run-id 2019340630  delaunay  Qbbound-last  Tcheck-frequently  Tverify
   _pre-merge  _zero-centrum  Pgood  _max-width 2e+006  Error-roundoff 2.8e-009
   _one-merge 1.9e-008  _near-inside 9.7e-008  Visible-distance 5.5e-009
   U-coplanar-distance 5.5e-009  Width-outside 1.1e-008  _wide-facet 3.3e-008
@@ -9384,20 +9475,13 @@ Output completed.  Verifying that all points are below 1.3e-015 of
 all facets.  Will make 40 distance computations.
 echo "== next command will error ${d:-`date`} =="
 date
-== next command will error Wed Sep 30 21:17:59 EDT 2015 ==
+== next command will error Sun Jan  3 22:41:33 EST 2016 ==
 rbox 10 D2 | qhull Qb1:1B1:1 Tcv
-QH6154 qhull precision error: initial facet 1 is coplanar with the interior point
-ERRONEOUS FACET:
-- f1
-    - flags: bottom simplicial flipped
-    - normal:         0        1
-    - offset:         -1
-    - vertices: p4(v1) p1(v0)
-    - neighboring facets: f2 f3
+QH6154 Qhull precision error: Initial simplex is flat (facet 1 is coplanar with the interior point)
 
 While executing: rbox 10 D2 | qhull Qb1:1B1:1 Tcv
-Options selected for Qhull 2015.0.4.r 2015/09/30:
-  run-id 1361679347  Qbound-dim-low 1  1  QBound-dim-high 1  1
+Options selected for Qhull 2015.1.r 2016/01/03:
+  run-id 2019357437  Qbound-dim-low 1  1  QBound-dim-high 1  1
   Tcheck-frequently  Tverify  _pre-merge  _zero-centrum  _max-width 0.81
   Error-roundoff 8.6e-016  _one-merge 4.3e-015  _near-inside 2.1e-014
   Visible-distance 1.7e-015  U-coplanar-distance 1.7e-015
@@ -9454,15 +9538,15 @@ Convex hull of 200 points in 2-d:
   Number of vertices: 200
   Number of facets: 200
 
-Statistics for: rbox 200 L20 D2 t1443662279 | qhull FO Tcv C-0
+Statistics for: rbox 200 L20 D2 t1451878893 | qhull FO Tcv C-0
 
   Number of points processed: 200
   Number of hyperplanes created: 398
-  Number of distance tests for qhull: 2104
+  Number of distance tests for qhull: 2123
   CPU seconds to compute hull (after input):  0
 
-Options selected for Qhull 2015.0.4.r 2015/09/30:
-  run-id 1361679347  Tcheck-frequently  Tverify  Centrum-premerge-  0
+Options selected for Qhull 2015.1.r 2016/01/03:
+  run-id 2019357437  Tcheck-frequently  Tverify  Centrum-premerge-  0
   _zero-centrum  _max-width 0.99  Error-roundoff 3.4e-016  _one-merge 1.7e-015
   _near-inside 8.5e-015  Visible-distance 6.8e-016
   U-coplanar-distance 6.8e-016  Width-outside 1.4e-015  _wide-facet 4.1e-015
@@ -9473,62 +9557,62 @@ rbox 1000 L20 t | qhull FO Tcv C-0
 
 Convex hull of 1000 points in 3-d:
 
-  Number of vertices: 41
-  Number of facets: 78
+  Number of vertices: 49
+  Number of facets: 94
 
-Statistics for: rbox 1000 L20 t1443662279 | qhull FO Tcv C-0
+Statistics for: rbox 1000 L20 t1451878893 | qhull FO Tcv C-0
 
-  Number of points processed: 43
-  Number of hyperplanes created: 181
-  Number of distance tests for qhull: 12432
+  Number of points processed: 64
+  Number of hyperplanes created: 282
+  Number of distance tests for qhull: 14755
   CPU seconds to compute hull (after input):  0
 
-Options selected for Qhull 2015.0.4.r 2015/09/30:
-  run-id 1361679347  Tcheck-frequently  Tverify  Centrum-premerge-  0
-  _zero-centrum  _max-width  1  Error-roundoff 6.9e-016  _one-merge 4.9e-015
+Options selected for Qhull 2015.1.r 2016/01/03:
+  run-id 2019357437  Tcheck-frequently  Tverify  Centrum-premerge-  0
+  _zero-centrum  _max-width  1  Error-roundoff 6.9e-016  _one-merge 4.8e-015
   _near-inside 2.4e-014  Visible-distance 1.4e-015
   U-coplanar-distance 1.4e-015  Width-outside 2.8e-015  _wide-facet 8.3e-015
 
 Output completed.  Verifying that all points are below outer planes of
-all facets.  Will make 78000 distance computations.
+all facets.  Will make 94000 distance computations.
 rbox 200 L20 D4 t | qhull FO Tcv C-0
 
 Convex hull of 200 points in 4-d:
 
-  Number of vertices: 61
-  Number of facets: 273
+  Number of vertices: 57
+  Number of facets: 254
 
-Statistics for: rbox 200 L20 D4 t1443662279 | qhull FO Tcv C-0
+Statistics for: rbox 200 L20 D4 t1451878893 | qhull FO Tcv C-0
 
-  Number of points processed: 80
-  Number of hyperplanes created: 906
-  Number of distance tests for qhull: 5959
+  Number of points processed: 77
+  Number of hyperplanes created: 898
+  Number of distance tests for qhull: 7373
   CPU seconds to compute hull (after input):  0
 
-Options selected for Qhull 2015.0.4.r 2015/09/30:
-  run-id 1361679347  Tcheck-frequently  Tverify  Centrum-premerge-  0
+Options selected for Qhull 2015.1.r 2016/01/03:
+  run-id 2019357437  Tcheck-frequently  Tverify  Centrum-premerge-  0
   _zero-centrum  _max-width  1  Error-roundoff 1e-015  _one-merge 9.1e-015
   _near-inside 4.5e-014  Visible-distance 6e-015  U-coplanar-distance 6e-015
   Width-outside 1.2e-014  _wide-facet 3.6e-014
 
 Output completed.  Verifying that all points are below outer planes of
-all facets.  Will make 54600 distance computations.
+all facets.  Will make 50800 distance computations.
 rbox 200 L20 D5 t | qhull FO Tcv Qx
 
 Convex hull of 200 points in 5-d:
 
-  Number of vertices: 99
-  Number of facets: 1420
+  Number of vertices: 97
+  Number of facets: 1334
 
-Statistics for: rbox 200 L20 D5 t1443662279 | qhull FO Tcv Qx
+Statistics for: rbox 200 L20 D5 t1451878893 | qhull FO Tcv Qx
 
-  Number of points processed: 121
-  Number of hyperplanes created: 6083
-  Number of distance tests for qhull: 22491
+  Number of points processed: 113
+  Number of hyperplanes created: 4286
+  Number of distance tests for qhull: 16032
   CPU seconds to compute hull (after input): 0.015
 
-Options selected for Qhull 2015.0.4.r 2015/09/30:
-  run-id 1361679347  Tcheck-frequently  Tverify  Qxact-merge  _zero-centrum
+Options selected for Qhull 2015.1.r 2016/01/03:
+  run-id 2019357437  Tcheck-frequently  Tverify  Qxact-merge  _zero-centrum
   _max-width  1  Error-roundoff 1.4e-015  _one-merge 1.5e-014
   _near-inside 7.5e-014  Visible-distance 8.2e-015
   U-coplanar-distance 8.2e-015  Width-outside 1.6e-014  _wide-facet 4.9e-014
@@ -9536,58 +9620,58 @@ QH7076 qhull input warning: exact merge ('Qx').  Verify may report that a point
 is outside of a facet.  See qh-optq.htm#Qx
 
 Output completed.  Verifying that all points are below outer planes of
-all facets.  Will make 284000 distance computations.
+all facets.  Will make 266800 distance computations.
 rbox 1000 W1e-3 s D2 t | qhull d FO Tcv Qu Q0
 
 Furthest-site Delaunay triangulation by the convex hull of 1000 points in 3-d:
 
   Number of input sites: 1000
-  Number of Delaunay regions: 269
+  Number of Delaunay regions: 260
 
-Statistics for: rbox 1000 W1e-3 s D2 t1443662279 | qhull d FO Tcv Qu Q0
+Statistics for: rbox 1000 W1e-3 s D2 t1451878893 | qhull d FO Tcv Qu Q0
 
   Number of points processed: 1000
-  Number of hyperplanes created: 4757
+  Number of hyperplanes created: 4506
   Number of facets in hull: 1996
-  Number of distance tests for qhull: 27578
-  CPU seconds to compute hull (after input): 0.015
+  Number of distance tests for qhull: 26861
+  CPU seconds to compute hull (after input):  0
 
-Options selected for Qhull 2015.0.4.r 2015/09/30:
-  run-id 1361679347  delaunay  Tcheck-frequently  Tverify  QupperDelaunay
+Options selected for Qhull 2015.1.r 2016/01/03:
+  run-id 2019357437  delaunay  Tcheck-frequently  Tverify  QupperDelaunay
   Q0-no-premerge  Pgood  _max-width  1  Error-roundoff 6.9e-016
   Visible-distance 6.9e-016  U-coplanar-distance 6.9e-016
   Width-outside 1.4e-015  _wide-facet 4.2e-015
 
 Output completed.  Verifying that all points are below 2.1e-015 of
-all facets.  Will make 269000 distance computations.
+all facets.  Will make 260000 distance computations.
 rbox 1000 W1e-3 s D2 t | qhull d FO Tcv Qu C-0
 
 Furthest-site Delaunay triangulation by the convex hull of 1000 points in 3-d:
 
   Number of input sites: 1000
-  Number of Delaunay regions: 266
+  Number of Delaunay regions: 260
 
-Statistics for: rbox 1000 W1e-3 s D2 t1443662280 | qhull d FO Tcv Qu C-0
+Statistics for: rbox 1000 W1e-3 s D2 t1451878893 | qhull d FO Tcv Qu C-0
 
   Number of points processed: 1000
-  Number of hyperplanes created: 4543
+  Number of hyperplanes created: 4506
   Number of facets in hull: 1996
-  Number of distance tests for qhull: 27161
-  CPU seconds to compute hull (after input): 0.015
+  Number of distance tests for qhull: 26861
+  CPU seconds to compute hull (after input):  0
 
-Options selected for Qhull 2015.0.4.r 2015/09/30:
-  run-id 1361696154  delaunay  Tcheck-frequently  Tverify  QupperDelaunay
+Options selected for Qhull 2015.1.r 2016/01/03:
+  run-id 2019357437  delaunay  Tcheck-frequently  Tverify  QupperDelaunay
   Centrum-premerge-  0  _zero-centrum  Pgood  _max-width  1
   Error-roundoff 6.9e-016  _one-merge 4.9e-015  _near-inside 2.4e-014
   Visible-distance 1.4e-015  U-coplanar-distance 1.4e-015
   Width-outside 2.8e-015  _wide-facet 8.3e-015
 
 Output completed.  Verifying that all points are below 2.1e-015 of
-all facets.  Will make 266000 distance computations.
+all facets.  Will make 260000 distance computations.
 
 echo === check joggle and TRn ${d:-`date`}
 date
-=== check joggle and TRn Wed Sep 30 21:18:00 EDT 2015
+=== check joggle and TRn Sun Jan 3 22:41:33 EST 2016
 rbox 100 W0 | qhull QJ1e-14 Qc TR100 Tv
 
 At a premature exit due to 'TVn', 'TCn', 'TRn', or precision error with 'QJn'.
@@ -9666,7 +9750,7 @@ Statistics for: rbox 100 W0 | qhull QJ1e-11 Qc TR100 Tv
   Number of points processed: 75
   Number of hyperplanes created: 29630
   Number of distance tests for qhull: 219104
-  CPU seconds to compute hull (after input): 0.046
+  CPU seconds to compute hull (after input): 0.031
   Percentage of runs with precision errors:  0.0
 
 
@@ -9710,8 +9794,8 @@ Statistics for: rbox 100 | qhull d QJ Qb0:1e4 QB0:1e5 Qb1:1e4 QB1:1e6 Qb2:1e5 QB
   CPU seconds to compute hull (after input):  0
   Input joggled by: 6.7e+003
 
-Options selected for Qhull 2015.0.4.r 2015/09/30:
-  run-id 1361696154  delaunay  Qbound-dim-low 0 1e+004
+Options selected for Qhull 2015.1.r 2016/01/03:
+  run-id 2019357437  delaunay  Qbound-dim-low 0 1e+004
   QBound-dim-high 0 1e+005  Qbound-dim-low 1 1e+004  QBound-dim-high 1 1e+006
   Qbound-dim-low 2 1e+005  QBound-dim-high 2 1e+007  Tverify  Pgood  _run 1
   QJoggle 6.7e+003  _joggle-seed 16807  _max-width 1e+014  Error-roundoff 0.11
@@ -9723,7 +9807,7 @@ all facets.  Will make 48800 distance computations.
 
 echo === check precision options ${d:-`date`}
 date
-=== check precision options Wed Sep 30 21:18:00 EDT 2015
+=== check precision options Sun Jan 3 22:41:33 EST 2016
 rbox 100 D3 s | qhull E0.01 Qx Tcv FO
 
 Convex hull of 100 points in 3-d:
@@ -9740,12 +9824,12 @@ Statistics for: rbox 100 D3 s | qhull E0.01 Qx Tcv FO
   Number of distance tests for merging: 2006
   Number of distance tests for checking: 1937
   Number of merged facets: 57
-  CPU seconds to compute hull (after input): 0.015
+  CPU seconds to compute hull (after input):  0
   Maximum distance of point above facet: 0.048 (0.6x)
   Maximum distance of vertex below facet: -0.072 (0.9x)
 
-Options selected for Qhull 2015.0.4.r 2015/09/30:
-  run-id 1361696154  Distance-roundoff 0.01  Qxact-merge  Tcheck-frequently
+Options selected for Qhull 2015.1.r 2016/01/03:
+  run-id 2019357437  Distance-roundoff 0.01  Qxact-merge  Tcheck-frequently
   Tverify  _zero-centrum  _max-width 0.98  _one-merge 0.07  _near-inside 0.35
   Visible-distance 0.02  U-coplanar-distance 0.02  Width-outside 0.04
   _wide-facet 0.12
@@ -9885,7 +9969,7 @@ Statistics for: rbox 1000 s D3 | qhull C-0.01 Tcv Qc
   Number of distance tests for merging: 8425
   Number of distance tests for checking: 23411
   Number of merged facets: 256
-  CPU seconds to compute hull (after input):  0
+  CPU seconds to compute hull (after input): 0.015
   Maximum distance of point above facet: 0.02 (0.7x)
   Maximum distance of vertex below facet: -0.035 (1.2x)
 
@@ -9909,7 +9993,7 @@ Statistics for: rbox 1000 s D3 | qhull C-0.01 V0 Qc Tcv
   Number of distance tests for merging: 52430
   Number of distance tests for checking: 19885
   Number of merged facets: 1741
-  CPU seconds to compute hull (after input): 0.016
+  CPU seconds to compute hull (after input): 0.015
   Maximum distance of point above facet: 0.032 (1.1x)
   Maximum distance of vertex below facet: -0.064 (2.1x)
 
@@ -9933,7 +10017,7 @@ Statistics for: rbox 1000 s D3 | qhull C-0.01 U0 Qc Tcv
   Number of distance tests for merging: 9106
   Number of distance tests for checking: 23621
   Number of merged facets: 254
-  CPU seconds to compute hull (after input):  0
+  CPU seconds to compute hull (after input): 0.015
   Maximum distance of point above facet: 0.02 (0.7x)
   Maximum distance of vertex below facet: -0.035 (1.2x)
 
@@ -9981,7 +10065,7 @@ Statistics for: rbox 1000 s D3 | qhull C-0.01 Qcm Tcv
   Number of distance tests for merging: 7947
   Number of distance tests for checking: 23460
   Number of merged facets: 234
-  CPU seconds to compute hull (after input): 0.016
+  CPU seconds to compute hull (after input): 0.015
   Maximum distance of point above facet: 0.022 (0.7x)
   Maximum distance of vertex below facet: -0.035 (1.2x)
 
@@ -10005,12 +10089,12 @@ Statistics for: rbox 1000 s D3 | qhull C-0.01 Q1 FO Tcv Qc
   Number of distance tests for merging: 8730
   Number of distance tests for checking: 23168
   Number of merged facets: 258
-  CPU seconds to compute hull (after input): 0.015
+  CPU seconds to compute hull (after input):  0
   Maximum distance of point above facet: 0.02 (0.7x)
   Maximum distance of vertex below facet: -0.035 (1.2x)
 
-Options selected for Qhull 2015.0.4.r 2015/09/30:
-  run-id 1361712961  Centrum-premerge- 0.01  Q1-no-angle-sort
+Options selected for Qhull 2015.1.r 2016/01/03:
+  run-id 2019374244  Centrum-premerge- 0.01  Q1-no-angle-sort
   Tcheck-frequently  Tverify  Qcoplanar-keep  _max-width  1
   Error-roundoff 6.9e-016  _one-merge 0.03  _near-inside 0.15
   Visible-distance 0.01  U-coplanar-distance 0.01  Width-outside 0.02
@@ -10039,8 +10123,8 @@ Statistics for: rbox 1000 s D3 | qhull C-0.01 Q2 FO Tcv Qc
   Maximum distance of point above facet: 0.02 (0.7x)
   Maximum distance of vertex below facet: -0.049 (1.6x)
 
-Options selected for Qhull 2015.0.4.r 2015/09/30:
-  run-id 1361712961  Centrum-premerge- 0.01  Q2-no-merge-independent
+Options selected for Qhull 2015.1.r 2016/01/03:
+  run-id 2019374244  Centrum-premerge- 0.01  Q2-no-merge-independent
   Tcheck-frequently  Tverify  Qcoplanar-keep  _max-width  1
   Error-roundoff 6.9e-016  _one-merge 0.03  _near-inside 0.15
   Visible-distance 0.01  U-coplanar-distance 0.01  Width-outside 0.02
@@ -10069,8 +10153,8 @@ Statistics for: rbox 1000 s D3 | qhull C-0.01 Q3 FO Tcv Qc
   Maximum distance of point above facet: 0.02 (0.7x)
   Maximum distance of vertex below facet: -0.035 (1.2x)
 
-Options selected for Qhull 2015.0.4.r 2015/09/30:
-  run-id 1361712961  Centrum-premerge- 0.01  Q3-no-merge-vertices
+Options selected for Qhull 2015.1.r 2016/01/03:
+  run-id 2019374244  Centrum-premerge- 0.01  Q3-no-merge-vertices
   Tcheck-frequently  Tverify  Qcoplanar-keep  _max-width  1
   Error-roundoff 6.9e-016  _one-merge 0.03  _near-inside 0.15
   Visible-distance 0.01  U-coplanar-distance 0.01  Width-outside 0.02
@@ -10095,12 +10179,12 @@ Statistics for: rbox 1000 s D3 | qhull C-0.01 Q4 FO Tcv Qc
   Number of distance tests for merging: 8425
   Number of distance tests for checking: 23411
   Number of merged facets: 256
-  CPU seconds to compute hull (after input): 0.015
+  CPU seconds to compute hull (after input):  0
   Maximum distance of point above facet: 0.02 (0.7x)
   Maximum distance of vertex below facet: -0.035 (1.2x)
 
-Options selected for Qhull 2015.0.4.r 2015/09/30:
-  run-id 1361712961  Centrum-premerge- 0.01  Q4-avoid-old-into-new
+Options selected for Qhull 2015.1.r 2016/01/03:
+  run-id 2019374244  Centrum-premerge- 0.01  Q4-avoid-old-into-new
   Tcheck-frequently  Tverify  Qcoplanar-keep  _max-width  1
   Error-roundoff 6.9e-016  _one-merge 0.03  _near-inside 0.15
   Visible-distance 0.01  U-coplanar-distance 0.01  Width-outside 0.02
@@ -10110,7 +10194,7 @@ Output completed.  Verifying that all points are below outer planes of
 all facets.  Will make 96000 distance computations.
 echo === this may generate an error ${d:-`date`}
 date
-=== this may generate an error Wed Sep 30 21:18:01 EDT 2015
+=== this may generate an error Sun Jan 3 22:41:34 EST 2016
 rbox 1000 s D3 | qhull C-0.01 Q5 FO Tcv 
 
 Convex hull of 1000 points in 3-d:
@@ -10127,12 +10211,12 @@ Statistics for: rbox 1000 s D3 | qhull C-0.01 Q5 FO Tcv
   Number of distance tests for merging: 8425
   Number of distance tests for checking: 0
   Number of merged facets: 256
-  CPU seconds to compute hull (after input):  0
+  CPU seconds to compute hull (after input): 0.015
   Maximum distance of point above facet: 0.022 (0.7x)
   Maximum distance of vertex below facet: -0.035 (1.2x)
 
-Options selected for Qhull 2015.0.4.r 2015/09/30:
-  run-id 1361712961  Centrum-premerge- 0.01  Q5-no-check-outer
+Options selected for Qhull 2015.1.r 2016/01/03:
+  run-id 2019374244  Centrum-premerge- 0.01  Q5-no-check-outer
   Tcheck-frequently  Tverify  _max-width  1  Error-roundoff 6.9e-016
   _one-merge 0.03  Visible-distance 0.01  U-coplanar-distance 0.01
   Width-outside 0.02  _wide-facet 0.06
@@ -10144,7 +10228,7 @@ Output completed.  Verifying that all points are below 0.022 of
 all facets.  Will make 96000 distance computations.
 echo === this should generate an error ${d:-`date`}
 date
-=== this should generate an error Wed Sep 30 21:18:01 EDT 2015
+=== this should generate an error Sun Jan 3 22:41:34 EST 2016
 rbox 1000 s D3 | qhull C-0.01 Q6 FO Po Tcv Qc
 
 Convex hull of 1000 points in 3-d:
@@ -10162,12 +10246,12 @@ Statistics for: rbox 1000 s D3 | qhull C-0.01 Q6 FO Po Tcv Qc
   Number of distance tests for merging: 3458
   Number of distance tests for checking: 27470
   Number of merged facets: 88
-  CPU seconds to compute hull (after input): 0.015
+  CPU seconds to compute hull (after input):  0
   Maximum distance of point above facet: 0.02 (0.7x)
   Maximum distance of vertex below facet: -0.009 (0.3x)
 
-Options selected for Qhull 2015.0.4.r 2015/09/30:
-  run-id 1361712961  Centrum-premerge- 0.01  Q6-no-concave-merge
+Options selected for Qhull 2015.1.r 2016/01/03:
+  run-id 2019374244  Centrum-premerge- 0.01  Q6-no-concave-merge
   Poutput-forced  Tcheck-frequently  Tverify  Qcoplanar-keep  _max-width  1
   Error-roundoff 6.9e-016  _one-merge 0.03  _near-inside 0.15
   Visible-distance 0.01  U-coplanar-distance 0.01  Width-outside 0.02
@@ -10195,8 +10279,8 @@ Statistics for: rbox 1000 s D3 | qhull C-0.01 Q7 FO Tcv Qc
   Maximum distance of point above facet: 0.02 (0.7x)
   Maximum distance of vertex below facet: -0.042 (1.4x)
 
-Options selected for Qhull 2015.0.4.r 2015/09/30:
-  run-id 1361712961  Centrum-premerge- 0.01  Q7-no-breadth-first
+Options selected for Qhull 2015.1.r 2016/01/03:
+  run-id 2019374244  Centrum-premerge- 0.01  Q7-no-breadth-first
   Tcheck-frequently  Tverify  Qcoplanar-keep  _max-width  1
   Error-roundoff 6.9e-016  _one-merge 0.03  _near-inside 0.15
   Visible-distance 0.01  U-coplanar-distance 0.01  Width-outside 0.02
@@ -10221,7 +10305,7 @@ Statistics for: rbox 1000 s D3 | qhull C-0.01 Qx Tcv Qc
   Number of distance tests for merging: 5483
   Number of distance tests for checking: 20583
   Number of merged facets: 167
-  CPU seconds to compute hull (after input):  0
+  CPU seconds to compute hull (after input): 0.015
   Maximum distance of point above facet: 0.02 (0.7x)
   Maximum distance of vertex below facet: -0.034 (1.1x)
 
@@ -10232,223 +10316,223 @@ Output completed.  Verifying that all points are below outer planes of
 all facets.  Will make 103000 distance computations.
 echo === this may generate an error e.g., t1263080158 ${d:-`date`}
 date
-=== this may generate an error e.g., t1263080158 Wed Sep 30 21:18:01 EDT 2015
+=== this may generate an error e.g., t1263080158 Sun Jan 3 22:41:34 EST 2016
 rbox 100 s D3 t | qhull R1e-3 Tcv Qc
 
 Convex hull of 100 points in 3-d:
 
   Number of vertices: 99
   Number of coplanar points: 1
-  Number of facets: 171
-  Number of non-simplicial facets: 21
+  Number of facets: 176
+  Number of non-simplicial facets: 16
 
-Statistics for: rbox 100 s D3 t1443662281 | qhull R1e-3 Tcv Qc
+Statistics for: rbox 100 s D3 t1451878894 | qhull R1e-3 Tcv Qc
 
-  Number of points processed: 100
-  Number of hyperplanes created: 477
-  Number of distance tests for qhull: 1638
-  Number of distance tests for merging: 3412
-  Number of distance tests for checking: 1281
-  Number of merged facets: 39
-  CPU seconds to compute hull (after input):  0
-  Maximum distance of point above facet: 0.002 (0.5x)
-  Maximum distance of vertex below facet: -0.0045 (1.1x)
+  Number of points processed: 99
+  Number of hyperplanes created: 484
+  Number of distance tests for qhull: 1718
+  Number of distance tests for merging: 3196
+  Number of distance tests for checking: 1351
+  Number of merged facets: 34
+  CPU seconds to compute hull (after input): 0.015
+  Maximum distance of point above facet: 0.0031 (0.8x)
+  Maximum distance of vertex below facet: -0.0048 (1.2x)
 
 
 Output completed.  Verifying that all points are below outer planes of
-all facets.  Will make 17100 distance computations.
+all facets.  Will make 17600 distance computations.
 rbox 100 s D3 t | qhull R1e-2 Tcv Qc
 
 Convex hull of 100 points in 3-d:
 
-  Number of vertices: 62
-  Number of coplanar points: 38
-  Number of facets: 60
-  Number of non-simplicial facets: 36
+  Number of vertices: 66
+  Number of coplanar points: 34
+  Number of facets: 67
+  Number of non-simplicial facets: 44
 
-Statistics for: rbox 100 s D3 t1443662281 | qhull R1e-2 Tcv Qc
+Statistics for: rbox 100 s D3 t1451878894 | qhull R1e-2 Tcv Qc
 
-  Number of points processed: 73
-  Number of hyperplanes created: 299
-  Number of distance tests for qhull: 3489
-  Number of distance tests for merging: 5312
-  Number of distance tests for checking: 2101
-  Number of merged facets: 151
+  Number of points processed: 72
+  Number of hyperplanes created: 293
+  Number of distance tests for qhull: 3592
+  Number of distance tests for merging: 5003
+  Number of distance tests for checking: 1985
+  Number of merged facets: 147
   CPU seconds to compute hull (after input):  0
-  Maximum distance of point above facet: 0.045 (1.1x)
-  Maximum distance of vertex below facet: -0.045 (1.1x)
+  Maximum distance of point above facet: 0.032 (0.8x)
+  Maximum distance of vertex below facet: -0.057 (1.4x)
 
 
 Output completed.  Verifying that all points are below outer planes of
-all facets.  Will make 6000 distance computations.
+all facets.  Will make 6700 distance computations.
 rbox 500 s D3 t | qhull R0.05 A-1 Tcv Qc
 
 Convex hull of 500 points in 3-d:
 
-  Number of vertices: 23
-  Number of coplanar points: 477
-  Number of facets: 19
-  Number of non-simplicial facets: 17
+  Number of vertices: 20
+  Number of coplanar points: 480
+  Number of facets: 17
+  Number of non-simplicial facets: 11
 
-Statistics for: rbox 500 s D3 t1443662281 | qhull R0.05 A-1 Tcv Qc
+Statistics for: rbox 500 s D3 t1451878894 | qhull R0.05 A-1 Tcv Qc
 
-  Number of points processed: 28
-  Number of hyperplanes created: 97
-  Number of distance tests for qhull: 26983
-  Number of distance tests for merging: 2028
-  Number of distance tests for checking: 9962
-  Number of merged facets: 63
+  Number of points processed: 24
+  Number of hyperplanes created: 82
+  Number of distance tests for qhull: 21963
+  Number of distance tests for merging: 1539
+  Number of distance tests for checking: 7591
+  Number of merged facets: 49
   CPU seconds to compute hull (after input):  0
-  Maximum distance of point above facet: 0.15 (0.2x)
+  Maximum distance of point above facet: 0.13 (0.2x)
   Maximum distance of vertex below facet: -0.26 (0.4x)
 
 
 Output completed.  Verifying that all points are below outer planes of
-all facets.  Will make 9500 distance computations.
+all facets.  Will make 8500 distance computations.
 rbox 100 W0 D3 t | qhull R1e-3 Tcv Qc
 
 Convex hull of 100 points in 3-d:
 
-  Number of vertices: 39
-  Number of coplanar points: 61
-  Number of facets: 49
+  Number of vertices: 42
+  Number of coplanar points: 58
+  Number of facets: 52
   Number of non-simplicial facets: 9
 
-Statistics for: rbox 100 W0 D3 t1443662281 | qhull R1e-3 Tcv Qc
+Statistics for: rbox 100 W0 D3 t1451878894 | qhull R1e-3 Tcv Qc
 
-  Number of points processed: 45
-  Number of hyperplanes created: 154
-  Number of distance tests for qhull: 1931
-  Number of distance tests for merging: 1670
-  Number of distance tests for checking: 1086
-  Number of merged facets: 39
-  CPU seconds to compute hull (after input): 0.015
-  Maximum distance of point above facet: 0.0025 (0.6x)
-  Maximum distance of vertex below facet: -0.0036 (0.9x)
+  Number of points processed: 52
+  Number of hyperplanes created: 166
+  Number of distance tests for qhull: 1849
+  Number of distance tests for merging: 1943
+  Number of distance tests for checking: 1144
+  Number of merged facets: 55
+  CPU seconds to compute hull (after input):  0
+  Maximum distance of point above facet: 0.0018 (0.4x)
+  Maximum distance of vertex below facet: -0.0046 (1.1x)
 
 
 Output completed.  Verifying that all points are below outer planes of
-all facets.  Will make 4900 distance computations.
+all facets.  Will make 5200 distance computations.
 rbox 100 W0 D3 t | qhull R1e-3 Qx Tcv Qc
 
 Convex hull of 100 points in 3-d:
 
-  Number of vertices: 40
-  Number of coplanar points: 60
-  Number of facets: 50
-  Number of non-simplicial facets: 9
+  Number of vertices: 42
+  Number of coplanar points: 58
+  Number of facets: 49
+  Number of non-simplicial facets: 11
 
-Statistics for: rbox 100 W0 D3 t1443662281 | qhull R1e-3 Qx Tcv Qc
+Statistics for: rbox 100 W0 D3 t1451878894 | qhull R1e-3 Qx Tcv Qc
 
-  Number of points processed: 44
-  Number of hyperplanes created: 158
-  Number of distance tests for qhull: 2039
-  Number of distance tests for merging: 1510
+  Number of points processed: 51
+  Number of hyperplanes created: 170
+  Number of distance tests for qhull: 2708
+  Number of distance tests for merging: 1691
   Number of distance tests for checking: 1098
-  Number of merged facets: 35
+  Number of merged facets: 50
   CPU seconds to compute hull (after input):  0
-  Maximum distance of point above facet: 0.0021 (0.5x)
+  Maximum distance of point above facet: 0.002 (0.5x)
   Maximum distance of vertex below facet: -0.0039 (1.0x)
 
 QH7076 qhull input warning: exact merge ('Qx').  Verify may report that a point
 is outside of a facet.  See qh-optq.htm#Qx
 
 Output completed.  Verifying that all points are below outer planes of
-all facets.  Will make 5000 distance computations.
+all facets.  Will make 4900 distance computations.
 rbox 100 W0 D3 t | qhull R1e-2 Tcv Qc
 
 Convex hull of 100 points in 3-d:
 
-  Number of vertices: 24
-  Number of coplanar points: 76
-  Number of facets: 21
-  Number of non-simplicial facets: 12
+  Number of vertices: 27
+  Number of coplanar points: 73
+  Number of facets: 26
+  Number of non-simplicial facets: 11
 
-Statistics for: rbox 100 W0 D3 t1443662281 | qhull R1e-2 Tcv Qc
+Statistics for: rbox 100 W0 D3 t1451878894 | qhull R1e-2 Tcv Qc
 
-  Number of points processed: 31
-  Number of hyperplanes created: 102
-  Number of distance tests for qhull: 2485
-  Number of distance tests for merging: 1673
-  Number of distance tests for checking: 1155
-  Number of merged facets: 52
+  Number of points processed: 40
+  Number of hyperplanes created: 121
+  Number of distance tests for qhull: 2892
+  Number of distance tests for merging: 1878
+  Number of distance tests for checking: 1420
+  Number of merged facets: 68
   CPU seconds to compute hull (after input):  0
-  Maximum distance of point above facet: 0.02 (0.5x)
-  Maximum distance of vertex below facet: -0.046 (1.1x)
+  Maximum distance of point above facet: 0.027 (0.7x)
+  Maximum distance of vertex below facet: -0.043 (1.1x)
 
 
 Output completed.  Verifying that all points are below outer planes of
-all facets.  Will make 2100 distance computations.
+all facets.  Will make 2600 distance computations.
 rbox 100 W0 D3 t | qhull R1e-2 Qx Tcv Qc
 
 Convex hull of 100 points in 3-d:
 
-  Number of vertices: 24
-  Number of coplanar points: 76
-  Number of facets: 21
-  Number of non-simplicial facets: 11
+  Number of vertices: 30
+  Number of coplanar points: 70
+  Number of facets: 28
+  Number of non-simplicial facets: 12
 
-Statistics for: rbox 100 W0 D3 t1443662281 | qhull R1e-2 Qx Tcv Qc
+Statistics for: rbox 100 W0 D3 t1451878894 | qhull R1e-2 Qx Tcv Qc
 
-  Number of points processed: 31
-  Number of hyperplanes created: 95
-  Number of distance tests for qhull: 3225
-  Number of distance tests for merging: 1329
-  Number of distance tests for checking: 1004
-  Number of merged facets: 44
+  Number of points processed: 40
+  Number of hyperplanes created: 120
+  Number of distance tests for qhull: 2986
+  Number of distance tests for merging: 1537
+  Number of distance tests for checking: 1306
+  Number of merged facets: 59
   CPU seconds to compute hull (after input):  0
-  Maximum distance of point above facet: 0.024 (0.6x)
-  Maximum distance of vertex below facet: -0.069 (1.7x)
+  Maximum distance of point above facet: 0.031 (0.8x)
+  Maximum distance of vertex below facet: -0.044 (1.1x)
 
 QH7076 qhull input warning: exact merge ('Qx').  Verify may report that a point
 is outside of a facet.  See qh-optq.htm#Qx
 
 Output completed.  Verifying that all points are below outer planes of
-all facets.  Will make 2100 distance computations.
+all facets.  Will make 2800 distance computations.
 rbox 500 W0 D3 t | qhull R0.05 A-1 Tcv Qc
 
 Convex hull of 500 points in 3-d:
 
-  Number of vertices: 10
-  Number of coplanar points: 490
-  Number of facets: 7
+  Number of vertices: 8
+  Number of coplanar points: 492
+  Number of facets: 6
   Number of non-simplicial facets: 6
 
-Statistics for: rbox 500 W0 D3 t1443662281 | qhull R0.05 A-1 Tcv Qc
+Statistics for: rbox 500 W0 D3 t1451878894 | qhull R0.05 A-1 Tcv Qc
 
-  Number of points processed: 13
-  Number of hyperplanes created: 33
-  Number of distance tests for qhull: 13650
-  Number of distance tests for merging: 529
-  Number of distance tests for checking: 4262
-  Number of merged facets: 17
-  CPU seconds to compute hull (after input):  0
-  Maximum distance of point above facet: 0.12 (0.2x)
-  Maximum distance of vertex below facet: -0.17 (0.3x)
+  Number of points processed: 16
+  Number of hyperplanes created: 45
+  Number of distance tests for qhull: 16872
+  Number of distance tests for merging: 773
+  Number of distance tests for checking: 3874
+  Number of merged facets: 30
+  CPU seconds to compute hull (after input): 0.015
+  Maximum distance of point above facet: 0.14 (0.2x)
+  Maximum distance of vertex below facet: -0.13 (0.2x)
 
 
 Output completed.  Verifying that all points are below outer planes of
-all facets.  Will make 3500 distance computations.
+all facets.  Will make 3000 distance computations.
 rbox 500 W0 D3 t | qhull R0.05 Qx Tcv Qc
 
 Convex hull of 500 points in 3-d:
 
-  Number of vertices: 10
-  Number of coplanar points: 490
+  Number of vertices: 9
+  Number of coplanar points: 491
   Number of facets: 7
   Number of non-simplicial facets: 6
 
-Statistics for: rbox 500 W0 D3 t1443662281 | qhull R0.05 Qx Tcv Qc
+Statistics for: rbox 500 W0 D3 t1451878894 | qhull R0.05 Qx Tcv Qc
 
-  Number of points processed: 14
-  Number of hyperplanes created: 33
-  Number of distance tests for qhull: 15892
-  Number of distance tests for merging: 442
-  Number of distance tests for checking: 4199
-  Number of merged facets: 18
-  CPU seconds to compute hull (after input): 0.015
-  Maximum distance of point above facet: 0.092 (0.5x)
-  Maximum distance of vertex below facet: -0.12 (0.6x)
+  Number of points processed: 17
+  Number of hyperplanes created: 45
+  Number of distance tests for qhull: 23413
+  Number of distance tests for merging: 518
+  Number of distance tests for checking: 4370
+  Number of merged facets: 29
+  CPU seconds to compute hull (after input):  0
+  Maximum distance of point above facet: 0.1 (0.5x)
+  Maximum distance of vertex below facet: -0.14 (0.7x)
 
 QH7076 qhull input warning: exact merge ('Qx').  Verify may report that a point
 is outside of a facet.  See qh-optq.htm#Qx
@@ -10459,136 +10543,137 @@ rbox 1000 W1e-20 t | qhull Tcv Qc
 
 Convex hull of 1000 points in 3-d:
 
-  Number of vertices: 77
-  Number of coplanar points: 923
-  Number of facets: 91
+  Number of vertices: 80
+  Number of coplanar points: 920
+  Number of facets: 94
   Number of non-simplicial facets: 6
 
-Statistics for: rbox 1000 W1e-20 t1443662281 | qhull Tcv Qc
+Statistics for: rbox 1000 W1e-20 t1451878894 | qhull Tcv Qc
 
-  Number of points processed: 96
-  Number of hyperplanes created: 309
-  Number of distance tests for qhull: 18801
-  Number of distance tests for merging: 4091
-  Number of distance tests for checking: 29489
-  Number of merged facets: 97
+  Number of points processed: 94
+  Number of hyperplanes created: 302
+  Number of distance tests for qhull: 19553
+  Number of distance tests for merging: 4016
+  Number of distance tests for checking: 30250
+  Number of merged facets: 90
   CPU seconds to compute hull (after input):  0
 
 
 Output completed.  Verifying that all points are below outer planes of
-all facets.  Will make 91000 distance computations.
+all facets.  Will make 94000 distance computations.
 rbox 1000 W1e-20 D4 t | qhull Tcv Qc
 
 Convex hull of 1000 points in 4-d:
 
-  Number of vertices: 283
-  Number of coplanar points: 717
-  Number of facets: 1036
+  Number of vertices: 267
+  Number of coplanar points: 733
+  Number of facets: 983
   Number of non-simplicial facets: 8
 
-Statistics for: rbox 1000 W1e-20 D4 t1443662281 | qhull Tcv Qc
+Statistics for: rbox 1000 W1e-20 D4 t1451878894 | qhull Tcv Qc
 
-  Number of points processed: 363
-  Number of hyperplanes created: 4650
-  Number of distance tests for qhull: 76182
-  Number of distance tests for merging: 71044
-  Number of distance tests for checking: 146803
-  Number of merged facets: 1126
+  Number of points processed: 347
+  Number of hyperplanes created: 4363
+  Number of distance tests for qhull: 66002
+  Number of distance tests for merging: 66342
+  Number of distance tests for checking: 138865
+  Number of merged facets: 1041
   CPU seconds to compute hull (after input): 0.078
 
 
 Output completed.  Verifying that all points are below outer planes of
-all facets.  Will make 1036000 distance computations.
+all facets.  Will make 983000 distance computations.
 rbox 500 W1e-20 D5 t | qhull Tv Qc
 
 Convex hull of 500 points in 5-d:
 
-  Number of vertices: 349
-  Number of coplanar points: 151
-  Number of facets: 5904
+  Number of vertices: 350
+  Number of coplanar points: 150
+  Number of facets: 5647
   Number of non-simplicial facets: 10
 
-Statistics for: rbox 500 W1e-20 D5 t1443662282 | qhull Tv Qc
+Statistics for: rbox 500 W1e-20 D5 t1451878894 | qhull Tv Qc
 
-  Number of points processed: 403
-  Number of hyperplanes created: 28051
-  Number of distance tests for qhull: 117314
-  Number of distance tests for merging: 309455
-  Number of distance tests for checking: 244707
-  Number of merged facets: 3524
-  CPU seconds to compute hull (after input): 0.109
+  Number of points processed: 414
+  Number of hyperplanes created: 29191
+  Number of distance tests for qhull: 132163
+  Number of distance tests for merging: 324668
+  Number of distance tests for checking: 239334
+  Number of merged facets: 3557
+  CPU seconds to compute hull (after input): 0.11
 
 QH7076 qhull input warning: exact merge ('Qx').  Verify may report that a point
 is outside of a facet.  See qh-optq.htm#Qx
 
 Output completed.  Verifying that all points are below outer planes of
-all facets.  Will make 2952000 distance computations.
+all facets.  Will make 2823500 distance computations.
 rbox 100 W1e-20 D6 t | qhull Tv Qc
 
 Convex hull of 100 points in 6-d:
 
-  Number of vertices: 100
-  Number of facets: 5915
-  Number of non-simplicial facets: 10
+  Number of vertices: 98
+  Number of coplanar points: 2
+  Number of facets: 5495
+  Number of non-simplicial facets: 8
 
-Statistics for: rbox 100 W1e-20 D6 t1443662282 | qhull Tv Qc
+Statistics for: rbox 100 W1e-20 D6 t1451878895 | qhull Tv Qc
 
-  Number of points processed: 100
-  Number of hyperplanes created: 20089
-  Number of distance tests for qhull: 31867
-  Number of distance tests for merging: 196367
-  Number of distance tests for checking: 122724
-  Number of merged facets: 177
+  Number of points processed: 99
+  Number of hyperplanes created: 19725
+  Number of distance tests for qhull: 32668
+  Number of distance tests for merging: 173520
+  Number of distance tests for checking: 114356
+  Number of merged facets: 243
   CPU seconds to compute hull (after input): 0.078
 
 QH7076 qhull input warning: exact merge ('Qx').  Verify may report that a point
 is outside of a facet.  See qh-optq.htm#Qx
 
 Output completed.  Verifying that all points are below outer planes of
-all facets.  Will make 591500 distance computations.
+all facets.  Will make 549500 distance computations.
 rbox 50 W1e-20 D6 t | qhull Qv Tv Qc
 
 Convex hull of 50 points in 6-d:
 
   Number of vertices: 50
-  Number of facets: 2145
-  Number of non-simplicial facets: 1
+  Number of facets: 2004
+  Number of non-simplicial facets: 2
 
-Statistics for: rbox 50 W1e-20 D6 t1443662282 | qhull Qv Tv Qc
+Statistics for: rbox 50 W1e-20 D6 t1451878895 | qhull Qv Tv Qc
 
   Number of points processed: 50
-  Number of hyperplanes created: 5908
-  Number of distance tests for qhull: 8409
-  Number of distance tests for merging: 3743350
-  Number of distance tests for checking: 43806
-  Number of merged facets: 26
-  CPU seconds to compute hull (after input): 0.172
+  Number of hyperplanes created: 5596
+  Number of distance tests for qhull: 8164
+  Number of distance tests for merging: 3279060
+  Number of distance tests for checking: 40806
+  Number of merged facets: 16
+  CPU seconds to compute hull (after input): 0.125
 
 QH7076 qhull input warning: exact merge ('Qx').  Verify may report that a point
 is outside of a facet.  See qh-optq.htm#Qx
 
 Output completed.  Verifying that all points are below outer planes of
-all facets.  Will make 107250 distance computations.
+all facets.  Will make 100200 distance computations.
 rbox 10000 D4 t | qhull QR0 Qc C-0.01 A0.3 Tv
 
 Convex hull of 10000 points in 4-d:
 
   Number of vertices: 16
-  Number of coplanar points: 9222
+  Number of coplanar points: 8530
   Number of facets: 8
   Number of non-simplicial facets: 8
 
-Statistics for: rbox 10000 D4 t1443662282 | qhull QR0 Qc C-0.01 A0.3 Tv QR1443662282
+Statistics for: rbox 10000 D4 t1451878895 | qhull QR0 Qc C-0.01 A0.3 Tv QR1451878895
 
-  Number of points processed: 54
-  Number of hyperplanes created: 347
-  Number of distance tests for qhull: 1472307
-  Number of distance tests for merging: 10718
-  Number of distance tests for checking: 98880
-  Number of merged facets: 392
-  CPU seconds to compute hull (after input): 0.078
-  Maximum distance of point above facet: 0.038
-  Maximum distance of vertex below facet: -0.23 (0.1x)
+  Number of points processed: 48
+  Number of hyperplanes created: 307
+  Number of distance tests for qhull: 1399449
+  Number of distance tests for merging: 9129
+  Number of distance tests for checking: 99520
+  Number of merged facets: 341
+  CPU seconds to compute hull (after input): 0.063
+  Maximum distance of point above facet: 0.051
+  Maximum distance of vertex below facet: -0.19 (0.1x)
 
 
 Output completed.  Verifying that all points are below outer planes of
@@ -10598,121 +10683,118 @@ rbox 1000 D2 t | qhull d QR0 Qc C-1e-8 Qu Tv
 Furthest-site Delaunay triangulation by the convex hull of 1000 points in 3-d:
 
   Number of input sites: 1000
-  Number of Delaunay regions: 22
+  Number of Delaunay regions: 15
 
-Statistics for: rbox 1000 D2 t1443662282 | qhull d QR0 Qc C-1e-8 Qu Tv QR1443662282
+Statistics for: rbox 1000 D2 t1451878895 | qhull d QR0 Qc C-1e-8 Qu Tv QR1451878895
 
   Number of points processed: 1000
-  Number of hyperplanes created: 5504
-  Number of facets in hull: 1995
-  Number of distance tests for qhull: 28464
-  Number of distance tests for merging: 41014
-  Number of distance tests for checking: 25862
-  Number of merged facets: 1
+  Number of hyperplanes created: 5465
+  Number of facets in hull: 1996
+  Number of distance tests for qhull: 29164
   CPU seconds to compute hull (after input): 0.015
-  Maximum distance of vertex below facet: -1.2e-008 (0.4x)
 
 
 Output completed.  Verifying that all points are below outer planes of
-all facets.  Will make 22000 distance computations.
+all facets.  Will make 15000 distance computations.
 rbox 300 D5 t |qhull A-0.999 Qx Qc Tcv
 
 Convex hull of 300 points in 5-d:
 
-  Number of vertices: 155
-  Number of coplanar points: 39
-  Number of facets: 1635
-  Number of non-simplicial facets: 388
+  Number of vertices: 146
+  Number of coplanar points: 54
+  Number of facets: 1522
+  Number of non-simplicial facets: 400
 
-Statistics for: rbox 300 D5 t1443662283 | qhull A-0.999 Qx Qc Tcv
+Statistics for: rbox 300 D5 t1451878895 | qhull A-0.999 Qx Qc Tcv
 
-  Number of points processed: 196
-  Number of hyperplanes created: 12610
-  Number of distance tests for qhull: 181631
-  Number of distance tests for merging: 55763
-  Number of distance tests for checking: 19717
-  Number of merged facets: 1135
-  CPU seconds to compute hull (after input): 0.047
-  Maximum distance of vertex below facet: -0.023 (0.2x)
+  Number of points processed: 191
+  Number of hyperplanes created: 11159
+  Number of distance tests for qhull: 175097
+  Number of distance tests for merging: 51315
+  Number of distance tests for checking: 18236
+  Number of merged facets: 1026
+  CPU seconds to compute hull (after input): 0.046
+  Maximum distance of vertex below facet: -0.027 (0.3x)
 
 QH7076 qhull input warning: exact merge ('Qx').  Verify may report that a point
 is outside of a facet.  See qh-optq.htm#Qx
 
 Output completed.  Verifying that all points are below outer planes of
-all facets.  Will make 490500 distance computations.
+all facets.  Will make 456600 distance computations.
 rbox 100 D6 t |qhull A-0.9999 Qx Qc Tcv
 
 Convex hull of 100 points in 6-d:
 
-  Number of vertices: 87
-  Number of coplanar points: 2
-  Number of facets: 3530
-  Number of non-simplicial facets: 274
+  Number of vertices: 88
+  Number of coplanar points: 1
+  Number of facets: 3836
+  Number of non-simplicial facets: 238
 
-Statistics for: rbox 100 D6 t1443662283 | qhull A-0.9999 Qx Qc Tcv
+Statistics for: rbox 100 D6 t1451878895 | qhull A-0.9999 Qx Qc Tcv
 
-  Number of points processed: 90
-  Number of hyperplanes created: 13290
-  Number of distance tests for qhull: 30065
-  Number of distance tests for merging: 77177
-  Number of distance tests for checking: 76718
-  Number of merged facets: 659
+  Number of points processed: 92
+  Number of hyperplanes created: 14788
+  Number of distance tests for qhull: 32821
+  Number of distance tests for merging: 81601
+  Number of distance tests for checking: 82779
+  Number of merged facets: 593
   CPU seconds to compute hull (after input): 0.062
-  Maximum distance of vertex below facet: -0.006 (0.2x)
+  Maximum distance of vertex below facet: -0.0068 (0.2x)
 
 QH7076 qhull input warning: exact merge ('Qx').  Verify may report that a point
 is outside of a facet.  See qh-optq.htm#Qx
 
 Output completed.  Verifying that all points are below outer planes of
-all facets.  Will make 353000 distance computations.
+all facets.  Will make 383600 distance computations.
 rbox 50 D7 t |qhull A-0.99999 Qx Qc Tcv W0.1
 
 Convex hull of 50 points in 7-d:
 
-  Number of vertices: 46
-  Number of coplanar points: 4
-  Number of facets: 4340
-  Number of non-simplicial facets: 67
+  Number of vertices: 47
+  Number of coplanar points: 3
+  Number of facets: 4154
+  Number of non-simplicial facets: 65
 
-Statistics for: rbox 50 D7 t1443662283 | qhull A-0.99999 Qx Qc Tcv W0.1
+Statistics for: rbox 50 D7 t1451878895 | qhull A-0.99999 Qx Qc Tcv W0.1
 
-  Number of points processed: 46
-  Number of hyperplanes created: 13224
-  Number of distance tests for qhull: 20692
-  Number of distance tests for merging: 87490
-  Number of distance tests for checking: 98527
-  Number of merged facets: 200
+  Number of points processed: 47
+  Number of hyperplanes created: 12647
+  Number of distance tests for qhull: 20165
+  Number of distance tests for merging: 83587
+  Number of distance tests for checking: 112515
+  Number of merged facets: 180
   CPU seconds to compute hull (after input): 0.062
-  Maximum distance of point above facet: 0.073
-  Maximum distance of vertex below facet: -0.0019 (0.2x)
+  Maximum distance of point above facet: 0.091
+  Maximum distance of vertex below facet: -0.002 (0.2x)
 
 QH7076 qhull input warning: exact merge ('Qx').  Verify may report that a point
 is outside of a facet.  See qh-optq.htm#Qx
 
 Output completed.  Verifying that all points are below outer planes of
-all facets.  Will make 217000 distance computations.
+all facets.  Will make 207700 distance computations.
 
 echo === check bad cases for Qhull.  May cause errors ${d:-`date`}
 date
-=== check bad cases for Qhull. May cause errors Wed Sep 30 21:18:03 EDT 2015
+=== check bad cases for Qhull. May cause errors Sun Jan 3 22:41:35 EST 2016
 rbox 1000 L100000 s G1e-6 t | qhull Tv
 
 Convex hull of 1000 points in 3-d:
 
-  Number of vertices: 994
-  Number of facets: 1495
-  Number of non-simplicial facets: 4
+  Number of vertices: 989
+  Number of facets: 1488
+  Number of non-simplicial facets: 7
 
-Statistics for: rbox 1000 L100000 s G1e-6 t1443662283 | qhull Tv
+Statistics for: rbox 1000 L100000 s G1e-6 t1451878895 | qhull Tv
 
-  Number of points processed: 995
-  Number of hyperplanes created: 3828
-  Number of distance tests for qhull: 30981
-  Number of distance tests for merging: 146379
-  Number of distance tests for checking: 131954
-  Number of merged facets: 500
-  CPU seconds to compute hull (after input): 0.031
-  Maximum distance of vertex below facet: -4.6e-015 (0.8x)
+  Number of points processed: 989
+  Number of hyperplanes created: 3466
+  Number of distance tests for qhull: 29995
+  Number of distance tests for merging: 140083
+  Number of distance tests for checking: 128244
+  Number of merged facets: 486
+  CPU seconds to compute hull (after input): 0.015
+  Maximum distance of point above facet: 1.7e-015 (0.3x)
+  Maximum distance of vertex below facet: -2.8e-015 (0.5x)
 
 qhull precision warning: 
 The initial hull is narrow (cosine of min. angle is 1.0000000000000000).
@@ -10722,52 +10804,53 @@ last coordinate) may remove this warning.  Use 'Pp' to skip this warning.
 See 'Limitations' in qh-impre.htm.
 
 Output completed.  Verifying that all points are below outer planes of
-all facets.  Will make 1495000 distance computations.
+all facets.  Will make 1488000 distance computations.
 rbox 1000 L100000 s G1e-6 t | qhull Tv Q10
 
 Convex hull of 1000 points in 3-d:
 
-  Number of vertices: 994
-  Number of facets: 1495
-  Number of non-simplicial facets: 4
+  Number of vertices: 986
+  Number of facets: 1502
+  Number of non-simplicial facets: 8
 
-Statistics for: rbox 1000 L100000 s G1e-6 t1443662283 | qhull Tv Q10
+Statistics for: rbox 1000 L100000 s G1e-6 t1451878896 | qhull Tv Q10
 
-  Number of points processed: 995
-  Number of hyperplanes created: 3828
-  Number of distance tests for qhull: 30978
-  Number of distance tests for merging: 146379
-  Number of distance tests for checking: 131954
-  Number of merged facets: 500
-  CPU seconds to compute hull (after input): 0.031
+  Number of points processed: 987
+  Number of hyperplanes created: 3833
+  Number of distance tests for qhull: 29792
+  Number of distance tests for merging: 132126
+  Number of distance tests for checking: 118330
+  Number of merged facets: 472
+  CPU seconds to compute hull (after input): 0.016
+  Maximum distance of point above facet: 1.6e-014 (2.8x)
   Maximum distance of vertex below facet: -4.6e-015 (0.8x)
 
 
 Output completed.  Verifying that all points are below outer planes of
-all facets.  Will make 1495000 distance computations.
+all facets.  Will make 1502000 distance computations.
 rbox 1000 s Z1 G1e-13 t | qhull Tv
 
 Convex hull of 1001 points in 3-d:
 
   Number of vertices: 1001
-  Number of facets: 1335
-  Number of non-simplicial facets: 93
+  Number of facets: 1513
+  Number of non-simplicial facets: 153
 
-Statistics for: rbox 1000 s Z1 G1e-13 t1443662283 | qhull Tv
+Statistics for: rbox 1000 s Z1 G1e-13 t1451878896 | qhull Tv
 
   Number of points processed: 1001
-  Number of hyperplanes created: 5494
-  Number of distance tests for qhull: 29062
-  Number of distance tests for merging: 199772
-  Number of distance tests for checking: 856002
-  Number of merged facets: 2784
-  CPU seconds to compute hull (after input): 0.062
-  Maximum distance of point above facet: 5.6e-014 (10.0x)
-  Maximum distance of vertex below facet: -1.8e-014 (3.3x)
+  Number of hyperplanes created: 4199
+  Number of distance tests for qhull: 29344
+  Number of distance tests for merging: 79898
+  Number of distance tests for checking: 233229
+  Number of merged facets: 1226
+  CPU seconds to compute hull (after input): 0.016
+  Maximum distance of point above facet: 7.1e-015 (1.3x)
+  Maximum distance of vertex below facet: -8.5e-015 (1.5x)
 
 
 Output completed.  Verifying that all points are below outer planes of
-all facets.  Will make 1336335 distance computations.
+all facets.  Will make 1514513 distance computations.
 rbox 1000 s W1e-13 P0 t | qhull d Qbb Qc Tv
 
 Delaunay triangulation by the convex hull of 1001 points in 4-d:
@@ -10775,18 +10858,18 @@ Delaunay triangulation by the convex hull of 1001 points in 4-d:
   Number of input sites: 1001
   Number of Delaunay regions: 1996
 
-Statistics for: rbox 1000 s W1e-13 P0 t1443662283 | qhull d Qbb Qc Tv
+Statistics for: rbox 1000 s W1e-13 P0 t1451878896 | qhull d Qbb Qc Tv
 
   Number of points processed: 1001
-  Number of hyperplanes created: 83977
-  Number of facets in hull: 2007
-  Number of distance tests for qhull: 132599
-  Number of distance tests for merging: 6018822
-  Number of distance tests for checking: 1997852
-  Number of merged facets: 76737
-  CPU seconds to compute hull (after input): 1.875
-  Maximum distance of point above facet: 3.2e-013 (15.7x)
-  Maximum distance of vertex below facet: -5.2e-013 (26.0x)
+  Number of hyperplanes created: 15733
+  Number of facets in hull: 3668
+  Number of distance tests for qhull: 59872
+  Number of distance tests for merging: 269214
+  Number of distance tests for checking: 292541
+  Number of merged facets: 6431
+  CPU seconds to compute hull (after input): 0.078
+  Maximum distance of point above facet: 4e-014 (2.0x)
+  Maximum distance of vertex below facet: -6.3e-014 (3.1x)
 
 
 Output completed.  Verifying that all points are below outer planes of
@@ -10795,24 +10878,24 @@ rbox 1000 s W1e-13 t | qhull d Tv
 
 Delaunay triangulation by the convex hull of 1000 points in 4-d:
 
-  Number of input sites: 887
-  Total number of deleted points due to merging: 77
-  Total number of nearly incident points: 36
-  Number of Delaunay regions: 954
-  Number of non-simplicial Delaunay regions: 337
+  Number of input sites: 963
+  Total number of deleted points due to merging: 9
+  Total number of nearly incident points: 28
+  Number of Delaunay regions: 1188
+  Number of non-simplicial Delaunay regions: 404
 
-Statistics for: rbox 1000 s W1e-13 t1443662285 | qhull d Tv
+Statistics for: rbox 1000 s W1e-13 t1451878896 | qhull d Tv
 
-  Number of points processed: 964
-  Number of hyperplanes created: 11030
-  Number of facets in hull: 1978
-  Number of distance tests for qhull: 1541556
-  Number of distance tests for merging: 332647
-  Number of distance tests for checking: 1698151
-  Number of merged facets: 8090
-  CPU seconds to compute hull (after input): 0.265
-  Maximum distance of point above facet: 1.3e-012 (132.7x)
-  Maximum distance of vertex below facet: -4.3e-014 (4.3x)
+  Number of points processed: 972
+  Number of hyperplanes created: 10523
+  Number of facets in hull: 2332
+  Number of distance tests for qhull: 568653
+  Number of distance tests for merging: 249049
+  Number of distance tests for checking: 1992784
+  Number of merged facets: 7009
+  CPU seconds to compute hull (after input): 0.187
+  Maximum distance of point above facet: 1.2e-012 (115.6x)
+  Maximum distance of vertex below facet: -4e-014 (4.0x)
 
 qhull precision warning: 
 The initial hull is narrow (cosine of min. angle is 1.0000000000000000).
@@ -10822,29 +10905,29 @@ last coordinate) may remove this warning.  Use 'Pp' to skip this warning.
 See 'Limitations' in qh-impre.htm.
 
 Output completed.  Verifying that all points are below outer planes of
-all facets.  Will make 954000 distance computations.
+all facets.  Will make 1188000 distance computations.
 rbox 1000 s W1e-13 t D2 | qhull d Tv
 
 Delaunay triangulation by the convex hull of 1000 points in 3-d:
 
-  Number of input sites: 969
-  Total number of deleted points due to merging: 8
-  Total number of nearly incident points: 23
-  Number of Delaunay regions: 708
+  Number of input sites: 977
+  Total number of deleted points due to merging: 6
+  Total number of nearly incident points: 17
+  Number of Delaunay regions: 730
   Number of non-simplicial Delaunay regions: 117
 
-Statistics for: rbox 1000 s W1e-13 D2 t1443662286 | qhull d Tv
+Statistics for: rbox 1000 s W1e-13 D2 t1451878896 | qhull d Tv
 
-  Number of points processed: 977
-  Number of hyperplanes created: 3973
-  Number of facets in hull: 1424
-  Number of distance tests for qhull: 160370
-  Number of distance tests for merging: 55872
-  Number of distance tests for checking: 375202
-  Number of merged facets: 995
+  Number of points processed: 983
+  Number of hyperplanes created: 3704
+  Number of facets in hull: 1454
+  Number of distance tests for qhull: 248704
+  Number of distance tests for merging: 42252
+  Number of distance tests for checking: 176778
+  Number of merged facets: 712
   CPU seconds to compute hull (after input): 0.031
-  Maximum distance of point above facet: 7.9e-014 (14.1x)
-  Maximum distance of vertex below facet: -1.4e-014 (2.5x)
+  Maximum distance of point above facet: 3.1e-014 (5.6x)
+  Maximum distance of vertex below facet: -8.9e-015 (1.6x)
 
 qhull precision warning: 
 The initial hull is narrow (cosine of min. angle is 1.0000000000000000).
@@ -10854,7 +10937,7 @@ last coordinate) may remove this warning.  Use 'Pp' to skip this warning.
 See 'Limitations' in qh-impre.htm.
 
 Output completed.  Verifying that all points are below outer planes of
-all facets.  Will make 708000 distance computations.
+all facets.  Will make 730000 distance computations.
 
 echo =======================================================
 =======================================================
@@ -10862,7 +10945,7 @@ echo =======================================================
 =======================================================
 echo === The following commands may cause errors ${d:-`date`}
 date
-=== The following commands may cause errors Wed Sep 30 21:18:06 EDT 2015
+=== The following commands may cause errors Sun Jan 3 22:41:36 EST 2016
 echo =======================================================
 =======================================================
 echo =======================================================
@@ -10903,7 +10986,7 @@ Statistics for: rbox 100 s D3 | qhull Q0 E1e-3 Tc Po
   Number of points processed: 100
   Number of hyperplanes created: 508
   Number of distance tests for qhull: 1728
-  CPU seconds to compute hull (after input): 0.015
+  CPU seconds to compute hull (after input):  0
 
 QH6115 qhull precision error: f100 is concave to f247, since p44(v13) is 0.002232 above
 QH6115 qhull precision error: f139 is concave to f274, since p90(v32) is 0.007128 above
@@ -11048,8 +11131,8 @@ A flipped facet occurs when its distance to the interior point is
 greater than -0.024, the maximum roundoff error.
 
 While executing: rbox 100 s D3 | qhull Q0 R0.05 Tc
-Options selected for Qhull 2015.0.4.r 2015/09/30:
-  run-id 1361813803  Q0-no-premerge  Random_perturb 0.05  Tcheck-frequently
+Options selected for Qhull 2015.1.r 2016/01/03:
+  run-id 2019424665  Q0-no-premerge  Random_perturb 0.05  Tcheck-frequently
   _max-width 0.94  Error-roundoff 0.024  Visible-distance 0.024
   U-coplanar-distance 0.024  Width-outside 0.048  _wide-facet 0.15
 Last point added to hull was p40.
@@ -11071,7 +11154,7 @@ Statistics for: rbox 100 s D3 | qhull Q0 R0.05 Tc
 
 
 precision problems (corrected unless 'Q0' or an error)
-     50 coplanar horizon facets for new vertices
+     46 coplanar points during partitioning
 
 Precision problems were detected during construction of the convex hull.
 This occurs because convex hull algorithms assume that calculations are
@@ -11270,8 +11353,8 @@ ERRONEOUS OTHER FACET:
 ERRONEOUS and NEIGHBORING FACETS to output
 
 While executing: rbox 100 s D5 | qhull Q0 R1e-2 Tc Po
-Options selected for Qhull 2015.0.4.r 2015/09/30:
-  run-id 1361813803  Q0-no-premerge  Random_perturb 0.01  Tcheck-frequently
+Options selected for Qhull 2015.1.r 2016/01/03:
+  run-id 2019424665  Q0-no-premerge  Random_perturb 0.01  Tcheck-frequently
   Poutput-forced  _max-width 0.88  Error-roundoff 0.0045
   Visible-distance 0.0045  U-coplanar-distance 0.0045  Width-outside 0.009
   _wide-facet 0.027
@@ -11313,9 +11396,209 @@ To guarantee simplicial output:
   - use option 'QJ' to joggle the input points and remove precision errors
   - use option 'Ft' to triangulate the output by adding points
   - use exact arithmetic (see "Imprecision in Qhull", qh-impre.htm)
+rbox L100 10000 D4 s C1,1e-13 t2 | qhull
+QH6271 qhull precision error (qh_check_dupridge): wide merge (1758701813 times wider) due to duplicate ridge with nearly coincident points (9.7e-014) between f172830 and f172837, merge dist 0.00014, while processing p18865
+- Ignore error with option 'Q12'
+- To be fixed in a later version of Qhull
+ERRONEOUS FACET:
+- f172830
+    - flags: bottom new seen mergehorizon dupridge mergeridge2
+    - normal:   0.02056   0.0117 -0.03234  -0.9992
+    - offset: -0.01941977
+    - vertices: p18865(v6808) p18864(v5629) p15729(v4497) p14473(v2222)
+    - neighboring facets: f141969 f172828 f141974 f172837
+    - ridges:
+     - r1364
+           vertices: p18864(v5629) p15729(v4497) p14473(v2222)
+           between f141969 and f172830
+     - r1365
+           vertices: p18865(v6808) p15729(v4497) p14473(v2222)
+           between f172830 and f172828
+     - r1366
+           vertices: p18865(v6808) p18864(v5629) p14473(v2222)
+           between f141974 and f172830
+     - r1367
+           vertices: p18865(v6808) p18864(v5629) p15729(v4497)
+           between f172830 and f172837
+ERRONEOUS OTHER FACET:
+- f172837
+    - flags: top new seen mergehorizon dupridge mergeridge1
+    - normal:   0.02282  0.01247 -0.03249  -0.9991
+    - offset: -0.02018688
+    - vertices: p18865(v6808) p9733(v5729) p18864(v5629) p15729(v4497)
+    - neighboring facets: f144525 f144533 f172836 f172830
+    - ridges:
+     - r1361
+           vertices: p9733(v5729) p18864(v5629) p15729(v4497)
+           between f172837 and f144525
+     - r1363
+           vertices: p18865(v6808) p9733(v5729) p18864(v5629)
+           between f144533 and f172837
+     - r1362
+           vertices: p18865(v6808) p9733(v5729) p15729(v4497)
+           between f172837 and f172836
+     - r1367
+           vertices: p18865(v6808) p18864(v5629) p15729(v4497)
+           between f172830 and f172837
+
+While executing: rbox L100 10000 D4 s C1,1e-13 t2 | qhull
+Options selected for Qhull 2015.1.r 2016/01/03:
+  run-id 2019424665  _pre-merge  _zero-centrum  _max-width 0.98
+  Error-roundoff 1e-015  _one-merge 9e-015  _near-inside 4.5e-014
+  Visible-distance 6e-015  U-coplanar-distance 6e-015  Width-outside 1.2e-014
+  _wide-facet 3.6e-014
+Last point added to hull was p18865.  Last merge was #277.
+
+At error exit:
+
+Convex hull of 20000 points in 4-d:
+
+  Number of vertices: 6760
+  Number of coplanar points: 2817
+  Number of facets: 44615
+  Number of non-simplicial facets: 125
+
+Statistics for: rbox L100 10000 D4 s C1,1e-13 t2 | qhull
+
+  Number of points processed: 6808
+  Number of hyperplanes created: 172682
+  Number of distance tests for qhull: 2682241
+  Number of distance tests for merging: 880748
+  Number of distance tests for checking: 0
+  Number of merged facets: 277
+  Maximum distance of merged point above facet: 7.7e-014 (7.8x)
+  Maximum distance of merged vertex below facet: -9.7e-015 (1.0x)
+
+
+precision problems (corrected unless 'Q0' or an error)
+    398 coplanar points during partitioning
+rbox L100 10000 D4 s C1,1e-13 t2 | qhull Q12
+
+Convex hull of 20000 points in 4-d:
+
+  Number of vertices: 10230
+  Number of facets: 67919
+  Number of non-simplicial facets: 158
+
+Statistics for: rbox L100 10000 D4 s C1,1e-13 t2 | qhull Q12
+
+  Number of points processed: 10292
+  Number of hyperplanes created: 262105
+  Number of distance tests for qhull: 3482323
+  Number of distance tests for merging: 1331208
+  Number of distance tests for checking: 761542
+  Number of merged facets: 366
+  CPU seconds to compute hull (after input): 0.875
+  Maximum distance of point above facet: 1.1e-013 (10.9x)
+  Maximum distance of vertex below facet: -2.3e-005 (2267021951.3x)
+
+QH6271 qhull precision error (qh_check_dupridge): wide merge (1758701813 times wider) due to duplicate ridge with nearly coincident points (9.7e-014) between f172830 and f172837, merge dist 0.00014, while processing p18865
+- Ignore error with option 'Q12'
+- To be fixed in a later version of Qhull
+rbox 50 C1,1E-13 t1447644703 | qhull d
+QH6271 qhull precision error (qh_check_dupridge): wide merge (1125070907263 times wider) due to duplicate ridge with nearly coincident points (6.5e-014) between f749 and f759, merge dist 0.015, while processing p54
+- Ignore error with option 'Q12'
+- To be fixed in a later version of Qhull
+- A simple workaround is to add a bounding box to the input sites
+ERRONEOUS FACET:
+- f749
+    - flags: bottom upperDelaunay new dupridge mergeridge2 flipped
+    - normal:    0.2935   0.3842   0.4668   0.7405
+    - offset: 0.05514914
+    - vertices: p54(v54) p45(v48) p76(v38) p44(v19)
+    - neighboring facets: f435 f738 f759 f748
+    - ridges:
+     - r412 tested
+           vertices: p45(v48) p76(v38) p44(v19)
+           between f435 and f749
+     - r556
+           vertices: p54(v54) p76(v38) p44(v19)
+           between f749 and f738
+     - r557
+           vertices: p54(v54) p45(v48) p44(v19)
+           between f759 and f749
+     - r558
+           vertices: p54(v54) p45(v48) p76(v38)
+           between f749 and f748
+ERRONEOUS OTHER FACET:
+- f759
+    - flags: bottom upperDelaunay new dupridge mergeridge1 flipped
+    - normal:   -0.3214   0.1166   0.5495   0.7623
+    - offset:   0.114967
+    - vertices: p54(v54) p45(v48) p44(v19) p92(v11)
+    - neighboring facets: f435 f738 f760 f749
+    - ridges:
+     - r418 tested
+           vertices: p45(v48) p44(v19) p92(v11)
+           between f435 and f759
+     - r554
+           vertices: p54(v54) p44(v19) p92(v11)
+           between f759 and f738
+     - r555
+           vertices: p54(v54) p45(v48) p92(v11)
+           between f760 and f759
+     - r557
+           vertices: p54(v54) p45(v48) p44(v19)
+           between f759 and f749
+
+While executing: rbox 50 C1,1E-13 t1447644703 | qhull d
+Options selected for Qhull 2015.1.r 2016/01/03:
+  run-id 2019458279  delaunay  _pre-merge  _zero-centrum  Pgood
+  _max-width 0.94  Error-roundoff 1e-015  _one-merge 9.2e-015
+  _near-inside 4.6e-014  Visible-distance 6.1e-015
+  U-coplanar-distance 6.1e-015  Width-outside 1.2e-014  _wide-facet 3.7e-014
+Last point added to hull was p54.  Last merge was #126.
+
+At error exit:
+
+Delaunay triangulation by the convex hull of 100 points in 4-d:
+
+  Number of input sites: 54
+  Total number of nearly incident points: 46
+  Number of Delaunay regions: 0
+  Number of non-simplicial Delaunay regions: 39
+
+Statistics for: rbox 50 C1,1E-13 t1447644703 | qhull d
+
+  Number of points processed: 54
+  Number of hyperplanes created: 711
+  Number of facets in hull: 234
+  Number of distance tests for qhull: 3419
+  Number of distance tests for merging: 6140
+  Number of distance tests for checking: 0
+  Number of merged facets: 126
+  Maximum distance of merged point above facet: 8.9e-015 (0.9x)
+  Maximum distance of merged vertex below facet: -9e-015 (0.9x)
+
+rbox 50 C1,1E-13 t1447644703 | qhull d Q12
+
+Delaunay triangulation by the convex hull of 100 points in 4-d:
+
+  Number of input sites: 99
+  Total number of nearly incident points: 1
+  Number of Delaunay regions: 310
+  Number of non-simplicial Delaunay regions: 136
+
+Statistics for: rbox 50 C1,1E-13 t1447644703 | qhull d Q12
+
+  Number of points processed: 99
+  Number of hyperplanes created: 1584
+  Number of facets in hull: 348
+  Number of distance tests for qhull: 8710
+  Number of distance tests for merging: 17689
+  Number of distance tests for checking: 7460
+  Number of merged facets: 507
+  CPU seconds to compute hull (after input):  0
+  Maximum distance of point above facet: 3.2e-014 (3.1x)
+  Maximum distance of vertex below facet: -0.0012 (119810840063.5x)
+
+QH6271 qhull precision error (qh_check_dupridge): wide merge (1125070907263 times wider) due to duplicate ridge with nearly coincident points (6.5e-014) between f749 and f759, merge dist 0.015, while processing p54
+- Ignore error with option 'Q12'
+- To be fixed in a later version of Qhull
+- A simple workaround is to add a bounding box to the input sites
 qhull
 
-qhull- compute convex hulls and related structures.  Qhull 2015.0.4.r 2015/09/30
+qhull- compute convex hulls and related structures.  Qhull 2015.1.r 2016/01/03
     input (stdin): dimension, n, point coordinates
     comments start with a non-numeric character
     halfspace: use dim+1 and put offsets after coefficients
@@ -11358,7 +11641,7 @@ examples:
 
 qhull .
 
-Qhull 2015.0.4.r 2015/09/30.
+Qhull 2015.1.r 2016/01/03.
 Except for 'F.' and 'PG', upper-case options take an argument.
 
  delaunay       voronoi        Geomview       Halfspace      facet_dump
@@ -11385,7 +11668,7 @@ Except for 'F.' and 'PG', upper-case options take an argument.
 
  Q0_no_premerge Q1_no_angle    Q2_no_independ Q3_no_redundant Q4_no_old
  Q5_no_check_out Q6_no_concave Q7_depth_first Q8_no_near_in  Q9_pick_furthest
- Q10_no_narrow  Q11_trinormals
+ Q10_no_narrow  Q11_trinormals Q12_no_wide_dup
 
  T4_trace       Tannotate      Tcheck_often   Tstatistics    Tverify
  Tz_stdout      TFacet_log     TInput_file    TPoint_trace   TMerge_trace
@@ -11396,7 +11679,7 @@ Except for 'F.' and 'PG', upper-case options take an argument.
 qhull -
 
 qhull- compute convex hulls and related structures.
-    http://www.qhull.org  2015.0.4.r 2015/09/30
+    http://www.qhull.org  2015.1.r 2016/01/03
 
 input (stdin):
     first lines: dimension and number of points (or vice-versa).
@@ -11448,6 +11731,7 @@ Qhull control options:
     Q9   - process furthest of furthest points
     Q10  - no special processing for narrow distributions
     Q11  - copy normals and recompute centrums for tricoplanar facets
+    Q12  - no error on wide merge due to duplicate ridge
 
 Topts- Trace options:
     T4   - trace at level n, 4=all, 5=mem/gauss, -1= events
@@ -11550,7 +11834,7 @@ rbox
 
 -rbox- generate various point distributions.  Default is random in cube.
 
-args (any order, space separated):                    Version: 2015/08/30
+args (any order, space separated):                    Version: 2016/01/03
   3000    number of random points in cube, lens, spiral, sphere or grid
   D3      dimension 3-d
   c       add a unit cube to the output ('c G2.0' sets size)
@@ -11560,7 +11844,8 @@ args (any order, space separated):                    Version: 2015/08/30
   s       generate cospherical points
   x       generate random points in simplex, may use 'r' or 'Wn'
   y       same as 'x', plus simplex
-  Pn,m,r  add point [n,m,r] first, pads with 0
+  Cn,r,m  add n nearly coincident points within radius r of m points
+  Pn,m,r  add point [n,m,r] first, pads with 0, maybe repeated
 
   Ln      lens distribution of radius n.  Also 's', 'r', 'G', 'W'.
   Mn,m,r  lattice(Mesh) rotated by [n,-m,0], [m,n,0], [0,0,r], ...
@@ -12978,6 +13263,8 @@ rbox(1)                                                   rbox(1)
        d      add a unit diamond to the output.
 
        d Gm   add a diamond made of 0, +m and -m to the output
+       
+       Cn,r,m add n nearly coincident points within radius r of m points
 
        Pn,m,r add point [n,m,r] to the output first.  Pad coordi-
               nates with 0.0.
@@ -13023,8 +13310,6 @@ AUTHOR
        C. Bradford Barber
        bradb@shore.net
        
-
-
 
 
 

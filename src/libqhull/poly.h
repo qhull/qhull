@@ -7,8 +7,8 @@
    see qh-poly.htm, libqhull.h and poly.c
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull/poly.h#1 $$Change: 1981 $
-   $DateTime: 2015/09/28 20:26:32 $$Author: bbarber $
+   $Id: //main/2015/qhull/src/libqhull/poly.h#3 $$Change: 2047 $
+   $DateTime: 2016/01/04 22:03:18 $$Author: bbarber $
 */
 
 #ifndef qhDEFpoly
@@ -209,10 +209,10 @@
 
 void    qh_appendfacet(facetT *facet);
 void    qh_appendvertex(vertexT *vertex);
-void    qh_attachnewfacets(void /* qh.visible_list, newfacet_list */);
+void    qh_attachnewfacets(void /* qh.visible_list, qh.newfacet_list */);
 boolT   qh_checkflipped(facetT *facet, realT *dist, boolT allerror);
 void    qh_delfacet(facetT *facet);
-void    qh_deletevisible(void /*qh.visible_list, qh horizon_list*/);
+void    qh_deletevisible(void /*qh.visible_list, qh.horizon_list*/);
 setT   *qh_facetintersect(facetT *facetA, facetT *facetB, int *skipAp,int *skipBp, int extra);
 int     qh_gethash(int hashsize, setT *set, int size, int firstindex, void *skipelem);
 facetT *qh_makenewfacet(setT *vertices, boolT toporient, facetT *facet);
@@ -236,6 +236,7 @@ void    qh_updatevertices(void);
 
 void    qh_addhash(void* newelem, setT *hashtable, int hashsize, int hash);
 void    qh_check_bestdist(void);
+void    qh_check_dupridge(facetT *facet1, realT dist1, facetT *facet2, realT dist2);
 void    qh_check_maxout(void);
 void    qh_check_output(void);
 void    qh_check_point(pointT *point, facetT *facet, realT *maxoutside, realT *maxdist, facetT **errfacet1, facetT **errfacet2);
@@ -279,7 +280,7 @@ setT   *qh_pointvertex(void /*qh.facet_list*/);
 void    qh_prependfacet(facetT *facet, facetT **facetlist);
 void    qh_printhashtable(FILE *fp);
 void    qh_printlists(void);
-void    qh_resetlists(boolT stats, boolT resetVisible /*qh.newvertex_list newfacet_list visible_list*/);
+void    qh_resetlists(boolT stats, boolT resetVisible /*qh.newvertex_list qh.newfacet_list qh.visible_list*/);
 void    qh_setvoronoi_all(void);
 void    qh_triangulate(void /*qh.facet_list*/);
 void    qh_triangulate_facet(facetT *facetA, vertexT **first_vertex);

@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2009-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2015/qhull/src/libqhullcpp/QhullHyperplane.cpp#1 $$Change: 1981 $
-** $DateTime: 2015/09/28 20:26:32 $$Author: bbarber $
+** $Id: //main/2015/qhull/src/libqhullcpp/QhullHyperplane.cpp#2 $$Change: 2045 $
+** $DateTime: 2016/01/03 23:12:50 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -130,7 +130,7 @@ distance(const QhullPoint &p) const
 double QhullHyperplane::
 hyperplaneAngle(const QhullHyperplane &other) const
 {
-    realT result= 0.0;
+    volatile realT result= 0.0;
     QH_TRY_(qh_qh){ // no object creation -- destructors skipped on longjmp()
         result= qh_getangle(qh_qh, hyperplane_coordinates, other.hyperplane_coordinates);
     }

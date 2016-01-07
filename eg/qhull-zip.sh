@@ -6,8 +6,8 @@
 #   can not use path with $zip_file 
 #   odd error messages if can't locate directory
 #
-# $Id: //main/2015/qhull/eg/qhull-zip.sh#7 $$Change: 2024 $
-# $DateTime: 2015/11/03 21:58:49 $$Author: bbarber $
+# $Id: //main/2015/qhull/eg/qhull-zip.sh#10 $$Change: 2049 $
+# $DateTime: 2016/01/05 07:13:45 $$Author: bbarber $
 
 if [[ $# -ne 3 ]]; then
         echo 'Missing date stamp, e.g., qhull-zip.sh 2015 2015.1 7.1.0' 
@@ -255,26 +255,31 @@ fi
 
 #############################
 log_step $LINENO "====================================================================="
+log_step $LINENO "Check for 18 projects in Release mode, including qhulltest"
+log_step $LINENO "Check build dependencies for programs."
 log_step $LINENO "Test unix compile"
 log_step $LINENO " cd .. && scp $qhull_tgz_file qhull@qhull.org:"
 log_step $LINENO " tar zxf $qhull_tgz_file && cd qhull-$version && make >../make.x 2>&1"
-log_step $LINENO "Build qhull"
-log_step $LINENO " cd $TEMP_DIR/zip/qhull* && make SO=dll" 
-log_step $LINENO "Test qhull"
-log_step $LINENO " cp -p lib/libqhull*.dll bin && make testall >/c/bash/local/qhull/eg/q_test.x 2>&1"
-log_step $LINENO "Build testqhull"
+log_step $LINENO " make test"
+log_step $LINENO "Test qhull and compare to q_test-ok.txt"
+log_step $LINENO " cd $TEMP_DIR/zip/qhull* && make testall >/c/bash/local/qhull/eg/q_test.x 2>&1"
+log_step $LINENO "Build and test testqhull.  Compare to qhulltest-ok.txt"
 log_step $LINENO " cd /c/bash/local/qhull && bin/qhulltest --all >eg/qhulltest.x 2>&1"
-log_step $LINENO "Compare eg/q_test-ok.txt to eg/q_test.x"
-log_step $LINENO "Build and test libqhull and libqhull_r"
-log_step $LINENO " cd /c/bash/local/qhull/src/libqhull && make && cp *.exe ../../bin && cd ../.. && make test && ls -l bin/qhull.exe"
-log_step $LINENO " cd /c/bash/local/qhull/src/libqhull_r && make && cp *.exe ../../bin && cd ../.. && make test && ls -l bin/qhull.exe"
-log_step $LINENO "Full test of libqhull_r"
-log_step $LINENO " cd /c/bash/local/qhull/ && make testall >/c/bash/local/qhull/eg/q_test_r.x 2>&1"
+log_step $LINENO "Build qhull with gcc"
+log_step $LINENO " cd $TEMP_DIR/zip/qhull* && make SO=dll" 
+log_step $LINENO "Test qhull and compare to q_test-ok.txt"
+log_step $LINENO " cp -p lib/libqhull*.dll bin && make testall >/c/bash/local/qhull/eg/q_test-make.x 2>&1"
+log_step $LINENO "Build and test libqhull"
+log_step $LINENO " cd src/libqhull && make && cp *.exe ../../bin && cd ../.. && make test && ls -l bin/qhull.exe"
+log_step $LINENO " make testall >/c/bash/local/qhull/eg/q_test-libqhull.x 2>&1"
+log_step $LINENO "Build and test libqhull_r"
+log_step $LINENO " cd src/libqhull_r && make && cp *.exe ../../bin && cd ../.. && make test && ls -l bin/qhull.exe"
+log_step $LINENO " make testall >/c/bash/local/qhull/eg/q_test-libqhull_r.x 2>&1"
 log_step $LINENO "Compare previous zip release, Dates.txt, and md5sum.  Check for virus."
 log_step $LINENO "Compare zip and tgz for CRLF vs LF"
 log_step $LINENO "Search xml files for UNDEFINED. Check page links"
 log_step $LINENO "Extract zip to Qhull/ and compare directories"
 log_step $LINENO "Copy tarballs to qhull.org"
-log_step $LINENO " scp qhull-2015*.0.7* qhull@qhull.org:web/download/"
+log_step $LINENO " scp qhull-2015*x qhull@qhull.org:web/download/"
 log_step $LINENO "Finished successfully"
 #############################

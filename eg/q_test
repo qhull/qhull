@@ -135,13 +135,18 @@ rbox 3 h D2
 rbox 3 z D2
 rbox 3 z h D2
 rbox 3 B10 D2
+rbox 3 B10 D2 C2,1E-13,1
 rbox 3 z B10 D2
 rbox 4 L2 r D2
-rbox 8 L2 D2
+rbox 4 L2 r D2
+rbox 8 L2 D2 C1,1E-13,2
 rbox 4 L4 r D3
 rbox 4 L4 s D5 W1e-3 
+rbox 4 L4 s D5 W1e-3 C1,1E-12
 rbox y
 rbox 10 M3,4 
+rbox 10 M3,4 C1,1E-14
+rbox 27 M1,0,1
 rbox 10 L2 s D3 | qhull Tcv
 rbox 10 L4 s W1e-3 D3 | qhull Tcv
 rbox 10 L6 D3 | qhull Tcv
@@ -407,6 +412,10 @@ rbox 100 s D3 | qhull Q0 R0.05 Tc Po
 rbox 1000 W1e-7 | qhull Q0 Tc Po
 rbox 50 s | qhull Q0 V0.05 W0.01 Tc Po
 rbox 100 s D5 | qhull Q0 R1e-2 Tc Po
+rbox L100 10000 D4 s C1,1e-13 t2 | qhull
+rbox L100 10000 D4 s C1,1e-13 t2 | qhull Q12
+rbox 50 C1,1E-13 t1447644703 | qhull d
+rbox 50 C1,1E-13 t1447644703 | qhull d Q12
 qhull
 qhull .
 qhull -

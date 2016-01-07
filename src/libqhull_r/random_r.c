@@ -1,4 +1,4 @@
-/*<html><pre>  -<a                             href="index.htm#TOC"
+/*<html><pre>  -<a                             href="index_r.htm#TOC"
   >-------------------------------</a><a name="TOP">-</a>
 
    random_r.c -- utilities

@@ -19,7 +19,8 @@ href="http://www.qhull.org">Home page</a> for Qhull<br>
 &#149; <a href="../../html/qh-optp.htm#print">Print</a>
 &#149; <a href="../../html/qh-optq.htm#qhull">Qhull</a>
 &#149; <a href="../../html/qh-optc.htm#prec">Precision</a>
-&#149; <a href="../../html/qh-optt.htm#trace">Trace</a><br>
+&#149; <a href="../../html/qh-optt.htm#trace">Trace</a>
+&#149; <a href="index.htm">Functions</a><br>
 <b>Up:</b> <a href="../../html/qh-code.htm#TOC">Qhull code</a><br>
 <b>To:</b> <a href="#TOC">Qhull files</a><br>
 <b>To:</b> <a href="qh-geom.htm">Geom</a> &#149; <a href="qh-globa.htm">Global</a>
@@ -34,8 +35,8 @@ href="http://www.qhull.org">Home page</a> for Qhull<br>
 <h1>Qhull functions, macros, and data structures</h1>
 <blockquote>
 <p>The following sections provide an overview and index to
-Qhull's functions, macros, and data structures. Each
-section starts with an introduction. If you use Opera, the source code links back to this documentation.
+Qhull's functions, macros, and data structures.
+Each section starts with an introduction.
 See also <a href=../../html/qh-code.htm#library>Calling
 Qhull from C programs</a> and <a href="../../html/qh-code.htm#cpp">Calling Qhull from C++ programs</a>.</p>
 
@@ -66,9 +67,9 @@ either expands to &quot;qh_qh.&quot; or to
 applications which run concurrent calls to qh_qhull().
 <p>
 When reading code with an editor, a search for
-<i>&quot;procedure</i>
-will locate the header of <i>qh_procedure</i>.  A search for <i>* procedure</i>
-will locate the tail of <i>qh_procedure</i>.
+'<i>&quot;function</i>'
+will locate the header of <i>qh_function</i>.  A search for '<i>* function</i>'
+will locate the tail of <i>qh_function</i>.
 
 <p>A useful starting point is <a href="libqhull.h">libqhull.h</a>.  It defines most
 of Qhull data structures and top-level functions.  Search for <i>'PFn'</i> to
@@ -76,9 +77,24 @@ determine the corresponding constant in Qhull.  Search for <i>'Fp'</i> to
 determine the corresponding <a href="libqhull.h#qh_PRINT">qh_PRINT...</a> constant.
 Search <a href="io.c">io.c</a> to learn how the print function is implemented.</p>
 
-<p>If your web browser loads .c and .h files with an external application,
-change the MIME type of .c and .h files to "text/html".
-Opera does not always work since it treats '&lt;' characters as HTML tags.
+<p>If your web browser is configured for .c and .h files, the function, macro, and data type links
+go to the corresponding source location.  To configure your web browser for .c and .h files.
+<ul>
+<li>In the Download Preferences or Options panel, add file extensions 'c' and 'h' to mime type 'text/html'.
+<li>Opera 12.10
+<ol>
+<li>In Tools > Preferences > Advanced > Downloads
+<li>Uncheck 'Hide file types opened with Opera'
+<li>Quick find 'html'
+<li>Select 'text/html' > Edit
+<li>Add File extensions 'c,h,'
+<li>Click 'OK'
+</ol>
+<li>Internet Explorer -- Mime types are not available from 'Internet Options'.    Is there a registry key for these settings?
+<li>Firefox -- Mime types are not available from 'Preferences'.  Is there an add-on to change the file extensions for a mime type?
+<li>Chrome -- Can Chrome be configured?
+</ul>
+
 <p>
 Please report documentation and link errors
 to <a href="mailto:qhull-bug@qhull.org">qhull-bug@qhull.org</a>.
@@ -225,7 +241,8 @@ Qhull</a> <br>
 &#149; <a href="../../html/qh-optp.htm#print">Print</a>
 &#149; <a href="../../html/qh-optq.htm#qhull">Qhull</a>
 &#149; <a href="../../html/qh-optc.htm#prec">Precision</a>
-&#149; <a href="../../html/qh-optt.htm#trace">Trace</a><br>
+&#149; <a href="../../html/qh-optt.htm#trace">Trace</a>
+&#149; <a href="index.htm">Functions</a><br>
 <b>Up:</b> <a href="../../html/qh-code.htm#TOC">Qhull code: Table of Contents</a> <br>
 <b>To:</b> <a href="#TOC">Qhull files</a><br>
 <b>To:</b> <a href="qh-geom.htm">Geom</a> &#149;

@@ -7,8 +7,8 @@
    see qh-stat.htm and stat.c
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull/stat.h#1 $$Change: 1981 $
-   $DateTime: 2015/09/28 20:26:32 $$Author: bbarber $
+   $Id: //main/2015/qhull/src/libqhull/stat.h#3 $$Change: 2042 $
+   $DateTime: 2016/01/03 13:26:21 $$Author: bbarber $
 
    recompile qhull if you change this file
 
@@ -66,6 +66,8 @@ enum qh_statistics {     /* alphabetical after Z/W */
     Zbestcentrum,
     Zbestdist,
     Zbestlower,
+    Zbestlowerall,
+    Zbestloweralln,
     Zbestlowerv,
     Zcentrumtests,
     Zcheckpart,

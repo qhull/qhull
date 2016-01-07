@@ -1,10 +1,10 @@
-/*<html><pre>  -<a                             href="qh-set.htm"
+/*<html><pre>  -<a                             href="qh-set_r.htm"
   >-------------------------------</a><a name="TOP">-</a>
 
    qset_r.h
      header file for qset_r.c that implements set
 
-   see qh-set.htm and qset_r.c
+   see qh-set_r.htm and qset_r.c
 
    only uses mem_r.c, malloc/free
 
@@ -17,8 +17,8 @@
     - sets may be sorted or unsorted, the caller must distinguish this
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull_r/qset_r.h#1 $$Change: 1981 $
-   $DateTime: 2015/09/28 20:26:32 $$Author: bbarber $
+   $Id: //main/2015/qhull/src/libqhull_r/qset_r.h#2 $$Change: 2042 $
+   $DateTime: 2016/01/03 13:26:21 $$Author: bbarber $
 */
 
 #ifndef qhDEFset
@@ -43,7 +43,7 @@ typedef struct qhT qhT;          /* defined in libqhull_r.h */
 typedef int countT;          /* defined in user_r.h */
 #endif
 
-/*-<a                                      href="qh-set.htm#TOC"
+/*-<a                                      href="qh-set_r.htm#TOC"
 >----------------------------------------</a><a name="setT">-</a>
 
 setT
@@ -99,7 +99,7 @@ struct setT {
 
 /*=========== -constants- =========================*/
 
-/*-<a                                 href="qh-set.htm#TOC"
+/*-<a                                 href="qh-set_r.htm#TOC"
   >-----------------------------------</a><a name="SETelemsize">-</a>
 
   SETelemsize
@@ -110,7 +110,7 @@ struct setT {
 
 /*=========== -macros- =========================*/
 
-/*-<a                                 href="qh-set.htm#TOC"
+/*-<a                                 href="qh-set_r.htm#TOC"
   >-----------------------------------</a><a name="FOREACHsetelement_">-</a>
 
    FOREACHsetelement_(type, set, variable)
@@ -147,7 +147,7 @@ struct setT {
           variable##p= (type **)&((set)->e[0].p); \
           (variable= *variable##p++);)
 
-/*-<a                                      href="qh-set.htm#TOC"
+/*-<a                                      href="qh-set_r.htm#TOC"
   >----------------------------------------</a><a name="FOREACHsetelement_i_">-</a>
 
    FOREACHsetelement_i_(qh, type, set, variable)
@@ -182,7 +182,7 @@ struct setT {
           variable##_i < variable##_n;\
           variable= (type *)((set)->e[++variable##_i].p) )
 
-/*-<a                                    href="qh-set.htm#TOC"
+/*-<a                                    href="qh-set_r.htm#TOC"
   >--------------------------------------</a><a name="FOREACHsetelementreverse_">-</a>
 
    FOREACHsetelementreverse_(qh, type, set, variable)-
@@ -214,7 +214,7 @@ struct setT {
            variable; variable= \
            ((--variable##temp >= 0) ? SETelemt_(set, variable##temp, type) : NULL))
 
-/*-<a                                 href="qh-set.htm#TOC"
+/*-<a                                 href="qh-set_r.htm#TOC"
   >-----------------------------------</a><a name="FOREACHsetelementreverse12_">-</a>
 
    FOREACHsetelementreverse12_(type, set, variable)-
@@ -246,7 +246,7 @@ struct setT {
           variable##p == ((type **)&((set)->e[0].p))?variable##p += 2: \
               (variable##p == ((type **)&((set)->e[1].p))?variable##p--:variable##p++))
 
-/*-<a                                 href="qh-set.htm#TOC"
+/*-<a                                 href="qh-set_r.htm#TOC"
   >-----------------------------------</a><a name="FOREACHelem_">-</a>
 
    FOREACHelem_( set )-
@@ -273,7 +273,7 @@ struct setT {
 */
 #define FOREACHelem_(set) FOREACHsetelement_(void, set, elem)
 
-/*-<a                                 href="qh-set.htm#TOC"
+/*-<a                                 href="qh-set_r.htm#TOC"
   >-----------------------------------</a><a name="FOREACHset_">-</a>
 
    FOREACHset_( set )-
@@ -300,7 +300,7 @@ struct setT {
 */
 #define FOREACHset_(sets) FOREACHsetelement_(setT, sets, set)
 
-/*-<a                                       href="qh-set.htm#TOC"
+/*-<a                                       href="qh-set_r.htm#TOC"
   >-----------------------------------------</a><a name="SETindex_">-</a>
 
    SETindex_( set, elem )
@@ -315,7 +315,7 @@ struct setT {
 */
 #define SETindex_(set, elem) ((countT)((void **)elem##p - (void **)&(set)->e[1].p))
 
-/*-<a                                     href="qh-set.htm#TOC"
+/*-<a                                     href="qh-set_r.htm#TOC"
   >---------------------------------------</a><a name="SETref_">-</a>
 
    SETref_( elem )
@@ -326,7 +326,7 @@ struct setT {
 */
 #define SETref_(elem) (elem##p[-1])
 
-/*-<a                                     href="qh-set.htm#TOC"
+/*-<a                                     href="qh-set_r.htm#TOC"
   >---------------------------------------</a><a name="SETelem_">-</a>
 
    SETelem_(set, n)
@@ -338,7 +338,7 @@ struct setT {
 */
 #define SETelem_(set, n)           ((set)->e[n].p)
 
-/*-<a                                     href="qh-set.htm#TOC"
+/*-<a                                     href="qh-set_r.htm#TOC"
   >---------------------------------------</a><a name="SETelemt_">-</a>
 
    SETelemt_(set, n, type)
@@ -349,7 +349,7 @@ struct setT {
 */
 #define SETelemt_(set, n, type)    ((type*)((set)->e[n].p))
 
-/*-<a                                     href="qh-set.htm#TOC"
+/*-<a                                     href="qh-set_r.htm#TOC"
   >---------------------------------------</a><a name="SETelemaddr_">-</a>
 
    SETelemaddr_(set, n, type)
@@ -360,7 +360,7 @@ struct setT {
 */
 #define SETelemaddr_(set, n, type) ((type **)(&((set)->e[n].p)))
 
-/*-<a                                     href="qh-set.htm#TOC"
+/*-<a                                     href="qh-set_r.htm#TOC"
   >---------------------------------------</a><a name="SETfirst_">-</a>
 
    SETfirst_(set)
@@ -369,7 +369,7 @@ struct setT {
 */
 #define SETfirst_(set)             ((set)->e[0].p)
 
-/*-<a                                     href="qh-set.htm#TOC"
+/*-<a                                     href="qh-set_r.htm#TOC"
   >---------------------------------------</a><a name="SETfirstt_">-</a>
 
    SETfirstt_(set, type)
@@ -378,7 +378,7 @@ struct setT {
 */
 #define SETfirstt_(set, type)      ((type*)((set)->e[0].p))
 
-/*-<a                                     href="qh-set.htm#TOC"
+/*-<a                                     href="qh-set_r.htm#TOC"
   >---------------------------------------</a><a name="SETsecond_">-</a>
 
    SETsecond_(set)
@@ -387,7 +387,7 @@ struct setT {
 */
 #define SETsecond_(set)            ((set)->e[1].p)
 
-/*-<a                                     href="qh-set.htm#TOC"
+/*-<a                                     href="qh-set_r.htm#TOC"
   >---------------------------------------</a><a name="SETsecondt_">-</a>
 
    SETsecondt_(set, type)
@@ -395,7 +395,7 @@ struct setT {
 */
 #define SETsecondt_(set, type)     ((type*)((set)->e[1].p))
 
-/*-<a                                     href="qh-set.htm#TOC"
+/*-<a                                     href="qh-set_r.htm#TOC"
   >---------------------------------------</a><a name="SETaddr_">-</a>
 
    SETaddr_(set, type)
@@ -403,7 +403,7 @@ struct setT {
 */
 #define SETaddr_(set,type)         ((type **)(&((set)->e[0].p)))
 
-/*-<a                                     href="qh-set.htm#TOC"
+/*-<a                                     href="qh-set_r.htm#TOC"
   >---------------------------------------</a><a name="SETreturnsize_">-</a>
 
    SETreturnsize_(set, size)
@@ -415,7 +415,7 @@ struct setT {
 */
 #define SETreturnsize_(set, size) (((size)= ((set)->e[(set)->maxsize].i))?(--(size)):((size)= (set)->maxsize))
 
-/*-<a                                     href="qh-set.htm#TOC"
+/*-<a                                     href="qh-set_r.htm#TOC"
   >---------------------------------------</a><a name="SETempty_">-</a>
 
    SETempty_(set)
@@ -426,7 +426,7 @@ struct setT {
 */
 #define SETempty_(set)            (!set || (SETfirst_(set) ? 0 : 1))
 
-/*-<a                             href="qh-set.htm#TOC"
+/*-<a                             href="qh-set_r.htm#TOC"
   >-------------------------------<a name="SETsizeaddr_">-</a>
 
   SETsizeaddr_(set)
@@ -440,7 +440,7 @@ struct setT {
 */
 #define SETsizeaddr_(set) (&((set)->e[(set)->maxsize]))
 
-/*-<a                                     href="qh-set.htm#TOC"
+/*-<a                                     href="qh-set_r.htm#TOC"
   >---------------------------------------</a><a name="SETtruncate_">-</a>
 
    SETtruncate_(set, size)

@@ -81,7 +81,6 @@ CC_OPTS1  = -O3 -ansi -I.. -fpic $(CC_WARNINGS)
 
 # For loader, ld, 
 CC_OPTS2 = $(CC_OPTS1)
-CXX_OPTS2 = $(CXX_OPTS1)
 
 # Default targets for make
      

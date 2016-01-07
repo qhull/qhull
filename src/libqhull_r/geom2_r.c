@@ -1,15 +1,15 @@
-/*<html><pre>  -<a                             href="qh-geom.htm"
+/*<html><pre>  -<a                             href="qh-geom_r.htm"
   >-------------------------------</a><a name="TOP">-</a>
 
 
    geom2_r.c
    infrequently used geometric routines of qhull
 
-   see qh-geom.htm and geom_r.h
+   see qh-geom_r.htm and geom_r.h
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull_r/geom2_r.c#2 $$Change: 1995 $
-   $DateTime: 2015/10/13 21:59:42 $$Author: bbarber $
+   $Id: //main/2015/qhull/src/libqhull_r/geom2_r.c#4 $$Change: 2044 $
+   $DateTime: 2016/01/03 20:43:44 $$Author: bbarber $
 
    frequently used code goes into geom_r.c
 */
@@ -38,7 +38,7 @@ coordT *qh_copypoints(qhT *qh, coordT *points, int numpoints, int dimension) {
   return newpoints;
 } /* copypoints */
 
-/*-<a                             href="qh-geom.htm#TOC"
+/*-<a                             href="qh-geom_r.htm#TOC"
   >-------------------------------</a><a name="crossproduct">-</a>
 
   qh_crossproduct( dim, vecA, vecB, vecC )
@@ -61,7 +61,7 @@ void qh_crossproduct(int dim, realT vecA[3], realT vecB[3], realT vecC[3]){
   }
 } /* vcross */
 
-/*-<a                             href="qh-geom.htm#TOC"
+/*-<a                             href="qh-geom_r.htm#TOC"
   >-------------------------------</a><a name="determinant">-</a>
 
   qh_determinant(qh, rows, dim, nearzero )
@@ -89,13 +89,13 @@ realT qh_determinant(qhT *qh, realT **rows, int dim, boolT *nearzero) {
   }else if (dim == 2) {
     det= det2_(rows[0][0], rows[0][1],
                  rows[1][0], rows[1][1]);
-    if (fabs_(det) < qh->NEARzero[1])  /* not really correct, what should this be? */
+    if (fabs_(det) < 10*qh->NEARzero[1])  /* not really correct, what should this be? */
       *nearzero= True;
   }else if (dim == 3) {
     det= det3_(rows[0][0], rows[0][1], rows[0][2],
                  rows[1][0], rows[1][1], rows[1][2],
                  rows[2][0], rows[2][1], rows[2][2]);
-    if (fabs_(det) < qh->NEARzero[2])  /* not really correct, what should this be? */
+    if (fabs_(det) < 10*qh->NEARzero[2])  /* what should this be?  det 5.5e-12 was flat for qh_maxsimplex of qdelaunay 0,0 27,27 -36,36 -9,63 */
       *nearzero= True;
   }else {
     qh_gausselim(qh, rows, dim, dim, &sign, nearzero);  /* if nearzero, diagonal still ok*/
@@ -108,7 +108,7 @@ realT qh_determinant(qhT *qh, realT **rows, int dim, boolT *nearzero) {
   return det;
 } /* determinant */
 
-/*-<a                             href="qh-geom.htm#TOC"
+/*-<a                             href="qh-geom_r.htm#TOC"
   >-------------------------------</a><a name="detjoggle">-</a>
 
   qh_detjoggle(qh, points, numpoints, dimension )
@@ -157,7 +157,7 @@ realT qh_detjoggle(qhT *qh, pointT *points, int numpoints, int dimension) {
   return joggle;
 } /* detjoggle */
 
-/*-<a                             href="qh-geom.htm#TOC"
+/*-<a                             href="qh-geom_r.htm#TOC"
   >-------------------------------</a><a name="detroundoff">-</a>
 
   qh_detroundoff(qh)
@@ -283,7 +283,7 @@ void qh_detroundoff(qhT *qh) {
   /* numeric constants reported in printsummary */
 } /* detroundoff */
 
-/*-<a                             href="qh-geom.htm#TOC"
+/*-<a                             href="qh-geom_r.htm#TOC"
   >-------------------------------</a><a name="detsimplex">-</a>
 
   qh_detsimplex(qh, apex, points, dim, nearzero )
@@ -328,7 +328,7 @@ realT qh_detsimplex(qhT *qh, pointT *apex, setT *points, int dim, boolT *nearzer
   return det;
 } /* detsimplex */
 
-/*-<a                             href="qh-geom.htm#TOC"
+/*-<a                             href="qh-geom_r.htm#TOC"
   >-------------------------------</a><a name="distnorm">-</a>
 
   qh_distnorm( dim, point, normal, offset )
@@ -354,7 +354,7 @@ realT qh_distnorm(int dim, pointT *point, pointT *normal, realT *offsetp) {
   return dist;
 } /* distnorm */
 
-/*-<a                             href="qh-geom.htm#TOC"
+/*-<a                             href="qh-geom_r.htm#TOC"
   >-------------------------------</a><a name="distround">-</a>
 
   qh_distround(qh, dimension, maxabs, maxsumabs )
@@ -383,7 +383,7 @@ realT qh_distround(qhT *qh, int dimension, realT maxabs, realT maxsumabs) {
   return maxround;
 } /* distround */
 
-/*-<a                             href="qh-geom.htm#TOC"
+/*-<a                             href="qh-geom_r.htm#TOC"
   >-------------------------------</a><a name="divzero">-</a>
 
   qh_divzero( numer, denom, mindenom1, zerodiv )
@@ -430,7 +430,7 @@ realT qh_divzero(realT numer, realT denom, realT mindenom1, boolT *zerodiv) {
 } /* divzero */
 
 
-/*-<a                             href="qh-geom.htm#TOC"
+/*-<a                             href="qh-geom_r.htm#TOC"
   >-------------------------------</a><a name="facetarea">-</a>
 
   qh_facetarea(qh, facet )
@@ -479,7 +479,7 @@ realT qh_facetarea(qhT *qh, facetT *facet) {
   return area;
 } /* facetarea */
 
-/*-<a                             href="qh-geom.htm#TOC"
+/*-<a                             href="qh-geom_r.htm#TOC"
   >-------------------------------</a><a name="facetarea_simplex">-</a>
 
   qh_facetarea_simplex(qh, dim, apex, vertices, notvertex, toporient, normal, offset )
@@ -574,7 +574,7 @@ realT qh_facetarea_simplex(qhT *qh, int dim, coordT *apex, setT *vertices,
   return area;
 } /* facetarea_simplex */
 
-/*-<a                             href="qh-geom.htm#TOC"
+/*-<a                             href="qh-geom_r.htm#TOC"
   >-------------------------------</a><a name="facetcenter">-</a>
 
   qh_facetcenter(qh, vertices )
@@ -598,7 +598,7 @@ pointT *qh_facetcenter(qhT *qh, setT *vertices) {
   return center;
 } /* facetcenter */
 
-/*-<a                             href="qh-geom.htm#TOC"
+/*-<a                             href="qh-geom_r.htm#TOC"
   >-------------------------------</a><a name="findgooddist">-</a>
 
   qh_findgooddist(qh, point, facetA, dist, facetlist )
@@ -674,7 +674,7 @@ facetT *qh_findgooddist(qhT *qh, pointT *point, facetT *facetA, realT *distp,
   return NULL;
 }  /* findgooddist */
 
-/*-<a                             href="qh-geom.htm#TOC"
+/*-<a                             href="qh-geom_r.htm#TOC"
   >-------------------------------</a><a name="getarea">-</a>
 
   qh_getarea(qh, facetlist )
@@ -736,7 +736,7 @@ void qh_getarea(qhT *qh, facetT *facetlist) {
   qh->hasAreaVolume= True;
 } /* getarea */
 
-/*-<a                             href="qh-geom.htm#TOC"
+/*-<a                             href="qh-geom_r.htm#TOC"
   >-------------------------------</a><a name="gram_schmidt">-</a>
 
   qh_gram_schmidt(qh, dim, row )
@@ -784,7 +784,7 @@ boolT qh_gram_schmidt(qhT *qh, int dim, realT **row) {
 } /* gram_schmidt */
 
 
-/*-<a                             href="qh-geom.htm#TOC"
+/*-<a                             href="qh-geom_r.htm#TOC"
   >-------------------------------</a><a name="inthresholds">-</a>
 
   qh_inthresholds(qh, normal, angle )
@@ -837,7 +837,7 @@ boolT qh_inthresholds(qhT *qh, coordT *normal, realT *angle) {
 } /* inthresholds */
 
 
-/*-<a                             href="qh-geom.htm#TOC"
+/*-<a                             href="qh-geom_r.htm#TOC"
   >-------------------------------</a><a name="joggleinput">-</a>
 
   qh_joggleinput(qh)
@@ -925,7 +925,7 @@ void qh_joggleinput(qhT *qh) {
   }
 } /* joggleinput */
 
-/*-<a                             href="qh-geom.htm#TOC"
+/*-<a                             href="qh-geom_r.htm#TOC"
   >-------------------------------</a><a name="maxabsval">-</a>
 
   qh_maxabsval( normal, dim )
@@ -948,7 +948,7 @@ realT *qh_maxabsval(realT *normal, int dim) {
 } /* maxabsval */
 
 
-/*-<a                             href="qh-geom.htm#TOC"
+/*-<a                             href="qh-geom_r.htm#TOC"
   >-------------------------------</a><a name="maxmin">-</a>
 
   qh_maxmin(qh, points, numpoints, dimension )
@@ -1041,7 +1041,7 @@ REALepsilon %g REALmin %g REALmax %g -REALmax %g\n",
   return(set);
 } /* maxmin */
 
-/*-<a                             href="qh-geom.htm#TOC"
+/*-<a                             href="qh-geom_r.htm#TOC"
   >-------------------------------</a><a name="maxouter">-</a>
 
   qh_maxouter(qh)
@@ -1070,7 +1070,7 @@ realT qh_maxouter(qhT *qh) {
   return dist;
 } /* maxouter */
 
-/*-<a                             href="qh-geom.htm#TOC"
+/*-<a                             href="qh-geom_r.htm#TOC"
   >-------------------------------</a><a name="maxsimplex">-</a>
 
   qh_maxsimplex(qh, dim, maxpoints, points, numpoints, simplex )
@@ -1186,7 +1186,7 @@ void qh_maxsimplex(qhT *qh, int dim, setT *maxpoints, pointT *points, int numpoi
   } /* k */
 } /* maxsimplex */
 
-/*-<a                             href="qh-geom.htm#TOC"
+/*-<a                             href="qh-geom_r.htm#TOC"
   >-------------------------------</a><a name="minabsval">-</a>
 
   qh_minabsval( normal, dim )
@@ -1206,7 +1206,7 @@ realT qh_minabsval(realT *normal, int dim) {
 } /* minabsval */
 
 
-/*-<a                             href="qh-geom.htm#TOC"
+/*-<a                             href="qh-geom_r.htm#TOC"
   >-------------------------------</a><a name="mindiff">-</a>
 
   qh_mindif(qh, vecA, vecB, dim )
@@ -1230,7 +1230,7 @@ int qh_mindiff(realT *vecA, realT *vecB, int dim) {
 
 
 
-/*-<a                             href="qh-geom.htm#TOC"
+/*-<a                             href="qh-geom_r.htm#TOC"
   >-------------------------------</a><a name="orientoutside">-</a>
 
   qh_orientoutside(qh, facet  )
@@ -1253,7 +1253,7 @@ boolT qh_orientoutside(qhT *qh, facetT *facet) {
   return False;
 } /* orientoutside */
 
-/*-<a                             href="qh-geom.htm#TOC"
+/*-<a                             href="qh-geom_r.htm#TOC"
   >-------------------------------</a><a name="outerinner">-</a>
 
   qh_outerinner(qh, facet, outerplane, innerplane  )
@@ -1306,7 +1306,7 @@ void qh_outerinner(qhT *qh, facetT *facet, realT *outerplane, realT *innerplane)
   }
 } /* outerinner */
 
-/*-<a                             href="qh-geom.htm#TOC"
+/*-<a                             href="qh-geom_r.htm#TOC"
   >-------------------------------</a><a name="pointdist">-</a>
 
   qh_pointdist( point1, point2, dim )
@@ -1330,7 +1330,7 @@ coordT qh_pointdist(pointT *point1, pointT *point2, int dim) {
 } /* pointdist */
 
 
-/*-<a                             href="qh-geom.htm#TOC"
+/*-<a                             href="qh-geom_r.htm#TOC"
   >-------------------------------</a><a name="printmatrix">-</a>
 
   qh_printmatrix(qh, fp, string, rows, numrow, numcol )
@@ -1358,7 +1358,7 @@ void qh_printmatrix(qhT *qh, FILE *fp, const char *string, realT **rows, int num
 } /* printmatrix */
 
 
-/*-<a                             href="qh-geom.htm#TOC"
+/*-<a                             href="qh-geom_r.htm#TOC"
   >-------------------------------</a><a name="printpoints">-</a>
 
   qh_printpoints(qh, fp, string, points )
@@ -1381,7 +1381,7 @@ void qh_printpoints(qhT *qh, FILE *fp, const char *string, setT *points) {
 } /* printpoints */
 
 
-/*-<a                             href="qh-geom.htm#TOC"
+/*-<a                             href="qh-geom_r.htm#TOC"
   >-------------------------------</a><a name="projectinput">-</a>
 
   qh_projectinput(qh)
@@ -1497,7 +1497,7 @@ void qh_projectinput(qhT *qh) {
 } /* projectinput */
 
 
-/*-<a                             href="qh-geom.htm#TOC"
+/*-<a                             href="qh-geom_r.htm#TOC"
   >-------------------------------</a><a name="projectpoints">-</a>
 
   qh_projectpoints(qh, project, n, points, numpoints, dim, newpoints, newdim )
@@ -1559,7 +1559,7 @@ void qh_projectpoints(qhT *qh, signed char *project, int n, realT *points,
 } /* projectpoints */
 
 
-/*-<a                             href="qh-geom.htm#TOC"
+/*-<a                             href="qh-geom_r.htm#TOC"
   >-------------------------------</a><a name="rotateinput">-</a>
 
   qh_rotateinput(qh, rows )
@@ -1584,7 +1584,7 @@ void qh_rotateinput(qhT *qh, realT **rows) {
   qh_rotatepoints(qh, qh->first_point, qh->num_points, qh->hull_dim, rows);
 }  /* rotateinput */
 
-/*-<a                             href="qh-geom.htm#TOC"
+/*-<a                             href="qh-geom_r.htm#TOC"
   >-------------------------------</a><a name="rotatepoints">-</a>
 
   qh_rotatepoints(qh, points, numpoints, dim, row )
@@ -1622,7 +1622,7 @@ void qh_rotatepoints(qhT *qh, realT *points, int numpoints, int dim, realT **row
 } /* rotatepoints */
 
 
-/*-<a                             href="qh-geom.htm#TOC"
+/*-<a                             href="qh-geom_r.htm#TOC"
   >-------------------------------</a><a name="scaleinput">-</a>
 
   qh_scaleinput(qh)
@@ -1647,7 +1647,7 @@ void qh_scaleinput(qhT *qh) {
        qh->lower_bound, qh->upper_bound);
 }  /* scaleinput */
 
-/*-<a                             href="qh-geom.htm#TOC"
+/*-<a                             href="qh-geom_r.htm#TOC"
   >-------------------------------</a><a name="scalelast">-</a>
 
   qh_scalelast(qh, points, numpoints, dim, low, high, newhigh )
@@ -1694,7 +1694,7 @@ void qh_scalelast(qhT *qh, coordT *points, int numpoints, int dim, coordT low,
     *coord= *coord * scale + shift;
 } /* scalelast */
 
-/*-<a                             href="qh-geom.htm#TOC"
+/*-<a                             href="qh-geom_r.htm#TOC"
   >-------------------------------</a><a name="scalepoints">-</a>
 
   qh_scalepoints(qh, points, numpoints, dim, newlows, newhighs )
@@ -1767,7 +1767,7 @@ void qh_scalepoints(qhT *qh, pointT *points, int numpoints, int dim,
 } /* scalepoints */
 
 
-/*-<a                             href="qh-geom.htm#TOC"
+/*-<a                             href="qh-geom_r.htm#TOC"
   >-------------------------------</a><a name="setdelaunay">-</a>
 
   qh_setdelaunay(qh, dim, count, points )
@@ -1818,7 +1818,7 @@ void qh_setdelaunay(qhT *qh, int dim, int count, pointT *points) {
 } /* setdelaunay */
 
 
-/*-<a                             href="qh-geom.htm#TOC"
+/*-<a                             href="qh-geom_r.htm#TOC"
   >-------------------------------</a><a name="sethalfspace">-</a>
 
   qh_sethalfspace(qh, dim, coords, nextp, normal, offset, feasible )
@@ -1885,7 +1885,7 @@ LABELerroroutside:
   return False;
 } /* sethalfspace */
 
-/*-<a                             href="qh-geom.htm#TOC"
+/*-<a                             href="qh-geom_r.htm#TOC"
   >-------------------------------</a><a name="sethalfspace_all">-</a>
 
   qh_sethalfspace_all(qh, dim, count, halfspaces, feasible )
@@ -1932,7 +1932,7 @@ coordT *qh_sethalfspace_all(qhT *qh, int dim, int count, coordT *halfspaces, poi
 } /* sethalfspace_all */
 
 
-/*-<a                             href="qh-geom.htm#TOC"
+/*-<a                             href="qh-geom_r.htm#TOC"
   >-------------------------------</a><a name="sharpnewfacets">-</a>
 
   qh_sharpnewfacets(qh)
@@ -1974,7 +1974,7 @@ boolT qh_sharpnewfacets(qhT *qh) {
   return issharp;
 } /* sharpnewfacets */
 
-/*-<a                             href="qh-geom.htm#TOC"
+/*-<a                             href="qh-geom_r.htm#TOC"
   >-------------------------------</a><a name="voronoi_center">-</a>
 
   qh_voronoi_center(qh, dim, points )

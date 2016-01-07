@@ -37,6 +37,8 @@ int qh_roundi( double a);
 void qh_out1( double a);
 void qh_out2n( double a, double b);
 void qh_out3n( double a, double b, double c);
+void qh_outcoord(int iscdd, double *coord, int dim);
+void qh_outcoincident(int coincidentpoints, double radius, int iscdd, double *coord, int dim);
 
 void    qh_fprintf_rbox(FILE *fp, int msgcode, const char *fmt, ... );
 void    qh_free(void *mem);
@@ -77,7 +79,6 @@ rboxT rbox;
 
   notes:
     To avoid stdio, redefine qh_malloc, qh_free, and qh_fprintf_rbox (user.c)
-    Rbox is not multithreaded.
 
   design:
     Straight line code (consider defining a struct and functions):
@@ -89,15 +90,16 @@ rboxT rbox;
 int qh_rboxpoints(FILE* fout, FILE* ferr, char* rbox_command) {
   int i,j,k;
   int gendim;
+  int coincidentcount=0, coincidenttotal=0, coincidentpoints=0;
   int cubesize, diamondsize, seed=0, count, apex;
   int dim=3, numpoints=0, totpoints, addpoints=0;
   int issphere=0, isaxis=0,  iscdd=0, islens=0, isregular=0, iswidth=0, addcube=0;
   int isgap=0, isspiral=0, NOcommand=0, adddiamond=0;
   int israndom=0, istime=0;
   int isbox=0, issimplex=0, issimplex2=0, ismesh=0;
-  double width=0.0, gap=0.0, radius=0.0;
+  double width=0.0, gap=0.0, radius=0.0, coincidentradius=0.0;
   double coord[MAXdim], offset, meshm=3.0, meshn=4.0, meshr=5.0;
-  double *simplex= NULL, *simplexp;
+  double *coordp, *simplex= NULL, *simplexp;
   int nthroot, mult[MAXdim];
   double norm, factor, randr, rangap, lensangle=0, lensbase=1;
   double anglediff, angle, x, y, cube=0.0, diamond=0.0;
@@ -194,6 +196,30 @@ int qh_rboxpoints(FILE* fout, FILE* ferr, char* rbox_command) {
     case 'B':
       box= qh_strtod(s, &s);
       isbox= 1;
+      break;
+    case 'C':
+      if (*s)
+        coincidentpoints=  qh_strtol(s, &s);
+      if (*s == ',') {
+        ++s;
+        coincidentradius=  qh_strtod(s, &s);
+      }
+      if (*s == ',') {
+        ++s;
+        coincidenttotal=  qh_strtol(s, &s);
+      }
+      if (*s && !isspace(*s)) {
+        qh_fprintf_rbox(rbox.ferr, 7080, "rbox error: arguments for 'Cn,r,m' are not 'int', 'float', and 'int'.  Remaining string is '%s'\n", s);
+        qh_errexit_rbox(qh_ERRinput);
+      }
+      if (coincidentpoints==0){
+        qh_fprintf_rbox(rbox.ferr, 6268, "rbox error: missing arguments for 'Cn,r,m' where n is the number of coincident points, r is the radius (default 0.0), and m is the number of points\n");
+        qh_errexit_rbox(qh_ERRinput);
+      }
+      if (coincidentpoints<0 || coincidenttotal<0 || coincidentradius<0.0){
+        qh_fprintf_rbox(rbox.ferr, 6269, "rbox error: negative arguments for 'Cn,m,r' where n (%d) is the number of coincident points, m (%d) is the number of points, and r (%.2g) is the radius (default 0.0)\n", coincidentpoints, coincidenttotal, coincidentradius);
+        qh_errexit_rbox(qh_ERRinput);
+      }
       break;
     case 'D':
       dim= qh_strtol(s, &s);
@@ -314,6 +340,12 @@ int qh_rboxpoints(FILE* fout, FILE* ferr, char* rbox_command) {
     qh_fprintf_rbox(rbox.ferr, 6193, "rbox error: can only specify one of 'l', 's', 'x', 'Ln', or 'Mn,m,r' ('Ln s' is ok).\n");
     qh_errexit_rbox(qh_ERRinput);
   }
+  if (coincidentpoints>0 && (numpoints == 0 || coincidenttotal > numpoints)) {
+    qh_fprintf_rbox(rbox.ferr, 6270, "rbox error: 'Cn,r,m' requested n coincident points for each of m points.  Either there is no points or m (%d) is greater than the number of points (%d).\n", coincidenttotal, numpoints);
+    qh_errexit_rbox(qh_ERRinput);
+  }
+  if (coincidenttotal == 0)
+    coincidenttotal= numpoints;
 
   /* ============= print header with total points =============== */
   if (issimplex || ismesh)
@@ -336,6 +368,7 @@ int qh_rboxpoints(FILE* fout, FILE* ferr, char* rbox_command) {
   }else
     totpoints= numpoints + isaxis;
   totpoints += cubesize + diamondsize + addpoints;
+  totpoints += coincidentpoints*coincidenttotal;
 
   /* ============= seed randoms =============== */
   if (istime == 0) {
@@ -453,12 +486,10 @@ int qh_rboxpoints(FILE* fout, FILE* ferr, char* rbox_command) {
         }
       }
       for (k=0; k<dim; k++)
-        coord[k] /= norm;
-      if (iscdd)
-        qh_out1( 1.0);
-      for (k=0; k < dim; k++)
-        qh_out1( coord[k] * box);
-      qh_fprintf_rbox(rbox.fout, 9396, "\n");
+        coord[k] *= box/norm;
+      qh_outcoord(iscdd, coord, dim);
+      if(coincidentcount++ < coincidenttotal)
+        qh_outcoincident(coincidentpoints, coincidentradius, iscdd, coord, dim);
     }
     isregular= 0; /* continue with isbox */
     numpoints= 0;
@@ -470,15 +501,18 @@ int qh_rboxpoints(FILE* fout, FILE* ferr, char* rbox_command) {
     for (k=dim; k--; )
       mult[k]= 0;
     for (i=0; i < numpoints; i++) {
+      coordp= coord;
       for (k=0; k < dim; k++) {
         if (k == 0)
-          qh_out1( mult[0] * meshn + mult[1] * (-meshm));
+          *(coordp++)= mult[0] * meshn + mult[1] * (-meshm);
         else if (k == 1)
-          qh_out1( mult[0] * meshm + mult[1] * meshn);
+          *(coordp++)= mult[0] * meshm + mult[1] * meshn;
         else
-          qh_out1( mult[k] * meshr );
+          *(coordp++)= mult[k] * meshr;
       }
-      qh_fprintf_rbox(rbox.fout, 9397, "\n");
+      qh_outcoord(iscdd, coord, dim);
+      if(coincidentcount++ < coincidenttotal)
+          qh_outcoincident(coincidentpoints, coincidentradius, iscdd, coord, dim);
       for (k=0; k < dim; k++) {
         if (++mult[k] < nthroot)
           break;
@@ -696,12 +730,14 @@ int qh_rboxpoints(FILE* fout, FILE* ferr, char* rbox_command) {
         else
           coord[j]= 1.0 - coord[j] * width;
       }
-      /* ============= write point =============== */
-      if (iscdd)
-        qh_out1( 1.0);
-      for (k=0; k < dim; k++)
-        qh_out1( coord[k] * box);
-      qh_fprintf_rbox(rbox.fout, 9399, "\n");
+      /* ============= scale point to box =============== */
+      for (k=0; k<dim; k++)
+          coord[k]= coord[k] * box;
+
+      /* ============= write output =============== */
+      qh_outcoord(iscdd, coord, dim);
+      if(coincidentcount++ < coincidenttotal)
+        qh_outcoincident(coincidentpoints, coincidentradius, iscdd, coord, dim);
     }
   }
 
@@ -790,11 +826,43 @@ void qh_out3n( double a, double b, double c) {
     qh_fprintf_rbox(rbox.fout, 9408, qh_REAL_3n, a+rbox.out_offset, b+rbox.out_offset, c+rbox.out_offset);
 } /* qh_out3n */
 
+void qh_outcoord(int iscdd, double *coord, int dim) {
+    double *p= coord;
+    int k;
+
+    if (iscdd)
+      qh_out1( 1.0);
+    for (k=0; k < dim; k++)
+      qh_out1(*(p++));
+    qh_fprintf_rbox(rbox.fout, 9396, "\n");
+} /* qh_outcoord */
+
+void qh_outcoincident(int coincidentpoints, double radius, int iscdd, double *coord, int dim) {
+  double *p;
+  double randr, delta;
+  int i,k;
+  double randmax= qh_RANDOMmax;
+
+  for (i= 0; i<coincidentpoints; i++) {
+    p= coord;
+    if (iscdd)
+      qh_out1( 1.0);
+    for (k=0; k < dim; k++) {
+      randr= qh_RANDOMint;
+      delta= 2.0 * randr/randmax - 1.0; /* -1..+1 */
+      delta *= radius;
+      qh_out1(*(p++) + delta);
+    }
+    qh_fprintf_rbox(rbox.fout, 9410, "\n");
+  }
+} /* qh_outcoincident */
+
 /*------------------------------------------------
-   Only called from qh_rboxpoints or qh_fprintf_rbox (which is only called from qh_rboxpoints)
+   Only called from qh_rboxpoints or qh_fprintf_rbox
+   qh_fprintf_rbox is only called from qh_rboxpoints
 */
 void qh_errexit_rbox(int exitcode)
 {
     longjmp(rbox.errexit, exitcode);
-} /* rbox_errexit */
+} /* qh_errexit_rbox */
 

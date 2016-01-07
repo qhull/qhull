@@ -1,14 +1,14 @@
-/*<html><pre>  -<a                             href="qh-geom.htm"
+/*<html><pre>  -<a                             href="qh-geom_r.htm"
   >-------------------------------</a><a name="TOP">-</a>
 
   random.h
     header file for random routines
 
-   see qh-geom.htm and random_r.c
+   see qh-geom_r.htm and random_r.c
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull_r/random_r.h#1 $$Change: 1981 $
-   $DateTime: 2015/09/28 20:26:32 $$Author: bbarber $
+   $Id: //main/2015/qhull/src/libqhull_r/random_r.h#2 $$Change: 2042 $
+   $DateTime: 2016/01/03 13:26:21 $$Author: bbarber $
 */
 
 #ifndef qhDEFrandom

@@ -1,21 +1,25 @@
-$Id: //main/2015/qhull/src/Changes.txt#12 $
+$Id: //main/2015/qhull/src/Changes.txt#20 $
 
 .............This file lists all changes to qhull and rbox.....................
 
 ------------
 Need help
+ - Integrate 4dview with Geomview 1.9.5
+ - Write an incremental addPoint using bucketed inputs and facet location search (see CGAL)
+ - Compute hyperplanes in parallel (cf. qh_setfactplane)
+ - Create Voronoi volumes and topology using a parallel implementation
  - Qhull needs RPM and Debian builds (CMake's CPackRMP and CPackDeb).   
  - Qhull needs a mirror/archive site for old and new builds
  - Constrained delaunay triangulation via Shewchuk's algorithm (ACM Symp. Comp. Geo., 1998)
  - The C++ interface needs work.  Give it a try and make it better.
    http://github.com/qhull/qhull
  - Produce conformant triangulations for merged facets using option 'Qt' 
- - Write an incremental addPoint using bucketed inputs and facet location search (see CGAL)
- - Compute hyperplanes in parallel (cf. qh_setfactplane)
- - Create Voronoi volumes and topology using a parallel implementation
 
 ------------
 To do for a future verson of Qhull
+ - Add a merge pass before cone creation to remove duplicate subridges between horizon facets
+ - Option to add a bounding box for Delaunay triangulations, e,g., nearly coincident points
+ - Report error when rbox Cn,r,m does not produce points (e.g., 'r' distributions)
  - Rescale output to match 'QbB' on input [J. Metz, 1/30/2014 12:21p]
  - Run through valgrind
  - Notes to compgeom on conformant triangulation and Voronoi volume
@@ -27,7 +31,9 @@ To do for a future verson of Qhull
  - Break up -Wextra into its components or figure out how to override -Wunused-but-set-variable
    unused-but-set-variable is reporting incorrectly.  All instances are annotated.
  - CMakelists.txt:  Why are files duplicated for cmake build
- - CMakeLists.txt: configure the 'ctest' target 
+ - CMakeLists.txt: configure the 'ctest' target
+ - The size of maxpoints in qh_maxsimplex should be d+3 unique points to help avoid QH6154
+
  - Can countT be defined as 'int', 'unsigned int', or 64-bit int?  
    countT is currently defined as 'int' in qset_r.h
    Vertex ID and ridge ID perhaps should be countT, They are currently 'unsigned'
@@ -44,6 +50,7 @@ To do for a future verson of Qhull
  
 ------------
 To do for a furture version of the C++ interface 
+ - Fix C++ memory leak in user_eg3 [M. Sandim]
  - Document C++ using Doxygen conventions (//! and //!<)
  - Should Qhull manage the output formats for doubles?  QH11010 user_r.h defines qh_REAL_1 as %6.8g
  - Allocate memory for QhullSet using Qhull.qhmem.  Create default constructors for QhullVertexSet etc.  Also mid() etc.
@@ -57,12 +64,30 @@ To do for a furture version of the C++ interface
  - qh-code.htm: Document changes to C++ interface.
       Organize C++ documentation into collection classes, etc.
  - Review all C++ classes and C++ tests
-   QhullVertexSet uses QhullSetBase::referenceSetT() to free it's memory.   Probably needed elsewhere
+ - QhullVertexSet uses QhullSetBase::referenceSetT() to free it's memory.   Probably needed elsewhere
 
------------
-To do for Qhull 2015.1
- - Fix rare "no more facets" error (QH7228 error at initialization)
- - Compare libqhull to libqhull_r and resolve differences
+------------
+Qhull 2015.1 2016/01/03 (7.1.0) 
+ - qh_findbestlower: Call qh_findfacet_all to fix rare "flipped or upper Delaunay" error QH6228.
+   QH6228 input provided by J. Metz.  Reported (date order): L. Fiaschi, N. Bowler, A. Liebscher, V. Vieira, N. Rhinehart, N. Vance, P. Shafer
+ - qh_check_dupridge: Check if wide merge due to duplicate ridge from nearly coincident points
+ - Add option 'Q12' to ignore error on wide merge due to duplicate ridge
+ - qh_initialhull: Fix error messages for initial simplex is flat
+ - qh_determinant: increased 2-d and 3-d nearzero by 10x due to counter-example
+ - rbox: Add option 'Cn,r,m' to add nearly coincident points.  Trigger for duplicate ridges
+ - rbox: Add qh_outcoord() to output coordinates w/ or w/o iscdd
+ - qh_meminit (mem.c): Add call to qh_memcheck
+ - Compare libqhull/... to libqhull_r/... and resolve differences
+
+ - qh-impre.htm: Add a section about precision errors for 'Nearly coincident points on an edge'
+ - html/index.htm#geomview: Document how to install, build, and use Geomview.
+ - html/index.htm: Emphasize program links and move related urls to end
+ - qhull/index.htm: Emphasize manual, geomview, and imprecision
+ - Fix documentation links in libqhull_r/index.htm
+ - Add 'Functions' link to documentation headers
+ - Change '<A>...</A>' to '<a>...</a>'
+ - libqhull_r/index.htm -- Add instructions for configuring web browsers for source links.
+ - libqhull_r/ -- Fix source links for ..._r.htm files
 
 ------------
 Qhull 2015.0.7 2015/11/09 (7.0.7)

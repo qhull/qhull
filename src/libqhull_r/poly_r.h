@@ -1,14 +1,14 @@
-/*<html><pre>  -<a                             href="qh-poly.htm"
+/*<html><pre>  -<a                             href="qh-poly_r.htm"
   >-------------------------------</a><a name="TOP">-</a>
 
    poly_r.h
    header file for poly_r.c and poly2_r.c
 
-   see qh-poly.htm, libqhull_r.h and poly_r.c
+   see qh-poly_r.htm, libqhull_r.h and poly_r.c
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull_r/poly_r.h#1 $$Change: 1981 $
-   $DateTime: 2015/09/28 20:26:32 $$Author: bbarber $
+   $Id: //main/2015/qhull/src/libqhull_r/poly_r.h#3 $$Change: 2047 $
+   $DateTime: 2016/01/04 22:03:18 $$Author: bbarber $
 */
 
 #ifndef qhDEFpoly
@@ -18,7 +18,7 @@
 
 /*===============   constants ========================== */
 
-/*-<a                             href="qh-geom.htm#TOC"
+/*-<a                             href="qh-geom_r.htm#TOC"
   >--------------------------------</a><a name="ALGORITHMfault">-</a>
 
   ALGORITHMfault
@@ -26,7 +26,7 @@
 */
 #define qh_ALGORITHMfault 0
 
-/*-<a                             href="qh-poly.htm#TOC"
+/*-<a                             href="qh-poly_r.htm#TOC"
   >--------------------------------</a><a name="DATAfault">-</a>
 
   DATAfault
@@ -34,7 +34,7 @@
 */
 #define qh_DATAfault 1
 
-/*-<a                             href="qh-poly.htm#TOC"
+/*-<a                             href="qh-poly_r.htm#TOC"
   >--------------------------------</a><a name="DUPLICATEridge">-</a>
 
   DUPLICATEridge
@@ -45,7 +45,7 @@
 */
 #define qh_DUPLICATEridge (facetT *)1L
 
-/*-<a                             href="qh-poly.htm#TOC"
+/*-<a                             href="qh-poly_r.htm#TOC"
   >--------------------------------</a><a name="MERGEridge">-</a>
 
   MERGEridge       flag in facet
@@ -61,7 +61,7 @@
 
 /*=========== -macros- =========================*/
 
-/*-<a                             href="qh-poly.htm#TOC"
+/*-<a                             href="qh-poly_r.htm#TOC"
   >--------------------------------</a><a name="FORALLfacet_">-</a>
 
   FORALLfacet_( facetlist ) { ... }
@@ -76,7 +76,7 @@
 */
 #define FORALLfacet_( facetlist ) if (facetlist ) for ( facet=( facetlist ); facet && facet->next; facet= facet->next )
 
-/*-<a                             href="qh-poly.htm#TOC"
+/*-<a                             href="qh-poly_r.htm#TOC"
   >--------------------------------</a><a name="FORALLnew_facets">-</a>
 
   FORALLnew_facets { ... }
@@ -88,7 +88,7 @@
 */
 #define FORALLnew_facets for ( newfacet=qh->newfacet_list;newfacet && newfacet->next;newfacet=newfacet->next )
 
-/*-<a                             href="qh-poly.htm#TOC"
+/*-<a                             href="qh-poly_r.htm#TOC"
   >--------------------------------</a><a name="FORALLvertex_">-</a>
 
   FORALLvertex_( vertexlist ) { ... }
@@ -100,7 +100,7 @@
 */
 #define FORALLvertex_( vertexlist ) for (vertex=( vertexlist );vertex && vertex->next;vertex= vertex->next )
 
-/*-<a                             href="qh-poly.htm#TOC"
+/*-<a                             href="qh-poly_r.htm#TOC"
   >--------------------------------</a><a name="FORALLvisible_facets">-</a>
 
   FORALLvisible_facets { ... }
@@ -112,7 +112,7 @@
 */
 #define FORALLvisible_facets for (visible=qh->visible_list; visible && visible->visible; visible= visible->next)
 
-/*-<a                             href="qh-poly.htm#TOC"
+/*-<a                             href="qh-poly_r.htm#TOC"
   >--------------------------------</a><a name="FORALLsame_">-</a>
 
   FORALLsame_( newfacet ) { ... }
@@ -124,7 +124,7 @@
 */
 #define FORALLsame_(newfacet) for (same= newfacet->f.samecycle; same != newfacet; same= same->f.samecycle)
 
-/*-<a                             href="qh-poly.htm#TOC"
+/*-<a                             href="qh-poly_r.htm#TOC"
   >--------------------------------</a><a name="FORALLsame_cycle_">-</a>
 
   FORALLsame_cycle_( newfacet ) { ... }
@@ -138,7 +138,7 @@
      for (same= newfacet->f.samecycle; \
          same; same= (same == newfacet ?  NULL : same->f.samecycle))
 
-/*-<a                             href="qh-poly.htm#TOC"
+/*-<a                             href="qh-poly_r.htm#TOC"
   >--------------------------------</a><a name="FOREACHneighborA_">-</a>
 
   FOREACHneighborA_( facet ) { ... }
@@ -155,7 +155,7 @@
 */
 #define FOREACHneighborA_(facet)  FOREACHsetelement_(facetT, facet->neighbors, neighborA)
 
-/*-<a                             href="qh-poly.htm#TOC"
+/*-<a                             href="qh-poly_r.htm#TOC"
   >--------------------------------</a><a name="FOREACHvisible_">-</a>
 
   FOREACHvisible_( facets ) { ... }
@@ -167,7 +167,7 @@
 */
 #define FOREACHvisible_(facets) FOREACHsetelement_(facetT, facets, visible)
 
-/*-<a                             href="qh-poly.htm#TOC"
+/*-<a                             href="qh-poly_r.htm#TOC"
   >--------------------------------</a><a name="FOREACHnewfacet_">-</a>
 
   FOREACHnewfacet_( facets ) { ... }
@@ -179,7 +179,7 @@
 */
 #define FOREACHnewfacet_(facets) FOREACHsetelement_(facetT, facets, newfacet)
 
-/*-<a                             href="qh-poly.htm#TOC"
+/*-<a                             href="qh-poly_r.htm#TOC"
   >--------------------------------</a><a name="FOREACHvertexA_">-</a>
 
   FOREACHvertexA_( vertices ) { ... }
@@ -191,7 +191,7 @@
 */
 #define FOREACHvertexA_(vertices) FOREACHsetelement_(vertexT, vertices, vertexA)
 
-/*-<a                             href="qh-poly.htm#TOC"
+/*-<a                             href="qh-poly_r.htm#TOC"
   >--------------------------------</a><a name="FOREACHvertexreverse12_">-</a>
 
   FOREACHvertexreverse12_( vertices ) { ... }
@@ -209,7 +209,7 @@
 
 void    qh_appendfacet(qhT *qh, facetT *facet);
 void    qh_appendvertex(qhT *qh, vertexT *vertex);
-void    qh_attachnewfacets(qhT *qh /* qh.visible_list, newfacet_list */);
+void    qh_attachnewfacets(qhT *qh /* qh.visible_list, qh.newfacet_list */);
 boolT   qh_checkflipped(qhT *qh, facetT *facet, realT *dist, boolT allerror);
 void    qh_delfacet(qhT *qh, facetT *facet);
 void    qh_deletevisible(qhT *qh /* qh.visible_list, qh.horizon_list */);
@@ -237,6 +237,7 @@ void    qh_updatevertices(qhT *qh);
 void    qh_addhash(void *newelem, setT *hashtable, int hashsize, int hash);
 void    qh_check_bestdist(qhT *qh);
 void    qh_check_maxout(qhT *qh);
+void    qh_check_dupridge(qhT *qh, facetT *facet1, realT dist1, facetT *facet2, realT dist2);
 void    qh_check_output(qhT *qh);
 void    qh_check_point(qhT *qh, pointT *point, facetT *facet, realT *maxoutside, realT *maxdist, facetT **errfacet1, facetT **errfacet2);
 void    qh_check_points(qhT *qh);
@@ -279,7 +280,7 @@ setT   *qh_pointvertex(qhT *qh /*qh.facet_list*/);
 void    qh_prependfacet(qhT *qh, facetT *facet, facetT **facetlist);
 void    qh_printhashtable(qhT *qh, FILE *fp);
 void    qh_printlists(qhT *qh);
-void    qh_resetlists(qhT *qh, boolT stats, boolT resetVisible /*qh.newvertex_list newfacet_list visible_list*/);
+void    qh_resetlists(qhT *qh, boolT stats, boolT resetVisible /*qh.newvertex_list qh.newfacet_list qh.visible_list*/);
 void    qh_setvoronoi_all(qhT *qh);
 void    qh_triangulate(qhT *qh /*qh.facet_list*/);
 void    qh_triangulate_facet(qhT *qh, facetT *facetA, vertexT **first_vertex);

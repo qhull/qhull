@@ -7,8 +7,8 @@
    see qh-stat.htm and stat.h
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull/stat.c#2 $$Change: 2010 $
-   $DateTime: 2015/10/19 22:23:22 $$Author: bbarber $
+   $Id: //main/2015/qhull/src/libqhull/stat.c#4 $$Change: 2042 $
+   $DateTime: 2016/01/03 13:26:21 $$Author: bbarber $
 */
 
 #include "qhull_a.h"
@@ -151,6 +151,8 @@ void qh_allstatE(void) {
   zdef_(zinc, Zcoplanarinside, "  inside points that were coplanar with a facet", -1);
   zdef_(zinc, Zbestlower, "calls to findbestlower", -1);
   zdef_(zinc, Zbestlowerv, "  with search of vertex neighbors", -1);
+  zdef_(zinc, Zbestlowerall, "  with rare search of all facets", -1);
+  zdef_(zmax, Zbestloweralln, "  facets per search of all facets", -1);
   zdef_(wadd, Wmaxout, "difference in max_outside at final check", -1);
   zzdef_(zinc, Zpartitionall, "distance tests for initial partition", -1);
   zdef_(zinc, Ztotpartition, "partitions of a point", -1);

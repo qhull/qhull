@@ -1,14 +1,14 @@
-/*<html><pre>  -<a                             href="qh-geom.htm"
+/*<html><pre>  -<a                             href="qh-geom_r.htm"
   >-------------------------------</a><a name="TOP">-</a>
 
   geom_r.h
     header file for geometric routines
 
-   see qh-geom.htm and geom_r.c
+   see qh-geom_r.htm and geom_r.c
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull_r/geom_r.h#1 $$Change: 1981 $
-   $DateTime: 2015/09/28 20:26:32 $$Author: bbarber $
+   $Id: //main/2015/qhull/src/libqhull_r/geom_r.h#2 $$Change: 2042 $
+   $DateTime: 2016/01/03 13:26:21 $$Author: bbarber $
 */
 
 #ifndef qhDEFgeom
@@ -18,7 +18,7 @@
 
 /* ============ -macros- ======================== */
 
-/*-<a                             href="qh-geom.htm#TOC"
+/*-<a                             href="qh-geom_r.htm#TOC"
   >--------------------------------</a><a name="fabs_">-</a>
 
   fabs_(a)
@@ -26,7 +26,7 @@
 */
 #define fabs_( a ) ((( a ) < 0 ) ? -( a ):( a ))
 
-/*-<a                             href="qh-geom.htm#TOC"
+/*-<a                             href="qh-geom_r.htm#TOC"
   >--------------------------------</a><a name="fmax_">-</a>
 
   fmax_(a,b)
@@ -34,7 +34,7 @@
 */
 #define fmax_( a,b )  ( ( a ) < ( b ) ? ( b ) : ( a ) )
 
-/*-<a                             href="qh-geom.htm#TOC"
+/*-<a                             href="qh-geom_r.htm#TOC"
   >--------------------------------</a><a name="fmin_">-</a>
 
   fmin_(a,b)
@@ -42,7 +42,7 @@
 */
 #define fmin_( a,b )  ( ( a ) > ( b ) ? ( b ) : ( a ) )
 
-/*-<a                             href="qh-geom.htm#TOC"
+/*-<a                             href="qh-geom_r.htm#TOC"
   >--------------------------------</a><a name="maximize_">-</a>
 
   maximize_(maxval, val)
@@ -50,7 +50,7 @@
 */
 #define maximize_( maxval, val ) { if (( maxval ) < ( val )) ( maxval )= ( val ); }
 
-/*-<a                             href="qh-geom.htm#TOC"
+/*-<a                             href="qh-geom_r.htm#TOC"
   >--------------------------------</a><a name="minimize_">-</a>
 
   minimize_(minval, val)
@@ -58,7 +58,7 @@
 */
 #define minimize_( minval, val ) { if (( minval ) > ( val )) ( minval )= ( val ); }
 
-/*-<a                             href="qh-geom.htm#TOC"
+/*-<a                             href="qh-geom_r.htm#TOC"
   >--------------------------------</a><a name="det2_">-</a>
 
   det2_(a1, a2,
@@ -68,7 +68,7 @@
 */
 #define det2_( a1,a2,b1,b2 ) (( a1 )*( b2 ) - ( a2 )*( b1 ))
 
-/*-<a                             href="qh-geom.htm#TOC"
+/*-<a                             href="qh-geom_r.htm#TOC"
   >--------------------------------</a><a name="det3_">-</a>
 
   det3_(a1, a2, a3,
@@ -80,7 +80,7 @@
 #define det3_( a1,a2,a3,b1,b2,b3,c1,c2,c3 ) ( ( a1 )*det2_( b2,b3,c2,c3 ) \
                 - ( b1 )*det2_( a2,a3,c2,c3 ) + ( c1 )*det2_( a2,a3,b2,b3 ) )
 
-/*-<a                             href="qh-geom.htm#TOC"
+/*-<a                             href="qh-geom_r.htm#TOC"
   >--------------------------------</a><a name="dX">-</a>
 
   dX( p1, p2 )

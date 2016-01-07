@@ -52,8 +52,8 @@ Code flags --
   If add new messages, assign these values and increment in user.h and user_r.h
   See QhullError.h for 10000 errors.
 
-  def counters =  [27, 1048, 2059, 3025, 4068, 5003,
-     6268, 7079, 8145, 9410, 10000, 11029]
+  def counters =  [27, 1048, 2059, 3026, 4068, 5003,
+     6272, 7081, 8147, 9411, 10000, 11029]
 
   See: qh_ERR* [libqhull.h]
 */
@@ -807,6 +807,19 @@ stop after qh_JOGGLEmaxretry attempts
       qh_WIDEcoplanar * qh.MINvisible);
 */
 #define qh_WIDEcoplanar 6
+
+/*-<a                             href="qh-user.htm#TOC"
+  >--------------------------------</a><a name="WIDEduplicate">-</a>
+
+  qh_WIDEduplicate
+    Merge ratio for errexit from qh_forcedmerges due to duplicate ridge
+    Override with option Q12 no-wide-duplicate
+
+    Notes:
+      Merging a duplicate ridge can lead to very wide facets.
+      A future release of qhull will avoid duplicate ridges by removing duplicate sub-ridges from the horizon
+*/
+#define qh_WIDEduplicate 100
 
 /*-<a                             href="qh-user.htm#TOC"
   >--------------------------------</a><a name="MAXnarrow">-</a>

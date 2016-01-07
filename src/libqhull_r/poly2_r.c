@@ -9,8 +9,8 @@
    frequently used code is in poly_r.c
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull_r/poly2_r.c#1 $$Change: 1981 $
-   $DateTime: 2015/09/28 20:26:32 $$Author: bbarber $
+   $Id: //main/2015/qhull/src/libqhull_r/poly2_r.c#6 $$Change: 2047 $
+   $DateTime: 2016/01/04 22:03:18 $$Author: bbarber $
 */
 
 #include "qhull_ra.h"
@@ -130,6 +130,57 @@ options 'Qci Tv' to verify all points.\n", notverified);
   /* else if waserror, the error was logged to qh.ferr but does not effect the output */
   trace0((qh, qh->ferr, 20, "qh_check_bestdist: max distance outside %2.2g\n", maxdist));
 } /* check_bestdist */
+
+/*-<a                             href="qh-poly_r.htm#TOC"
+  >-------------------------------</a><a name="check_dupridge">-</a>
+
+  qh_check_dupridge(qh, facet1, dist1, facet2, dist2)
+    Check duplicate ridge between facet1 and facet2 for wide merge
+    dist1 is the maximum distance of facet1's vertices to facet2
+    dist2 is the maximum distance of facet2's vertices to facet1
+
+  Returns
+    Level 1 log of the duplicate ridge with the minimum distance between vertices
+    Throws error if the merge will increase the maximum facet width by qh_WIDEduplicate (100x)
+
+  called from:
+    qh_forcedmerges()
+*/
+#ifndef qh_NOmerge
+void qh_check_dupridge(qhT *qh, facetT *facet1, realT dist1, facetT *facet2, realT dist2) {
+  vertexT *vertex, **vertexp, *vertexA, **vertexAp;
+  realT dist, innerplane, mergedist, outerplane, prevdist, ratio;
+  realT minvertex= REALmax;
+
+  mergedist= fmin_(dist1, dist2);
+  qh_outerinner(qh, NULL, &outerplane, &innerplane);  /* ratio from qh_printsummary */
+  prevdist= fmax_(outerplane, innerplane);
+  maximize_(prevdist, qh->ONEmerge + qh->DISTround);
+  maximize_(prevdist, qh->MINoutside + qh->DISTround);
+  ratio= mergedist/prevdist;
+  FOREACHvertex_(facet1->vertices) {     /* The duplicate ridge is between facet1 and facet2, so either facet can be tested */
+    FOREACHvertexA_(facet1->vertices) {
+      if (vertex > vertexA){   /* Test each pair once */
+        dist= qh_pointdist(vertex->point, vertexA->point, qh->hull_dim);
+        minimize_(minvertex, dist);
+      }
+    }
+  }
+  trace0((qh, qh->ferr, 16, "qh_check_dupridge: duplicate ridge between f%d and f%d due to nearly-coincident vertices (%2.2g), dist %2.2g, reverse dist %2.2g, ratio %2.2g while processing p%d\n",
+        facet1->id, facet2->id, minvertex, dist1, dist2, ratio, qh->furthest_id));
+  if (ratio > qh_WIDEduplicate) {
+    qh_fprintf(qh, qh->ferr, 6271, "qhull precision error (qh_check_dupridge): wide merge (%.0f times wider) due to duplicate ridge with nearly coincident points (%2.2g) between f%d and f%d, merge dist %2.2g, while processing p%d\n- Ignore error with option 'Q12'\n- To be fixed in a later version of Qhull\n",
+          ratio, minvertex, facet1->id, facet2->id, mergedist, qh->furthest_id);
+    if (qh->DELAUNAY)
+      qh_fprintf(qh, qh->ferr, 8145, "- A simple workaround is to add a bounding box to the input sites\n");
+    if(minvertex > qh_WIDEduplicate*prevdist)
+      qh_fprintf(qh, qh->ferr, 8146, "- Vertex distance %2.2g is greater than %d times maximum distance %2.2g\n  Please report to bradb@shore.net with steps to reproduce and all output\n",
+          minvertex, qh_WIDEduplicate, prevdist);
+    if (!qh->NOwide)
+      qh_errexit2(qh, qh_ERRqhull, facet1, facet2);
+  }
+} /* check_dupridge */
+#endif
 
 /*-<a                             href="qh-poly_r.htm#TOC"
   >-------------------------------</a><a name="check_maxout">-</a>
@@ -1229,6 +1280,7 @@ facetT *qh_findbestlower(qhT *qh, facetT *upperfacet, pointT *point, realT *best
   realT bestdist= -REALmax/2 /* avoid underflow */;
   realT dist;
   vertexT *vertex;
+  boolT isoutside= False;  /* not used */
 
   zinc_(Zbestlower);
   FOREACHneighbor_(upperfacet) {
@@ -1258,11 +1310,13 @@ facetT *qh_findbestlower(qhT *qh, facetT *upperfacet, pointT *point, realT *best
     }
   }
   if (!bestfacet) {
-    qh_fprintf(qh, qh->ferr, 6228, "\n\
-Qhull internal error (qh_findbestlower): all neighbors of facet %d are flipped or upper Delaunay.\n\
-Please report this error to qhull_bug@qhull.org with the input and all of the output.\n",
-       upperfacet->id);
-    qh_errexit(qh, qh_ERRqhull, upperfacet, NULL);
+    zinc_(Zbestlowerall);  /* invoked once per point in outsideset */
+    zmax_(Zbestloweralln, qh->num_facets);
+    /* [dec'15] Previously reported as QH6228 */
+    trace3((qh, qh->ferr, 3025, "qh_findbestlower: all neighbors of facet %d are flipped or upper Delaunay.  Search all facets\n",
+       upperfacet->id));
+    /* rarely called */
+    bestfacet= qh_findfacet_all(qh, point, &bestdist, &isoutside, numpart);
   }
   *bestdistp= bestdist;
   trace3((qh, qh->ferr, 3015, "qh_findbestlower: f%d dist %2.2g for f%d p%d\n",
@@ -1289,7 +1343,7 @@ Please report this error to qhull_bug@qhull.org with the input and all of the ou
     number of distance tests
 
   notes:
-    for library users, not used by Qhull
+    primarily for library users, rarely used by Qhull
 */
 facetT *qh_findfacet_all(qhT *qh, pointT *point, realT *bestdist, boolT *isoutside,
                           int *numpart) {
@@ -1589,7 +1643,7 @@ void qh_furthestout(qhT *qh, facetT *facet) {
 } /* furthestout */
 
 
-/*-<a                             href="qh-qhull.htm#TOC"
+/*-<a                             href="qh-qhull_r.htm#TOC"
   >-------------------------------</a><a name="infiniteloop">-</a>
 
   qh_infiniteloop(qh, facet )
@@ -1781,15 +1835,15 @@ void qh_initialhull(qhT *qh, setT *vertices) {
     if (!qh_checkflipped(qh, facet, NULL, !qh_ALL)) {  /* can happen with 'R0.1' */
       if (qh->DELAUNAY && ! qh->ATinfinity) {
         if (qh->UPPERdelaunay)
-          qh_fprintf(qh, qh->ferr, 6240, "Qhull input error: Can not compute the upper Delaunay triangulation or upper Voronoi diagram of cocircular/cospherical points.\n");
+          qh_fprintf(qh, qh->ferr, 6240, "Qhull precision error: Initial simplex is cocircular or cospherical.  Option 'Qs' searches all points.  Can not compute the upper Delaunay triangulation or upper Voronoi diagram of cocircular/cospherical points.\n");
         else
-          qh_fprintf(qh, qh->ferr, 6239, "Qhull input error: Use option 'Qz' for the Delaunay triangulation or Voronoi diagram of cocircular/cospherical points.  Option 'Qz' adds a point \"at infinity\" (above the corresponding paraboloid).\n");
+          qh_fprintf(qh, qh->ferr, 6239, "Qhull precision error: Initial simplex is cocircular or cospherical.  Use option 'Qz' for the Delaunay triangulation or Voronoi diagram of cocircular/cospherical points.  Option 'Qz' adds a point \"at infinity\".  Use option 'Qs' to search all points for the initial simplex.\n");
         qh_errexit(qh, qh_ERRinput, NULL, NULL);
       }
-      qh_precision(qh, "initial facet is coplanar with interior point");
-      qh_fprintf(qh, qh->ferr, 6154, "qhull precision error: initial facet %d is coplanar with the interior point\n",
+      qh_precision(qh, "initial simplex is flat");
+      qh_fprintf(qh, qh->ferr, 6154, "Qhull precision error: Initial simplex is flat (facet %d is coplanar with the interior point)\n",
                    facet->id);
-      qh_errexit(qh, qh_ERRsingular, facet, NULL);
+      qh_errexit(qh, qh_ERRsingular, NULL, NULL);  /* calls qh_printhelp_singular */
     }
     FOREACHneighbor_(facet) {
       angle= qh_getangle(qh, facet->normal, neighbor->normal);
@@ -2946,8 +3000,8 @@ void qh_triangulate_facet(qhT *qh, facetT *facetA, vertexT **first_vertex) {
   if (!(*first_vertex))
     (*first_vertex)= qh->newvertex_list;
   qh->newvertex_list= NULL;
-  qh_updatevertices(qh /*qh.newfacet_list, empty visible_list and newvertex_list*/);
-  qh_resetlists(qh, False, !qh_RESETvisible /*qh.newfacet_list, empty visible_list and newvertex_list*/);
+  qh_updatevertices(qh /*qh.newfacet_list, qh.empty visible_list and qh.newvertex_list*/);
+  qh_resetlists(qh, False, !qh_RESETvisible /*qh.newfacet_list, qh.empty visible_list and qh.newvertex_list*/);
 } /* triangulate_facet */
 
 /*-<a                             href="qh-poly_r.htm#TOC"

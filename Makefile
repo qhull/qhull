@@ -111,7 +111,7 @@ CC_OPTS3  =
 #  qhull_p.so -- allocated qh_qhT global data structure (qh_QHpointer=1).  Required for libqhullcpp
 #  qhull_m.so -- future version of Qhull with qh_qhT passed as an argument.
 qhull_SOVERSION=7
-SO  = so.7.0.7
+SO  = so.7.1.0
 
 # On MinGW, 
 #   make SO=dll

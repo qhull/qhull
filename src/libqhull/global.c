@@ -12,8 +12,8 @@
    see qhull_a.h for internal functions
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull/global.c#9 $$Change: 2024 $
-   $DateTime: 2015/11/03 21:58:49 $$Author: bbarber $
+   $Id: //main/2015/qhull/src/libqhull/global.c#13 $$Change: 2044 $
+   $DateTime: 2016/01/03 20:43:44 $$Author: bbarber $
  */
 
 #include "qhull_a.h"
@@ -40,15 +40,15 @@ qhT qh_qh;              /* all global variables.
   notes:
     change date:    Changes.txt, Announce.txt, index.htm, README.txt,
                     qhull-news.html, Eudora signatures, CMakeLists.txt
-    change version: README.txt, qh-get.htm, File_id.diz, Makefile.txt
+    change version: README.txt, qh-get.htm, File_id.diz, Makefile.txt, CMakeLists.txt
     check that CmakeLists @version is the same as qh_version2
     change year:    Copying.txt
     check download size
     recompile user_eg.c, rbox.c, libqhull.c, qconvex.c, qdelaun.c qvoronoi.c, qhalf.c, testqset.c
 */
 
-const char qh_version[]= "2015.0.7 2015/11/09";
-const char qh_version2[]= "qhull 7.0.7 (2015.0.7 2015/11/09)";
+const char qh_version[]= "2015.1 2016/01/03";
+const char qh_version2[]= "qhull 7.1.0 (2015.1 2016/01/03)";
 
 /*-<a                             href="qh-globa.htm#TOC"
   >-------------------------------</a><a name="appendprint">-</a>
@@ -240,7 +240,7 @@ unsigned long qh_clock(void) {
 
 #if (qh_CLOCKtype == 2)
   struct tms time;
-  static long clktck;  /* initialized first call */
+  static long clktck;  /* initialized first call and never updated */
   double ratio, cpu;
   unsigned long ticks;
 
@@ -434,12 +434,13 @@ void qh_freeqhull(boolT allmem) {
 >-------------------------------</a><a name="freeqhull2">-</a>
 
 qh_freeqhull2( allmem )
-  free global memory
+  free global memory and set qhT to 0
   if !allmem,
     does not free short memory (freed by qh_memfreeshort)
 
 notes:
   sets qh.NOerrexit in case caller forgets to
+  Does not throw errors
 
 see:
   see qh_initqhull_start2()
@@ -451,8 +452,8 @@ design:
 */
 void qh_freeqhull2(boolT allmem) {
 
-  trace1((qh ferr, 1006, "qh_freeqhull2: free global memory\n"));
   qh NOerrexit= True;  /* no more setjmp since called at exit and ~QhullQh */
+  trace1((qh ferr, 1006, "qh_freeqhull: free global memory\n"));
   qh_freebuild(allmem);
   qh_freebuffers();
   qh_freestatistics();
@@ -561,6 +562,7 @@ void qh_init_B(coordT *points, int numpoints, int dim, boolT ismalloc) {
 
   qh_init_qhull_command( argc, argv )
     build qh.qhull_command from argc/argv
+    Calls qh_exit if qhull_command is too short
 
   returns:
     a space-delimited string of options (just as typed)
@@ -585,6 +587,7 @@ void qh_init_qhull_command(int argc, char *argv[]) {
 
   qh_initflags( commandStr )
     set flags and initialized constants from commandStr
+    calls qh_exit() if qh->NOerrexit
 
   returns:
     sets qh.qhull_command to command if needed
@@ -1154,6 +1157,10 @@ void qh_initflags(char *command) {
             qh TRInormals= True;
             qh TRIangulate= True;
             break;
+          case '2':
+            qh_option("Q12-no-wide-dup", NULL, NULL);
+            qh NOwide= True;
+            break;
           default:
             s--;
             qh_fprintf(qh ferr, 7016, "qhull warning: unknown 'Q' qhull option 1%c, rest ignored\n", (int)s[0]);
@@ -1339,7 +1346,9 @@ void qh_initflags(char *command) {
 
               qh_copyfilename(filename, (int)sizeof(filename), s, (int)(t-s));  /* WARN64 */
               s= t;
-              if (!freopen(filename, "w", qh fout)) {
+              if (!qh fout) {
+                qh_fprintf(qh ferr, 6266, "qhull input warning: qh.fout was not set by caller.  Cannot use option 'TO' to redirect output.  Ignoring option 'TO'\n");
+              }else if (!freopen(filename, "w", qh fout)) {
                 qh_fprintf(qh ferr, 6044, "qhull error: could not open file \"%s\".", filename);
                 qh_errexit(qh_ERRinput, NULL, NULL);
               }else {

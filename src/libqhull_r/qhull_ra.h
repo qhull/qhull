@@ -1,4 +1,4 @@
-/*<html><pre>  -<a                             href="qh-qhull.htm"
+/*<html><pre>  -<a                             href="qh-qhull_r.htm"
   >-------------------------------</a><a name="TOP">-</a>
 
    qhull_ra.h
@@ -13,8 +13,8 @@
    defines internal functions for libqhull_r.c global_r.c
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull_r/qhull_ra.h#2 $$Change: 1995 $
-   $DateTime: 2015/10/13 21:59:42 $$Author: bbarber $
+   $Id: //main/2015/qhull/src/libqhull_r/qhull_ra.h#3 $$Change: 2042 $
+   $DateTime: 2016/01/03 13:26:21 $$Author: bbarber $
 
    Notes:  grep for ((" and (" to catch fprintf("lkasdjf");
            full parens around (x?y:z)
@@ -64,7 +64,7 @@
 
 /* ======= -macros- =========== */
 
-/*-<a                             href="qh-qhull.htm#TOC"
+/*-<a                             href="qh-qhull_r.htm#TOC"
   >--------------------------------</a><a name="traceN">-</a>
 
   traceN((qh, qh->ferr, 0Nnnn, "format\n", vars));
@@ -91,7 +91,7 @@
 #define trace5(args) {}
 #endif /* qh_NOtrace */
 
-/*-<a                             href="qh-qhull.htm#TOC"
+/*-<a                             href="qh-qhull_r.htm#TOC"
   >--------------------------------</a><a name="QHULL_UNUSED">-</a>
 
 */

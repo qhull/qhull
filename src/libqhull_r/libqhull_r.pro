@@ -54,3 +54,14 @@ HEADERS += ../libqhull_r/qhull_ra.h
 HEADERS += ../libqhull_r/qset_r.h
 HEADERS += ../libqhull_r/stat_r.h
 HEADERS += ../libqhull_r/user_r.h
+
+OTHER_FILES += qh-geom_r.htm
+OTHER_FILES += qh-globa_r.htm
+OTHER_FILES += qh-io_r.htm
+OTHER_FILES += qh-mem_r.htm
+OTHER_FILES += qh-merge_r.htm
+OTHER_FILES += qh-poly_r.htm
+OTHER_FILES += qh-qhull_r.htm
+OTHER_FILES += qh-set_r.htm
+OTHER_FILES += qh-stat_r.htm
+OTHER_FILES += qh-user_r.htm

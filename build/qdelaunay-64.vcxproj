@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGUID>{A9841E79-BF88-4FAC-8CE0-A1D2F0AD43E9}</ProjectGUID>
+    <ProjectGUID>{35677445-A535-4EFB-9BCE-5014AC763AAF}</ProjectGUID>
     <Keyword>x64Proj</Keyword>
     <Platform>x64</Platform>
     <ProjectName>qdelaunay</ProjectName>
@@ -263,7 +263,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="../build/qhullstatic.vcxproj">
-      <Project>0E1ED901-6EFB-494A-88D0-9B6D6CDCCB6E</Project>
+      <Project>7AB605B7-14C5-496C-BFDC-DF2E6AE3FF54</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
