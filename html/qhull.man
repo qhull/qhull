@@ -62,7 +62,7 @@ example:
  - news:           <http://www.qhull.org/news>
  - Geomview:       <http://www.geomview.org>
  - news group:     <news:comp.graphics.algorithms>
- - FAQ:            <http://exaflop.org/docs/cgafaq/cga6.html>
+ - FAQ:            <http://www.faqs.org/faqs/graphics/algorithms-faq/>
  - email:          qhull@qhull.org
  - bug reports:    qhull_bug@qhull.org
 

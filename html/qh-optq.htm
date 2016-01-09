@@ -124,6 +124,8 @@ options are indicated by 'Q' followed by a letter. </p>
     <dd>no special processing for narrow distributions</dd>
     <dt><a href="#Q11">Q11</a></dt>
     <dd>copy normals and recompute centrums for tricoplanar facets</dd>
+    <dt><a href="#Q12">Q12</a></dt>
+    <dd>do not error on wide merge due to duplicate ridge and nearly coincident points</dd>
     <dt><a href="#Qm">Qm</a></dt>
     <dd>process points only if they would increase the max. outer
         plane </dd>
@@ -682,6 +684,23 @@ lead to precision problems such
 as duplicate ridges and concave facets.  For example, if qh_triangulate()
 is added to qh_addpoint(), RBOX 1000 s W1e-12 t1001813667 P0 | QHULL d Q11 Tv,
 reports an error due to a duplicate ridge.
+
+<h3><a href="#qhull">&#187;</a><a name="Q12">Q12 - do not error
+on wide merge due to duplicate ridge and nearly coincident points</a></h3>
+
+<p>In 3-d and higher Delaunay Triangulations or 4-d and higher convex hulls, multiple,
+nearly coincident points may lead to very wide facets.  An error is reported if a
+merge across a duplicate ridge would increase the facet width by 100x or more.
+
+<p>Use option 'Q12' to log a warning instead of throwing an error.
+
+<p>A simple workaround for Delaunay triangulations and Voronoi diagrams is to add a bounding
+box to the input sites. This avoids the ill-defined edge between upper and lower convex hulls.
+The problem will be fixed in a future release of Qhull.
+
+<p>To demonstrate the problem, use rbox option 'Cn,r,m' to generate nearly coincident points.
+For more information, see "Nearly coincident points on an edge"
+in <a href="qh-impre.htm#limit</a>Nearly coincident points on an edge</a>.
 
 <!-- Navigation links -->
 <hr>

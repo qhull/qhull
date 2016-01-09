@@ -1,70 +1,20 @@
-$Id: //main/2015/qhull/src/Changes.txt#20 $
+$Id: //main/2015/qhull/src/Changes.txt#22 $
 
 .............This file lists all changes to qhull and rbox.....................
 
 ------------
 Need help
- - Integrate 4dview with Geomview 1.9.5
  - Write an incremental addPoint using bucketed inputs and facet location search (see CGAL)
  - Compute hyperplanes in parallel (cf. qh_setfactplane)
  - Create Voronoi volumes and topology using a parallel implementation
+ - Produce conformant triangulations for merged facets using option 'Qt' 
+ - Integrate 4dview with Geomview 1.9.5
  - Qhull needs RPM and Debian builds (CMake's CPackRMP and CPackDeb).   
  - Qhull needs a mirror/archive site for old and new builds
  - Constrained delaunay triangulation via Shewchuk's algorithm (ACM Symp. Comp. Geo., 1998)
- - The C++ interface needs work.  Give it a try and make it better.
-   http://github.com/qhull/qhull
- - Produce conformant triangulations for merged facets using option 'Qt' 
-
-------------
-To do for a future verson of Qhull
- - Add a merge pass before cone creation to remove duplicate subridges between horizon facets
- - Option to add a bounding box for Delaunay triangulations, e,g., nearly coincident points
- - Report error when rbox Cn,r,m does not produce points (e.g., 'r' distributions)
- - Rescale output to match 'QbB' on input [J. Metz, 1/30/2014 12:21p]
- - Run through valgrind
- - Notes to compgeom on conformant triangulation and Voronoi volume
- - Git: Create signed tags for Qhull versions
- - Implement weighted Delaunay triangulation and weighted Voronoi diagram [A. Liebscher]
-   e.g., Sugihara, "Three-dimensional convex hull as a fruitful source of diagrams," Theoretical Computer Science, 2000, 235:325-337
- - testqset: test qh_setdelnth and move-to-front
- - Makefile: Re-review gcc/g++ warnings.  OK in 2011.
- - Break up -Wextra into its components or figure out how to override -Wunused-but-set-variable
-   unused-but-set-variable is reporting incorrectly.  All instances are annotated.
- - CMakelists.txt:  Why are files duplicated for cmake build
- - CMakeLists.txt: configure the 'ctest' target
- - The size of maxpoints in qh_maxsimplex should be d+3 unique points to help avoid QH6154
-
- - Can countT be defined as 'int', 'unsigned int', or 64-bit int?  
-   countT is currently defined as 'int' in qset_r.h
-   Vertex ID and ridge ID perhaps should be countT, They are currently 'unsigned'
-   Check use of 'int' vs. countT in all cpp code
-   Check use of 'int' vs. countT in all c code
-   qset_r.h defines countT -- duplicates code in user_r.h -- need to add to qset.h/user.h
-   countT -1 used as a flag in Coordinates.mid(), QhullFacet->id()
-   Also QhullPoints indexOf and lastIndexOf
-   Also QhullPointSet indexOf and lastIndexOf
-   Coordinates.indexOf assumes countT is signed (from end)
-   Coordinates.lastIndexOf assumes countT is signed (from end)
-   All error messages with countT are wrong, convert to int?
-   RboxPoints.qh_fprintf_rbox, etc. message 9393 assumes countT but may be int, va_arg(args, countT);  Need to split
- 
-------------
-To do for a furture version of the C++ interface 
- - Fix C++ memory leak in user_eg3 [M. Sandim]
- - Document C++ using Doxygen conventions (//! and //!<)
- - Should Qhull manage the output formats for doubles?  QH11010 user_r.h defines qh_REAL_1 as %6.8g
- - Allocate memory for QhullSet using Qhull.qhmem.  Create default constructors for QhullVertexSet etc.  Also mid() etc.
- - Add interior point for automatic translation?
- - Add hasNext() to all next() iterators (e.g., QhullVertex)
- - Add defineAs() to each object
- - Write a program with concurrent Qhull
- - Write QhullStat and QhullStat_test
- - Add QList and vector instance of facetT*, etc.
- - Generalize QhullPointSetIterator
- - qh-code.htm: Document changes to C++ interface.
-      Organize C++ documentation into collection classes, etc.
- - Review all C++ classes and C++ tests
- - QhullVertexSet uses QhullSetBase::referenceSetT() to free it's memory.   Probably needed elsewhere
+ - More enhancements -- http://www.qhull.org/html/qh-code.htm#enhance
+ - The C++ interface needs work.  Give it a try and make it better. 
+   http://github.com/qhull/qhull/wiki
 
 ------------
 Qhull 2015.1 2016/01/03 (7.1.0) 
@@ -79,7 +29,6 @@ Qhull 2015.1 2016/01/03 (7.1.0)
  - rbox: Add qh_outcoord() to output coordinates w/ or w/o iscdd
  - qh_meminit (mem.c): Add call to qh_memcheck
  - Compare libqhull/... to libqhull_r/... and resolve differences
- 
  - Update builds for DevStudio (qhull.sln for msdev 2005..2009, qhull-32.sln and qhull-64.sln for recent releases)
 
  - qh-impre.htm: Add a section about precision errors for 'Nearly coincident points on an edge'
@@ -206,7 +155,7 @@ Qhull 2015.0.2 2015/9/1
 Qhull 2015.0.1 2015/8/31
 
  Source code changes
- - Increased size of vertexT.id and ridgeT.id to 2^32
+ - Increased size of vertexT.id and ridgeT.id to 2^32 [H. Strandenes, C. Cantwell]
    Reworded the warning message for ridgeT.id overflow.  It does not affect Qhull output
  - Add qh_lib_check to check for a compatible Qhull library.
    Programs should call QHULL_LIB_CHECK before calling Qhull.

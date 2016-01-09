@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type"
 content="text/html; charset=iso-8859-1">
-<title>libqhull_r_r.c -- top-level functions and basic data types</title>
+<title>libqhull_r.c -- top-level functions and basic data types</title>
 </head>
 
 <body>
@@ -31,7 +31,7 @@ href="http://www.qhull.org">Home page</a> for Qhull<br>
 </p>
 <hr>
 
-<h2>libqhull_r_r.c -- top-level functions and basic data types</h2>
+<h2>libqhull_r.c -- top-level functions and basic data types</h2>
 <blockquote>
 <p>Qhull implements the Quickhull algorithm for computing
 the convex hull. The Quickhull algorithm combines two
@@ -51,11 +51,11 @@ contains prototypes for these functions.</p>
 &#149; <b>Qhull</b> &#149; <a href="qh-set_r.htm#TOC">Set</a>
 &#149; <a href="qh-stat_r.htm#TOC">Stat</a> &#149; <a href="qh-user_r.htm#TOC">User</a>
 </p>
-<h3>Index to <a href="libqhull_r_r.c">libqhull_r_r.c</a>,
+<h3>Index to <a href="libqhull_r.c">libqhull_r.c</a>,
 <a href="libqhull_r.h">libqhull_r.h</a>, and
-<a href="../qhull/unix_r_r.c">unix_r_r.c</a></h3>
+<a href="../qhull/unix_r.c">unix_r.c</a></h3>
 <ul>
-<li><a href="#qtype">libqhull_r.h and unix_r_r.c data types and
+<li><a href="#qtype">libqhull_r.h and unix_r.c data types and
 constants</a> </li>
 <li><a href="#qmacro">libqhull_r.h other macros</a> </li>
 <li><a href="#qfunc">Quickhull routines in call order</a> </li>
@@ -66,7 +66,7 @@ constants</a> </li>
 <li><a href="#qtest">Top-level routines for testing and debugging</a></li>
 </ul>
 
-<h3><a href="qh-qhull_r.htm#TOC">&#187;</a><a name="qtype">libqhull_r.h and unix_r_r.c
+<h3><a href="qh-qhull_r.htm#TOC">&#187;</a><a name="qtype">libqhull_r.h and unix_r.c
 data types and constants</a></h3>
 <ul>
 <li><a href="libqhull_r.h#flagT">flagT</a> Boolean flag as
@@ -83,79 +83,79 @@ for selecting everything </li>
 codes for indicating errors </li>
 <li><a href="libqhull_r.h#qh_FILEstderr">qh_FILEstderr</a> Fake stderr
 to distinguish error output from normal output [C++ only]</li>
-<li><a href="../qhull/unix_r_r.c#prompt">qh_prompt</a> version and long prompt for Qhull</li>
-<li><a href="../qhull/unix_r_r.c#prompt2">qh_prompt2</a> synopsis for Qhull</li>
-<li><a href="../qhull/unix_r_r.c#prompt3">qh_prompt3</a> concise prompt for Qhull</li>
-<li><a href="global_r_r.c#qh_version">qh_version</a> version stamp</li>
+<li><a href="../qhull/unix_r.c#prompt">qh_prompt</a> version and long prompt for Qhull</li>
+<li><a href="../qhull/unix_r.c#prompt2">qh_prompt2</a> synopsis for Qhull</li>
+<li><a href="../qhull/unix_r.c#prompt3">qh_prompt3</a> concise prompt for Qhull</li>
+<li><a href="global_r.c#qh_version">qh_version</a> version stamp</li>
 </ul>
 
 <h3><a href="qh-qhull_r.htm#TOC">&#187;</a><a name="qmacro">libqhull_r.h other
 macros</a></h3>
 <ul>
-<li><a href="qhull_a_r.h#traceN">traceN</a> print trace
+<li><a href="qhull_ra.h#traceN">traceN</a> print trace
 message if <em>qh.IStracing &gt;= N</em>. </li>
-<li><a href="qhull_a_r.h#QHULL_UNUSED">QHULL_UNUSED</a> declare an
+<li><a href="qhull_ra.h#QHULL_UNUSED">QHULL_UNUSED</a> declare an
  unused variable to avoid warnings. </li>
 </ul>
 
 <h3><a href="qh-qhull_r.htm#TOC">&#187;</a><a name="qfunc">Quickhull
 routines in call order</a></h3>
 <ul>
-<li><a href="../qhull/unix_r_r.c#main">main</a> processes the
+<li><a href="../qhull/unix_r.c#main">main</a> processes the
 command line, calls qhull() to do the work, and
 exits </li>
-<li><a href="libqhull_r_r.c#qhull">qh_qhull</a> construct
+<li><a href="libqhull_r.c#qhull">qh_qhull</a> construct
 the convex hull of a set of points </li>
-<li><a href="libqhull_r_r.c#build_withrestart">qh_build_withrestart</a>
+<li><a href="libqhull_r.c#build_withrestart">qh_build_withrestart</a>
 allow restarts while calling qh_buildhull</li>
-<li><a href="poly2_r_r.c#initbuild">qh_initbuild</a>
+<li><a href="poly2_r.c#initbuild">qh_initbuild</a>
 initialize hull and outside sets with point array</li>
-<li><a href="libqhull_r_r.c#partitionall">qh_partitionall</a>
+<li><a href="libqhull_r.c#partitionall">qh_partitionall</a>
 partition all points into outside sets </li>
-<li><a href="libqhull_r_r.c#buildhull">qh_buildhull</a>
+<li><a href="libqhull_r.c#buildhull">qh_buildhull</a>
 construct a convex hull by adding points one at a
 time </li>
-<li><a href="libqhull_r_r.c#nextfurthest">qh_nextfurthest</a>
+<li><a href="libqhull_r.c#nextfurthest">qh_nextfurthest</a>
 return next furthest point for processing </li>
-<li><a href="libqhull_r_r.c#buildtracing">qh_buildtracing</a>
+<li><a href="libqhull_r.c#buildtracing">qh_buildtracing</a>
 trace an iteration of buildhull </li>
-<li><a href="libqhull_r_r.c#addpoint">qh_addpoint</a> add a
+<li><a href="libqhull_r.c#addpoint">qh_addpoint</a> add a
 point to the convex hull </li>
-<li><a href="libqhull_r_r.c#findhorizon">qh_findhorizon</a>
+<li><a href="libqhull_r.c#findhorizon">qh_findhorizon</a>
 find the horizon and visible facets for a point </li>
-<li><a href="libqhull_r_r.c#partitionvisible">qh_partitionvisible</a>
+<li><a href="libqhull_r.c#partitionvisible">qh_partitionvisible</a>
 partition points from facets in qh.visible_list
 to facets in qh.newfacet_list </li>
-<li><a href="libqhull_r_r.c#partitionpoint">qh_partitionpoint</a>
+<li><a href="libqhull_r.c#partitionpoint">qh_partitionpoint</a>
 partition a point as inside, coplanar with, or
 outside a facet </li>
-<li><a href="libqhull_r_r.c#partitioncoplanar">qh_partitioncoplanar</a>
+<li><a href="libqhull_r.c#partitioncoplanar">qh_partitioncoplanar</a>
 partition coplanar point into a facet </li>
-<li><a href="libqhull_r_r.c#precision">qh_precision</a> restart on precision errors if not merging and if 'QJn'</li>
+<li><a href="libqhull_r.c#precision">qh_precision</a> restart on precision errors if not merging and if 'QJn'</li>
 </ul>
 
 <h3><a href="qh-qhull_r.htm#TOC">&#187;</a><a name="qinit">Top-level routines for initializing and terminating Qhull (in other modules)</a></h3>
 <ul>
-<li><a href="global_r_r.c#freebuild">qh_freebuild</a>
+<li><a href="global_r.c#freebuild">qh_freebuild</a>
 free memory used by qh_initbuild and qh_buildhull
 </li>
-<li><a href="global_r_r.c#checkflags">qh_checkflags</a>
+<li><a href="global_r.c#checkflags">qh_checkflags</a>
 check flags for multiple frontends to qhull
-<li><a href="global_r_r.c#freeqhull">qh_freeqhull</a>
+<li><a href="global_r.c#freeqhull">qh_freeqhull</a>
 free memory used by qhull </li>
-<li><a href="global_r_r.c#init_A">qh_init_A</a> called
+<li><a href="global_r.c#init_A">qh_init_A</a> called
 before error handling initialized </li>
-<li><a href="global_r_r.c#init_B">qh_init_B</a> called
+<li><a href="global_r.c#init_B">qh_init_B</a> called
 after points are defined </li>
-<li><a href="global_r_r.c#initflags">qh_initflags</a> set
+<li><a href="global_r.c#initflags">qh_initflags</a> set
 flags and constants from command line </li>
-<li><a href="rboxlib_r_r.c#rboxpoints">qh_rboxpoints</a>
+<li><a href="rboxlib_r.c#rboxpoints">qh_rboxpoints</a>
 generate points for qhull </li>
-<li><a href="global_r_r.c#restore_qhull">qh_restore_qhull</a>
+<li><a href="global_r.c#restore_qhull">qh_restore_qhull</a>
 restores a saved qhull </li>
-<li><a href="global_r_r.c#save_qhull">qh_save_qhull</a>
+<li><a href="global_r.c#save_qhull">qh_save_qhull</a>
 saves qhull for later restoring </li>
-<li><a href="user_r_r.c#user_memsizes">qh_user_memsizes</a>
+<li><a href="user_r.c#user_memsizes">qh_user_memsizes</a>
 define additional quick allocation sizes
 </li>
 </ul>
