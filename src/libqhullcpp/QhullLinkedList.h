@@ -9,10 +9,7 @@
 #ifndef QHULLLINKEDLIST_H
 #define QHULLLINKEDLIST_H
 
-namespace std {
-    struct bidirectional_iterator_tag;
-    struct random_access_iterator_tag;
-}//std
+#include <iterator>
 
 #include "QhullError.h"
 extern "C" {

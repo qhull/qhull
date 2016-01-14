@@ -14,10 +14,9 @@ extern "C" {
 }
 
 #include <assert.h>
+#include <iterator>
 #include <string>
 #include <vector>
-//! Avoid dependence on <iterator>
-namespace std { struct bidirectional_iterator_tag; struct random_access_iterator_tag; }
 
 namespace orgQhull {
 
