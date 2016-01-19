@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2015/qhull/src/qhulltest/QhullVertexSet_test.cpp#1 $$Change: 1981 $
-** $DateTime: 2015/09/28 20:26:32 $$Author: bbarber $
+** $Id: //main/2015/qhull/src/qhulltest/QhullVertexSet_test.cpp#3 $$Change: 2062 $
+** $DateTime: 2016/01/17 13:13:18 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -42,7 +42,7 @@ private slots:
 void
 add_QhullVertexSet_test()
 {
-    new QhullVertexSet_test();
+    new QhullVertexSet_test();  // RoadTest::s_testcases
 }
 
 //Executed after each testcase
@@ -66,7 +66,6 @@ t_construct()
     QVERIFY(vs4==vs);
     QhullVertexSet vs3(q, q.qh()->del_vertices);
     QVERIFY(vs3.isEmpty());
-    q.checkAndFreeQhullMemory();
 }//t_construct
 
 void QhullVertexSet_test::
@@ -86,7 +85,6 @@ t_convert()
     QCOMPARE(fv3.size(), 4u);
     QList<QhullVertex> fv4= vs2.toQList();
     QCOMPARE(fv4.size(), 4);
-    q.checkAndFreeQhullMemory();
 }//t_convert
 
 //! Spot check properties and read-only.  See QhullSet_test
@@ -102,7 +100,6 @@ t_readonly()
     QhullVertex v2= vs.last();
     QVERIFY(vs.contains(v));
     QVERIFY(vs.contains(v2));
-    q.checkAndFreeQhullMemory();
 }//t_readonly
 
 void QhullVertexSet_test::
@@ -117,7 +114,6 @@ t_foreach()
     QVERIFY(vs.contains(vs.last()));
     QCOMPARE(vs.first(), *vs.begin());
     QCOMPARE(*(vs.end()-1), vs.last());
-    q.checkAndFreeQhullMemory();
 }//t_foreach
 
 void QhullVertexSet_test::
@@ -134,7 +130,6 @@ t_io()
         cout<< os.str();
         QString vertices= QString::fromStdString(os.str());
         QCOMPARE(vertices.count(QRegExp(" v[0-9]")), 4);
-        q.checkAndFreeQhullMemory();
     }
 }//t_io
 

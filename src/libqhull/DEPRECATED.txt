@@ -3,7 +3,7 @@ qhull/src/libqhull
 
     This directory contains the non-reentrant version of qhull, libqhull.
     
-    New code should use the reentrant version of qhull, libqhull_r.
+    New code should use the reentrant version of qhull (libqhull_r).
     It allows multiple instances of qhull to run at the same time. On 
     modern architectures, it is nearly as fast as libqhull.   
     
@@ -26,8 +26,4 @@ qhull/src/libqhull
     libqhull will be supported indefinitely.  The qh_QHpointer variation
     of libqhull will be not be retested each release.  It is replaced by 
     libqhull_r.
-    
-
-    
-    
  

@@ -12,8 +12,8 @@
    see qhull_ra.h for internal functions
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull_r/global_r.c#12 $$Change: 2044 $
-   $DateTime: 2016/01/03 20:43:44 $$Author: bbarber $
+   $Id: //main/2015/qhull/src/libqhull_r/global_r.c#16 $$Change: 2066 $
+   $DateTime: 2016/01/18 19:29:17 $$Author: bbarber $
  */
 
 #include "qhull_ra.h"
@@ -39,8 +39,8 @@
     recompile user_eg_r.c, rbox_r.c, libqhull_r.c, qconvex_r.c, qdelaun_r.c qvoronoi_r.c, qhalf_r.c, testqset_r.c
 */
 
-const char qh_version[]= "2015.1.r 2016/01/03";
-const char qh_version2[]= "qhull_r 7.1.0 (2015.1.r 2016/01/03)";
+const char qh_version[]= "2015.2.r 2016/01/18";
+const char qh_version2[]= "qhull_r 7.2.0 (2015.2.r 2016/01/18)";
 
 /*-<a                             href="qh-globa_r.htm#TOC"
   >-------------------------------</a><a name="appendprint">-</a>
@@ -414,7 +414,7 @@ void qh_freebuild(qhT *qh, boolT allmem) {
 
   free global memory and set qhT to 0
   if !allmem,
-    does not free short memory (freed by qh_memfreeshort)
+    does not free short memory (freed by qh_memfreeshort unless qh_NOmem)
 
 notes:
   sets qh.NOerrexit in case caller forgets to
@@ -2000,6 +2000,17 @@ void qh_initthresholds(qhT *qh, char *command) {
 */
 void qh_lib_check(int qhullLibraryType, int qhTsize, int vertexTsize, int ridgeTsize, int facetTsize, int setTsize, int qhmemTsize) {
     boolT iserror= False;
+
+#if defined(_MSC_VER) && defined(_DEBUG) && defined(QHULL_CRTDBG)  /* user_r.h */
+    // _CrtSetBreakAlloc(744);  /* Break at memalloc {744}, or 'watch' _crtBreakAlloc */
+    _CrtSetDbgFlag( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_DELAY_FREE_MEM_DF | _CRTDBG_LEAK_CHECK_DF | _CrtSetDbgFlag(_CRTDBG_REPORT_FLAG) );
+    _CrtSetReportMode( _CRT_ERROR, _CRTDBG_MODE_FILE | _CRTDBG_MODE_DEBUG );
+    _CrtSetReportFile( _CRT_ERROR, _CRTDBG_FILE_STDERR );
+    _CrtSetReportMode( _CRT_WARN, _CRTDBG_MODE_FILE | _CRTDBG_MODE_DEBUG );
+    _CrtSetReportFile( _CRT_WARN, _CRTDBG_FILE_STDERR );
+    _CrtSetReportMode( _CRT_ASSERT, _CRTDBG_MODE_FILE | _CRTDBG_MODE_DEBUG );
+    _CrtSetReportFile( _CRT_ASSERT, _CRTDBG_FILE_STDERR );
+#endif
 
     if (qhullLibraryType==QHULL_NON_REENTRANT) { /* 0 */
         qh_fprintf_stderr(6257, "qh_lib_check: Incorrect qhull library called.  Caller uses non-reentrant Qhull with a static qhT.  Library is reentrant.\n");

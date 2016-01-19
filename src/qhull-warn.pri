@@ -7,7 +7,7 @@
 # -------------------------------------------------
 
 # [apr'11] VERSION works erratically for msvc builds
-# VERSION = 7.1.0
+# VERSION = 7.2.0
 qhull_SOVERSION = 7
 
 # Uncomment to report warnings as errors

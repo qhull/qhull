@@ -1,17 +1,18 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2015/qhull/src/libqhullcpp/QhullRidge.cpp#1 $$Change: 1981 $
-** $DateTime: 2015/09/28 20:26:32 $$Author: bbarber $
+** $Id: //main/2015/qhull/src/libqhullcpp/QhullRidge.cpp#3 $$Change: 2066 $
+** $DateTime: 2016/01/18 19:29:17 $$Author: bbarber $
 **
 ****************************************************************************/
 
 #//! QhullRidge -- Qhull's ridge structure, ridgeT, as a C++ class
 
-#include "QhullSets.h"
-#include "QhullVertex.h"
-#include "QhullRidge.h"
-#include "Qhull.h"
+#include "libqhullcpp/QhullRidge.h"
+
+#include "libqhullcpp/QhullSets.h"
+#include "libqhullcpp/QhullVertex.h"
+#include "libqhullcpp/Qhull.h"
 
 #ifdef _MSC_VER  // Microsoft Visual C++ -- warning level 4
 #pragma warning( disable : 4611)  // interaction between '_setjmp' and C++ object destruction is non-portable

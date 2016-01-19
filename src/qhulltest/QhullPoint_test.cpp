@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2015/qhull/src/qhulltest/QhullPoint_test.cpp#1 $$Change: 1981 $
-** $DateTime: 2015/09/28 20:26:32 $$Author: bbarber $
+** $Id: //main/2015/qhull/src/qhulltest/QhullPoint_test.cpp#3 $$Change: 2062 $
+** $DateTime: 2016/01/17 13:13:18 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -50,7 +50,7 @@ private slots:
 void
 add_QhullPoint_test()
 {
-    new QhullPoint_test();
+    new QhullPoint_test();  // RoadTest::s_testcases
 }
 
 //Executed after each test
@@ -108,7 +108,6 @@ t_construct()
 
     QhullPoint p5= p2; // copy constructor
     QVERIFY(p5==p2);
-    q.checkAndFreeQhullMemory();
 }//t_construct
 
 void QhullPoint_test::
@@ -128,7 +127,6 @@ t_convert()
     for(int k=3; k--; ){
         QCOMPARE(qs[k], p[k]);
     }
-    q.checkAndFreeQhullMemory();
 }//t_convert
 
 void QhullPoint_test::
@@ -158,7 +156,6 @@ t_readonly()
         QhullPoint p3= vs.last().point();
         QVERIFY(p2!=p3);
         QVERIFY(p3.coordinates()!=p2.coordinates());
-        q.checkAndFreeQhullMemory();
     }
 }//t_readonly
 
@@ -197,7 +194,6 @@ t_define()
         p6.setDimension(2);
         QCOMPARE(p6.dimension(), 2);
         QVERIFY(p2!=p6);
-        q.checkAndFreeQhullMemory();
     }
 }//t_define
 
@@ -216,7 +212,6 @@ t_operator()
     QhullPoint p2= q.firstVertex().point();
     p2[0]= 10.0;  // Overwrites point coordinate
     QCOMPARE(p2[0], 10.0);
-    q.checkAndFreeQhullMemory();
 }//t_operator
 
 void QhullPoint_test::
@@ -298,7 +293,6 @@ t_iterator()
         //p.begin end tested above
 
         // QhullPoint is const-only
-        q.checkAndFreeQhullMemory();
     }
 }//t_iterator
 
@@ -357,7 +351,6 @@ t_const_iterator()
         QCOMPARE(i2-i, 3);
 
         // QhullPoint is const-only
-        q.checkAndFreeQhullMemory();
     }
 }//t_const_iterator
 
@@ -407,7 +400,6 @@ t_qhullpoint_iterator()
     QVERIFY(!i.hasNext());
     i.toFront();
     QCOMPARE(i.next(), p[0]);
-    q.checkAndFreeQhullMemory();
 }//t_qhullpoint_iterator
 
 void QhullPoint_test::
@@ -419,7 +411,6 @@ t_method()
     QhullPoint p = q.firstVertex().point();
     double dist= p.distance(q.origin());
     QCOMPARE(dist, sqrt(double(2.0+1.0))/2); // half diagonal of unit cube
-    q.checkAndFreeQhullMemory();
 }//t_qhullpoint_iterator
 
 void QhullPoint_test::
@@ -438,7 +429,6 @@ t_io()
         cout << os.str();
         QString s= QString::fromStdString(os.str());
         QCOMPARE(s.count("p"), 2);
-        q.checkAndFreeQhullMemory();
     }
 }//t_io
 

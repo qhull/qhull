@@ -1,53 +1,56 @@
 # Simple gcc Makefile for reentrant qhull and rbox (default gcc/g++)
 #
-#       see README.txt  
+#   make help
+#   See README.txt and ../../Makefile
 #       
+# Variables
+#   BINDIR         directory where to copy executables
+#   DESTDIR        destination directory for 'make install'
+#   DOCDIR         directory where to copy html documentation
+#   INCDIR         directory where to copy headers
+#   LIBDIR         directory where to copy libraries
+#   MANDIR         directory where to copy manual pages
+#   PRINTMAN       command for printing manual pages
+#   PRINTC         command for printing C files
+#   CC             ANSI C or C++ compiler
+#   CC_OPTS1       options used to compile .c files
+#   CC_OPTS2       options used to link .o files
+#   CC_OPTS3       options to build shared libraries
+#
+#   LIBQHULL_OBJS  .o files for linking
+#   LIBQHULL_HDRS  .h files for printing
+#   CFILES         .c files for printing
+#   DOCFILES       documentation files
+#   FILES          miscellaneous files for printing
+#   TFILES         .txt versions of html files
+#   FILES          all other files
+#   LIBQHULL_OBJS  specifies the object files of libqhullstatic_r.a
+#
 # Results
-#	qhull 	  	Computes convex hulls and related structures
-#       qconvex, qdelaunay, qhalf, qvoronoi
-#                     	Specializations of qhull for each geometric structure
-#	rbox 	      	Input generator for qhull, qconvex, etc.
-#	user_eg	      	An example of using qhull (reentrant)
-#       user_eg2  	An example of using qhull (reentrant)
-#       testqset_r  	Standalone test of reentrant qset_r.c with mem_r.c
-#       libqhullstatic_r.a Static library for reentrant qhull
+#   rbox           Generates points sets for qhull, qconvex, etc.
+#   qhull          Computes convex hulls and related structures
+#   qconvex, qdelaunay, qhalf, qvoronoi
+#                  Specializations of qhull for each geometric structure
+#   libqhullstatic_r.a Static library for reentrant qhull
+#   testqset_r     Standalone test of reentrant qset_r.c with mem_r.c
+#   user_eg        An example of using qhull (reentrant)
+#   user_eg2       An example of using qhull (reentrant)
 #
 # Make targets
-#       make             Produce all of the results
-#       make help        Help message
-#       make test        Quck test of qhull, qconvex, etc.
-#       make qtest       Quick test of qset, rbox, and qhull
-#       make doc         Print documentation
-#       make install     Copy qhull, rbox, qhull.1, rbox_r.1 to BINDIR, MANDIR
-#       make new         Rebuild qhull and rbox from source
+#   make           Build results using gcc or another compiler
+#   make clean     Remove object files
+#   make cleanall  Remove generated files
+#   make doc       Print documentation
+#   make help
+#   make install   Copy qhull, rbox, qhull.1, rbox.1 to BINDIR, MANDIR
+#   make new       Rebuild qhull and rbox from source
+#   make printall  Print all files
+#   make qtest     Quick test of qset, rbox, and qhull
+#   make test      Quck test of qhull, qconvex, etc.
 #
-#       make printall    Print all files
-#       make clean       Remove object files
-#       make cleanall    Remove generated files
-#
-#       BINDIR           directory where to copy executables
-#       DESTDIR          destination directory for 'make install'
-#       DOCDIR           directory where to copy html documentation
-#       INCDIR           directory where to copy headers
-#       LIBDIR           directory where to copy libraries
-#       MANDIR           directory where to copy manual pages
-#       PRINTMAN         command for printing manual pages
-#       PRINTC           command for printing C files
-#       CC               ANSI C or C++ compiler
-#       CC_OPTS1         options used to compile .c files
-#       CC_OPTS2         options used to link .o files
-#       CC_OPTS3         options to build shared libraries
-#
-#       LIBQHULL_OBJS    .o files for linking
-#       LIBQHULL_HDRS    .h files for printing
-#       CFILES           .c files for printing
-#       DOCFILES         documentation files
-#       FILES            miscellaneous files for printing
-#       TFILES           .txt versions of html files
-#       FILES            all other files
-#       LIBQHULL_OBJS    specifies the object files of libqhullstatic_r.a
-#
-# Do not replace tabs with spaces.  Needed by 'make' for build rules
+# Do not replace tabs with spaces.  Needed for build rules
+# Unix line endings (\n)
+# $Id: //main/2015/qhull/src/libqhull_r/Makefile#6 $
 
 DESTDIR = /usr/local
 BINDIR	= $(DESTDIR)/bin
@@ -83,11 +86,11 @@ CC_OPTS1  = -O3 -ansi -I../../src -fpic $(CC_WARNINGS)
 CC_OPTS2 = $(CC_OPTS1)
 
 # Default targets for make
-     
+
 all: qhull_links qhull_all qtest
 
 help:
-	head -n 52 Makefile
+	head -n 50 Makefile
 
 clean:
 	rm -f *.o 
@@ -190,6 +193,16 @@ qtest:
 	./testqset_r 10000
 	@echo Run the qhull smoketest
 	./rbox D4 | ./qhull
+	@echo ============================================
+	@echo == To smoketest qhull programs
+	@echo '==     make test'
+	@echo ============================================
+	@echo
+	@echo ============================================
+	@echo == For all make targets
+	@echo '==     make help'
+	@echo ============================================
+	@echo
 
 test: qtest
 	@echo ==============================

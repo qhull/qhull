@@ -1,18 +1,19 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2015/qhull/src/libqhullcpp/QhullVertex.cpp#1 $$Change: 1981 $
-** $DateTime: 2015/09/28 20:26:32 $$Author: bbarber $
+** $Id: //main/2015/qhull/src/libqhullcpp/QhullVertex.cpp#3 $$Change: 2066 $
+** $DateTime: 2016/01/18 19:29:17 $$Author: bbarber $
 **
 ****************************************************************************/
 
 #//! QhullVertex -- Qhull's vertex structure, vertexT, as a C++ class
 
-#include "Qhull.h"
-#include "QhullPoint.h"
-#include "QhullFacetSet.h"
-#include "QhullVertex.h"
-#include "QhullFacet.h"
+#include "libqhullcpp/QhullVertex.h"
+
+#include "libqhullcpp/Qhull.h"
+#include "libqhullcpp/QhullPoint.h"
+#include "libqhullcpp/QhullFacetSet.h"
+#include "libqhullcpp/QhullFacet.h"
 
 #ifdef _MSC_VER  // Microsoft Visual C++ -- warning level 4
 #pragma warning( disable : 4611)  // interaction between '_setjmp' and C++ object destruction is non-portable

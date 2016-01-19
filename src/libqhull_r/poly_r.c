@@ -10,8 +10,8 @@
    (all but top 50 and their callers 12/3/95)
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull_r/poly_r.c#1 $$Change: 1981 $
-   $DateTime: 2015/09/28 20:26:32 $$Author: bbarber $
+   $Id: //main/2015/qhull/src/libqhull_r/poly_r.c#3 $$Change: 2064 $
+   $DateTime: 2016/01/18 12:36:08 $$Author: bbarber $
 */
 
 #include "qhull_ra.h"
@@ -255,7 +255,7 @@ void qh_delfacet(qhT *qh, facetT *facet) {
   qh_removefacet(qh, facet);
   if (!facet->tricoplanar || facet->keepcentrum) {
     qh_memfree_(qh, facet->normal, qh->normal_size, freelistp);
-    if (qh->CENTERtype == qh_ASvoronoi) {   /* uses macro calls */
+    if (qh->CENTERtype == qh_ASvoronoi) {   /* braces for macro calls */
       qh_memfree_(qh, facet->center, qh->center_size, freelistp);
     }else /* AScentrum */ {
       qh_memfree_(qh, facet->center, qh->normal_size, freelistp);
@@ -1035,7 +1035,7 @@ qhull warning: more than 2^32 ridges.  Qhull results are OK.  Since the ridge ID
 /*-<a                             href="qh-poly_r.htm#TOC"
   >-------------------------------</a><a name="pointid">-</a>
 
-  qh_pointid(qh, point)
+  qh_pointid(qh, point )
     return id for a point,
     returns qh_IDnone(-3) if null, qh_IDinterior(-2) if interior, or qh_IDunknown(-1) if not known
 

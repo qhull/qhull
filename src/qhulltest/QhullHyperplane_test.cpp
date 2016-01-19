@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2009-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2015/qhull/src/qhulltest/QhullHyperplane_test.cpp#1 $$Change: 1981 $
-** $DateTime: 2015/09/28 20:26:32 $$Author: bbarber $
+** $Id: //main/2015/qhull/src/qhulltest/QhullHyperplane_test.cpp#4 $$Change: 2064 $
+** $DateTime: 2016/01/18 12:36:08 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -52,7 +52,7 @@ private slots:
 void
 add_QhullHyperplane_test()
 {
-    new QhullHyperplane_test();
+    new QhullHyperplane_test();  // RoadTest::s_testcases
 }
 
 //Executed after each testcase
@@ -85,7 +85,6 @@ t_construct()
     QCOMPARE(h2, h3);
     QhullHyperplane h5= h2; // copy constructor
     QVERIFY(h5==h2);
-    q.checkAndFreeQhullMemory();
 }//t_construct
 
 void QhullHyperplane_test::
@@ -103,7 +102,6 @@ t_construct_qh()
     QCOMPARE(h2, h3);
     QhullHyperplane h5= h2; // copy constructor
     QVERIFY(h5==h2);
-    q.checkAndFreeQhullMemory();
 }//t_construct_qh
 
 void QhullHyperplane_test::
@@ -126,7 +124,6 @@ t_convert()
     QCOMPARE(offset2, -0.5);
     double squareNorm2= std::inner_product(qs.begin(), qs.end(), qs.begin(), 0.0);
     QCOMPARE(squareNorm2, 1.0);
-    q.checkAndFreeQhullMemory();
 }//t_convert
 
 void QhullHyperplane_test::
@@ -159,7 +156,6 @@ t_readonly()
         QhullHyperplane h3= fs.last().hyperplane();
         QVERIFY(h2!=h3);
         QVERIFY(h3.coordinates()!=h2.coordinates());
-        q.checkAndFreeQhullMemory();
     }
 }//t_readonly
 
@@ -191,7 +187,6 @@ t_define()
         h6.setDimension(2);
         QCOMPARE(h6.dimension(), 2);
         QVERIFY(h2!=h6);
-        q.checkAndFreeQhullMemory();
     }
 }//t_define
 
@@ -213,7 +208,6 @@ t_value()
     QCOMPARE(angle+1.0, 1.0); // qFuzzyCompare does not work for 0.0
     QVERIFY(h==h);
     QVERIFY(h!=h2);
-    q.checkAndFreeQhullMemory();
 }//t_value
 
 void QhullHyperplane_test::
@@ -231,7 +225,6 @@ t_operator()
     QhullHyperplane h2= q.firstFacet().hyperplane();
     h2[0]= 10.0;  // Overwrites Hyperplane coordinate!
     QCOMPARE(h2[0], 10.0);
-    q.checkAndFreeQhullMemory();
 }//t_operator
 
 void QhullHyperplane_test::
@@ -312,7 +305,6 @@ t_iterator()
         //h.begin end tested above
 
         // QhullHyperplane is const-only
-        q.checkAndFreeQhullMemory();
     }
 }//t_iterator
 
@@ -371,7 +363,6 @@ t_const_iterator()
         QCOMPARE(i2-i, 3);
 
         // QhullHyperplane is const-only
-        q.checkAndFreeQhullMemory();
     }
 }//t_const_iterator
 
@@ -411,7 +402,6 @@ t_qhullHyperplane_iterator()
     QVERIFY(!i.hasNext());
     i.toFront();
     QCOMPARE(i.next(), h[0]);
-    q.checkAndFreeQhullMemory();
 }//t_qhullHyperplane_iterator
 
 void QhullHyperplane_test::
@@ -430,7 +420,6 @@ t_io()
         QString s= QString::fromStdString(os.str());
         QCOMPARE(s.count("1"), 3);
         // QCOMPARE(s.count(QRegExp("f\\d")), 3*7 + 13*3*2);
-        q.checkAndFreeQhullMemory();
     }
 }//t_io
 

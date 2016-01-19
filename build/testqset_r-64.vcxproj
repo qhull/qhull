@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGUID>{1AADC958-B9D5-40C3-9836-FE3F3BFB8B58}</ProjectGUID>
+    <ProjectGUID>{ACECEFF4-E332-4AD0-A89B-0D07A78FEA6A}</ProjectGUID>
     <Keyword>x64Proj</Keyword>
     <Platform>x64</Platform>
     <ProjectName>testqset_r</ProjectName>

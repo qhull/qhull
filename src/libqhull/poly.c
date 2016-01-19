@@ -10,8 +10,8 @@
    (all but top 50 and their callers 12/3/95)
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull/poly.c#1 $$Change: 1981 $
-   $DateTime: 2015/09/28 20:26:32 $$Author: bbarber $
+   $Id: //main/2015/qhull/src/libqhull/poly.c#3 $$Change: 2064 $
+   $DateTime: 2016/01/18 12:36:08 $$Author: bbarber $
 */
 
 #include "qhull_a.h"
@@ -255,7 +255,7 @@ void qh_delfacet(facetT *facet) {
   qh_removefacet(facet);
   if (!facet->tricoplanar || facet->keepcentrum) {
     qh_memfree_(facet->normal, qh normal_size, freelistp);
-    if (qh CENTERtype == qh_ASvoronoi) {   /* uses macro calls */
+    if (qh CENTERtype == qh_ASvoronoi) {   /* braces for macro calls */
       qh_memfree_(facet->center, qh center_size, freelistp);
     }else /* AScentrum */ {
       qh_memfree_(facet->center, qh normal_size, freelistp);
@@ -1024,7 +1024,7 @@ ridgeT *qh_newridge(void) {
   zinc_(Ztotridges);
   if (qh ridge_id == UINT_MAX) {
     qh_fprintf(qh ferr, 7074, "\
-qhull warning: more than 2^32 ridges.  Qhull results are OK.  The ridge ID wraps around to 0.  Two ridges may have the same identifier.\n");
+qhull warning: more than 2^32 ridges.  Qhull results are OK.  Since the ridge ID wraps around to 0, two ridges may have the same identifier.\n");
   }
   ridge->id= qh ridge_id++;
   trace4((qh ferr, 4056, "qh_newridge: created ridge r%d\n", ridge->id));
@@ -1035,11 +1035,11 @@ qhull warning: more than 2^32 ridges.  Qhull results are OK.  The ridge ID wraps
 /*-<a                             href="qh-poly.htm#TOC"
   >-------------------------------</a><a name="pointid">-</a>
 
-  qh_pointid(  )
+  qh_pointid(  point )
     return id for a point,
     returns qh_IDnone(-3) if null, qh_IDinterior(-2) if interior, or qh_IDunknown(-1) if not known
 
-  alternative code:
+  alternative code if point is in qh.first_point...
     unsigned long id;
     id= ((unsigned long)point - (unsigned long)qh.first_point)/qh.normal_size;
 

@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2015/qhull/src/qhulltest/RoadTest.h#1 $$Change: 1981 $
-** $Date: 2015/09/28 $$Author: bbarber $
+** $Id: //main/2015/qhull/src/qhulltest/RoadTest.h#2 $$Change: 2062 $
+** $Date: 2016/01/17 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -45,7 +45,7 @@ private slots:
 void
 add_Name_test()
 {
-    new Name_test();
+    new Name_test();  // RoadTest::s_testcases
 }
 
 Send additional output to cout
@@ -69,14 +69,15 @@ public slots:
 
 public:
 #//!\name Constructors, etc.
-    RoadTest()  { s_testcases.append(this); }
-    ~RoadTest() { s_testcases.removeAll(this); }
+                        RoadTest()  { s_testcases.append(this); }
+    virtual             ~RoadTest() {} // Derived from QObject
 
 #//!\name Helper
     void                recordFailedTest();
 
 
 #//!\name Class functions
+    static void         deleteTests();
     static int          runTests(QStringList arguments);
 
 };//RoadTest

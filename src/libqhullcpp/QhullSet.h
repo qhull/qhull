@@ -1,19 +1,19 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2015/qhull/src/libqhullcpp/QhullSet.h#2 $$Change: 2027 $
-** $DateTime: 2015/11/09 23:18:11 $$Author: bbarber $
+** $Id: //main/2015/qhull/src/libqhullcpp/QhullSet.h#5 $$Change: 2066 $
+** $DateTime: 2016/01/18 19:29:17 $$Author: bbarber $
 **
 ****************************************************************************/
 
 #ifndef QhullSet_H
 #define QhullSet_H
 
-#include "QhullError.h"
-#include "QhullQh.h"
 extern "C" {
     #include "libqhull_r/qhull_ra.h"
 }
+#include "libqhullcpp/QhullError.h"
+#include "libqhullcpp/QhullQh.h"
 
 #include <cstddef>  // ptrdiff_t, size_t
 
@@ -191,7 +191,7 @@ public:
     class iterator {
         friend class const_iterator;
     private:
-        typename T::base_type *  i;  // First for debugger
+        typename T::base_type *  i;  // e.g., facetT**, first for debugger
         QhullQh *       qh_qh;
 
     public:
@@ -237,7 +237,7 @@ public:
 
     class const_iterator {
     private:
-        const typename T::base_type *  i;  // First for debugger
+        const typename T::base_type *  i;  // e.g., const facetT**, first for debugger
         QhullQh *       qh_qh;
 
     public:
@@ -287,7 +287,7 @@ class QhullSetIterator {
 
 private:
 #//!\name Fields
-    const typename T::base_type *  i;  // First for debugger
+    const typename T::base_type *  i;  // e.g., facetT**, first for debugger
     const typename T::base_type *  begin_i;  // must be initialized after i
     const typename T::base_type *  end_i;
     QhullQh *                qh_qh;

@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2006-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2015/qhull/src/qhulltest/RboxPoints_test.cpp#1 $$Change: 1981 $
-** $DateTime: 2015/09/28 20:26:32 $$Author: bbarber $
+** $Id: //main/2015/qhull/src/qhulltest/RboxPoints_test.cpp#2 $$Change: 2062 $
+** $DateTime: 2016/01/17 13:13:18 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -41,7 +41,7 @@ private slots:
 void
 add_RboxPoints_test()
 {
-    new RboxPoints_test();
+    new RboxPoints_test();  // RoadTest::s_testcases
 }
 
 void RboxPoints_test::

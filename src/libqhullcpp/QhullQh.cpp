@@ -1,19 +1,18 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2015/qhull/src/libqhullcpp/QhullQh.cpp#2 $$Change: 2010 $
-** $DateTime: 2015/10/19 22:23:22 $$Author: bbarber $
+** $Id: //main/2015/qhull/src/libqhullcpp/QhullQh.cpp#5 $$Change: 2066 $
+** $DateTime: 2016/01/18 19:29:17 $$Author: bbarber $
 **
 ****************************************************************************/
 
 #//! QhullQh -- Qhull's global data structure, qhT, as a C++ class
 
 
+#include "libqhullcpp/QhullQh.h"
 
-#include "QhullError.h"
-#include "QhullQh.h"
-#include "QhullStat.h"
-// #include "Qhull.h"
+#include "libqhullcpp/QhullError.h"
+#include "libqhullcpp/QhullStat.h"
 
 #include <sstream>
 #include <iostream>
@@ -58,7 +57,7 @@ QhullQh()
 QhullQh::
 ~QhullQh()
 {
-    qh_freeqhull(this, qh_ALL); // sets qh.NOerrexit. Clears struct *qh_qh including run_id
+    checkAndFreeQhullMemory();
 }//~QhullQh
 
 #//!\name Methods

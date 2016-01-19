@@ -8,8 +8,8 @@
    see qh-geom.htm and geom.h
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull/geom2.c#3 $$Change: 2044 $
-   $DateTime: 2016/01/03 20:43:44 $$Author: bbarber $
+   $Id: //main/2015/qhull/src/libqhull/geom2.c#6 $$Change: 2065 $
+   $DateTime: 2016/01/18 13:51:04 $$Author: bbarber $
 
    frequently used code goes into geom.c
 */
@@ -23,6 +23,8 @@
 
   qh_copypoints( points, numpoints, dimension)
     return qh_malloc'd copy of points
+  notes:
+    qh_free the returned points to avoid a memory leak
 */
 coordT *qh_copypoints(coordT *points, int numpoints, int dimension) {
   int size;
@@ -1423,12 +1425,12 @@ void qh_projectinput(void) {
   int k,i;
   int newdim= qh input_dim, newnum= qh num_points;
   signed char *project;
-  int size= (qh input_dim+1)*sizeof(*project);
+  int projectsize= (qh input_dim+1)*sizeof(*project);
   pointT *newpoints, *coord, *infinity;
   realT paraboloid, maxboloid= 0;
 
-  project= (signed char*)qh_memalloc(size);
-  memset((char*)project, 0, (size_t)size);
+  project= (signed char*)qh_memalloc(projectsize);
+  memset((char*)project, 0, (size_t)projectsize);
   for (k=0; k < qh input_dim; k++) {   /* skip Delaunay bound */
     if (qh lower_bound[k] == 0 && qh upper_bound[k] == 0) {
       project[k]= -1;
@@ -1442,14 +1444,17 @@ void qh_projectinput(void) {
       newnum++;
   }
   if (newdim != qh hull_dim) {
+    qh_memfree(project, projectsize);
     qh_fprintf(qh ferr, 6015, "qhull internal error (qh_projectinput): dimension after projection %d != hull_dim %d\n", newdim, qh hull_dim);
     qh_errexit(qh_ERRqhull, NULL, NULL);
   }
-  if (!(newpoints=(coordT*)qh_malloc(newnum*newdim*sizeof(coordT)))){
+  if (!(newpoints= qh temp_malloc= (coordT*)qh_malloc(newnum*newdim*sizeof(coordT)))){
+    qh_memfree(project, projectsize);
     qh_fprintf(qh ferr, 6016, "qhull error: insufficient memory to project %d points\n",
            qh num_points);
     qh_errexit(qh_ERRmem, NULL, NULL);
   }
+  /* qh_projectpoints throws error if mismatched dimensions */
   qh_projectpoints(project, qh input_dim+1, qh first_point,
                     qh num_points, qh input_dim, newpoints, newdim);
   trace1((qh ferr, 1003, "qh_projectinput: updating lower and upper_bound\n"));
@@ -1459,17 +1464,19 @@ void qh_projectinput(void) {
                     1, qh input_dim+1, qh upper_bound, newdim+1);
   if (qh HALFspace) {
     if (!qh feasible_point) {
+      qh_memfree(project, projectsize);
       qh_fprintf(qh ferr, 6017, "qhull internal error (qh_projectinput): HALFspace defined without qh.feasible_point\n");
       qh_errexit(qh_ERRqhull, NULL, NULL);
     }
     qh_projectpoints(project, qh input_dim, qh feasible_point,
                       1, qh input_dim, qh feasible_point, newdim);
   }
-  qh_memfree(project, (qh input_dim+1)*sizeof(*project));
+  qh_memfree(project, projectsize);
   if (qh POINTSmalloc)
     qh_free(qh first_point);
   qh first_point= newpoints;
   qh POINTSmalloc= True;
+  qh temp_malloc= NULL;
   if (qh DELAUNAY && qh ATinfinity) {
     coord= qh first_point;
     infinity= qh first_point + qh hull_dim * qh num_points;
@@ -1825,9 +1832,10 @@ void qh_setdelaunay(int dim, int count, pointT *points) {
     halfspace is normal coefficients and offset.
 
   returns:
-    false if feasible point is outside of hull (error message already reported)
+    false and prints error if feasible point is outside of hull
     overwrites coordinates for point at dim coords
     nextp= next point (coords)
+    does not call qh_errexit
 
   design:
     compute distance from feasible point to halfspace
@@ -1892,15 +1900,17 @@ LABELerroroutside:
     array of count halfspaces
       each halfspace is normal coefficients followed by offset
       the origin is inside the halfspace if the offset is negative
+    feasible is a point inside all halfspaces (http://www.qhull.org/html/qhalf.htm#notes)
 
   returns:
     malloc'd array of count X dim-1 points
 
   notes:
     call before qh_init_B or qh_initqhull_globals
+    free memory when done
     unused/untested code: please email bradb@shore.net if this works ok for you
-    If using option 'Fp', also set qh feasible_point. It is a malloc'd array
-      that is freed by qh_freebuffers.
+    if using option 'Fp', qh->feasible_point must be set (e.g., to 'feasible')
+    qh->feasible_point is a malloc'd array that is freed by qh_freebuffers.
 
   design:
     see qh_sethalfspace
@@ -1922,6 +1932,7 @@ coordT *qh_sethalfspace_all(int dim, int count, coordT *halfspaces, pointT *feas
   for (i=0; i < count; i++) {
     offsetp= normalp + newdim;
     if (!qh_sethalfspace(newdim, coordp, &coordp, normalp, offsetp, feasible)) {
+      qh_free(newpoints);  /* feasible is not inside halfspace as reported by qh_sethalfspace */
       qh_fprintf(qh ferr, 8032, "The halfspace was at index %d\n", i);
       qh_errexit(qh_ERRinput, NULL, NULL);
     }
@@ -1947,7 +1958,7 @@ coordT *qh_sethalfspace_all(int dim, int count, coordT *halfspaces, pointT *feas
       if two facets are in different quadrants
         set issharp
 */
-boolT qh_sharpnewfacets() {
+boolT qh_sharpnewfacets(void) {
   facetT *facet;
   boolT issharp = False;
   int *quadrant, k;
@@ -1982,11 +1993,12 @@ boolT qh_sharpnewfacets() {
     gh.gm_matrix/qh.gm_row are scratch buffers
 
   returns:
-    center as a temporary point
+    center as a temporary point (qh_memalloc)
     if non-simplicial,
       returns center for max simplex of points
 
   notes:
+    only called by qh_facetcenter
     from Bowyer & Woodwark, A Programmer's Geometry, 1983, p. 65
 
   design:
@@ -2009,6 +2021,7 @@ pointT *qh_voronoi_center(int dim, setT *points) {
   if (size == dim+1)
     simplex= points;
   else if (size < dim+1) {
+    qh_memfree(center, qh center_size);
     qh_fprintf(qh ferr, 6025, "qhull internal error (qh_voronoi_center):\n  need at least %d points to construct a Voronoi center\n",
              dim+1);
     qh_errexit(qh_ERRqhull, NULL, NULL);

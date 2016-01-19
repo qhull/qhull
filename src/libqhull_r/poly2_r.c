@@ -9,8 +9,8 @@
    frequently used code is in poly_r.c
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull_r/poly2_r.c#6 $$Change: 2047 $
-   $DateTime: 2016/01/04 22:03:18 $$Author: bbarber $
+   $Id: //main/2015/qhull/src/libqhull_r/poly2_r.c#10 $$Change: 2069 $
+   $DateTime: 2016/01/18 22:05:03 $$Author: bbarber $
 */
 
 #include "qhull_ra.h"
@@ -172,7 +172,7 @@ void qh_check_dupridge(qhT *qh, facetT *facet1, realT dist1, facetT *facet2, rea
     qh_fprintf(qh, qh->ferr, 6271, "qhull precision error (qh_check_dupridge): wide merge (%.0f times wider) due to duplicate ridge with nearly coincident points (%2.2g) between f%d and f%d, merge dist %2.2g, while processing p%d\n- Ignore error with option 'Q12'\n- To be fixed in a later version of Qhull\n",
           ratio, minvertex, facet1->id, facet2->id, mergedist, qh->furthest_id);
     if (qh->DELAUNAY)
-      qh_fprintf(qh, qh->ferr, 8145, "- A simple workaround is to add a bounding box to the input sites\n");
+      qh_fprintf(qh, qh->ferr, 8145, "- A bounding box for the input sites may alleviate this error.\n");
     if(minvertex > qh_WIDEduplicate*prevdist)
       qh_fprintf(qh, qh->ferr, 8146, "- Vertex distance %2.2g is greater than %d times maximum distance %2.2g\n  Please report to bradb@shore.net with steps to reproduce and all output\n",
           minvertex, qh_WIDEduplicate, prevdist);
@@ -1043,7 +1043,7 @@ void qh_clearcenters(qhT *qh, qh_CENTER type) {
   if (qh->CENTERtype != type) {
     FORALLfacets {
       if (facet->tricoplanar && !facet->keepcentrum)
-          facet->center= NULL;
+          facet->center= NULL;  /* center is owned by the ->keepcentrum facet */
       else if (qh->CENTERtype == qh_ASvoronoi){
         if (facet->center) {
           qh_memfree(qh, facet->center, qh->center_size);
@@ -2333,6 +2333,7 @@ vertexT *qh_newvertex(qhT *qh, pointT *point) {
   vertex= (vertexT *)qh_memalloc(qh, (int)sizeof(vertexT));
   memset((char *) vertex, (size_t)0, sizeof(vertexT));
   if (qh->vertex_id == UINT_MAX) {
+    qh_memfree(qh, vertex, (int)sizeof(vertexT));
     qh_fprintf(qh, qh->ferr, 6159, "qhull error: more than 2^32 vertices.  vertexT.id field overflows.  Vertices would not be sorted correctly.\n");
     qh_errexit(qh, qh_ERRqhull, NULL, NULL);
   }
@@ -2918,7 +2919,7 @@ void qh_triangulate(qhT *qh /*qh.facet_list*/) {
 /*-<a                             href="qh-poly_r.htm#TOC"
   >-------------------------------</a><a name="triangulate_facet">-</a>
 
-  qh_triangulate_facet(qh, facetA)
+  qh_triangulate_facet(qh, facetA, &firstVertex )
     triangulate a non-simplicial facet
       if qh.CENTERtype=qh_ASvoronoi, sets its Voronoi center
   returns:
@@ -2931,7 +2932,12 @@ void qh_triangulate(qhT *qh /*qh.facet_list*/) {
       facet->normal,offset,maxoutside copied from facetA
 
   notes:
+      only called by qh_triangulate
       qh_makenew_nonsimplicial uses neighbor->seen for the same
+      if qh.TRInormals, newfacet->normal will need qh_free
+        if qh.TRInormals and qh_AScentrum, newfacet->center will need qh_free
+        keepcentrum is also set on Zwidefacet in qh_mergefacet
+        freed by qh_clearcenters
 
   see also:
       qh_addpoint() -- add a point
@@ -2975,15 +2981,21 @@ void qh_triangulate_facet(qhT *qh, facetT *facetA, vertexT **first_vertex) {
     newfacet->degenerate= False;
     newfacet->upperdelaunay= facetA->upperdelaunay;
     newfacet->good= facetA->good;
-    if (qh->TRInormals) {
+    if (qh->TRInormals) { /* 'Q11' triangulate duplicates ->normal and ->center */
       newfacet->keepcentrum= True;
-      newfacet->normal= qh_copypoints(qh, facetA->normal, 1, qh->hull_dim);
+      if(facetA->normal){
+        newfacet->normal= qh_memalloc(qh, qh->normal_size);
+        memcpy((char *)newfacet->normal, facetA->normal, qh->normal_size);
+      }
       if (qh->CENTERtype == qh_AScentrum)
         newfacet->center= qh_getcentrum(qh, newfacet);
-      else
-        newfacet->center= qh_copypoints(qh, facetA->center, 1, qh->hull_dim);
+      else if (qh->CENTERtype == qh_ASvoronoi && facetA->center){
+        newfacet->center= qh_memalloc(qh, qh->center_size);
+        memcpy((char *)newfacet->center, facetA->center, qh->center_size);
+      }
     }else {
       newfacet->keepcentrum= False;
+      /* one facet will have keepcentrum=True at end of qh_triangulate */
       newfacet->normal= facetA->normal;
       newfacet->center= facetA->center;
     }

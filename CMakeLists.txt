@@ -27,6 +27,10 @@
 #   Double click build-cmake/qhull-all.sln
 #   Build INSTALL to copy files into C:/Program Files/qhull
 #
+# Additional build targets
+#   qhullp -- Same as qhull using qh_QHpointer and deprecated libqhull_p
+#   user_egp -- Same as user_eg using qh_QHpointer and deprecated libqhull_p
+#
 # Notes on Visual Studio projects
 #   You may need to copy bin/msvcr80.dll into C:/Program Files/qhull/bin
 #   If using library debug targets, please rename with '_d' (e.g., qhullstatic_d.lib)
@@ -43,6 +47,7 @@
 # For qhulltest, use the Qt build (src/qhull-all.pro)
 #
 # Qhull ships with cmake-derived sln and proj files for DevStudio 8 2005
+#   See eg/make-vcproj.sh
 #   Change to relative paths
 #   Remove ZERO_CHECK, ALL_BUILD, and INSTALL projects
 #   Change targets to bin/ and lib/ directories
@@ -52,15 +57,15 @@
 #   Remove CMAKE_INTDIR from PreprocessorDefinitions
 #   Adjust target names and destinations (e.g., lib/libqhullstatic_rd.a)
 #  
-# $Id: //main/2015/qhull/CMakeLists.txt#7 $$Change: 2044 $
-# $DateTime: 2016/01/03 20:43:44 $$Author: bbarber $
+# $Id: //main/2015/qhull/CMakeLists.txt#8 $$Change: 2066 $
+# $DateTime: 2016/01/18 19:29:17 $$Author: bbarber $
 
 project(qhull)
 cmake_minimum_required(VERSION 2.6)
 
 # Define qhull_VERSION in CMakeLists.txt, Makefile, qhull-exports.def, qhull_p-exports.def, qhull_r-exports.def, qhull-warn.pri
-set(qhull_VERSION2 "2015.1 2016/01/03")  # not used, See global.c, global_r.c, rbox.c, rbox_r.c
-set(qhull_VERSION     "7.1.0")  # Advance every release
+set(qhull_VERSION2 "2015.2 2016/01/18")  # not used, See global.c, global_r.c, rbox.c, rbox_r.c
+set(qhull_VERSION     "7.2.0")  # Advance every release
 
 # SOVERSION -- qhull 2003 = empty, 2009 = 5, 2010-2012 = 6, 2015 (reentrant) = 7
 set(qhull_SOVERSION 7) # For SOVERSION 
@@ -345,11 +350,11 @@ set(
     qhull_TARGETS_INSTALL
         ${qhull_CPP} ${qhull_STATIC} ${qhull_STATICR} ${qhull_SHAREDR}
         qhull rbox qconvex qdelaunay qvoronoi qhalf
-        ${qhull_SHARED} ${qhull_SHAREDP}  # Deprecated, remains in use as libqhull6
+        ${qhull_SHARED} ${qhull_SHAREDP}  # Deprecated, use qhull_r instead
 )
 set(
     qhull_TARGETS_TEST   # Unused
-        user_eg user_eg2 user_eg3 testqset testqset_r
+        user_eg user_eg2 user_eg3 user_egp testqset testqset_r
 )
 
 # ---------------------------------------
@@ -496,10 +501,14 @@ if(MSVC)
     set(user_eg_DEFINES qh_dllimport)
     set(user_eg2_DEFINES qh_dllimport)
     set(user_eg3_DEFINES qh_dllimport)
+    set(user_egp_DEFINES qh_QHpointer_dllimport qh_QHpointer)
+    set(qhullp_DEFINES qh_QHpointer_dllimport qh_QHpointer)
 else()
     set(user_eg_DEFINES )
     set(user_eg2_DEFINES )
     set(user_eg3_DEFINES )
+    set(user_egp_DEFINES )
+    set(qhullp_DEFINES )
 endif()
 
 # ---------------------------------------
@@ -544,6 +553,30 @@ add_executable(user_eg3 ${user_eg3_SOURCES})
 # qhull_STATICR must be last, otherwise qh_fprintf,etc. are not loaded from qhull_CPP
 # user_eg3 may be linked to qhull_SHAREDR if user_eg3_DEFINES is added
 target_link_libraries(user_eg3 ${qhull_CPP} ${qhull_STATICR})
+
+# ---------------------------------------
+# qhullp is qhull/unix.c linked to deprecated qh_QHpointer libqhull_p
+# Included for testing qh_QHpointer 
+# ---------------------------------------
+
+set(qhullp_SOURCES     src/qhull/unix.c)
+
+add_executable(qhullp EXCLUDE_FROM_ALL ${qhullp_SOURCES})
+target_link_libraries(qhullp ${qhull_SHAREDP})
+set_target_properties(qhullp PROPERTIES
+    COMPILE_DEFINITIONS "${qhullp_DEFINES}")
+
+# ---------------------------------------
+# user_egp is user_eg/user_eg.c linked to deprecated qh_QHpointer libqhull_p
+# Included for compatibility with qhull-2012.1 
+# ---------------------------------------
+
+set(user_egp_SOURCES   src/user_eg/user_eg.c)
+
+add_executable(user_egp EXCLUDE_FROM_ALL ${user_egp_SOURCES})
+target_link_libraries(user_egp ${qhull_SHAREDP})
+set_target_properties(user_egp PROPERTIES
+    COMPILE_DEFINITIONS "${user_egp_DEFINES}")
 
 # ---------------------------------------
 # Define test

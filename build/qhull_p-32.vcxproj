@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGUID>{C72E2307-9E27-46E1-AD6D-B5BF0548F51F}</ProjectGUID>
+    <ProjectGUID>{9969E173-B078-4FC0-A35E-9F3B0FDA1CE9}</ProjectGUID>
     <Keyword>Win32Proj</Keyword>
     <Platform>Win32</Platform>
     <ProjectName>qhull_p</ProjectName>

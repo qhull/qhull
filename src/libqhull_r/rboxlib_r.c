@@ -12,8 +12,8 @@
      incorrect range if qh_RANDOMmax is defined wrong (user_r.h)
 */
 
+#include "libqhull_r.h"  /* First for user_r.h */
 #include "random_r.h"
-#include "libqhull_r.h"
 
 #include <ctype.h>
 #include <limits.h>
@@ -60,7 +60,7 @@ void    qh_srand(qhT *qh, int seed);
     5 (qh_ERRqhull) on internal error
 
   notes:
-    To avoid using stdio, redefine qh_malloc, qh_free, and qh_fprintf_rbox (user.c)
+    To avoid using stdio, redefine qh_malloc, qh_free, and qh_fprintf_rbox (user_r.c)
 
   design:
     Straight line code (consider defining a struct and functions):
@@ -496,6 +496,7 @@ int qh_rboxpoints(qhT *qh, char* rbox_command) {
   /* ============= regular points for 's' =============== */
   else if (isregular && !islens) {
     if (dim != 2 && dim != 3) {
+      qh_free(simplex);
       qh_fprintf_rbox(qh, qh->ferr, 6197, "rbox error: regular points can be used only in 2-d and 3-d\n\n");
       qh_errexit_rbox(qh, qh_ERRinput);
     }
@@ -562,6 +563,7 @@ int qh_rboxpoints(qhT *qh, char* rbox_command) {
   /* ============= regular points for 'r Ln D3' =============== */
   else if (isregular && islens && dim != 2) {
     if (dim != 3) {
+      qh_free(simplex);
       qh_fprintf_rbox(qh, qh->ferr, 6198, "rbox error: regular points can be used only in 2-d and 3-d\n\n");
       qh_errexit_rbox(qh, qh_ERRinput);
     }
@@ -647,6 +649,7 @@ int qh_rboxpoints(qhT *qh, char* rbox_command) {
       /* ============= point of 'l' distribution =============== */
       }else if (isspiral) {
         if (dim != 3) {
+          qh_free(simplex);
           qh_fprintf_rbox(qh, qh->ferr, 6199, "rbox error: spiral distribution is available only in 3d\n\n");
           qh_errexit_rbox(qh, qh_ERRinput);
         }
@@ -750,8 +753,7 @@ int qh_rboxpoints(qhT *qh, char* rbox_command) {
     qh_fprintf_rbox(qh, qh->fout, 9402, "end\nhull\n");
 
   /* same code for error exit and normal return */
-  if (simplex)
-    qh_free(simplex);
+  qh_free(simplex);
   return qh_ERRnone;
 } /* rboxpoints */
 

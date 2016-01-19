@@ -1,18 +1,21 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2015/qhull/src/qhulltest/qhulltest.cpp#1 $$Change: 1981 $
-** $DateTime: 2015/09/28 20:26:32 $$Author: bbarber $
+** $Id: //main/2015/qhull/src/qhulltest/qhulltest.cpp#4 $$Change: 2064 $
+** $DateTime: 2016/01/18 12:36:08 $$Author: bbarber $
 **
 ****************************************************************************/
 
 //pre-compiled headers
+extern "C" {
+    #include "libqhull_r/user_r.h"
+}
 #include <iostream>
 #include "RoadTest.h" // QT_VERSION
 
 #include "libqhullcpp/RoadError.h"
 extern "C" {
-#include "libqhull_r/qhull_ra.h"
+    #include "libqhull_r/qhull_ra.h"
 }
 
 #include <sstream>
@@ -26,7 +29,7 @@ namespace orgQhull {
 
 void addQhullTests(QStringList &args)
 {
-    TESTadd_(add_QhullRidge_test); //copied from below
+    TESTadd_(add_Qhull_test);
 
     if(args.contains("--all")){
         args.removeAll("--all");
@@ -53,6 +56,7 @@ void addQhullTests(QStringList &args)
 
 int main(int argc, char *argv[])
 {
+
     QCoreApplication app(argc, argv);
     QStringList args= app.arguments();
     bool isAll= args.contains("--all");
@@ -80,6 +84,7 @@ int main(int argc, char *argv[])
     }else{
         cout << "Finished test of one class.  Test all classes with 'qhulltest --all'" << endl;
     }
+    RoadTest::deleteTests();
     return status;
 }
 

@@ -8,12 +8,10 @@
    see qh-qhull.htm
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/qhull/unix_r.c#3 $$Change: 2042 $
-   $DateTime: 2016/01/03 13:26:21 $$Author: bbarber $
+   $Id: //main/2015/qhull/src/qhull/unix_r.c#6 $$Change: 2066 $
+   $DateTime: 2016/01/18 19:29:17 $$Author: bbarber $
 */
 
-#include "libqhull_r/mem_r.h"
-#include "libqhull_r/qset_r.h"
 #include "libqhull_r/libqhull_r.h"
 
 #include <ctype.h>
@@ -363,9 +361,9 @@ int main(int argc, char *argv[]) {
   }
   qh->NOerrexit= True;  /* no more setjmp */
 #ifdef qh_NOmem
-  qh_freeqhull(qh, True);
+  qh_freeqhull(qh, qh_ALL);
 #else
-  qh_freeqhull(qh, False);
+  qh_freeqhull(qh, !qh_ALL);
   qh_memfreeshort(qh, &curlong, &totlong);
   if (curlong || totlong)
     qh_fprintf_stderr(6263, "qhull internal warning (main): did not free %d bytes of long memory(%d pieces)\n",

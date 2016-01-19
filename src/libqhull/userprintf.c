@@ -43,7 +43,8 @@ void qh_fprintf(FILE *fp, int msgcode, const char *fmt, ... ) {
     va_list args;
 
     if (!fp) {
-        fprintf(qhmem.ferr, "QH6232 Qhull internal error (userprintf.c): fp is 0.  Wrong qh_fprintf called.\n");
+        /* could use qhmem.ferr, but probably better to be cautious */
+        qh_fprintf_stderr(6232, "Qhull internal error (userprintf.c): fp is 0.  Wrong qh_fprintf called.\n");
         qh_errexit(6232, NULL, NULL);
     }
     va_start(args, fmt);

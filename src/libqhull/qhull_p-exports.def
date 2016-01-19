@@ -1,7 +1,7 @@
 ; qhull_p-exports.def -- msvc module-definition file
 ;
 ;   Generated from depends.exe by cut-and-paste of exported symbols by mingw gcc
-;   [mar'11] 399 symbols 
+;   [mar'11] 399 symbols [jan'15] added 3 symbols
 ;   Annotate as DATA qh_last_random qh_qh qh_qhstat qhmem rbox rbox_inuse
 ;   Annotate as __declspec for outside access in win32 -- qh_qh qh_qhstat
 ;
@@ -38,6 +38,7 @@ qh_build_withrestart
 qh_buildhull
 qh_buildtracing
 qh_check_bestdist
+qh_check_dupridge
 qh_check_maxout
 qh_check_output
 qh_check_point
@@ -118,6 +119,7 @@ qh_flippedmerges
 qh_forcedmerges
 qh_fprintf
 qh_fprintf_rbox
+qh_fprintf_stderr
 qh_free
 qh_freebuffers
 qh_freebuild
@@ -401,6 +403,7 @@ qh_updatetested
 qh_updatevertices
 qh_user_memsizes
 qh_version
+qh_version2
 qh_vertexintersect
 qh_vertexintersect_new
 qh_vertexneighbors

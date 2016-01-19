@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2015/qhull/src/libqhullcpp/QhullIterator.h#1 $$Change: 1981 $
-** $DateTime: 2015/09/28 20:26:32 $$Author: bbarber $
+** $Id: //main/2015/qhull/src/libqhullcpp/QhullIterator.h#3 $$Change: 2066 $
+** $DateTime: 2016/01/18 19:29:17 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -14,21 +14,22 @@ extern "C" {
 }
 
 #include <assert.h>
+#include <iterator>
 #include <string>
 #include <vector>
-//! Avoid dependence on <iterator>
-namespace std { struct bidirectional_iterator_tag; struct random_access_iterator_tag; }
 
 namespace orgQhull {
 
 #//!\name Defined here
+    //! Only QHULL_DECLARE_SEQUENTIAL_ITERATOR is used in libqhullcpp.  The others need further development
     //! QHULL_DECLARE_SEQUENTIAL_ITERATOR(C) -- Declare a Java-style iterator
     //! QHULL_DECLARE_MUTABLE_SEQUENTIAL_ITERATOR(C) -- Declare a mutable Java-style iterator
     //! QHULL_DECLARE_SET_ITERATOR(C) -- Declare a set iterator
     //! QHULL_DECLARE_MUTABLE_SET_ITERATOR(C) -- Declare a mutable set iterator
     //! Derived from Qt/core/tools/qiterator.h and qset_r.h/FOREACHsetelement_()
 
-// Changed c to C* as in Mutable...  Assumes c does not go away.
+// Stores C* as done in Mutable...  Assumes the container is not deleted.
+// C::const_iterator is an STL-style iterator that returns T&
 #define QHULL_DECLARE_SEQUENTIAL_ITERATOR(C, T) \
     \
     class C##Iterator \

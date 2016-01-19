@@ -1,15 +1,15 @@
 /****************************************************************************
 **
 ** Copyright (c) 2009-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2015/qhull/src/libqhullcpp/QhullHyperplane.cpp#2 $$Change: 2045 $
-** $DateTime: 2016/01/03 23:12:50 $$Author: bbarber $
+** $Id: //main/2015/qhull/src/libqhullcpp/QhullHyperplane.cpp#3 $$Change: 2066 $
+** $DateTime: 2016/01/18 19:29:17 $$Author: bbarber $
 **
 ****************************************************************************/
 
-#include "QhullHyperplane.h"
+#include "libqhullcpp/QhullHyperplane.h"
 
-#include "Qhull.h"
-#include "QhullPoint.h"
+#include "libqhullcpp/Qhull.h"
+#include "libqhullcpp/QhullPoint.h"
 
 #include <iostream>
 

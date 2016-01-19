@@ -12,8 +12,8 @@
    see qhull_a.h for internal functions
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull/global.c#13 $$Change: 2044 $
-   $DateTime: 2016/01/03 20:43:44 $$Author: bbarber $
+   $Id: //main/2015/qhull/src/libqhull/global.c#17 $$Change: 2066 $
+   $DateTime: 2016/01/18 19:29:17 $$Author: bbarber $
  */
 
 #include "qhull_a.h"
@@ -47,8 +47,8 @@ qhT qh_qh;              /* all global variables.
     recompile user_eg.c, rbox.c, libqhull.c, qconvex.c, qdelaun.c qvoronoi.c, qhalf.c, testqset.c
 */
 
-const char qh_version[]= "2015.1 2016/01/03";
-const char qh_version2[]= "qhull 7.1.0 (2015.1 2016/01/03)";
+const char qh_version[]= "2015.2 2016/01/18";
+const char qh_version2[]= "qhull 7.2.0 (2015.2 2016/01/18)";
 
 /*-<a                             href="qh-globa.htm#TOC"
   >-------------------------------</a><a name="appendprint">-</a>
@@ -436,7 +436,7 @@ void qh_freeqhull(boolT allmem) {
 qh_freeqhull2( allmem )
   free global memory and set qhT to 0
   if !allmem,
-    does not free short memory (freed by qh_memfreeshort)
+    does not free short memory (freed by qh_memfreeshort unless qh_NOmem)
 
 notes:
   sets qh.NOerrexit in case caller forgets to
@@ -2038,6 +2038,17 @@ void qh_initthresholds(char *command) {
 */
 void qh_lib_check(int qhullLibraryType, int qhTsize, int vertexTsize, int ridgeTsize, int facetTsize, int setTsize, int qhmemTsize) {
     boolT iserror= False;
+
+#if defined(_MSC_VER) && defined(_DEBUG) && defined(QHULL_CRTDBG)  /* user_r.h */
+    // _CrtSetBreakAlloc(744);  /* Break at memalloc {744}, or 'watch' _crtBreakAlloc */
+    _CrtSetDbgFlag( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_DELAY_FREE_MEM_DF | _CRTDBG_LEAK_CHECK_DF | _CrtSetDbgFlag(_CRTDBG_REPORT_FLAG) );
+    _CrtSetReportMode( _CRT_ERROR, _CRTDBG_MODE_FILE | _CRTDBG_MODE_DEBUG );
+    _CrtSetReportFile( _CRT_ERROR, _CRTDBG_FILE_STDERR );
+    _CrtSetReportMode( _CRT_WARN, _CRTDBG_MODE_FILE | _CRTDBG_MODE_DEBUG );
+    _CrtSetReportFile( _CRT_WARN, _CRTDBG_FILE_STDERR );
+    _CrtSetReportMode( _CRT_ASSERT, _CRTDBG_MODE_FILE | _CRTDBG_MODE_DEBUG );
+    _CrtSetReportFile( _CRT_ASSERT, _CRTDBG_FILE_STDERR );
+#endif
 
     if (qhullLibraryType==QHULL_NON_REENTRANT) { /* 0 */
         if (qh_QHpointer) {

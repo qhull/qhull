@@ -7,8 +7,8 @@
    see qh-poly_r.htm, libqhull_r.h and poly_r.c
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull_r/poly_r.h#3 $$Change: 2047 $
-   $DateTime: 2016/01/04 22:03:18 $$Author: bbarber $
+   $Id: //main/2015/qhull/src/libqhull_r/poly_r.h#4 $$Change: 2062 $
+   $DateTime: 2016/01/17 13:13:18 $$Author: bbarber $
 */
 
 #ifndef qhDEFpoly
@@ -236,8 +236,8 @@ void    qh_updatevertices(qhT *qh);
 
 void    qh_addhash(void *newelem, setT *hashtable, int hashsize, int hash);
 void    qh_check_bestdist(qhT *qh);
-void    qh_check_maxout(qhT *qh);
 void    qh_check_dupridge(qhT *qh, facetT *facet1, realT dist1, facetT *facet2, realT dist2);
+void    qh_check_maxout(qhT *qh);
 void    qh_check_output(qhT *qh);
 void    qh_check_point(qhT *qh, pointT *point, facetT *facet, realT *maxoutside, realT *maxdist, facetT **errfacet1, facetT **errfacet2);
 void    qh_check_points(qhT *qh);

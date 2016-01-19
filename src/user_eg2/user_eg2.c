@@ -51,7 +51,7 @@
    Defining #if 1, also prevents user.o from being loaded.
 */
 
-#include "qhull_a.h"
+#include "libqhull/qhull_a.h"
 
 /*-------------------------------------------------
 -internal function prototypes
@@ -397,6 +397,10 @@ please remove user_eg2.c from your project.\n\n");
   qh NOerrexit= True;
   qh_freeqhull(!qh_ALL);
   qh_memfreeshort(&curlong, &totlong);
+  if (curlong || totlong)
+    fprintf(stderr, "qhull warning (user_eg, run 1): did not free %d bytes of long memory (%d pieces)\n",
+       totlong, curlong);
+
   /*
     Run 2: Delaunay triangulation
   */
@@ -437,6 +441,10 @@ please remove user_eg2.c from your project.\n\n");
   qh NOerrexit= True;
   qh_freeqhull(!qh_ALL);
   qh_memfreeshort(&curlong, &totlong);
+  if (curlong || totlong)
+    fprintf(stderr, "qhull warning (user_eg, run 2): did not free %d bytes of long memory (%d pieces)\n",
+       totlong, curlong);
+
   /*
     Run 3: halfspace intersection
   */
@@ -472,8 +480,8 @@ please remove user_eg2.c from your project.\n\n");
   qh NOerrexit= True;
   qh_freeqhull(!qh_ALL);
   qh_memfreeshort(&curlong, &totlong);
-  if (curlong || totlong)  /* could also check previous runs */
-    fprintf(stderr, "qhull internal warning (main): did not free %d bytes of long memory (%d pieces)\n",
+  if (curlong || totlong)
+    fprintf(stderr, "qhull warning (user_eg, run 3): did not free %d bytes of long memory (%d pieces)\n",
        totlong, curlong);
   return exitcode;
 } /* main */

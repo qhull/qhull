@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2015/qhull/src/qhulltest/QhullFacetList_test.cpp#1 $$Change: 1981 $
-** $DateTime: 2015/09/28 20:26:32 $$Author: bbarber $
+** $Id: //main/2015/qhull/src/qhulltest/QhullFacetList_test.cpp#3 $$Change: 2062 $
+** $DateTime: 2016/01/17 13:13:18 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -44,7 +44,7 @@ private slots:
 void
 add_QhullFacetList_test()
 {
-    new QhullFacetList_test();
+    new QhullFacetList_test();  // RoadTest::s_testcases
 }
 
 //Executed after each testcase
@@ -73,7 +73,6 @@ t_construct_qh()
     QVERIFY(fs6==fs2);
     std::vector<QhullFacet> fv= fs2.toStdVector();
     QCOMPARE(fv.size(), 6u);
-    q.checkAndFreeQhullMemory();
 }//t_construct_qh
 
 void QhullFacetList_test::
@@ -95,7 +94,6 @@ t_construct_q()
     QVERIFY(fs6==fs2);
     std::vector<QhullFacet> fv= fs2.toStdVector();
     QCOMPARE(fv.size(), 6u);
-    q.checkAndFreeQhullMemory();
 }//t_construct_q
 
 void QhullFacetList_test::
@@ -125,7 +123,6 @@ t_convert()
     QCOMPARE(fv7.size(), 8u);
     QList<QhullVertex> fv8= fs2.vertices_toQList();
     QCOMPARE(fv8.size(), 8);
-    q.checkAndFreeQhullMemory();
 }//t_convert
 
 //! Spot check properties and read-only.  See QhullLinkedList_test
@@ -157,7 +154,6 @@ t_readonly()
     fs.selectGood();
     QVERIFY(fs.contains(f));
     QVERIFY(!fs.contains(f2));
-    q.checkAndFreeQhullMemory();
 }//t_readonly
 
 void QhullFacetList_test::
@@ -175,7 +171,6 @@ t_foreach()
     QCOMPARE(fs.first(), q.firstFacet());
     QCOMPARE(*fs.begin(), q.beginFacet());
     QCOMPARE(*fs.end(), q.endFacet());
-    q.checkAndFreeQhullMemory();
 }//t_foreach
 
 void QhullFacetList_test::
@@ -193,7 +188,6 @@ t_io()
         QString facets= QString::fromStdString(os.str());
         QCOMPARE(facets.count("(v"), 2*7+12*3*2);
         QCOMPARE(facets.count(QRegExp("f\\d")), 2*3*7 + 13*3*2);
-        q.checkAndFreeQhullMemory();
     }
 }//t_io
 

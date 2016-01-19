@@ -7,8 +7,8 @@
    see qh-stat.htm and stat.h
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull/stat.c#4 $$Change: 2042 $
-   $DateTime: 2016/01/03 13:26:21 $$Author: bbarber $
+   $Id: //main/2015/qhull/src/libqhull/stat.c#5 $$Change: 2062 $
+   $DateTime: 2016/01/17 13:13:18 $$Author: bbarber $
 */
 
 #include "qhull_a.h"
@@ -635,9 +635,8 @@ void qh_printstatistics(FILE *fp, const char *string) {
   notes:
     nop if id >= ZEND, printed, or same as initial value
 */
-void qh_printstatlevel(FILE *fp, int id, int start) {   /* start not used */
+void qh_printstatlevel(FILE *fp, int id) {
 #define NULLfield "       "
-  QHULL_UNUSED(start)
 
   if (id >= ZEND || qhstat printed[id])
     return;
@@ -645,7 +644,6 @@ void qh_printstatlevel(FILE *fp, int id, int start) {   /* start not used */
     qh_fprintf(fp, 9360, "%s\n", qhstat doc[id]);
     return;
   }
-  start= 0; /* not used */
   if (qh_nostatistic(id) || !qhstat doc[id])
     return;
   qhstat printed[id]= True;
@@ -679,7 +677,7 @@ void qh_printstats(FILE *fp, int idx, int *nextindex) {
   if (qh_newstats(idx, &nexti)) {
     qh_fprintf(fp, 9367, "\n");
     for (j=idx; j<nexti; j++)
-      qh_printstatlevel(fp, qhstat id[j], 0);
+      qh_printstatlevel(fp, qhstat id[j]);
   }
   if (nextindex)
     *nextindex= nexti;

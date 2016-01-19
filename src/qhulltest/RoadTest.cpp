@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2015/qhull/src/qhulltest/RoadTest.cpp#1 $$Change: 1981 $
-** $Date: 2015/09/28 $$Author: bbarber $
+** $Id: //main/2015/qhull/src/qhulltest/RoadTest.cpp#2 $$Change: 2062 $
+** $Date: 2016/01/17 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -54,6 +54,15 @@ recordFailedTest()
 }
 
 #//!\name class function
+
+void RoadTest::
+deleteTests()
+{
+    foreach(RoadTest *testcase, s_testcases){
+        delete testcase;
+    }
+    s_failed_tests.clear();
+}
 
 int RoadTest::
 runTests(QStringList arguments)

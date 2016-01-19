@@ -139,14 +139,20 @@ Simple C++ programs should compile as is.
 <p>Qhull compiles for 64-bit hosts.  Since the size of a pointer on a 64-bit host is double the size on a 32-bit host,
 memory consumption increases about 50% for simplicial facets and up-to 100% for non-simplicial facets.
 
-You can check memory consumption with option <a href="qh-optt.htm#Ts">Ts</a>.   It includes the size of
+<p>You can check memory consumption with option <a href="qh-optt.htm#Ts">Ts</a>.   It includes the size of
 each data structure:
 <ul>
 <li>32-bit -- merge 24 ridge 20 vertex 28 facet 88 normal 24 ridge vertices 16 facet vertices or neighbors 20
 <li>64-bit -- merge 32 ridge 32 vertex 48 facet 120 normal 32 ridge vertices 40 facet vertices or neighbors 48
 </ul>
 
-<p>A custom version of Qhull for 3-D Delaunay triangulations may reduce space requirements substantially.
+<p>For Qhull 2015, the maximum identifier for ridges, vertices, and facets was increased
+from 24-bits to 32-bits.  This allows for larger convex hulls, but may increase the size of
+the corresponding data structures.  The sizes for Qhull 2012.1 were
+<ul>
+<li>32-bit -- merge 24 ridge 16 vertex 24 facet 88
+<li>64-bit -- merge 32 ridge 32 vertex 40 facet 120
+</ul>
 
 <h2><a href="#TOC">&#187;</a><a name="cpp">Calling Qhull from
 C++ programs</a></h2>
@@ -199,14 +205,12 @@ Redefine qh_fprintf() for these identifiers.
 See RboxPoints.cpp for an example.
 </li></ul>
 <p>
-A more flexible approach extends Qhull's classes.  For example,
-to access the vertices of a <a href="#facet-cpp">QhullFacet</a>,
-define a constructor of <a href="#vertexset-cpp">QhullVertexSet</a>
-that takes a QhullFacet as a parameter.
-</p>
-<p>
 Since the C++ interface uses reentrant Qhull, multiple threads may run Qhull at the same time.   Each thread is
-one run of Qhull.   Do <i>not</i> have two threads accessing the same Qhull instance.
+one run of Qhull.
+</p>
+
+<p>
+Do <i>not</i> have two threads accessing the same Qhull instance.  Qhull is not thread-safe.
 </p>
 
 <h3><a href="#TOC">&#187;</a><a name="coordinate-cpp">CoordinateIterator</a></h3>

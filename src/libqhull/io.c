@@ -14,8 +14,8 @@
    This allows the user to avoid loading io.o from qhull.a
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull/io.c#3 $$Change: 2047 $
-   $DateTime: 2016/01/04 22:03:18 $$Author: bbarber $
+   $Id: //main/2015/qhull/src/libqhull/io.c#5 $$Change: 2064 $
+   $DateTime: 2016/01/18 12:36:08 $$Author: bbarber $
 */
 
 #include "qhull_a.h"
@@ -1070,7 +1070,7 @@ void qh_order_vertexneighbors(vertexT *vertex) {
 */
 void qh_prepare_output(void) {
   if (qh VORONOI) {
-    qh_clearcenters(qh_ASvoronoi);
+    qh_clearcenters(qh_ASvoronoi);  /* must be before qh_triangulate */
     qh_vertexneighbors();
   }
   if (qh TRIangulate && !qh hasTriangulation) {
@@ -1958,7 +1958,7 @@ void qh_printfacet(FILE *fp, facetT *facet) {
     notes:
       assume precise calculations in io.c with roundoff covered by qh_GEOMepsilon
       mindist is calculated within io.c.  maxoutside is calculated elsewhere
-      so a DISTround error may have occured.
+      so a DISTround error may have occurred.
 */
 void qh_printfacet2geom(FILE *fp, facetT *facet, realT color[3]) {
   pointT *point0, *point1;
@@ -2146,7 +2146,7 @@ void qh_printfacet3geom_points(FILE *fp, setT *points, facetT *facet, realT offs
 
     assume precise calculations in io.c with roundoff covered by qh_GEOMepsilon
     innerplane may be off by qh DISTround.  Maxoutside is calculated elsewhere
-    so a DISTround error may have occured.
+    so a DISTround error may have occurred.
 */
 void qh_printfacet3geom_simplicial(FILE *fp, facetT *facet, realT color[3]) {
   setT *points, *vertices;
@@ -2843,7 +2843,7 @@ void qh_printneighborhood(FILE *fp, qh_PRINT format, facetT *facetA, facetT *fac
 
   returns:
     if string is defined
-      prints 'string p%d'. Skips p%d if id=qh_IDunknown(-1)
+      prints 'string p%d'.  Skips p%d if id=qh_IDunknown(-1) or qh_IDnone(-3)
 
   notes:
     nop if point is NULL
@@ -2863,7 +2863,7 @@ void qh_printpointid(FILE *fp, const char *string, int dim, pointT *point, int i
     return;
   if (string) {
     qh_fprintf(fp, 9211, "%s", string);
-    if (id != qh_IDunknown)
+    if (id != qh_IDunknown && id != qh_IDnone)
       qh_fprintf(fp, 9212, " p%d: ", id);
   }
   for (k=dim; k--; ) {

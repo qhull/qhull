@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2015/qhull/src/qhulltest/QhullFacetSet_test.cpp#1 $$Change: 1981 $
-** $DateTime: 2015/09/28 20:26:32 $$Author: bbarber $
+** $Id: //main/2015/qhull/src/qhulltest/QhullFacetSet_test.cpp#3 $$Change: 2062 $
+** $DateTime: 2016/01/17 13:13:18 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -41,7 +41,7 @@ private slots:
 void
 add_QhullFacetSet_test()
 {
-    new QhullFacetSet_test();
+    new QhullFacetSet_test();  // RoadTest::s_testcases
 }
 
 //Executed after each testcase
@@ -64,7 +64,6 @@ t_construct()
     QVERIFY(fs4==fs2);
     QhullFacetSet fs3(q, q.qh()->facet_mergeset);
     QVERIFY(fs3.isEmpty());
-    q.checkAndFreeQhullMemory();
 }//t_construct
 
 void QhullFacetSet_test::
@@ -86,7 +85,6 @@ t_convert()
     QCOMPARE(fv3.size(), 4u);
     QList<QhullFacet> fv4= fs2.toQList();
     QCOMPARE(fv4.size(), 4);
-    q2.checkAndFreeQhullMemory();
 }//t_convert
 
 //! Spot check properties and read-only.  See QhullSet_test
@@ -114,7 +112,6 @@ t_readonly()
     fs.selectGood();
     QVERIFY(fs.contains(f));
     QVERIFY(!fs.contains(f2));
-    q.checkAndFreeQhullMemory();
 }//t_readonly
 
 void QhullFacetSet_test::
@@ -133,7 +130,6 @@ t_foreach()
     QVERIFY(fs.contains(f));
     QCOMPARE(fs.first(), *fs.begin());
     QCOMPARE(*(fs.end()-1), fs.last());
-    q.checkAndFreeQhullMemory();
 }//t_foreach
 
 void QhullFacetSet_test::
@@ -149,7 +145,6 @@ t_io()
         cout << os.str();
         QString facets= QString::fromStdString(os.str());
         QCOMPARE(facets.count(QRegExp(" f[0-9]")), 2+13*2);
-        q.checkAndFreeQhullMemory();
     }
 }//t_io
 

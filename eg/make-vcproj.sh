@@ -8,8 +8,8 @@
 #       Append '_d' to debug products
 #       Write targets to '../lib/' and ../bin/'
 #
-# $Id: //main/2015/qhull/eg/make-vcproj.sh#1 $$Change: 1981 $
-# $DateTime: 2015/09/28 20:26:32 $$Author: bbarber $
+# $Id: //main/2015/qhull/eg/make-vcproj.sh#4 $$Change: 2070 $
+# $DateTime: 2016/01/18 22:45:12 $$Author: bbarber $
 
 if [[ "$1" != "" && "$1" != "Win64" && "$1" != "sed-only" ]]; then
     echo "eg/make-vcproj.sh [Win64] [sed-only]"
@@ -134,6 +134,7 @@ for f in buildvc/*.vc*proj buildqt/qhulltest/*.vc*proj; do
 	    -e 's/[cC]:\\[qQ]t\\[qQt0-9.\\]*/\$(QTDIR)\\..\\/g' \
 	    -e 's/([|>])Win32/\1x64/' \
 	    -e 's/machine:X86/machine:x64/' \
+  	    -e 's/\.vcxproj/-64.vcxproj/' \
 	    $f | awk '/<File$/ && !SkipFirstFile,/<\/File>/{ next } /<Filter$/{SkipFirstFile=1} {print $0}' > $dest
     else   
         dest=build/${f##*\/}
@@ -157,18 +158,19 @@ for f in buildvc/*.vc*proj buildqt/qhulltest/*.vc*proj; do
 	    -e 's|..\\build\\[a-zA-Z]*[\\/]([_a-z0-9]*.dll)|..\\bin\\\1|g' \
 	    -e 's| [a-zA-Z]*[\\/]([_a-z0-9]*\.lib)| ..\\lib\\\1|g' \
 	    -e 's/"([_a-z0-9]*.exe)/"..\\bin\\\1/g' \
-	    -e ' /Name="Debug/,/OutputFile/ s/(OutputFile.*_r)\.(dll|lib)"/\1d.\2"/' \
+	    -e ' /Name="Debug/,/OutputFile/ s/(OutputFile.*_[rp])\.(dll|lib)"/\1d.\2"/' \
 	    -e ' /Name="Debug/,/OutputFile/ s/(OutputFile.*[^d])\.(dll|lib)"/\1_d.\2"/' \
-	    -e ' /Name="Debug/,/ImportLibrary/ s/(ImportLibrary.*_r)\.lib"/\1d.lib"/' \
+	    -e ' /Name="Debug/,/ImportLibrary/ s/(ImportLibrary.*_[rp])\.lib"/\1d.lib"/' \
 	    -e ' /Name="Debug/,/ImportLibrary/ s/(ImportLibrary.*[^d])\.lib"/\1_d.lib"/' \
-	    -e ' /Name="Debug/,/AdditionalDependencies/ s/(AdditionalDependencies.*_r)\.lib/\1d.lib/' \
+	    -e ' /Name="Debug/,/AdditionalDependencies/ s/(AdditionalDependencies.*_[rp])\.lib/\1d.lib/' \
 	    -e ' /Name="Debug/,/AdditionalDependencies/ s/(AdditionalDependencies.*qhull[a-z]*[^d])\.lib/\1_d.lib/' \
 	    -e ' /Name="Debug/,/ProgramDatabaseFile/ s/(ProgramDatabaseFile.*_r)\.pdb/\1d.pdb/' \
 	    -e ' /Name="Debug/,/ProgramDatabaseFile/ s/(ProgramDatabaseFile.*qhull[a-z]*[^d])\.pdb/\1_d.pdb/' \
 	    -e 's/[cC]:\\Qt\\[0-9.]*/\$(QTDIR)/g' \
+  	    -e 's/\.vcxproj/-32.vcxproj/' \
 	    $f | awk '/<File$/ && !SkipFirstFile,/<\/File>/{ next } /<Filter$/{SkipFirstFile=1} {print $0}' > $dest
     fi
-    grep -E '\.\.[\\/]|_[a-z]?d[^a-z]' $dest
+    # grep -E '\.\.[\\/]|_[a-z]?d[^a-z]' $dest
 done
 
 echo

@@ -67,10 +67,11 @@ Functions and macros from qset.h.  Counts occurrences in this test.  Does not co
     SETtruncate_ -- 2 tests
 
     Copyright (c) 2012-2015 C.B. Barber. All rights reserved.
-    $Id: //main/2015/qhull/src/testqset_r/testqset_r.c#3 $$Change: 2013 $
-    $DateTime: 2015/10/20 23:04:17 $$Author: bbarber $
+    $Id: //main/2015/qhull/src/testqset_r/testqset_r.c#5 $$Change: 2064 $
+    $DateTime: 2016/01/18 12:36:08 $$Author: bbarber $
 */
 
+#include "libqhull_r/user_r.h"  /* QHULL_CRTDBG */
 #include "libqhull_r/qset_r.h"
 #include "libqhull_r/mem_r.h"
 #include "libqhull_r/libqhull_r.h"
@@ -190,6 +191,12 @@ int main(int argc, char **argv) {
     int traceLevel= 4; /* 4 normally, no tracing since qset does not log.  Option 'T5' for memory tracing */
     qhT qh_qh;
     qhT *qh= &qh_qh;
+
+#if defined(_MSC_VER) && defined(_DEBUG) && defined(QHULL_CRTDBG)  /* user_r.h */
+    _CrtSetDbgFlag( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_DELAY_FREE_MEM_DF | _CRTDBG_LEAK_CHECK_DF | _CrtSetDbgFlag(_CRTDBG_REPORT_FLAG) );
+    _CrtSetReportMode( _CRT_ERROR, _CRTDBG_MODE_FILE | _CRTDBG_MODE_DEBUG );
+    _CrtSetReportFile( _CRT_ERROR, _CRTDBG_FILE_STDERR );
+#endif
 
     readOptions(qh, argc, argv, prompt, &numInts, &checkEvery, &traceLevel);
     setupMemory(qh, traceLevel, numInts, &intarray);

@@ -1,19 +1,20 @@
 /****************************************************************************
 **
 ** Copyright (c) 2009-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2015/qhull/src/libqhullcpp/QhullVertexSet.cpp#1 $$Change: 1981 $
-** $DateTime: 2015/09/28 20:26:32 $$Author: bbarber $
+** $Id: //main/2015/qhull/src/libqhullcpp/QhullVertexSet.cpp#3 $$Change: 2066 $
+** $DateTime: 2016/01/18 19:29:17 $$Author: bbarber $
 **
 ****************************************************************************/
 
 #//! QhullVertexSet -- Qhull's linked Vertexs, as a C++ class
 
-#include "QhullVertex.h"
-#include "QhullVertexSet.h"
-#include "QhullPoint.h"
-#include "QhullRidge.h"
-#include "QhullVertex.h"
-#include "Qhull.h"
+#include "libqhullcpp/QhullVertexSet.h"
+
+#include "libqhullcpp/QhullVertex.h"
+#include "libqhullcpp/QhullPoint.h"
+#include "libqhullcpp/QhullRidge.h"
+#include "libqhullcpp/QhullVertex.h"
+#include "libqhullcpp/Qhull.h"
 
 using std::string;
 using std::vector;

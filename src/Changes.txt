@@ -1,4 +1,4 @@
-$Id: //main/2015/qhull/src/Changes.txt#22 $
+$Id: //main/2015/qhull/src/Changes.txt#28 $
 
 .............This file lists all changes to qhull and rbox.....................
 
@@ -17,6 +17,75 @@ Need help
    http://github.com/qhull/qhull/wiki
 
 ------------
+Qhull 2015.2 2016/01/18 (7.2.0) 
+ - Fixed memory leak in ~QhullQh [M. Sandim]
+   QhullQh.cpp: call checkAndFreeQhullMemory() in the destructor.  Otherwise memT is not freed.
+   Remove checkAndFreeQhullMemory() from Qhull.h.  It is not needed.
+   Remove calls to checkAndFreeQhullMemory in qhulltest.  It is called by ~QhullQh()
+   libqhull_r.h: Document qh_ASvornoi and facetT.center
+   qh_freeqhull: if qh_NOmem, use qh_ALL
+   qh_memalloc: short memory is freed by qh_memfreeshort unless qh_NOmem
+   qh_memstatistics (mem.c): call qh_memcheck() as done in mem_r.c
+   qh_new_qhull calls qh_memcheck
+   qh_newvertex: free vertex on error
+   qh_projectinput: Free memory allocations on error
+   qh_rboxpoints: free simplex on error
+   qh_sethalfspace_all: Fixed memory leak on error QH8032 feasible not inside halfspace
+   qh_triangulate_facet: For TRInormals ('Q11') replace qh_copypoints with qh_memalloc
+   qh_triangulate_facet: Document qh.TRInormals
+   qh_voronoi_center: Free center on error
+   qhulltest: Fixed memory leak of s_testcases by calling RoadTest::deleteTests()
+   qhulltest: The 'add_*_test' functions append the test object to RoadTest::s_testcases
+   ~RoadTest: declare virtual for Q_OBJECT, removeAll not needed
+   user_eg2: Check memory at end of each run
+   user_r.h: Add QHULL_CRTDBG for invoking Microsoft's memory leak detector
+   use _MSC_VER instead of QHULL_OS_WIN for QHULL_CRTDBG
+   Call qh_freeqhull with qh_ALL/!qh_ALL instead of 'True/False'
+   Include user_r.h with RoadError,h for QHULL_CRTDBG
+   Invoke _CrtSetDbgFlag... at beginning of program
+   Moved user_r.h/libqhull_r.h/qhull_ra.h as first include (for QHULL_CRTDBG)
+   Moved QHULL_OS_WIN from qhull_ra.h to user_r.h
+   Removed __CYGWIN__ from QHULL_OS_WIN (same as Qt's qglobal.h)
+
+ - check_dupridge: A bounding box is not sufficient to avoid dupridge errors
+ - qh_findbestneighor: Error if qh.CENTERtype is qh_ASvoronoi (i.e., no merging now)
+ - qh_printstatlevel: Remove unused parameter, 'start'
+ - QhullLinkedList::last() and back(): Return T instead of T& (T is computed)
+ 
+ - qh-code.htm: "How to convert code to reentrant Qhull"
+   Update "Nearly coincident points on an edge"
+   Add 2012 size of data structures to "Qhull on 64-bit computers"
+ - html/index.htm: Add CGAL to "When to use" 
+ - qh-optq.htm: Add documentation for option 'Q12'
+ - Move suggestions from Changes.txt to qh-code.htm#enhance
+ - user_r.h: Fixed qh-us_r.html links
+ - Fixed links in html pages
+
+ - QhullIterator and QhullLinkedList: Include <iterator> [B. Boeckel]
+ - Moved include file for each C++ source file to the top of the includes
+ - Prepend cpp includes with "libqhullcpp/"
+ - RoadLogEvent includes RoadLogEvent.h
+ - QhullIterator.h: Only QHULL_DECLARE_SEQUENTIAL_ITERATOR is used.
+ 
+ - Compared src/libqhull/* to src/libqhull_r/* and resolved differences
+ - qh_printpoint in io.c skips qh_IDnone like io_r.c
+ - qhull_p-exports.def: Added three missing exports
+ - set_r.h: Removed countT. Too many issues
+ 
+ - libqhull_r/Makefile: Add help prompts to 'make qtest'
+ - libqhull.pro: Add '../libqhull/' to sources and headers
+ - libqhull/Makefile: Fixed -I,./,,/src
+
+ - qhull-zip.sh: Add CMakeModules to tarball [C. Rosenvik]
+ - CMakeLists.txt: Add targets qhullp and user_egp for qh_QHpointer and libqhull_p
+ - Reorganized 'make help'
+ - Makefile cleanall: Delete testqset and qhulltest from bin/
+ - Fix filetype of Unix-only files
+ - Fix Unix line endings for Makefile and check in qhull-zip.sh
+ - Fix Windows line-endings and check in qhull-zip.sh
+ - qhull-zip.sh: Check for Unix text files
+
+ ------------
 Qhull 2015.1 2016/01/03 (7.1.0) 
  - Add Rbox option 'Cn,r,m' to add nearly coincident points.  Trigger for duplicate ridges
  - Add Qhull option 'Q12' to ignore error on wide merge due to duplicate ridge

@@ -139,6 +139,8 @@ int qh_new_qhull(int dim, int numpoints, coordT *points, boolT ismalloc,
   if (firstcall) {
     qh_meminit(errfile);
     firstcall= False;
+  } else {
+    qh_memcheck();
   }
   if (strncmp(qhull_cmd, "qhull ", (size_t)6)) {
     qh_fprintf(errfile, 6186, "qhull error (qh_new_qhull): start qhull_cmd argument with \"qhull \"\n");

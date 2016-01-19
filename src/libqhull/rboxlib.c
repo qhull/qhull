@@ -12,8 +12,8 @@
      incorrect range if qh_RANDOMmax is defined wrong (user.h)
 */
 
+#include "libqhull.h"  /* First for user.h */
 #include "random.h"
-#include "libqhull.h"
 
 #include <ctype.h>
 #include <limits.h>
@@ -78,7 +78,7 @@ rboxT rbox;
     5 (qh_ERRqhull) on internal error
 
   notes:
-    To avoid stdio, redefine qh_malloc, qh_free, and qh_fprintf_rbox (user.c)
+    To avoid using stdio, redefine qh_malloc, qh_free, and qh_fprintf_rbox (user.c)
 
   design:
     Straight line code (consider defining a struct and functions):
@@ -523,6 +523,7 @@ int qh_rboxpoints(FILE* fout, FILE* ferr, char* rbox_command) {
   /* ============= regular points for 's' =============== */
   else if (isregular && !islens) {
     if (dim != 2 && dim != 3) {
+      qh_free(simplex);
       qh_fprintf_rbox(rbox.ferr, 6197, "rbox error: regular points can be used only in 2-d and 3-d\n\n");
       qh_errexit_rbox(qh_ERRinput);
     }
@@ -589,6 +590,7 @@ int qh_rboxpoints(FILE* fout, FILE* ferr, char* rbox_command) {
   /* ============= regular points for 'r Ln D3' =============== */
   else if (isregular && islens && dim != 2) {
     if (dim != 3) {
+      qh_free(simplex);
       qh_fprintf_rbox(rbox.ferr, 6198, "rbox error: regular points can be used only in 2-d and 3-d\n\n");
       qh_errexit_rbox(qh_ERRinput);
     }
@@ -674,6 +676,7 @@ int qh_rboxpoints(FILE* fout, FILE* ferr, char* rbox_command) {
       /* ============= point of 'l' distribution =============== */
       }else if (isspiral) {
         if (dim != 3) {
+          qh_free(simplex);
           qh_fprintf_rbox(rbox.ferr, 6199, "rbox error: spiral distribution is available only in 3d\n\n");
           qh_errexit_rbox(qh_ERRinput);
         }
@@ -777,14 +780,13 @@ int qh_rboxpoints(FILE* fout, FILE* ferr, char* rbox_command) {
     qh_fprintf_rbox(rbox.fout, 9402, "end\nhull\n");
 
   /* same code for error exit and normal return */
-  if (simplex)
-    qh_free(simplex);
+  qh_free(simplex);
   rbox_inuse= False;
   return qh_ERRnone;
 } /* rboxpoints */
 
 /*------------------------------------------------
-outxxx - output functions
+outxxx - output functions for qh_rboxpoints
 */
 int qh_roundi( double a) {
   if (a < 0.0) {

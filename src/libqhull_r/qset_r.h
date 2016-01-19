@@ -17,8 +17,8 @@
     - sets may be sorted or unsorted, the caller must distinguish this
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull_r/qset_r.h#2 $$Change: 2042 $
-   $DateTime: 2016/01/03 13:26:21 $$Author: bbarber $
+   $Id: //main/2015/qhull/src/libqhull_r/qset_r.h#3 $$Change: 2062 $
+   $DateTime: 2016/01/17 13:13:18 $$Author: bbarber $
 */
 
 #ifndef qhDEFset
@@ -38,10 +38,7 @@ typedef struct setT setT;   /* a set is a sorted or unsorted array of pointers *
 typedef struct qhT qhT;          /* defined in libqhull_r.h */
 #endif
 
-#ifndef DEFcountT
-#define DEFcountT 1
-typedef int countT;          /* defined in user_r.h */
-#endif
+/* [jan'15] Decided not to use countT.  Most sets are small.  The code uses signed tests */
 
 /*-<a                                      href="qh-set_r.htm#TOC"
 >----------------------------------------</a><a name="setT">-</a>
@@ -85,11 +82,11 @@ structure for set of n elements:
 typedef union setelemT setelemT;
 union setelemT {
   void    *p;
-  countT   i;         /* integer used for e[maxSize] */
+  int   i;         /* integer used for e[maxSize] */
 };
 
 struct setT {
-  countT maxsize;          /* maximum number of elements (except NULL) */
+  int maxsize;          /* maximum number of elements (except NULL) */
   setelemT e[1];        /* array of pointers, tail is NULL */
                         /* last slot (unless NULL) is actual size+1
                            e[maxsize]==NULL or e[e[maxsize]-1]==NULL */
@@ -190,7 +187,7 @@ struct setT {
 
    declare:
      assumes *variable and **variablep are declared
-     also declare 'countT variabletemp'
+     also declare 'int variabletemp'
 
    each iteration:
      variable is set element
@@ -313,7 +310,7 @@ struct setT {
    example:
      i= SETindex_(ridges, ridge)
 */
-#define SETindex_(set, elem) ((countT)((void **)elem##p - (void **)&(set)->e[1].p))
+#define SETindex_(set, elem) ((int)((void **)elem##p - (void **)&(set)->e[1].p))
 
 /*-<a                                     href="qh-set_r.htm#TOC"
   >---------------------------------------</a><a name="SETref_">-</a>
@@ -456,17 +453,17 @@ struct setT {
 /*======= prototypes in alphabetical order ============*/
 
 void  qh_setaddsorted(qhT *qh, setT **setp, void *elem);
-void  qh_setaddnth(qhT *qh, setT **setp, countT nth, void *newelem);
+void  qh_setaddnth(qhT *qh, setT **setp, int nth, void *newelem);
 void  qh_setappend(qhT *qh, setT **setp, void *elem);
 void  qh_setappend_set(qhT *qh, setT **setp, setT *setA);
 void  qh_setappend2ndlast(qhT *qh, setT **setp, void *elem);
 void  qh_setcheck(qhT *qh, setT *set, const char *tname, unsigned id);
 void  qh_setcompact(qhT *qh, setT *set);
-setT *qh_setcopy(qhT *qh, setT *set, countT extra);
+setT *qh_setcopy(qhT *qh, setT *set, int extra);
 void *qh_setdel(setT *set, void *elem);
 void *qh_setdellast(setT *set);
-void *qh_setdelnth(qhT *qh, setT *set, countT nth);
-void *qh_setdelnthsorted(qhT *qh, setT *set, countT nth);
+void *qh_setdelnth(qhT *qh, setT *set, int nth);
+void *qh_setdelnthsorted(qhT *qh, setT *set, int nth);
 void *qh_setdelsorted(setT *set, void *newelem);
 setT *qh_setduplicate(qhT *qh, setT *set, int elemsize);
 void **qh_setendpointer(setT *set);
@@ -477,22 +474,22 @@ void  qh_setfree(qhT *qh, setT **set);
 void  qh_setfree2(qhT *qh, setT **setp, int elemsize);
 void  qh_setfreelong(qhT *qh, setT **set);
 int   qh_setin(setT *set, void *setelem);
-countT qh_setindex(setT *set, void *setelem);
+int qh_setindex(setT *set, void *setelem);
 void  qh_setlarger(qhT *qh, setT **setp);
 void *qh_setlast(setT *set);
-setT *qh_setnew(qhT *qh, countT size);
-setT *qh_setnew_delnthsorted(qhT *qh, setT *set, countT size, countT nth, countT prepend);
+setT *qh_setnew(qhT *qh, int size);
+setT *qh_setnew_delnthsorted(qhT *qh, setT *set, int size, int nth, int prepend);
 void  qh_setprint(qhT *qh, FILE *fp, const char* string, setT *set);
 void  qh_setreplace(qhT *qh, setT *set, void *oldelem, void *newelem);
-countT qh_setsize(qhT *qh, setT *set);
-setT *qh_settemp(qhT *qh, countT setsize);
+int qh_setsize(qhT *qh, setT *set);
+setT *qh_settemp(qhT *qh, int setsize);
 void  qh_settempfree(qhT *qh, setT **set);
 void  qh_settempfree_all(qhT *qh);
 setT *qh_settemppop(qhT *qh);
 void  qh_settemppush(qhT *qh, setT *set);
-void  qh_settruncate(qhT *qh, setT *set, countT size);
+void  qh_settruncate(qhT *qh, setT *set, int size);
 int   qh_setunique(qhT *qh, setT **set, void *elem);
-void  qh_setzero(qhT *qh, setT *set, countT idx, countT size);
+void  qh_setzero(qhT *qh, setT *set, int idx, int size);
 
 
 #endif /* qhDEFset */

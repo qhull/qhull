@@ -12,8 +12,8 @@
      qh_errexit(qhmem_ERRqhull, NULL, NULL) otherwise
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull/mem.h#1 $$Change: 1981 $
-   $DateTime: 2015/09/28 20:26:32 $$Author: bbarber $
+   $Id: //main/2015/qhull/src/libqhull/mem.h#2 $$Change: 2062 $
+   $DateTime: 2016/01/17 13:13:18 $$Author: bbarber $
 */
 
 #ifndef qhDEFmem
@@ -208,6 +208,7 @@ struct qhmemT {               /* global memory management variables */
 /*=============== prototypes in alphabetical order ============*/
 
 void *qh_memalloc(int insize);
+void qh_memcheck(void);
 void qh_memfree(void *object, int insize);
 void qh_memfreeshort(int *curlong, int *totlong);
 void qh_meminit(FILE *ferr);

@@ -1,23 +1,18 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2015/qhull/src/libqhullcpp/QhullLinkedList.h#2 $$Change: 2027 $
-** $DateTime: 2015/11/09 23:18:11 $$Author: bbarber $
+** $Id: //main/2015/qhull/src/libqhullcpp/QhullLinkedList.h#6 $$Change: 2066 $
+** $DateTime: 2016/01/18 19:29:17 $$Author: bbarber $
 **
 ****************************************************************************/
 
 #ifndef QHULLLINKEDLIST_H
 #define QHULLLINKEDLIST_H
 
-namespace std {
-    struct bidirectional_iterator_tag;
-    struct random_access_iterator_tag;
-}//std
-
-#include "QhullError.h"
 extern "C" {
     #include "libqhull_r/qhull_ra.h"
 }
+#include "libqhullcpp/QhullError.h"
 
 #include <cstddef>  // ptrdiff_t, size_t
 
@@ -27,6 +22,8 @@ extern "C" {
 
 #ifndef QHULL_NO_STL
 #include <algorithm>
+#include <iterator>
+#include <vector>
 #endif
 
 namespace orgQhull {
@@ -97,15 +94,15 @@ public:
     size_t              size() const { return count(); }
 
 #//!\name Element access
-    //! Return by value which contains a pointer (e.g., typedef vertexT * QhullVertex).  A reference does not make sense.
-    const T &           back() const { return last(); }
-    T &                 back() { return last(); }
+    //! For back() and last(), return T instead of T& (T is computed)
+    const T             back() const { return last(); }
+    T                   back() { return last(); }
     const T &           first() const { QHULL_ASSERT(!isEmpty()); return begin_node; }
     T &                 first() { QHULL_ASSERT(!isEmpty()); return begin_node; }
     const T &           front() const { return first(); }
     T &                 front() { return first(); }
-    const T &           last() const { QHULL_ASSERT(!isEmpty()); return *--end(); }
-    T &                 last() { QHULL_ASSERT(!isEmpty()); return *--end(); }
+    const T             last() const { QHULL_ASSERT(!isEmpty()); return *--end(); }
+    T                   last() { QHULL_ASSERT(!isEmpty()); return *--end(); }
 
 #//!\name Modify -- Allocation of opaque types not implemented.
 

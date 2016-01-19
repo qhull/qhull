@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2009-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2015/qhull/src/qhulltest/QhullLinkedList_test.cpp#1 $$Change: 1981 $
-** $DateTime: 2015/09/28 20:26:32 $$Author: bbarber $
+** $Id: //main/2015/qhull/src/qhulltest/QhullLinkedList_test.cpp#3 $$Change: 2062 $
+** $DateTime: 2016/01/17 13:13:18 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -37,7 +37,7 @@ private slots:
 void
 add_QhullLinkedList_test()
 {
-    new QhullLinkedList_test();
+    new QhullLinkedList_test();  // RoadTest::s_testcases
 }
 
 //Executed after each testcase
@@ -67,7 +67,6 @@ t_construct()
         // vs= vs2; // disabled.  Would not copy the vertices
         QhullVertexList vs3= vs2; // copy constructor
         QVERIFY(vs3==vs2);
-        q.checkAndFreeQhullMemory();
     }
 }//t_construct
 
@@ -98,7 +97,6 @@ t_convert()
         QVERIFY(vs==vs);
         QVERIFY(vs4==vs4);
         QVERIFY(vs!=vs4);
-        q.checkAndFreeQhullMemory();
     }
 }//t_convert
 
@@ -115,8 +113,8 @@ t_element()
     QCOMPARE(vs.front(), vs.first());
     QhullVertex v2= vs.last();
     QCOMPARE(v2.next().next(), QhullVertex(NULL)); // sentinel has NULL next
+    QCOMPARE(vs.back(), v2);
     QCOMPARE(vs.back(), vs.last());
-    q.checkAndFreeQhullMemory();
 }//t_element
 
 void QhullLinkedList_test::
@@ -134,7 +132,6 @@ t_search()
     QCOMPARE(vs.count(v2), 1);
     QVERIFY(vs.contains(v3));
     QCOMPARE(vs.count(v3), 1);
-    q.checkAndFreeQhullMemory();
 }//t_search
 
 void QhullLinkedList_test::
@@ -195,7 +192,6 @@ t_iterator()
         //vs.begin end tested above
 
         // QhullVertexList is const-only
-        q.checkAndFreeQhullMemory();
     }
 }//t_iterator
 
@@ -249,7 +245,6 @@ t_const_iterator()
         QCOMPARE(i, vs.constBegin());
 
         // QhullVertexList is const-only
-        q.checkAndFreeQhullMemory();
     }
 }//t_const_iterator
 
@@ -317,7 +312,6 @@ t_QhullLinkedList_iterator()
     QVERIFY(!i.hasNext());
     i.toFront();
     QCOMPARE(i.next(), v4);
-    q.checkAndFreeQhullMemory();
 }//t_QhullLinkedList_iterator
 
 void QhullLinkedList_test::
@@ -329,7 +323,6 @@ t_io()
     std::cout << "INFO:     empty QhullVertextList" << vs << std::endl;
     QhullVertexList vs2= q.vertexList();
     std::cout << "INFO:   " << vs2 << std::endl;
-    q.checkAndFreeQhullMemory();
 }//t_io
 
 }//namespace orgQhull

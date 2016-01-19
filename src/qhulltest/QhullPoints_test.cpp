@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (p) 2009-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2015/qhull/src/qhulltest/QhullPoints_test.cpp#1 $$Change: 1981 $
-** $DateTime: 2015/09/28 20:26:32 $$Author: bbarber $
+** $Id: //main/2015/qhull/src/qhulltest/QhullPoints_test.cpp#3 $$Change: 2062 $
+** $DateTime: 2016/01/17 13:13:18 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -42,7 +42,7 @@ private slots:
 void
 add_QhullPoints_test()
 {
-    new QhullPoints_test();
+    new QhullPoints_test();  // RoadTest::s_testcases
 }
 
 //Executed after each testcase
@@ -85,7 +85,6 @@ t_construct_q()
     coordT c2[]= {0.0, 1.0, 2.0, 3.0, 4.0, 5.0};
     QhullPoints ps6(q, 2, 6, c2);
     QVERIFY(ps6==ps2);
-    q.checkAndFreeQhullMemory();
 
     RboxPoints rbox("c D2");
     Qhull q2(rbox, "");
@@ -111,7 +110,6 @@ t_construct_q()
     QCOMPARE(ps9.coordinateCount(), 6);
     QCOMPARE(ps9.count(), 3);
     QCOMPARE(ps9.coordinates(), c2);
-    q2.checkAndFreeQhullMemory();
 }//t_construct_q
 
 void QhullPoints_test::
@@ -167,7 +165,6 @@ t_construct_qh()
     QCOMPARE(ps9.coordinateCount(), 6);
     QCOMPARE(ps9.count(), 3);
     QCOMPARE(ps9.coordinates(), c2);
-    q2.checkAndFreeQhullMemory();
 }//t_construct_qh
 
 void QhullPoints_test::
@@ -193,7 +190,6 @@ t_convert()
     QCOMPARE(qs.size(), 2);
     QhullPoint p2= qs[1];
     QCOMPARE(p2[2], 5.0);
-    q.checkAndFreeQhullMemory();
 }//t_convert
 
 void QhullPoints_test::
@@ -236,7 +232,6 @@ t_getset()
     QVERIFY(ps3.includesCoordinates(ps3.data()+ps3.count()-1));
     QVERIFY(!ps3.includesCoordinates(ps3.data()-1));
     QVERIFY(!ps3.includesCoordinates(ps3.data()+ps3.coordinateCount()));
-    q.checkAndFreeQhullMemory();
 }//t_getset
 
 
@@ -278,7 +273,6 @@ t_element()
         QCOMPARE(p9.dimension(), 2);
         QVERIFY(p9[0]==0.0 || p9[0]==2.0 || p9[0]==4.0);
     }
-    q.checkAndFreeQhullMemory();
 }//t_element
 
 void QhullPoints_test::
@@ -367,7 +361,6 @@ t_iterator()
     //ps.begin end tested above
 
     // QhullPoints is const-only
-    q.checkAndFreeQhullMemory();
 }//t_iterator
 
 void QhullPoints_test::
@@ -435,7 +428,6 @@ t_const_iterator()
     QCOMPARE(i2-i, 3);
 
     // QhullPoints is const-only
-    q.checkAndFreeQhullMemory();
 }//t_const_iterator
 
 
@@ -491,7 +483,6 @@ t_search()
     QhullPoints ps4(q, 2, 0, c);
     QCOMPARE(ps4.indexOf(p), -1);
     QCOMPARE(ps4.lastIndexOf(p), -1);
-    q.checkAndFreeQhullMemory();
 }//t_search
 
 void QhullPoints_test::
@@ -541,7 +532,6 @@ t_points_iterator()
     QVERIFY(!i.hasNext());
     i.toFront();
     QCOMPARE(i.next(), p);
-    q.checkAndFreeQhullMemory();
 }//t_points_iterator
 
 void QhullPoints_test::
@@ -554,7 +544,6 @@ t_io()
     coordT c[]= {0.0, 1.0, 2.0, 3.0, 4.0, 5.0};
     QhullPoints ps2(q, 3, 6, c); // 3-dimensional explicit
     os << "QhullPoints from c[]\n" << ps2 << endl;
-    q.checkAndFreeQhullMemory();
 
     RboxPoints rcube("c");
     Qhull q2(rcube,"Qt QR0");  // triangulation of rotated unit cube
@@ -565,7 +554,6 @@ t_io()
     cout << os.str();
     QString s= QString::fromStdString(os.str());
     QCOMPARE(s.count("p"), 8+1);
-    q2.checkAndFreeQhullMemory();
 }//t_io
 
 }//orgQhull

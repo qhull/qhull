@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (p) 2009-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2015/qhull/src/qhulltest/QhullPointSet_test.cpp#1 $$Change: 1981 $
-** $DateTime: 2015/09/28 20:26:32 $$Author: bbarber $
+** $Id: //main/2015/qhull/src/qhulltest/QhullPointSet_test.cpp#3 $$Change: 2062 $
+** $DateTime: 2016/01/17 13:13:18 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -43,7 +43,7 @@ private slots:
 void
 add_QhullPointSet_test()
 {
-    new QhullPointSet_test();
+    new QhullPointSet_test();  // RoadTest::s_testcases
 }
 
 //Executed after each testcase
@@ -78,7 +78,6 @@ t_construct()
         QVERIFY(ps4==ps2);
     }
     QCOMPARE(coplanarCount, 1000);
-    q.checkAndFreeQhullMemory();
 }//t_construct
 
 void QhullPointSet_test::
@@ -98,7 +97,6 @@ t_convert()
     QCOMPARE(qs.size(), static_cast<int>(ps.size()));
     QhullPoint p3= qs[0];
     QCOMPARE(p3, p);
-    q.checkAndFreeQhullMemory();
 }//t_convert
 
 // readonly tested in t_construct
@@ -133,7 +131,6 @@ t_element()
         QCOMPARE(p9.dimension(), 3);
         QCOMPARE(p9, *i++);
     }
-    q.checkAndFreeQhullMemory();
 }//t_element
 
 void QhullPointSet_test::
@@ -223,7 +220,6 @@ t_iterator()
     //ps.begin end tested above
 
     // QhullPointSet is const-only
-    q.checkAndFreeQhullMemory();
 }//t_iterator
 
 void QhullPointSet_test::
@@ -269,7 +265,6 @@ t_const_iterator()
     QVERIFY(i3>=i);
 
     // QhullPointSet is const-only
-    q.checkAndFreeQhullMemory();
 }//t_const_iterator
 
 
@@ -298,7 +293,6 @@ t_search()
     QCOMPARE(ps.lastIndexOf(p2), ps.count()-1);
     QCOMPARE(ps.lastIndexOf(p3), 2);
     QCOMPARE(ps.lastIndexOf(p4), -1);
-    q.checkAndFreeQhullMemory();
 }//t_search
 
 void QhullPointSet_test::
@@ -357,7 +351,6 @@ t_pointset_iterator()
     QVERIFY(i.hasNext());
     i.toFront();
     QCOMPARE(i.next(), p);
-    q.checkAndFreeQhullMemory();
 }//t_pointset_iterator
 
 void QhullPointSet_test::
@@ -378,7 +371,6 @@ t_io()
     QString s= QString::fromStdString(os.str());
     QCOMPARE(s.count(" 0.5\n"), 3*ps.count());
     QCOMPARE(s.count("p"), ps.count()+4);
-    q.checkAndFreeQhullMemory();
 }//t_io
 
 }//orgQhull

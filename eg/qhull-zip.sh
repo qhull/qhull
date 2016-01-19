@@ -6,11 +6,11 @@
 #   can not use path with $zip_file 
 #   odd error messages if can't locate directory
 #
-# $Id: //main/2015/qhull/eg/qhull-zip.sh#10 $$Change: 2049 $
-# $DateTime: 2016/01/05 07:13:45 $$Author: bbarber $
+# $Id: //main/2015/qhull/eg/qhull-zip.sh#16 $$Change: 2071 $
+# $DateTime: 2016/01/18 23:12:45 $$Author: bbarber $
 
 if [[ $# -ne 3 ]]; then
-        echo 'Missing date stamp, e.g., qhull-zip.sh 2015 2015.1 7.1.0' 
+        echo 'Missing date stamp, e.g., qhull-zip.sh 2015 2015.2 7.2.0' 
         exit
 fi
 versionyear=$1
@@ -47,6 +47,36 @@ qhull_tgz_file=qhull-$versionyear-src-$versionunix.tgz
 qhullmd5_file=qhull-$version.md5sum
 
 exit_if_fail $LINENO "rm -f $qhull_zip_file $qhull_tgz_file $qhullmd5_file"
+
+#############################
+log_step $LINENO "Check files"
+#############################
+
+exit_if_fail $LINENO "cd qhull"
+if ! grep "if 0 .* QHULL_CRTDBG" src/libqhull/user.h >/dev/null; then
+    exit_err $LINENO "QHULL_CRTDBG is defined in src/libqhull/user.h"
+elif ! grep "if 0 .* QHULL_CRTDBG" src/libqhull_r/user_r.h >/dev/null; then
+    exit_err $LINENO "QHULL_CRTDBG is defined in src/libqhull_r/user_r.h"
+elif ! grep "^#define qh_QHpointer 0" src/libqhull/user.h >/dev/null; then
+    exit_err $LINENO "qh_QHpointer is defined in src/libqhull/user.h"
+fi
+
+if (od -a Makefile src/libqhull/Makefile src/libqhull_r/Makefile build/*.in html/*.man eg/*.sh eg/q_eg eg/q_egtest eg/q_test | grep cr >/dev/null); then
+    exit_err $LINENO "A Makefile contains DOS line endings (od -a Makefile | grep cr)"
+fi
+
+NOT_OK=$(grep -h "^ " Makefile src/libqhull/Makefile src/libqhull_r/Makefile | grep -vE '^[ \t]+[$()a-zA-Z_/]+\.[oh]|bin/testqset_r qtest')
+if [[ -n "$NOT_OK" ]]; then
+    exit_err $LINENO "A Makefile contains a leading space instead of tabs:\n$NOT_OK"
+fi
+
+TXTFILES=$(find *.diz *.htm *.txt html/ src/ working/qhull-news.html -type f -name '*.c' -o -name '*.cpp' -o -name '*.def' -o -name '*.diz' -o -name '*.h' -o -name '*.htm*' -o -name '*.txt' -o -name '*.pri' -o -name '*.pro' -o -name '*.txt' -o -name '*.txt' -o -name '*.xml')
+NOT_OK=$(for f in $TXTFILES; do if (od -a $f | grep '[^r0-9 ] *nl' >/dev/null); then echo $f; fi; done)
+if [[ -n "$NOT_OK" ]]; then
+    exit_err $LINENO "Text files with Unix line endings:\n$NOT_OK\nu2d *.diz *.htm *.txt html/*.txt html/*.htm html/*.xml src/*.pr* src/*.txt src/*/*.c;\nu2d src/*/*.cpp src/*/*.def src/*/*.h src/*/*.htm src/*/*.pro src/*/*.txt working/qhull-news.html"
+fi
+exit_if_fail $LINENO "cd .."
+
 
 #############################
 log_step $LINENO "Check environment"
@@ -113,8 +143,9 @@ md5_zip_file=qhull-$version.zip.md5sum
 md5_tgz_file=qhull-$versionyear-src-$versionunix.tgz.md5sum
 
 # recursive 
-qhull_dirs="qhull/eg qhull/html qhull/src"
+qhull_dirs="qhull/CMakeModules qhull/eg qhull/html qhull/src"
 qhull_files="qhull/build/*.sln qhull/build/*.vcproj qhull/build/qhulltest/*.vcproj \
+    qhull/build/*.vcxproj qhull/build/qhulltest/*.vcxproj \
     qhull/Announce.txt qhull/CMakeLists.txt qhull/COPYING.txt \
     qhull/File_id.diz qhull/QHULL-GO.lnk qhull/README.txt \
     qhull/REGISTER.txt qhull/index.htm qhull/Makefile  \
@@ -138,13 +169,14 @@ log_step $LINENO "Clean distribution directories"
 rm -r qhull/build/*
 p4 sync -f qhull/build/...
 exit_if_err $LINENO "Can not 'p4 sync -f qhull.sln *.vcproj'"
+rm qhull/build/user_egp.vcproj qhull/build/qhullp.vcproj
 cd qhull && make clean
 exit_if_err $LINENO "Can not 'make clean'"
 cd ..
 # Includes many files from 'cleanall' (Makefile)
 rm -f qhull/src/qhull-all.pro.user* qhull/src/libqhull/BCC32tmp.cfg
-rm -f qhull/eg/eg.* qhull/eg/*.x qhull/*.x qhull/x.* qhull/x qhull/eg/x
-rm -f qhull/bin/qhulltest.exe qhull/bin/qhulltest
+rm -f qhull/eg/eg.* 
+rm -f qhull/bin/qhulltest.exe qhull/bin/qhulltest qhull/bin/qhullp.exe qhull/bin/user_egp.exe
 rm -f qhull/src/libqhull/*.exe qhull/src/libqhull/*.a
 rm -f qhull/src/libqhull_r/*.exe qhull/src/libqhull_r/*.a
 rm -f qhull/src/libqhull/qconvex.c qhull/src/libqhull/unix.c 
@@ -157,7 +189,7 @@ rm -f qhull/src/libqhull_r/qdelaun_r.c qhull/src/libqhull_r/qhalf_r.c
 rm -f qhull/src/libqhull_r/qvoronoi_r.c qhull/src/libqhull_r/rbox_r.c
 rm -f qhull/src/libqhull_r/user_eg_r.c qhull/src/libqhull_r/user_eg2_r.c  
 rm -f qhull/src/libqhull_r/testqset_r.c 
-    
+find qhull/ -type f -name x -o -name 'x.*' -o -name '*.x' | xargs -r rm
 set noglob
 
 if [[ -e /bin/msysinfo && $(type -p wzzip) && $(type -p wzunzip) ]]; then

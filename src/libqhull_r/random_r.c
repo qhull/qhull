@@ -1,11 +1,11 @@
 /*<html><pre>  -<a                             href="index_r.htm#TOC"
   >-------------------------------</a><a name="TOP">-</a>
 
-   random_r.c -- utilities
+   random_r.c and utilities
      Park & Miller's minimimal standard random number generator
      argc/argv conversion
 
-     Used by rbox_r.c  Do not use 'qh' 
+     Used by rbox.  Do not use 'qh' 
 */
 
 #include "libqhull_r.h"

@@ -30,10 +30,11 @@
     global.c (qh_initbuffers) for an example of using mem.c
 
   Copyright (c) 1993-2015 The Geometry Center.
-  $Id: //main/2015/qhull/src/libqhull/mem.c#5 $$Change: 2044 $
-  $DateTime: 2016/01/03 20:43:44 $$Author: bbarber $
+  $Id: //main/2015/qhull/src/libqhull/mem.c#7 $$Change: 2065 $
+  $DateTime: 2016/01/18 13:51:04 $$Author: bbarber $
 */
 
+#include "user.h"  /* for QHULL_CRTDBG */
 #include "mem.h"
 #include <string.h>
 #include <stdio.h>
@@ -97,6 +98,8 @@ static int qh_intcompare(const void *i, const void *j) {
     actual object may be larger than insize
     use qh_memalloc_() for inline code for quick allocations
     logs allocations if 'T5'
+    caller is responsible for freeing the memory.
+    short memory is freed on shutdown by qh_memfreeshort unless qh_NOmem
 
   design:
     if size < qhmem.LASTsize
@@ -193,11 +196,11 @@ void *qh_memalloc(int insize) {
 
 
 /*-<a                             href="qh-mem.htm#TOC"
-  >--------------------------------</a><a name="memfree">-</a>
+  >--------------------------------</a><a name="memcheck">-</a>
 
   qh_memcheck( )
 */
-void qh_memcheck() {
+void qh_memcheck(void) {
   int i, count, totfree= 0;
   void *object;
 
@@ -426,19 +429,11 @@ void qh_memsize(int size) {
     Verifies that qhmem.totfree == sum of freelists
 */
 void qh_memstatistics(FILE *fp) {
-  int i, count, totfree= 0;
+  int i;
+  int count;
   void *object;
 
-  for (i=0; i < qhmem.TABLEsize; i++) {
-    count=0;
-    for (object= qhmem.freelists[i]; object; object= *((void **)object))
-      count++;
-    totfree += qhmem.sizetable[i] * count;
-  }
-  if (totfree != qhmem.totfree) {
-      qh_fprintf(qhmem.ferr, 6211, "qh_memstatistics internal error: totfree %d not equal to freelist total %d\n", qhmem.totfree, totfree);
-      qh_errexit(qhmem_ERRqhull, NULL, NULL);
-  }
+  qh_memcheck();
   qh_fprintf(fp, 9278, "\nmemory statistics:\n\
 %7d quick allocations\n\
 %7d short allocations\n\

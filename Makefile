@@ -1,44 +1,11 @@
 # Unix Makefile for reentrant libqhull, qhull, and rbox (default gcc/g++)
 #
-#   see README.txt and 'make help'
+#   make help
+#   See README.txt
 #   For qhulltest of the C++ interface, use Qt project file at src/qhull-all.pro
 #   For static builds, a simple alternative is src/libqhull_r/Makefile
 #   
-# Results
-#   qhull          Computes convex hull and related structures using reentrant libqhullstatic_r
-#   rbox           Generates point sets for qhull
-#   qconvex, qdelaunay, qhalf, qvoronoi
-#                  Specializations of qhull for each geometric structure
-#                  Built with non-reentrant libqhullstatic (somewhat faster)
-#   libqhull_r.so  Shared library with reentrant code
-#   libqhullstatic.a Non-reentrant static library with static qh_qh struct
-#                  ... called 'static' to avoid naming conflicts
-#   libqhullstatic_r.a Reentrant, static library
-#   libqhullcpp.a  C++ static library (using libqhullstatic_r.a)
-#   user_eg        An example of using reentrant, shared library qhull_r
-#   user_eg2       An example of using reentrant, static library libqhullstatic_r
-#   user_eg3       An example of the C++ interface to qhull
-#                  ... using libqhullcpp and reentrant libqhullstatic_r
-#   testqset       Standalone test program for non-reentrant qset.c with mem.c
-#   testqset_r     Standalone test program for reentrant qset_r.c with mem_r.c
-#
-# Make targets
-#   make           Produce all of the results using gcc or another compiler
-#   make SO=dll    on Windows, use SO=dll.  It compiles dlls
-#   make help
-#   make qhullx    Produce qhull, qconvex etc. without using library
-#   make qtest     Quick test of rbox and qhull (bin/rbox D4 | bin/qhull)
-#   make test      Quick test of all programs except qhulltest
-#   make testall   Test of rbox and qhull for manual review
-#   make bin/qvoronoi  Produce bin/qvoronoi (etc.)
-#   make doc       Print documentation
-#   make install   Copy qhull, rbox, qhull.1, rbox.1 to BINDIR, MANDIR
-#   make new       Rebuild qhull and rbox from source
-#
-#   make printall  Print all files
-#   make clean     Remove object files
-#   make cleanall  Remove generated files, build/*.dlr/, buildqt/, and buildvc/
-#
+# Variables
 #   DESTDIR        destination directory for 'make install'.
 #   BINDIR         directory where to copy executables
 #   DOCDIR         directory where to copy html documentation
@@ -70,15 +37,45 @@
 #   FILES          all other files
 #   LIBQHULLS_RBOX_OBJS specifies the object files of libqhullstatic.a
 #
-# Do not replace tabs with spaces.  Needed by 'make' for build rules
+# Results
+#   rbox           Generates points sets for qhull, qconvex, etc.
+#   qhull          Computes convex hull and related structures with reentrant libqhullstatic_r
+#   qconvex, qdelaunay, qhalf, qvoronoi
+#                  Specializations of qhull for each geometric structure
+#                  Built with non-reentrant libqhullstatic (somewhat faster)
+#   libqhull_r.so  Shared library with reentrant code
+#   libqhullstatic.a Non-reentrant static library with static qh_qh struct
+#                  Called 'static' to avoid naming conflicts
+#   libqhullstatic_r.a Reentrant, static library
+#   libqhullcpp.a  C++ static library with libqhullstatic_r.a
+#   testqset       Standalone test program for non-reentrant qset.c with mem.c
+#   testqset_r     Standalone test program for reentrant qset_r.c with mem_r.c
+#   user_eg        An example of the reentrant, shared library qhull_r
+#   user_eg2       An example of the reentrant, static library libqhullstatic_r
+#   user_eg3       An example of the C++ interface with libqhullcpp and libqhullstatic_r
 #
-# You may build the qhull programs without using a library
-#   make qhullx
+# Targets
+#   make           Build results using gcc or another compiler
+#   make SO=dll    For mingw on Windows, use SO=dll. It builds dlls
+#   make bin/qvoronoi  Produce bin/qvoronoi (etc.)
+#   make qhullx    Produce qhull, qconvex etc. without using library
 #
-# To test all of qhull (build qhulltest with Qt)
-#   make testall >eg/q_test.x 2>&1
-#   bin/qhulltest --all >eg/qhulltest.x 2>&1
-#   Compare to eg/q_test-ok.txt and eg/qhulltest-ok.txt
+#   make clean     Remove object files
+#   make cleanall  Remove generated files, build/*.dlr/, buildqt/, and buildvc/
+#   make doc       Print documentation
+#   make help
+#   make install   Copy qhull, rbox, qhull.1, rbox.1 to BINDIR, MANDIR
+#   make new       Rebuild qhull and rbox from source
+#   make printall  Print all files
+#   make qtest     Quick test of rbox and qhull
+#   make test      Quick test of qhull programs
+#   make testall   Test programs for manual review with eg/q_test-ok.txt
+#                  make testall >eg/q_test.x 2>&1 
+#                  Build the C++ qhulltest with Qt
+#
+# Do not replace tabs with spaces.  Needed for build rules
+# Unix line endings (\n)
+# $Id: //main/2015/qhull/Makefile#10 $
 
 DESTDIR = /usr/local
 BINDIR	= $(DESTDIR)/bin
@@ -111,7 +108,7 @@ CC_OPTS3  =
 #  qhull_p.so -- allocated qh_qhT global data structure (qh_QHpointer=1).  Required for libqhullcpp
 #  qhull_m.so -- future version of Qhull with qh_qhT passed as an argument.
 qhull_SOVERSION=7
-SO  = so.7.1.0
+SO  = so.7.2.0
 
 # On MinGW, 
 #   make SO=dll
@@ -150,16 +147,16 @@ CXX_WARNINGS = -Wall -Wcast-qual -Wextra -Wwrite-strings -Wno-sign-conversion -W
 #    -Wunknown-pragmas -Wunused-function -Wunused-label -Wunused-parameter -Wunused-value
 
 # Default targets for make
-     
+
 all: bin-lib bin/rbox bin/qconvex bin/qdelaunay bin/qhalf bin/qvoronoi bin/qhull bin/testqset \
      bin/testqset_r qtest bin/user_eg2 bin/user_eg3 bin/user_eg qconvex-prompt
 
 help:
-	head -n 82 Makefile
+	head -n 75 Makefile
 
 bin-lib:
 	mkdir -p bin lib
-     
+
 # Remove intermediate files for all builds
 clean:
 	rm -f src/*/*.o src/qhulltest/RoadTest.h.cpp build/*/*/*.o  build/*/*.o
@@ -179,6 +176,7 @@ cleanall: clean
 	rm -f eg/eg.* eg/t*.tmp
 	rm -f bin/qconvex bin/qdelaunay bin/qhalf bin/qvoronoi bin/qhull
 	rm -f bin/rbox core bin/core bin/user_eg bin/user_eg2 bin/user_eg3
+	rm -f bin/testqset bin/testqset_r bin/qhulltest
 	rm -f lib/libqhull* lib/qhull*.lib lib/qhull*.exp  lib/qhull*.dll
 	rm -f bin/libqhull* bin/qhull*.dll bin/*.exe bin/*.pdb lib/*.pdb
 	rm -f build/*.dll build/*.exe build/*.a build/*.exp 
@@ -407,7 +405,7 @@ LIBQHULLCPP_HDRS = $(LCPP)/RoadError.h $(LCPP)/RoadLogEvent.h $(LCPP)/Coordinate
 	$(LCPP)/QhullPointSet.h $(LCPP)/QhullQh.h $(LCPP)/QhullRidge.h \
 	$(LCPP)/QhullSet.h $(LCPP)/QhullSets.h $(LCPP)/QhullStat.h \
 	$(LCPP)/QhullVertex.h $(LCPP)/RboxPoints.h
-       
+
 LIBQHULLCPP_OBJS = $(LCPP)/RoadError.o $(LCPP)/RoadLogEvent.o $(LCPP)/Coordinates.o \
 	$(LCPP)/PointCoordinates.o $(LCPP)/Qhull.o $(LCPP)/QhullFacet.o \
 	$(LCPP)/QhullFacetList.o $(LCPP)/QhullFacetSet.o \

@@ -1,16 +1,16 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2015/qhull/src/libqhullcpp/QhullFacetSet.h#1 $$Change: 1981 $
-** $DateTime: 2015/09/28 20:26:32 $$Author: bbarber $
+** $Id: //main/2015/qhull/src/libqhullcpp/QhullFacetSet.h#2 $$Change: 2066 $
+** $DateTime: 2016/01/18 19:29:17 $$Author: bbarber $
 **
 ****************************************************************************/
 
 #ifndef QHULLFACETSET_H
 #define QHULLFACETSET_H
 
-#include "QhullSet.h"
-#include "QhullFacet.h"
+#include "libqhullcpp/QhullSet.h"
+#include "libqhullcpp/QhullFacet.h"
 
 #include <ostream>
 

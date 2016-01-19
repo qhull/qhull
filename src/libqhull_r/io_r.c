@@ -14,8 +14,8 @@
    This allows the user to avoid loading io_r.o from qhull.a
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull_r/io_r.c#3 $$Change: 2047 $
-   $DateTime: 2016/01/04 22:03:18 $$Author: bbarber $
+   $Id: //main/2015/qhull/src/libqhull_r/io_r.c#4 $$Change: 2064 $
+   $DateTime: 2016/01/18 12:36:08 $$Author: bbarber $
 */
 
 #include "qhull_ra.h"
@@ -1070,7 +1070,7 @@ void qh_order_vertexneighbors(qhT *qh, vertexT *vertex) {
 */
 void qh_prepare_output(qhT *qh) {
   if (qh->VORONOI) {
-    qh_clearcenters(qh, qh_ASvoronoi);
+    qh_clearcenters(qh, qh_ASvoronoi);  /* must be before qh_triangulate */
     qh_vertexneighbors(qh);
   }
   if (qh->TRIangulate && !qh->hasTriangulation) {

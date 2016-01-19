@@ -30,12 +30,11 @@
     global_r.c (qh_initbuffers) for an example of using mem_r.c
 
   Copyright (c) 1993-2015 The Geometry Center.
-  $Id: //main/2015/qhull/src/libqhull_r/mem_r.c#3 $$Change: 2010 $
-  $DateTime: 2015/10/19 22:23:22 $$Author: bbarber $
+  $Id: //main/2015/qhull/src/libqhull_r/mem_r.c#5 $$Change: 2065 $
+  $DateTime: 2016/01/18 13:51:04 $$Author: bbarber $
 */
 
-#include "mem_r.h"
-#include "libqhull_r.h"
+#include "libqhull_r.h"  /* includes user_r.h and mem_r.h */
 
 #include <string.h>
 #include <stdio.h>
@@ -76,6 +75,8 @@ static int qh_intcompare(const void *i, const void *j) {
     actual object may be larger than insize
     use qh_memalloc_() for inline code for quick allocations
     logs allocations if 'T5'
+    caller is responsible for freeing the memory.
+    short memory is freed on shutdown by qh_memfreeshort unless qh_NOmem
 
   design:
     if size < qh->qhmem.LASTsize
@@ -260,7 +261,12 @@ void qh_memfree(qhT *qh, void *object, int insize) {
 
   returns:
     number and size of current long allocations
-
+  
+  notes:
+    if qh_NOmem (qh_malloc() for all allocations), 
+       short objects (e.g., facetT) are not recovered.
+       use qh_freeqhull(qh, qh_ALL) instead.
+ 
   see:
     qh_freeqhull(qh, allMem)
     qh_memtotal(qh, curlong, totlong, curshort, totshort, maxlong, totbuffer);

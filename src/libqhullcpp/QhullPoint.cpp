@@ -1,14 +1,15 @@
 /****************************************************************************
 **
 ** Copyright (c) 2009-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2015/qhull/src/libqhullcpp/QhullPoint.cpp#1 $$Change: 1981 $
-** $DateTime: 2015/09/28 20:26:32 $$Author: bbarber $
+** $Id: //main/2015/qhull/src/libqhullcpp/QhullPoint.cpp#3 $$Change: 2066 $
+** $DateTime: 2016/01/18 19:29:17 $$Author: bbarber $
 **
 ****************************************************************************/
 
-#include "QhullPoint.h"
-#include "QhullError.h"
-#include "Qhull.h"
+#include "libqhullcpp/QhullPoint.h"
+
+#include "libqhullcpp/QhullError.h"
+#include "libqhullcpp/Qhull.h"
 
 #include <iostream>
 #include <algorithm>

@@ -7,8 +7,8 @@
    see qh-qhull.htm, qhull_a.h
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull/libqhull.h#5 $$Change: 2043 $
-   $DateTime: 2016/01/03 15:41:27 $$Author: bbarber $
+   $Id: //main/2015/qhull/src/libqhull/libqhull.h#7 $$Change: 2066 $
+   $DateTime: 2016/01/18 19:29:17 $$Author: bbarber $
 
    NOTE: access to qh_qh is via the 'qh' macro.  This allows
    qh_qh to be either a pointer or a structure.  An example
@@ -31,7 +31,12 @@
 
 /*=========================== -included files ==============*/
 
+/* user_r.h first for QHULL_CRTDBG */
 #include "user.h"      /* user definable constants (e.g., qh_QHpointer) */
+
+#include "mem.h"   /* Needed qhT in libqhull_r.h.  Here for compatibility */
+#include "qset.h"   /* Needed for QHULL_LIB_CHECK */
+/* include stat_r.h after defining boolT.  Needed for qhT in libqhull_r.h.  Here for compatibility and statT */
 
 #include <setjmp.h>
 #include <float.h>
@@ -125,6 +130,8 @@ qh_pointT;
 #define qh_False 0
 #define qh_True 1
 
+#include "stat.h"  /* after define of boolT */
+
 /*-<a                             href="qh-qhull.htm#TOC"
   >--------------------------------</a><a name="CENTERtype">-</a>
 
@@ -133,7 +140,9 @@ qh_pointT;
 */
 typedef enum
 {
-    qh_ASnone = 0, qh_ASvoronoi, qh_AScentrum
+    qh_ASnone = 0,   /* If not MERGING and not VORONOI */
+    qh_ASvoronoi,    /* Set by qh_clearcenters on qh_prepare_output, or if not MERGING and VORONOI */
+    qh_AScentrum     /* If MERGING (assumed during merging) */
 }
 qh_CENTER;
 
@@ -202,6 +211,8 @@ For C++ interface.  Must redefine qh_fprintf_qhull
    all realT and coordT fields occur at the beginning of a structure
         (otherwise space may be wasted due to alignment)
    define all flags together and pack into 32-bit number
+   DEFsetT is likewise defined in
+   mem.h and qset.h
 */
 
 typedef struct vertexT vertexT;
@@ -210,11 +221,6 @@ typedef struct facetT facetT;
 #ifndef DEFsetT
 #define DEFsetT 1
 typedef struct setT setT;          /* defined in qset.h */
-#endif
-
-#ifndef DEFqhstatT
-#define DEFqhstatT 1
-typedef struct qhstatT qhstatT;    /* defined in stat.h */
 #endif
 
 /*-<a                             href="qh-poly.htm#TOC"
@@ -277,9 +283,13 @@ struct facetT {
    facetT *trivisible;  /* visible facet for ->tricoplanar facets during qh_triangulate() */
    facetT *triowner;    /* owner facet for ->tricoplanar, !isarea facets w/ ->keepcentrum */
   }f;
-  coordT  *center;      /*  centrum for convexity, qh.CENTERtype == qh_AScentrum */
-                        /*  Voronoi center, qh.CENTERtype == qh_ASvoronoi */
-                        /*   if tricoplanar, shared with a neighbor */
+  coordT  *center;      /* set according to qh.CENTERtype */
+                        /*   qh_ASnone:    no center (not MERGING) */
+                        /*   qh_AScentrum: centrum for testing convexity (qh_getcentrum) */
+                        /*                 assumed qh_AScentrum while merging */
+                        /*   qh_ASvoronoi: Voronoi center (qh_facetcenter) */
+                        /* after constructing the hull, it may be changed (qh_clearcenter) */
+                        /* if tricoplanar and !keepcentrum, shared with a neighbor */
   facetT  *previous;    /* previous facet in the facet_list */
   facetT  *next;        /* next facet in the facet_list */
   setT    *vertices;    /* vertices for this facet, inverse sorted by ID
@@ -302,10 +312,10 @@ struct facetT {
   unsigned nummerge:9;  /* number of merges */
 #define qh_MAXnummerge 511 /*     2^9-1, 32 flags total, see "flags:" in io.c */
   flagT    tricoplanar:1; /* True if TRIangulate and simplicial and coplanar with a neighbor */
-                          /*   all tricoplanars share the same ->center, ->normal, ->offset, ->maxoutside */
                           /*   all tricoplanars share the same apex */
+                          /*   all tricoplanars share the same ->center, ->normal, ->offset, ->maxoutside */
+                          /*     ->keepcentrum is true for the owner.  It has the ->coplanareset */
                           /*   if ->degenerate, does not span facet (one logical ridge) */
-                          /*   one tricoplanar has ->keepcentrum and ->coplanarset */
                           /*   during qh_triangulate, f.trivisible points to original facet */
   flagT    newfacet:1;  /* True if facet on qh.newfacet_list (new or merged) */
   flagT    visible:1;   /* True if visible facet (will be deleted) */
@@ -363,7 +373,7 @@ struct ridgeT {
                            NULL if a degen ridge (matchsame) */
   facetT  *top;         /* top facet this ridge is part of */
   facetT  *bottom;      /* bottom facet this ridge is part of */
-  unsigned id;          /* unique identifier for 'f' output and debugging, ignored if overflow */
+  unsigned id;          /* unique identifier.  Same size as vertex_id and ridge_id */
   flagT    seen:1;      /* used to perform operations only once */
   flagT    tested:1;    /* True when ridge is tested for convexity */
   flagT    nonconvex:1; /* True if getmergeset detected a non-convex neighbor
@@ -389,7 +399,7 @@ struct vertexT {
   pointT  *point;       /* hull_dim coordinates (coordT) */
   setT    *neighbors;   /* neighboring facets of vertex, qh_vertexneighbors()
                            inits in io.c or after first merge */
-  unsigned id;          /* unique identifier, size matches qh.vertex_id */
+  unsigned id;          /* unique identifier.  Same size as qh.vertex_id and qh.ridge_id */
   unsigned visitid;     /* for use with qh.vertex_visit, size must match */
   flagT    seen:1;      /* used to perform operations only once */
   flagT    seen2:1;     /* another seen flag */
@@ -564,7 +574,7 @@ struct qhT {
   realT TRACEdist;        /* 'TWn' start tracing when merge distance too big */
   int   TRACEmerge;       /* 'TMn' start tracing before this merge */
   boolT TRIangulate;      /* true 'Qt' if triangulate non-simplicial facets */
-  boolT TRInormals;       /* true 'Q11' if triangulate duplicates normals (sets Qt) */
+  boolT TRInormals;       /* true 'Q11' if triangulate duplicates ->normal and ->center (sets Qt) */
   boolT UPPERdelaunay;    /* true 'Qu' if computing furthest-site Delaunay */
   boolT USEstdout;        /* true 'Tz' if using stdout instead of stderr */
   boolT VERIFYoutput;     /* true 'Tv' if verify output at end of qhull */
@@ -647,7 +657,7 @@ struct qhT {
   char jmpXtra[40];       /* extra bytes in case jmp_buf is defined wrong by compiler */
   jmp_buf restartexit;    /* restart label for qh_errexit, defined by setjmp() and ALLOWrestart */
   char jmpXtra2[40];      /* extra bytes in case jmp_buf is defined wrong by compiler*/
-  FILE *fin;              /* pointer to input file, init by qh_meminit */
+  FILE *fin;              /* pointer to input file, init by qh_initqhull_start2 */
   FILE *fout;             /* pointer to output file */
   FILE *ferr;             /* pointer to error file */
   pointT *interior_point; /* center point of the initial simplex*/
@@ -682,7 +692,7 @@ struct qhT {
   vertexT *newvertex_list; /* list of vertices in newfacet_list, to vertex_tail
                              all vertices have 'newlist' set */
   int   num_facets;       /* number of facets in facet_list
-                             includes visble faces (num_visible) */
+                             includes visible faces (num_visible) */
   int   num_vertices;     /* number of vertices in facet_list */
   int   num_outside;      /* number of points in outsidesets (for tracing and RANDOMoutside)
                                includes coplanar outsideset points for NARROWhull/qh_outcoplanar() */

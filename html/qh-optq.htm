@@ -694,8 +694,8 @@ merge across a duplicate ridge would increase the facet width by 100x or more.
 
 <p>Use option 'Q12' to log a warning instead of throwing an error.
 
-<p>A simple workaround for Delaunay triangulations and Voronoi diagrams is to add a bounding
-box to the input sites. This avoids the ill-defined edge between upper and lower convex hulls.
+<p>For Delaunay triangulations, a bounding box may alleviate this error (e.g., <tt>rbox 500 C1,1E-13 t c G1 | qhull d</tt>).
+This avoids the ill-defined edge between upper and lower convex hulls.
 The problem will be fixed in a future release of Qhull.
 
 <p>To demonstrate the problem, use rbox option 'Cn,r,m' to generate nearly coincident points.

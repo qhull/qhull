@@ -1,21 +1,21 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2015/qhull/src/libqhullcpp/QhullRidge.h#1 $$Change: 1981 $
-** $DateTime: 2015/09/28 20:26:32 $$Author: bbarber $
+** $Id: //main/2015/qhull/src/libqhullcpp/QhullRidge.h#3 $$Change: 2066 $
+** $DateTime: 2016/01/18 19:29:17 $$Author: bbarber $
 **
 ****************************************************************************/
 
 #ifndef QHULLRIDGE_H
 #define QHULLRIDGE_H
 
-#include "QhullSet.h"
-#include "QhullVertex.h"
-#include "QhullVertexSet.h"
-#include "QhullFacet.h"
 extern "C" {
     #include "libqhull_r/qhull_ra.h"
 }
+#include "libqhullcpp/QhullSet.h"
+#include "libqhullcpp/QhullVertex.h"
+#include "libqhullcpp/QhullVertexSet.h"
+#include "libqhullcpp/QhullFacet.h"
 
 #include <ostream>
 

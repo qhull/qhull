@@ -4,6 +4,8 @@
    user.h
    user redefinable constants
 
+   for each source file, user_r.h is included first
+
    see qh-user_r.htm.  see COPYING for copyright information.
 
    See user_r.c for sample code.
@@ -30,6 +32,13 @@ Code flags --
 #ifndef qhDEFuser
 #define qhDEFuser 1
 
+/* Derived from Qt's corelib/global/qglobal.h */
+#if !defined(SAG_COM) && !defined(__CYGWIN__) && (defined(WIN64) || defined(_WIN64) || defined(__WIN64__) || defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__))
+#   define QHULL_OS_WIN
+#elif defined(__MWERKS__) && defined(__INTEL__) /* Metrowerks discontinued before the release of Intel Macs */
+#   define QHULL_OS_WIN
+#endif
+
 /*============================================================*/
 /*============= qhull library constants ======================*/
 /*============================================================*/
@@ -51,8 +60,8 @@ Code flags --
   If add new messages, assign these values and increment in user.h and user_r.h
   See QhullError.h for 10000 errors.
 
-  def counters =  [27, 1047, 2059, 3026, 4068, 5003,
-     6272, 7081, 8147, 9410, 10000, 11029]
+  def counters =  [27, 1048, 2059, 3026, 4068, 5003,
+     6273, 7081, 8147, 9411, 10000, 11029]
 
   See: qh_ERR* [libqhull_r.h]
 */
@@ -67,12 +76,12 @@ Code flags --
 #define MSG_WARNING 7000
 #define MSG_STDERR  8000  /* log messages Written to qh.ferr */
 #define MSG_OUTPUT  9000
-#define MSG_QHULL_ERROR 10000 /* errors thrown by QhullError.cpp (QHULLlastError in QhullError.h) */
+#define MSG_QHULL_ERROR 10000 /* errors thrown by QhullError.cpp (QHULLlastError is in QhullError.h) */
 #define MSG_FIXUP  11000  /* FIXUP QH11... */
 #define MSG_MAXLEN  3000 /* qh_printhelp_degenerate() in user.c */
 
 
-/*-<a                             href="qh-us_r.htm#TOC"
+/*-<a                             href="qh-user_r.htm#TOC"
   >--------------------------------</a><a name="qh_OPTIONline">-</a>
 
   qh_OPTIONline -- max length of an option line 'FO'
@@ -83,7 +92,7 @@ Code flags --
 /*============= data types and configuration macros ==========*/
 /*============================================================*/
 
-/*-<a                             href="qh-us_r.htm#TOC"
+/*-<a                             href="qh-user_r.htm#TOC"
   >--------------------------------</a><a name="realT">-</a>
 
   realT
@@ -156,17 +165,16 @@ Code flags --
 #error unknown float option
 #endif
 
-/*-<a                             href="qh-us_r.htm#TOC"
+/*-<a                             href="qh-user_r.htm#TOC"
   >--------------------------------</a><a name="countT">-</a>
 
   countT
     The type for counts and identifiers (e.g., the number of points, vertex identifiers)
+    Currently used by C++ code-only.  Decided against using it for setT because most sets are small.
 
-    Typically 'int' or 'long long'.
+    Defined as 'int' for C-code compatibility and QH11026
 
     FIXUP QH11026 countT may be defined as a unsigned value, but several code issues need to be solved first.  See countT in Changes.txt
-
-    Also defined in qset_r.h
 */
 
 #ifndef DEFcountT
@@ -176,7 +184,7 @@ typedef int countT;
 #define COUNTmax 0x7fffffff
 
 
-/*-<a                             href="qh-us_r.htm#TOC"
+/*-<a                             href="qh-user_r.htm#TOC"
   >--------------------------------</a><a name="CPUclock">-</a>
 
   qh_CPUclock
@@ -232,7 +240,7 @@ typedef int countT;
 #error unknown clock option
 #endif
 
-/*-<a                             href="qh-us_r.htm#TOC"
+/*-<a                             href="qh-user_r.htm#TOC"
   >--------------------------------</a><a name="RANDOM">-</a>
 
   qh_RANDOMtype, qh_RANDOMmax, qh_RANDOMseed
@@ -300,7 +308,7 @@ typedef int countT;
 #error: unknown random option
 #endif
 
-/*-<a                             href="qh-us_r.htm#TOC"
+/*-<a                             href="qh-user_r.htm#TOC"
   >--------------------------------</a><a name="ORIENTclock">-</a>
 
   qh_ORIENTclock
@@ -313,7 +321,7 @@ typedef int countT;
 /*============= joggle constants =============================*/
 /*============================================================*/
 
-/*-<a                             href="qh-us_r.htm#TOC"
+/*-<a                             href="qh-user_r.htm#TOC"
 >--------------------------------</a><a name="JOGGLEdefault">-</a>
 
 qh_JOGGLEdefault
@@ -335,7 +343,7 @@ pick a value large enough to avoid retries on most inputs
 */
 #define qh_JOGGLEdefault 30000.0
 
-/*-<a                             href="qh-us_r.htm#TOC"
+/*-<a                             href="qh-user_r.htm#TOC"
 >--------------------------------</a><a name="JOGGLEincrease">-</a>
 
 qh_JOGGLEincrease
@@ -343,7 +351,7 @@ factor to increase qh.JOGGLEmax on qh_JOGGLEretry or qh_JOGGLEagain
 */
 #define qh_JOGGLEincrease 10.0
 
-/*-<a                             href="qh-us_r.htm#TOC"
+/*-<a                             href="qh-user_r.htm#TOC"
 >--------------------------------</a><a name="JOGGLEretry">-</a>
 
 qh_JOGGLEretry
@@ -354,7 +362,7 @@ try twice at the original value in case of bad luck the first time
 */
 #define qh_JOGGLEretry 2
 
-/*-<a                             href="qh-us_r.htm#TOC"
+/*-<a                             href="qh-user_r.htm#TOC"
 >--------------------------------</a><a name="JOGGLEagain">-</a>
 
 qh_JOGGLEagain
@@ -365,7 +373,7 @@ notes:
 */
 #define qh_JOGGLEagain 1
 
-/*-<a                             href="qh-us_r.htm#TOC"
+/*-<a                             href="qh-user_r.htm#TOC"
 >--------------------------------</a><a name="JOGGLEmaxincrease">-</a>
 
 qh_JOGGLEmaxincrease
@@ -377,7 +385,7 @@ qh.joggleinput will retry at this value until qh_JOGGLEmaxretry
 */
 #define qh_JOGGLEmaxincrease 1e-2
 
-/*-<a                             href="qh-us_r.htm#TOC"
+/*-<a                             href="qh-user_r.htm#TOC"
 >--------------------------------</a><a name="JOGGLEmaxretry">-</a>
 
 qh_JOGGLEmaxretry
@@ -389,7 +397,7 @@ stop after qh_JOGGLEmaxretry attempts
 /*============= performance related constants ================*/
 /*============================================================*/
 
-/*-<a                             href="qh-us_r.htm#TOC"
+/*-<a                             href="qh-user_r.htm#TOC"
   >--------------------------------</a><a name="HASHfactor">-</a>
 
   qh_HASHfactor
@@ -400,7 +408,7 @@ stop after qh_JOGGLEmaxretry attempts
 */
 #define qh_HASHfactor 2
 
-/*-<a                             href="qh-us_r.htm#TOC"
+/*-<a                             href="qh-user_r.htm#TOC"
   >--------------------------------</a><a name="VERIFYdirect">-</a>
 
   qh_VERIFYdirect
@@ -411,7 +419,7 @@ stop after qh_JOGGLEmaxretry attempts
 */
 #define qh_VERIFYdirect 1000000
 
-/*-<a                             href="qh-us_r.htm#TOC"
+/*-<a                             href="qh-user_r.htm#TOC"
   >--------------------------------</a><a name="INITIALsearch">-</a>
 
   qh_INITIALsearch
@@ -419,7 +427,7 @@ stop after qh_JOGGLEmaxretry attempts
 */
 #define qh_INITIALsearch 6
 
-/*-<a                             href="qh-us_r.htm#TOC"
+/*-<a                             href="qh-user_r.htm#TOC"
   >--------------------------------</a><a name="INITIALmax">-</a>
 
   qh_INITIALmax
@@ -435,7 +443,7 @@ stop after qh_JOGGLEmaxretry attempts
 /*============= memory constants =============================*/
 /*============================================================*/
 
-/*-<a                             href="qh-us_r.htm#TOC"
+/*-<a                             href="qh-user_r.htm#TOC"
   >--------------------------------</a><a name="MEMalign">-</a>
 
   qh_MEMalign
@@ -456,7 +464,7 @@ stop after qh_JOGGLEmaxretry attempts
 */
 #define qh_MEMalign ((int)(fmax_(sizeof(realT), sizeof(void *))))
 
-/*-<a                             href="qh-us_r.htm#TOC"
+/*-<a                             href="qh-user_r.htm#TOC"
   >--------------------------------</a><a name="MEMbufsize">-</a>
 
   qh_MEMbufsize
@@ -467,7 +475,7 @@ stop after qh_JOGGLEmaxretry attempts
 */
 #define qh_MEMbufsize 0x10000       /* allocate 64K memory buffers */
 
-/*-<a                             href="qh-us_r.htm#TOC"
+/*-<a                             href="qh-user_r.htm#TOC"
   >--------------------------------</a><a name="MEMinitbuf">-</a>
 
   qh_MEMinitbuf
@@ -478,7 +486,7 @@ stop after qh_JOGGLEmaxretry attempts
 */
 #define qh_MEMinitbuf 0x20000      /* initially allocate 128K buffer */
 
-/*-<a                             href="qh-us_r.htm#TOC"
+/*-<a                             href="qh-user_r.htm#TOC"
   >--------------------------------</a><a name="INFINITE">-</a>
 
   qh_INFINITE
@@ -486,7 +494,7 @@ stop after qh_JOGGLEmaxretry attempts
 */
 #define qh_INFINITE  -10.101
 
-/*-<a                             href="qh-us_r.htm#TOC"
+/*-<a                             href="qh-user_r.htm#TOC"
   >--------------------------------</a><a name="DEFAULTbox">-</a>
 
   qh_DEFAULTbox
@@ -502,7 +510,7 @@ stop after qh_JOGGLEmaxretry attempts
 /*============= conditional compilation ======================*/
 /*============================================================*/
 
-/*-<a                             href="qh-us_r.htm#TOC"
+/*-<a                             href="qh-user_r.htm#TOC"
   >--------------------------------</a><a name="compiler">-</a>
 
   __cplusplus
@@ -512,13 +520,16 @@ stop after qh_JOGGLEmaxretry attempts
     defined by Microsoft Visual C++
 
   __MWERKS__ && __INTEL__
-    defined by Metrowerks when compiling for Intel-based Macintosh
+    defined by Metrowerks when compiling for Windows (not Intel-based Macintosh)
+
+  __MWERKS__ && __POWERPC__
+    defined by Metrowerks when compiling for PowerPC-based Macintosh
 
   __STDC__
     defined for strict ANSI C
 */
 
-/*-<a                             href="qh-us_r.htm#TOC"
+/*-<a                             href="qh-user_r.htm#TOC"
   >--------------------------------</a><a name="COMPUTEfurthest">-</a>
 
   qh_COMPUTEfurthest
@@ -532,7 +543,7 @@ stop after qh_JOGGLEmaxretry attempts
 */
 #define qh_COMPUTEfurthest 0
 
-/*-<a                             href="qh-us_r.htm#TOC"
+/*-<a                             href="qh-user_r.htm#TOC"
   >--------------------------------</a><a name="KEEPstatistics">-</a>
 
   qh_KEEPstatistics
@@ -835,6 +846,35 @@ stop after qh_JOGGLEmaxretry attempts
       n= the cutoff for zero Delaunay facets (e.g., 'PD3:-1e-12')
 */
 #define qh_ZEROdelaunay 2
+
+/*============================================================*/
+/*============= Microsoft DevStudio ==========================*/
+/*============================================================*/
+
+/*
+   Finding Memory Leaks Using the CRT Library
+   https://msdn.microsoft.com/en-us/library/x98tx3cf(v=vs.100).aspx
+
+   Reports enabled in qh_lib_check for Debug window and stderr
+
+   From 2005=>msvcr80d, 2010=>msvcr100d, 2012=>msvcr110d
+
+   Watch: {,,msvcr80d.dll}_crtBreakAlloc  Value from {n} in the leak report
+   _CrtSetBreakAlloc(689); // qh_lib_check() [global_r.c]
+
+   Examples
+     http://free-cad.sourceforge.net/SrcDocu/d2/d7f/MemDebug_8cpp_source.html
+     https://github.com/illlust/Game/blob/master/library/MemoryLeak.cpp
+*/
+#if 0   /* off (0) by default for QHULL_CRTDBG */
+#define QHULL_CRTDBG
+#endif
+
+#if defined(_MSC_VER) && defined(_DEBUG) && defined(QHULL_CRTDBG)
+#define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>
+#include <crtdbg.h>
+#endif
 
 #endif /* qh_DEFuser */
 

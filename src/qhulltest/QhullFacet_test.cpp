@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2015/qhull/src/qhulltest/QhullFacet_test.cpp#2 $$Change: 2026 $
-** $DateTime: 2015/11/07 22:44:39 $$Author: bbarber $
+** $Id: //main/2015/qhull/src/qhulltest/QhullFacet_test.cpp#4 $$Change: 2062 $
+** $DateTime: 2016/01/17 13:13:18 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -46,7 +46,7 @@ private slots:
 void
 add_QhullFacet_test()
 {
-    new QhullFacet_test();
+    new QhullFacet_test();  // RoadTest::s_testcases
 }
 
 //Executed after each testcase
@@ -88,8 +88,6 @@ t_constructConvert()
     QCOMPARE(f,f3);
     QhullFacet f4(q, f2.getBaseT());
     QCOMPARE(f,f4);
-    q.checkAndFreeQhullMemory();
-    q2.checkAndFreeQhullMemory();
 }//t_constructConvert
 
 void QhullFacet_test::
@@ -189,9 +187,6 @@ t_getSet()
             }
         }
         QCOMPARE(voronoiCount, 1);
-        q.checkAndFreeQhullMemory();
-        q2.checkAndFreeQhullMemory();
-        q3.checkAndFreeQhullMemory();
     }
 }//t_getSet
 
@@ -214,7 +209,6 @@ t_value()
                 QVERIFY(maxoutside<1e-7);
             #endif
         }
-        q.checkAndFreeQhullMemory();
     }
 }//t_value
 
@@ -247,7 +241,6 @@ t_foreach()
             QCOMPARE(ridgeCount, 4);
         }
         QCOMPARE(coplanarCount, 300);
-        q.checkAndFreeQhullMemory();
     }
 }//t_foreach
 
@@ -280,7 +273,6 @@ t_io()
         facetString3= facetString3.left(facetString3.indexOf("\n- f")+1);
         facetString3.replace(QRegExp("\\s\\s+"), " ");
         QCOMPARE(facetString2, facetString3);
-        q.checkAndFreeQhullMemory();
     }
 }//t_io
 

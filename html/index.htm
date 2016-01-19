@@ -267,6 +267,14 @@ href="http://www.qhull.org/download">version
 1.0</a> may also meet your needs. It detects precision problems,
 but does not handle them.</p>
 
+<p><a href=http://www.cgal.org>CGAL</a> is a library of efficient and reliable
+geometric algoriths.  It uses C++ templates and the Boost library to produce dimension-specific
+code.  This allows more efficient use of memory than Qhull's general-dimension
+code.  CGAL simulates arbitrary precision while Qhull handles round-off error
+with thick facets (<a href="http://doc.cgal.org/latest/Manual/devman_robustness.html">Robustness Issues in CGAL</a>,
+<a href+"qh-impre.htm">Imprecision in Qhull</a>).
+
+
 <p><a href=http://www.algorithmic-solutions.com/enleda.htm>Leda</a> is a
 library for writing computational
 geometry programs and other combinatorial algorithms.  It
@@ -622,7 +630,7 @@ and see how Qhull produces thick facets in response to round-off error.
 <li>Geomview creates the <i>Geomview control panel</i> with Targets and External Module, the <i>Geomview toolbar</i> with buttons for controlling Geomview, and the <i>Geomview camera window</i> showing a cube.
 <li>Clear the camera window by selecting your object in the Targets list and 'Edit > Delete' or 'dd'
 <li>Load the <i>Geomview files panel</i>.  Select 'Open' in the 'File' menu.
-<li>Set 'Filter' in the files panel to your example directory followed by '/*' (e.g., '/usr/local/qhull-2015.1/eg/*')
+<li>Set 'Filter' in the files panel to your example directory followed by '/*' (e.g., '/usr/local/qhull-2015.2/eg/*')
 <li>Click 'Filter' in the files panel to view your examples in the 'Files' list.
 <li>Load another example into the camera window by selecting it and clicking 'OK'.
 <li>Review the instructions for <a href="http://www.geomview.org/docs/html/Interaction.html">Interacting with Geomview</a>

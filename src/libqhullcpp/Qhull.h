@@ -1,17 +1,17 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2015/qhull/src/libqhullcpp/Qhull.h#1 $$Change: 1981 $
-** $DateTime: 2015/09/28 20:26:32 $$Author: bbarber $
+** $Id: //main/2015/qhull/src/libqhullcpp/Qhull.h#3 $$Change: 2066 $
+** $DateTime: 2016/01/18 19:29:17 $$Author: bbarber $
 **
 ****************************************************************************/
 
 #ifndef QHULLCPP_H
 #define QHULLCPP_H
 
-#include "QhullPoint.h"
-#include "QhullVertex.h"
-#include "QhullFacet.h"
+#include "libqhullcpp/QhullPoint.h"
+#include "libqhullcpp/QhullVertex.h"
+#include "libqhullcpp/QhullFacet.h"
 
 namespace orgQhull {
 
@@ -116,7 +116,6 @@ public:
 
 #//!\name Methods
     double              area();
-    void                checkAndFreeQhullMemory() { qh_qh->checkAndFreeQhullMemory(); }
     void                outputQhull();
     void                outputQhull(const char * outputflags);
     void                runQhull(const RboxPoints &rboxPoints, const char *qhullCommand2);

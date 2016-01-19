@@ -32,7 +32,7 @@
   notes:
     qh_exit() is called when qh_errexit() and longjmp() are not available.
 
-    This is the only use of exit() in libqhull, libqhull_r, or libqhullcpp
+    This is the only use of exit() in Qhull
     To replace qh_exit with 'throw', see libqhullcpp/usermem_r-cpp.cpp
 */
 void qh_exit(int exitcode) {

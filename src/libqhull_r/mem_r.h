@@ -12,8 +12,8 @@
      qh_errexit(qhT *qh, qhmem_ERRqhull, NULL, NULL) otherwise
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull_r/mem_r.h#2 $$Change: 2042 $
-   $DateTime: 2016/01/03 13:26:21 $$Author: bbarber $
+   $Id: //main/2015/qhull/src/libqhull_r/mem_r.h#3 $$Change: 2062 $
+   $DateTime: 2016/01/17 13:13:18 $$Author: bbarber $
 */
 
 #ifndef qhDEFmem
@@ -156,7 +156,7 @@ struct qhmemT {               /* global memory management variables */
 /*-<a                             href="qh-mem_r.htm#TOC"
   >--------------------------------</a><a name="memalloc_">-</a>
 
-  qh_memalloc_(qh, freelistp, insize, object, type)
+  qh_memalloc_(qh, insize, freelistp, object, type)
     returns object of size bytes
         assumes size<=qh->qhmem.LASTsize and void **freelistp is a temp
 */

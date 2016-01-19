@@ -10,8 +10,6 @@
 */
 
 #include "libqhull/libqhull.h"
-#include "libqhull/mem.h"
-#include "libqhull/qset.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -305,9 +303,9 @@ qhull error: options 'Qbk:n' and 'QBk:n' are not used with qhalf.\n\
   }
   qh NOerrexit= True;  /* no more setjmp */
 #ifdef qh_NOmem
-  qh_freeqhull( True);
+  qh_freeqhull(qh_ALL);
 #else
-  qh_freeqhull( False);
+  qh_freeqhull(!qh_ALL);
   qh_memfreeshort(&curlong, &totlong);
   if (curlong || totlong)
     qh_fprintf_stderr(6263, "qhull internal warning (main): did not free %d bytes of long memory(%d pieces)\n",

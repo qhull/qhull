@@ -369,7 +369,7 @@ Also try 'user_eg2 T1 2>&1'\n\n");
     coordT array[TOTpoints][DIM];
 
     qh->NOerrexit= False;
-    strcat(qh->rbox_command, "user_eg cube");
+    strcat(qh->rbox_command, "user_eg2 cube example");
     sprintf(options, "qhull s Tcv Q11 %s ", argc >= 2 ? argv[1] : "");
     qh_initflags(qh, options);
     printf( "\ncompute triangulated convex hull of cube after rotating input\n");
@@ -392,6 +392,9 @@ Also try 'user_eg2 T1 2>&1'\n\n");
   qh->NOerrexit= True;
   qh_freeqhull(qh, !qh_ALL);
   qh_memfreeshort(qh, &curlong, &totlong);
+  if (curlong || totlong)
+      fprintf(stderr, "qhull warning (user_eg2, run 1): did not free %d bytes of long memory (%d pieces)\n",
+          totlong, curlong);
   /*
     Run 2: Delaunay triangulation
   */
@@ -401,7 +404,7 @@ Also try 'user_eg2 T1 2>&1'\n\n");
     coordT array[TOTpoints][DIM];
 
     qh->NOerrexit= False;
-    strcat(qh->rbox_command, "user_eg Delaunay");
+    strcat(qh->rbox_command, "user_eg2 Delaunay example");
     sprintf(options, "qhull s d Tcv %s", argc >= 3 ? argv[2] : "");
     qh_initflags(qh, options);
     printf( "\ncompute %d-d Delaunay triangulation\n", DIM-1);
@@ -433,6 +436,9 @@ Also try 'user_eg2 T1 2>&1'\n\n");
   qh->NOerrexit= True;
   qh_freeqhull(qh, !qh_ALL);
   qh_memfreeshort(qh, &curlong, &totlong);
+  if (curlong || totlong) 
+      fprintf(stderr, "qhull warning (user_eg2, run 2): did not free %d bytes of long memory (%d pieces)\n",
+         totlong, curlong);
   /*
     Run 3: halfspace intersection
   */
@@ -443,7 +449,7 @@ Also try 'user_eg2 T1 2>&1'\n\n");
     pointT *points;
 
     qh->NOerrexit= False;
-    strcat(qh->rbox_command, "user_eg halfspaces");
+    strcat(qh->rbox_command, "user_eg2 halfspace example");
     sprintf(options, "qhull H0 s Tcv %s", argc >= 4 ? argv[3] : "");
     qh_initflags(qh, options);
     printf( "\ncompute halfspace intersection about the origin for a diamond\n");
@@ -469,9 +475,9 @@ Also try 'user_eg2 T1 2>&1'\n\n");
   qh->NOerrexit= True;
   qh_freeqhull(qh, !qh_ALL);
   qh_memfreeshort(qh, &curlong, &totlong);
-  if (curlong || totlong)  /* could also check previous runs */
-    fprintf(stderr, "qhull internal warning (main): did not free %d bytes of long memory (%d pieces)\n",
-       totlong, curlong);
+  if (curlong || totlong)
+      fprintf(stderr, "qhull warning (user_eg2, run 3): did not free %d bytes of long memory (%d pieces)\n",
+          totlong, curlong);
   return exitcode;
 } /* main */
 

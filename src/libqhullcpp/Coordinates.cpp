@@ -1,14 +1,15 @@
 /****************************************************************************
 **
 ** Copyright (c) 2009-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2015/qhull/src/libqhullcpp/Coordinates.cpp#1 $$Change: 1981 $
-** $DateTime: 2015/09/28 20:26:32 $$Author: bbarber $
+** $Id: //main/2015/qhull/src/libqhullcpp/Coordinates.cpp#4 $$Change: 2066 $
+** $DateTime: 2016/01/18 19:29:17 $$Author: bbarber $
 **
 ****************************************************************************/
 
-#include "functionObjects.h"
-#include "QhullError.h"
-#include "Coordinates.h"
+#include "libqhullcpp/Coordinates.h"
+
+#include "libqhullcpp/functionObjects.h"
+#include "libqhullcpp/QhullError.h"
 
 #include <iostream>
 #include <iterator>

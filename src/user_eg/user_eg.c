@@ -46,7 +46,7 @@
 */
 
 #define qh_QHimport
-#include "qhull_a.h"
+#include "libqhull/qhull_a.h"
 
 /*-------------------------------------------------
 -internal function prototypes

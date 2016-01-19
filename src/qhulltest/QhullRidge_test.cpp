@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2015/qhull/src/qhulltest/QhullRidge_test.cpp#1 $$Change: 1981 $
-** $DateTime: 2015/09/28 20:26:32 $$Author: bbarber $
+** $Id: //main/2015/qhull/src/qhulltest/QhullRidge_test.cpp#3 $$Change: 2062 $
+** $DateTime: 2016/01/17 13:13:18 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -40,7 +40,7 @@ private slots:
 void
 add_QhullRidge_test()
 {
-    new QhullRidge_test();
+    new QhullRidge_test();  // RoadTest::s_testcases
 }
 
 //Executed after each testcase
@@ -74,7 +74,6 @@ t_construct()
     QhullRidge r5= r2; // copy constructor
     QVERIFY(r5==r2);
     QVERIFY(r5==r);
-    q.checkAndFreeQhullMemory();
 }//t_construct
 
 void QhullRidge_test::
@@ -100,7 +99,6 @@ t_getSet()
             QCOMPARE(r.otherFacet(r.bottomFacet()),r.topFacet());
             QCOMPARE(r.otherFacet(r.topFacet()),r.bottomFacet());
         }
-        q.checkAndFreeQhullMemory();
     }
 }//t_getSet
 
@@ -135,7 +133,6 @@ t_foreach()
         }
         QCOMPARE(vs.count(), rs.count());
         QCOMPARE(count, rs.count());
-        q.checkAndFreeQhullMemory();
     }
 }//t_foreach
 
@@ -154,7 +151,6 @@ t_io()
         cout << os.str();
         QString s= QString::fromStdString(os.str());
         QCOMPARE(s.count(" r"), 6);
-        q.checkAndFreeQhullMemory();
     }
 }//t_io
 

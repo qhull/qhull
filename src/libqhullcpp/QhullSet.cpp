@@ -1,16 +1,17 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2015/qhull/src/libqhullcpp/QhullSet.cpp#1 $$Change: 1981 $
-** $DateTime: 2015/09/28 20:26:32 $$Author: bbarber $
+** $Id: //main/2015/qhull/src/libqhullcpp/QhullSet.cpp#3 $$Change: 2066 $
+** $DateTime: 2016/01/18 19:29:17 $$Author: bbarber $
 **
 ****************************************************************************/
 
 #//! QhullSet -- Qhull's set structure, setT, as a C++ class
 
-#include "Qhull.h"
-#include "QhullError.h"
-#include "QhullSet.h"
+#include "libqhullcpp/QhullSet.h"
+
+#include "libqhullcpp/Qhull.h"
+#include "libqhullcpp/QhullError.h"
 
 #ifdef _MSC_VER  // Microsoft Visual C++ -- warning level 4
 #endif

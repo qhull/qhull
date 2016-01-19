@@ -12,10 +12,11 @@
    of the set (i.e., setelemT).
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull/qset.c#2 $$Change: 2010 $
-   $DateTime: 2015/10/19 22:23:22 $$Author: bbarber $
+   $Id: //main/2015/qhull/src/libqhull/qset.c#3 $$Change: 2062 $
+   $DateTime: 2016/01/17 13:13:18 $$Author: bbarber $
 */
 
+#include "user.h" /* for QHULL_CRTDBG */
 #include "qset.h"
 #include "mem.h"
 #include <stdio.h>

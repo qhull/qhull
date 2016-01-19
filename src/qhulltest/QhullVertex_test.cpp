@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2015/qhull/src/qhulltest/QhullVertex_test.cpp#1 $$Change: 1981 $
-** $DateTime: 2015/09/28 20:26:32 $$Author: bbarber $
+** $Id: //main/2015/qhull/src/qhulltest/QhullVertex_test.cpp#3 $$Change: 2062 $
+** $DateTime: 2016/01/17 13:13:18 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -43,7 +43,7 @@ private slots:
 void
 add_QhullVertex_test()
 {
-    new QhullVertex_test();
+    new QhullVertex_test();  // RoadTest::s_testcases
 }
 
 //Executed after each testcase
@@ -77,7 +77,6 @@ t_constructConvert()
     QCOMPARE(v,v3);
     QhullVertex v4(q, v2.getBaseT());
     QCOMPARE(v,v4);
-    q.checkAndFreeQhullMemory();
 }//t_constructConvert
 
 void QhullVertex_test::
@@ -114,7 +113,6 @@ t_getSet()
             cout << "Point " << j << ":\n" << p << endl;
             QVERIFY(j>=0 && j<8);
         }
-        q.checkAndFreeQhullMemory();
     }
 }//t_getSet
 
@@ -131,7 +129,6 @@ t_foreach()
                 QVERIFY(f.vertices().contains(v));
             }
         }
-        q.checkAndFreeQhullMemory();
     }
 }//t_foreach
 
@@ -154,7 +151,6 @@ t_io()
         QString s= QString::fromStdString(os.str());
         QCOMPARE(s.count("(v"), 10);
         QCOMPARE(s.count(": f"), 2);
-        q.checkAndFreeQhullMemory();
     }
     RboxPoints r10("10 D3");  // Without QhullVertex::facetNeighbors
     {
@@ -180,7 +176,6 @@ t_io()
         cout << os2.str();
         QString s2= QString::fromStdString(os2.str());
         QCOMPARE(s2.count(": f"), 1);
-        q.checkAndFreeQhullMemory();
     }
 }//t_io
 

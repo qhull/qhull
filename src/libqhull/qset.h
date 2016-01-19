@@ -17,8 +17,8 @@
     - sets may be sorted or unsorted, the caller must distinguish this
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull/qset.h#1 $$Change: 1981 $
-   $DateTime: 2015/09/28 20:26:32 $$Author: bbarber $
+   $Id: //main/2015/qhull/src/libqhull/qset.h#2 $$Change: 2062 $
+   $DateTime: 2016/01/17 13:13:18 $$Author: bbarber $
 */
 
 #ifndef qhDEFset
@@ -32,6 +32,8 @@
 #define DEFsetT 1
 typedef struct setT setT;   /* a set is a sorted or unsorted array of pointers */
 #endif
+
+/* [jan'15] Decided not to use countT.  Most sets are small.  The code uses signed tests */
 
 /*-<a                                      href="qh-set.htm#TOC"
 >----------------------------------------</a><a name="setT">-</a>

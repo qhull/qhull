@@ -21,8 +21,8 @@
    vertex->neighbors not set until the first merge occurs
 
    Copyright (c) 1993-2015 C.B. Barber.
-   $Id: //main/2015/qhull/src/libqhull/merge.c#3 $$Change: 2042 $
-   $DateTime: 2016/01/03 13:26:21 $$Author: bbarber $
+   $Id: //main/2015/qhull/src/libqhull/merge.c#4 $$Change: 2064 $
+   $DateTime: 2016/01/18 12:36:08 $$Author: bbarber $
 */
 
 #include "qhull_a.h"
@@ -893,6 +893,7 @@ void qh_findbest_test(boolT testcentrum, facetT *facet, facetT *neighbor,
     returns min and max distances and their max absolute value
 
   notes:
+    error if qh_ASvoronoi
     avoids merging old into new
     assumes ridge->nonconvex only set on one ridge between a pair of facets
     could use an early out predicate but not worth it
@@ -915,6 +916,10 @@ facetT *qh_findbestneighbor(facetT *facet, realT *distp, realT *mindistp, realT 
   boolT nonconvex= True, testcentrum= False;
   int size= qh_setsize(facet->vertices);
 
+  if(qh CENTERtype==qh_ASvoronoi){
+    qh_fprintf(qh ferr, 6272, "qhull error: cannot call qh_findbestneighor for f%d while qh.CENTERtype is qh_ASvoronoi\n", facet->id);
+    qh_errexit(qh_ERRqhull, facet, NULL);
+  }
   *distp= REALmax;
   if (size > qh_BESTcentrum2 * qh hull_dim + qh_BESTcentrum) {
     testcentrum= True;
