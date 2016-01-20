@@ -9,9 +9,7 @@
 #ifndef QHULLPOINTS_H
 #define QHULLPOINTS_H
 
-extern "C" {
-    #include "libqhull_r/qhull_ra.h"
-}
+#include "libqhull_r/qhull_ra.h"
 #include "libqhullcpp/QhullPoint.h"
 
 #include <cstddef>  // ptrdiff_t, size_t

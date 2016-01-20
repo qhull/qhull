@@ -9,9 +9,7 @@
 #ifndef QHCOORDINATES_H
 #define QHCOORDINATES_H
 
-extern "C" {
-    #include "libqhull_r/qhull_ra.h"
-}
+#include "libqhull_r/qhull_ra.h"
 #include "libqhullcpp/QhullError.h"
 #include "libqhullcpp/QhullIterator.h"
 

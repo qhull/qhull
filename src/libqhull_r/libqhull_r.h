@@ -1017,6 +1017,10 @@ struct qhT {
 */
 #define FOREACHvertex_i_(qh, vertices) FOREACHsetelement_i_(qh, vertexT, vertices,vertex)
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /********* -libqhull_r.c prototypes (duplicated from qhull_ra.h) **********************/
 
 void    qh_qhull(qhT *qh);
@@ -1122,5 +1126,9 @@ void    qh_errexit_rbox(qhT *qh, int exitcode);
 
 void    qh_collectstatistics(qhT *qh);
 void    qh_printallstatistics(qhT *qh, FILE *fp, const char *string);
+
+#ifdef __cplusplus
+} /* extern "C" */
+#endif
 
 #endif /* qhDEFlibqhull */

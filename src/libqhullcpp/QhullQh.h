@@ -9,9 +9,7 @@
 #ifndef QHULLQH_H
 #define QHULLQH_H
 
-extern "C" {
-    #include "libqhull_r/qhull_ra.h"
-}
+#include "libqhull_r/qhull_ra.h"
 
 #include <string>
 

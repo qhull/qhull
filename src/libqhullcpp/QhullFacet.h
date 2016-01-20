@@ -9,9 +9,7 @@
 #ifndef QHULLFACET_H
 #define QHULLFACET_H
 
-extern "C" {
-    #include "libqhull_r/qhull_ra.h"
-}
+#include "libqhull_r/qhull_ra.h"
 #include "libqhullcpp/QhullHyperplane.h"
 #include "libqhullcpp/QhullPoint.h"
 #include "libqhullcpp/QhullSet.h"

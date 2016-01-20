@@ -7,16 +7,13 @@
 ****************************************************************************/
 
 //pre-compiled headers
-extern "C" {
-    #include "libqhull_r/user_r.h"
-}
+#include "libqhull_r/user_r.h"
+
 #include <iostream>
 #include "RoadTest.h" // QT_VERSION
 
 #include "libqhullcpp/RoadError.h"
-extern "C" {
-    #include "libqhull_r/qhull_ra.h"
-}
+#include "libqhull_r/qhull_ra.h"
 
 #include <sstream>
 #include <stdexcept>
