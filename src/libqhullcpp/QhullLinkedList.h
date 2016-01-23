@@ -9,9 +9,7 @@
 #ifndef QHULLLINKEDLIST_H
 #define QHULLLINKEDLIST_H
 
-extern "C" {
-    #include "libqhull_r/qhull_ra.h"
-}
+#include "libqhull_r/qhull_ra.h"
 #include "libqhullcpp/QhullError.h"
 
 #include <cstddef>  // ptrdiff_t, size_t

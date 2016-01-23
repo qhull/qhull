@@ -9,9 +9,7 @@
 #ifndef QHULLITERATOR_H
 #define QHULLITERATOR_H
 
-extern "C" {
-    #include "libqhull_r/qhull_ra.h"
-}
+#include "libqhull_r/qhull_ra.h"
 
 #include <assert.h>
 #include <iterator>
