@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2015/qhull/src/libqhullcpp/Qhull.cpp#3 $$Change: 2066 $
-** $DateTime: 2016/01/18 19:29:17 $$Author: bbarber $
+** $Id: //main/2015/qhull/src/libqhullcpp/Qhull.cpp#4 $$Change: 2078 $
+** $DateTime: 2016/02/07 16:53:56 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -263,14 +263,17 @@ runQhull(const RboxPoints &rboxPoints, const char *qhullCommand2)
 //! For rbox commands, see http://www.qhull.org/html/rbox.htm or html/rbox.htm
 //! For qhull commands, see http://www.qhull.org/html/qhull.htm or html/qhull.htm
 void Qhull::
-runQhull(const char *inputComment2, int pointDimension, int pointCount, const realT *pointCoordinates, const char *qhullCommand2)
+runQhull(const char *inputComment, int pointDimension, int pointCount, const realT *pointCoordinates, const char *qhullCommand)
 {
+  /* gcc may issue a "might be clobbered" warning for pointDimension and pointCoordinates [-Wclobbered].
+     These parameters are not referenced after a longjmp() and hence not clobbered.
+     See http://stackoverflow.com/questions/7721854/what-sense-do-these-clobbered-variable-warnings-make */
     if(run_called){
         throw QhullError(10027, "Qhull error: runQhull called twice.  Only one call allowed.");
     }
     run_called= true;
     string s("qhull ");
-    s += qhullCommand2;
+    s += qhullCommand;
     char *command= const_cast<char*>(s.c_str());
     /************* Expansion of QH_TRY_ for debugging
     int QH_TRY_status;
@@ -286,7 +289,7 @@ runQhull(const char *inputComment2, int pointDimension, int pointCount, const re
         qh_checkflags(qh_qh, command, const_cast<char *>(s_unsupported_options));
         qh_initflags(qh_qh, command);
         *qh_qh->rbox_command= '\0';
-        strncat( qh_qh->rbox_command, inputComment2, sizeof(qh_qh->rbox_command)-1);
+        strncat( qh_qh->rbox_command, inputComment, sizeof(qh_qh->rbox_command)-1);
         if(qh_qh->DELAUNAY){
             qh_qh->PROJECTdelaunay= True;   // qh_init_B() calls qh_projectinput()
         }

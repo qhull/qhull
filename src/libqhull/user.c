@@ -128,11 +128,13 @@
 */
 int qh_new_qhull(int dim, int numpoints, coordT *points, boolT ismalloc,
                 char *qhull_cmd, FILE *outfile, FILE *errfile) {
+  /* gcc may issue a "might be clobbered" warning for dim, points, and ismalloc [-Wclobbered].
+     These parameters are not referenced after a longjmp() and hence not clobbered.
+     See http://stackoverflow.com/questions/7721854/what-sense-do-these-clobbered-variable-warnings-make */
   int exitcode, hulldim;
   boolT new_ismalloc;
   static boolT firstcall = True;
   coordT *new_points;
-
   if(!errfile){
       errfile= stderr;
   }

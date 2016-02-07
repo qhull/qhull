@@ -1,4 +1,4 @@
-$Id: //main/2015/qhull/src/Changes.txt#28 $
+$Id: //main/2015/qhull/src/Changes.txt#29 $
 
 .............This file lists all changes to qhull and rbox.....................
 
@@ -16,6 +16,14 @@ Need help
  - The C++ interface needs work.  Give it a try and make it better. 
    http://github.com/qhull/qhull/wiki
 
+Octave creates endpoints for the ridges that would extend to infinity to be able to draw the diagram [M. Voss]
+
+ - Explanation of clobbered warning for Qhull::runQhull and qh_new_qhull
+ - html/index.htm: Add "Nearly coincident points" to "When to use Qhull"
+ - html/index.htm: Add Tomilov's qhullhull.hpp for general position input.
+ - index.htm: Add Tomilov's qhullhull.hpp for general position input.
+ - qh-faq.htm: Add a note about merging slivers in a Delaunay triangulation [M. Treacy] 
+ 
 ------------
 Qhull 2015.2 2016/01/18 (7.2.0) 
  - Fixed memory leak in ~QhullQh [M. Sandim]
@@ -155,7 +163,7 @@ Qhull 2015.0.5 2015/10/12 (7.0.5.1995)
 - usermem_r-cpp.cpp: Optional file to redefine qh_exit() as throw "QH10003.." [B. Pearlmutter]
   qh_exit() is called by qhull_r when qh_errexit() is not available.
 
-- html/index.htm:  Add bibliographic reference to Golub & van Loan and annotated the source references
+- html/index.htm:  Add bibliographic reference to Golub & van Loan and other references [R. Gaul]
 - qhalf.htm: A halfspace is the points on or below a hyperplane [D. Strawn]
 - qh-opto.htm#n: Defined inside, outside, on, above, and below a hyperplane [D. Strawn]
 - qhalf.htm#notes: Recast the linear program using negative halfspaces (as used by Qhull) [D. Strawn]
@@ -224,7 +232,7 @@ Qhull 2015.0.2 2015/9/1
 Qhull 2015.0.1 2015/8/31
 
  Source code changes
- - Increased size of vertexT.id and ridgeT.id to 2^32 [H. Strandenes, C. Cantwell]
+ - Increased size of vertexT.id and ridgeT.id to 2^32 [H. Strandenes, C. Carson, K. Nguyen]
    Reworded the warning message for ridgeT.id overflow.  It does not affect Qhull output
  - Add qh_lib_check to check for a compatible Qhull library.
    Programs should call QHULL_LIB_CHECK before calling Qhull.

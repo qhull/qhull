@@ -509,6 +509,12 @@ The merging options concern the empty circumsphere
 property of Delaunay triangles.  This is independent of the area of
 the Delaunay triangles.  Qhull does handle nearly coincident points.
 
+<p>If you are calling Qhull from a program, you can merge slivers into an adjacent facet.
+In d dimensions with simplicial facets (e.g., from 'Qt'), each facet has
+d+1 neighbors.  Each neighbor shares d vertices of the facet's d+1 vertices.  Let the
+other vertex be the <i>opposite</i> vertex.  For each neighboring facet, if its circumsphere
+includes the opposite.vertex, the two facets can be merged. [M. Treacy]
+
 <p>You can handle collinear or coplanar boundary points by
 enclosing the points in a box.  For example,
 (rbox c P0 P0,0.4999999999 c G1 | qdelaunay Fa), surrounds the

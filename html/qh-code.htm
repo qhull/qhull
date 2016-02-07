@@ -852,9 +852,10 @@ the most expensive function.
 <p>There are many ways in which Qhull can be improved. </p>
 
 <pre>
-[Jan 2015] Suggestions
+[Jan 2016] Suggestions
 ------------
 To do for a future verson of Qhull
+ - Add a post-merge pass for Delaunay slivers.  Merge into a neighbor with a circumsphere that includes the opposite point. [M. Treacy]
  - Add a merge pass before cone creation to remove duplicate subridges between horizon facets
  - Option to add a bounding box for Delaunay triangulations, e,g., nearly coincident points
  - Report error when rbox Cn,r,m does not produce points (e.g., 'r' distributions)

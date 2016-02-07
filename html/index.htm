@@ -254,6 +254,11 @@ problems due to floating point arithmetic. For example, it
 implements the identity function for extreme points (see <a
 href="qh-impre.htm">Imprecision in Qhull</a>). </p>
 
+<p>[2016] A newly discovered, bad case for Qhull is multiple, nearly incident points within a 10^-13 ball of 3-d and higher
+Delaunay triangulations (input sites in the unit cube).  Nearly incident points within substantially
+smaller or larger balls are OK.  Error QH6271 is reported if a problem occurs. A future release of Qhull
+will handle this case.  For more information, see "Nearly coincident points on an edge" in <a href="../html/qh-impre.htm#limit">Limitations of merged facets</a>
+
 <p>If you need a short code for convex hull, Delaunay
 triangulation, or Voronoi volumes consider Clarkson's <a
 href="http://www.netlib.org/voronoi/hull.html">hull
@@ -262,17 +267,20 @@ Shewchuk's <a href="http://www.cs.cmu.edu/~quake/triangle.html">triangle
 program</a>. It is much faster than Qhull and it allows
 constraints. Both programs use exact arithmetic. They are in <a
 href="http://www.netlib.org/voronoi/">http://www.netlib.org/voronoi/</a>.
-Qhull <a
+
+<p>If your input is in general position (i.e., no coplanar or colinear points),
+<li><a href="https://github.com/tomilov/quickhull/blob/master/include/quickhull.hpp">Tomilov's quickhull.hpp</a> (<a href"http://habrahabr.ru/post/245221/"documentation-ru</a/>)
+or Qhull <a
 href="http://www.qhull.org/download">version
-1.0</a> may also meet your needs. It detects precision problems,
-but does not handle them.</p>
+1.0</a> may meet your needs. Both programs detect precision problems,
+but do not handle them.</p>
 
 <p><a href=http://www.cgal.org>CGAL</a> is a library of efficient and reliable
-geometric algoriths.  It uses C++ templates and the Boost library to produce dimension-specific
+geometric algorithms.  It uses C++ templates and the Boost library to produce dimension-specific
 code.  This allows more efficient use of memory than Qhull's general-dimension
 code.  CGAL simulates arbitrary precision while Qhull handles round-off error
-with thick facets (<a href="http://doc.cgal.org/latest/Manual/devman_robustness.html">Robustness Issues in CGAL</a>,
-<a href+"qh-impre.htm">Imprecision in Qhull</a>).
+with thick facets.  Compare the two approaches with <a href="http://doc.cgal.org/latest/Manual/devman_robustness.html">Robustness Issues in CGAL</a>,
+and <a href+"qh-impre.htm">Imprecision in Qhull</a>.
 
 
 <p><a href=http://www.algorithmic-solutions.com/enleda.htm>Leda</a> is a

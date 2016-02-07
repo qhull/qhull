@@ -479,27 +479,28 @@ In this case, quadratic running time is avoided if you use qdelaunay,
 add option '<a href="qh-optq.htm#Qbb">Qbb</a>',
 or add the origin ('P0') to the input.
 <p>
-<li><b>Nearly coincident points on an edge</b> -- Multiple, nearly coincident points on
-an edge with non-simplicial facets may lead to wide facets or quadratic running time.
-For example, either the convex hull
-in 4-D of a narrow lens with coincident points or the Delaunay triangulation of
-nearly coincident points may lead to very wide facets (e.g., 2267021951.3x).
+<li><b>Nearly coincident points within 1e-13</b> --
+Multiple, nearly coincident points within a 1e-13 ball of points in the unit cube
+may lead to wide facets or quadratic running time.
+For example, the convex hull a 1000 coincident, cospherical points in 4-D,
+or the 3-D Delaunay triangulation of nearly coincident points, may lead to very
+wide facets (e.g., 2267021951.3x).
 
-<p>For Delaunay triangulations an edge occurs between the corresponding upper
-and lower convex hull.  Points on this edge correspond to vertices of the convex hull of the input sites.
-After multiple facet merges, four facets may share the same, duplicate ridge and must be merged.
+<p>For Delaunay triangulations, the problem typically occurs for extreme points of the input
+set (i.e., on the edge between the upper and lower convex hull).  After multiple facet merges, four
+facets may share the same, duplicate ridge and must be merged.
 Some of these facets may be long and narrow, leading to a very wide merged facet.
-Starting with Qhull 2015.1, an error is reported.
+If so, error QH6271 is reported.  It may be overriden with option '<a href="qh-optq.htm#Q12">Q12</a>'.
 
 <p>Duplicate ridges occur when the horizon facets for a new point is "pinched".
 In a duplicate ridge, a subridge (e.g., a line segment in 3-d) is shared by two horizon facets.
-At least two of its vertices are nearly coincident.  Qhull 2015.1 adds the 'Cn,r,m' option to rbox.
-This option generates nearly coincident points.  For example, every point of the following
-distributions has a nearly coincident point within a 1e-13 ball.
+At least two of its vertices are nearly coincident.  It is easy to generate coincident points with
+option 'Cn,r,m' of rbox.  It generates n points within an r ball for each of m input sites.  For example,
+every point of the following  distributions has a nearly coincident point within a 1e-13 ball.
 Substantially smaller or larger balls do not lead to pinched horizons.
 <pre>
-        rbox L100 1000 D4 s C1,1e-13 t | qhull
-        rbox 75 C1,1E-13 t | qhull d
+        rbox 1000 C1,1e-13 D4 s t | qhull
+        rbox 75 C1,1e-13 t | qhull d
 </pre>
 For Delaunay triangulations, a bounding box may alleviate this error (e.g.,  <tt>rbox 500 C1,1E-13 t c G1 | qhull d</tt>).
 A later release of qhull will avoid pinched horizons by merging duplicate subridges.  A subridge is
