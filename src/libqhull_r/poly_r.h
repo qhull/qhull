@@ -207,6 +207,10 @@
 
 /*=============== prototypes poly_r.c in alphabetical order ================*/
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 void    qh_appendfacet(qhT *qh, facetT *facet);
 void    qh_appendvertex(qhT *qh, vertexT *vertex);
 void    qh_attachnewfacets(qhT *qh /* qh.visible_list, qh.newfacet_list */);
@@ -292,5 +296,8 @@ setT   *qh_vertexintersect_new(qhT *qh, setT *vertexsetA,setT *vertexsetB);
 void    qh_vertexneighbors(qhT *qh /*qh.facet_list*/);
 boolT   qh_vertexsubset(setT *vertexsetA, setT *vertexsetB);
 
+#ifdef __cplusplus
+} /* extern "C" */
+#endif
 
 #endif /* qhDEFpoly */

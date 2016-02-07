@@ -9,9 +9,7 @@
 #ifndef RBOXPOINTS_H
 #define RBOXPOINTS_H
 
-extern "C" {
-    #include "libqhull_r/qhull_ra.h"
-}
+#include "libqhull_r/qhull_ra.h"
 #include "libqhullcpp/QhullPoint.h"
 #include "libqhullcpp/PointCoordinates.h"
 

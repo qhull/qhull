@@ -9,9 +9,7 @@
 #ifndef ROADERROR_H
 #define ROADERROR_H
 
-extern "C" {
-    #include "libqhull_r/user_r.h"  /* for QHULL_CRTDBG */
-}
+#include "libqhull_r/user_r.h"  /* for QHULL_CRTDBG */
 #include "libqhullcpp/RoadLogEvent.h"
 
 #include <iostream>

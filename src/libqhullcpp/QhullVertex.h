@@ -9,9 +9,7 @@
 #ifndef QHULLVERTEX_H
 #define QHULLVERTEX_H
 
-extern "C" {
-    #include "libqhull_r/qhull_ra.h"
-}
+#include "libqhull_r/qhull_ra.h"
 #include "libqhullcpp/QhullPoint.h"
 #include "libqhullcpp/QhullLinkedList.h"
 #include "libqhullcpp/QhullSet.h"

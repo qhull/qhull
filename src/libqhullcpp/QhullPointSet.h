@@ -9,9 +9,7 @@
 #ifndef QHULLPOINTSET_H
 #define QHULLPOINTSET_H
 
-extern "C" {
-    #include "libqhull_r/qhull_ra.h"
-}
+#include "libqhull_r/qhull_ra.h"
 #include "libqhullcpp/QhullSet.h"
 #include "libqhullcpp/QhullPoint.h"
 

@@ -9,9 +9,7 @@
 #ifndef QHPOINT_H
 #define QHPOINT_H
 
-extern "C" {
-    #include "libqhull_r/qhull_ra.h"
-}
+#include "libqhull_r/qhull_ra.h"
 #include "libqhullcpp/QhullError.h"
 #include "libqhullcpp/QhullIterator.h"
 #include "libqhullcpp/QhullQh.h"
