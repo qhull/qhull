@@ -17,8 +17,8 @@
     - sets may be sorted or unsorted, the caller must distinguish this
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull_r/qset_r.h#3 $$Change: 2062 $
-   $DateTime: 2016/01/17 13:13:18 $$Author: bbarber $
+   $Id: //main/2015/qhull/src/libqhull_r/qset_r.h#4 $$Change: 2079 $
+   $DateTime: 2016/02/07 17:43:34 $$Author: bbarber $
 */
 
 #ifndef qhDEFset

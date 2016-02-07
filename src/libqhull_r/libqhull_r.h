@@ -7,8 +7,8 @@
    see qh-qhull_r.htm, qhull_ra.h
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull_r/libqhull_r.h#7 $$Change: 2066 $
-   $DateTime: 2016/01/18 19:29:17 $$Author: bbarber $
+   $Id: //main/2015/qhull/src/libqhull_r/libqhull_r.h#8 $$Change: 2079 $
+   $DateTime: 2016/02/07 17:43:34 $$Author: bbarber $
 
    includes function prototypes for libqhull_r.c, geom_r.c, global_r.c, io_r.c, user.c
 

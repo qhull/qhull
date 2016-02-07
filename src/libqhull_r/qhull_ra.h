@@ -14,8 +14,8 @@
    defines internal functions for libqhull_r.c global_r.c
 
    Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull_r/qhull_ra.h#5 $$Change: 2062 $
-   $DateTime: 2016/01/17 13:13:18 $$Author: bbarber $
+   $Id: //main/2015/qhull/src/libqhull_r/qhull_ra.h#6 $$Change: 2079 $
+   $DateTime: 2016/02/07 17:43:34 $$Author: bbarber $
 
    Notes:  grep for ((" and (" to catch fprintf("lkasdjf");
            full parens around (x?y:z)

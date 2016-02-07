@@ -18,6 +18,10 @@ Need help
 
 Octave creates endpoints for the ridges that would extend to infinity to be able to draw the diagram [M. Voss]
 
+------
+Qhull 2016.1
+ - Move 'extern "C" {}' logic from C++ to C headers [C. Atkins, github]
+ 
  - Explanation of clobbered warning for Qhull::runQhull and qh_new_qhull
  - html/index.htm: Add "Nearly coincident points" to "When to use Qhull"
  - html/index.htm: Add Tomilov's qhullhull.hpp for general position input.
