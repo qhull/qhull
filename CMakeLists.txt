@@ -410,6 +410,17 @@ target_link_libraries(qhalf ${qhull_STATIC})
 # Define install
 # ---------------------------------------
 
+set(qhull_TARGETS_INSTALL
+    ${qhull_STATIC}
+    ${qhull_STATICR}
+    ${qhull_CPP}
+    qhull
+    rbox
+    qconvex
+    qdelaunay
+    qvoronoi
+    qhalf)
+
 install(TARGETS ${qhull_TARGETS_INSTALL}
         RUNTIME DESTINATION ${BIN_INSTALL_DIR}
         LIBRARY DESTINATION ${LIB_INSTALL_DIR}
