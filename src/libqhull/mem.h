@@ -159,11 +159,12 @@ struct qhmemT {               /* global memory management variables */
 
 #if defined qh_NOmem
 #define qh_memalloc_(insize, freelistp, object, type) {\
+  (void)freelistp; /* Avoid warnings */ \
   object= (type*)qh_memalloc(insize); }
 #elif defined qh_TRACEshort
 #define qh_memalloc_(insize, freelistp, object, type) {\
-    freelistp= NULL; /* Avoid warnings */ \
-    object= (type*)qh_memalloc(insize); }
+  (void)freelistp; /* Avoid warnings */ \
+  object= (type*)qh_memalloc(insize); }
 #else /* !qh_NOmem */
 
 #define qh_memalloc_(insize, freelistp, object, type) {\
@@ -188,11 +189,12 @@ struct qhmemT {               /* global memory management variables */
 */
 #if defined qh_NOmem
 #define qh_memfree_(object, insize, freelistp) {\
+  (void)freelistp; /* Avoid warnings */ \
   qh_memfree(object, insize); }
 #elif defined qh_TRACEshort
 #define qh_memfree_(object, insize, freelistp) {\
-    freelistp= NULL; /* Avoid warnings */ \
-    qh_memfree(object, insize); }
+  (void)freelistp; /* Avoid warnings */ \
+  qh_memfree(object, insize); }
 #else /* !qh_NOmem */
 
 #define qh_memfree_(object, insize, freelistp) {\
