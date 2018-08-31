@@ -81,9 +81,10 @@ int qh_argv_to_command(int argc, char *argv[], char* command, int max_size) {
       *t= '\0';
     }else if (remaining < 0) {
       goto error_argv;
-    }else
+    }else {
       strcat(command, " ");
       strcat(command, s);
+    }
   }
   return 1;
 
