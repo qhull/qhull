@@ -2621,7 +2621,7 @@ void qh_printfacetridges(qhT *qh, FILE *fp, facetT *facet) {
       qh_fprintf(qh, fp, 9183, "     - all ridges:");
       FOREACHridge_(facet->ridges)
         qh_fprintf(qh, fp, 9184, " r%d", ridge->id);
-        qh_fprintf(qh, fp, 9185, "\n");
+      qh_fprintf(qh, fp, 9185, "\n");
     }
     FOREACHridge_(facet->ridges) {
       if (!ridge->seen)
