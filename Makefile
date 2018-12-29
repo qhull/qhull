@@ -75,7 +75,7 @@
 #
 # Do not replace tabs with spaces.  Needed for build rules
 # Unix line endings (\n)
-# $Id: //main/2015/qhull/Makefile#10 $
+# $Id: //main/2015/qhull/Makefile#11 $
 
 DESTDIR = /usr/local
 BINDIR	= $(DESTDIR)/bin
@@ -105,10 +105,10 @@ CC_OPTS3  =
 # Define qhull_VERSION in CMakeLists.txt, Makefile, and qhull-warn.pri
 # Truncated version in qhull-exports.def, qhull_p-exports.def, 
 #  qhull.so -- static qh_qhT global data structure (qh_QHpointer=0)
-#  qhull_p.so -- allocated qh_qhT global data structure (qh_QHpointer=1).  Required for libqhullcpp
-#  qhull_m.so -- future version of Qhull with qh_qhT passed as an argument.
+#  qhull_p.so -- allocated qh_qhT global data structure (qh_QHpointer=1)
+#  qhull_r.so -- relocatable Qhull with qh_qhT passed as an argument.
 qhull_SOVERSION=7
-SO  = so.7.2.0
+SO  = so.7.3.0
 
 # On MinGW, 
 #   make SO=dll
@@ -643,7 +643,7 @@ bin/qdelaunay: src/qdelaunay/qdelaun.o lib/libqhullstatic.a
 	$(CC) -o $@ $< $(CC_OPTS2) -Llib -lqhullstatic -lm
 
 bin/qhalf: src/qhalf/qhalf.o lib/libqhullstatic.a
-	$(CC) -o $@ $< $(CC_OPTS2) -Llib -lqhullstatic -lm
+	$(CC) -o $@ $< $(CC_OPTS2) -Llib  -lqhullstatic -lm
 
 bin/qvoronoi: src/qvoronoi/qvoronoi.o lib/libqhullstatic.a
 	$(CC) -o $@ $< $(CC_OPTS2) -Llib -lqhullstatic -lm

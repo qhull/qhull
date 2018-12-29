@@ -6,8 +6,8 @@
 ;   Annotate as __declspec for outside access in win32 -- qh_qh qh_qhstat
 ;   Same as ../libqhullp/qhull_p-exports.def without qh_save_qhull and qh_restore_qhull
 ;
-; $Id: //main/2015/qhull/src/libqhull/qhull-exports.def#3 $$Change: 2047 $
-; $DateTime: 2016/01/04 22:03:18 $$Author: bbarber $
+; $Id: //main/2015/qhull/src/libqhull/qhull-exports.def#5 $$Change: 2541 $
+; $DateTime: 2018/12/13 19:11:41 $$Author: bbarber $
 ; 
 ; Define qhull_VERSION in CMakeLists.txt, Makefile, qhull-exports.def, qhull_p-exports.def, qhull_r-exports.def, and qhull-warn.pri
 VERSION 7.0
@@ -160,6 +160,7 @@ qh_initstatistics
 qh_initthresholds
 qh_inthresholds
 qh_isvertex
+qh_joggle_restart
 qh_joggleinput
 ; Mark as DATA, otherwise links a separate qh_last_random.  No __declspec.
 qh_last_random      DATA
@@ -174,7 +175,7 @@ qh_malloc
 qh_mark_dupridges
 qh_markkeep
 qh_markvoronoi
-qh_matchduplicates
+qh_matchdupridge
 qh_matchneighbor
 qh_matchnewfacets
 qh_matchvertices
@@ -244,7 +245,6 @@ qh_pointfacet
 qh_pointid
 qh_pointvertex
 qh_postmerge
-qh_precision
 qh_premerge
 qh_prepare_output
 qh_prependfacet
@@ -413,5 +413,5 @@ qh_voronoi_center
 qh_willdelete
 ; Mark as DATA, otherwise links a separate qhmem.  No __declspec
 qhmem                   DATA
-rbox			DATA
+rbox                    DATA
 rbox_inuse              DATA

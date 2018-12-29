@@ -6,7 +6,6 @@ eg/eg.*
 *~
 *.bak
 *.off
-*.tmp
 *.x
 x.*
 r
@@ -18,26 +17,27 @@ r?
 *.rej
 
 # Build products
-tmp/*
-build?*/
+bin/
+build/.vs/
+build-cmake/*
 build/Debug/*
 build/moc/*
-build/qhulltest/moc/
+build/qhulltest/*
 build/Release/*
 build/cmake_install.cmake
 build/CMakeCache.txt
 build/CMakeFiles
 build/install_manifest.txt
 build/Makefile*
-build/Testing/*
-build/CTest*
+build/qhullp.vcproj
+build/user_egp.vcproj
 build/*/Makefile*
 build/*/object_script*
 build/*/Release/*
 build/*/Debug/*
 build/*/MinSizeRel/*
 build/*/RelWithDebInfo/*
-src/qhulltest/RoadTest.h.cpp
+tmp/
 lib/
 *.a
 *.dll
@@ -57,6 +57,7 @@ lib/
 *.suo
 *.user
 *.ilk
+src/qhulltest/RoadTest.h.cpp
 
 # CVS files
 CVS/*

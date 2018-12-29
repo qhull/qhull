@@ -6,9 +6,9 @@
 
    see qh-poly.htm, libqhull.h and poly.c
 
-   Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull/poly.h#3 $$Change: 2047 $
-   $DateTime: 2016/01/04 22:03:18 $$Author: bbarber $
+   Copyright (c) 1993-2018 The Geometry Center.
+   $Id: //main/2015/qhull/src/libqhull/poly.h#7 $$Change: 2549 $
+   $DateTime: 2018/12/28 22:24:20 $$Author: bbarber $
 */
 
 #ifndef qhDEFpoly
@@ -216,7 +216,7 @@ void    qh_deletevisible(void /*qh.visible_list, qh.horizon_list*/);
 setT   *qh_facetintersect(facetT *facetA, facetT *facetB, int *skipAp,int *skipBp, int extra);
 int     qh_gethash(int hashsize, setT *set, int size, int firstindex, void *skipelem);
 facetT *qh_makenewfacet(setT *vertices, boolT toporient, facetT *facet);
-void    qh_makenewplanes(void /* newfacet_list */);
+void    qh_makenewplanes(void /* qh.newfacet_list */);
 facetT *qh_makenew_nonsimplicial(facetT *visible, vertexT *apex, int *numnew);
 facetT *qh_makenew_simplicial(facetT *visible, vertexT *apex, int *numnew);
 void    qh_matchneighbor(facetT *newfacet, int newskip, int hashsize,
@@ -266,7 +266,7 @@ void    qh_initialhull(setT *vertices);
 setT   *qh_initialvertices(int dim, setT *maxpoints, pointT *points, int numpoints);
 vertexT *qh_isvertex(pointT *point, setT *vertices);
 vertexT *qh_makenewfacets(pointT *point /*horizon_list, visible_list*/);
-void    qh_matchduplicates(facetT *atfacet, int atskip, int hashsize, int *hashcount);
+void    qh_matchdupridge(facetT *atfacet, int atskip, int hashsize, int *hashcount);
 void    qh_nearcoplanar(void /* qh.facet_list */);
 vertexT *qh_nearvertex(facetT *facet, pointT *point, realT *bestdistp);
 int     qh_newhashtable(int newsize);

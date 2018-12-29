@@ -6,9 +6,9 @@
 
    see qh-stat_r.htm and stat_r.h
 
-   Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull_r/stat_r.c#5 $$Change: 2062 $
-   $DateTime: 2016/01/17 13:13:18 $$Author: bbarber $
+   Copyright (c) 1993-2018 The Geometry Center.
+   $Id: //main/2015/qhull/src/libqhull_r/stat_r.c#9 $$Change: 2549 $
+   $DateTime: 2018/12/28 22:24:20 $$Author: bbarber $
 */
 
 #include "qhull_ra.h"
@@ -36,7 +36,7 @@ void qh_allstatA(qhT *qh) {
   zdef_(wmin, Wvertexmin, "min. distance of an output vertex to a facet", -1);
   zdef_(wmin, Wmindenom, "min. denominator in hyperplane computation", -1);
 
-  qh->qhstat.precision= qh->qhstat.next;  /* call qh_precision for each of these */
+  qh->qhstat.precision= qh->qhstat.next;  /* call qh_joggle_restart for each of these */
   zzdef_(zdoc, Zdoc3, "precision problems (corrected unless 'Q0' or an error)", -1);
   zzdef_(zinc, Zcoplanarridges, "coplanar half ridges in output", -1);
   zzdef_(zinc, Zconcaveridges, "concave half ridges in output", -1);
@@ -556,6 +556,7 @@ void qh_printstatistics(qhT *qh, FILE *fp, const char *string) {
 %s\n\
  qhull invoked by: %s | %s\n%s with options:\n%s\n", string, qh->rbox_command,
      qh->qhull_command, qh_version, qh->qhull_options);
+
   qh_fprintf(qh, fp, 9351, "\nprecision constants:\n\
  %6.2g max. abs. coordinate in the (transformed) input('Qbd:n')\n\
  %6.2g max. roundoff error for distance computation('En')\n\
@@ -676,7 +677,7 @@ realT qh_stddev(int num, realT tot, realT tot2, realT *ave) {
 
 #if !qh_KEEPstatistics
 void    qh_collectstatistics(qhT *qh) {}
-void    qh_printallstatistics(qhT *qh, FILE *fp, char *string) {};
-void    qh_printstatistics(qhT *qh, FILE *fp, char *string) {}
+void    qh_printallstatistics(qhT *qh, FILE *fp, const char *string) {};
+void    qh_printstatistics(qhT *qh, FILE *fp, const char *string) {}
 #endif
 

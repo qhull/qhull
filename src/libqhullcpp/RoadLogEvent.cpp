@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (c) 2008-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2015/qhull/src/libqhullcpp/RoadLogEvent.cpp#3 $$Change: 2066 $
-** $Date: 2016/01/18 $$Author: bbarber $
+** Copyright (c) 2008-2018 C.B. Barber. All rights reserved.
+** $Id: //main/2015/qhull/src/libqhullcpp/RoadLogEvent.cpp#5 $$Change: 2549 $
+** $Date: 2018/12/28 $$Author: bbarber $
 **
 ****************************************************************************/
 

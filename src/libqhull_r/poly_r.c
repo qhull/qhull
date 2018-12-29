@@ -9,9 +9,9 @@
    infrequent code is in poly2_r.c
    (all but top 50 and their callers 12/3/95)
 
-   Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull_r/poly_r.c#3 $$Change: 2064 $
-   $DateTime: 2016/01/18 12:36:08 $$Author: bbarber $
+   Copyright (c) 1993-2018 The Geometry Center.
+   $Id: //main/2015/qhull/src/libqhull_r/poly_r.c#22 $$Change: 2549 $
+   $DateTime: 2018/12/28 22:24:20 $$Author: bbarber $
 */
 
 #include "qhull_ra.h"
@@ -38,8 +38,11 @@
 void qh_appendfacet(qhT *qh, facetT *facet) {
   facetT *tail= qh->facet_tail;
 
-  if (tail == qh->newfacet_list)
+  if (tail == qh->newfacet_list) {
     qh->newfacet_list= facet;
+    if (tail == qh->visible_list) /* visible_list is at or before newfacet_list */
+      qh->visible_list= facet;
+  }
   if (tail == qh->facet_next)
     qh->facet_next= facet;
   facet->previous= tail->previous;
@@ -61,7 +64,7 @@ void qh_appendfacet(qhT *qh, facetT *facet) {
     appends vertex to end of qh.vertex_list,
 
   returns:
-    sets vertex->newlist
+    sets vertex->newfacet
     updates qh.vertex_list, newvertex_list
     increments qh.num_vertices
 
@@ -74,7 +77,7 @@ void qh_appendvertex(qhT *qh, vertexT *vertex) {
 
   if (tail == qh->newvertex_list)
     qh->newvertex_list= vertex;
-  vertex->newlist= True;
+  vertex->newfacet= True;
   vertex->previous= tail->previous;
   vertex->next= tail;
   if (tail->previous)
@@ -83,25 +86,29 @@ void qh_appendvertex(qhT *qh, vertexT *vertex) {
     qh->vertex_list= vertex;
   tail->previous= vertex;
   qh->num_vertices++;
-  trace4((qh, qh->ferr, 4045, "qh_appendvertex: append v%d to vertex_list\n", vertex->id));
+  trace4((qh, qh->ferr, 4045, "qh_appendvertex: append v%d to qh.newvertex_list and set v.newfacet\n", vertex->id));
 } /* appendvertex */
 
 
 /*-<a                             href="qh-poly_r.htm#TOC"
   >-------------------------------</a><a name="attachnewfacets">-</a>
 
-  qh_attachnewfacets(qh, )
+  qh_attachnewfacets(qh)
     attach horizon facets to new facets in qh.newfacet_list
     newfacets have neighbor and ridge links to horizon but not vice versa
-    only needed for qh.ONLYgood
 
   returns:
+    clears qh.NEWtentative
     set qh.NEWfacets
     horizon facets linked to new facets
       ridges changed from visible facets to new facets
       simplicial ridges deleted
     qh.visible_list, no ridges valid
     facet->f.replace is a newfacet (if any)
+
+  notes:
+    used for qh.NEWtentative, otherwise see qh_makenew_nonsimplicial and qh_makenew_simplicial
+    qh_delridge_merge not needed (as tested by qh_checkdelridge)
 
   design:
     delete interior ridges and neighbor sets by
@@ -126,12 +133,16 @@ void qh_appendvertex(qhT *qh, vertexT *vertex) {
           the first ridge of the new facet is the horizon ridge
           link the new facet into the horizon ridge
 */
-void qh_attachnewfacets(qhT *qh /* qh.visible_list, newfacet_list */) {
+void qh_attachnewfacets(qhT *qh /* qh.visible_list, qh.newfacet_list */) {
   facetT *newfacet= NULL, *neighbor, **neighborp, *horizon, *visible;
   ridgeT *ridge, **ridgep;
 
+  qh->NEWtentative= False;
   qh->NEWfacets= True;
   trace3((qh, qh->ferr, 3012, "qh_attachnewfacets: delete interior ridges\n"));
+  if (qh->CHECKfrequently) {
+    qh_checkdelridge(qh);
+  }
   qh->visit_id++;
   FORALLvisible_facets {
     visible->visitid= qh->visit_id;
@@ -171,7 +182,7 @@ void qh_attachnewfacets(qhT *qh /* qh.visible_list, newfacet_list */) {
         visible->f.replace= newfacet;
         qh_setreplace(qh, horizon->neighbors, visible, newfacet);
       }else {
-        qh_fprintf(qh, qh->ferr, 6102, "qhull internal error (qh_attachnewfacets): couldn't find visible facet for horizon f%d of newfacet f%d\n",
+        qh_fprintf(qh, qh->ferr, 6102, "qhull internal error (qh_attachnewfacets): could not find visible facet for horizon f%d of newfacet f%d\n",
                  horizon->id, newfacet->id);
         qh_errexit2(qh, qh_ERRqhull, horizon, newfacet);
       }
@@ -186,11 +197,14 @@ void qh_attachnewfacets(qhT *qh /* qh.visible_list, newfacet_list */) {
       }
       qh_setappend(qh, &horizon->neighbors, newfacet);
       ridge= SETfirstt_(newfacet->ridges, ridgeT);
-      if (ridge->top == horizon)
+      if (ridge->top == horizon) {
         ridge->bottom= newfacet;
-      else
+        ridge->simplicialbot= True;
+      }else {
         ridge->top= newfacet;
+        ridge->simplicialtop= True;
       }
+    }
   } /* newfacets */
   if (qh->PRINTstatistics) {
     FORALLvisible_facets {
@@ -226,10 +240,12 @@ boolT qh_checkflipped(qhT *qh, facetT *facet, realT *distp, boolT allerror) {
     *distp= dist;
   if ((allerror && dist > -qh->DISTround)|| (!allerror && dist >= 0.0)) {
     facet->flipped= True;
-    zzinc_(Zflippedfacets);
     trace0((qh, qh->ferr, 19, "qh_checkflipped: facet f%d is flipped, distance= %6.12g during p%d\n",
               facet->id, dist, qh->furthest_id));
-    qh_precision(qh, "flipped facet");
+    if (qh->num_facets > qh->hull_dim+1) { /* qh_initialhull reverses orientation if !qh_checkflipped */
+      qh_joggle_restart(qh, "flipped facet");
+      zzinc_(Zflippedfacets);
+    }
     return False;
   }
   return True;
@@ -242,12 +258,17 @@ boolT qh_checkflipped(qhT *qh, facetT *facet, realT *distp, boolT allerror) {
     removes facet from facet_list and frees up its memory
 
   notes:
-    assumes vertices and ridges already freed
+    assumes vertices and ridges already freed or referenced elsewhere
 */
 void qh_delfacet(qhT *qh, facetT *facet) {
   void **freelistp; /* used if !qh_NOmem by qh_memfree_() */
 
   trace4((qh, qh->ferr, 4046, "qh_delfacet: delete f%d\n", facet->id));
+  if (qh->CHECKfrequently || qh->VERIFYoutput) { /* FIXUP  -- all the time? */
+    qh_checkdelfacet(qh, facet, qh->facet_mergeset);
+    qh_checkdelfacet(qh, facet, qh->degen_mergeset);
+    qh_checkdelfacet(qh, facet, qh->vertex_mergeset);
+  }
   if (facet == qh->tracefacet)
     qh->tracefacet= NULL;
   if (facet == qh->GOODclosest)
@@ -281,6 +302,7 @@ void qh_delfacet(qhT *qh, facetT *facet) {
 
   returns:
     deletes each facet and removes from facetlist
+    deletes vertices on qh.del_vertices and ridges in qh.del_ridges
     at exit, qh.visible_list empty (== qh.newfacet_list)
 
   notes:
@@ -404,7 +426,7 @@ setT *qh_facetintersect(qhT *qh, facetT *facetA, facetT *facetB,
 */
 int qh_gethash(qhT *qh, int hashsize, setT *set, int size, int firstindex, void *skipelem) {
   void **elemp= SETelemaddr_(set, firstindex, void);
-  ptr_intT hash = 0, elem;
+  ptr_intT hash= 0, elem;
   unsigned result;
   int i;
 #ifdef _MSC_VER                   /* Microsoft Visual C++ -- warn about 64-bit issues */
@@ -463,6 +485,27 @@ int qh_gethash(qhT *qh, int hashsize, setT *set, int size, int firstindex, void 
 } /* gethash */
 
 /*-<a                             href="qh-poly_r.htm#TOC"
+  >-------------------------------</a><a name="getreplacement">-</a>
+
+  qh_getreplacement(qh, visible )
+    get replacement for visible facet
+
+  returns:
+    valid facet from visible.replace (may be chained)
+*/
+facetT *qh_getreplacement(qhT *qh, facetT *visible) {
+  unsigned int count= 0;
+
+  facetT *result= visible;
+  while (result && result->visible) {
+    result= result->f.replace;
+    if (count++ > qh->facet_id)
+      qh_infiniteloop(qh, visible);
+  }
+  return result;
+}
+
+/*-<a                             href="qh-poly_r.htm#TOC"
   >-------------------------------</a><a name="makenewfacet">-</a>
 
   qh_makenewfacet(qh, vertices, toporient, horizon )
@@ -481,7 +524,7 @@ facetT *qh_makenewfacet(qhT *qh, setT *vertices, boolT toporient,facetT *horizon
   vertexT *vertex, **vertexp;
 
   FOREACHvertex_(vertices) {
-    if (!vertex->newlist) {
+    if (!vertex->newfacet) {
       qh_removevertex(qh, vertex);
       qh_appendvertex(qh, vertex);
     }
@@ -513,6 +556,8 @@ facetT *qh_makenewfacet(qhT *qh, setT *vertices, boolT toporient,facetT *horizon
 void qh_makenewplanes(qhT *qh /* qh.newfacet_list */) {
   facetT *newfacet;
 
+  trace4((qh, qh->ferr, 4074, "qh_makenewplanes: make new hyperplanes for facets on qh.newfacet_list f%d\n",
+    qh->newfacet_list->id));
   FORALLnew_facets {
     if (!newfacet->mergehorizon)
       qh_setfacetplane(qh, newfacet);
@@ -521,6 +566,7 @@ void qh_makenewplanes(qhT *qh /* qh.newfacet_list */) {
     minimize_(qh->min_vertex, -wwval_(Wnewvertexmax));
 } /* makenewplanes */
 
+#ifndef qh_NOmerge
 /*-<a                             href="qh-poly_r.htm#TOC"
   >-------------------------------</a><a name="makenew_nonsimplicial">-</a>
 
@@ -529,9 +575,9 @@ void qh_makenewplanes(qhT *qh /* qh.newfacet_list */) {
 
   returns:
     first newfacet, bumps numnew as needed
-    attaches new facets if !qh.ONLYgood
+    attaches new facets if !qh->NEWtentative
     marks ridge neighbors for simplicial visible
-    if (qh.ONLYgood)
+    if (qh.NEWtentative)
       ridges on newfacet, horizon, and visible
     else
       ridge and neighbors between newfacet and   horizon
@@ -541,6 +587,7 @@ void qh_makenewplanes(qhT *qh /* qh.newfacet_list */) {
     qh.visit_id if visible has already been processed
     sets neighbor->seen for building f.samecycle
       assumes all 'seen' flags initially false
+    qh_delridge_merge not needed (as tested by qh_checkdelridge in qh_makenewfacets)
 
   design:
     for each ridge of visible facet
@@ -559,7 +606,6 @@ void qh_makenewplanes(qhT *qh /* qh.newfacet_list */) {
         (deletes ridge if neighbor is simplicial)
 
 */
-#ifndef qh_NOmerge
 facetT *qh_makenew_nonsimplicial(qhT *qh, facetT *visible, vertexT *apex, int *numnew) {
   void **freelistp; /* used if !qh_NOmem by qh_memfree_() */
   ridgeT *ridge, **ridgep;
@@ -572,7 +618,7 @@ facetT *qh_makenew_nonsimplicial(qhT *qh, facetT *visible, vertexT *apex, int *n
     ridgeid= ridge->id;
     neighbor= otherfacet_(ridge, visible);
     if (neighbor->visible) {
-      if (!qh->ONLYgood) {
+      if (!qh->NEWtentative) {
         if (neighbor->visitid == qh->visit_id) {
           qh_setfree(qh, &(ridge->vertices));  /* delete on 2nd visit */
           qh_memfree_(qh, ridge, (int)sizeof(ridgeT), freelistp);
@@ -596,7 +642,7 @@ facetT *qh_makenew_nonsimplicial(qhT *qh, facetT *visible, vertexT *apex, int *n
           samecycle->f.samecycle= newfacet;
         }
       }
-      if (qh->ONLYgood) {
+      if (qh->NEWtentative) {
         if (!neighbor->simplicial)
           qh_setappend(qh, &(newfacet->ridges), ridge);
       }else {  /* qh_attachnewfacets */
@@ -615,18 +661,21 @@ facetT *qh_makenew_nonsimplicial(qhT *qh, facetT *visible, vertexT *apex, int *n
           qh_memfree(qh, ridge, (int)sizeof(ridgeT));
         }else {
           qh_setappend(qh, &(newfacet->ridges), ridge);
-          if (toporient)
+          if (toporient) {
             ridge->top= newfacet;
-          else
+            ridge->simplicialtop= True;
+          }else {
             ridge->bottom= newfacet;
+            ridge->simplicialbot= True;
+          }
         }
-      trace4((qh, qh->ferr, 4048, "qh_makenew_nonsimplicial: created facet f%d from v%d and r%d of horizon f%d\n",
-            newfacet->id, apex->id, ridgeid, neighbor->id));
       }
+      trace4((qh, qh->ferr, 4048, "qh_makenew_nonsimplicial: created facet f%d from v%d and r%d of horizon f%d\n",
+          newfacet->id, apex->id, ridgeid, neighbor->id));
     }
     neighbor->seen= True;
   } /* for each ridge */
-  if (!qh->ONLYgood)
+  if (!qh->NEWtentative)
     SETfirst_(visible->ridges)= NULL;
   return newfacet;
 } /* makenew_nonsimplicial */
@@ -643,7 +692,7 @@ facetT *qh_makenew_nonsimplicial(qhT *qh, facetT *visible, vertexT *apex, int *n
     make new facets for simplicial visible facet and apex
 
   returns:
-    attaches new facets if (!qh.ONLYgood)
+    attaches new facets if !qh.NEWtentative
       neighbors between newfacet and horizon
 
   notes:
@@ -680,7 +729,7 @@ facetT *qh_makenew_simplicial(qhT *qh, facetT *visible, vertexT *apex, int *numn
         newfacet->mergehorizon= True;
 #endif
       }
-      if (!qh->ONLYgood)
+      if (!qh->NEWtentative)
         SETelem_(neighbor->neighbors, horizonskip)= newfacet;
       trace4((qh, qh->ferr, 4049, "qh_makenew_simplicial: create facet f%d top %d from v%d and horizon f%d skip %d top %d and visible f%d skip %d, flip? %d\n",
             newfacet->id, toporient, apex->id, neighbor->id, horizonskip,
@@ -698,14 +747,16 @@ facetT *qh_makenew_simplicial(qhT *qh, facetT *visible, vertexT *apex, int *numn
 
   returns:
     duplicate ridges are unmatched and marked by qh_DUPLICATEridge
+    will be matched by qh_matchdupridge or qh_matchdupridge_coplanarhorizon
 
   notes:
+    called by qh_matchnewfacets
     ridge is newfacet->vertices w/o newskip vertex
     do not allocate memory (need to free hash_table cleanly)
     uses linear hash chains
 
   see also:
-    qh_matchduplicates
+    qh_matchdupridge and qh_matchdupridge_coplanarhorizon (poly2_r.c)
 
   design:
     for each possible matching facet in qh.hash_table
@@ -715,7 +766,6 @@ facetT *qh_makenew_simplicial(qhT *qh, facetT *visible, vertexT *apex, int *numn
           match the facets by updating their neighbor sets
         else
           indicate a duplicate ridge
-          set facet hyperplane for later testing
           add facet to hashtable
           unless the other facet was already a duplicate ridge
             mark both facets with a duplicate ridge
@@ -741,12 +791,11 @@ void qh_matchneighbor(qhT *qh, facetT *newfacet, int newskip, int hashsize, int 
     }
     zinc_(Zhashtests);
     if (qh_matchvertices(qh, 1, newfacet->vertices, newskip, facet->vertices, &skip, &same)) {
-      if (SETelem_(newfacet->vertices, newskip) ==
-          SETelem_(facet->vertices, skip)) {
-        qh_precision(qh, "two facets with the same vertices");
-        qh_fprintf(qh, qh->ferr, 6106, "qhull precision error: Vertex sets are the same for f%d and f%d.  Can not force output.\n",
-          facet->id, newfacet->id);
-        qh_errexit2(qh, qh_ERRprec, facet, newfacet);
+      if (SETelem_(newfacet->vertices, newskip) == SETelem_(facet->vertices, skip)) {
+        qh_joggle_restart(qh, "two new facets with the same vertices");
+        qh_fprintf(qh, qh->ferr, 7084, "qhull topology warning (qh_matchneighbor): new facets f%d and f%d with the same vertices (skip %d, skip %d).  Will merge a vertex pair. Due to horizon ridges (f%d and f%d) with the same vertices\n",
+          facet->id, newfacet->id, skip, newskip, SETfirstt_(facet->neighbors, facetT)->id, SETfirstt_(newfacet->neighbors, facetT)->id);
+        /* will rename a vertex (QH3053).  The fault was duplicate ridges (same vertices) in different facets due to a previous rename.  Expensive to detect beforehand */
       }
       ismatch= (same == (boolT)((newfacet->toporient ^ facet->toporient)));
       matchfacet= SETelemt_(facet->neighbors, skip, facetT);
@@ -758,25 +807,53 @@ void qh_matchneighbor(qhT *qh, facetT *newfacet, int newskip, int hashsize, int 
            facet->id, skip, newfacet->id, newskip));
         return;
       }
+      /* FIXUP move to design -- if ismatch and !matchfacet, facet/newfacet is a matched pair
+             set facet@skip and newfacet@newskip
+             exit
+         else 
+            a dupridge was detected between newfacet@newskip and facet@skip
+      */
+      /* newfacet@newskip= the argument
+         facet= the hashed facet@skip that has the same vertices as newfacet@newskip
+         same= true if matched vertices have the same orientation
+         matchfacet= neighbor at facet@skip
+         matchfacet=qh_DUPLICATEridge, matchfacet was previously detected as a dupridge of facet@skip
+         ismatch if 'vertex orientation (same) matches facet/newfacet orientation (toporient)
+         unknown facet will match later
+      */
+      /* dupridge -- detected when a match 'f&d skip %d' has already been seen 
+         Need to mark all of the dupridges for qh_matchdupridge and qh_matchdupridge_coplanarhorizon
+         if !ismatch and matchfacet,  [reviewed]
+            dupridge is between hashed facet@skip/matchfacet@matchskip and arg newfacet@newskip/unknown 
+            set newfacet@newskip, facet@skip, and matchfacet@matchskip to qh_DUPLICATEridge
+            add newfacet and matchfacet to hash_table
+         if ismatch and matchfacet, 
+            same as !ismatch and matchfacet -- it matches facet instead of matchfacet
+         if !ismatch and !matchfacet
+            dupridge between hashed facet@skip/unknown and arg newfacet@newskip/unknown 
+            set newfacet@newskip and facet@skip to qh_DUPLICATEridge
+            add newfacet to hash_table
+         if ismatch and matchfacet==qh_DUPLICATEridge, [reviewed]
+            dupridge with already duplicated hashed facet@skip and arg newfacet@newskip/unknown
+            set newfacet@newskip to qh_DUPLICATEridge
+            add newfacet to hash_table
+            facet's hyperplane already set
+
+            FIXUP -- move to design
+      */
       if (!qh->PREmerge && !qh->MERGEexact) {
-        qh_precision(qh, "a ridge with more than two neighbors");
-        qh_fprintf(qh, qh->ferr, 6107, "qhull precision error: facets f%d, f%d and f%d meet at a ridge with more than 2 neighbors.  Can not continue.\n",
+        qh_joggle_restart(qh, "a ridge with more than two neighbors");
+        qh_fprintf(qh, qh->ferr, 6107, "qhull precision error: facets f%d, f%d and f%d meet at a ridge with more than 2 neighbors.  Can not continue due to no qh.PREmerge and no 'Qx' (MERGEexact)\n",
                  facet->id, newfacet->id, getid_(matchfacet));
         qh_errexit2(qh, qh_ERRprec, facet, newfacet);
       }
       SETelem_(newfacet->neighbors, newskip)= qh_DUPLICATEridge;
       newfacet->dupridge= True;
-      if (!newfacet->normal)
-        qh_setfacetplane(qh, newfacet);
       qh_addhash(newfacet, qh->hash_table, hashsize, hash);
       (*hashcount)++;
-      if (!facet->normal)
-        qh_setfacetplane(qh, facet);
       if (matchfacet != qh_DUPLICATEridge) {
         SETelem_(facet->neighbors, skip)= qh_DUPLICATEridge;
         facet->dupridge= True;
-        if (!facet->normal)
-          qh_setfacetplane(qh, facet);
         if (matchfacet) {
           matchskip= qh_setindex(matchfacet->neighbors, facet);
           if (matchskip<0) {
@@ -786,8 +863,6 @@ void qh_matchneighbor(qhT *qh, facetT *newfacet, int newskip, int hashsize, int 
           }
           SETelem_(matchfacet->neighbors, matchskip)= qh_DUPLICATEridge; /* matchskip>=0 by QH6260 */
           matchfacet->dupridge= True;
-          if (!matchfacet->normal)
-            qh_setfacetplane(qh, matchfacet);
           qh_addhash(matchfacet, qh->hash_table, hashsize, hash);
           *hashcount += 2;
         }
@@ -810,41 +885,50 @@ void qh_matchneighbor(qhT *qh, facetT *newfacet, int newskip, int hashsize, int 
 /*-<a                             href="qh-poly_r.htm#TOC"
   >-------------------------------</a><a name="matchnewfacets">-</a>
 
-  qh_matchnewfacets()
-    match newfacets in qh.newfacet_list to their newfacet neighbors
+  qh_matchnewfacets(qh )
+    match new facets in qh.newfacet_list to their newfacet neighbors
 
   returns:
-    qh.newfacet_list with full neighbor sets
-      get vertices with nth neighbor by deleting nth vertex
-    if qh.PREmerge/MERGEexact or qh.FORCEoutput
+    if duplicate ridges and qh.PREmerge/MERGEexact (FIXUP really?)
+    returns maxdupdist (>=0.0) from vertex to opposite facet
+    sets facet->dupridge
+      missing neighbor links identify extra ridges to be merged (qh_MERGEridge)
+    else  
+      qh.newfacet_list with full neighbor sets
+        vertices for the nth neighbor match all but the nth vertex
+    if qh.PREmerge/MERGEexact or qh.FORCEoutput (FIXUP -- review)
       sets facet->flippped if flipped normal (also prevents point partitioning)
-    if duplicate ridges and qh.PREmerge/MERGEexact
-      sets facet->dupridge
-      missing neighbor links identifies extra ridges to be merging (qh_MERGEridge)
 
   notes:
-    newfacets already have neighbor[0] (horizon facet)
+    called by qh_buildcone* and qh_triangulate_facet
+    neighbor[0] of new facets is the horizon facet
+    if NEWtentative, new facets not attached to the horizon
     assumes qh.hash_table is NULL
     vertex->neighbors has not been updated yet
-    do not allocate memory after qh.hash_table (need to free it cleanly)
-
+    do not allocate memory after qh.hash_table (need to free it cleanly) (FIXUP, what about ridgeT/normalT?)
+    
   design:
-    delete neighbor sets for all new facets
+    truncate neighbor sets to horizon facet for all new facets
     initialize a hash table
     for all new facets
       match facet with neighbors
     if unmatched facets (due to duplicate ridges)
       for each new facet with a duplicate ridge
-        match it with a facet
-    check for flipped facets
+        try to match facets with the same coplanar horizon
+    if not all matched
+      for each new facet with a duplicate ridge
+        match it with a coplanar facet, or identify a pinched vertex
+    if not merging and qh.FORCEoutput
+      check for flipped facets
 */
-void qh_matchnewfacets(qhT *qh /* qh.newfacet_list */) {
+coordT qh_matchnewfacets(qhT *qh /* qh.newfacet_list */) {
   int numnew=0, hashcount=0, newskip;
   facetT *newfacet, *neighbor;
+  coordT maxdupdist= 0.0, maxdist2;
   int dim= qh->hull_dim, hashsize, neighbor_i, neighbor_n;
   setT *neighbors;
 #ifndef qh_NOtrace
-  int facet_i, facet_n, numfree= 0;
+  int facet_i, facet_n, numunused= 0;
   facetT *facet;
 #endif
 
@@ -887,14 +971,25 @@ void qh_matchnewfacets(qhT *qh /* qh.newfacet_list */) {
       }
     }
 #endif  /* end of trap code */
-  }
-  if (hashcount) {
+  } /* end FORALLnew_facets */
+  if (hashcount) { /* all neighbors matched, except for qh_DUPLICATEridge neighbors */
+    qh_joggle_restart(qh, "ridge with multiple neighbors");
     FORALLnew_facets {
-      if (newfacet->dupridge) {
+      if (newfacet->dupridge && !newfacet->tricoplanar) {
         FOREACHneighbor_i_(qh, newfacet) {
-          if (neighbor == qh_DUPLICATEridge) {
-            qh_matchduplicates(qh, newfacet, neighbor_i, hashsize, &hashcount);
-                    /* this may report MERGEfacet */
+          if (neighbor == qh_DUPLICATEridge)
+            qh_matchdupridge_coplanarhorizon(qh, newfacet, neighbor_i, hashsize, &hashcount);
+        }
+      }
+    }
+    if (hashcount) {
+      FORALLnew_facets {
+        if (newfacet->dupridge) {
+          FOREACHneighbor_i_(qh, newfacet) {
+            if (neighbor == qh_DUPLICATEridge) {
+              maxdist2= qh_matchdupridge(qh, newfacet, neighbor_i, hashsize, &hashcount);
+              maximize_(maxdupdist, maxdist2);
+            }
           }
         }
       }
@@ -910,22 +1005,19 @@ void qh_matchnewfacets(qhT *qh /* qh.newfacet_list */) {
   if (qh->IStracing >= 2) {
     FOREACHfacet_i_(qh, qh->hash_table) {
       if (!facet)
-        numfree++;
+        numunused++;
     }
-    qh_fprintf(qh, qh->ferr, 8089, "qh_matchnewfacets: %d new facets, %d unused hash entries .  hashsize %d\n",
-             numnew, numfree, qh_setsize(qh, qh->hash_table));
+    qh_fprintf(qh, qh->ferr, 8089, "qh_matchnewfacets: maxdupdist %2.2g, new facets %d, unused hash entries %d, hashsize %d\n",
+             maxdupdist, numnew, numunused, qh_setsize(qh, qh->hash_table));
   }
 #endif /* !qh_NOtrace */
   qh_setfree(qh, &qh->hash_table);
   if (qh->PREmerge || qh->MERGEexact) {
     if (qh->IStracing >= 4)
       qh_printfacetlist(qh, qh->newfacet_list, NULL, qh_ALL);
-    FORALLnew_facets {
-      if (newfacet->normal)
-        qh_checkflipped(qh, newfacet, NULL, qh_ALL);
-    }
   }else if (qh->FORCEoutput)
     qh_checkflipped_all(qh, qh->newfacet_list);  /* prints warnings for flipped */
+  return maxdupdist;
 } /* matchnewfacets */
 
 
@@ -999,7 +1091,7 @@ facetT *qh_newfacet(qhT *qh) {
   if (qh->FORCEoutput && qh->APPROXhull)
     facet->maxoutside= qh->MINoutside;
   else
-    facet->maxoutside= qh->DISTround;
+    facet->maxoutside= qh->DISTround; /* same value as test for QH7082 */
 #endif
   facet->simplicial= True;
   facet->good= True;
@@ -1082,7 +1174,7 @@ int qh_pointid(qhT *qh, pointT *point) {
     qh_appendfacet
 */
 void qh_removefacet(qhT *qh, facetT *facet) {
-  facetT *next= facet->next, *previous= facet->previous;
+  facetT *next= facet->next, *previous= facet->previous; /* next is always defined */
 
   if (facet == qh->newfacet_list)
     qh->newfacet_list= next;
@@ -1098,7 +1190,7 @@ void qh_removefacet(qhT *qh, facetT *facet) {
     qh->facet_list->previous= NULL;
   }
   qh->num_facets--;
-  trace4((qh, qh->ferr, 4057, "qh_removefacet: remove f%d from facet_list\n", facet->id));
+  trace4((qh, qh->ferr, 4057, "qh_removefacet: removed f%d from facet_list, newfacet_list, and visible_list\n", facet->id));
 } /* removefacet */
 
 
@@ -1113,7 +1205,7 @@ void qh_removefacet(qhT *qh, facetT *facet) {
     decrements qh.num_vertices
 */
 void qh_removevertex(qhT *qh, vertexT *vertex) {
-  vertexT *next= vertex->next, *previous= vertex->previous;
+  vertexT *next= vertex->next, *previous= vertex->previous; /* next is always defined */
 
   if (vertex == qh->newvertex_list)
     qh->newvertex_list= next;
@@ -1121,7 +1213,7 @@ void qh_removevertex(qhT *qh, vertexT *vertex) {
     previous->next= next;
     next->previous= previous;
   }else {  /* 1st vertex in qh->vertex_list */
-    qh->vertex_list= vertex->next;
+    qh->vertex_list= next;
     qh->vertex_list->previous= NULL;
   }
   qh->num_vertices--;
@@ -1136,21 +1228,41 @@ void qh_removevertex(qhT *qh, vertexT *vertex) {
     update vertex neighbors and delete interior vertices
 
   returns:
-    if qh.VERTEXneighbors, updates neighbors for each vertex
+    if qh.VERTEXneighbors, 
       if qh.newvertex_list,
-         removes visible neighbors  from vertex neighbors
+         removes visible neighbors from vertex neighbors
       if qh.newfacet_list
          adds new facets to vertex neighbors
-    if qh.visible_list
-       interior vertices added to qh.del_vertices for later partitioning
+      if qh.visible_list
+         interior vertices added to qh.del_vertices for later partitioning as coplanar points
+    if not qh.VERTEXneighbors (not merging)
+      interior vertices of visible facets added to qh.del_vertices for later partitioning as coplanar points
+  
+  notes
+    called by qh_addpoint after create cone and before premerge
+    called by qh_triangulate_facet after triangulating a non-simplicial facet, followed by reset_lists
+    called by qh_triangulate after triangulating null and mirror facets
 
   design:
     if qh.VERTEXneighbors
-      deletes references to visible facets from vertex neighbors
-      appends new facets to the neighbor list for each vertex
-      checks all vertices of visible facets
-        removes visible facets from neighbor lists
-        marks unused vertices for deletion
+      for each vertex on newvertex_list (i.e., new vertices and vertices of new facets)
+        delete visible facets from vertex neighbors
+      for each new facet on newfacet_list
+        for each vertex of facet
+          append facet to vertex neighbors
+      for each visible facet on qh.visible_list
+        for each vertex of facet
+          if the vertex is not on a new facet and not itself deleted
+            if the vertex has a not-visible neighbor (due to merging)
+               remove the visible facet from the vertex's neighbors
+            otherwise
+               add the vertex to qh.del_vertices for later deletion
+
+    if not qh.VERTEXneighbors (not merging)
+      for each vertex of a visible facet
+        if the vertex is not on a new facet and not itself deleted
+           add the vertex to qh.del_vertices for later deletion
+
 */
 void qh_updatevertices(qhT *qh /*qh.newvertex_list, newfacet_list, visible_list*/) {
   facetT *newfacet= NULL, *neighbor, **neighborp, *visible;
@@ -1167,11 +1279,11 @@ void qh_updatevertices(qhT *qh /*qh.newvertex_list, newfacet_list, visible_list*
     }
     FORALLnew_facets {
       FOREACHvertex_(newfacet->vertices)
-        qh_setappend(qh, &vertex->neighbors, newfacet);
+        qh_setunique(qh, &vertex->neighbors, newfacet); /* was qh_setappend before pinched vertex merge in qh_addpoint, could be optimized */
     }
     FORALLvisible_facets {
       FOREACHvertex_(visible->vertices) {
-        if (!vertex->newlist && !vertex->deleted) {
+        if (!vertex->newfacet && !vertex->deleted) {
           FOREACHneighbor_(vertex) { /* this can happen under merging */
             if (!neighbor->visible)
               break;
@@ -1190,7 +1302,7 @@ void qh_updatevertices(qhT *qh /*qh.newvertex_list, newfacet_list, visible_list*
   }else {  /* !VERTEXneighbors */
     FORALLvisible_facets {
       FOREACHvertex_(visible->vertices) {
-        if (!vertex->newlist && !vertex->deleted) {
+        if (!vertex->newfacet && !vertex->deleted) {
           vertex->deleted= True;
           qh_setappend(qh, &qh->del_vertices, vertex);
           trace2((qh, qh->ferr, 2042, "qh_updatevertices: delete vertex p%d(v%d) in f%d\n",

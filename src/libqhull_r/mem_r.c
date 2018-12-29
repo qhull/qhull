@@ -29,9 +29,9 @@
     qh-mem_r.htm and mem_r.h
     global_r.c (qh_initbuffers) for an example of using mem_r.c
 
-  Copyright (c) 1993-2015 The Geometry Center.
-  $Id: //main/2015/qhull/src/libqhull_r/mem_r.c#5 $$Change: 2065 $
-  $DateTime: 2016/01/18 13:51:04 $$Author: bbarber $
+  Copyright (c) 1993-2018 The Geometry Center.
+  $Id: //main/2015/qhull/src/libqhull_r/mem_r.c#10 $$Change: 2549 $
+  $DateTime: 2018/12/28 22:24:20 $$Author: bbarber $
 */
 
 #include "libqhull_r.h"  /* includes user_r.h and mem_r.h */
@@ -134,7 +134,7 @@ void *qh_memalloc(qhT *qh, int insize) {
         qh->qhmem.freesize= bufsize - size;
         qh->qhmem.totbuffer += bufsize - size; /* easier to check */
         /* Periodically test totbuffer.  It matches at beginning and exit of every call */
-        n = qh->qhmem.totshort + qh->qhmem.totfree + qh->qhmem.totdropped + qh->qhmem.freesize - outsize;
+        n= qh->qhmem.totshort + qh->qhmem.totfree + qh->qhmem.totdropped + qh->qhmem.freesize - outsize;
         if (qh->qhmem.totbuffer != n) {
             qh_fprintf(qh, qh->qhmem.ferr, 6212, "qh_memalloc internal error: short totbuffer %d != totshort+totfree... %d\n", qh->qhmem.totbuffer, n);
             qh_errexit(qh, qhmem_ERRmem, NULL, NULL);
@@ -186,7 +186,7 @@ void qh_memcheck(qhT *qh) {
     qh_exit(qhmem_ERRqhull);  /* can not use qh_errexit() */
   }
   if (qh->qhmem.ferr == 0 || qh->qhmem.IStracing < 0 || qh->qhmem.IStracing > 10 || (((qh->qhmem.ALIGNmask+1) & qh->qhmem.ALIGNmask) != 0)) {
-    qh_fprintf_stderr(6244, "qh_memcheck error: either qh->qhmem is overwritten or qh->qhmem is not initialized.  Call qh_mem_new() or qh_new_qhull() before calling qh_mem routines.  ferr 0x%x IsTracing %d ALIGNmask 0x%x", qh->qhmem.ferr, qh->qhmem.IStracing, qh->qhmem.ALIGNmask);
+    qh_fprintf_stderr(6244, "qh_memcheck error: either qh->qhmem is overwritten or qh->qhmem is not initialized.  Call qh_mem_new() or qh_new_qhull() before calling qh_mem routines.  ferr 0x%x IsTracing %d ALIGNmask 0x%x\n", qh->qhmem.ferr, qh->qhmem.IStracing, qh->qhmem.ALIGNmask);
     qh_exit(qhmem_ERRqhull);  /* can not use qh_errexit() */
   }
   if (qh->qhmem.IStracing != 0)
@@ -198,7 +198,7 @@ void qh_memcheck(qhT *qh) {
     totfree += qh->qhmem.sizetable[i] * count;
   }
   if (totfree != qh->qhmem.totfree) {
-    qh_fprintf(qh, qh->qhmem.ferr, 6211, "Qhull internal error (qh_memcheck): totfree %d not equal to freelist total %d\n", qh->qhmem.totfree, totfree);
+    qh_fprintf(qh, qh->qhmem.ferr, 6211, "qhull internal error (qh_memcheck): totfree %d not equal to freelist total %d\n", qh->qhmem.totfree, totfree);
     qh_errexit(qh, qhmem_ERRqhull, NULL, NULL);
   }
   if (qh->qhmem.IStracing != 0)

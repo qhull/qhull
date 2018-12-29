@@ -6,8 +6,9 @@
 #   CONFIG += qhull_warn_shadow     # Warn in Qt about shadowing of functions and fields
 # -------------------------------------------------
 
+# Define qhull_VERSION in CMakeLists.txt, Makefile, and qhull-warn.pri
 # [apr'11] VERSION works erratically for msvc builds
-# VERSION = 7.2.0
+# VERSION = 7.3.0
 qhull_SOVERSION = 7
 
 # Uncomment to report warnings as errors

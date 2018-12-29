@@ -6,7 +6,7 @@
 
    see unix.c for full interface
 
-   Copyright (c) 1993-2015, The Geometry Center
+   Copyright (c) 1993-2018, The Geometry Center
 */
 
 #include "libqhull/libqhull.h"
@@ -245,9 +245,9 @@ Except for 'F.' and 'PG', upper-case options take an argument.\n\
  QJoggle        Qrandom        QRotate        Qsearch_1st    Qtriangulate\n\
  QVertex_good\n\
 \n\
- T4_trace       Tcheck_often   Tstatistics    Tverify        Tz_stdout\n\
- TFacet_log     TInput_file    TPoint_trace   TMerge_trace   TOutput_file\n\
- TWide_trace    TVertex_stop   TCone_stop\n\
+ T4_trace       Tcheck_often   Tflush         Tstatistics    Tverify\n\
+ Tz_stdout      TFacet_log     TInput_file    TPoint_trace   TMerge_trace\n\
+ TOutput_file   TWide_trace    TVertex_stop   TCone_stop\n\
 \n\
  Angle_max      Centrum_size   Random_dist    Ucoplanar_max  Wide_outside\n\
 ";

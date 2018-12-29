@@ -30,7 +30,7 @@ height="100"></a> Qhull control options (Q)</h1>
 <p>This section lists the control options for Qhull. These
 options are indicated by 'Q' followed by a letter. </p>
 
-<p><b>Copyright &copy; 1995-2015 C.B. Barber</b></p>
+<p><b>Copyright &copy; 1995-2018 C.B. Barber</b></p>
 
 <hr>
 
@@ -126,6 +126,8 @@ options are indicated by 'Q' followed by a letter. </p>
     <dd>copy normals and recompute centrums for tricoplanar facets</dd>
     <dt><a href="#Q12">Q12</a></dt>
     <dd>do not error on wide merge due to duplicate ridge and nearly coincident points</dd>
+    <dt><a href="#Q14">Q14</a></dt>
+    <dd>do not rename vertices that create a duplicate ridge</dd>
     <dt><a href="#Qm">Qm</a></dt>
     <dd>process points only if they would increase the max. outer
         plane </dd>
@@ -256,7 +258,7 @@ triangulations (<a href=qdelau_f.htm>qdelaunay Qu</a>,
 invoke with 'qhull d Qbb <a href="#Qu">Qu</a> Qg').
 It is not effective in higher
 dimensions because many facets see a given point and contain a
-given vertex. It is not guaranteed to work for all combinations.</p>
+given vertex. It may not work for all combinations.</p>
 
 <p>See '<a href="#QGn">QGn</a>', '<a href="#QVn">QVn</a>', and '<a
 href="qh-optp.htm#Pdk">Pdk</a>' for defining good facets, and '<a
@@ -264,7 +266,9 @@ href="qh-optp.htm#Pg">Pg</a>' and '<a href="qh-optp.htm#PG">PG</a>'
 for printing good facets and their neighbors. If pre-merging ('<a
 href="qh-optc.htm#Cn">C-n</a>') is not used and there are
 coplanar facets, then 'Qg Pg' may produce a different result than
-'<a href="qh-optp.htm#Pg">Pg</a>'. </p>
+'<a href="qh-optp.htm#Pg">Pg</a>'.  Option Qg disables
+renaming vertices that create a duplicate ridge ('<a href="#Q14">Q14</a>').
+</p>
 
 <h3><a href="#qhull">&#187;</a><a name="QGn">QGn - good facet if
 visible from point n, -n for not visible </a></h3>
@@ -497,18 +501,20 @@ point added to the hull. Options 'QVn Qg' require either '<a href="#QJn">QJ</a>'
 (allows coplanar facets) </a></h3>
 
 <p>Option 'Qx' performs exact merges while building the hull.
-Option 'Qx' is set by default in 5-d and higher. Use option '<a
-href="#Q0">Q0</a>' to not use 'Qx' by default. Unless otherwise
-specified, option 'Qx' sets option '<a href="qh-optc.htm#C0">C-0</a>'.
+Options 'Qx' and 'C-0' are set by default in 5-d and higher.  To disable this default,
+set option '<a href="qh-optc.htm#C0">C-0</a>' or another pre-merge option.
+Use option '<a href="#Q0">Q0</a>' to disable all merging, including 'Qx' and 'C-0'.
 </p>
 
-<p>The &quot;exact&quot; merges are merging a point into a
+<p>The &quot;exact&quot; pre-merges are merging a point into a
 coplanar facet (defined by '<a href="qh-optc.htm#Vn">Vn </a>', '<a
 href="qh-optc.htm#Un">Un</a>', and '<a href="qh-optc.htm#Cn">C-n</a>'),
 merging concave facets, merging duplicate ridges, and merging
 flipped facets. Coplanar merges and angle coplanar merges ('<a
 href="qh-optc.htm#An">A-n</a>') are not performed. Concavity
 testing is delayed until a merge occurs.</p>
+
+FIXUP -- isn't merging enabled once a merge happens?
 
 <p>After the hull is built, all coplanar merges are performed
 (defined by '<a href="qh-optc.htm#Cn">C-n</a>' and '<a
@@ -701,6 +707,27 @@ The problem will be fixed in a future release of Qhull.
 <p>To demonstrate the problem, use rbox option 'Cn,r,m' to generate nearly coincident points.
 For more information, see "Nearly coincident points on an edge"
 in <a href="qh-impre.htm#limit"</a>Nearly coincident points on an edge</a>.
+
+<h3><a href="#qhull">&#187;</a><a name="Q14">Q14 - do not rename vertices
+that create a duplicate ridge</a></h3>
+
+<p>In 3-d and higher, nearly adjacent vertices may lead to duplicate ridges and wide merges (see
+"Nearly coincident points within 1e-13" in <a href="qh-impre.htm">Imprecision in Qhull</a>).
+
+<p>Duplicate ridges are removed by renaming one of the nearly adjacent vertices to another vertex.
+Facets containing this vertex may become redundant.  If so, they are merged into an adjacent facet.
+At most FIXUP attempts will be made.  The cost for
+detecting this situation is approximately FIXUP%.   For each point added to the hull, Qhull
+delays attaching the cone of new facets to the horizon facets.
+
+<p>This feature is turned off with option Q14.   It is also turned off for
+option '<a href="qh-optq.htm#Qg">Qg</a>' (Only build good facets), or if pre-merging is
+turned off (e.g., option '<a href="qh-optq.htm#Q0">Q0</a>', do not pre-merge facets with 'C-0' or 'Qx').
+
+<h3><a href="#qhull">&#187;</a><a name="Q15">Q15 - allow wide maxout</a></h3>
+
+<p>FIXUP -- document Q15 and Q16 -- add to index and to 'qhull .'</p>
+
 
 <!-- Navigation links -->
 <hr>

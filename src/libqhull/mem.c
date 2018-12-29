@@ -29,9 +29,9 @@
     qh-mem.htm and mem.h
     global.c (qh_initbuffers) for an example of using mem.c
 
-  Copyright (c) 1993-2015 The Geometry Center.
-  $Id: //main/2015/qhull/src/libqhull/mem.c#7 $$Change: 2065 $
-  $DateTime: 2016/01/18 13:51:04 $$Author: bbarber $
+  Copyright (c) 1993-2018 The Geometry Center.
+  $Id: //main/2015/qhull/src/libqhull/mem.c#10 $$Change: 2549 $
+  $DateTime: 2018/12/28 22:24:20 $$Author: bbarber $
 */
 
 #include "user.h"  /* for QHULL_CRTDBG */
@@ -217,7 +217,7 @@ void qh_memcheck(void) {
     totfree += qhmem.sizetable[i] * count;
   }
   if (totfree != qhmem.totfree) {
-    qh_fprintf(qhmem.ferr, 6211, "Qhull internal error (qh_memcheck): totfree %d not equal to freelist total %d\n", qhmem.totfree, totfree);
+    qh_fprintf(qhmem.ferr, 6211, "qhull internal error (qh_memcheck): totfree %d not equal to freelist total %d\n", qhmem.totfree, totfree);
     qh_errexit(qhmem_ERRqhull, NULL, NULL);
   }
   if (qhmem.IStracing != 0)

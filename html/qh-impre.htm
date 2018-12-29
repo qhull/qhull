@@ -47,7 +47,7 @@ convex. It verifies that all points are on or below all facets. </p>
 <p>Qhull automatically tests for convexity if it detects
 precision errors while constructing the hull. </p>
 
-<p><b>Copyright &copy; 1995-2015 C.B. Barber</b></p>
+<p><b>Copyright &copy; 1995-2018 C.B. Barber</b></p>
 
 <hr>
 
@@ -494,9 +494,14 @@ If so, error QH6271 is reported.  It may be overriden with option '<a href="qh-o
 
 <p>Duplicate ridges occur when the horizon facets for a new point is "pinched".
 In a duplicate ridge, a subridge (e.g., a line segment in 3-d) is shared by two horizon facets.
-At least two of its vertices are nearly coincident.  It is easy to generate coincident points with
+At least two of its vertices are nearly coincident.  In poly_r.c, qh_matchnewfacets calls qh_matchneighbor.
+qh_matchneighbor identifies duplicate ridges and marks the corresponding facets. .
+In merge_r.c, qh_mark_dupridges identifies facets for merging across a duplicate ridge. qh_forcedmerges
+merges these facets.  It checks for wide merges with qh_check_dupridge.
+
+<p>It is easy to generate coincident points with
 option 'Cn,r,m' of rbox.  It generates n points within an r ball for each of m input sites.  For example,
-every point of the following  distributions has a nearly coincident point within a 1e-13 ball.
+every point of the following distributions has a nearly coincident point within a 1e-13 ball.
 Substantially smaller or larger balls do not lead to pinched horizons.
 <pre>
         rbox 1000 C1,1e-13 D4 s t | qhull

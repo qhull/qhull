@@ -11,9 +11,9 @@
    either the actual size of the set plus 1, or the NULL terminator
    of the set (i.e., setelemT).
 
-   Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull/qset.c#3 $$Change: 2062 $
-   $DateTime: 2016/01/17 13:13:18 $$Author: bbarber $
+   Copyright (c) 1993-2018 The Geometry Center.
+   $Id: //main/2015/qhull/src/libqhull/qset.c#5 $$Change: 2549 $
+   $DateTime: 2018/12/28 22:24:20 $$Author: bbarber $
 */
 
 #include "user.h" /* for QHULL_CRTDBG */

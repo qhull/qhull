@@ -6,8 +6,8 @@
 #   can not use path with $zip_file 
 #   odd error messages if can't locate directory
 #
-# $Id: //main/2015/qhull/eg/qhull-zip.sh#16 $$Change: 2071 $
-# $DateTime: 2016/01/18 23:12:45 $$Author: bbarber $
+# $Id: //main/2015/qhull/eg/qhull-zip.sh#18 $$Change: 2546 $
+# $DateTime: 2018/12/28 15:15:16 $$Author: bbarber $
 
 if [[ $# -ne 3 ]]; then
         echo 'Missing date stamp, e.g., qhull-zip.sh 2015 2015.2 7.2.0' 
@@ -312,6 +312,6 @@ log_step $LINENO "Compare zip and tgz for CRLF vs LF"
 log_step $LINENO "Search xml files for UNDEFINED. Check page links"
 log_step $LINENO "Extract zip to Qhull/ and compare directories"
 log_step $LINENO "Copy tarballs to qhull.org"
-log_step $LINENO " scp qhull-2015*x qhull@qhull.org:web/download/"
+log_step $LINENO " scp qhull-2018*x qhull@qhull.org:web/download/"
 log_step $LINENO "Finished successfully"
 #############################

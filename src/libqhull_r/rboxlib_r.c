@@ -198,7 +198,7 @@ int qh_rboxpoints(qhT *qh, char* rbox_command) {
       dim= qh_strtol(s, &s);
       if (dim < 1
       || dim > MAXdim) {
-        qh_fprintf_rbox(qh, qh->ferr, 6189, "rbox error: dimension, D%d, out of bounds (>=%d or <=0)", dim, MAXdim);
+        qh_fprintf_rbox(qh, qh->ferr, 6189, "rbox error: dimension, D%d, out of bounds (>=%d or <=0)\n", dim, MAXdim);
         qh_errexit_rbox(qh, qh_ERRinput);
       }
       break;

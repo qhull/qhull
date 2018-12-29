@@ -147,18 +147,18 @@ int qh_argv_to_command_size(int argc, char *argv[]) {
 
 int qh_rand(qhT *qh) {
     int lo, hi, test;
-    int seed = qh->last_random;
+    int seed= qh->last_random;
 
-    hi = seed / qh_rand_q;  /* seed div q */
-    lo = seed % qh_rand_q;  /* seed mod q */
-    test = qh_rand_a * lo - qh_rand_r * hi;
+    hi= seed / qh_rand_q;  /* seed div q */
+    lo= seed % qh_rand_q;  /* seed mod q */
+    test= qh_rand_a * lo - qh_rand_r * hi;
     if (test > 0)
         seed= test;
     else
         seed= test + qh_rand_m;
     qh->last_random= seed;
-    /* seed = seed < qh_RANDOMmax/2 ? 0 : qh_RANDOMmax;  for testing */
-    /* seed = qh_RANDOMmax;  for testing */
+    /* seed= seed < qh_RANDOMmax/2 ? 0 : qh_RANDOMmax;  for testing */
+    /* seed= qh_RANDOMmax;  for testing */
     return seed;
 } /* rand */
 

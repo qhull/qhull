@@ -11,9 +11,9 @@
 
    see qhull_ra.h for internal functions
 
-   Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull_r/global_r.c#16 $$Change: 2066 $
-   $DateTime: 2016/01/18 19:29:17 $$Author: bbarber $
+   Copyright (c) 1993-2018 The Geometry Center.
+   $Id: //main/2015/qhull/src/libqhull_r/global_r.c#26 $$Change: 2549 $
+   $DateTime: 2018/12/28 22:24:20 $$Author: bbarber $
  */
 
 #include "qhull_ra.h"
@@ -39,8 +39,8 @@
     recompile user_eg_r.c, rbox_r.c, libqhull_r.c, qconvex_r.c, qdelaun_r.c qvoronoi_r.c, qhalf_r.c, testqset_r.c
 */
 
-const char qh_version[]= "2015.2.r 2016/01/18";
-const char qh_version2[]= "qhull_r 7.2.0 (2015.2.r 2016/01/18)";
+const char qh_version[]= "2018.0.1.r 2018/12/28";
+const char qh_version2[]= "qhull_r 7.3.0 (2018.0.1.r 2018/12/28)";
 
 /*-<a                             href="qh-globa_r.htm#TOC"
   >-------------------------------</a><a name="appendprint">-</a>
@@ -84,11 +84,11 @@ void qh_checkflags(qhT *qh, char *command, char *hiddenflags) {
   boolT waserr= False;
 
   if (*hiddenflags != ' ' || hiddenflags[strlen(hiddenflags)-1] != ' ') {
-    qh_fprintf(qh, qh->ferr, 6026, "qhull error (qh_checkflags): hiddenflags must start and end with a space: \"%s\"", hiddenflags);
+    qh_fprintf(qh, qh->ferr, 6026, "qhull error (qh_checkflags): hiddenflags must start and end with a space: \"%s\"\n", hiddenflags);
     qh_errexit(qh, qh_ERRinput, NULL, NULL);
   }
   if (strpbrk(hiddenflags, ",\n\r\t")) {
-    qh_fprintf(qh, qh->ferr, 6027, "qhull error (qh_checkflags): hiddenflags contains commas, newlines, or tabs: \"%s\"", hiddenflags);
+    qh_fprintf(qh, qh->ferr, 6027, "qhull error (qh_checkflags): hiddenflags contains commas, newlines, or tabs: \"%s\"\n", hiddenflags);
     qh_errexit(qh, qh_ERRinput, NULL, NULL);
   }
   while (*s && !isspace(*s))  /* skip program name */
@@ -100,8 +100,8 @@ void qh_checkflags(qhT *qh, char *command, char *hiddenflags) {
       s++;
     if (!*s)
       break;
-    key = *s++;
-    chkerr = NULL;
+    key= *s++;
+    chkerr= NULL;
     if (key == 'T' && (*s == 'I' || *s == 'O')) {  /* TI or TO 'file name' */
       s= qh_skipfilename(qh, ++s);
       continue;
@@ -269,6 +269,9 @@ void qh_freebuffers(qhT *qh) {
 
   trace5((qh, qh->ferr, 5001, "qh_freebuffers: freeing up global memory buffers\n"));
   /* allocated by qh_initqhull_buffers */
+  qh_setfree(qh, &qh->other_points);
+  qh_setfree(qh, &qh->del_vertices);
+  qh_setfree(qh, &qh->coplanarfacetset);
   qh_memfree(qh, qh->NEARzero, qh->hull_dim * sizeof(realT));
   qh_memfree(qh, qh->lower_threshold, (qh->input_dim+1) * sizeof(realT));
   qh_memfree(qh, qh->upper_threshold, (qh->input_dim+1) * sizeof(realT));
@@ -280,9 +283,7 @@ void qh_freebuffers(qhT *qh) {
   qh->lower_bound= qh->upper_bound= NULL;
   qh->gm_matrix= NULL;
   qh->gm_row= NULL;
-  qh_setfree(qh, &qh->other_points);
-  qh_setfree(qh, &qh->del_vertices);
-  qh_setfree(qh, &qh->coplanarfacetset);
+
   if (qh->line)                /* allocated by qh_readinput, freed if no error */
     qh_free(qh->line);
   if (qh->half_space)
@@ -326,7 +327,7 @@ void qh_freebuffers(qhT *qh) {
       free facet
     free hash table
     free interior point
-    free merge set
+    free merge sets
     free temporary sets
 */
 void qh_freebuild(qhT *qh, boolT allmem) {
@@ -397,13 +398,22 @@ void qh_freebuild(qhT *qh, boolT allmem) {
       }
     }
   }
-  qh_setfree(qh, &(qh->hash_table));
+  /* qh internal constants */
   qh_memfree(qh, qh->interior_point, qh->normal_size);
   qh->interior_point= NULL;
+  /* qh global sets */
+  trace5((qh, qh->ferr, 5004, "freebuild: free global sets\n"));
   FOREACHmerge_(qh->facet_mergeset)  /* usually empty */
     qh_memfree(qh, merge, (int)sizeof(mergeT));
-  qh->facet_mergeset= NULL;  /* temp set */
-  qh->degen_mergeset= NULL;  /* temp set */
+  FOREACHmerge_(qh->degen_mergeset)  /* usually empty */
+    qh_memfree(qh, merge, (int)sizeof(mergeT));
+  FOREACHmerge_(qh->vertex_mergeset)  /* usually empty */
+    qh_memfree(qh, merge, (int)sizeof(mergeT));
+  qh->facet_mergeset= NULL;  /* temp set freed by qh_settempfree_all */
+  qh->degen_mergeset= NULL;  /* temp set freed by qh_settempfree_all */
+  qh->vertex_mergeset= NULL;  /* temp set freed by qh_settempfree_all */
+  qh_setfree(qh, &(qh->hash_table));
+  trace5((qh, qh->ferr, 5003, "freebuild: free temporary sets (qh_settempfree_all)\n"));
   qh_settempfree_all(qh);
 } /* freebuild */
 
@@ -1134,6 +1144,18 @@ void qh_initflags(qhT *qh, char *command) {
               qh_option(qh, "Q12-no-wide-dup", NULL, NULL);
               qh->NOwide= True;
             break;
+          case '4':
+              qh_option(qh, "Q14-no-merge-pinched", NULL, NULL);
+              qh->MERGEpinched= False;
+              break;
+          case '5':
+            qh_option(qh, "Q15-allow-wide-maxout", NULL, NULL);
+            qh->ALLOWwidemaxout= True;
+            break;
+          case '6':
+            qh_option(qh, "Q16-simplex-merge", NULL, NULL);
+            qh->SIMPLEXmerge= True;
+            break;
           default:
             s--;
             qh_fprintf(qh, qh->ferr, 7016, "qhull warning: unknown 'Q' qhull option 1%c, rest ignored\n", (int)s[0]);
@@ -1248,6 +1270,10 @@ void qh_initflags(qhT *qh, char *command) {
           qh_option(qh, "Tcheck-frequently", NULL, NULL);
           qh->CHECKfrequently= True;
           break;
+        case 'f':
+          qh_option(qh, "Tflush", NULL, NULL);
+          qh->FLUSHprint= True;
+          break;
         case 's':
           qh_option(qh, "Tstatistics", NULL, NULL);
           qh->PRINTstatistics= True;
@@ -1300,7 +1326,7 @@ void qh_initflags(qhT *qh, char *command) {
             qh_copyfilename(qh, filename, (int)sizeof(filename), s, (int)(t-s));   /* WARN64 */
             s= t;
             if (!freopen(filename, "r", stdin)) {
-              qh_fprintf(qh, qh->ferr, 6041, "qhull error: could not open file \"%s\".", filename);
+              qh_fprintf(qh, qh->ferr, 6041, "qhull error: cannot open file \"%s\"\n", filename);
               qh_errexit(qh, qh_ERRinput, NULL, NULL);
             }else {
               qh_option(qh, "TInput-file", NULL, NULL);
@@ -1322,7 +1348,7 @@ void qh_initflags(qhT *qh, char *command) {
               if (!qh->fout) {
                 qh_fprintf(qh, qh->ferr, 6266, "qhull input warning: qh.fout was not set by caller.  Cannot use option 'TO' to redirect output.  Ignoring option 'TO'\n");
               }else if (!freopen(filename, "w", qh->fout)) {
-                qh_fprintf(qh, qh->ferr, 6044, "qhull error: could not open file \"%s\".", filename);
+                qh_fprintf(qh, qh->ferr, 6044, "qhull error: cannot open file \"%s\"\n", filename);
                 qh_errexit(qh, qh_ERRinput, NULL, NULL);
               }else {
                 qh_option(qh, "TOutput-file", NULL, NULL);
@@ -1495,6 +1521,8 @@ void qh_initqhull_globals(qhT *qh, coordT *points, int numpoints, int dim, boolT
     qh->JOGGLEmax= 0.0;
 #endif
   }
+  if ((!qh->PREmerge && !qh->MERGEexact) || qh->ONLYgood || qh->hull_dim==2)
+    qh->MERGEpinched= False;
   if (qh->TRIangulate && qh->JOGGLEmax < REALmax/2 && qh->PRINTprecision)
     qh_fprintf(qh, qh->ferr, 7038, "qhull warning: joggle('QJ') always produces simplicial output.  Triangulated output('Qt') does nothing.\n");
   if (qh->JOGGLEmax < REALmax/2 && qh->DELAUNAY && !qh->SCALEinput && !qh->SCALElast) {
@@ -1613,7 +1641,7 @@ qhull configuration error (qh_RANDOMmax in user.h):\n\
     }
   }
   qh_RANDOMseed_(qh, seed);
-  randr = randr/1000;
+  randr= randr/1000;
   if (randr < qh_RANDOMmax * 0.1
   || randr > qh_RANDOMmax * 0.9)
     qh_fprintf(qh, qh->ferr, 8037, "\
@@ -1709,8 +1737,8 @@ void qh_initqhull_outputflags(qhT *qh) {
       qh_fprintf(qh, qh->ferr, 6215, "qhull input error: transparent Delaunay('Gt') needs 3-d Delaunay('d') w/o 'GDn'\n");
       qh_errexit(qh, qh_ERRinput, NULL, NULL);
     }
-    qh->DROPdim = 3;
-    qh->PRINTridges = True;
+    qh->DROPdim= 3;
+    qh->PRINTridges= True;
   }
   for (i=qh_PRINTEND; i--; ) {
     if (qh->PRINTout[i] == qh_PRINTgeom)
@@ -1772,7 +1800,7 @@ available for 4-d output(ignored).  Could use 'GDn' instead.\n");
       if (qh->QHULLfinished) {
         qh_fprintf(qh, qh->ferr, 7072, "qhull output warning: ignoring coplanar points, option 'Qc' was not set for the first run of qhull.\n");
       }else {
-        qh->KEEPcoplanar = True;
+        qh->KEEPcoplanar= True;
         qh_option(qh, "Qcoplanar", NULL, NULL);
       }
     }
@@ -1831,7 +1859,7 @@ void qh_initqhull_start2(qhT *qh, FILE *infile, FILE *outfile, FILE *errfile) {
   qh->fout= outfile;
   qh->furthest_id= qh_IDunknown;
   qh->JOGGLEmax= REALmax;
-  qh->KEEPminArea = REALmax;
+  qh->KEEPminArea= REALmax;
   qh->last_low= REALmax;
   qh->last_high= REALmax;
   qh->last_newhigh= REALmax;
@@ -1853,6 +1881,7 @@ void qh_initqhull_start2(qhT *qh, FILE *infile, FILE *outfile, FILE *errfile) {
   qh->PRINTradius= 0.0;
   qh->postmerge_cos= REALmax;
   qh->postmerge_centrum= 0.0;
+  qh->MERGEpinched= True;
   qh->ROTATErandom= INT_MIN;
   qh->MERGEvertices= True;
   qh->totarea= 0.0;

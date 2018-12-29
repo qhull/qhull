@@ -7,9 +7,9 @@
 
    see qh-geom_r.htm and geom_r.h
 
-   Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull_r/geom2_r.c#6 $$Change: 2065 $
-   $DateTime: 2016/01/18 13:51:04 $$Author: bbarber $
+   Copyright (c) 1993-2018 The Geometry Center.
+   $Id: //main/2015/qhull/src/libqhull_r/geom2_r.c#19 $$Change: 2549 $
+   $DateTime: 2018/12/28 22:24:20 $$Author: bbarber $
 
    frequently used code goes into geom_r.c
 */
@@ -265,7 +265,7 @@ void qh_detroundoff(qhT *qh) {
   }
   if (qh->MAXcoplanar > REALmax/2) {
     qh->MAXcoplanar= qh->MINvisible;
-    qh_option(qh, "U-coplanar-distance", NULL, &qh->MAXcoplanar);
+    qh_option(qh, "U-max-coplanar", NULL, &qh->MAXcoplanar);
   }
   if (!qh->APPROXhull) {             /* user may specify qh->MINoutside */
     qh->MINoutside= 2 * qh->MINvisible;
@@ -676,6 +676,88 @@ facetT *qh_findgooddist(qhT *qh, pointT *point, facetT *facetA, realT *distp,
       qh_pointid(qh, point), facetA->id));
   return NULL;
 }  /* findgooddist */
+
+/*-<a                             href="qh-geom_r.htm#TOC"
+  >-------------------------------</a><a name="furthestnewvertex">-</a>
+
+  qh_furthestnewvertex(qh, unvisited, facet, &maxdist )
+    return furthest unvisited, new vertex to a facet
+
+  return:
+    NULL if no vertex is above facet
+    maxdist to facet
+    updates v.visitid
+
+  notes:
+    Ignores vertices in facetB
+    Does not change qh.vertex_visit.  Use in conjunction with qh_furthestvertex
+*/
+vertexT *qh_furthestnewvertex(qhT *qh, unsigned int unvisited, facetT *facet, realT *maxdistp /* qh.newvertex_list */) {
+  vertexT *maxvertex= NULL, *vertex;
+  coordT dist, maxdist= 0.0;
+
+  FORALLvertex_(qh->newvertex_list) {
+    if (vertex->newfacet && vertex->visitid <= unvisited) {
+      vertex->visitid= qh->vertex_visit;
+      qh_distplane(qh, vertex->point, facet, &dist);
+      if (dist > maxdist) {
+        maxdist= dist;
+        maxvertex= vertex;
+      }
+    }
+  }
+  trace4((qh, qh->ferr, 4085, "qh_furthestnewvertex: v%d dist %2.2g is furthest new vertex for f%d\n",
+    getid_(maxvertex), maxdist, facet->id));
+  *maxdistp= maxdist;
+  return maxvertex;
+} /* furthestnewvertex */
+
+/*-<a                             href="qh-geom_r.htm#TOC"
+  >-------------------------------</a><a name="furthestvertex">-</a>
+
+  qh_furthestvertex(qh, facetA, facetB, &maxdist, &mindist )
+    return furthest vertex in facetA from facetB
+
+  return:
+    maxdist and mindist to facetB
+    updates qh.vertex_visit
+
+  notes:
+    Ignores vertices in facetB
+*/
+vertexT *qh_furthestvertex(qhT *qh, facetT *facetA, facetT *facetB, realT *maxdistp, realT *mindistp) {
+  vertexT *maxvertex= NULL, *vertex, **vertexp;
+  coordT dist, maxdist= -REALmax, mindist= REALmax;
+
+  qh->vertex_visit++;
+  FOREACHvertex_(facetB->vertices)
+    vertex->visitid= qh->vertex_visit;
+  FOREACHvertex_(facetA->vertices) {
+    if (vertex->visitid != qh->vertex_visit) {
+      vertex->visitid= qh->vertex_visit;
+      qh_distplane(qh, vertex->point, facetB, &dist);
+      if (!maxvertex) {
+        maxdist= dist;
+        mindist= dist;
+        maxvertex= vertex;
+      }else if (dist > maxdist) {
+        maxdist= dist;
+        maxvertex= vertex;
+      }else if (dist < mindist)
+        mindist= dist;
+    }
+  }
+  if (!maxvertex) {
+    qh_fprintf(qh, qh->ferr, 6325, "qhull internal error (qh_furthestvertex): all vertices of f%d are in f%d\n",
+      facetA->id, facetB->id);
+    qh_errexit2(qh, qh_ERRmem, facetA, facetB);
+  }
+  trace4((qh, qh->ferr, 4084, "qh_furthestvertex: v%d dist %2.2g is furthest (mindist %2.2g) of f%d above f%d\n",
+    maxvertex->id, maxdist, mindist, facetA->id, facetB->id));
+  *maxdistp= maxdist;
+  *mindistp= mindist;
+  return maxvertex;
+} /* furthestvertex */
 
 /*-<a                             href="qh-geom_r.htm#TOC"
   >-------------------------------</a><a name="getarea">-</a>
@@ -1134,7 +1216,7 @@ void qh_maxsimplex(qhT *qh, int dim, setT *maxpoints, pointT *points, int numpoi
       qh_setunique(qh, simplex, maxx);
     sizinit= qh_setsize(qh, *simplex);
     if (sizinit < 2) {
-      qh_precision(qh, "input has same x coordinate");
+      qh_joggle_restart(qh, "input has same x coordinate");
       if (zzval_(Zsetplane) > qh->hull_dim+1) {
         qh_fprintf(qh, qh->ferr, 6012, "qhull precision error (qh_maxsimplex for voronoi_center):\n%d points with the same x coordinate.\n",
                  qh_setsize(qh, maxpoints)+numpoints);
@@ -1819,7 +1901,7 @@ void qh_setdelaunay(qhT *qh, int dim, int count, pointT *points) {
       coord= *coordp++;
       paraboloid += coord*coord;
     }
-    *coordp++ = paraboloid;
+    *coordp++= paraboloid;
   }
   if (qh->last_low < REALmax/2)
     qh_scalelast(qh, points, count, dim, qh->last_low, qh->last_high, qh->last_newhigh);
@@ -1962,7 +2044,7 @@ coordT *qh_sethalfspace_all(qhT *qh, int dim, int count, coordT *halfspaces, poi
 */
 boolT qh_sharpnewfacets(qhT *qh) {
   facetT *facet;
-  boolT issharp = False;
+  boolT issharp= False;
   int *quadrant, k;
 
   quadrant= (int*)qh_memalloc(qh, qh->hull_dim * sizeof(int));
@@ -1985,6 +2067,96 @@ boolT qh_sharpnewfacets(qhT *qh) {
   trace3((qh, qh->ferr, 3001, "qh_sharpnewfacets: %d\n", issharp));
   return issharp;
 } /* sharpnewfacets */
+
+/*-<a                             href="qh-geom_r.htm#TOC"
+  >-------------------------------</a><a name="vertex_bestdist">-</a>
+
+  qh_vertex_bestdist(qh, vertices )
+  qh_vertex_bestdist2(qh, vertices, vertexp, vertexp2 )
+    return nearest distance between vertices
+    optionally returns vertex and vertex2
+
+  notes:
+    called by qh_matchdupridge on simplicial newfacets 
+*/       
+coordT qh_vertex_bestdist(qhT *qh, setT *vertices) {
+  vertexT *vertex, *vertex2;
+
+  return qh_vertex_bestdist2(qh, vertices, &vertex, &vertex2);
+} /* vertex_bestdist */
+
+coordT qh_vertex_bestdist2(qhT *qh, setT *vertices, vertexT **vertexp/*= NULL*/, vertexT **vertexp2/*= NULL*/) {
+  vertexT *vertex, *vertexA, *bestvertex= NULL, *bestvertex2= NULL;
+  coordT dist, bestdist= REALmax;
+  int k, vertex_i, vertex_n;
+
+  FOREACHvertex_i_(qh, vertices) {
+    for (k= vertex_i+1; k < vertex_n; k++) {
+      vertexA= SETelem_(vertices, k);
+      dist= qh_pointdist(vertex->point, vertexA->point, -qh->hull_dim);
+      if (dist < bestdist) {
+        bestdist= dist;
+        bestvertex= vertex;
+        bestvertex2= vertexA;
+      }
+    }
+  }
+  *vertexp= bestvertex;
+  *vertexp2= bestvertex2;
+  return sqrt(bestdist);
+} /* vertex_bestdist */
+
+/*-<a                             href="qh-geom_r.htm#TOC"
+  >-------------------------------</a><a name="vertex_isbelow">-</a>
+
+  qh_vertex_isbelow(qh, vertexA, vertexB )
+    Test vertexA distance to vertexB's simplicial facets and vice versa
+
+  returns:
+    True if vertexA is further below than vertexB
+    if both above, return true if vertexA is less above than vertexB
+
+  notes:
+    minimizes distance of vertex below facet (or point above facet)
+    could test non-simplicial facets, but no geometric relationship
+
+  design:
+    for vertexA and vertexB
+      for each simplicial other neighbor
+        update MaxBelow and MaxAbove
+*/       
+boolT qh_vertex_isbelow(qhT *qh, vertexT *vertexA, vertexT *vertexB) {
+  int i= 0;
+  realT dist;
+  realT maxbelow[2]= { 0.0, 0.0 };
+  realT maxabove[2]= { 0.0, 0.0 };
+  int   count[2]= { 0, 0 };
+  facetT *neighbor, **neighborp;
+  vertexT *vertex, *othervertex;
+  boolT result;
+
+  qh_vertexneighbors(qh);
+  for (vertex= vertexA, othervertex= vertexB; i<2; vertex= vertexB, othervertex= vertexA, i++) {
+    FOREACHneighbor_(othervertex) {
+      if (neighbor->simplicial && neighbor->normal) { 
+        qh_distplane(qh, vertex->point, neighbor, &dist);
+        count[i]++;
+        minimize_(maxbelow[i], dist);
+        maximize_(maxabove[i], dist);
+      }
+    }
+  }
+  if (maxbelow[0] < maxbelow[1])
+    result= True;
+  else if (maxabove[0] < maxabove[1])
+    result= True;
+  else
+    result= False;
+  trace4((qh, qh->ferr, 4068, "qh_vertex_isbelow: isBelow (%d) neighbors %d/%d simplicial %d/%d maxBelow %2.2g/%2.2g maxAbove %2.2g/%2.2g\n",
+    result, qh_setsize(qh, vertexB->neighbors), qh_setsize(qh, vertexA->neighbors), count[1], count[0],  /*reversed, from viewpoint of vertex*/
+    maxbelow[0], maxbelow[1], maxabove[0], maxabove[1]));
+  return result;
+} /* vertex_isbelow */
 
 /*-<a                             href="qh-geom_r.htm#TOC"
   >-------------------------------</a><a name="voronoi_center">-</a>

@@ -55,7 +55,7 @@ computations is determined at initialization. The roundoff error
 in halfspace computation is accounted for by computing the
 distance from vertices to the halfspace. </p>
 </blockquote>
-<p><b>Copyright &copy; 1995-2015 C.B. Barber</b></p>
+<p><b>Copyright &copy; 1995-2018 C.B. Barber</b></p>
 <hr>
 <p><a href="#TOP">&#187;</a> <b>Geom</b>
 <a name="TOC">&#149;</a> <a href="qh-globa_r.htm#TOC">Global</a> &#149;
@@ -219,7 +219,11 @@ facet or best facet for a point </li>
 update best new facet with horizon facets</li>
 <li><a href="geom_r.c#findbestnew">qh_findbestnew</a> find best
 new facet for point </li>
-<li><a href="geom2_r.c#getarea">qh_getarea</a> get area of all
+<li><a href="geom2_r.c#furthestnewvertex">qh_furthestnewvertex</a> return
+furthest new vertex for facet </li>
+<li><a href="geom2_r.c#furthestvertex">qh_furthestvertex</a> return
+furthest vertex in facetA above facetB </li>
+<li><a href="geom2_r.c#getarea">qh_getarea</a> get area and volume of all
 facets in facetlist, collect statistics </li>
 <li><a href="geom_r.c#getcentrum">qh_getcentrum</a> return
 centrum for a facet </li>
@@ -238,6 +242,10 @@ point onto a facet </li>
 the hyperplane for a facet </li>
 <li><a href="geom2_r.c#sharpnewfacets">qh_sharpnewfacets</a> true
 if new facets contains a sharp corner</li>
+<li><a href="geom2_r.c#vertex_bestdist">qh_vertex_bestdist</a>
+return nearest distance between vertices, except 'skip' </li>
+<li><a href="geom2_r.c#vertex_isbelow">qh_vertex_isbelow</a> true if
+vertexA is below vertexB's simplicial facets, or least above</li>
 </ul>
 
 <h3><a href="qh-geom_r.htm#TOC">&#187;</a><a name="ground">geometric roundoff functions</a></h3>

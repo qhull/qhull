@@ -6,9 +6,9 @@
 
    see qh-qhull.htm, qhull_a.h
 
-   Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull/libqhull.h#7 $$Change: 2066 $
-   $DateTime: 2016/01/18 19:29:17 $$Author: bbarber $
+   Copyright (c) 1993-2018 The Geometry Center.
+   $Id: //main/2015/qhull/src/libqhull/libqhull.h#10 $$Change: 2549 $
+   $DateTime: 2018/12/28 22:24:20 $$Author: bbarber $
 
    NOTE: access to qh_qh is via the 'qh' macro.  This allows
    qh_qh to be either a pointer or a structure.  An example
@@ -405,7 +405,7 @@ struct vertexT {
   flagT    seen2:1;     /* another seen flag */
   flagT    delridge:1;  /* vertex was part of a deleted ridge */
   flagT    deleted:1;   /* true if vertex on qh.del_vertices */
-  flagT    newlist:1;   /* true if vertex on qh.newvertex_list */
+  flagT    newfacet:1;   /* true if vertex on qh.newvertex_list */
 };
 
 /*======= -global variables -qh ============================*/
@@ -690,7 +690,7 @@ struct qhT {
   vertexT *vertex_list;     /* list of all vertices, to vertex_tail */
   vertexT  *vertex_tail;    /*      end of vertex_list (dummy vertex) */
   vertexT *newvertex_list; /* list of vertices in newfacet_list, to vertex_tail
-                             all vertices have 'newlist' set */
+                             all vertices have 'newfacet' set */
   int   num_facets;       /* number of facets in facet_list
                              includes visible faces (num_visible) */
   int   num_vertices;     /* number of vertices in facet_list */

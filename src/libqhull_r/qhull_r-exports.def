@@ -4,8 +4,8 @@
 ;   [jan'14] 391 symbols 
 ;   Same as ../libqhullp/qhull-exports.def without DATA items (reentrant)
 ;
-; $Id: //main/2015/qhull/src/libqhull_r/qhull_r-exports.def#3 $$Change: 2047 $
-; $DateTime: 2016/01/04 22:03:18 $$Author: bbarber $
+; $Id: //main/2015/qhull/src/libqhull_r/qhull_r-exports.def#7 $$Change: 2546 $
+; $DateTime: 2018/12/28 15:15:16 $$Author: bbarber $
 ; 
 ; Define qhull_VERSION in CMakeLists.txt, Makefile, qhull-exports.def, qhull_p-exports.def, qhull_r-exports.def, and qhull-warn.pri
 VERSION 7.0
@@ -44,6 +44,7 @@ qh_check_point
 qh_check_points
 qh_checkconnect
 qh_checkconvex
+qh_checkdelridge
 qh_checkfacet
 qh_checkflags
 qh_checkflipped
@@ -58,8 +59,6 @@ qh_collectstatistics
 qh_compare_facetarea
 qh_compare_facetmerge
 qh_compare_facetvisit
-qh_compareangle
-qh_comparemerge
 qh_comparevisit
 qh_copyfilename
 qh_copynonconvex
@@ -71,7 +70,7 @@ qh_degen_redundant_facet
 qh_degen_redundant_neighbors
 qh_deletevisible
 qh_delfacet
-qh_delridge
+qh_delridge_merge
 qh_delvertex
 qh_determinant
 qh_detjoggle
@@ -155,6 +154,7 @@ qh_initstatistics
 qh_initthresholds
 qh_inthresholds
 qh_isvertex
+qh_joggle_restart
 qh_joggleinput
 qh_lib_check
 qh_makenew_nonsimplicial
@@ -167,7 +167,8 @@ qh_malloc
 qh_mark_dupridges
 qh_markkeep
 qh_markvoronoi
-qh_matchduplicates
+qh_matchdupridge
+qh_matchdupridge_coplanarhorizon
 qh_matchneighbor
 qh_matchnewfacets
 qh_matchvertices
@@ -237,7 +238,6 @@ qh_pointfacet
 qh_pointid
 qh_pointvertex
 qh_postmerge
-qh_precision
 qh_premerge
 qh_prepare_output
 qh_prependfacet

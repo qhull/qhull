@@ -42,7 +42,7 @@ the n-d beneath-beyond algorithm. See
 functions and base data types.  The top-level header file, <tt>libqhull_r.h</tt>,
 contains prototypes for these functions.</p>
 </blockquote>
-<p><b>Copyright &copy; 1995-2015 C.B. Barber</b></p>
+<p><b>Copyright &copy; 1995-2018 C.B. Barber</b></p>
 <hr>
 <p><a href="#TOP">&#187;</a> <a href="qh-geom_r.htm#TOC">Geom</a>
 <a name="TOC">&#149;</a> <a href="qh-globa_r.htm#TOC">Global</a>
@@ -123,6 +123,10 @@ trace an iteration of buildhull </li>
 point to the convex hull </li>
 <li><a href="libqhull_r.c#findhorizon">qh_findhorizon</a>
 find the horizon and visible facets for a point </li>
+<li><a href="libqhull_r.c#buildcone">qh_buildcone</a>
+build cone of new facets from furthest to the horizon </li>
+<li><a href="merge_r.c#premerge">qh_premerge</a>
+pre-merge non-convex facets </li>
 <li><a href="libqhull_r.c#partitionvisible">qh_partitionvisible</a>
 partition points from facets in qh.visible_list
 to facets in qh.newfacet_list </li>
@@ -131,7 +135,8 @@ partition a point as inside, coplanar with, or
 outside a facet </li>
 <li><a href="libqhull_r.c#partitioncoplanar">qh_partitioncoplanar</a>
 partition coplanar point into a facet </li>
-<li><a href="libqhull_r.c#precision">qh_precision</a> restart on precision errors if not merging and if 'QJn'</li>
+<li><a href="libqhull_r.c#joggle_restart">qh_joggle_restart</a>
+if joggle ('QJn') and not merging, restart on precision errors</li>
 </ul>
 
 <h3><a href="qh-qhull_r.htm#TOC">&#187;</a><a name="qinit">Top-level routines for initializing and terminating Qhull (in other modules)</a></h3>

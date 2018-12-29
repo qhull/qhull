@@ -6,9 +6,9 @@
 
    see qh-geom.htm and geom.h
 
-   Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull/geom.c#2 $$Change: 1995 $
-   $DateTime: 2015/10/13 21:59:42 $$Author: bbarber $
+   Copyright (c) 1993-2018 The Geometry Center.
+   $Id: //main/2015/qhull/src/libqhull/geom.c#5 $$Change: 2549 $
+   $DateTime: 2018/12/28 22:24:20 $$Author: bbarber $
 
    infrequent code goes into geom2.c
 */
@@ -553,7 +553,7 @@ void qh_backnormal(realT **rows, int numrow, int numcol, boolT sign,
     zzinc_(Zback0);
     *nearzero= True;
     trace4((qh ferr, 4005, "qh_backnormal: zero diagonal at column %d.\n", i));
-    qh_precision("zero diagonal on back substitution");
+    qh_joggle_restart("zero diagonal on back substitution");
   }
 } /* backnormal */
 
@@ -608,7 +608,7 @@ void qh_gausselim(realT **rows, int numrow, int numcol, boolT *sign, boolT *near
           qh_printmatrix(qh ferr, "Matrix:", rows, numrow, numcol);
         }
         zzinc_(Zgauss0);
-        qh_precision("zero pivot for Gaussian elimination");
+        qh_joggle_restart("zero pivot for Gaussian elimination");
         goto LABELnextcol;
       }
     }

@@ -16,9 +16,9 @@
     - every set is NULL terminated
     - sets may be sorted or unsorted, the caller must distinguish this
 
-   Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull_r/qset_r.h#4 $$Change: 2079 $
-   $DateTime: 2016/02/07 17:43:34 $$Author: bbarber $
+   Copyright (c) 1993-2018 The Geometry Center.
+   $Id: //main/2015/qhull/src/libqhull_r/qset_r.h#7 $$Change: 2549 $
+   $DateTime: 2018/12/28 22:24:20 $$Author: bbarber $
 */
 
 #ifndef qhDEFset
@@ -132,6 +132,7 @@ struct setT {
 
    notes:
      use FOREACHsetelement_i_() if need index or include NULLs
+     assumes set is not modified
 
    WARNING:
      nested loops can't use the same variable (define another FOREACH)
@@ -266,6 +267,7 @@ struct setT {
      FOREACHelem_(set) {
 
    notes:
+     assumes set is not modified
      WARNING: needs braces if nested inside another FOREACH
 */
 #define FOREACHelem_(set) FOREACHsetelement_(void, set, elem)
@@ -478,14 +480,14 @@ void  qh_setfree(qhT *qh, setT **set);
 void  qh_setfree2(qhT *qh, setT **setp, int elemsize);
 void  qh_setfreelong(qhT *qh, setT **set);
 int   qh_setin(setT *set, void *setelem);
-int qh_setindex(setT *set, void *setelem);
+int   qh_setindex(setT *set, void *setelem);
 void  qh_setlarger(qhT *qh, setT **setp);
 void *qh_setlast(setT *set);
 setT *qh_setnew(qhT *qh, int size);
 setT *qh_setnew_delnthsorted(qhT *qh, setT *set, int size, int nth, int prepend);
 void  qh_setprint(qhT *qh, FILE *fp, const char* string, setT *set);
 void  qh_setreplace(qhT *qh, setT *set, void *oldelem, void *newelem);
-int qh_setsize(qhT *qh, setT *set);
+int   qh_setsize(qhT *qh, setT *set);
 setT *qh_settemp(qhT *qh, int setsize);
 void  qh_settempfree(qhT *qh, setT **set);
 void  qh_settempfree_all(qhT *qh);

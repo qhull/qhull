@@ -6,9 +6,9 @@
 
    see qh-geom_r.htm and geom_r.c
 
-   Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull_r/geom_r.h#3 $$Change: 2079 $
-   $DateTime: 2016/02/07 17:43:34 $$Author: bbarber $
+   Copyright (c) 1993-2018 The Geometry Center.
+   $Id: //main/2015/qhull/src/libqhull_r/geom_r.h#10 $$Change: 2549 $
+   $DateTime: 2018/12/28 22:24:20 $$Author: bbarber $
 */
 
 #ifndef qhDEFgeom
@@ -115,7 +115,7 @@ void    qh_gausselim(qhT *qh, realT **rows, int numrow, int numcol, boolT *sign,
 realT   qh_getangle(qhT *qh, pointT *vect1, pointT *vect2);
 pointT *qh_getcenter(qhT *qh, setT *vertices);
 pointT *qh_getcentrum(qhT *qh, facetT *facet);
-realT   qh_getdistance(qhT *qh, facetT *facet, facetT *neighbor, realT *mindist, realT *maxdist);
+coordT  qh_getdistance(qhT *qh, facetT *facet, facetT *neighbor, coordT *mindist, coordT *maxdist);
 void    qh_normalize(qhT *qh, coordT *normal, int dim, boolT toporient);
 void    qh_normalize2(qhT *qh, coordT *normal, int dim, boolT toporient,
             realT *minnorm, boolT *ismin);
@@ -144,6 +144,8 @@ realT   qh_facetarea_simplex(qhT *qh, int dim, coordT *apex, setT *vertices,
           vertexT *notvertex,  boolT toporient, coordT *normal, realT *offset);
 pointT *qh_facetcenter(qhT *qh, setT *vertices);
 facetT *qh_findgooddist(qhT *qh, pointT *point, facetT *facetA, realT *distp, facetT **facetlist);
+vertexT *qh_furthestnewvertex(qhT *qh, unsigned int unvisited, facetT *facet, realT *maxdistp /* qh.newvertex_list */);
+vertexT *qh_furthestvertex(qhT *qh, facetT *facetA, facetT *facetB, realT *maxdistp, realT *mindistp);
 void    qh_getarea(qhT *qh, facetT *facetlist);
 boolT   qh_gram_schmidt(qhT *qh, int dim, realT **rows);
 boolT   qh_inthresholds(qhT *qh, coordT *normal, realT *angle);
@@ -172,6 +174,9 @@ void    qh_scalepoints(qhT *qh, pointT *points, int numpoints, int dim,
 boolT   qh_sethalfspace(qhT *qh, int dim, coordT *coords, coordT **nextp,
               coordT *normal, coordT *offset, coordT *feasible);
 coordT *qh_sethalfspace_all(qhT *qh, int dim, int count, coordT *halfspaces, pointT *feasible);
+coordT  qh_vertex_bestdist(qhT *qh, setT *vertices);
+coordT  qh_vertex_bestdist2(qhT *qh, setT *vertices, vertexT **vertexp, vertexT **vertexp2);
+boolT   qh_vertex_isbelow(qhT *qh, vertexT *vertexA, vertexT *vertexB);
 pointT *qh_voronoi_center(qhT *qh, int dim, setT *points);
 
 #ifdef __cplusplus

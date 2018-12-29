@@ -57,15 +57,15 @@
 #   Remove CMAKE_INTDIR from PreprocessorDefinitions
 #   Adjust target names and destinations (e.g., lib/libqhullstatic_rd.a)
 #  
-# $Id: //main/2015/qhull/CMakeLists.txt#8 $$Change: 2066 $
-# $DateTime: 2016/01/18 19:29:17 $$Author: bbarber $
+# $Id: //main/2015/qhull/CMakeLists.txt#10 $$Change: 2549 $
+# $DateTime: 2018/12/28 22:24:20 $$Author: bbarber $
 
 project(qhull)
 cmake_minimum_required(VERSION 2.6)
 
 # Define qhull_VERSION in CMakeLists.txt, Makefile, qhull-exports.def, qhull_p-exports.def, qhull_r-exports.def, qhull-warn.pri
-set(qhull_VERSION2 "2015.2 2016/01/18")  # not used, See global.c, global_r.c, rbox.c, rbox_r.c
-set(qhull_VERSION     "7.2.0")  # Advance every release
+set(qhull_VERSION2 "2018.0.1 2018/12/28")  # not used, See global.c, global_r.c, rbox.c, rbox_r.c
+set(qhull_VERSION     "7.3.0")  # Advance every release
 
 # SOVERSION -- qhull 2003 = empty, 2009 = 5, 2010-2012 = 6, 2015 (reentrant) = 7
 set(qhull_SOVERSION 7) # For SOVERSION 
@@ -467,6 +467,8 @@ set_target_properties(${qhull_CPP} PROPERTIES
 # Define qhull executables linked to qhullstatic library
 #   qhull is linked to reentrant qhull (more flexible)
 #   the others are linked to non-reentrant qhull (somewhat faster)
+#
+# If you prefer dynamic linking, use qhull_SHAREDR or qhull_SHARED instead.
 # ---------------------------------------
 
 set(qhull_SOURCES       src/qhull/unix_r.c)

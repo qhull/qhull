@@ -6,9 +6,9 @@
 
    see qh-poly_r.htm, libqhull_r.h and poly_r.c
 
-   Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull_r/poly_r.h#5 $$Change: 2079 $
-   $DateTime: 2016/02/07 17:43:34 $$Author: bbarber $
+   Copyright (c) 1993-2018 The Geometry Center.
+   $Id: //main/2015/qhull/src/libqhull_r/poly_r.h#16 $$Change: 2549 $
+   $DateTime: 2018/12/28 22:24:20 $$Author: bbarber $
 */
 
 #ifndef qhDEFpoly
@@ -41,7 +41,7 @@
     special value for facet->neighbor to indicate a duplicate ridge
 
   notes:
-    set by matchneighbor, used by matchmatch and mark_dupridge
+    set by qh_matchneighbor for qh_matchdupridge and qh_matchdupridge_coplanarhorizon
 */
 #define qh_DUPLICATEridge (facetT *)1L
 
@@ -49,10 +49,11 @@
   >--------------------------------</a><a name="MERGEridge">-</a>
 
   MERGEridge       flag in facet
-    special value for facet->neighbor to indicate a merged ridge
+    special value for facet->neighbor to indicate a duplicate ridge that needs merging
 
   notes:
-    set by matchneighbor, used by matchmatch and mark_dupridge
+    set by qh_matchnewfacets..qh_matchdupridge from qh_DUPLICATEridge
+    used by qh_mark_dupridges to set facet->mergeridge, facet->mergeridge2 from facet->dupridge
 */
 #define qh_MERGEridge (facetT *)2L
 
@@ -86,7 +87,7 @@
     uses 'facetT *newfacet;'
     at exit, newfacet==NULL
 */
-#define FORALLnew_facets for ( newfacet=qh->newfacet_list;newfacet && newfacet->next;newfacet=newfacet->next )
+#define FORALLnew_facets for ( newfacet=qh->newfacet_list; newfacet && newfacet->next; newfacet=newfacet->next )
 
 /*-<a                             href="qh-poly_r.htm#TOC"
   >--------------------------------</a><a name="FORALLvertex_">-</a>
@@ -219,13 +220,14 @@ void    qh_delfacet(qhT *qh, facetT *facet);
 void    qh_deletevisible(qhT *qh /* qh.visible_list, qh.horizon_list */);
 setT   *qh_facetintersect(qhT *qh, facetT *facetA, facetT *facetB, int *skipAp,int *skipBp, int extra);
 int     qh_gethash(qhT *qh, int hashsize, setT *set, int size, int firstindex, void *skipelem);
+facetT *qh_getreplacement(qhT *qh, facetT *visible);
 facetT *qh_makenewfacet(qhT *qh, setT *vertices, boolT toporient, facetT *facet);
 void    qh_makenewplanes(qhT *qh /* qh.newfacet_list */);
 facetT *qh_makenew_nonsimplicial(qhT *qh, facetT *visible, vertexT *apex, int *numnew);
 facetT *qh_makenew_simplicial(qhT *qh, facetT *visible, vertexT *apex, int *numnew);
 void    qh_matchneighbor(qhT *qh, facetT *newfacet, int newskip, int hashsize,
                           int *hashcount);
-void    qh_matchnewfacets(qhT *qh);
+coordT  qh_matchnewfacets(qhT *qh);
 boolT   qh_matchvertices(qhT *qh, int firstindex, setT *verticesA, int skipA,
                           setT *verticesB, int *skipB, boolT *same);
 facetT *qh_newfacet(qhT *qh);
@@ -238,9 +240,9 @@ void    qh_updatevertices(qhT *qh);
 
 /*========== -prototypes poly2_r.c in alphabetical order ===========*/
 
+boolT   qh_addfacetvertex(qhT *qh, facetT *facet, vertexT *newvertex);
 void    qh_addhash(void *newelem, setT *hashtable, int hashsize, int hash);
 void    qh_check_bestdist(qhT *qh);
-void    qh_check_dupridge(qhT *qh, facetT *facet1, realT dist1, facetT *facet2, realT dist2);
 void    qh_check_maxout(qhT *qh);
 void    qh_check_output(qhT *qh);
 void    qh_check_point(qhT *qh, pointT *point, facetT *facet, realT *maxoutside, realT *maxdist, facetT **errfacet1, facetT **errfacet2);
@@ -252,7 +254,6 @@ void    qh_checkpolygon(qhT *qh, facetT *facetlist);
 void    qh_checkvertex(qhT *qh, vertexT *vertex);
 void    qh_clearcenters(qhT *qh, qh_CENTER type);
 void    qh_createsimplex(qhT *qh, setT *vertices);
-void    qh_delridge(qhT *qh, ridgeT *ridge);
 void    qh_delvertex(qhT *qh, vertexT *vertex);
 setT   *qh_facet3vertex(qhT *qh, facetT *facet);
 facetT *qh_findbestfacet(qhT *qh, pointT *point, boolT bestoutside,
@@ -270,12 +271,14 @@ void    qh_initialhull(qhT *qh, setT *vertices);
 setT   *qh_initialvertices(qhT *qh, int dim, setT *maxpoints, pointT *points, int numpoints);
 vertexT *qh_isvertex(pointT *point, setT *vertices);
 vertexT *qh_makenewfacets(qhT *qh, pointT *point /*horizon_list, visible_list*/);
-void    qh_matchduplicates(qhT *qh, facetT *atfacet, int atskip, int hashsize, int *hashcount);
+coordT  qh_matchdupridge(qhT *qh, facetT *atfacet, int atskip, int hashsize, int *hashcount);
+void    qh_matchdupridge_coplanarhorizon(qhT *qh, facetT *atfacet, int atskip, int hashsize, int *hashcount);
 void    qh_nearcoplanar(qhT *qh /* qh.facet_list */);
 vertexT *qh_nearvertex(qhT *qh, facetT *facet, pointT *point, realT *bestdistp);
 int     qh_newhashtable(qhT *qh, int newsize);
 vertexT *qh_newvertex(qhT *qh, pointT *point);
 ridgeT *qh_nextridge3d(ridgeT *atridge, facetT *facet, vertexT **vertexp);
+vertexT *qh_opposite_vertex(qhT *qh, facetT *facetA,  facetT *neighbor);
 void    qh_outcoplanar(qhT *qh /* qh.facet_list */);
 pointT *qh_point(qhT *qh, int id);
 void    qh_point_add(qhT *qh, setT *set, pointT *point, void *elem);
@@ -283,7 +286,7 @@ setT   *qh_pointfacet(qhT *qh /*qh.facet_list*/);
 setT   *qh_pointvertex(qhT *qh /*qh.facet_list*/);
 void    qh_prependfacet(qhT *qh, facetT *facet, facetT **facetlist);
 void    qh_printhashtable(qhT *qh, FILE *fp);
-void    qh_printlists(qhT *qh);
+void    qh_replacefacetvertex(qhT *qh, facetT *facet, vertexT *oldvertex, vertexT *newvertex);
 void    qh_resetlists(qhT *qh, boolT stats, boolT resetVisible /*qh.newvertex_list qh.newfacet_list qh.visible_list*/);
 void    qh_setvoronoi_all(qhT *qh);
 void    qh_triangulate(qhT *qh /*qh.facet_list*/);

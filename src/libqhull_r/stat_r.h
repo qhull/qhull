@@ -6,9 +6,9 @@
 
    see qh-stat_r.htm and stat_r.c
 
-   Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull_r/stat_r.h#5 $$Change: 2079 $
-   $DateTime: 2016/02/07 17:43:34 $$Author: bbarber $
+   Copyright (c) 1993-2018 The Geometry Center.
+   $Id: //main/2015/qhull/src/libqhull_r/stat_r.h#7 $$Change: 2549 $
+   $DateTime: 2018/12/28 22:24:20 $$Author: bbarber $
 
    recompile qhull if you change this file
 

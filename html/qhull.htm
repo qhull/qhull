@@ -117,7 +117,7 @@ hull contains non-simplicial facets (e.g., a hypercube). See
 are there extra points in a 4-d or higher convex hull?</a><br>
 </p>
 
-<p><b>Copyright &copy; 1995-2015 C.B. Barber</b></p>
+<p><b>Copyright &copy; 1995-2018 C.B. Barber</b></p>
 
 <hr>
 
@@ -343,8 +343,9 @@ Qhull control options:
     Q10  - no special processing for narrow distributions
     Q11  - copy normals and recompute centrums for tricoplanar facets
     Q12  - do not error on wide merge due to duplicate ridge and nearly coincident points
+    Q14  - do not rename vertices that create a duplicate ridge
 
-Towpaths Trace options:
+Trace options:
     T4   - trace at level n, 4=all, 5=mem/gauss, -1= events
     Tc   - check frequently during execution
     Ts   - print statistics

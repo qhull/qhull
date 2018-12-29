@@ -6,9 +6,9 @@
 
    see qh-geom.htm and geom.c
 
-   Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull/geom.h#1 $$Change: 1981 $
-   $DateTime: 2015/09/28 20:26:32 $$Author: bbarber $
+   Copyright (c) 1993-2018 The Geometry Center.
+   $Id: //main/2015/qhull/src/libqhull/geom.h#3 $$Change: 2549 $
+   $DateTime: 2018/12/28 22:24:20 $$Author: bbarber $
 */
 
 #ifndef qhDEFgeom

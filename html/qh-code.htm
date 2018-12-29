@@ -38,7 +38,7 @@ height="100"></a> Qhull code</h1>
 
 <p>This section discusses the code for Qhull. </p>
 
-<p><b>Copyright &copy; 1995-2015 C.B. Barber</b></p>
+<p><b>Copyright &copy; 1995-2018 C.B. Barber</b></p>
 
 <hr>
 
@@ -856,13 +856,10 @@ the most expensive function.
 ------------
 To do for a future verson of Qhull
  - Add a post-merge pass for Delaunay slivers.  Merge into a neighbor with a circumsphere that includes the opposite point. [M. Treacy]
- - Add a merge pass before cone creation to remove duplicate subridges between horizon facets
  - Option to add a bounding box for Delaunay triangulations, e,g., nearly coincident points
- - Report error when rbox Cn,r,m does not produce points (e.g., 'r' distributions)
  - Rescale output to match 'QbB' on input [J. Metz, 1/30/2014 12:21p]
  - Run through valgrind
  - Notes to compgeom on conformant triangulation and Voronoi volume
- - Git: Create signed tags for Qhull versions
  - Implement weighted Delaunay triangulation and weighted Voronoi diagram [A. Liebscher]
    e.g., Sugihara, "Three-dimensional convex hull as a fruitful source of diagrams," Theoretical Computer Science, 2000, 235:325-337
  - testqset: test qh_setdelnth and move-to-front
@@ -871,7 +868,6 @@ To do for a future verson of Qhull
    unused-but-set-variable is reporting incorrectly.  All instances are annotated.
  - CMakelists.txt:  Why are files duplicated for cmake build
  - CMakeLists.txt: configure the 'ctest' target
- - The size of maxpoints in qh_maxsimplex should be d+3 unique points to help avoid QH6154
 
  - Can countT be defined as 'int', 'unsigned int', or 64-bit int?
    countT is currently defined as 'int' in qset_r.h
@@ -889,13 +885,10 @@ To do for a future verson of Qhull
 
 ------------
 To do for a furture version of the C++ interface
- - Fix C++ memory leak in user_eg3 [M. Sandim]
  - Document C++ using Doxygen conventions (//! and //!<)
  - Should Qhull manage the output formats for doubles?  QH11010 user_r.h defines qh_REAL_1 as %6.8g
  - Allocate memory for QhullSet using Qhull.qhmem.  Create default constructors for QhullVertexSet etc.  Also mid() etc.
  - Add interior point for automatic translation?
- - Add hasNext() to all next() iterators (e.g., QhullVertex)
- - Add defineAs() to each object
  - Write a program with concurrent Qhull
  - Write QhullStat and QhullStat_test
  - Add QList and vector instance of facetT*, etc.
@@ -913,20 +906,12 @@ To do for a furture version of the C++ interface
    sed -i 's/C\:\/bash\/local\/qhull\/qtpro\///' qhull-all.sln
    Change qhullcpp to libqhull.dll
    Allow both builds on same host (keep /tmp separate)
- - Make distribution -- remove tmp, news, .git, leftovers from project, change CRLF
-     search for 2010.1, Dates
-     qhulltest --all added to output
-     Add md5sum
-     Add test of user_eg3, etc.
  - C++ class for access to statistics, accumulate vs. add
  - Add dialog box to RoadError-- a virtual function?
  - Option 'Gt' does not make visible all facets of the mesh example, rbox 32 M1,0,1 | qhull d Gt
- - Option to select bounded Voronoi regions [A. Uzunovic]
  - Merge small volume boundary cells into unbounded regions [Dominik Szczerba]
  - Postmerge with merge options
- - Add const to C code
  - Add modify operators and MutablePointCoordinateIterator to PointCoordinates
- - Add Qtest::toString() functions for QhullPoint and others.  QByteArray and qstrdup()
  - Fix option Qt for conformant triangulations of merged facets
  - Investigate flipped facet -- rbox 100 s D3 t1263080158 | qhull R1e-3 Tcv Qc
  - Add doc comments to c++ code

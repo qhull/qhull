@@ -11,9 +11,9 @@
 
    see qhull_a.h for internal functions
 
-   Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull/global.c#17 $$Change: 2066 $
-   $DateTime: 2016/01/18 19:29:17 $$Author: bbarber $
+   Copyright (c) 1993-2018 The Geometry Center.
+   $Id: //main/2015/qhull/src/libqhull/global.c#20 $$Change: 2549 $
+   $DateTime: 2018/12/28 22:24:20 $$Author: bbarber $
  */
 
 #include "qhull_a.h"
@@ -2063,7 +2063,7 @@ void qh_lib_check(int qhullLibraryType, int qhTsize, int vertexTsize, int ridgeT
     }else if (qhullLibraryType==QHULL_REENTRANT) { /* 2 */
         qh_fprintf_stderr(6248, "qh_lib_check: Incorrect qhull library called.  Caller uses reentrant Qhull while library is non-reentrant\n");
         iserror= True;
-    }else{
+    }else {
         qh_fprintf_stderr(6262, "qh_lib_check: Expecting qhullLibraryType QHULL_NON_REENTRANT(0), QHULL_QH_POINTER(1), or QHULL_REENTRANT(2).  Got %d\n", qhullLibraryType);
         iserror= True;
     }
@@ -2094,7 +2094,7 @@ void qh_lib_check(int qhullLibraryType, int qhTsize, int vertexTsize, int ridgeT
     if (iserror) {
         if(qh_QHpointer){
             qh_fprintf_stderr(6255, "qh_lib_check: Cannot continue.  Library '%s' uses a dynamic qhT via qh_QHpointer (e.g., qhull_p.so)\n", qh_version2);
-        }else{
+        }else {
             qh_fprintf_stderr(6256, "qh_lib_check: Cannot continue.  Library '%s' uses a static qhT (e.g., libqhull.so)\n", qh_version2);
         }
         qh_exit(qh_ERRqhull);  /* can not use qh_errexit() */

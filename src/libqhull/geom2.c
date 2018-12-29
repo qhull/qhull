@@ -7,9 +7,9 @@
 
    see qh-geom.htm and geom.h
 
-   Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull/geom2.c#6 $$Change: 2065 $
-   $DateTime: 2016/01/18 13:51:04 $$Author: bbarber $
+   Copyright (c) 1993-2018 The Geometry Center.
+   $Id: //main/2015/qhull/src/libqhull/geom2.c#9 $$Change: 2549 $
+   $DateTime: 2018/12/28 22:24:20 $$Author: bbarber $
 
    frequently used code goes into geom.c
 */
@@ -1133,7 +1133,7 @@ void qh_maxsimplex(int dim, setT *maxpoints, pointT *points, int numpoints, setT
       qh_setunique(simplex, maxx);
     sizinit= qh_setsize(*simplex);
     if (sizinit < 2) {
-      qh_precision("input has same x coordinate");
+      qh_joggle_restart("input has same x coordinate");
       if (zzval_(Zsetplane) > qh hull_dim+1) {
         qh_fprintf(qh ferr, 6012, "qhull precision error (qh_maxsimplex for voronoi_center):\n%d points with the same x coordinate.\n",
                  qh_setsize(maxpoints)+numpoints);

@@ -75,7 +75,7 @@ int main(int argc, char **argv) {
     if (!qh_argv_to_command(argc, argv, command, command_size)) {
       qh_fprintf_stderr(6264, "rbox internal error: allocated insufficient memory (%d) for arguments\n", command_size);
       return_status= qh_ERRinput;
-    }else{
+    }else {
       return_status= qh_rboxpoints(stdout, stderr, command);
     }
     qh_free(command);

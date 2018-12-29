@@ -8,9 +8,9 @@
 
    frequently used code is in poly.c
 
-   Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull/poly2.c#11 $$Change: 2069 $
-   $DateTime: 2016/01/18 22:05:03 $$Author: bbarber $
+   Copyright (c) 1993-2018 The Geometry Center.
+   $Id: //main/2015/qhull/src/libqhull/poly2.c#18 $$Change: 2549 $
+   $DateTime: 2018/12/28 22:24:20 $$Author: bbarber $
 */
 
 #include "qhull_a.h"
@@ -487,7 +487,7 @@ void qh_checkconvex(facetT *facetlist, int fault) {
   }
   FORALLfacet_(facetlist) {
     if (facet->flipped) {
-      qh_precision("flipped facet");
+      qh_joggle_restart("flipped facet");
       qh_fprintf(qh ferr, 6113, "qhull precision error: f%d is flipped(interior point is outside)\n",
                facet->id);
       errfacet1= facet;
@@ -508,13 +508,13 @@ void qh_checkconvex(facetT *facetlist, int fault) {
         qh_distplane(vertex->point, neighbor, &dist);
         if (dist > -qh DISTround) {
           if (fault == qh_DATAfault) {
-            qh_precision("coplanar or concave ridge");
+            qh_joggle_restart("coplanar or concave ridge");
             qh_fprintf(qh ferr, 6114, "qhull precision error: initial simplex is not convex. Distance=%.2g\n", dist);
             qh_errexit(qh_ERRsingular, NULL, NULL);
           }
           if (dist > qh DISTround) {
             zzinc_(Zconcaveridges);
-            qh_precision("concave ridge");
+            qh_joggle_restart("concave ridge");
             qh_fprintf(qh ferr, 6115, "qhull precision error: f%d is concave to f%d, since p%d(v%d) is %6.4g above\n",
               facet->id, neighbor->id, qh_pointid(vertex->point), vertex->id, dist);
             errfacet1= facet;
@@ -523,7 +523,7 @@ void qh_checkconvex(facetT *facetlist, int fault) {
           }else if (qh ZEROcentrum) {
             if (dist > 0) {     /* qh_checkzero checks that dist < - qh DISTround */
               zzinc_(Zcoplanarridges);
-              qh_precision("coplanar ridge");
+              qh_joggle_restart("coplanar ridge");
               qh_fprintf(qh ferr, 6116, "qhull precision error: f%d is clearly not convex to f%d, since p%d(v%d) is %6.4g above\n",
                 facet->id, neighbor->id, qh_pointid(vertex->point), vertex->id, dist);
               errfacet1= facet;
@@ -532,7 +532,7 @@ void qh_checkconvex(facetT *facetlist, int fault) {
             }
           }else {
             zzinc_(Zcoplanarridges);
-            qh_precision("coplanar ridge");
+            qh_joggle_restart("coplanar ridge");
             trace0((qh ferr, 22, "qhull precision error: f%d may be coplanar to f%d, since p%d(v%d) is within %6.4g during p%d\n",
               facet->id, neighbor->id, qh_pointid(vertex->point), vertex->id, dist, qh furthest_id));
           }
@@ -561,7 +561,7 @@ void qh_checkconvex(facetT *facetlist, int fault) {
         qh_distplane(centrum, neighbor, &dist);
         if (dist > qh DISTround) {
           zzinc_(Zconcaveridges);
-          qh_precision("concave ridge");
+          qh_joggle_restart("concave ridge");
           qh_fprintf(qh ferr, 6117, "qhull precision error: f%d is concave to f%d.  Centrum of f%d is %6.4g above f%d\n",
             facet->id, neighbor->id, facet->id, dist, neighbor->id);
           errfacet1= facet;
@@ -570,7 +570,7 @@ void qh_checkconvex(facetT *facetlist, int fault) {
         }else if (dist >= 0.0) {   /* if arithmetic always rounds the same,
                                      can test against centrum radius instead */
           zzinc_(Zcoplanarridges);
-          qh_precision("coplanar ridge");
+          qh_joggle_restart("coplanar ridge");
           qh_fprintf(qh ferr, 6118, "qhull precision error: f%d is coplanar or concave to f%d.  Centrum of f%d is %6.4g above f%d\n",
             facet->id, neighbor->id, facet->id, dist, neighbor->id);
           errfacet1= facet;
@@ -807,7 +807,7 @@ void qh_checkfacet(facetT *facet, boolT newmerge, boolT *waserrorp) {
       for (i=ridge_i+1; i < ridge_n; i++) {
         ridge2= SETelemt_(facet->ridges, i, ridgeT);
         if (qh_setequal(ridge->vertices, ridge2->vertices)) {
-          qh_fprintf(qh ferr, 6227, "Qhull internal error (qh_checkfacet): ridges r%d and r%d have the same vertices\n",
+          qh_fprintf(qh ferr, 6227, "qhull internal error (qh_checkfacet): ridges r%d and r%d have the same vertices\n",
                   ridge->id, ridge2->id);
           errridge= ridge;
           waserror= True;
@@ -1744,7 +1744,7 @@ void qh_initbuild( void) {
          qh IStracing ? qh IStracing : qh TRACElevel, qh rbox_command, qh qhull_command);
     qh_fprintf(qh ferr, 8104, "Options selected for Qhull %s:\n%s\n", qh_version, qh qhull_options);
   }
-  qh_resetlists(False, qh_RESETvisible /*qh.visible_list newvertex_list newfacet_list */);
+  qh_resetlists(False, qh_RESETvisible /*qh.visible_list newvertex_list qh.newfacet_list */);
   qh facet_next= qh facet_list;
   qh_furthestnext(/* qh.facet_list */);
   if (qh PREmerge) {
@@ -1840,7 +1840,7 @@ void qh_initialhull(setT *vertices) {
           qh_fprintf(qh ferr, 6239, "Qhull precision error: Initial simplex is cocircular or cospherical.  Use option 'Qz' for the Delaunay triangulation or Voronoi diagram of cocircular/cospherical points.  Option 'Qz' adds a point \"at infinity\".    Use option 'Qs' to search all points for the initial simplex.\n");
         qh_errexit(qh_ERRinput, NULL, NULL);
       }
-      qh_precision("initial simplex is flat");
+      qh_joggle_restart("initial simplex is flat");
       qh_fprintf(qh ferr, 6154, "Qhull precision error: Initial simplex is flat (facet %d is coplanar with the interior point)\n",
                  facet->id);
       qh_errexit(qh_ERRsingular, NULL, NULL);  /* calls qh_printhelp_singular */
@@ -1990,7 +1990,7 @@ vertexT *qh_isvertex(pointT *point, setT *vertices) {
 
   returns:
     qh.newfacet_list= list of new facets with hyperplanes and ->newfacet
-    qh.newvertex_list= list of vertices in new facets with ->newlist set
+    qh.newvertex_list= list of vertices in new facets with ->newfacet set
 
     if (qh.ONLYgood)
       newfacets reference horizon facets, but not vice versa
@@ -2085,7 +2085,7 @@ vertexT *qh_makenewfacets(pointT *point /*visible_list*/) {
         make best match (it will not be merged)
 */
 #ifndef qh_NOmerge
-void qh_matchduplicates(facetT *atfacet, int atskip, int hashsize, int *hashcount) {
+void qh_matchdupridge(facetT *atfacet, int atskip, int hashsize, int *hashcount) {
   boolT same, ismatch;
   int hash, scan;
   facetT *facet, *newfacet, *maxmatch= NULL, *maxmatch2= NULL, *nextfacet;
@@ -2165,7 +2165,7 @@ void qh_matchduplicates(facetT *atfacet, int atskip, int hashsize, int *hashcoun
       zzinc_(Zmultiridge);
       trace0((qh ferr, 25, "qh_matchduplicates: duplicate f%d skip %d matched with new f%d skip %d keep\n",
               maxmatch->id, maxskip, maxmatch2->id, maxskip2));
-      qh_precision("ridge with multiple neighbors");
+      qh_joggle_restart("ridge with multiple neighbors");
       if (qh IStracing >= 4)
         qh_errprint("DUPLICATED/MATCH", maxmatch, maxmatch2, NULL, NULL);
     }
@@ -2392,7 +2392,7 @@ ridgeT *qh_nextridge3d(ridgeT *atridge, facetT *facet, vertexT **vertexp) {
   return NULL;
 } /* nextridge3d */
 #else /* qh_NOmerge */
-void qh_matchduplicates(facetT *atfacet, int atskip, int hashsize, int *hashcount) {
+void qh_matchdupridge(facetT *atfacet, int atskip, int hashsize, int *hashcount) {
 }
 ridgeT *qh_nextridge3d(ridgeT *atridge, facetT *facet, vertexT **vertexp) {
 
@@ -2698,7 +2698,7 @@ void qh_resetlists(boolT stats, boolT resetVisible /*qh.newvertex_list newfacet_
     zmax_(Znewfacetmax, totnew);
   }
   FORALLvertex_(qh newvertex_list)
-    vertex->newlist= False;
+    vertex->newfacet= False;
   qh newvertex_list= NULL;
   FORALLnew_facets
     newfacet->newfacet= False;
@@ -2819,7 +2819,7 @@ void qh_triangulate(void /*qh.facet_list*/) {
   while ((merge= (mergeT*)qh_setdellast(qh degen_mergeset))) {
     facet1= merge->facet1;
     facet2= merge->facet2;
-    mergetype= merge->type;
+    mergetype= merge->mergetype;
     qh_memfree(merge, (int)sizeof(mergeT));
     if (mergetype == MRGmirror) {
       zinc_(Ztrimirror);

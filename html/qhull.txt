@@ -1018,6 +1018,9 @@ qhull(1)                                                 qhull(1)
 
        Q12    With 'Q12', Qhull does not report a very wide merge due 
               to a duplicated ridge with nearly coincident vertices
+       
+       Q14    With 'Q14', Qhull does not rename vertices that create 
+              a duplicate ridge
 
        Trace options
 

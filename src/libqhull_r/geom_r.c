@@ -6,9 +6,9 @@
 
    see qh-geom_r.htm and geom_r.h
 
-   Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull_r/geom_r.c#2 $$Change: 1995 $
-   $DateTime: 2015/10/13 21:59:42 $$Author: bbarber $
+   Copyright (c) 1993-2018 The Geometry Center.
+   $Id: //main/2015/qhull/src/libqhull_r/geom_r.c#14 $$Change: 2549 $
+   $DateTime: 2018/12/28 22:24:20 $$Author: bbarber $
 
    infrequent code goes into geom2_r.c
 */
@@ -28,6 +28,20 @@
   notes:
     dist > 0 if point is above facet (i.e., outside)
     does not error (for qh_sortfacets, qh_outerinner)
+    for nearly coplanar points, the returned values may be duplicates
+      for example pairs of nearly incident points, rbox 175 C1,2e-13 t1538759579 | qhull d T4
+      622 qh_distplane: e-014  # count of two or more duplicate values for unique calls
+      258 qh_distplane: e-015
+      38 qh_distplane: e-016
+      40 qh_distplane: e-017
+      6 qh_distplane: e-018
+      5 qh_distplane: -e-018
+      33 qh_distplane: -e-017
+         3153 qh_distplane: -2.775557561562891e-017  # duplicated value for 3153 unique calls
+      42 qh_distplane: -e-016
+      307 qh_distplane: -e-015
+      1271 qh_distplane: -e-014
+      13 qh_distplane: -e-013
 
   see:
     qh_distnorm in geom2_r.c
@@ -146,10 +160,10 @@ facetT *qh_findbest(qhT *qh, pointT *point, facetT *startfacet,
   int oldtrace= qh->IStracing;
   unsigned int visitid= ++qh->visit_id;
   int numpartnew=0;
-  boolT testhorizon = True; /* needed if precise, e.g., rbox c D6 | qhull Q0 Tv */
+  boolT testhorizon= True; /* needed if precise, e.g., rbox c D6 | qhull Q0 Tv */
 
   zinc_(Zfindbest);
-  if (qh->IStracing >= 3 || (qh->TRACElevel && qh->TRACEpoint >= 0 && qh->TRACEpoint == qh_pointid(qh, point))) {
+  if (qh->IStracing >= 4 || (qh->TRACElevel && qh->TRACEpoint >= 0 && qh->TRACEpoint == qh_pointid(qh, point))) {
     if (qh->TRACElevel > qh->IStracing)
       qh->IStracing= qh->TRACElevel;
     qh_fprintf(qh, qh->ferr, 8004, "qh_findbest: point p%d starting at f%d isnewfacets? %d, unless %d exit if > %2.2g\n",
@@ -209,9 +223,9 @@ facetT *qh_findbest(qhT *qh, pointT *point, facetT *startfacet,
     facet= neighbor;  /* non-NULL only if *dist>bestdist */
   } /* end of while facet (directed search) */
   if (isnewfacets) {
-    if (!bestfacet) {
+    if (!bestfacet) { /* startfacet is upperdelaunay (or flipped) w/o !flipped newfacet neighbors */
       bestdist= -REALmax/2;
-      bestfacet= qh_findbestnew(qh, point, startfacet->next, &bestdist, bestoutside, isoutside, &numpartnew);
+      bestfacet= qh_findbestnew(qh, point, qh->newfacet_list, &bestdist, bestoutside, isoutside, &numpartnew);
       testhorizon= False; /* qh_findbestnew calls qh_findbesthorizon */
     }else if (!qh->findbest_notsharp && bestdist < - qh->DISTround) {
       if (qh_sharpnewfacets(qh)) {
@@ -225,7 +239,7 @@ facetT *qh_findbest(qhT *qh, pointT *point, facetT *startfacet,
     }
   }
   if (!bestfacet)
-    bestfacet= qh_findbestlower(qh, lastfacet, point, &bestdist, numpart);
+    bestfacet= qh_findbestlower(qh, lastfacet, point, &bestdist, numpart); /* lastfacet is non-NULL because startfacet is non-NULL */
   if (testhorizon)
     bestfacet= qh_findbesthorizon(qh, !qh_IScheckmax, point, bestfacet, noupper, &bestdist, &numpartnew);
   *dist= bestdist;
@@ -247,8 +261,10 @@ LABELreturn_best:
     search coplanar and better horizon facets from startfacet/bestdist
     ischeckmax turns off statistics and minsearch update
     all arguments must be initialized
+    qh.coplanarfacetset used to maintain current search set, reset whenever best facet is substantially better
   returns(ischeckmax):
     best facet
+    updates f.maxoutside for neighbors of searched facets (if qh_MAXoutside)
   returns(!ischeckmax):
     best facet that is not upperdelaunay
     allows upperdelaunay that is clearly outside
@@ -417,9 +433,9 @@ facetT *qh_findbestnew(qhT *qh, pointT *point, facetT *startfacet,
   unsigned int visitid= ++qh->visit_id;
   realT distoutside= 0.0;
   boolT isdistoutside; /* True if distoutside is defined */
-  boolT testhorizon = True; /* needed if precise, e.g., rbox c D6 | qhull Q0 Tv */
+  boolT testhorizon= True; /* needed if precise, e.g., rbox c D6 | qhull Q0 Tv */
 
-  if (!startfacet) {
+  if (!startfacet || !startfacet->next) {
     if (qh->MERGING)
       qh_fprintf(qh, qh->ferr, 6001, "qhull precision error (qh_findbestnew): merging has formed and deleted a cone of new facets.  Can not continue.\n");
     else
@@ -437,12 +453,12 @@ facetT *qh_findbestnew(qhT *qh, pointT *point, facetT *startfacet,
   if (isoutside)
     *isoutside= True;
   *numpart= 0;
-  if (qh->IStracing >= 3 || (qh->TRACElevel && qh->TRACEpoint >= 0 && qh->TRACEpoint == qh_pointid(qh, point))) {
+  if (qh->IStracing >= 4 || (qh->TRACElevel && qh->TRACEpoint >= 0 && qh->TRACEpoint == qh_pointid(qh, point))) {
     if (qh->TRACElevel > qh->IStracing)
       qh->IStracing= qh->TRACElevel;
     qh_fprintf(qh, qh->ferr, 8008, "qh_findbestnew: point p%d facet f%d. Stop? %d if dist > %2.2g\n",
              qh_pointid(qh, point), startfacet->id, isdistoutside, distoutside);
-    qh_fprintf(qh, qh->ferr, 8009, "  Last point added p%d visitid %d.",  qh->furthest_id, visitid);
+    qh_fprintf(qh, qh->ferr, 8009, "  Last point added p%d qh.visit_id %d vertex_visit %d.",  qh->furthest_id, visitid, qh->vertex_visit);
     qh_fprintf(qh, qh->ferr, 8010, "  Last merge was #%d.\n", zzval_(Ztotmerge));
   }
   /* visit all new facets starting with startfacet, maybe qh->facet_list */
@@ -474,7 +490,8 @@ facetT *qh_findbestnew(qhT *qh, pointT *point, facetT *startfacet,
 LABELreturn_bestnew:
   zadd_(Zfindnewtot, *numpart);
   zmax_(Zfindnewmax, *numpart);
-  trace4((qh, qh->ferr, 4004, "qh_findbestnew: bestfacet f%d bestdist %2.2g\n", getid_(bestfacet), *dist));
+  trace4((qh, qh->ferr, 4004, "qh_findbestnew: bestfacet f%d bestdist %2.2g for p%d f%d bestoutside? %d \n", 
+    getid_(bestfacet), *dist, qh_pointid(qh, point), startfacet->id, bestoutside));
   qh->IStracing= oldtrace;
   return bestfacet;
 }  /* findbestnew */
@@ -553,7 +570,7 @@ void qh_backnormal(qhT *qh, realT **rows, int numrow, int numcol, boolT sign,
     zzinc_(Zback0);
     *nearzero= True;
     trace4((qh, qh->ferr, 4005, "qh_backnormal: zero diagonal at column %d.\n", i));
-    qh_precision(qh, "zero diagonal on back substitution");
+    qh_joggle_restart(qh, "zero diagonal on back substitution");
   }
 } /* backnormal */
 
@@ -608,7 +625,7 @@ void qh_gausselim(qhT *qh, realT **rows, int numrow, int numcol, boolT *sign, bo
           qh_printmatrix(qh, qh->ferr, "Matrix:", rows, numrow, numcol);
         }
         zzinc_(Zgauss0);
-        qh_precision(qh, "zero pivot for Gaussian elimination");
+        qh_joggle_restart(qh, "zero pivot for Gaussian elimination");
         goto LABELnextcol;
       }
     }
@@ -652,7 +669,7 @@ realT qh_getangle(qhT *qh, pointT *vect1, pointT *vect2) {
     angle += (2.0 * randr / qh_RANDOMmax - 1.0) *
       qh->RANDOMfactor;
   }
-  trace4((qh, qh->ferr, 4006, "qh_getangle: %2.2g\n", angle));
+  trace4((qh, qh->ferr, 4006, "qh_getangle: %4.4g\n", angle));
   return(angle);
 } /* getangle */
 
@@ -696,6 +713,27 @@ pointT *qh_getcenter(qhT *qh, setT *vertices) {
 
   notes:
     allocates the centrum
+    FIXUP review -- for D4, an opposite vertex may be 4x off for adjacent simplicies that span the point set
+
+    x.t1538765758 rbox 175 C2,2e-13 t1538765758 | qhull d Tcv T4W0.00001z | head -20
+
+      822264:- p4(v319):   0.14   0.21    -0.13 0.081 newfacet
+      822267:- p190(v213): 0.031  0.19    -0.23 0.087 newfacet seen
+      822279:- p327(v215): 0.043  0.13     0.07 0.023 newfacet seen
+      822281:- p62(v166):  0.13   0.0048  -0.12 0.03 newfacet seen seen2
+
+      822869:qh_distplane: 1.387778780781446e-017 from p327 to f7042
+      822870:qh_distplane: 1.387778780781446e-017 from p190 to f7042
+      822871:qh_distplane: 1.040834085586084e-017 from p62 to f7042
+      822872:qh_setfacetplane: f7042 offset 0.0029 normal: 0.044 0.23 -0.16 -0.96 
+
+      823787:qh_getcentrum: for f7042, 4 vertices dist= 6.9e-018
+      823788:qh_distplane: -0.005019527449059064 from p-1 to f5219  # p4(v319)
+      824220:qh_distplane: -0.02007810979623617 from p4 to f5219
+      824262:    - center: 0.08510638653311674 0.1330338829504388 -0.09953420571939783 0.0550626596431951 
+
+      823798:qh_distplane: -0.001579289323094285 from p-1 to f7043 p62(v166)
+      824223:qh_distplane: -0.006317157292377095 from p62 to f7043
 */
 pointT *qh_getcentrum(qhT *qh, facetT *facet) {
   realT dist;
@@ -716,7 +754,7 @@ pointT *qh_getcentrum(qhT *qh, facetT *facet) {
   >-------------------------------</a><a name="getdistance">-</a>
 
   qh_getdistance(qh, facet, neighbor, mindist, maxdist )
-    returns the maxdist and mindist distance of any vertex from neighbor
+    returns the min and max distance to neighbor of non-neighbor vertices in facet
 
   returns:
     the max absolute value
@@ -725,9 +763,9 @@ pointT *qh_getcentrum(qhT *qh, facetT *facet) {
     for each vertex of facet that is not in neighbor
       test the distance from vertex to neighbor
 */
-realT qh_getdistance(qhT *qh, facetT *facet, facetT *neighbor, realT *mindist, realT *maxdist) {
+coordT qh_getdistance(qhT *qh, facetT *facet, facetT *neighbor, coordT *mindist, coordT *maxdist) {
   vertexT *vertex, **vertexp;
-  realT dist, maxd, mind;
+  coordT dist, maxd, mind;
 
   FOREACHvertex_(facet->vertices)
     vertex->seen= False;
@@ -852,7 +890,7 @@ void qh_normalize2(qhT *qh, coordT *normal, int dim, boolT toporient,
   }else if (norm == 0.0) {
     temp= sqrt(1.0/dim);
     for (k=dim, colp=normal; k--; )
-      *colp++ = temp;
+      *colp++= temp;
   }else {
     if (!toporient)
       norm= -norm;
@@ -1051,6 +1089,7 @@ void qh_setfacetplane(qhT *qh, facetT *facet) {
       qh_fprintf(qh, qh->ferr, 8018, "%2.2g ", facet->normal[k]);
     qh_fprintf(qh, qh->ferr, 8019, "\n");
   }
+  qh_checkflipped(qh, facet, NULL, qh_ALL);
   if (facet == qh->tracefacet)
     qh->IStracing= oldtrace;
 } /* setfacetplane */
@@ -1166,7 +1205,7 @@ void qh_sethyperplane_det(qhT *qh, int dim, coordT **rows, coordT *point0,
   }
   if (*nearzero) {
     zzinc_(Zminnorm);
-    trace0((qh, qh->ferr, 3, "qh_sethyperplane_det: degenerate norm during p%d.\n", qh->furthest_id));
+    trace0((qh, qh->ferr, 3, "qh_sethyperplane_det: degenerate norm during p%d, use qh_sethyperplane_gauss instead.\n", qh->furthest_id));
     zzinc_(Znearlysingular);
   }
 } /* sethyperplane_det */

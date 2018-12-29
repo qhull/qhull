@@ -159,6 +159,7 @@ qh_initstatistics
 qh_initthresholds
 qh_inthresholds
 qh_isvertex
+qh_joggle_restart
 qh_joggleinput
 ; Mark as DATA, otherwise links a separate qh_last_random.  No __declspec.
 qh_last_random      DATA
@@ -173,7 +174,7 @@ qh_malloc
 qh_mark_dupridges
 qh_markkeep
 qh_markvoronoi
-qh_matchduplicates
+qh_matchdupridge
 qh_matchneighbor
 qh_matchnewfacets
 qh_matchvertices
@@ -243,7 +244,6 @@ qh_pointfacet
 qh_pointid
 qh_pointvertex
 qh_postmerge
-qh_precision
 qh_premerge
 qh_prepare_output
 qh_prependfacet
@@ -414,5 +414,5 @@ qh_voronoi_center
 qh_willdelete
 ; Mark as DATA, otherwise links a separate qhmem.  No __declspec
 qhmem                   DATA
-rbox			DATA
+rbox                    DATA
 rbox_inuse              DATA

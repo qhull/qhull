@@ -9,9 +9,9 @@
    infrequent code is in poly2.c
    (all but top 50 and their callers 12/3/95)
 
-   Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull/poly.c#3 $$Change: 2064 $
-   $DateTime: 2016/01/18 12:36:08 $$Author: bbarber $
+   Copyright (c) 1993-2018 The Geometry Center.
+   $Id: //main/2015/qhull/src/libqhull/poly.c#9 $$Change: 2549 $
+   $DateTime: 2018/12/28 22:24:20 $$Author: bbarber $
 */
 
 #include "qhull_a.h"
@@ -61,7 +61,7 @@ void qh_appendfacet(facetT *facet) {
     appends vertex to end of qh.vertex_list,
 
   returns:
-    sets vertex->newlist
+    sets vertex->newfacet
     updates qh.vertex_list, newvertex_list
     increments qh.num_vertices
 
@@ -74,7 +74,7 @@ void qh_appendvertex(vertexT *vertex) {
 
   if (tail == qh newvertex_list)
     qh newvertex_list= vertex;
-  vertex->newlist= True;
+  vertex->newfacet= True;
   vertex->previous= tail->previous;
   vertex->next= tail;
   if (tail->previous)
@@ -126,7 +126,7 @@ void qh_appendvertex(vertexT *vertex) {
           the first ridge of the new facet is the horizon ridge
           link the new facet into the horizon ridge
 */
-void qh_attachnewfacets(void /* qh.visible_list, newfacet_list */) {
+void qh_attachnewfacets(void /* qh.visible_list, qh.newfacet_list */) {
   facetT *newfacet= NULL, *neighbor, **neighborp, *horizon, *visible;
   ridgeT *ridge, **ridgep;
 
@@ -229,7 +229,7 @@ boolT qh_checkflipped(facetT *facet, realT *distp, boolT allerror) {
     zzinc_(Zflippedfacets);
     trace0((qh ferr, 19, "qh_checkflipped: facet f%d is flipped, distance= %6.12g during p%d\n",
               facet->id, dist, qh furthest_id));
-    qh_precision("flipped facet");
+    qh_joggle_restart("flipped facet");
     return False;
   }
   return True;
@@ -481,7 +481,7 @@ facetT *qh_makenewfacet(setT *vertices, boolT toporient,facetT *horizon) {
   vertexT *vertex, **vertexp;
 
   FOREACHvertex_(vertices) {
-    if (!vertex->newlist) {
+    if (!vertex->newfacet) {
       qh_removevertex(vertex);
       qh_appendvertex(vertex);
     }
@@ -510,7 +510,7 @@ facetT *qh_makenewfacet(setT *vertices, boolT toporient,facetT *horizon) {
   notes:
     facet->f.samecycle is defined for facet->mergehorizon facets
 */
-void qh_makenewplanes(void /* newfacet_list */) {
+void qh_makenewplanes(void /* qh.newfacet_list */) {
   facetT *newfacet;
 
   FORALLnew_facets {
@@ -743,7 +743,7 @@ void qh_matchneighbor(facetT *newfacet, int newskip, int hashsize, int *hashcoun
     if (qh_matchvertices(1, newfacet->vertices, newskip, facet->vertices, &skip, &same)) {
       if (SETelem_(newfacet->vertices, newskip) ==
           SETelem_(facet->vertices, skip)) {
-        qh_precision("two facets with the same vertices");
+        qh_joggle_restart("two facets with the same vertices");
         qh_fprintf(qh ferr, 6106, "qhull precision error: Vertex sets are the same for f%d and f%d.  Can not force output.\n",
           facet->id, newfacet->id);
         qh_errexit2(qh_ERRprec, facet, newfacet);
@@ -759,7 +759,7 @@ void qh_matchneighbor(facetT *newfacet, int newskip, int hashsize, int *hashcoun
         return;
       }
       if (!qh PREmerge && !qh MERGEexact) {
-        qh_precision("a ridge with more than two neighbors");
+        qh_joggle_restart("a ridge with more than two neighbors");
         qh_fprintf(qh ferr, 6107, "qhull precision error: facets f%d, f%d and f%d meet at a ridge with more than 2 neighbors.  Can not continue.\n",
                  facet->id, newfacet->id, getid_(matchfacet));
         qh_errexit2(qh_ERRprec, facet, newfacet);
@@ -893,7 +893,7 @@ void qh_matchnewfacets(void /* qh.newfacet_list */) {
       if (newfacet->dupridge) {
         FOREACHneighbor_i_(newfacet) {
           if (neighbor == qh_DUPLICATEridge) {
-            qh_matchduplicates(newfacet, neighbor_i, hashsize, &hashcount);
+            qh_matchdupridge(newfacet, neighbor_i, hashsize, &hashcount);
                     /* this may report MERGEfacet */
           }
         }
@@ -1171,7 +1171,7 @@ void qh_updatevertices(void /*qh.newvertex_list, newfacet_list, visible_list*/) 
     }
     FORALLvisible_facets {
       FOREACHvertex_(visible->vertices) {
-        if (!vertex->newlist && !vertex->deleted) {
+        if (!vertex->newfacet && !vertex->deleted) {
           FOREACHneighbor_(vertex) { /* this can happen under merging */
             if (!neighbor->visible)
               break;
@@ -1190,7 +1190,7 @@ void qh_updatevertices(void /*qh.newvertex_list, newfacet_list, visible_list*/) 
   }else {  /* !VERTEXneighbors */
     FORALLvisible_facets {
       FOREACHvertex_(visible->vertices) {
-        if (!vertex->newlist && !vertex->deleted) {
+        if (!vertex->newfacet && !vertex->deleted) {
           vertex->deleted= True;
           qh_setappend(&qh del_vertices, vertex);
           trace2((qh ferr, 2042, "qh_updatevertices: delete vertex p%d(v%d) in f%d\n",

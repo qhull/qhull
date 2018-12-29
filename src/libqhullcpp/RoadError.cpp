@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (c) 2008-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2015/qhull/src/libqhullcpp/RoadError.cpp#2 $$Change: 2066 $
-** $DateTime: 2016/01/18 19:29:17 $$Author: bbarber $
+** Copyright (c) 2008-2018 C.B. Barber. All rights reserved.
+** $Id: //main/2015/qhull/src/libqhullcpp/RoadError.cpp#4 $$Change: 2549 $
+** $DateTime: 2018/12/28 22:24:20 $$Author: bbarber $
 **
 ****************************************************************************/
 

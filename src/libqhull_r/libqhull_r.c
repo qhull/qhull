@@ -10,9 +10,9 @@
 
    see qhull_ra.h for internal functions
 
-   Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull_r/libqhull_r.c#2 $$Change: 2047 $
-   $DateTime: 2016/01/04 22:03:18 $$Author: bbarber $
+   Copyright (c) 1993-2018 The Geometry Center.
+   $Id: //main/2015/qhull/src/libqhull_r/libqhull_r.c#27 $$Change: 2549 $
+   $DateTime: 2018/12/28 22:24:20 $$Author: bbarber $
 */
 
 #include "qhull_ra.h"
@@ -83,12 +83,18 @@ void qh_qhull(qhT *qh) {
       if (qh->POSTmerge)
         qh_postmerge(qh, "For post-merging", qh->postmerge_centrum,
              qh->postmerge_cos, qh->TESTvneighbors);
-      if (qh->visible_list == qh->facet_list) { /* i.e., merging done */
+      if (qh->visible_list == qh->facet_list) { /* i.e., merging done for postmerge */
         qh->findbestnew= True;
         qh_partitionvisible(qh /*qh.visible_list*/, !qh_ALL, &numoutside);
         qh->findbestnew= False;
         qh_deletevisible(qh /*qh.visible_list*/);
-        qh_resetlists(qh, False, qh_RESETvisible /*qh.visible_list newvertex_list newfacet_list */);
+        qh_resetlists(qh, False, qh_RESETvisible /*qh.visible_list newvertex_list qh.newfacet_list */);
+      }
+      if (qh->facet_mergeset) {
+        while (qh_setsize(qh, qh->vertex_mergeset) > 0) {
+          qh_all_vertexmerges(qh, -1, NULL, NULL);
+        }
+        qh_freemergesets(qh, qh_ALL);
       }
     }
     if (qh->DOcheckmax){
@@ -128,19 +134,18 @@ void qh_qhull(qhT *qh) {
 
   returns:
     returns False if user requested an early termination
-     qh.visible_list, newfacet_list, delvertex_list, NEWfacets may be defined
+      qh.visible_list, newfacet_list, delvertex_list, NEWfacets may be defined
     updates qh.facet_list, qh.num_facets, qh.vertex_list, qh.num_vertices
     clear qh.maxoutdone (will need to call qh_check_maxout() for facet->maxoutside)
     if unknown point, adds a pointer to qh.other_points
       do not deallocate the point's coordinates
 
   notes:
+    tail recursive call if merged a pinchedvertex due to a duplicated ridge
+      no more than qh.num_vertices calls (QH6296)
     assumes point is near its best facet and not at a local minimum of a lens
       distributions.  Use qh_findbestfacet to avoid this case.
     uses qh.visible_list, qh.newfacet_list, qh.delvertex_list, qh.NEWfacets
-
-  see also:
-    qh_triangulate() -- triangulate non-simplicial facets
 
   design:
     add point to other_points if needed
@@ -150,11 +155,9 @@ void qh_qhull(qhT *qh) {
         exit
     exit if pre STOPpoint requested
     find horizon and visible facets for point
-    make new facets for point to horizon
-    make hyperplanes for point
-    compute balance statistics
-    match neighboring new facets
-    update vertex neighbors and delete interior vertices
+    build cone of new facets to the horizon
+    exit if build cone fails due to qh.ONLYgood
+    tail recursive call if build cone fails due to qh.MERGEpinched
     exit if STOPcone requested
     merge non-convex new facets
     if merge found, many merges, or 'Qf'
@@ -166,12 +169,11 @@ void qh_qhull(qhT *qh) {
     reset working lists of facets and vertices
 */
 boolT qh_addpoint(qhT *qh, pointT *furthest, facetT *facet, boolT checkdist) {
-  int goodvisible, goodhorizon;
-  vertexT *vertex;
-  facetT *newfacet;
-  realT dist, newbalance, pbalance;
+  realT dist, pbalance;
+  facetT *replacefacet, *newfacet;
+  vertexT *apex;
   boolT isoutside= False;
-  int numpart, numpoints, numnew, firstnew;
+  int numpart, numpoints, goodvisible, goodhorizon, apexpointid;
 
   qh->maxoutdone= False;
   if (qh_pointid(qh, furthest) == qh_IDunknown)
@@ -187,7 +189,7 @@ boolT qh_addpoint(qhT *qh, pointT *furthest, facetT *facet, boolT checkdist) {
     if (!isoutside) {
       zinc_(Znotmax);  /* last point of outsideset is no longer furthest. */
       facet->notfurthest= True;
-      qh_partitioncoplanar(qh, furthest, facet, &dist);
+      qh_partitioncoplanar(qh, furthest, facet, &dist, qh->findbestnew);
       return True;
     }
   }
@@ -197,44 +199,40 @@ boolT qh_addpoint(qhT *qh, pointT *furthest, facetT *facet, boolT checkdist) {
     return False;
   }
   qh_findhorizon(qh, furthest, facet, &goodvisible, &goodhorizon);
-  if (qh->ONLYgood && !(goodvisible+goodhorizon) && !qh->GOODclosest) {
+  if (qh->ONLYgood && !qh->GOODclosest && !(goodvisible+goodhorizon)) {
     zinc_(Znotgood);
     facet->notfurthest= True;
     /* last point of outsideset is no longer furthest.  This is ok
-       since all points of the outside are likely to be bad */
-    qh_resetlists(qh, False, qh_RESETvisible /*qh.visible_list newvertex_list newfacet_list */);
+        since all points of the outside are likely to be bad */
+    qh_resetlists(qh, False, qh_RESETvisible /*qh.visible_list newvertex_list qh.newfacet_list */);
     return True;
   }
+  apex= qh_buildcone(qh, furthest, facet, goodhorizon, &replacefacet);
+  /* qh.newfacet_list, visible_list, newvertex_list, degen_mergeset */
+  if (!apex) {
+    if (qh->ONLYgood)
+      return True; /* ignore this furthest point, a good new facet was not found */
+    if (replacefacet) {
+      if (qh->retry_addpoint++ >= qh->num_vertices) {
+        qh_fprintf(qh, qh->ferr, 6296, "qhull internal error (qh_addpoint): infinite loop (%d retries) of merging pinched vertices due to duplicate ridge for point p%d, facet f%d, and %d vertices\n",
+          qh->retry_addpoint, qh_pointid(qh, furthest), facet->id, qh->num_vertices);
+        qh_errexit(qh, qh_ERRqhull, facet, NULL);
+      }
+      /* retry qh_addpoint after resolving a duplicate ridge via qh_merge_pinchedvertices */
+      return qh_addpoint(qh, furthest, replacefacet, True /* checkdisk */);
+    }
+    qh->retry_addpoint= 0;
+    return True; /* ignore this furthest point, resolved a duplicate ridge by making furthest a coplanar point */
+  }
+  apexpointid= qh_pointid(qh, apex->point);
   zzinc_(Zprocessed);
-  firstnew= qh->facet_id;
-  vertex= qh_makenewfacets(qh, furthest /*visible_list, attaches if !ONLYgood */);
-  qh_makenewplanes(qh /* newfacet_list */);
-  numnew= qh->facet_id - firstnew;
-  newbalance= numnew - (realT) (qh->num_facets-qh->num_visible)
-                         * qh->hull_dim/qh->num_vertices;
-  wadd_(Wnewbalance, newbalance);
-  wadd_(Wnewbalance2, newbalance * newbalance);
-  if (qh->ONLYgood
-  && !qh_findgood(qh, qh->newfacet_list, goodhorizon) && !qh->GOODclosest) {
-    FORALLnew_facets
-      qh_delfacet(qh, newfacet);
-    qh_delvertex(qh, vertex);
-    qh_resetlists(qh, True, qh_RESETvisible /*qh.visible_list newvertex_list newfacet_list */);
-    zinc_(Znotgoodnew);
-    facet->notfurthest= True;
-    return True;
-  }
-  if (qh->ONLYgood)
-    qh_attachnewfacets(qh /*visible_list*/);
-  qh_matchnewfacets(qh);
-  qh_updatevertices(qh);
   if (qh->STOPcone && qh->furthest_id == qh->STOPcone-1) {
     facet->notfurthest= True;
     return False;  /* visible_list etc. still defined */
   }
   qh->findbestnew= False;
   if (qh->PREmerge || qh->MERGEexact) {
-    qh_premerge(qh, vertex, qh->premerge_centrum, qh->premerge_cos);
+    qh_premerge(qh, apex, qh->premerge_centrum, qh->premerge_cos);
     if (qh_USEfindbestnew)
       qh->findbestnew= True;
     else {
@@ -259,7 +257,7 @@ boolT qh_addpoint(qhT *qh, pointT *furthest, facetT *facet, boolT checkdist) {
   zmax_(Zmaxvertex, qh->num_vertices);
   qh->NEWfacets= False;
   if (qh->IStracing >= 4) {
-    if (qh->num_facets < 2000)
+    if (qh->num_facets < 200)
       qh_printlists(qh);
     qh_printfacetlist(qh, qh->newfacet_list, NULL, True);
     qh_checkpolygon(qh, qh->facet_list);
@@ -271,10 +269,17 @@ boolT qh_addpoint(qhT *qh, pointT *furthest, facetT *facet, boolT checkdist) {
   }
   if (qh->STOPpoint > 0 && qh->furthest_id == qh->STOPpoint-1)
     return False;
-  qh_resetlists(qh, True, qh_RESETvisible /*qh.visible_list newvertex_list newfacet_list */);
+  qh_resetlists(qh, True, qh_RESETvisible /*qh.visible_list newvertex_list qh.newfacet_list */);
+  /* FIXUP document, STOPpoint is before vertex merge */
+  if (qh->facet_mergeset) {
+    while (qh_setsize(qh, qh->vertex_mergeset) > 0) {
+      qh_all_vertexmerges(qh, apexpointid, NULL, NULL);  /* FIXUP rename apex arg as apexpointid */
+    }
+    qh_freemergesets(qh, qh_ALL);
+  }
   /* qh_triangulate(qh); to test qh.TRInormals */
-  trace2((qh, qh->ferr, 2056, "qh_addpoint: added p%d new facets %d new balance %2.2g point balance %2.2g\n",
-    qh_pointid(qh, furthest), numnew, newbalance, pbalance));
+  trace2((qh, qh->ferr, 2056, "qh_addpoint: added p%d to convex hull with point balance %2.2g\n",
+    qh_pointid(qh, furthest), pbalance));
   return True;
 } /* addpoint */
 
@@ -293,7 +298,7 @@ void qh_build_withrestart(qhT *qh) {
   qh->ALLOWrestart= True;
   while (True) {
     restart= setjmp(qh->restartexit); /* simple statement for CRAY J916 */
-    if (restart) {       /* only from qh_precision() */
+    if (restart) {       /* only from qh_joggle_restart() */
       zzinc_(Zretry);
       wmax_(Wretrymax, qh->JOGGLEmax);
       /* QH7078 warns about using 'TCn' with 'QJn' */
@@ -340,6 +345,190 @@ void qh_build_withrestart(qhT *qh) {
 } /* qh_build_withrestart */
 
 /*-<a                             href="qh-qhull_r.htm#TOC"
+  >-------------------------------</a><a name="buildcone">-</a>
+
+  qh_buildcone(qh, furthest, facet, &replacefacet )
+    build cone of new facets from furthest to the horizon
+
+  returns:
+    returns apex of cone with qh.newfacet_list and qh.first_newfacet (f.id)
+    returns NULL if qh.ONLYgood and no good facets
+    returns NULL and retryfacet if qh.MERGEpinched resolved a duplicate ridge by merging vertices
+      a horizon vertex was nearly adjacent to another vertex
+      will retry qh_addpoint
+    returns NULL if qh.MERGEpinched resolved a duplicate ridge by making furthest a coplanar point
+      furthest was nearly adjacent to an existing vertex
+    updates qh.degen_mergeset (MRGridge) if resolve a duplicate ridge by merging facets
+    updates qh.newfacet_list, visible_list, newvertex_list
+    updates qh.facet_list, vertex_list, num_facets, num_vertices
+
+  notes:
+    called by qh_addpoint
+    see qh_triangulate, it triangulates non-simplicial facets in post-processing
+
+  design:
+    make new facets for point to horizon
+    compute balance statistics
+    make hyperplanes for point
+    exit if qh.ONLYgood and not good (qh_buildcone_onlygood)
+    match neighboring new facets
+    if duplicate ridges
+      exit if qh.MERGEpinched and duplicate ridges resolved by coplanar furthest
+      retry qh_buildcone if qh.MERGEpinched and duplicate ridges resolved by qh_buildcone_mergepinched
+      otherwise duplicate ridges resolved by merging facets
+    update vertex neighbors and delete interior vertices
+*/
+vertexT *qh_buildcone(qhT *qh, pointT *furthest, facetT *facet, int goodhorizon, facetT **retryfacet) {
+  vertexT *apex;
+  realT newbalance;
+  int numnew;
+
+  *retryfacet= NULL;
+  qh->first_newfacet= qh->facet_id;
+  qh->NEWtentative= (qh->MERGEpinched || qh->ONLYgood); /* cleared by qh_attachnewfacets or qh_resetlists */
+  apex= qh_makenewfacets(qh, furthest /* qh.newfacet_list visible_list, attaches new facets if !qh.NEWtentative */);
+  numnew= qh->facet_id - qh->first_newfacet;
+  newbalance= numnew - (realT)(qh->num_facets - qh->num_visible) * qh->hull_dim / qh->num_vertices;
+  /* newbalance statistics updated below if the new facets are accepted */
+  if (qh->ONLYgood) { /* qh.MERGEpinched is false */
+    if (!qh_buildcone_onlygood(qh, apex, goodhorizon /* qh.newfacet_list */)) {
+      facet->notfurthest= True;
+      return NULL;
+    }
+  }else if(qh->MERGEpinched) {
+    if (qh_buildcone_mergepinched(qh, apex, facet, retryfacet /* qh.newfacet_list, degen_mergeset */))
+      return NULL;
+  }else {
+    /* qh_makenewfacets attached new facets to the horizon */
+    qh_matchnewfacets(qh); /* ignore returned value.  qh_forcedmerges will merge dupridges if any */
+    qh_makenewplanes(qh /* qh.newfacet_list */);
+    qh_updatevertices(qh);
+  }
+  wadd_(Wnewbalance, newbalance);
+  wadd_(Wnewbalance2, newbalance * newbalance);
+  trace2((qh, qh->ferr, 2067, "qh_buildcone: created %d newfacets for v%d(p%d) new facet balance %2.2g\n",
+    numnew, apex->id, qh_pointid(qh, furthest), newbalance));
+  return apex;
+} /* buildcone */
+
+/*-<a                             href="qh-qhull_r.htm#TOC"
+  >-------------------------------</a><a name="buildcone_mergepinched">-</a>
+
+  qh_buildcone_mergepinched(qh, apex, facet, maxdupdist, &retryfacet )
+    build cone of new facets from furthest to the horizon
+    maxdupdist>0.0 for merging duplicate ridges (qh_matchdupridge)
+
+  returns:
+    returns True if merged a pinched vertex and deleted the cone of new facets
+      if retryfacet is set
+        a duplicate ridge was resolved by qh_merge_pinchedvertices
+        retry qh_addpoint
+      otherwise
+        apex/furthest was partitioned as a coplanar point
+        ignore this furthest point
+    returns False if no duplicate ridges or if duplicate ridges will be resolved by MRGridge
+    updates qh.facet_list, qh.num_facets, qh.vertex_list, qh.num_vertices
+
+  design: FIXUP
+    match neighboring new facets
+    if matching detected duplicate ridges
+       if pinched vertices (i.e., nearly coincident)
+           delete the cone of new facets
+           merge the nearest pair of pinched vertices
+           merge the newly, non-convex and degenerate facets
+           return NULL (will retry qh_addpoint)
+    make hyperplanes for point
+    update vertex neighbors and delete interior vertices
+*/
+boolT qh_buildcone_mergepinched(qhT *qh, vertexT *apex, facetT *facet, facetT **retryfacet) {
+  facetT *newfacet;
+  pointT *apexpoint;
+  coordT maxdupdist;
+  coordT dist; /* ignored */
+  int apexpointid;
+  boolT iscoplanar;
+
+  *retryfacet= NULL;
+  maxdupdist= qh_matchnewfacets(qh);
+  if (maxdupdist > qh_RATIOtrypinched * qh->ONEmerge) { /* one or more duplicate ridges with a wide merge */
+    /* FIXUP error if not premerging */
+    if (qh->IStracing >= 4 && qh->num_facets < 1000)
+      qh_printlists(qh);
+    qh_initmergesets(qh, qh_ALL);
+    if (qh_getpinchedmerges(qh, apex, maxdupdist, &iscoplanar /* qh.newfacet_list, qh.vertex_mergeset */)) {
+      FORALLnew_facets
+        qh_delfacet(qh, newfacet);
+      if (iscoplanar) {
+        zinc_(Znotmax);  /* FIXUP track pinched apex separately */
+        facet->notfurthest= True;
+        apexpoint= apex->point;
+        qh_delvertex(qh, apex);
+        qh_resetlists(qh, False, qh_RESETvisible /*qh.visible_list newvertex_list qh.newfacet_list */);
+        qh_freemergesets(qh, qh_ALL); /* errors if not empty */
+        qh_partitioncoplanar(qh, apexpoint, facet, &dist, qh->findbestnew);
+        return True; /* partition this apex/furthest point as a coplanar point */
+      }else {
+        apexpointid= qh_pointid(qh, apex->point);
+        qh_delvertex(qh, apex);
+        qh_resetlists(qh, False, qh_RESETvisible /*qh.visible_list newvertex_list qh.newfacet_list */);
+        while (qh_setsize(qh, qh->vertex_mergeset)>0)
+          qh_all_vertexmerges(qh, apexpointid, facet, retryfacet);
+        qh_freemergesets(qh, qh_ALL); /* errors if not empty */
+        return True;
+      }
+    }
+    /* MRGridge are better than vertex merge */
+  }
+  qh_attachnewfacets(qh /*visible_list*/);   /* FIXUP NOduprename */
+  qh_makenewplanes(qh /* qh.newfacet_list */);
+  qh_updatevertices(qh);
+  return False;
+} /* buildcone_mergepinched */
+
+/*-<a                             href="qh-qhull_r.htm#TOC"
+  >-------------------------------</a><a name="buildcone_onlygood">-</a>
+
+  qh_buildcone_onlygood(qh, apex, goodhorizon )
+    build cone of good, new facets from apex and its qh.newfacet_list to the horizon
+
+  returns:
+    False if a f.good facet or a qh.GOODclosest facet is not found
+    updates qh.facet_list, qh.num_facets, qh.vertex_list, qh.num_vertices
+
+  notes:
+    called from qh_buildcone
+
+  design:
+    make hyperplanes for point
+    if qh_findgood fails to find a f.good facet or a qh.GOODclosest facet
+      delete cone of new facets
+      return NULL (ignores apex)
+    else
+      attach cone to horizon
+      match neighboring new facets
+*/
+boolT qh_buildcone_onlygood(qhT *qh, vertexT *apex, int goodhorizon) {
+  facetT *newfacet;
+
+  qh_makenewplanes(qh /* qh.newfacet_list */);
+  if(qh_findgood(qh, qh->newfacet_list, goodhorizon) == 0) {
+    if (!qh->GOODclosest) {
+      FORALLnew_facets
+        qh_delfacet(qh, newfacet);
+      qh_delvertex(qh, apex);
+      qh_resetlists(qh, False /*no stats*/, qh_RESETvisible /*qh.visible_list newvertex_list qh.newfacet_list */);
+      zinc_(Znotgoodnew);
+      /* FIXUP -- should !good points be added as coplanar or dropped as for now */
+      return False;
+    }
+  }
+  qh_attachnewfacets(qh /*visible_list*/);
+  qh_matchnewfacets(qh); /* ignore returned value.  qh_forcedmerges will merge dupridges if any */
+  qh_updatevertices(qh);
+  return True;
+} /* buildcone_onlygood */
+
+/*-<a                             href="qh-qhull_r.htm#TOC"
   >-------------------------------</a><a name="buildhull">-</a>
 
   qh_buildhull(qh)
@@ -354,7 +543,7 @@ void qh_build_withrestart(qhT *qh) {
 
   design:
     check visible facet and newfacet flags
-    check newlist vertex flags and qh.STOPcone/STOPpoint
+    check newfacet vertex flags and qh.STOPcone/STOPpoint
     for each facet with a furthest outside point
       add point to facet
       exit if qh.STOPcone or qh.STOPpoint requested
@@ -376,7 +565,7 @@ void qh_buildhull(qhT *qh) {
     }
   }
   FORALLvertices {
-    if (vertex->newlist) {
+    if (vertex->newfacet) {
       qh_fprintf(qh, qh->ferr, 6166, "qhull internal error (qh_buildhull): new vertex f%d in vertex list\n",
                    vertex->id);
       qh_errprint(qh, "ERRONEOUS", NULL, NULL, NULL, vertex);
@@ -457,6 +646,7 @@ At %02d:%02d:%02d & %2.5g CPU secs, qhull has created %d facets and merged %d.\n
   }
   furthestid= qh_pointid(qh, furthest);
   if (qh->TRACEpoint == furthestid) {
+    trace1((qh, qh->ferr, 1053, "qh_buildtracing: start trace T%d for point TP%d above facet f%d\n", qh->TRACElevel, furthestid, facet->id));
     qh->IStracing= qh->TRACElevel;
     qh->qhmem.IStracing= qh->TRACElevel;
   }else if (qh->TRACEpoint != qh_IDunknown && qh->TRACEdist < REALmax/2) {
@@ -483,8 +673,8 @@ At %02d:%02d:%02d & %2.5g CPU secs, qhull has created %d facets and merged %d.\n
     cpu= (float)qh_CPUclock - (float)qh->hulltime;
     cpu /= (float)qh_SECticks;
     qh_distplane(qh, furthest, facet, &dist);
-    qh_fprintf(qh, qh->ferr, 8120, "qh_addpoint: add p%d(v%d) to hull of %d facets(%2.2g above f%d) and %d outside at %4.4g CPU secs.  Previous was p%d.\n",
-      furthestid, qh->vertex_id, qh->num_facets, dist,
+    qh_fprintf(qh, qh->ferr, 1049, "qh_addpoint: add p%d(v%d), retry %d, to hull of %d facets (%2.2g above f%d) and %d outside at %4.4g CPU secs.  Previous was p%d.\n",
+      furthestid, qh->vertex_id, qh->retry_addpoint, qh->num_facets, dist,
       getid_(facet), qh->num_outside+1, cpu, qh->furthest_id);
   }
   zmax_(Zvisit2max, (int)qh->visit_id/2);
@@ -495,7 +685,7 @@ At %02d:%02d:%02d & %2.5g CPU secs, qhull has created %d facets and merged %d.\n
       facet->visitid= 0;
   }
   zmax_(Zvvisit2max, (int)qh->vertex_visit/2);
-  if (qh->vertex_visit > (unsigned) INT_MAX) { /* 31 bits */ 
+  if (qh->vertex_visit > (unsigned) INT_MAX) { /* 31 bits */
     zinc_(Zvvisit);
     qh->vertex_visit= 0;
     FORALLvertices
@@ -574,7 +764,11 @@ void qh_findhorizon(qhT *qh, pointT *point, facetT *facet, int *goodvisible, int
   qh->visit_id++;
   FORALLvisible_facets {
     if (visible->tricoplanar && !qh->TRInormals) {
-      qh_fprintf(qh, qh->ferr, 6230, "Qhull internal error (qh_findhorizon): does not work for tricoplanar facets.  Use option 'Q11'\n");
+      qh_fprintf(qh, qh->ferr, 6230, "qhull internal error (qh_findhorizon): does not work for tricoplanar facets.  Use option 'Q11'\n");
+      qh_errexit(qh, qh_ERRqhull, visible, NULL);
+    }
+    if (qh_setsize(qh, visible->neighbors) == 0) {
+      qh_fprintf(qh, qh->ferr, 6295, "qhull internal error (qh_findhorizon): visible facet f%d does not have neighbors\n", visible->id);
       qh_errexit(qh, qh_ERRqhull, visible, NULL);
     }
     visible->visitid= qh->visit_id;
@@ -599,7 +793,7 @@ void qh_findhorizon(qhT *qh, pointT *point, facetT *facet, int *goodvisible, int
         if (dist > - qh->MAXcoplanar) {
           neighbor->coplanar= True;
           zzinc_(Zcoplanarhorizon);
-          qh_precision(qh, "coplanar horizon");
+          qh_joggle_restart(qh, "coplanar horizon");
           coplanar++;
           if (qh->MERGING) {
             if (dist > 0) {
@@ -625,17 +819,36 @@ void qh_findhorizon(qhT *qh, pointT *point, facetT *facet, int *goodvisible, int
     }
   }
   if (!numhorizon) {
-    qh_precision(qh, "empty horizon");
+    qh_joggle_restart(qh, "empty horizon");
     qh_fprintf(qh, qh->ferr, 6168, "qhull precision error (qh_findhorizon): empty horizon\n\
 QhullPoint p%d was above all facets.\n", qh_pointid(qh, point));
-    qh_printfacetlist(qh, qh->facet_list, NULL, True);
+    if (qh->num_facets < 100) {
+      qh_printfacetlist(qh, qh->facet_list, NULL, True);
+    }
     qh_errexit(qh, qh_ERRprec, NULL, NULL);
   }
   trace1((qh, qh->ferr, 1041, "qh_findhorizon: %d horizon facets(good %d), %d visible(good %d), %d coplanar\n",
        numhorizon, *goodhorizon, qh->num_visible, *goodvisible, coplanar));
-  if (qh->IStracing >= 4 && qh->num_facets < 50)
+  if (qh->IStracing >= 4 && qh->num_facets < 100)
     qh_printlists(qh);
 } /* findhorizon */
+
+/*-<a                             href="qh-qhull_r.htm#TOC"
+  >-------------------------------</a><a name="joggle_restart">-</a>
+
+  qh_joggle_restart(qh, reason )
+    if joggle ('QJn') and not merging, restart on precision errors
+*/
+void qh_joggle_restart(qhT *qh, const char *reason) {
+
+  if (qh->JOGGLEmax < REALmax/2) {
+    if (qh->ALLOWrestart && !qh->PREmerge && !qh->MERGEexact) {
+      trace0((qh, qh->ferr, 26, "qh_joggle_restart: qhull restart because of %s\n", reason));
+      /* May be called repeatedly if qh->ALLOWrestart */
+      longjmp(qh->restartexit, qh_ERRprec);
+    }
+  }
+} /* qh_joggle_restart */
 
 /*-<a                             href="qh-qhull_r.htm#TOC"
   >-------------------------------</a><a name="nextfurthest">-</a>
@@ -661,11 +874,17 @@ QhullPoint p%d was above all facets.\n", qh_pointid(qh, point));
 */
 pointT *qh_nextfurthest(qhT *qh, facetT **visible) {
   facetT *facet;
-  int size, idx;
+  int size, idx, loopcount= 0;
   realT randr, dist;
   pointT *furthest;
 
   while ((facet= qh->facet_next) != qh->facet_tail) {
+    if (!facet || loopcount++ > qh->num_facets) {
+      qh_fprintf(qh, qh->ferr, 6334, "qhull internal error (qh_nextfurthest): null facet or infinite loop detected for qh.facet_next f%d facet_tail f%d\n",
+        getid_(facet), getid_(qh->facet_tail));
+      qh_printlists(qh);
+      qh_errexit2(qh, qh_ERRqhull, facet, qh->facet_tail);
+    }
     if (!facet->outsideset) {
       qh->facet_next= facet->next;
       continue;
@@ -700,7 +919,7 @@ pointT *qh_nextfurthest(qhT *qh, facetT **visible) {
       return((pointT*)qh_setdellast(facet->outsideset));
     }
     if (qh->RANDOMoutside) {
-      int outcoplanar = 0;
+      int outcoplanar= 0;
       if (qh->NARROWhull) {
         FORALLfacets {
           if (facet == qh->facet_next)
@@ -860,12 +1079,12 @@ void qh_partitionall(qhT *qh, setT *vertices, pointT *points, int numpoints){
 /*-<a                             href="qh-qhull_r.htm#TOC"
   >-------------------------------</a><a name="partitioncoplanar">-</a>
 
-  qh_partitioncoplanar(qh, point, facet, dist )
+  qh_partitioncoplanar(qh, point, facet, dist, allnew )
     partition coplanar point to a facet
     dist is distance from point to facet
     if dist NULL,
       searches for bestfacet and does nothing if inside
-    if qh.findbestnew set,
+    if allnew (qh.findbestnew)
       searches new facets instead of using qh_findbest()
 
   returns:
@@ -893,16 +1112,16 @@ void qh_partitionall(qhT *qh, setT *vertices, pointT *points, int numpoints){
     else
       update qh.max_outside
 */
-void qh_partitioncoplanar(qhT *qh, pointT *point, facetT *facet, realT *dist) {
+void qh_partitioncoplanar(qhT *qh, pointT *point, facetT *facet, realT *dist, boolT allnew) {
   facetT *bestfacet;
   pointT *oldfurthest;
-  realT bestdist, dist2= 0, angle;
+  realT bestdist, nearest, dist2= 0, angle;
   int numpart= 0, oldfindbest;
-  boolT isoutside;
+  boolT isoutside, repartition= False;
 
   qh->WAScoplanar= True;
   if (!dist) {
-    if (qh->findbestnew)
+    if (allnew)
       bestfacet= qh_findbestnew(qh, point, facet, &bestdist, qh_ALL, &isoutside, &numpart);
     else
       bestfacet= qh_findbest(qh, point, facet, qh_ALL, !qh_ISnewfacets, qh->DELAUNAY,
@@ -913,13 +1132,13 @@ void qh_partitioncoplanar(qhT *qh, pointT *point, facetT *facet, realT *dist) {
       if (qh->KEEPnearinside) {
         if (bestdist < -qh->NEARinside) {
           zinc_(Zcoplanarinside);
-          trace4((qh, qh->ferr, 4062, "qh_partitioncoplanar: point p%d is more than near-inside facet f%d dist %2.2g findbestnew %d\n",
-                  qh_pointid(qh, point), bestfacet->id, bestdist, qh->findbestnew));
+          trace4((qh, qh->ferr, 4062, "qh_partitioncoplanar: point p%d is more than near-inside facet f%d dist %2.2g allnew? %d\n",
+                  qh_pointid(qh, point), bestfacet->id, bestdist, allnew));
           return;
         }
       }else if (bestdist < -qh->MAXcoplanar) {
-          trace4((qh, qh->ferr, 4063, "qh_partitioncoplanar: point p%d is inside facet f%d dist %2.2g findbestnew %d\n",
-                  qh_pointid(qh, point), bestfacet->id, bestdist, qh->findbestnew));
+          trace4((qh, qh->ferr, 4063, "qh_partitioncoplanar: point p%d is inside facet f%d dist %2.2g allnew? %d\n",
+                  qh_pointid(qh, point), bestfacet->id, bestdist, allnew));
         zinc_(Zcoplanarinside);
         return;
       }
@@ -928,26 +1147,61 @@ void qh_partitioncoplanar(qhT *qh, pointT *point, facetT *facet, realT *dist) {
     bestfacet= facet;
     bestdist= *dist;
   }
+  if(bestfacet->visible){
+    qh_fprintf(qh, qh->ferr, 6333, "qhull internal error (qh_partitioncoplanar): cannot partition coplanar p%d of f%d into visible facet f%d\n", 
+        qh_pointid(qh, point), facet->id, bestfacet->id);
+    qh_errexit2(qh, qh_ERRqhull, facet, bestfacet);
+  }
   if (bestdist > qh->max_outside) {
-    if (!dist && facet != bestfacet) {
+    if (!dist && facet != bestfacet) { /* can't be recursive from qh_partitionpoint since facet != bestfacet */
       zinc_(Zpartangle);
       angle= qh_getangle(qh, facet->normal, bestfacet->normal);
+      nearest= qh_vertex_bestdist(qh, bestfacet->vertices);
       if (angle < 0) {
         /* typically due to deleted vertex and coplanar facets, e.g.,
-             RBOX 1000 s Z1 G1e-13 t1001185205 | QHULL Tv */
-        zinc_(Zpartflip);
-        trace2((qh, qh->ferr, 2058, "qh_partitioncoplanar: repartition point p%d from f%d.  It is above flipped facet f%d dist %2.2g\n",
-                qh_pointid(qh, point), facet->id, bestfacet->id, bestdist));
-        oldfindbest= qh->findbestnew;
-        qh->findbestnew= False;
-        qh_partitionpoint(qh, point, bestfacet);
-        qh->findbestnew= oldfindbest;
-        return;
+        RBOX 1000 s Z1 G1e-13 t1001185205 | QHULL Tv */
+        zinc_(Zpartflip);  /* FIXUP rename statistic */
+        trace2((qh, qh->ferr, 2058, "qh_partitioncoplanar: repartition point p%d from f%d as a outside point above corner facet f%d dist %2.2g with angle %2.2g\n",
+          qh_pointid(qh, point), facet->id, bestfacet->id, bestdist, angle));
+        repartition= True;
       }
     }
+    if (!repartition) {
+      realT maxoutside= fmax_(qh->max_outside, qh->ONEmerge);
+      maximize_(maxoutside, qh->MINoutside);  /* FIXUP review maxoutside and move to qhT */
+      if (bestdist > maxoutside * qh_RATIOcoplanaroutside) {
+        nearest= qh_vertex_bestdist(qh, bestfacet->vertices);
+        if (facet->id == bestfacet->id) {
+          if (facet->id == qh->repart_facetid) {
+            qh_fprintf(qh, qh->ferr, 6332, "Qhull internal error (qh_partitioncoplanar): infinite loop due to recursive call to qh_partitionpoint.  Repartition point p%d from f%d as a outside point dist %2.2g nearest vertices %2.2g\n",
+              qh_pointid(qh, point), facet->id, bestdist, nearest);
+            qh_errexit(qh, qh_ERRqhull, facet, NULL);
+          }
+          qh->repart_facetid= facet->id;
+        }
+        if (nearest < maxoutside * qh_RATIOcoplanaroutside * 2) {
+          zinc_(Zpartflip);  /* FIXUP rename statistic */
+          qh_fprintf(qh, qh->ferr, 30, "Qhull precision warning: repartition point p%d from f%d as a outside point above a twisted facet f%d dist %2.2g nearest vertices %2.2g\n",
+            qh_pointid(qh, point), facet->id, bestfacet->id, bestdist, nearest);
+        }else {
+          zinc_(Zpartflip);  /* FIXUP rename statistic */
+          qh_fprintf(qh, qh->ferr, 31, "Qhull precision warning: repartition point p%d from f%d as a outside point above a hidden facet f%d dist %2.2g nearest vertices %2.2g\n",
+            qh_pointid(qh, point), facet->id, bestfacet->id, bestdist, nearest);
+        }
+        repartition= True;
+      }
+    }
+    if (repartition) {
+      oldfindbest= qh->findbestnew;
+      qh->findbestnew= False;
+      qh_partitionpoint(qh, point, bestfacet);
+      qh->findbestnew= oldfindbest;
+      return;
+    }
+    qh->repart_facetid= 0;
     qh->max_outside= bestdist;
-    if (bestdist > qh->TRACEdist) {
-      qh_fprintf(qh, qh->ferr, 8122, "qh_partitioncoplanar: ====== p%d from f%d increases max_outside to %2.2g of f%d last p%d\n",
+    if (bestdist > qh->TRACEdist || qh->IStracing >= 3) {
+      qh_fprintf(qh, qh->ferr, 3041, "qh_partitioncoplanar: ====== p%d from f%d increases max_outside to %2.2g of f%d last p%d\n",
                      qh_pointid(qh, point), facet->id, bestdist, bestfacet->id, qh->furthest_id);
       qh_errprint(qh, "DISTANT", facet, bestfacet, NULL, NULL);
     }
@@ -963,7 +1217,7 @@ void qh_partitioncoplanar(qhT *qh, pointT *point, facetT *facet, realT *dist) {
     else
       qh_setappend2ndlast(qh, &bestfacet->coplanarset, point);
   }
-  trace4((qh, qh->ferr, 4064, "qh_partitioncoplanar: point p%d is coplanar with facet f%d(or inside) dist %2.2g\n",
+  trace4((qh, qh->ferr, 4064, "qh_partitioncoplanar: point p%d is coplanar with facet f%d (or inside) dist %2.2g\n",
           qh_pointid(qh, point), bestfacet->id, bestdist));
 } /* partitioncoplanar */
 
@@ -1018,9 +1272,14 @@ void qh_partitionpoint(qhT *qh, pointT *point, facetT *facet) {
                           &bestdist, &isoutside, &numpart);
   zinc_(Ztotpartition);
   zzadd_(Zpartition, numpart);
+  if(bestfacet->visible){
+    qh_fprintf(qh, qh->ferr, 6293, "qhull internal error (qh_partitionpoint): cannot partition p%d of f%d into visible facet f%d\n", 
+      qh_pointid(qh, point), facet->id, bestfacet->id);
+    qh_errexit2(qh, qh_ERRqhull, facet, bestfacet);
+  }
   if (qh->NARROWhull) {
     if (qh->DELAUNAY && !isoutside && bestdist >= -qh->MAXcoplanar)
-      qh_precision(qh, "nearly incident point(narrow hull)");
+      qh_joggle_restart(qh, "nearly incident point(narrow hull)");
     if (qh->KEEPnearinside) {
       if (bestdist >= -qh->NEARinside)
         isoutside= True;
@@ -1030,11 +1289,17 @@ void qh_partitionpoint(qhT *qh, pointT *point, facetT *facet) {
 
   if (isoutside) {
     if (!bestfacet->outsideset
-    || !qh_setlast(bestfacet->outsideset)) {
+    || !qh_setlast(bestfacet->outsideset)) { /* empty outside set */
       qh_setappend(qh, &(bestfacet->outsideset), point);
-      if (!bestfacet->newfacet) {
-        qh_removefacet(qh, bestfacet);  /* make sure it's after qh->facet_next */
+      if (bestfacet->newfacet) {
+        if (qh->facet_next->newfacet)
+          qh->facet_next= qh->newfacet_list; /* make sure it's after qh.facet_next */
+      }else {
+        qh_removefacet(qh, bestfacet);  /* make sure it's after qh.facet_next */
         qh_appendfacet(qh, bestfacet);
+        if(qh->newfacet_list){
+          bestfacet->newfacet= True;
+        }
       }
 #if !qh_COMPUTEfurthest
       bestfacet->furthestdist= bestdist;
@@ -1061,22 +1326,22 @@ void qh_partitionpoint(qhT *qh, pointT *point, facetT *facet) {
   }else if (qh->DELAUNAY || bestdist >= -qh->MAXcoplanar) { /* for 'd', bestdist skips upperDelaunay facets */
     zzinc_(Zcoplanarpart);
     if (qh->DELAUNAY)
-      qh_precision(qh, "nearly incident point");
+      qh_joggle_restart(qh, "nearly incident point");
     if ((qh->KEEPcoplanar + qh->KEEPnearinside) || bestdist > qh->max_outside)
-      qh_partitioncoplanar(qh, point, bestfacet, &bestdist);
+      qh_partitioncoplanar(qh, point, bestfacet, &bestdist, qh->findbestnew);
     else {
       trace4((qh, qh->ferr, 4066, "qh_partitionpoint: point p%d is coplanar to facet f%d (dropped)\n",
           qh_pointid(qh, point), bestfacet->id));
     }
   }else if (qh->KEEPnearinside && bestdist > -qh->NEARinside) {
     zinc_(Zpartnear);
-    qh_partitioncoplanar(qh, point, bestfacet, &bestdist);
+    qh_partitioncoplanar(qh, point, bestfacet, &bestdist, qh->findbestnew);
   }else {
     zinc_(Zpartinside);
     trace4((qh, qh->ferr, 4067, "qh_partitionpoint: point p%d is inside all facets, closest to f%d dist %2.2g\n",
           qh_pointid(qh, point), bestfacet->id, bestdist));
     if (qh->KEEPinside)
-      qh_partitioncoplanar(qh, point, bestfacet, &bestdist);
+      qh_partitioncoplanar(qh, point, bestfacet, &bestdist, qh->findbestnew);
   }
 } /* partitionpoint */
 
@@ -1117,27 +1382,22 @@ void qh_partitionpoint(qhT *qh, pointT *point, facetT *facet) {
 void qh_partitionvisible(qhT *qh /*qh.visible_list*/, boolT allpoints, int *numoutside) {
   facetT *visible, *newfacet;
   pointT *point, **pointp;
-  int coplanar=0, size;
-  unsigned count;
+  int delsize, coplanar=0, size;
   vertexT *vertex, **vertexp;
 
+  trace3((qh, qh->ferr, 3042, "qh_partitionvisible: partition outside and coplanar points of visible and merged facets f%d into new facets f%d\n",
+    qh->visible_list->id, qh->newfacet_list->id));
   if (qh->ONLYmax)
     maximize_(qh->MINoutside, qh->max_vertex);
   *numoutside= 0;
   FORALLvisible_facets {
     if (!visible->outsideset && !visible->coplanarset)
       continue;
-    newfacet= visible->f.replace;
-    count= 0;
-    while (newfacet && newfacet->visible) {
-      newfacet= newfacet->f.replace;
-      if (count++ > qh->facet_id)
-        qh_infiniteloop(qh, visible);
-    }
+    newfacet= qh_getreplacement(qh, visible);
     if (!newfacet)
       newfacet= qh->newfacet_list;
-    if (newfacet == qh->facet_tail) {
-      qh_fprintf(qh, qh->ferr, 6170, "qhull precision error (qh_partitionvisible): all new facets deleted as\n        degenerate facets. Can not continue.\n");
+    if (!newfacet->next) {
+      qh_fprintf(qh, qh->ferr, 6170, "qhull precision error (qh_partitionvisible): all new facets deleted as\n       degenerate facets. Can not continue.\n");
       qh_errexit(qh, qh_ERRprec, NULL, NULL);
     }
     if (visible->outsideset) {
@@ -1154,39 +1414,30 @@ void qh_partitionvisible(qhT *qh /*qh.visible_list*/, boolT allpoints, int *numo
         if (allpoints) /* not used */
           qh_partitionpoint(qh, point, newfacet);
         else
-          qh_partitioncoplanar(qh, point, newfacet, NULL);
+          qh_partitioncoplanar(qh, point, newfacet, NULL, qh->findbestnew);
       }
     }
   }
-  FOREACHvertex_(qh->del_vertices) {
-    if (vertex->point) {
-      if (allpoints) /* not used */
-        qh_partitionpoint(qh, vertex->point, qh->newfacet_list);
-      else
-        qh_partitioncoplanar(qh, vertex->point, qh->newfacet_list, NULL);
+  delsize= qh_setsize(qh, qh->del_vertices);
+  if (delsize > 0) {
+    trace3((qh, qh->ferr, 3049, "qh_partitionvisible: partition %d deleted vertices as coplanar? %d points into new facets f%d\n",
+      delsize, !allpoints, qh->newfacet_list->id));
+    FOREACHvertex_(qh->del_vertices) {
+      if (vertex->point && !vertex->partitioned) {
+        if (!qh->newfacet_list || qh->newfacet_list == qh->facet_tail) {
+          qh_fprintf(qh, qh->ferr, 6284, "qhull precision error (qh_partitionvisible): all new facets deleted or none defined.  Can not partition deleted v%d.\n", vertex->id);
+          qh_errexit(qh, qh_ERRprec, NULL, NULL);
+        }
+        if (allpoints) /* not used */
+          qh_partitionpoint(qh, vertex->point, qh->newfacet_list);
+        else
+          qh_partitioncoplanar(qh, vertex->point, qh->newfacet_list, NULL, qh_ALL); /* search all new facets */
+        vertex->partitioned= True;
+      }
     }
   }
-  trace1((qh, qh->ferr, 1043,"qh_partitionvisible: partitioned %d points from outsidesets and %d points from coplanarsets\n", *numoutside, coplanar));
+  trace1((qh, qh->ferr, 1043,"qh_partitionvisible: partitioned %d points from outsidesets, %d points from coplanarsets, and %d deleted vertices\n", *numoutside, coplanar, delsize));
 } /* partitionvisible */
-
-
-
-/*-<a                             href="qh-qhull_r.htm#TOC"
-  >-------------------------------</a><a name="precision">-</a>
-
-  qh_precision(qh, reason )
-    restart on precision errors if not merging and if 'QJn'
-*/
-void qh_precision(qhT *qh, const char *reason) {
-
-  if (qh->ALLOWrestart && !qh->PREmerge && !qh->MERGEexact) {
-    if (qh->JOGGLEmax < REALmax/2) {
-      trace0((qh, qh->ferr, 26, "qh_precision: qhull restart because of %s\n", reason));
-      /* May be called repeatedly if qh->ALLOWrestart */
-      longjmp(qh->restartexit, qh_ERRprec);
-    }
-  }
-} /* qh_precision */
 
 /*-<a                             href="qh-qhull_r.htm#TOC"
   >-------------------------------</a><a name="printsummary">-</a>

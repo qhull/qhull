@@ -58,15 +58,16 @@ Code flags --
   msgcode -- Unique message codes for qh_fprintf
 
   If add new messages, assign these values and increment in user.h and user_r.h
-  See QhullError.h for 10000 errors.
+  See QhullError.h for 10000 error codes.
+  Cannot use '0031' since it would be octal
 
-  def counters =  [27, 1048, 2059, 3026, 4068, 5003,
-     6273, 7081, 8147, 9411, 10000, 11029]
+  def counters =  [17/46, 1058, 2103/2102/2059/2105, 3056, 4025/4021/4090, 5005,
+     6334, 7085, 8077/8082/8083/8084/8120/8122/8147/8148/8149/8150/8152, 9426, 10000, 11029]
 
   See: qh_ERR* [libqhull_r.h]
 */
 
-#define MSG_TRACE0 0
+#define MSG_TRACE0 0      /* precision errors and warnings */
 #define MSG_TRACE1 1000
 #define MSG_TRACE2 2000
 #define MSG_TRACE3 3000
@@ -729,6 +730,49 @@ stop after qh_JOGGLEmaxretry attempts
      fmax_((qh->MERGING ? 2 : 1)*qh->MINoutside, qh->max_outside))
 
 /*-<a                             href="qh-user_r.htm#TOC"
+  >--------------------------------</a><a name="RATIOconcavehorizon">-</a>
+
+  qh_RATIOconcavehorizon
+    ratio of horizon vertex distance to max_outside for concave, twisted new facets in qh_test_nonsimplicial_merge
+    if too small, end up with vertices far below merged facets
+*/
+#define qh_RATIOconcavehorizon 20.0
+
+/*-<a                             href="qh-user_r.htm#TOC"
+  >--------------------------------</a><a name="RATIOconvexmerge">-</a>
+
+  qh_RATIOconvexmerge
+    ratio of vertex distance to qh.min_vertex for clearly convex new facets in qh_test_nonsimplicial_merge
+
+  notes:
+    must be convex for MRGtwisted
+*/
+#define qh_RATIOconvexmerge 10.0
+
+/*-<a                             href="qh-user_r.htm#TOC"
+  >--------------------------------</a><a name="RATIOcoplanarapex">-</a>
+
+  qh_RATIOcoplanarapex
+    ratio of best distance for coplanar apex vs. vertex merge in qh_getpinchedmerges
+
+  notes:
+    A coplanar apex always works, while a vertex merge may fail
+*/
+#define qh_RATIOcoplanarapex 3.0
+
+/*-<a                             href="qh-user_r.htm#TOC"
+  >--------------------------------</a><a name="RATIOcoplanaroutside">-</a>
+
+  qh_RATIOcoplanaroutside
+    ratio to repartition a coplanar point as an outside point in qh_partitioncoplanar and qh_check_maxout
+
+  notes:
+    combines several tests, see qh_partitioncoplanar
+
+*/
+#define qh_RATIOcoplanaroutside 30.0
+
+/*-<a                             href="qh-user_r.htm#TOC"
   >--------------------------------</a><a name="RATIOnearinside">-</a>
 
   qh_RATIOnearinside
@@ -738,9 +782,37 @@ stop after qh_JOGGLEmaxretry attempts
   notes:
     This is overkill since do not know the correct value.
     It effects whether 'Qc' reports all coplanar points
-    Not used for 'd' since non-extreme points are coplanar
+    Not used for 'd' since non-extreme points are coplanar, nearly incident points
 */
 #define qh_RATIOnearinside 5
+
+/*-<a                             href="qh-user_r.htm#TOC"
+  >--------------------------------</a><a name="RATIOpinchedsubridge">-</a>
+
+  qh_RATIOpinchedsubridge
+    ratio to qh.ONEmerge to accept vertices in qh_findbest_pinchedvertex
+    skips search of neighboring vertices
+    facet width may increase by this ratio
+*/
+#define qh_RATIOpinchedsubridge 10.0
+
+/*-<a                             href="qh-user_r.htm#TOC"
+  >--------------------------------</a><a name="RATIOtrypinched">-</a>
+
+  qh_RATIOtrypinched
+    ratio to qh.ONEmerge to try qh_getpinchedmerges in qh_buildcone_mergepinched
+    otherwise a duplicate ridge will increase facet width by this amount
+    FIXUP document
+*/
+#define qh_RATIOtrypinched 4.0
+
+/*-<a                             href="qh-user_r.htm#TOC"
+  >--------------------------------</a><a name="RATIOtwisted">-</a>
+
+  qh_RATIOtwisted
+    maximum ratio to qh.ONEmerge to merge twisted facets in qh_merge_twisted
+*/
+#define qh_RATIOtwisted 20.0
 
 /*-<a                             href="qh-user_r.htm#TOC"
   >--------------------------------</a><a name="SEARCHdist">-</a>
@@ -772,35 +844,6 @@ stop after qh_JOGGLEmaxretry attempts
 #define qh_USEfindbestnew (zzval_(Ztotmerge) > 50)
 
 /*-<a                             href="qh-user_r.htm#TOC"
-  >--------------------------------</a><a name="WIDEcoplanar">-</a>
-
-  qh_WIDEcoplanar
-    n*MAXcoplanar or n*MINvisible for a WIDEfacet
-
-    if vertex is further than qh.WIDEfacet from the hyperplane
-    then its ridges are not counted in computing the area, and
-    the facet's centrum is frozen.
-
-  notes:
-   qh.WIDEfacet= max(qh.MAXoutside,qh_WIDEcoplanar*qh.MAXcoplanar,
-      qh_WIDEcoplanar * qh.MINvisible);
-*/
-#define qh_WIDEcoplanar 6
-
-/*-<a                             href="qh-user_r.htm#TOC"
-  >--------------------------------</a><a name="WIDEduplicate">-</a>
-
-  qh_WIDEduplicate
-    Merge ratio for errexit from qh_forcedmerges due to duplicate ridge
-    Override with option Q12 no-wide-duplicate
-
-    Notes:
-      Merging a duplicate ridge can lead to very wide facets.
-      A future release of qhull will avoid duplicate ridges by removing duplicate sub-ridges from the horizon
-*/
-#define qh_WIDEduplicate 100
-
-/*-<a                             href="qh-user_r.htm#TOC"
   >--------------------------------</a><a name="MAXnarrow">-</a>
 
   qh_MAXnarrow
@@ -827,6 +870,75 @@ stop after qh_JOGGLEmaxretry attempts
     Don't actually see problems until it is -1.0.  See qh-impre.htm
 */
 #define qh_WARNnarrow -0.999999999999999
+
+/*-<a                             href="qh-user_r.htm#TOC"
+>--------------------------------</a><a name="WIDEcoplanar">-</a>
+
+qh_WIDEcoplanar
+n*MAXcoplanar or n*MINvisible for a WIDEfacet
+
+if vertex is further than qh.WIDEfacet from the hyperplane
+then its ridges are not counted in computing the area, and
+the facet's centrum is frozen.
+
+notes:
+qh.WIDEfacet= max(qh.MAXoutside,qh_WIDEcoplanar*qh.MAXcoplanar,
+qh_WIDEcoplanar * qh.MINvisible);
+*/
+#define qh_WIDEcoplanar 6
+
+/*-<a                             href="qh-user_r.htm#TOC"
+>--------------------------------</a><a name="WIDEduplicate">-</a>
+
+qh_WIDEduplicate
+Merge ratio for errexit from qh_forcedmerges due to duplicate ridge
+Override with option Q12 no-wide-duplicate
+
+Notes:
+Merging a duplicate ridge can lead to very wide facets.
+A future release of qhull will avoid duplicate ridges by removing duplicate sub-ridges from the horizon
+*/
+#define qh_WIDEduplicate 100
+
+/*-<a                             href="qh-user_r.htm#TOC"
+>--------------------------------</a><a name="WIDEmaxoutside">-</a>
+
+qh_WIDEmaxoutside
+Precision ratio for maximum increase for qh.max_outside in qh_check_maxout
+Precision errors while constructing the hull, may lead to very wide facets when checked in qh_check_maxout
+Nearly incident points in 4-d and higher is the most likely culprit
+Skip qh_check_maxout with 'Q5' no-check-outer
+Do not error with option 'Q15' allow-wide-maxout 
+Do not warn with options 'Q15 Pp'
+*/
+#define qh_WIDEmaxoutside 100
+
+/*-<a                             href="qh-user_r.htm#TOC"
+>--------------------------------</a><a name="WIDEmaxoutside2">-</a>
+
+qh_WIDEmaxoutside2
+Precision ratio for maximum qh.max_outside in qh_check_maxout
+Skip qh_check_maxout with 'Q5' no-check-outer
+Do not error with option 'Q15' allow-wide-maxout 
+*/
+#define qh_WIDEmaxoutside2 (10*qh_WIDEmaxoutside)
+
+
+/*-<a                             href="qh-user_r.htm#TOC"
+>--------------------------------</a><a name="WIDEpinched">-</a>
+
+qh_WIDEpinched
+Merge ratio for distance between pinched vertices compared to current facet width for qh_getpinchedmerges and qh_next_vertexmerge
+Reports warning and merges duplicate ridges instead
+Skip these attempts with option Q14 no-rename-pinched
+
+Notes:
+Merging pinched vertices should prevent duplicate ridges (see qh_WIDEduplicate)
+Merging the duplicate ridges may be better than merging the pinched vertices
+Found upto 45x ratio for qh_pointdist -- for ((i=1; i<20; i++)); do rbox 175 C1,6e-13 t | qhull d T4 2>&1 | tee x.1 | grep  -E 'QH|non-simplicial|Statis|pinched' | grep -vE 'QH6134'; done
+Actual distance to facets is a third to a tenth of the qh_pointdist (T1)
+*/
+#define qh_WIDEpinched 100
 
 /*-<a                             href="qh-user_r.htm#TOC"
   >--------------------------------</a><a name="ZEROdelaunay">-</a>

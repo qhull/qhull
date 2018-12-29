@@ -6,9 +6,9 @@
 
    see README, libqhull_r.h and io_r.c
 
-   Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull_r/io_r.h#3 $$Change: 2079 $
-   $DateTime: 2016/02/07 17:43:34 $$Author: bbarber $
+   Copyright (c) 1993-2018 The Geometry Center.
+   $Id: //main/2015/qhull/src/libqhull_r/io_r.h#7 $$Change: 2549 $
+   $DateTime: 2018/12/28 22:24:20 $$Author: bbarber $
 */
 
 #ifndef qhDEFio
@@ -60,7 +60,7 @@
 */
 typedef enum
 {
-    qh_RIDGEall = 0, qh_RIDGEinner, qh_RIDGEouter
+    qh_RIDGEall= 0, qh_RIDGEinner, qh_RIDGEouter
 }
 qh_RIDGE;
 
@@ -131,8 +131,9 @@ void    qh_printfacetridges(qhT *qh, FILE *fp, facetT *facet);
 void    qh_printfacets(qhT *qh, FILE *fp, qh_PRINT format, facetT *facetlist, setT *facets, boolT printall);
 void    qh_printhyperplaneintersection(qhT *qh, FILE *fp, facetT *facet1, facetT *facet2,
                    setT *vertices, realT color[3]);
-void    qh_printneighborhood(qhT *qh, FILE *fp, qh_PRINT format, facetT *facetA, facetT *facetB, boolT printall);
 void    qh_printline3geom(qhT *qh, FILE *fp, pointT *pointA, pointT *pointB, realT color[3]);
+void    qh_printlists(qhT *qh);
+void    qh_printneighborhood(qhT *qh, FILE *fp, qh_PRINT format, facetT *facetA, facetT *facetB, boolT printall);
 void    qh_printpoint(qhT *qh, FILE *fp, const char *string, pointT *point);
 void    qh_printpointid(qhT *qh, FILE *fp, const char *string, int dim, pointT *point, int id);
 void    qh_printpoint3(qhT *qh, FILE *fp, pointT *point);

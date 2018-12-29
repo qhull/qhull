@@ -13,9 +13,9 @@
    unix_r.c and user_r.c are the only callers of io_r.c functions
    This allows the user to avoid loading io_r.o from qhull.a
 
-   Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull_r/io_r.c#4 $$Change: 2064 $
-   $DateTime: 2016/01/18 12:36:08 $$Author: bbarber $
+   Copyright (c) 1993-2018 The Geometry Center.
+   $Id: //main/2015/qhull/src/libqhull_r/io_r.c#17 $$Change: 2549 $
+   $DateTime: 2018/12/28 22:24:20 $$Author: bbarber $
 */
 
 #include "qhull_ra.h"
@@ -1519,7 +1519,7 @@ void qh_printbegin(qhT *qh, FILE *fp, qh_PRINT format, facetT *facetlist, setT *
   case qh_PRINTtriangles:
     if (qh->VORONOI)
       goto LABELnoformat;
-    num = qh->hull_dim;
+    num= qh->hull_dim;
     if (format == qh_PRINToff || qh->hull_dim == 2)
       qh_fprintf(qh, fp, 9060, "%d\n%d %d %d\n", num,
         qh->num_points+qh_setsize(qh, qh->other_points), numfacets, totneighbors/2);
@@ -1871,7 +1871,7 @@ void qh_printextremes_2d(qhT *qh, FILE *fp, facetT *facetlist, setT *facets, boo
       nextfacet= SETsecondt_(facet->neighbors, facetT);
     }
     if (facet->visitid == qh->visit_id) {
-      qh_fprintf(qh, qh->ferr, 6218, "Qhull internal error (qh_printextremes_2d): loop in facet list.  facet %d nextfacet %d\n",
+      qh_fprintf(qh, qh->ferr, 6218, "qhull internal error (qh_printextremes_2d): loop in facet list.  facet %d nextfacet %d\n",
                  facet->id, nextfacet->id);
       qh_errexit2(qh, qh_ERRqhull, facet, nextfacet);
     }
@@ -2472,17 +2472,23 @@ void qh_printfacetheader(qhT *qh, FILE *fp, facetT *facet) {
   if (facet->visible)
     qh_fprintf(qh, fp, 9143, " visible");
   if (facet->newfacet)
-    qh_fprintf(qh, fp, 9144, " new");
+    qh_fprintf(qh, fp, 9144, " newfacet");
   if (facet->tested)
     qh_fprintf(qh, fp, 9145, " tested");
   if (!facet->good)
     qh_fprintf(qh, fp, 9146, " notG");
-  if (facet->seen)
+  if (facet->seen && qh->IStracing)
     qh_fprintf(qh, fp, 9147, " seen");
+  if (facet->seen2 && qh->IStracing)
+    qh_fprintf(qh, fp, 9418, " seen2");
+  if (facet->isarea)
+    qh_fprintf(qh, fp, 9419, " isarea");
   if (facet->coplanar)
     qh_fprintf(qh, fp, 9148, " coplanar");
   if (facet->mergehorizon)
     qh_fprintf(qh, fp, 9149, " mergehorizon");
+  if (facet->cycledone)
+    qh_fprintf(qh, fp, 9420, " cycledone");
   if (facet->keepcentrum)
     qh_fprintf(qh, fp, 9150, " keepcentrum");
   if (facet->dupridge)
@@ -2521,7 +2527,7 @@ void qh_printfacetheader(qhT *qh, FILE *fp, facetT *facet) {
   if (qh->CENTERtype == qh_ASvoronoi || facet->center)
     qh_printcenter(qh, fp, qh_PRINTfacets, "    - center: ", facet);
 #if qh_MAXoutside
-  if (facet->maxoutside > qh->DISTround)
+  if (facet->maxoutside > qh->DISTround) /* initial value */
     qh_fprintf(qh, fp, 9167, "    - maxoutside: %10.7g\n", facet->maxoutside);
 #endif
   if (!SETempty_(facet->outsideset)) {
@@ -2560,9 +2566,9 @@ void qh_printfacetheader(qhT *qh, FILE *fp, facetT *facet) {
   qh_fprintf(qh, fp, 9174, "    - neighboring facets:");
   FOREACHneighbor_(facet) {
     if (neighbor == qh_MERGEridge)
-      qh_fprintf(qh, fp, 9175, " MERGE");
+      qh_fprintf(qh, fp, 9175, " MERGEridge");
     else if (neighbor == qh_DUPLICATEridge)
-      qh_fprintf(qh, fp, 9176, " DUP");
+      qh_fprintf(qh, fp, 9176, " DUPLICATEridge");
     else
       qh_fprintf(qh, fp, 9177, " f%d", neighbor->id);
   }
@@ -2587,7 +2593,7 @@ void qh_printfacetridges(qhT *qh, FILE *fp, facetT *facet) {
   facetT *neighbor, **neighborp;
   ridgeT *ridge, **ridgep;
   int numridges= 0;
-
+  int n;
 
   if (facet->visible && qh->NEWfacets) {
     qh_fprintf(qh, fp, 9179, "    - ridges(ids may be garbage):");
@@ -2617,12 +2623,17 @@ void qh_printfacetridges(qhT *qh, FILE *fp, facetT *facet) {
         }
       }
     }
-    if (numridges != qh_setsize(qh, facet->ridges)) {
+    n= qh_setsize(qh, facet->ridges);
+    if (n == 1 && facet->newfacet && qh->NEWtentative) {
+      qh_fprintf(qh, fp, 9411, "     - horizon ridge to visible facet\n");
+    }
+    if (numridges != n) {
       qh_fprintf(qh, fp, 9183, "     - all ridges:");
       FOREACHridge_(facet->ridges)
         qh_fprintf(qh, fp, 9184, " r%d", ridge->id);
-        qh_fprintf(qh, fp, 9185, "\n");
+      qh_fprintf(qh, fp, 9185, "\n");
     }
+    /* non-3d ridges w/o non-simplicial neighbors */
     FOREACHridge_(facet->ridges) {
       if (!ridge->seen)
         qh_printridge(qh, fp, ridge);
@@ -2795,6 +2806,34 @@ void qh_printline3geom(qhT *qh, FILE *fp, pointT *pointA, pointT *pointB, realT 
   qh_fprintf(qh, fp, 9209, " # p%d\n", qh_pointid(qh, pointA));
   qh_fprintf(qh, fp, 9210, "%8.4g %8.4g %8.4g 1\n", color[0], color[1], color[2]);
 }
+
+/*-<a                             href="qh-io_r.htm#TOC"
+  >-------------------------------</a><a name="printlists">-</a>
+
+  qh_printlists(qh, fp )
+    print out facet and vertex lists for debugging (without 'f/v' tags)
+*/
+void qh_printlists(qhT *qh) {
+  facetT *facet;
+  vertexT *vertex;
+  int count= 0;
+
+  qh_fprintf(qh, qh->ferr, 8108, "qh_printlists: max_outside %2.2g all facets:", qh->max_outside);
+  FORALLfacets {
+    if (++count % 100 == 0)
+      qh_fprintf(qh, qh->ferr, 8109, "\n     ");
+    qh_fprintf(qh, qh->ferr, 8110, " %d", facet->id);
+  }
+  qh_fprintf(qh, qh->ferr, 8111, "\n  visible facets f%d new facets f%d next facet f%d for qh_addpoint\n  newfacet vertices v%d all vertices:",
+    getid_(qh->visible_list), getid_(qh->newfacet_list), getid_(qh->facet_next), getid_(qh->newvertex_list));
+  count= 0;
+  FORALLvertices {
+    if (++count % 100 == 0)
+      qh_fprintf(qh, qh->ferr, 8112, "\n     ");
+    qh_fprintf(qh, qh->ferr, 8113, " %d", vertex->id); 
+  }
+  qh_fprintf(qh, qh->ferr, 8114, "\n");
+} /* printlists */
 
 /*-<a                             href="qh-io_r.htm#TOC"
   >-------------------------------</a><a name="printneighborhood">-</a>
@@ -3024,6 +3063,14 @@ void qh_printridge(qhT *qh, FILE *fp, ridgeT *ridge) {
     qh_fprintf(qh, fp, 9223, " tested");
   if (ridge->nonconvex)
     qh_fprintf(qh, fp, 9224, " nonconvex");
+  if (ridge->mergevertex)
+    qh_fprintf(qh, fp, 9421, " mergevertex");
+  if (ridge->mergevertex2)
+    qh_fprintf(qh, fp, 9422, " mergevertex2");
+  if (ridge->simplicialtop)
+    qh_fprintf(qh, fp, 9425, " simplicialtop");
+  if (ridge->simplicialbot)
+    qh_fprintf(qh, fp, 9423, " simplicialbot");
   qh_fprintf(qh, fp, 9225, "\n");
   qh_printvertices(qh, fp, "           vertices:", ridge->vertices);
   if (ridge->top && ridge->bottom)
@@ -3153,7 +3200,7 @@ void qh_printvdiagram(qhT *qh, FILE *fp, qh_PRINT format, facetT *facetlist, set
     innerouter= qh_RIDGEouter;
     printvridge= qh_printvnorm;
   }else {
-    qh_fprintf(qh, qh->ferr, 6219, "Qhull internal error (qh_printvdiagram): unknown print format %d.\n", format);
+    qh_fprintf(qh, qh->ferr, 6219, "qhull internal error (qh_printvdiagram): unknown print format %d.\n", format);
     qh_errexit(qh, qh_ERRinput, NULL, NULL);
   }
   vertices= qh_markvoronoi(qh, facetlist, facets, printall, &isLower, &numcenters);
@@ -3242,7 +3289,13 @@ void qh_printvertex(qhT *qh, FILE *fp, vertexT *vertex) {
   if (vertex->deleted)
     qh_fprintf(qh, fp, 9237, " deleted");
   if (vertex->delridge)
-    qh_fprintf(qh, fp, 9238, " ridgedeleted");
+    qh_fprintf(qh, fp, 9238, " delridge");
+  if (vertex->newfacet)
+    qh_fprintf(qh, fp, 9415, " newfacet");
+  if (vertex->seen && qh->IStracing)
+    qh_fprintf(qh, fp, 9416, " seen");
+  if (vertex->seen2 && qh->IStracing)
+    qh_fprintf(qh, fp, 9417, " seen2");
   qh_fprintf(qh, fp, 9239, "\n");
   if (vertex->neighbors) {
     qh_fprintf(qh, fp, 9240, "  neighbors:");
@@ -3287,7 +3340,7 @@ void qh_printvertices(qhT *qh, FILE *fp, const char* string, setT *vertices) {
   vertexT *vertex, **vertexp;
 
   qh_fprintf(qh, fp, 9245, "%s", string);
-  FOREACHvertex_(vertices)
+  FOREACHvertex_(vertices) 
     qh_fprintf(qh, fp, 9246, " p%d(v%d)", qh_pointid(qh, vertex->point), vertex->id);
   qh_fprintf(qh, fp, 9247, "\n");
 } /* printvertices */
@@ -3396,7 +3449,7 @@ void qh_printvoronoi(qhT *qh, FILE *fp, qh_PRINT format, facetT *facetlist, setT
   FOREACHvertex_i_(qh, vertices) {
     if (vertex) {
       numvertices++;
-      numneighbors = numinf = 0;
+      numneighbors= numinf= 0;
       FOREACHneighbor_(vertex) {
         if (neighbor->visitid == 0)
           numinf= 1;

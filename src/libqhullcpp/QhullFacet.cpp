@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (c) 2008-2015 C.B. Barber. All rights reserved.
-** $Id: //main/2015/qhull/src/libqhullcpp/QhullFacet.cpp#3 $$Change: 2066 $
-** $DateTime: 2016/01/18 19:29:17 $$Author: bbarber $
+** Copyright (c) 2008-2018 C.B. Barber. All rights reserved.
+** $Id: //main/2015/qhull/src/libqhullcpp/QhullFacet.cpp#6 $$Change: 2549 $
+** $DateTime: 2018/12/28 22:24:20 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -477,7 +477,7 @@ operator<<(ostream &os, const QhullFacet::PrintRidges &pr)
                     break;
                 }
             }
-        }else {
+        }else{
             QhullFacetSet ns(facet.neighborFacets());
             for(QhullFacetSet::iterator i=ns.begin(); i!=ns.end(); ++i){
                 QhullFacet neighbor= *i;

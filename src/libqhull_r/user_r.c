@@ -142,10 +142,10 @@ int qh_new_qhull(qhT *qh, int dim, int numpoints, coordT *points, boolT ismalloc
   }
   qh_initqhull_start(qh, NULL, outfile, errfile);
   trace1((qh, qh->ferr, 1044, "qh_new_qhull: build new Qhull for %d %d-d points with %s\n", numpoints, dim, qhull_cmd));
-  exitcode = setjmp(qh->errexit);
+  exitcode= setjmp(qh->errexit);
   if (!exitcode)
   {
-    qh->NOerrexit = False;
+    qh->NOerrexit= False;
     qh_initflags(qh, qhull_cmd);
     if (qh->DELAUNAY)
       qh->PROJECTdelaunay= True;
@@ -174,7 +174,7 @@ int qh_new_qhull(qhT *qh, int dim, int numpoints, coordT *points, boolT ismalloc
     if (qh->VERIFYoutput && !qh->STOPpoint && !qh->STOPcone)
       qh_check_points(qh);
   }
-  qh->NOerrexit = True;
+  qh->NOerrexit= True;
   return exitcode;
 } /* new_qhull */
 
@@ -230,6 +230,7 @@ void qh_errexit(qhT *qh, int exitcode, facetT *facet, ridgeT *ridge) {
       qh_printsummary(qh, qh->ferr);
       if (qh->PRINTstatistics) {
         qh_collectstatistics(qh);
+        qh_allstatistics(qh);
         qh_printstatistics(qh, qh->ferr, "at error exit");
         qh_memstatistics(qh, qh->ferr);
       }
@@ -267,6 +268,22 @@ void qh_errexit(qhT *qh, int exitcode, facetT *facet, ridgeT *ridge) {
 void qh_errprint(qhT *qh, const char *string, facetT *atfacet, facetT *otherfacet, ridgeT *atridge, vertexT *atvertex) {
   int i;
 
+  if (atvertex) {
+    qh_fprintf(qh, qh->ferr, 8138, "%s VERTEX:\n", string);
+    qh_printvertex(qh, qh->ferr, atvertex);
+  }
+  if (atridge) {
+    qh_fprintf(qh, qh->ferr, 8137, "%s RIDGE:\n", string);
+    qh_printridge(qh, qh->ferr, atridge);
+    if (!atfacet)
+      atfacet= atridge->top;
+    if (!otherfacet)
+      otherfacet= otherfacet_(atridge, atfacet);
+    if (atridge->top && atridge->top != atfacet && atridge->top != otherfacet)
+      qh_printfacet(qh, qh->ferr, atridge->top);
+    if (atridge->bottom && atridge->bottom != atfacet && atridge->bottom != otherfacet)
+      qh_printfacet(qh, qh->ferr, atridge->bottom);
+  }
   if (atfacet) {
     qh_fprintf(qh, qh->ferr, 8135, "%s FACET:\n", string);
     qh_printfacet(qh, qh->ferr, atfacet);
@@ -274,23 +291,6 @@ void qh_errprint(qhT *qh, const char *string, facetT *atfacet, facetT *otherface
   if (otherfacet) {
     qh_fprintf(qh, qh->ferr, 8136, "%s OTHER FACET:\n", string);
     qh_printfacet(qh, qh->ferr, otherfacet);
-  }
-  if (atridge) {
-    qh_fprintf(qh, qh->ferr, 8137, "%s RIDGE:\n", string);
-    qh_printridge(qh, qh->ferr, atridge);
-    if (atridge->top && atridge->top != atfacet && atridge->top != otherfacet)
-      qh_printfacet(qh, qh->ferr, atridge->top);
-    if (atridge->bottom
-        && atridge->bottom != atfacet && atridge->bottom != otherfacet)
-      qh_printfacet(qh, qh->ferr, atridge->bottom);
-    if (!atfacet)
-      atfacet= atridge->top;
-    if (!otherfacet)
-      otherfacet= otherfacet_(atridge, atfacet);
-  }
-  if (atvertex) {
-    qh_fprintf(qh, qh->ferr, 8138, "%s VERTEX:\n", string);
-    qh_printvertex(qh, qh->ferr, atvertex);
   }
   if (qh->fout && qh->FORCEoutput && atfacet && !qh->QHULLfinished && !qh->IStracing) {
     qh_fprintf(qh, qh->ferr, 8139, "ERRONEOUS and NEIGHBORING FACETS to output\n");
@@ -315,11 +315,19 @@ void qh_errprint(qhT *qh, const char *string, facetT *atfacet, facetT *otherface
 void qh_printfacetlist(qhT *qh, facetT *facetlist, setT *facets, boolT printall) {
   facetT *facet, **facetp;
 
+  qh_fprintf(qh, qh->ferr, 9424, "printfacetlist: vertices\n");
   qh_printbegin(qh, qh->ferr, qh_PRINTfacets, facetlist, facets, printall);
-  FORALLfacet_(facetlist)
-    qh_printafacet(qh, qh->ferr, qh_PRINTfacets, facet, printall);
-  FOREACHfacet_(facets)
-    qh_printafacet(qh, qh->ferr, qh_PRINTfacets, facet, printall);
+  if (facetlist) {
+    qh_fprintf(qh, qh->ferr, 9413, "printfacetlist: facetlist\n");
+    FORALLfacet_(facetlist)
+      qh_printafacet(qh, qh->ferr, qh_PRINTfacets, facet, printall);
+  }
+  if (facets) {
+    qh_fprintf(qh, qh->ferr, 9414, "printfacetlist: %d facets\n", qh_setsize(qh, facets));
+    FOREACHfacet_(facets)
+      qh_printafacet(qh, qh->ferr, qh_PRINTfacets, facet, printall);
+  }
+  qh_fprintf(qh, qh->ferr, 9412, "printfacetlist: end\n");
   qh_printend(qh, qh->ferr, qh_PRINTfacets, facetlist, facets, printall);
 } /* printfacetlist */
 

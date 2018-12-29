@@ -7,9 +7,9 @@
 
    see qh-qhull.htm
 
-   Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/qhull/unix_r.c#6 $$Change: 2066 $
-   $DateTime: 2016/01/18 19:29:17 $$Author: bbarber $
+   Copyright (c) 1993-2018 The Geometry Center.
+   $Id: //main/2015/qhull/src/qhull/unix_r.c#11 $$Change: 2549 $
+   $DateTime: 2018/12/28 22:24:20 $$Author: bbarber $
 */
 
 #include "libqhull_r/libqhull_r.h"
@@ -101,6 +101,8 @@ char qh_promptb[]= "\
     Q10  - no special processing for narrow distributions\n\
     Q11  - copy normals and recompute centrums for tricoplanar facets\n\
     Q12  - no error on wide merge due to duplicate ridge\n\
+    Q14  - do not rename vertices that create a duplicate ridge\n\
+    Q15  - allow qh_WIDEmaxoutside increase in qh_check_maxout\n\
 \n\
 ";
 char qh_promptc[]= "\
@@ -293,11 +295,12 @@ Except for 'F.' and 'PG', upper-case options take an argument.\n\
 \n\
  Q0_no_premerge Q1_no_angle    Q2_no_independ Q3_no_redundant Q4_no_old\n\
  Q5_no_check_out Q6_no_concave Q7_depth_first Q8_no_near_in  Q9_pick_furthest\n\
- Q10_no_narrow  Q11_trinormals Q12_no_wide_dup\n\
+ Q10_no_narrow  Q11_trinormals Q12_no_wide_dup Q14_no_rename_dup Q15_allow_widemax\n\
 \n\
- T4_trace       Tannotate      Tcheck_often   Tstatistics    Tverify\n\
- Tz_stdout      TFacet_log     TInput_file    TPoint_trace   TMerge_trace\n\
- TOutput_file   TRerun         TWide_trace    TVertex_stop   TCone_stop\n\
+ T4_trace       Tannotate      Tcheck_often   Tflush         Tstatistics\n\
+ Tverify        Tz_stdout      TFacet_log     TInput_file    TPoint_trace\n\
+ TMerge_trace   TOutput_file   TRerun         TWide_trace    TVertex_stop\n\
+ TCone_stop\n\
 \n\
  Angle_max      Centrum_size   Error_round    Random_dist    Visible_min\n\
  Ucoplanar_max  Wide_outside\n\

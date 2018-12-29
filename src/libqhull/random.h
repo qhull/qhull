@@ -6,9 +6,9 @@
 
    see qh-geom.htm and random.c
 
-   Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull/random.h#2 $$Change: 2026 $
-   $DateTime: 2015/11/07 22:44:39 $$Author: bbarber $
+   Copyright (c) 1993-2018 The Geometry Center.
+   $Id: //main/2015/qhull/src/libqhull/random.h#4 $$Change: 2549 $
+   $DateTime: 2018/12/28 22:24:20 $$Author: bbarber $
 */
 
 #ifndef qhDEFrandom

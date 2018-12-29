@@ -13,9 +13,9 @@
 
    defines internal functions for libqhull.c global.c
 
-   Copyright (c) 1993-2015 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull/qhull_a.h#4 $$Change: 2064 $
-   $DateTime: 2016/01/18 12:36:08 $$Author: bbarber $
+   Copyright (c) 1993-2018 The Geometry Center.
+   $Id: //main/2015/qhull/src/libqhull/qhull_a.h#7 $$Change: 2549 $
+   $DateTime: 2018/12/28 22:24:20 $$Author: bbarber $
 
    Notes:  grep for ((" and (" to catch fprintf("lkasdjf");
            full parens around (x?y:z)
@@ -123,7 +123,7 @@ void    qh_partitionall(setT *vertices, pointT *points,int npoints);
 void    qh_partitioncoplanar(pointT *point, facetT *facet, realT *dist);
 void    qh_partitionpoint(pointT *point, facetT *facet);
 void    qh_partitionvisible(boolT allpoints, int *numpoints);
-void    qh_precision(const char *reason);
+void    qh_joggle_restart(const char *reason);
 void    qh_printsummary(FILE *fp);
 
 /***** -global.c internal prototypes (alphabetical) ***********************/
