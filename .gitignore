@@ -17,9 +17,10 @@ r?
 *.rej
 
 # Build products
+<<<<<<< HEAD
 bin/
 build/.vs/
-build-cmake/*
+build?*/
 build/Debug/*
 build/moc/*
 build/qhulltest/*

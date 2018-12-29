@@ -3452,13 +3452,13 @@ void qh_triangulate_facet(qhT *qh, facetT *facetA, vertexT **first_vertex) {
     if (qh->TRInormals) { /* 'Q11' triangulate duplicates ->normal and ->center */
       newfacet->keepcentrum= True;
       if(facetA->normal){
-        newfacet->normal= qh_memalloc(qh, qh->normal_size);
+        newfacet->normal= (double*)qh_memalloc(qh, qh->normal_size);
         memcpy((char *)newfacet->normal, facetA->normal, qh->normal_size);
       }
       if (qh->CENTERtype == qh_AScentrum)
         newfacet->center= qh_getcentrum(qh, newfacet);
       else if (qh->CENTERtype == qh_ASvoronoi && facetA->center){
-        newfacet->center= qh_memalloc(qh, qh->center_size);
+        newfacet->center= (double*)qh_memalloc(qh, qh->center_size);
         memcpy((char *)newfacet->center, facetA->center, qh->center_size);
       }
     }else {
@@ -3654,7 +3654,7 @@ void qh_vertexneighbors(qhT *qh /*qh.facet_list*/) {
 
   if (qh->VERTEXneighbors)
     return;
-  trace1((qh, qh->ferr, 1035, "qh_vertexneighbors: determing neighboring facets for each vertex\n"));
+  trace1((qh, qh->ferr, 1035, "qh_vertexneighbors: determining neighboring facets for each vertex\n"));
   qh->vertex_visit++;
   FORALLfacets {
     if (facet->visible)

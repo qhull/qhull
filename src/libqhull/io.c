@@ -426,7 +426,7 @@ pointT *qh_detvnorm(vertexT *vertex, vertexT *vertexA, setT *centers, realT *off
       else
         angle= angle - 1.0;
       if (angle < 0.0)
-        angle -= angle;
+        angle= -angle;
       trace4((qh ferr, 4015, "qh_detvnorm: points %d %d angle %2.2g nearzero %d\n",
                  pointid, pointidA, angle, nearzero));
       if (nearzero) {
@@ -2621,7 +2621,7 @@ void qh_printfacetridges(FILE *fp, facetT *facet) {
       qh_fprintf(fp, 9183, "     - all ridges:");
       FOREACHridge_(facet->ridges)
         qh_fprintf(fp, 9184, " r%d", ridge->id);
-        qh_fprintf(fp, 9185, "\n");
+      qh_fprintf(fp, 9185, "\n");
     }
     FOREACHridge_(facet->ridges) {
       if (!ridge->seen)

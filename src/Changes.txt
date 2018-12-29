@@ -1,4 +1,4 @@
-$Id: //main/2015/qhull/src/Changes.txt#62 $
+$Id: //main/2015/qhull/src/Changes.txt#60 $
 
 .............This file lists all changes to qhull and rbox.....................
 
@@ -70,6 +70,7 @@ Qhull documentation
  - html/qh-optq.htm: Update documentation for 'Qx' and its default behavior
  - html/qh-impre.htm: Rewrote notes on 'Nearly coincident points within 1e-13'
  - geom_r.c/qh_distplane: nearly coplanar points may return the same distance for different points 
+ - Update copyright to 2018
  
 Qhull builds
  - Move 'extern "C" {}' logic from C++ to C headers [C. Atkins, github]
