@@ -15,39 +15,49 @@ SYNOPSIS
            halfspace: use dim plus one with offsets after coefficients
 
        options (qh-quick.htm):
-           d      - Delaunay triangulation by lifting points to a paraboloid
-           v      - Voronoi diagram via the Delaunay triangulation
-           H1,1   - Halfspace intersection about [1,1,0,...]
-           d Qu   - Furthest-site Delaunay triangulation (upper convex hull)
-           v Qu   - Furthest-site Voronoi diagram
-           QJ     - Joggle the input to avoid precision problems
-           .      - concise list of all options
-           -      - one-line description of all options
+           d    - Delaunay triangulation by lifting points to a paraboloid
+           d Qu - furthest-site Delaunay triangulation (upper convex hull)
+           v    - Voronoi diagram as the dual of the Delaunay triangulation
+           v Qu - furthest-site Voronoi diagram
+           H1,1 - Halfspace intersection about [1,1,0,...] via polar duality
+           Qt   - triangulated output
+           QJ   - joggled input instead of merged facets
+           Tv   - verify result: structure, convexity, and point inclusion
+           .    - concise list of all options
+           -    - one-line description of each option
+           -?   - this message
+           -V   - version
 
        Output options (subset):
-           FA     - compute total area and volume
-           Fx     - extreme points (convex hull vertices)
-           G      - Geomview output (2-d, 3-d and 4-d)
-           Fp     - halfspace intersection coordinates
-           m      - Mathematica output (2-d and 3-d)
-           n      - normals with offsets
-           o      - OFF file format (if Voronoi, outputs regions)
-           TO file- output results to file, may be enclosed in single quotes
-           f      - print all fields of all facets
-           s      - summary of results (default)
-           Tv     - verify result: structure, convexity, and point inclusion
-           p      - vertex coordinates
-           i      - vertices incident to each facet
+           s    - summary of results (default)
+           i    - vertices incident to each facet
+           n    - normals with offsets
+           p    - vertex coordinates (if 'Qc', includes coplanar points)
+                  if 'v', Voronoi vertices
+           FA   - report total area and volume
+           Fp   - halfspace intersections
+           FS   - total area and volume
+           Fx   - extreme points (convex hull vertices)
+           G    - Geomview output (2-d, 3-d and 4-d)
+           m    - Mathematica output (2-d and 3-d)
+           o    - OFF format (if 'v', outputs Voronoi regions)
+           QVn  - print facets that include point n, -n if not
+           TI file - input file, may be enclosed in single quotes
+           TO file - output file, may be enclosed in single quotes
 
-       example:
-           rbox 1000 s | qhull Tv s FA
+       examples:
+           rbox D4 | qhull Tv                        rbox 1000 s | qhull Tv s FA
+           rbox 10 D2 | qhull d QJ s i TO result     rbox 10 D2 | qhull v Qbb Qt p
+           rbox 10 D2 | qhull d Qu QJ m              rbox 10 D2 | qhull v Qu QJ o
+           rbox c d D2 | qhull Qc s f Fx | more      rbox c | qhull FV n | qhull H Fp
+           rbox d D12 | qhull QR0 FA                 rbox c D7 | qhull FA TF1000
+           rbox y 1000 W0 | qhull Qc                 rbox c | qhull n
 
-        - html manual:    index.htm
+        - html manual:    html/index.htm
         - installation:   README.txt
         - see also:       COPYING.txt, REGISTER.txt, Changes.txt
         - WWW:            <http://www.qhull.org>
         - GIT:            <git@github.com:qhull/qhull.git>
-        - mirror:         <http://www6.uniovi.es/ftp/pub/mirrors/geom.umn.edu/software/ghindex.html>
         - news:           <http://www.qhull.org/news>
         - Geomview:       <http://www.geomview.org>
         - news group:     <news:comp.graphics.algorithms>
@@ -58,7 +68,7 @@ SYNOPSIS
 
 
 
-Geometry Center              2003/12/30                 1
+Geometry Center              2019/05/03                 1
 
 
 
@@ -86,8 +96,8 @@ qhull(1)                                                 qhull(1)
         - ACKNOWLEGEMENTS
 
        This man page briefly describes all Qhull options.  Please
-       report  any  mismatches  with  Qhull's  html  manual  (qh-
-       man.htm).
+       report  any  mismatches  with  Qhull's  html  manual  
+       (html/index.htm).
 
 
 
@@ -124,7 +134,7 @@ DESCRIPTION
 
 
 
-Geometry Center              2003/12/30                 2
+Geometry Center              2019/05/03                 2
 
 
 
@@ -178,19 +188,19 @@ IMPRECISION
 
 OPTIONS
        To  get  a  list  of  the  most important options, execute
-       'qhull' by itself.  To get a  complete  list  of  options,
+       'qhull -?'.  To get a  complete  list  of  options,
        execute  'qhull  -'.   To  get a complete, concise list of
        options, execute 'qhull .'.
 
        Options can be in any order.  Capitalized options take  an
        argument  (except  'PG'  and 'F' options).  Single letters
        are used for output formats and precision constants.   The
-       other options are grouped into menus for other output for-
-       mats ('F'), Geomview output ('G'), printing  ('P'),  Qhull
+       other options are grouped into menus: output formats ('F'), 
+       Geomview output ('G'), printing  ('P'),  Qhull control ('Q'), 
 
 
 
-Geometry Center              2003/12/30                 3
+Geometry Center              2019/05/03                 3
 
 
 
@@ -199,7 +209,7 @@ Geometry Center              2003/12/30                 3
 qhull(1)                                                 qhull(1)
 
 
-       control ('Q'), and tracing ('T').
+       and tracing ('T').
 
        Main options:
 
@@ -256,7 +266,7 @@ qhull(1)                                                 qhull(1)
 
 
 
-Geometry Center              2003/12/30                 4
+Geometry Center              2019/05/03                 4
 
 
 
@@ -277,7 +287,7 @@ qhull(1)                                                 qhull(1)
 
        Input/Output options:
 
-       f      Print out all facets and all fields of each  facet.
+       f      Print all facets and all fields of each  facet.
 
        G      Output  the hull in Geomview format.  For imprecise
               hulls, Geomview displays the inner and outer  hull.
@@ -324,7 +334,7 @@ qhull(1)                                                 qhull(1)
 
 
 
-Geometry Center              2003/12/30                 5
+Geometry Center              2019/05/03                 5
 
 
 
@@ -353,13 +363,13 @@ qhull(1)                                                 qhull(1)
               dinates of each Voronoi vertex.
 
        s      Print a summary to stderr.  If  no  output  options
-              are  specified  at  all,  a summary goes to stdout.
+              are  specified,  a summary goes to stdout.
               The summary lists the number of input  points,  the
               dimension,  the  number  of  vertices in the convex
               hull, the number of facets in the convex hull,  the
               number of good facets (if 'Pg'), and statistics.
 
-              The  last  two  statistics  (if needed) measure the
+              The  last  two  statistics (if needed) measure the
               maximum distance from a point or vertex to a facet.
               The number in parenthesis (e.g., 2.1x) is the ratio
               between the maximum  distance  and  the  worst-case
@@ -390,7 +400,7 @@ qhull(1)                                                 qhull(1)
 
 
 
-Geometry Center              2003/12/30                 6
+Geometry Center              2019/05/03                 6
 
 
 
@@ -456,7 +466,7 @@ qhull(1)                                                 qhull(1)
 
 
 
-Geometry Center              2003/12/30                 7
+Geometry Center              2019/05/03                 7
 
 
 
@@ -522,7 +532,7 @@ qhull(1)                                                 qhull(1)
 
 
 
-Geometry Center              2003/12/30                 8
+Geometry Center              2019/05/03                 8
 
 
 
@@ -532,10 +542,11 @@ qhull(1)                                                 qhull(1)
 
 
               last float is the offset.  The hyperplane  is  ori-
-              ented  toward  verify that the hyperplanes are per-
-              pendicular  bisectors.   Use  'Fo'  for   unbounded
-              regions,  and  'Fv'  for  the corresponding Voronoi
-              vertices.
+              ented  toward 'QVn' (if defined), or the first input 
+              site of the pair.  Use 'Tv' to verify that the 
+              hyperplanes are perpendicular  bisectors.   Use  
+              'Fo'  for   unbounded regions,  and 'Fv' for the 
+              corresponding Voronoi vertices.
 
        FI     Print facet identifiers.
 
@@ -577,10 +588,11 @@ qhull(1)                                                 qhull(1)
               adjacent  input  sites,  the  next d floats are the
               normalized coefficients for the hyperplane, and the
               last  float  is the offset.  The hyperplane is ori-
-              ented toward verify that the hyperplanes  are  per-
-              pendicular   bisectors.    Use   'Fi'  for  bounded
-              regions, and 'Fv'  for  the  corresponding  Voronoi
-              vertices.
+              ented  toward 'QVn' (if defined), or the first input 
+              site of the pair.  Use 'Tv' to verify that the 
+              hyperplanes are perpendicular  bisectors.   Use  
+              'Fi'  for bounded regions,  and 'Fv' for the 
+              corresponding Voronoi vertices.
 
        FO     List  all  options to stderr, including the default
               values.  Additional 'FO's are printed to stdout.
@@ -590,7 +602,7 @@ qhull(1)                                                 qhull(1)
 
 
 
-Geometry Center              2003/12/30                 9
+Geometry Center              2019/05/03                 9
 
 
 
@@ -654,7 +666,7 @@ qhull(1)                                                 qhull(1)
 
 
 
-Geometry Center              2003/12/30                10
+Geometry Center              2019/05/03                10
 
 
 
@@ -720,7 +732,7 @@ qhull(1)                                                 qhull(1)
 
 
 
-Geometry Center              2003/12/30                11
+Geometry Center              2019/05/03                11
 
 
 
@@ -786,7 +798,7 @@ qhull(1)                                                 qhull(1)
 
 
 
-Geometry Center              2003/12/30                12
+Geometry Center              2019/05/03                12
 
 
 
@@ -799,8 +811,8 @@ qhull(1)                                                 qhull(1)
               visible from a point (the 'QGn' option) or includes
               a point (the 'QVn'  option).   It  also  meets  the
               requirements  of  'Pdk'  and 'PDk' options.  Option
-              'Pg' is automatically set  for  options  'PAn'  and
-              'PFn'.
+              'Pg' is automatically set for  options 'd', 'PAn', 
+              'PFn', and 'PMn'
 
        PG     Print neighbors of good facets.
 
@@ -822,6 +834,8 @@ qhull(1)                                                 qhull(1)
 
        Qhull control options
 
+       Qa     Allow short input with fewer points than coordinates.
+       
        Qbk:0Bk:0
               Drop dimension  k  from  the  input  points.   This
               allows  the user to take convex hulls of sub-dimen-
@@ -850,7 +864,7 @@ qhull(1)                                                 qhull(1)
 
 
 
-Geometry Center              2003/12/30                13
+Geometry Center              2019/05/03                13
 
 
 
@@ -917,7 +931,7 @@ qhull(1)                                                 qhull(1)
 
 
 
-Geometry Center              2003/12/30                14
+Geometry Center              2019/05/03                14
 
 
 
@@ -941,6 +955,9 @@ qhull(1)                                                 qhull(1)
               The point is either in the initial simplex or it is
               the first point added to the  hull.   Option  'QVn'
               may not be used with merging.
+
+       Qw     Allow option warnings. Otherwise Qhull returns an 
+              error after most option warnings.
 
        Qx     Perform  exact merges while building the hull.  The
               "exact" merges are merging a point into a  coplanar
@@ -968,8 +985,8 @@ qhull(1)                                                 qhull(1)
               the  convex  hull.   This  may  lead  to  precision
               errors.  If so, a descriptive warning is generated.
 
-       Q1     With  'Q1',  Qhull  sorts merges by type (coplanar,
-              angle coplanar, concave) instead of by angle.
+       Q1     With 'Q1', Qhull merges by mergetype/angle instead 
+              of mergetype/distance.
 
        Q2     With 'Q2', Qhull merges all facets at once  instead
               of  using  independent  sets  of  merges  and  then
@@ -987,7 +1004,7 @@ qhull(1)                                                 qhull(1)
 
 
 
-Geometry Center              2003/12/30                15
+Geometry Center              2019/05/03                15
 
 
 
@@ -1016,12 +1033,12 @@ qhull(1)                                                 qhull(1)
        Q11    With 'Q11', Qhull copies normals and recomputes
               centrums for tricoplanar facets.
 
-       Q12    With 'Q12', Qhull does not report a very wide merge due 
-              to a duplicated ridge with nearly coincident vertices
+       Q12    With 'Q12', Qhull allows wide facets and wide dupridge
        
-       Q14    With 'Q14', Qhull does not rename vertices that create 
-              a duplicate ridge
+       Q14    With 'Q14', Qhull merges pinched vertices that create a dupridge.
 
+       Q15    With 'Q15', Qhull checks for duplicate ridges with the same vertices.
+       
        Trace options
 
        Tn     Trace at level n.  Qhull  includes  full  execution
@@ -1035,6 +1052,8 @@ qhull(1)                                                 qhull(1)
        Ta     Annotate output with codes that identify the
               corresponding qh_fprintf() statement.
 
+       TAn    Stop Qhull after adding n vertices.
+
        Tc     Check frequently during execution.  This will catch
               most inconsistency errors.
 
@@ -1042,21 +1061,28 @@ qhull(1)                                                 qhull(1)
               for point n.  The output for 'f' includes the  cone
               and the old hull.  See also 'TVn'.
 
+       Tf     Flush output after each qh_fprintf.  Use 'Tf' for 
+              debugging segfaults.  See 'Tz' for redirecting stderr.
+       
        TFn    Report  progress  whenever  more  than n facets are
               created During post-merging, 'TFn' reports progress
               after more than n/2 merges.
 
        TI file
               Input data from 'file'.  The filename may not include
-                  spaces or quotes.
+              spaces or quotes.
+
+       TMn    Turn on tracing at n'th merge.
 
        TO file
               Output results to 'file'.  The name may be enclosed
               in single quotes.
 
        TPn    Turn on tracing when point n is added to the  hull.
-          Trace partitions of point n. If used with TWn, turn off
-          tracing after adding point n to the hull.
+              Trace partitions of point n. If used with TWn, turn off
+              tracing after adding point n to the hull.
+
+       TP-1   Turn on tracing after qh_buildhull and qh_postmerge.
 
        TRn    Rerun  qhull  n  times.  Usually used with 'QJn' to
               determine the probability that a given joggle  will
@@ -1072,8 +1098,7 @@ qhull(1)                                                 qhull(1)
               Option 'Tv'  does  not  check  point  inclusion  if
 
 
-
-Geometry Center              2003/12/30                16
+Geometry Center              2019/05/03                16
 
 
 
@@ -1100,12 +1125,10 @@ qhull(1)                                                 qhull(1)
               Qhull before adding point n.  Output shows the hull
               at this time.  See also 'TCn'
 
-       TMn    Turn on tracing at n'th merge.
-
        TWn    Trace  merge  facets when the width is greater than
               n.
 
-       Tz     Redirect stderr to stdout.
+       Tz     Redirect stderr to stdout.  See 'Tf' for flushing writes.
 
 
 BUGS
@@ -1139,7 +1162,7 @@ BUGS
 
 
 
-Geometry Center              2003/12/30                17
+Geometry Center              2019/05/03                17
 
 
 
@@ -1199,7 +1222,7 @@ ACKNOWLEDGEMENTS
 
 
 
-Geometry Center              2003/12/30                18
+Geometry Center              2019/05/03                18
 
 
 
@@ -1217,50 +1240,6 @@ qhull(1)                                                 qhull(1)
 
        Qhull is available from http://www.qhull.org
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Geometry Center              2003/12/30                19
+Geometry Center              2019/05/03                19
 
 

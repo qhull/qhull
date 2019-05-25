@@ -7,7 +7,7 @@
 
 <body>
 <!-- Navigation links -->
-<p><b>Up:</b> <a href="http://www.qhull.org">Home page</a> for Qhull<br>
+<p><b>Up:</b> <a href="http://www.qhull.org">Home page</a> for Qhull (<a href="../index.htm">local</a>)<br>
 <b>Up:</b> <a href="index.htm#TOC">Qhull manual</a>: Table of Contents<br>
 <b>To:</b> <a href="qh-quick.htm#programs">Programs</a>
 &#149; <a href="qh-quick.htm#options">Options</a>
@@ -18,7 +18,7 @@
 &#149; <a href="qh-optq.htm#qhull">Qhull</a>
 &#149; <a href="qh-optc.htm#prec">Precision</a>
 &#149; <a href="qh-optt.htm#trace">Trace</a>
-&#149; <a href="../src/libqhull_r/index.htm">Functions</a></p>
+&#149; <a href="http://www.qhull.org/src/libqhull_r/index.htm">Functions</a> (<a href="../src/libqhull_r/index.htm">local</a>)</p>
 
 <hr>
 <!-- Main text of document -->
@@ -30,7 +30,7 @@ height="100"></a> Qhull control options (Q)</h1>
 <p>This section lists the control options for Qhull. These
 options are indicated by 'Q' followed by a letter. </p>
 
-<p><b>Copyright &copy; 1995-2018 C.B. Barber</b></p>
+<p><b>Copyright &copy; 1995-2019 C.B. Barber</b></p>
 
 <hr>
 
@@ -43,16 +43,13 @@ options are indicated by 'Q' followed by a letter. </p>
 &#149; <a href="qh-optq.htm#qhull">Qhull</a>
 &#149; <a href="qh-optc.htm#prec">Precision</a>
 &#149; <a href="qh-optt.htm#trace">Trace</a>
-&#149; <a href="../src/libqhull_r/index.htm">Functions</a></p>
+&#149; <a href="http://www.qhull.org/src/libqhull_r/index.htm">Functions</a> (<a href="../src/libqhull_r/index.htm">local</a>)</p>
 
 <h2>Qhull control options</h2>
 
 <dl compact>
-    <dt>&nbsp;</dt>
-    <dd><b>General</b></dd>
-    <dt><a href="#Qu">Qu</a></dt>
-    <dd>compute upper hull for furthest-site Delaunay
-        triangulation </dd>
+    <dt><a href="#Qa">Qa</a></dt>
+    <dd>allow short input with fewer points than coordinates</dd>
     <dt><a href="#Qc">Qc</a></dt>
     <dd>keep coplanar points with nearest facet</dd>
     <dt><a href="#Qi">Qi</a></dt>
@@ -61,63 +58,75 @@ options are indicated by 'Q' followed by a letter. </p>
     <dd>joggled input to avoid precision problems</dd>
     <dt><a href="#Qt">Qt</a></dt>
     <dd>triangulated output</dd>
+    <dt><a href="#Qu">Qu</a></dt>
+    <dd>compute upper hull for furthest-site Delaunay
+        triangulation </dd>
+    <dt><a href="#Qw">Qw</a></dt>
+    <dd>allow warnings about Qhull options</dd>
     <dt>&nbsp;</dt>
     <dt>&nbsp;</dt>
     <dd><b>Precision handling</b></dd>
-    <dt><a href="#Qz">Qz</a></dt>
-    <dd>add a point-at-infinity for Delaunay triangulations</dd>
-    <dt><a href="#Qx">Qx</a></dt>
-    <dd>exact pre-merges (allows coplanar facets)</dd>
-    <dt><a href="#Qs">Qs</a></dt>
-    <dd>search all points for the initial simplex</dd>
     <dt><a href="#Qbb">Qbb</a></dt>
     <dd>scale last coordinate to [0,m] for Delaunay</dd>
+    <dt><a href="#Qs">Qs</a></dt>
+    <dd>search all points for the initial simplex</dd>
     <dt><a href="#Qv">Qv</a></dt>
     <dd>test vertex neighbors for convexity</dd>
+    <dt><a href="#Qx">Qx</a></dt>
+    <dd>exact pre-merges (allows coplanar facets)</dd>
+    <dt><a href="#Qz">Qz</a></dt>
+    <dd>add a point-at-infinity for Delaunay triangulations</dd>
     <dt>&nbsp;</dt>
     <dt>&nbsp;</dt>
     <dd><b>Transform input</b></dd>
-    <dt><a href="#Qb0">Qbk:0Bk:0</a></dt>
-    <dd>drop dimension k from input</dd>
-    <dt><a href="#QRn">QRn</a></dt>
-    <dd>random rotation (n=seed, n=0 time, n=-1 time/no rotate)</dd>
     <dt><a href="#Qbk">Qbk:n</a></dt>
     <dd>scale coord[k] to low bound of n (default -0.5)</dd>
-    <dt><a href="#QBk">QBk:n</a></dt>
-    <dd>scale coord[k] to upper bound of n (default 0.5)</dd>
+    <dt><a href="#Qb0">Qbk:0Bk:0</a></dt>
+    <dd>drop dimension k from input</dd>
     <dt><a href="#QbB">QbB</a></dt>
     <dd>scale input to fit the unit cube</dd>
+    <dt><a href="#QBk">QBk:n</a></dt>
+    <dd>scale coord[k] to upper bound of n (default 0.5)</dd>
+    <dt><a href="#QRn">QRn</a></dt>
+    <dd>random rotation (n=seed, n=0 time, n=-1 time/no rotate)</dd>
     <dt>&nbsp;</dt>
     <dt>&nbsp;</dt>
     <dd><b>Select facets</b></dd>
-    <dt><a href="#QVn">QVn</a></dt>
-    <dd>good facet if it includes point n, -n if not</dd>
-    <dt><a href="#QGn">QGn</a></dt>
-    <dd>good facet if visible from point n, -n for not visible</dd>
     <dt><a href="#Qg">Qg</a></dt>
     <dd>only build good facets (needs '<a href="#QGn">QGn</a>', '<a
         href="#QVn">QVn </a>', or '<a href="qh-optp.htm#Pdk">Pdk</a>')</dd>
+    <dt><a href="#QGn">QGn</a></dt>
+    <dd>good facet if visible from point n, -n for not visible</dd>
+    <dt><a href="#QVn">QVn</a></dt>
+    <dd>good facet if it includes point n, -n if not</dd>
     <dt>&nbsp;</dt>
     <dt>&nbsp;</dt>
     <dd><b>Experimental</b></dd>
+    <dt><a href="#Qf">Qf</a></dt>
+    <dd>partition point to furthest outside facet</dd>
+    <dt><a href="#Qm">Qm</a></dt>
+    <dd>process points only if they would increase the max. outer
+        plane </dd>
+    <dt><a href="#Qr">Qr</a></dt>
+    <dd>process random outside points instead of furthest one</dd>
+    <dt><a href="#Q0">Q0</a></dt>
+    <dd>do not pre-merge facets with 'C-0' or 'Qx'</dd>
+    <dt><a href="#Q1">Q1</a></dt>
+    <dd>merge by mergetype/angle instead of mergetype/distance</dd>
+    <dt><a href="#Q2">Q2</a></dt>
+    <dd>merge all non-convex at once instead of independent sets</dd>
+    <dt><a href="#Q3">Q3</a></dt>
+    <dd>do not merge redundant vertices</dd>
     <dt><a href="#Q4">Q4</a></dt>
     <dd>avoid merging old facets into new facets</dd>
     <dt><a href="#Q5">Q5</a></dt>
     <dd>do not correct outer planes at end of qhull</dd>
-    <dt><a href="#Q3">Q3</a></dt>
-    <dd>do not merge redundant vertices</dd>
     <dt><a href="#Q6">Q6</a></dt>
     <dd>do not pre-merge concave or coplanar facets</dd>
-    <dt><a href="#Q0">Q0</a></dt>
-    <dd>do not pre-merge facets with 'C-0' or 'Qx'</dd>
-    <dt><a href="#Q8">Q8</a></dt>
-    <dd>ignore near-interior points</dd>
-    <dt><a href="#Q2">Q2</a></dt>
-    <dd>merge all non-convex at once instead of independent sets</dd>
-    <dt><a href="#Qf">Qf</a></dt>
-    <dd>partition point to furthest outside facet</dd>
     <dt><a href="#Q7">Q7</a></dt>
     <dd>process facets depth-first instead of breadth-first</dd>
+    <dt><a href="#Q8">Q8</a></dt>
+    <dd>ignore near-interior points</dd>
     <dt><a href="#Q9">Q9</a></dt>
     <dd>process furthest of furthest points</dd>
     <dt><a href="#Q10">Q10</a></dt>
@@ -125,19 +134,22 @@ options are indicated by 'Q' followed by a letter. </p>
     <dt><a href="#Q11">Q11</a></dt>
     <dd>copy normals and recompute centrums for tricoplanar facets</dd>
     <dt><a href="#Q12">Q12</a></dt>
-    <dd>do not error on wide merge due to duplicate ridge and nearly coincident points</dd>
+    <dd>allow wide facets and wide dupridge</dd>
     <dt><a href="#Q14">Q14</a></dt>
-    <dd>do not rename vertices that create a duplicate ridge</dd>
-    <dt><a href="#Qm">Qm</a></dt>
-    <dd>process points only if they would increase the max. outer
-        plane </dd>
-    <dt><a href="#Qr">Qr</a></dt>
-    <dd>process random outside points instead of furthest one</dd>
-    <dt><a href="#Q1">Q1</a></dt>
-    <dd>sort merges by type instead of angle</dd>
+    <dd>merge pinched vertices that create a dupridge</dd>
+    <dt><a href="#Q15">Q15</a></dt>
+    <dd>check for duplicate ridges with the same vertices</dd>
 </dl>
 
 <hr>
+
+<h3><a href="#qhull">&#187;</a><a name="Qa">Qa - allow short input with fewer points than coordinates</a></h3>
+
+<p>Option 'Qa' (qh.ALLOWshort) allows more input coordinates than points.  Qhull's input
+starts with the number of points and the dimension, d.  The coordinates follow, d coordinates per point.
+
+<p>With option 'Qa', there may be more coordinates than points.  This simplifies exploring an input point set by
+adjusting the number of points.
 
 <h3><a href="#qhull">&#187;</a><a name="Qbb">Qbb - scale the last
 coordinate to [0,m] for Delaunay</a></h3>
@@ -252,13 +264,14 @@ facets (needs 'QGn' 'QVn' or 'Pdk') </a></h3>
 <p>Qhull has several options for defining and printing good
 facets. With the '<a href="#Qg">Qg</a>' option, Qhull will only
 build those facets that it needs to determine the good facets in
-the output. This may speed up Qhull in 2-d and 3-d. It is
+the output. Outside points that are not above good facets are ignored.
+This may speed up Qhull in 2-d and 3-d. It is
 useful for furthest-site Delaunay
 triangulations (<a href=qdelau_f.htm>qdelaunay Qu</a>,
 invoke with 'qhull d Qbb <a href="#Qu">Qu</a> Qg').
 It is not effective in higher
 dimensions because many facets see a given point and contain a
-given vertex. It may not work for all combinations.</p>
+given vertex. It may not work for all combinations of options.</p>
 
 <p>See '<a href="#QGn">QGn</a>', '<a href="#QVn">QVn</a>', and '<a
 href="qh-optp.htm#Pdk">Pdk</a>' for defining good facets, and '<a
@@ -266,9 +279,10 @@ href="qh-optp.htm#Pg">Pg</a>' and '<a href="qh-optp.htm#PG">PG</a>'
 for printing good facets and their neighbors. If pre-merging ('<a
 href="qh-optc.htm#Cn">C-n</a>') is not used and there are
 coplanar facets, then 'Qg Pg' may produce a different result than
-'<a href="qh-optp.htm#Pg">Pg</a>'.  Option Qg disables
-renaming vertices that create a duplicate ridge ('<a href="#Q14">Q14</a>').
-</p>
+'<a href="qh-optp.htm#Pg">Pg</a>'. </p>
+
+<p>Option Qg disables renaming vertices due to duplicate ridges.
+See ('<a href="#Q14">Q14</a>' merge-pinched-vertices).</p>
 
 <h3><a href="#qhull">&#187;</a><a name="QGn">QGn - good facet if
 visible from point n, -n for not visible </a></h3>
@@ -304,7 +318,7 @@ reports the number of interior points (should always be zero).</p>
 and '<a href="qh-optf.htm#FP">FP</a>' include interior points. </p>
 
 <h3><a href="#qhull">&#187;</a><a name="QJ">QJ</a> or <a name="QJn">QJn</a> - joggled
-input to avoid precision errors</a></h3>
+input to avoid precision errors</h3>
 
 <p>Option 'QJ' or 'QJn' joggles each input coordinate by adding a
 random number in the range [-n,n]. If a precision error occurs,
@@ -314,6 +328,9 @@ is 0.01 times the maximum width of the input. Option 'QJ' selects
 a default value for <i>n</i>. <a href="../src/user.h#JOGGLEdefault">User.h</a>
 defines these parameters and a maximum number of retries. See <a
 href="qh-impre.htm#joggle">Merged facets or joggled input</a>. </p>
+
+<p>On repeated joggles, Qhull errors (QH6010) if the joggle is greater
+than 0.1 or one quarter of the maximum coordinate width. </p>
 
 <p>Users of joggled input should consider converting to
 triangulated output ('<a href="../html/qh-optq.htm#Qt">Qt</a>').  Triangulated output is
@@ -332,8 +349,10 @@ important for your application.  You may also use triangulated output
 <p>Qhull adjusts the outer and inner planes for 'QJn' ('<a
 href="qh-optf.htm#Fs">Fs</a>'). They are increased by <i>sqrt(d)*n</i>
 to account for the maximum distance between a joggled point and
-the corresponding input point. Coplanar points ('<a
-href="qh-optq.htm#Qc">Qc</a>') require an additional <i>sqrt(d)*n</i>
+the corresponding input point. </p>
+
+<p>Coplanar points ('<a
+href="qh-optq.htm#Qc">Qc</a>', option '_near-inside') require an additional <i>sqrt(d)*n</i>
 since vertices and coplanar points may be joggled in opposite
 directions. </p>
 
@@ -360,6 +379,13 @@ seed. If Qhull restarts, it will redisplay the options. </p>
 
 <p>Use option '<a href="qh-optt.htm#TRn">TRn</a>' to estimate the
 probability that Qhull will fail for a given 'QJn'.
+
+<p>If your application incrementally adds points with <a
+href="http://www.qhull.org/src/libqhull_r/libqhull_r.c#addpoint">qh_addpoint</a>,
+facet merging for precision problems is disabled by default.
+You can reduce the probability of failure by joggling the point's coordinates before calling qh_addpoint.
+See <a href="http://www.qhull.org/src/libqhull_r/geom2_r.c#joggleinput">qh_joggleinput</a>
+for sample code.
 
 <h3><a href="#qhull">&#187;</a><a name="Qm">Qm - only process points
 that increase the maximum outer plane </a></h3>
@@ -401,6 +427,9 @@ the last axis. </p>
 use n as the random number seed. If <em>n=-1</em>, don't rotate
 but use time as the random number seed. If <em>n&lt;-1</em>,
 don't rotate but use <em>n</em> as the random number seed. </p>
+
+<p>If set, the summary option ('<a href="qh-opto.htm#s">s</a>') displays
+the corresponding 'QRn' option after "Statistics for: ..."
 
 <h3><a href="#qhull">&#187;</a><a name="Qs">Qs - search all points
 for the initial simplex </a></h3>
@@ -497,6 +526,11 @@ either in the initial simplex or it is the first
 point added to the hull. Options 'QVn Qg' require either '<a href="#QJn">QJ</a>' or
 '<a href="#Q0">Q0</a>' (no merging).</p>
 
+<h3><a href="#qhull">&#187;</a><a name="Qw">Qw - allow warnings about Qhull options </a></h3>
+
+<p>Option 'Qw' allows warning about unknown, malformed, or incompatible Qhull options.
+If 'Qw' is not specified, option warnings produce a 'Qhull option error' and return exit status qh_ERRinput (1). </p>
+
 <h3><a href="#qhull">&#187;</a><a name="Qx">Qx - exact pre-merges
 (allows coplanar facets) </a></h3>
 
@@ -507,28 +541,29 @@ Use option '<a href="#Q0">Q0</a>' to disable all merging, including 'Qx' and 'C-
 </p>
 
 <p>The &quot;exact&quot; pre-merges are merging a point into a
-coplanar facet (defined by '<a href="qh-optc.htm#Vn">Vn </a>', '<a
+coplanar horizon facet (defined by '<a href="qh-optc.htm#Vn">Vn </a>', '<a
 href="qh-optc.htm#Un">Un</a>', and '<a href="qh-optc.htm#Cn">C-n</a>'),
 merging concave facets, merging duplicate ridges, and merging
 flipped facets. Coplanar merges and angle coplanar merges ('<a
-href="qh-optc.htm#An">A-n</a>') are not performed. Concavity
+href="qh-optc.htm#An">A-n</a>') are not performed. Superfluous
+vertices are allowed.  Concavity
 testing is delayed until a merge occurs.</p>
-
-FIXUP -- isn't merging enabled once a merge happens?
 
 <p>After the hull is built, all coplanar merges are performed
 (defined by '<a href="qh-optc.htm#Cn">C-n</a>' and '<a
 href="qh-optc.htm#An">A-n</a>'), then post-merges are performed
 (defined by '<a href="qh-optc.htm#Cn2">Cn</a>' and '<a
-href="qh-optc.htm#An2">An</a>'). If facet progress is logged ('<a
+href="qh-optc.htm#An2">An</a>').  Superfluous
+vertices are removed.</p>
+
+<p>If facet progress is logged ('<a
 href="qh-optt.htm#TFn">TFn</a>'), Qhull reports each phase and
 prints intermediate summaries and statistics ('<a
 href="qh-optt.htm#Ts">Ts</a>'). </p>
 
 <p>Without 'Qx' in 5-d and higher, options '<a
 href="qh-optc.htm#Cn">C-n</a>' and '<a href="qh-optc.htm#An">A-n</a>'
-may merge too many facets. Since redundant vertices are not
-removed effectively, facets become increasingly wide. </p>
+may merge too many facets. Facets become increasingly wide. </p>
 
 <p>Option 'Qx' may report a wide facet. With 'Qx', coplanar
 facets are not merged. This can produce a &quot;dent&quot; in an
@@ -567,14 +602,15 @@ precision issues while constructing the convex hull. This may
 lead to precision errors. If so, a descriptive warning is
 generated. See <a href="qh-impre.htm">Precision issues</a>.</p>
 
-<h3><a href="#qhull">&#187;</a><a name="Q1">Q1 - sort merges by type
-instead of angle </a></h3>
+<h3><a href="#qhull">&#187;</a><a name="Q1">Q1 - merge by mergetype/angle instead
+of mergetype/distance</a></h3>
 
-<p>Qhull sorts the coplanar facets before picking a subset of the
-facets to merge. It merges concave and flipped facets first. Then
-it merges facets that meet at a steep angle. With 'Q1', Qhull
-sorts merges by type (coplanar, angle coplanar, concave) instead
-of by angle. This may make the facets wider. </p>
+<p>Qhull merges coplanar facets first, then concave and flipped facets.
+Within a merge-type, it merges coplanar facets by distance first.
+</p>
+
+<p>With option 'Q1', Qhull merges coplanar facets by angle instead of by distance.
+</p>
 
 <h3><a href="#qhull">&#187;</a><a name="Q2">Q2 - merge all non-convex
 at once instead of independent sets </a></h3>
@@ -597,7 +633,7 @@ facets into new facets</h3>
 
 <p>With 'Q4', Qhull avoids merges of an old facet into a new
 facet. This sometimes improves facet width and sometimes makes it
-worse. </p>
+worse.  See qh_merge_nonconvex.  It is not supported for qh_merge_twisted.</p>
 
 <h3><a href="#qhull">&#187;</a><a name="Q5">Q5 - do not correct outer
 planes at end of qhull </a></h3>
@@ -691,48 +727,57 @@ as duplicate ridges and concave facets.  For example, if qh_triangulate()
 is added to qh_addpoint(), RBOX 1000 s W1e-12 t1001813667 P0 | QHULL d Q11 Tv,
 reports an error due to a duplicate ridge.
 
-<h3><a href="#qhull">&#187;</a><a name="Q12">Q12 - do not error
-on wide merge due to duplicate ridge and nearly coincident points</a></h3>
+<h3><a href="#qhull">&#187;</a><a name="Q12">Q12 - allow wide facets and wide dupridge</a></h3>
 
-<p>In 3-d and higher Delaunay Triangulations or 4-d and higher convex hulls, multiple,
-nearly coincident points may lead to very wide facets.  An error is reported if a
-merge across a duplicate ridge would increase the facet width by 100x or more.
+<p>Option 'Q12' (qh.ALLOWwide) disables error exits due to wide facets and wide dupridge.  With 'Q12', Qhull may produce arbitrarily
+wide facets.  A facet is 'wide' if there is a wide gap between its outer plane (f.maxoutside above all points) and its
+inner plane (below its vertices).  A wide facet is typically due to multiple topological and geometric problems that
+Qhull cannot resolve.  As Qhull merges facets, they become increasingly wide, making further problems more likely.</p>
 
-<p>Use option 'Q12' to log a warning instead of throwing an error.
+<p>A 'dupridge' is a ridge with more than two neighboring facets.  A dupridge is a loop in the facet topology.  A convex hull should never have dupridges, but with imprecise
+arithmetic, they may occur.  Dupridges may occur in 3-D and higher.  They are more likely for
+nearly adjacent points in 4-D and higher.</p>
 
-<p>For Delaunay triangulations, a bounding box may alleviate this error (e.g., <tt>rbox 500 C1,1E-13 t c G1 | qhull d</tt>).
+<p>Qhull handles dupridges by merging all but one pair of facets (qh_matchdupridge in poly2_r.c)
+or by dropping one of its vertices as a coplanar point (qh_getpinchedmerges in merge_r.c).   If
+vertices are too far apart and a merge would produce an wide facet, qh_check_dupridge reports an error.  The
+corresponding error exit is disabled by 'Q12'.</p>
+
+<p>To demonstrate the problem, use rbox option 'Cn,r,m' to generate nearly adjacent points.
+For Delaunay triangulations, a bounding box may alleviate this error (e.g., <tt>rbox 500 C1,1E-13 c G1 | qhull d</tt>).
 This avoids the ill-defined edge between upper and lower convex hulls.
-The problem will be fixed in a future release of Qhull.
+For more information, see "Nearly adjacent vertices within 1e-13" in <a href="qh-impre.htm#limit">Limitations of merged facets</a>.
+</p>
 
-<p>To demonstrate the problem, use rbox option 'Cn,r,m' to generate nearly coincident points.
-For more information, see "Nearly coincident points on an edge"
-in <a href="qh-impre.htm#limit"</a>Nearly coincident points on an edge</a>.
+<p>Errors disabled by 'Q12' return an error status of qh_ERRwide (8).  Wide facets are defined by constants in user_r.h (qh_WIDE... and qh_RATIO...).
 
-<h3><a href="#qhull">&#187;</a><a name="Q14">Q14 - do not rename vertices
-that create a duplicate ridge</a></h3>
+<h3><a href="#qhull">&#187;</a><a name="Q14">Q14 - merge pinched vertices due to a dupridge</a></h3>
 
-<p>In 3-d and higher, nearly adjacent vertices may lead to duplicate ridges and wide merges (see
-"Nearly coincident points within 1e-13" in <a href="qh-impre.htm">Imprecision in Qhull</a>).
+<p>A <i>ridge</i> in Qhull is the d-1 simplex between two neighboring facets.  For example in 3-d, a ridge is the edge shared by two neighboring polygons.
+With non-simplicial facets, Qhull may create a "dupridge", a ridge with four or more neighboring facets.  In effect, the surface
+of the convex hull forms a loop that crosses itself at the dupridge.  Qhull resolves a dupridge by
+merging a pair of facets.  With experimental option, 'Q14' it may resolve a dupridge by merging a pair of vertices.
 
-<p>Duplicate ridges are removed by renaming one of the nearly adjacent vertices to another vertex.
-Facets containing this vertex may become redundant.  If so, they are merged into an adjacent facet.
-At most FIXUP attempts will be made.  The cost for
-detecting this situation is approximately FIXUP%.   For each point added to the hull, Qhull
-delays attaching the cone of new facets to the horizon facets.
+<p>In 3-d and higher, nearly adjacent vertices may lead to dupridges (see
+"Nearly adjacent vertices within 1e-13" in <a href="qh-impre.htm">Imprecision in Qhull</a>).
+With option 'Q14', Qhull merges nearly adjacent vertices when they create a dupridge.
 
-<p>This feature is turned off with option Q14.   It is also turned off for
-option '<a href="qh-optq.htm#Qg">Qg</a>' (Only build good facets), or if pre-merging is
-turned off (e.g., option '<a href="qh-optq.htm#Q0">Q0</a>', do not pre-merge facets with 'C-0' or 'Qx').
+<h3><a href="#qhull">&#187;</a><a name="Q15">Q15 - check for duplicate ridges with the same vertices</a></h3>
 
-<h3><a href="#qhull">&#187;</a><a name="Q15">Q15 - allow wide maxout</a></h3>
+<p>Option 'Q15' (qh.CHECKduplicates) checks for duplicate ridges after each merge (qh_maybe_duplicateridges,
+qh_checkfacet).
+Duplicate ridges have the same vertices.  It is a topological error for convex hulls.
+Qhull resolves a duplicate ridge by merging vertices and partitioning the deleted vertex as a coplanar
+point (qh_renamevertex).
 
-<p>FIXUP -- document Q15 and Q16 -- add to index and to 'qhull .'</p>
-
+<p>Option 'Q15' does not prevent duplicate ridges for non-neighboring facets, nor does it prevent other topological
+errors such as inconsistent facet orientation.  Resolving a duplicate ridge may itself lead to topological errors
+and wide facets.
 
 <!-- Navigation links -->
 <hr>
 
-<p><b>Up:</b> <a href="http://www.qhull.org">Home page</a> for Qhull<br>
+<p><b>Up:</b> <a href="http://www.qhull.org">Home page</a> for Qhull (<a href="../index.htm">local</a>)<br>
 <b>Up:</b> <a href="index.htm#TOC">Qhull manual</a>: Table of Contents<br>
 <b>To:</b> <a href="qh-quick.htm#programs">Programs</a>
 &#149; <a href="qh-quick.htm#options">Options</a>
@@ -743,7 +788,7 @@ turned off (e.g., option '<a href="qh-optq.htm#Q0">Q0</a>', do not pre-merge fac
 &#149; <a href="qh-optq.htm#qhull">Qhull</a>
 &#149; <a href="qh-optc.htm#prec">Precision</a>
 &#149; <a href="qh-optt.htm#trace">Trace</a>
-&#149; <a href="../src/libqhull_r/index.htm">Functions</a></p>
+&#149; <a href="http://www.qhull.org/src/libqhull_r/index.htm">Functions</a> (<a href="../src/libqhull_r/index.htm">local</a>)</p>
 <!-- GC common information -->
 <hr>
 
@@ -752,7 +797,7 @@ align="middle" width="40" height="40"></a><i>The Geometry Center
 Home Page </i></p>
 
 <p>Comments to: <a href=mailto:qhull@qhull.org>qhull@qhull.org</a>
-</a><br>
+<br>
 Created: Sept. 25, 1995 --- <!-- hhmts start --> Last modified: see top <!-- hhmts end --> </p>
 </body>
 </html>

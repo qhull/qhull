@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (c) 2009-2018 C.B. Barber. All rights reserved.
-** $Id: //main/2015/qhull/src/libqhullcpp/PointCoordinates.h#6 $$Change: 2549 $
-** $DateTime: 2018/12/28 22:24:20 $$Author: bbarber $
+** Copyright (c) 2009-2019 C.B. Barber. All rights reserved.
+** $Id: //main/2019/qhull/src/libqhullcpp/PointCoordinates.h#1 $$Change: 2661 $
+** $DateTime: 2019/05/24 20:09:58 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -60,7 +60,7 @@ public:
 #//!\name Convert
     //! QhullPoints coordinates, constData, data, count, size
 #ifndef QHULL_NO_STL
-    void                append(const std::vector<coordT> &otherCoordinates) { if(!otherCoordinates.empty()){ append((int)otherCoordinates.size(), &otherCoordinates[0]); } }
+    void                append(const std::vector<coordT> &otherCoordinates) { if(!otherCoordinates.empty()){ append(static_cast<int>(otherCoordinates.size()), &otherCoordinates[0]); } }
     std::vector<coordT> toStdVector() const { return point_coordinates.toStdVector(); }
 #endif //QHULL_NO_STL
 #ifdef QHULL_USES_QT
@@ -101,7 +101,7 @@ public:
     PointCoordinates    operator+(const PointCoordinates &other) const;
 
 #//!\name Modify
-    //FIXUP QH11001: Add clear() and other modify operators from Coordinates.h.  Include QhullPoint::operator=()
+    // QH11001 FIXUP: Add clear() and other modify operators from Coordinates.h.  Include QhullPoint::operator=()
     void                append(countT coordinatesCount, const coordT *c);  //! Dimension previously defined
     void                append(const coordT &c) { append(1, &c); } //! Dimension previously defined
     void                append(const QhullPoint &p);
@@ -150,8 +150,8 @@ public:
     bool                findPrevious(const QhullPoint &t) { while(i != c->constBegin()){ if (*(--i) == t) return true;} return false;  }
 };//CoordinatesIterator
 
-// FIXUP QH11002:  Add MutablePointCoordinatesIterator after adding modify operators
-\
+// QH11002 FIXUP: Add MutablePointCoordinatesIterator after adding modify operators
+
 }//namespace orgQhull
 
 #//!\name Global

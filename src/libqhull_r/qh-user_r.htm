@@ -9,7 +9,7 @@ content="text/html; charset=iso-8859-1">
 <body>
 <!-- Navigation links -->
 <p><a name="TOP"><b>Up:</b></a> <a
-href="http://www.qhull.org">Home page</a> for Qhull<br>
+href="http://www.qhull.org">Home page</a> for Qhull (<a href="../index.htm">local</a>)<br>
 <b>Up:</b> <a href="../../html/index.htm#TOC">Qhull manual</a>: Table of Contents <br>
 <b>Up:</b> <a href="../../html/qh-quick.htm#programs">Programs</a>
 &#149; <a href="../../html/qh-quick.htm#options">Options</a>
@@ -20,9 +20,8 @@ href="http://www.qhull.org">Home page</a> for Qhull<br>
 &#149; <a href="../../html/qh-optq.htm#qhull">Qhull</a>
 &#149; <a href="../../html/qh-optc.htm#prec">Precision</a>
 &#149; <a href="../../html/qh-optt.htm#trace">Trace</a>
-&#149; <a href="index.htm">Functions</a><br>
-<b>Up:</b> <a href="../../html/qh-code.htm#TOC">Qhull code: Table of Contents</a><br>
-<b>To:</b> <a href="index.htm">Qhull functions</a>, macros, and data structures<br>
+&#149; <a href="http://www.qhull.org/src/libqhull_r/index.htm">Functions</a> (<a href="index.htm">local</a>)<br>
+<b>Up:</b> <a href="../../html/qh-code.htm">Qhull code</a><br>
 <b>To:</b> <a href="qh-geom_r.htm">Geom</a> &#149; <a href="qh-globa_r.htm">Global</a>
 &#149; <a href="qh-io_r.htm">Io</a> &#149; <a href="qh-mem_r.htm">Mem</a>
 &#149; <a href="qh-merge_r.htm">Merge</a> &#149; <a href="qh-poly_r.htm">Poly</a>
@@ -36,7 +35,7 @@ href="http://www.qhull.org">Home page</a> for Qhull<br>
 user may want to change. </p>
 
 </blockquote>
-<p><b>Copyright &copy; 1995-2018 C.B. Barber</b></p>
+<p><b>Copyright &copy; 1995-2019 C.B. Barber</b></p>
 <hr>
 <p><a href="#TOP">&#187;</a> <a href="qh-geom_r.htm#TOC">Geom</a>
 <a name="TOC">&#149;</a> <a href="qh-globa_r.htm#TOC">Global</a>
@@ -91,8 +90,6 @@ define default box size for rbox, 'Qbb', and 'QbB' (Geomview expects 0.5) </li>
 output, indicates Voronoi center at infinity </li>
 <li><a href="user_r.h#ORIENTclock">qh_ORIENTclock</a>
 define convention for orienting facets</li>
-<li><a href="user_r.h#ZEROdelaunay">qh_ZEROdelaunay</a>
-define facets that are ignored in Delaunay triangulations</li>
 </ul>
 
 <h3><a href="qh-user_r.htm#TOC">&#187;</a><a name="ujoggle">joggle constants</a></h3>
@@ -167,10 +164,9 @@ use abbreviated help messages, e.g., for degenerate inputs
 constants</a></h3>
 <ul>
 <li><a href="user_r.h#BESTcentrum">qh_BESTcentrum</a>
-when does qh_findbestneighbor() test centrums? </li>
+if many vertices for facet, qh_findbestneighbor tests centrums instead of vertices </li>
 <li><a href="user_r.h#BESTnonconvex">qh_BESTnonconvex</a>
-when does qh_findbestneighbor() test nonconvex
-ridges only? </li>
+if many neighbors for facet, qh_findbestneighbor only tests nonconvex ridges </li>
 <li><a href="user_r.h#COPLANARratio">qh_COPLANARratio</a>
 what is qh.MINvisible? </li>
 <li><a href="user_r.h#DIMreduceBuild">qh_DIMreduceBuild</a>
@@ -178,9 +174,14 @@ max dimension for vertex reduction </li>
 <li><a href="user_r.h#DIMmergeVertex">qh_DIMmergeVertex</a>
 max dimension for vertex merging </li>
 <li><a href="user_r.h#DISToutside">qh_DISToutside</a>
-when is a point clearly outside of a facet for qh_findbestnew and qh_partitionall</li>
+when is a point clearly outside of a facet for qh_findbestnew and qh_partitionall </li>
 <li><a href="user_r.h#MAXnarrow">qh_MAXnarrow</a> max.
 cosine for qh.NARROWhull </li>
+<li><a href="user_r.h#MAXcoplanarcentrum">qh_MAXcoplanarcentrum</a>
+if 'Qx' and many merges, use f.maxoutside for coplanarity test
+instead of qh.centrum_radius </li>
+<li><a href="user_r.h#MAXnarrow">qh_MAXnarrow</a>
+max. cosine in initial hull that sets qh.NARROWhull </li>
 <li><a href="user_r.h#MAXnewcentrum">qh_MAXnewcentrum</a>
 when does qh_reducevertices_centrum() reset the
 centrum? </li>
@@ -208,17 +209,21 @@ when is facet coplanar with the best facet for qh_findbesthorizon</li>
 <li><a href="user_r.h#USEfindbestnew">qh_USEfindbestnew</a>
 when to use qh_findbestnew for qh_partitionpoint()</li>
 <li><a href="user_r.h#WARNnarrow">qh_WARNnarrow</a>
-max. cosine to warn about qh.NARROWhull </li>
+max. cosine in initial hull to warn about qh.NARROWhull </li>
 <li><a href="user_r.h#WIDEcoplanar">qh_WIDEcoplanar</a>
 what is a wide facet </li>
 <li><a href="user_r.h#WIDEduplicate">qh_WIDEduplicate</a>
-what is a wide ratio on merging duplicate ridges </li>
+merge ratio for errexit from qh_forcedmerges due to duplicate ridge </li>
+<li><a href="user_r.h#WIDEduplicate">qh_WIDEridge</a>
+merge ratio for selecting a forced dupridge merge </li>
 <li><a href="user_r.h#WIDEmaxoutside">qh_WIDEmaxoutside</a>
 precision ratio for maximum increase for qh.max_outside in qh_check_maxout </li>
 <li><a href="user_r.h#WIDEmaxoutside2">qh_WIDEmaxoutside2</a>
 precision ratio for maximum qh.max_outside in qh_check_maxout </li>
 <li><a href="user_r.h#WIDEpinched">qh_WIDEpinched</a>
 merge ratio for distance between pinched vertices compared to current facet width for qh_getpinchedmerges and qh_next_vertexmerge </li>
+<li><a href="user_r.h#ZEROdelaunay">qh_ZEROdelaunay</a>
+define facets that are ignored in Delaunay triangulations </li>
 </ul>
 
 <h3><a href="qh-user_r.htm#TOC">&#187;</a><a name="ufunc">user_r.c
@@ -233,13 +238,27 @@ information about facets and ridges </li>
 of points</li>
 <li><a href="user_r.c#printfacetlist">qh_printfacetlist</a>
 print all fields of all facets </li>
+<li><a href="user_r.c#printhelp_degenerate">qh_printhelp_degenerate</a>
+prints descriptive message for precision error </li>
+<li><a href="user_r.c#printhelp_internal">qh_printhelp_internal</a>
+print help message for an internal error </li>
+<li><a href="user_r.c#printhelp_narrowhull">qh_printhelp_narrowhull</a>
+prints descriptive message to warn about a narrow hull </li>
+<li><a href="user_r.c#printhelp_singular">qh_printhelp_singular</a>
+print help message for singular data </li>
+<li><a href="user_r.c#printhelp_topology">qh_printhelp_topology</a>
+print help message for a topology error due to merging </li>
+<li><a href="user_r.c#printhelp_wide">qh_printhelp_wide</a>
+print help message for a wide merge error </li>
+<li><a href="user_r.c#user_memsizes">qh_user_memsizes</a>
+define additional quick allocation sizes
 </ul>
 
 <h3><a href="qh-user_r.htm#TOC">&#187;</a><a name="u2func">usermem_r.c
 functions</a></h3>
 <ul>
 <li><a href="usermem_r.c#qh_exit">qh_exit</a> exit program, same as exit().  May be redefined as throw "QH10003.." by libqhullcpp/usermem_r-cpp.cpp</li>
-<li><a href="usermem_r.c#qh_fprintf_stderr">qh_fprintf_stderr</a> print to stderr when qh->ferr is not defined.</li>
+<li><a href="usermem_r.c#qh_fprintf_stderr">qh_fprintf_stderr</a> print to stderr when qh.ferr is not defined.</li>
 <li><a href="usermem_r.c#qh_free">qh_free</a> free memory, same as free().</li>
 <li><a href="usermem_r.c#qh_malloc">qh_malloc</a> allocate memory, same as malloc()</li>
 </ul>
@@ -256,8 +275,8 @@ information from Rbox, sames as fprintf(). </li>
 <p><!-- Navigation links --> </p>
 <hr>
 <p><b>Up:</b>
-<a href="http://www.qhull.org">Home page for
-Qhull</a> <br>
+<a href="http://www.qhull.org">Home page</a> for
+Qhull (<a href="../index.htm">local</a>)<br>
 <b>Up:</b> <a href="../../html/index.htm#TOC">Qhull manual: Table of Contents</a> <br>
 <b>Up:</b> <a href="../../html/qh-quick.htm#programs">Programs</a>
 &#149; <a href="../../html/qh-quick.htm#options">Options</a>
@@ -268,9 +287,8 @@ Qhull</a> <br>
 &#149; <a href="../../html/qh-optq.htm#qhull">Qhull</a>
 &#149; <a href="../../html/qh-optc.htm#prec">Precision</a>
 &#149; <a href="../../html/qh-optt.htm#trace">Trace</a>
-&#149; <a href="index.htm">Functions</a><br>
-<b>Up:</b> <a href="../../html/qh-code.htm#TOC">Qhull code: Table of Contents</a> <br>
-<b>To:</b> <a href="index.htm">Qhull functions</a>, macros, and data structures<br>
+&#149; <a href="http://www.qhull.org/src/libqhull_r/index.htm">Functions</a> (<a href="index.htm">local</a>)<br>
+<b>Up:</b> <a href="../../html/qh-code.htm">Qhull code</a> <br>
 <b>To:</b> <a href="qh-geom_r.htm">Geom</a> &#149;
 <a href="qh-globa_r.htm">Global</a> &#149; <a href="qh-io_r.htm">Io</a>
 &#149; <a href="qh-mem_r.htm">Mem</a> &#149; <a href="qh-merge_r.htm">Merge</a>
@@ -284,7 +302,7 @@ Qhull</a> <br>
 src="../../html/qh--geom.gif" align="middle" width="40" height="40"></a><i>The
 Geometry Center Home Page </i></p>
 <p>Comments to: <a href=mailto:qhull@qhull.org>qhull@qhull.org</a>
-</a><br>
+<br>
 Created: May 2, 1997 --- <!-- hhmts start --> Last modified: see top <!-- hhmts end --> </p>
 </body>
 </html>

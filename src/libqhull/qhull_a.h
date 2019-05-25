@@ -3,7 +3,6 @@
 
    qhull_a.h
    all header files for compiling qhull with non-reentrant code
-   included before C++ headers for user_r.h:QHULL_CRTDBG
 
    see qh-qhull.htm
 
@@ -13,9 +12,9 @@
 
    defines internal functions for libqhull.c global.c
 
-   Copyright (c) 1993-2018 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull/qhull_a.h#7 $$Change: 2549 $
-   $DateTime: 2018/12/28 22:24:20 $$Author: bbarber $
+   Copyright (c) 1993-2019 The Geometry Center.
+   $Id: //main/2019/qhull/src/libqhull/qhull_a.h#1 $$Change: 2661 $
+   $DateTime: 2019/05/24 20:09:58 $$Author: bbarber $
 
    Notes:  grep for ((" and (" to catch fprintf("lkasdjf");
            full parens around (x?y:z)
@@ -25,7 +24,7 @@
 #ifndef qhDEFqhulla
 #define qhDEFqhulla 1
 
-#include "libqhull.h"  /* Includes user_r.h and data types */
+#include "libqhull.h"  /* Includes user.h and data types */
 
 #include "stat.h"
 #include "random.h"
@@ -113,14 +112,17 @@ inline void qhullUnused(T &x) { (void)x; }
 
 void    qh_qhull(void);
 boolT   qh_addpoint(pointT *furthest, facetT *facet, boolT checkdist);
+void    qh_build_withrestart(void);
+vertexT *qh_buildcone(pointT *furthest, facetT *facet, int goodhorizon, facetT **retryfacet);
+boolT   qh_buildcone_mergepinched(vertexT *apex, facetT *facet, facetT **retryfacet);
+boolT   qh_buildcone_onlygood(vertexT *apex, int goodhorizon);
 void    qh_buildhull(void);
 void    qh_buildtracing(pointT *furthest, facetT *facet);
-void    qh_build_withrestart(void);
 void    qh_errexit2(int exitcode, facetT *facet, facetT *otherfacet);
 void    qh_findhorizon(pointT *point, facetT *facet, int *goodvisible,int *goodhorizon);
 pointT *qh_nextfurthest(facetT **visible);
 void    qh_partitionall(setT *vertices, pointT *points,int npoints);
-void    qh_partitioncoplanar(pointT *point, facetT *facet, realT *dist);
+void    qh_partitioncoplanar(pointT *point, facetT *facet, realT *dist, boolT allnew);
 void    qh_partitionpoint(pointT *point, facetT *facet);
 void    qh_partitionvisible(boolT allpoints, int *numpoints);
 void    qh_joggle_restart(const char *reason);

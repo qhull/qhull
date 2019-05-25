@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (c) 2008-2018 C.B. Barber. All rights reserved.
-** $Id: //main/2015/qhull/src/libqhullcpp/QhullQh.cpp#7 $$Change: 2549 $
-** $DateTime: 2018/12/28 22:24:20 $$Author: bbarber $
+** Copyright (c) 2008-2019 C.B. Barber. All rights reserved.
+** $Id: //main/2019/qhull/src/libqhullcpp/QhullQh.cpp#1 $$Change: 2661 $
+** $DateTime: 2019/05/24 20:09:58 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -111,7 +111,7 @@ bool QhullQh::
 hasQhullMessage() const
 {
     return (!qhull_message.empty() || qhull_status!=qh_ERRnone);
-    //FIXUP QH11006 -- inconsistent usage with Rbox.  hasRboxMessage just tests rbox_status.  No appendRboxMessage()
+    // QH11006 FIXUP: inconsistent usage with Rbox.  hasRboxMessage just tests rbox_status.  No appendRboxMessage()
 }
 
 void QhullQh::
@@ -134,7 +134,7 @@ maybeThrowQhullMessage(int exitCode)
     if(qhull_status!=qh_ERRnone){
         QhullError e(qhull_status, qhull_message);
         clearQhullMessage();
-        throw e; // FIXUP QH11007: copy constructor is expensive if logging
+        throw e; // QH11007 FIXUP: copy constructor is expensive if logging
     }
 }//maybeThrowQhullMessage
 
@@ -229,7 +229,7 @@ void qh_fprintf(qhT *qh, FILE *fp, int msgcode, const char *fmt, ... ) {
         va_end(args);
         return;
     }
-    // FIXUP QH11008: how do users trap messages and handle input?  A callback?
+    // QH11008 FIXUP: how do users trap messages and handle input?  A callback?
     char newMessage[MSG_MAXLEN];
     vsnprintf(newMessage, sizeof(newMessage), fmt, args);
     qhullQh->appendQhullMessage(newMessage);

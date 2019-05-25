@@ -2,7 +2,7 @@
   >-------------------------------</a><a name="TOP">-</a>
 
    userprintf_rbox_r.c
-   qh_fprintf_rbox()
+   user redefinable function -- qh_fprintf_rbox
 
    see README.txt  see COPYING.txt for copyright information.
 

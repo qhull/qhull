@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (c) 2009-2018 C.B. Barber. All rights reserved.
-** $Id: //main/2015/qhull/src/libqhullcpp/QhullHyperplane.cpp#5 $$Change: 2549 $
-** $DateTime: 2018/12/28 22:24:20 $$Author: bbarber $
+** Copyright (c) 2009-2019 C.B. Barber. All rights reserved.
+** $Id: //main/2019/qhull/src/libqhullcpp/QhullHyperplane.cpp#1 $$Change: 2661 $
+** $DateTime: 2019/05/24 20:09:58 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -175,9 +175,9 @@ operator<<(ostream &os, const QhullHyperplane::PrintHyperplane &pr)
     for(int k=p.dimension(); k--; ){
         realT r= *c++;
         if(pr.print_message){
-            os << " " << r; // FIXUP QH11010 %8.4g
+            os << " " << r; // QH11010 FIXUP: %8.4g
         }else{
-            os << " " << r; // FIXUP QH11010 qh_REAL_1
+            os << " " << r; // QH11010 FIXUP: qh_REAL_1
         }
     }
     os << pr.hyperplane_offset_message << " " << p.offset();

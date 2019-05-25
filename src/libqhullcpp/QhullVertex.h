@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (c) 2008-2018 C.B. Barber. All rights reserved.
-** $Id: //main/2015/qhull/src/libqhullcpp/QhullVertex.h#6 $$Change: 2549 $
-** $DateTime: 2018/12/28 22:24:20 $$Author: bbarber $
+** Copyright (c) 2008-2019 C.B. Barber. All rights reserved.
+** $Id: //main/2019/qhull/src/libqhullcpp/QhullVertex.h#1 $$Change: 2661 $
+** $DateTime: 2019/05/24 20:09:58 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -70,6 +70,8 @@ public:
     int                 dimension() const { return (qh_qh ? qh_qh->hull_dim : 0); }
     vertexT *           getBaseT() const { return getVertexT(); } //!< For QhullSet<QhullVertex>
     vertexT *           getVertexT() const { return qh_vertex; }
+    bool                hasNext() const { return (qh_vertex->next != NULL && qh_vertex->next != qh_qh->vertex_tail); }
+    bool                hasPrevious() const { return (qh_vertex->previous != NULL); }
     countT              id() const { return qh_vertex->id; }
     bool                isValid() const { return (qh_qh && qh_vertex != &s_empty_vertex); }
                         //! True if defineVertexNeighborFacets() already called.  Auotomatically set for facet merging, Voronoi diagrams

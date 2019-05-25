@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (c) 2008-2018 C.B. Barber. All rights reserved.
-** $Id: //main/2015/qhull/src/qhulltest/QhullFacet_test.cpp#6 $$Change: 2549 $
-** $DateTime: 2018/12/28 22:24:20 $$Author: bbarber $
+** Copyright (c) 2008-2019 C.B. Barber. All rights reserved.
+** $Id: //main/2019/qhull/src/qhulltest/QhullFacet_test.cpp#1 $$Change: 2661 $
+** $DateTime: 2019/05/24 20:09:58 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -109,11 +109,29 @@ t_getSet()
             if(i.hasNext()){
                 QCOMPARE(f.next(), i.peekNext());
                 QVERIFY(f.next()!=f);
-            }
+                QCOMPARE(f.next().previous(), f);
+                QVERIFY(f.hasNext());
+                QVERIFY(f.next().hasPrevious());
+            }else
+              QVERIFY(!f.hasNext());
             QVERIFY(i.hasPrevious());
             QCOMPARE(f, i.peekPrevious());
         }
-
+        while(i.hasPrevious()){
+          const QhullFacet f= i.previous();
+          cout << f.id() << endl;
+          QVERIFY(f.isValid());
+          if(i.hasPrevious()){
+            QVERIFY(f.hasPrevious());
+            QCOMPARE(f.previous(), i.peekPrevious());
+            QVERIFY(f.previous()!=f);
+            QVERIFY(f.previous().hasNext());
+            QCOMPARE(f.previous().next(), f);
+          }else
+            QVERIFY(!f.hasPrevious());
+          QVERIFY(i.hasNext());
+          QCOMPARE(f, i.peekNext());
+        }
         // test tricoplanarOwner
         QhullFacet facet = q.beginFacet();
         QhullFacet tricoplanarOwner = facet.tricoplanarOwner();
@@ -265,6 +283,7 @@ t_io()
         os2 << f;
         QString facetString2= QString::fromStdString(os2.str());
         facetString2.replace(QRegExp("\\s\\s+"), " ");
+        facetString2.replace(QRegExp("seen "), "");
         ostringstream os3;
         q.qh()->setOutputStream(&os3);
         q.outputQhull("f");

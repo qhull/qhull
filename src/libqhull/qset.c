@@ -11,12 +11,12 @@
    either the actual size of the set plus 1, or the NULL terminator
    of the set (i.e., setelemT).
 
-   Copyright (c) 1993-2018 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull/qset.c#5 $$Change: 2549 $
-   $DateTime: 2018/12/28 22:24:20 $$Author: bbarber $
+   Copyright (c) 1993-2019 The Geometry Center.
+   $Id: //main/2019/qhull/src/libqhull/qset.c#1 $$Change: 2661 $
+   $DateTime: 2019/05/24 20:09:58 $$Author: bbarber $
 */
 
-#include "user.h" /* for QHULL_CRTDBG */
+#include "libqhull.h" /* for qhT and QHULL_CRTDBG */
 #include "qset.h"
 #include "mem.h"
 #include <stdio.h>
@@ -44,7 +44,7 @@ void    qh_fprintf(FILE *fp, int msgcode, const char *fmt, ... );
 /*-<a                             href="qh-set.htm#TOC"
   >--------------------------------<a name="setaddnth">-</a>
 
-  qh_setaddnth( setp, nth, newelem)
+  qh_setaddnth( setp, nth, newelem )
     adds newelem as n'th element of sorted or unsorted *setp
 
   notes:
@@ -116,7 +116,7 @@ void qh_setaddsorted(setT **setp, void *newelem) {
 /*-<a                             href="qh-set.htm#TOC"
   >-------------------------------<a name="setappend">-</a>
 
-  qh_setappend( setp, newelem)
+  qh_setappend( setp, newelem )
     append newelem to *setp
 
   notes:
@@ -148,7 +148,7 @@ void qh_setappend(setT **setp, void *newelem) {
 /*-<a                             href="qh-set.htm#TOC"
   >-------------------------------<a name="setappend_set">-</a>
 
-  qh_setappend_set( setp, setA)
+  qh_setappend_set( setp, setA )
     appends setA to *setp
 
   notes:
@@ -283,7 +283,7 @@ void qh_setcompact(setT *set) {
   destp= elemp= firstp= SETaddr_(set, void);
   endp= destp + size;
   while (1) {
-    if (!(*destp++ = *elemp++)) {
+    if (!(*destp++= *elemp++)) {
       destp--;
       if (elemp > endp)
         break;
@@ -324,7 +324,7 @@ setT *qh_setcopy(setT *set, int extra) {
 /*-<a                             href="qh-set.htm#TOC"
   >-------------------------------<a name="setdel">-</a>
 
-  qh_setdel( set, oldelem )
+  qh_setdel(set, oldelem )
     delete oldelem from an unsorted set
 
   returns:
@@ -367,7 +367,7 @@ void *qh_setdel(setT *set, void *oldelem) {
 /*-<a                             href="qh-set.htm#TOC"
   >-------------------------------<a name="setdellast">-</a>
 
-  qh_setdellast( set)
+  qh_setdellast( set )
     return last element of set or NULL
 
   notes:
@@ -806,7 +806,7 @@ int qh_setin(setT *set, void *setelem) {
 /*-<a                             href="qh-set.htm#TOC"
   >-------------------------------<a name="setindex">-</a>
 
-  qh_setindex( set, atelem )
+  qh_setindex(set, atelem )
     returns the index of atelem in set.
     returns -1, if not in set or maxsize wrong
 
@@ -938,7 +938,7 @@ setT *qh_setnew(int setsize) {
       setsize += (sizereceived - size)/SETelemsize;
 #endif
   }else
-    set= (setT*)qh_memalloc(size);
+    set= (setT *)qh_memalloc(size);
   set->maxsize= setsize;
   set->e[setsize].i= 1;
   set->e[0].p= NULL;
@@ -1104,6 +1104,7 @@ void qh_setreplace(setT *set, void *oldelem, void *newelem) {
     errors if set's maxsize is incorrect
     same as SETreturnsize_(set)
     same code for qh_setsize [qset.c] and QhullSetBase::count
+    if first element is NULL, SETempty_() is True but qh_setsize may be greater than 0
 
   design:
     determine actual size of set from maxsize
@@ -1132,7 +1133,7 @@ int qh_setsize(setT *set) {
   >-------------------------------<a name="settemp">-</a>
 
   qh_settemp( setsize )
-    return a stacked, temporary set of upto setsize elements
+    return a stacked, temporary set of up to setsize elements
 
   notes:
     use settempfree or settempfree_all to release from qhmem.tempstack
@@ -1190,7 +1191,7 @@ void qh_settempfree(setT **set) {
 /*-<a                             href="qh-set.htm#TOC"
   >-------------------------------<a name="settempfree_all">-</a>
 
-  qh_settempfree_all(  )
+  qh_settempfree_all( )
     free all temporary sets in qhmem.tempstack
 
   design:
@@ -1209,7 +1210,7 @@ void qh_settempfree_all(void) {
 /*-<a                             href="qh-set.htm#TOC"
   >-------------------------------<a name="settemppop">-</a>
 
-  qh_settemppop(  )
+  qh_settemppop( )
     pop and return temporary set from qhmem.tempstack
 
   notes:
@@ -1221,7 +1222,7 @@ void qh_settempfree_all(void) {
 setT *qh_settemppop(void) {
   setT *stackedset;
 
-  stackedset= (setT*)qh_setdellast(qhmem.tempstack);
+  stackedset= (setT *)qh_setdellast(qhmem.tempstack);
   if (!stackedset) {
     qh_fprintf(qhmem.ferr, 6180, "qhull internal error (qh_settemppop): pop from empty temporary stack\n");
     qh_errexit(qhmem_ERRqhull, NULL, NULL);

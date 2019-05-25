@@ -9,7 +9,7 @@ content="text/html; charset=iso-8859-1">
 <body>
 <!-- Navigation links -->
 <p><a name="TOP"><b>Up:</b></a> <a
-href="http://www.qhull.org">Home page</a> for Qhull<br>
+href="http://www.qhull.org">Home page</a> for Qhull (<a href="../index.htm">local</a>)<br>
 <b>Up:</b> <a href="../../html/index.htm#TOC">Qhull manual</a>: Table of Contents <br>
 <b>Up:</b> <a href="../../html/qh-quick.htm#programs">Programs</a>
 &#149; <a href="../../html/qh-quick.htm#options">Options</a>
@@ -20,9 +20,8 @@ href="http://www.qhull.org">Home page</a> for Qhull<br>
 &#149; <a href="../../html/qh-optq.htm#qhull">Qhull</a>
 &#149; <a href="../../html/qh-optc.htm#prec">Precision</a>
 &#149; <a href="../../html/qh-optt.htm#trace">Trace</a>
-&#149; <a href="index.htm">Functions</a><br>
-<b>Up:</b> <a href="../../html/qh-code.htm#TOC">Qhull code: Table of Contents</a><br>
-<b>To:</b> <a href="index.htm">Qhull functions</a>, macros, and data structures<br>
+&#149; <a href="http://www.qhull.org/src/libqhull/index.htm">Functions</a> (<a href="index.htm">local</a>)<br>
+<b>Up:</b> <a href="../../html/qh-code.htm">Qhull code</a><br>
 <b>To:</b> <a href="qh-geom.htm">Geom</a> &#149; <a href="qh-globa.htm">Global</a>
 &#149; <a href="qh-io.htm">Io</a> &#149; <a href="qh-mem.htm">Mem</a>
 &#149; <a href="qh-merge.htm">Merge</a> &#149; <a href="qh-poly.htm#TOC">Poly</a>
@@ -120,7 +119,7 @@ joggled input, they
 may have zero area or flipped orientation.
 
 </blockquote>
-<p><b>Copyright &copy; 1995-2018 C.B. Barber</b></p>
+<p><b>Copyright &copy; 1995-2019 C.B. Barber</b></p>
 <hr>
 <p><a href="#TOP">&#187;</a> <a href="qh-geom.htm#TOC">Geom</a>
 <a name="TOC">&#149;</a> <a href="qh-globa.htm#TOC">Global</a>
@@ -290,6 +289,8 @@ qh.visible_list </li>
 <h3><a href="qh-poly.htm#TOC">&#187;</a><a name="pfacet">Facet
 functions</a></h3>
 <ul>
+<li><a href="poly2.c#addfacetvertex">qh_addfacetvertex<a>
+add newvertex to facet.vertices if not already there</li>
 <li><a href="poly2.c#createsimplex">qh_createsimplex</a>
 create a simplex of facets from a set of vertices
 </li>
@@ -298,6 +299,8 @@ non-upper, non-flipped facet for point at upperfacet</li>
 <li><a href="poly2.c#furthestout">qh_furthestout</a>
 make furthest outside point the last point of a
 facet's outside set </li>
+<li><a href="poly.c#getreplacement">qh_getreplacement</a>
+get replacement facet for a visible facet
 <li><a href="poly.c#makenew_nonsimplicial">qh_makenew_nonsimplicial</a>
 make new facets from ridges of visible facets </li>
 <li><a href="poly.c#makenew_simplicial">qh_makenew_simplicial</a>
@@ -309,8 +312,12 @@ make new facets from vertex, horizon facets, and
 visible facets </li>
 <li><a href="poly.c#makenewplanes">qh_makenewplanes</a>
 make new hyperplanes for facets </li>
+<li><a href="poly2.c#opposite_vertex">qh_opposite_vertex</a>
+return the opposite vertex in facetA to neighbor </li>
 <li><a href="poly2.c#outcoplanar">qh_outcoplanar</a>
 move points from outside set to coplanar set </li>
+<li><a href="poly2.c#replacefacetvertex">qh_replacefacetvertex<a>
+replace oldvertex with newvertex in facet.vertices</li>
 <li><a href="poly2.c#setvoronoi_all">qh_setvoronoi_all</a>
 compute Voronoi centers for all facets </li>
 <li><a href="poly2.c#triangulate">qh_triangulate</a>
@@ -343,6 +350,8 @@ return non-singular set of initial vertices </li>
 if point is in a vertex set </li>
 <li><a href="poly2.c#nearvertex">qh_nearvertex</a>
 return nearest vertex to point </li>
+<li><a href="merge.c#neighbor_vertices">qh_neighbor_vertices</a>
+return neighboring vertices for a vertex </li>
 <li><a href="poly2.c#nextridge3d">qh_nextridge3d</a>
 iterate over each ridge and vertex for a 3-d
 facet </li>
@@ -358,8 +367,11 @@ return temporary set of vertices indexed by point
 ID </li>
 <li><a href="poly.c#removevertex">qh_removevertex</a>
 unlink vertex from qh.vertex_list, </li>
-<li><a href="poly.c#updatevertices">qh_updatevertices</a>
+<li><a href="poly.c#update_vertexneighbors">qh_update_vertexneighbors</a>
 update vertex neighbors and delete interior
+vertices </li>
+<li><a href="poly.c#update_vertexneighbors_cone">qh_update_vertexneighbors_cone</a>
+update vertex neighbors for a cone of new facets and delete interior
 vertices </li>
 <li><a href="poly2.c#vertexintersect">qh_vertexintersect</a>
 intersect two vertex sets </li>
@@ -378,11 +390,12 @@ vertexsetB </li>
 element to linear hash table</li>
 <li><a href="poly.c#gethash">qh_gethash</a> return
 hash value for a set</li>
-<li><a href="poly2.c#matchduplicates">qh_matchduplicates</a>
-match duplicate ridges in hash table </li>
+<li><a href="poly2.c#matchdupridge">qh_matchdupridge</a>
+match duplicate ridges in hash table with a coplanar facet or pinched vertex</li>
+<li><a href="poly2.c#matchdupridge_coplanarhorizon">qh_matchdupridge_coplanarhorizon</a>
+match duplicate ridges in hash table with a coplanar horizon</li>
 <li><a href="poly.c#matchneighbor">qh_matchneighbor</a>
-try to match subridge of new facet with a
-neighbor </li>
+try to match subridge of new facet with a neighbor </li>
 <li><a href="poly.c#matchnewfacets">qh_matchnewfacets</a>
 match new facets with their new facet neighbors </li>
 <li><a href="poly.c#matchvertices">qh_matchvertices</a>
@@ -392,6 +405,8 @@ ridge </li>
 allocate a new qh.hash_table </li>
 <li><a href="poly2.c#printhashtable">qh_printhashtable</a>
 print hash table </li>
+<li><a href="poly2.c#printlists">qh_printlists</a>
+print out facet lists for debugging </li>
 </ul>
 <h3><a href="qh-poly.htm#TOC">&#187;</a><a name="pnew">Allocation and
 deallocation functions</a></h3>
@@ -402,8 +417,8 @@ clear old data from facet-&gt;center </li>
 delete visible facets and vertices </li>
 <li><a href="poly.c#delfacet">qh_delfacet</a> free up
 the memory occupied by a facet </li>
-<li><a href="poly2.c#delridge">qh_delridge</a> delete
-ridge</li>
+<li><a href="poly2.c#delridge">qh_delridge</a> free up
+the memory occupied by a ridge </li>
 <li><a href="poly2.c#delvertex">qh_delvertex</a>
 delete vertex </li>
 <li><a href="poly.c#newfacet">qh_newfacet</a> create
@@ -418,8 +433,6 @@ functions</a></h3>
 <ul>
 <li><a href="poly2.c#check_bestdist">qh_check_bestdist</a>
 check that points are not outside of facets </li>
-<li><a href="poly2.c#check_dupridge">qh_check_dupridge</a>
-check duplicate ridge between facet1 and facet2 for wide merge </li>
 <li><a href="poly2.c#check_maxout">qh_check_maxout</a>
 updates qh.max_outside and checks all points
 against bestfacet </li>
@@ -437,22 +450,22 @@ check for consistency errors in facet </li>
 check facet orientation to the interior point </li>
 <li><a href="poly2.c#checkflipped_all">qh_checkflipped_all</a>
 check facet orientation for a facet list </li>
+<li><a href="poly2.c#checklists">qh_checklists</a>
+Check and repair facetlist and its vertexlist for infinite loops or overwritten facets/vertices </li>
 <li><a href="poly2.c#checkpolygon">qh_checkpolygon</a>
 check topological structure </li>
 <li><a href="poly2.c#checkvertex">qh_checkvertex</a>
 check vertex for consistency </li>
 <li><a href="poly2.c#infiniteloop">qh_infiniteloop</a>
 report error for a loop of facets </li>
-<li><a href="poly2.c#printlists">qh_printlists</a>
-print out facet list for debugging </li>
 </ul>
 
 
 <p><!-- Navigation links --> </p>
 <hr>
 <p><b>Up:</b>
-<a href="http://www.qhull.org">Home page for
-Qhull</a> <br>
+<a href="http://www.qhull.org">Home page</a> for
+Qhull (<a href="../index.htm">local</a>)<br>
 <b>Up:</b> <a href="../../html/index.htm#TOC">Qhull manual: Table of Contents</a> <br>
 <b>Up:</b> <a href="../../html/qh-quick.htm#programs">Programs</a>
 &#149; <a href="../../html/qh-quick.htm#options">Options</a>
@@ -463,9 +476,8 @@ Qhull</a> <br>
 &#149; <a href="../../html/qh-optq.htm#qhull">Qhull</a>
 &#149; <a href="../../html/qh-optc.htm#prec">Precision</a>
 &#149; <a href="../../html/qh-optt.htm#trace">Trace</a>
-&#149; <a href="index.htm">Functions</a><br>
-<b>Up:</b> <a href="../../html/qh-code.htm#TOC">Qhull code: Table of Contents</a> <br>
-<b>To:</b> <a href="index.htm">Qhull functions</a>, macros, and data structures<br>
+&#149; <a href="http://www.qhull.org/src/libqhull/index.htm">Functions</a> (<a href="index.htm">local</a>)<br>
+<b>Up:</b> <a href="../../html/qh-code.htm">Qhull code</a> <br>
 <b>To:</b> <a href="qh-geom.htm">Geom</a> &#149;
 <a href="qh-globa.htm">Global</a> &#149; <a href="qh-io.htm">Io</a>
 &#149; <a href="qh-mem.htm">Mem</a> &#149; <a href="qh-merge.htm">Merge</a>
@@ -479,7 +491,7 @@ Qhull</a> <br>
 src="../../html/qh--geom.gif" align="middle" width="40" height="40"></a><i>The
 Geometry Center Home Page </i></p>
 <p>Comments to: <a href=mailto:qhull@qhull.org>qhull@qhull.org</a>
-</a><br>
+<br>
 Created: May 2, 1997 --- <!-- hhmts start --> Last modified: see top <!-- hhmts end --> </p>
 </body>
 </html>

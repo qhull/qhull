@@ -15,8 +15,9 @@ NOTE -- verify all links by 'grep href=' 'grep name=' add # 'sort /+7'
 <body>
 
 <p><a name="TOP"><b>Up:</b></a> <a
- href="http://www.qhull.org">Home page</a> for Qhull
-(http://www.qhull.org)<br>
+ href="http://www.qhull.org">Home page</a> for Qhull (<a href="../index.htm">local</a>)<br>
+<b>Up:</b> <a href="http://github.com/qhull/qhull/wiki">Qhull Wiki</a> and
+<a href="http://www.qhull.org/html/qh-faq.htm">FAQ</a> (<a href="qh-faq.htm">local</a>) <br>
 <b>Up:</b> <a href="index.htm#TOC">Qhull manual</a>: Table of Contents<br>
 <b>To:</b> <a href="qh-quick.htm#programs">Programs</a>
 &#149; <a href="qh-quick.htm#options">Options</a>
@@ -27,7 +28,7 @@ NOTE -- verify all links by 'grep href=' 'grep name=' add # 'sort /+7'
 &#149; <a href="qh-optq.htm#qhull">Qhull</a>
 &#149; <a href="qh-optc.htm#prec">Precision</a>
 &#149; <a href="qh-optt.htm#trace">Trace</a>
-&#149; <a href="../src/libqhull_r/index.htm">Functions</a><br>
+&#149; <a href="http://www.qhull.org/src/libqhull_r/index.htm">Functions</a> (<a href="../src/libqhull_r/index.htm">local</a>)<br>
 <b>To:</b> <a href="#TOC">FAQ: Table of Contents</a> (please
 wait while loading) <br>
 
@@ -36,13 +37,13 @@ wait while loading) <br>
 <h1><a
  href="http://www.geom.uiuc.edu/graphics/pix/Special_Topics/Computational_Geometry/4dcube.html"><IMG
  align=middle alt ="[4-d cube]"
- height=100 src="qh--4d.gif" width=100 ></a> Frequently Asked Questions about Qhull</h1><!--
-<p><i>This is the most recent FAQ. It was updated Sept. 13, 1999.</i>
--->
+ height=100 src="qh--4d.gif" width=100 ></a> Frequently Asked Questions about Qhull</h1>
 <p>If your question does not appear here, see: </p>
 
 <ul>
     <li><a href="http://www.qhull.org/news">News</a> about Qhull
+    <li><a href="http://github.com/qhull/qhull/wiki">Qhull Wiki</a> and
+           <a href="http://www.qhull.org/html/qh-faq.htm">FAQ</a>
     <li><a href="index.htm#TOC">Qhull manual:</a> table of contents
     <li><a href="../README.txt">Installation</a> instructions for Qhull and rbox
 
@@ -66,15 +67,21 @@ Qhull.  These programs disable experimental and inappropriate
 options.  If you prefer, you may use Qhull directly.  All programs
 run the same code.
 
+<p>Version 2019.1 adds an experimental option for vertex merging of nearly adjacent vertices ('<a href="qh-optq.htm#Q14">Q14</a>').
+It may resolve topological issues such as "dupridges" with more than two facet neighbors.
+
+<p>Version 2015.1 introduced the reentrant library.  It should be used for all
+code that calls Qhull.  The 'qhull' program is built with the reentrant library.
+
 <p>Version 3.1 added triangulated output ('<a href="qh-optq.htm#Qt">Qt</a>').
-It should be used for Delaunay triangulations instead of
+It may be used for Delaunay triangulations instead of
 using joggled input ('<a href="qh-optq.htm#QJn">QJ</a>').
 
 <p><i>Brad Barber, Arlington MA,
-2010/01/09 <!--
+2019/02/11 <!--
 --> </i></p>
 
-<p><b>Copyright &copy; 1998-2018 C.B. Barber</b></p>
+<p><b>Copyright &copy; 1998-2019 C.B. Barber</b></p>
 
 <hr>
 
@@ -175,8 +182,8 @@ first.
 
 <h2><a href="#TOC">&#187;</a><a name="startup">Startup</a> questions</h2>
 
-<h4><a href="#TOC">&#187;</a><a name="console">How</a> do I run Qhull
-from Windows?</h4><blockquote>
+<h4><a href="#TOC">&#187;</a><a name="console">How</a> do I run Qhull from Windows?
+</h4><blockquote>
 
 <p>Qhull is a console program. You will first need a command window
 (i.e., a "command prompt"). You can double click on
@@ -1217,7 +1224,7 @@ each ridge once (instead of twice).  For example,
 
 See user_eg.c and "Qhull-template" in user_r.c for examples..
 
-See <a href="qh-code.htm">Qhull internals</a> for an introduction to Qhull's reentrant library and its C++ interface.
+See <a href="qh-code.htm">Qhull code</a> for an introduction to Qhull's reentrant library and its C++ interface.
 
 <p>Hint: Start with a small example for which you know the
   answer.</p>
@@ -1518,7 +1525,9 @@ the vertex order and the flag facet-&gt;toporient.</p>
 <hr><!-- Navigation links -->
 
 <p><a><b>Up:</b> </a><a
- href="http://www.qhull.org">Home page for Qhull</a><br>
+ href="http://www.qhull.org">Home page</a> for Qhull (<a href="../index.htm">local</a>)<br>
+<b>Up:</b> <a href="http://github.com/qhull/qhull/wiki">Qhull Wiki</a> and
+<a href="http://www.qhull.org/html/qh-faq.htm">FAQ</a> (<a href="qh-faq.htm">local</a>) <br>
 <b>Up:</b> <a href="index.htm#TOC">Qhull manual</a>: Table of Contents <br>
 <b>To:</b> <a href="qh-quick.htm#programs">Programs</a>
 &#149; <a href="qh-quick.htm#options">Options</a>
@@ -1529,7 +1538,7 @@ the vertex order and the flag facet-&gt;toporient.</p>
 &#149; <a href="qh-optq.htm#qhull">Qhull</a>
 &#149; <a href="qh-optc.htm#prec">Precision</a>
 &#149; <a href="qh-optt.htm#trace">Trace</a>
-&#149; <a href="../src/libqhull_r/index.htm">Functions</a><br>
+&#149; <a href="http://www.qhull.org/src/libqhull_r/index.htm">Functions</a> (<a href="../src/libqhull_r/index.htm">local</a>)<br>
 <b>To:</b> <a href="#TOC">FAQ: Table of Contents</a><br><!-- GC common information -->
 
 <hr>
@@ -1539,7 +1548,7 @@ the vertex order and the flag facet-&gt;toporient.</p>
 Home Page </i></p>
 
 <p>Comments to: <a href=mailto:qhull@qhull.org>qhull@qhull.org</a>
-</a><br>
+<br>
 Created:
 Sept. 25, 1995 --- <!-- hhmts start -->Last modified: see top
 <!-- hhmts end --> </p>

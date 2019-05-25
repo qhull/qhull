@@ -8,26 +8,26 @@
 
 <body>
 
-<p><a name="TOP"><b>Up:</b></a> <a
-href="http://www.qhull.org">Home page for Qhull</a>
-<br>
-<b>Up:</b> <a href="index.htm#TOC">Qhull manual: Table of
-Contents</a><br>
-<b>To:</b> <a href="qh-quick.htm#programs">Programs</a>
-&#149; <a href="qh-quick.htm#options">Options</a>
-&#149; <a href="qh-opto.htm#output">Output</a>
-&#149; <a href="qh-optf.htm#format">Formats</a>
-&#149; <a href="qh-optg.htm#geomview">Geomview</a>
-&#149; <a href="qh-optp.htm#print">Print</a>
-&#149; <a href="qh-optq.htm#qhull">Qhull</a>
-&#149; <a href="qh-optc.htm#prec">Precision</a>
-&#149; <a href="qh-optt.htm#trace">Trace</a>
-&#149; <a href="../src/libqhull_r/index.htm">Functions</a><br>
-<b>To:</b> <a href="#TOC">Qhull code</a>: Table of Contents
-(please wait while loading) <br>
-<b>Dn:</b> <a href="../src/libqhull_r/index.htm">Qhull functions</a>, macros, and data
-structures
-</p>
+    <p>
+        <a name="TOP"><b>Up:</b></a> <a href="http://www.qhull.org">Home page</a> for Qhull (<a href="../index.htm">local</a>)<br>
+        <b>Up:</b> <a href="index.htm#TOC">
+            Qhull manual: Table of
+            Contents
+        </a><br>
+        <b>To:</b> <a href="qh-quick.htm#programs">Programs</a>
+        &#149; <a href="qh-quick.htm#options">Options</a>
+        &#149; <a href="qh-opto.htm#output">Output</a>
+        &#149; <a href="qh-optf.htm#format">Formats</a>
+        &#149; <a href="qh-optg.htm#geomview">Geomview</a>
+        &#149; <a href="qh-optp.htm#print">Print</a>
+        &#149; <a href="qh-optq.htm#qhull">Qhull</a>
+        &#149; <a href="qh-optc.htm#prec">Precision</a>
+        &#149; <a href="qh-optt.htm#trace">Trace</a>
+        &#149; <a href="http://www.qhull.org/src/libqhull_r/index.htm">Functions</a> (<a href="../src/libqhull_r/index.htm">local</a>)<br>
+        <b>To:</b> <a href="qh-impre.htm">Imprecision</a> in Qhull<br>
+        <b>To:</b> <a href="#TOC">Qhull code</a>: Table of Contents
+        (please wait while loading) <br>
+    </p>
 
 <hr>
 <!-- Main text of document -->
@@ -38,7 +38,7 @@ height="100"></a> Qhull code</h1>
 
 <p>This section discusses the code for Qhull. </p>
 
-<p><b>Copyright &copy; 1995-2018 C.B. Barber</b></p>
+<p><b>Copyright &copy; 1995-2019 C.B. Barber</b></p>
 
 <hr>
 
@@ -88,10 +88,20 @@ Contents </a></h2>
             <li><a href="#ridge">Voronoi vertices</a> of a ridge</li>
         </ul>
     </li>
+    <li><a href="#debugging">Debugging</a> Qhull
+    <ul>
+        <li><a href="#errors">Qhull</a> errors</li>
+        <li><a href="#loops">Qhull</a> infinite loops</li>
+        <li><a href="#trace">Qhull</a> trace options</li>
+        <li><a href="#segfault">Qhull</a> core dumps and segfaults</li>
+        <li><a href="#qtest">eg/qtest.sh<a> for intermittent errors and profiling</li>
+        <li><a href="#memory">Memory</a> errors</li>
+        <li><a href="#debugtip">Qhull</a> debugging tips</li>
+    </ul> </li>
     <li><a href="#performance">Performance</a> of Qhull</li>
+    <li><a href="#profile">Profiling</a> and optimizing Qhull performance</li>
     <li><a href="#enhance">Enhancements</a> to Qhull</li>
-    <li><a href="../src/libqhull_r/index.htm">Qhull</a> functions, macros, and data
-        structures </li>
+    <li><a href="http://www.qhull.org/src/libqhull_r/index.htm">Function</a> index to Qhull (<a href="../src/libqhull_r/index.htm">local</a>)</li>
 </ul>
 
 <hr>
@@ -115,12 +125,20 @@ The new C++ interface does a better, but not perfect, job of hiding Qhull's C da
 The previous C++ interface was unusual due to Qhull's global data structures.
 
 <p>All other users should consider converting to libqhull_r.   The conversion is straight forward.
-The original conversion of libqhull to libqhull_r required thousands of changes, mostly global
-search and replace.  The first run of Qhull (unix_r.c) produced the same
-output, and nearly the same log files, as the original (unix.c).
+Most of the changes may be made with global search and replace.  The resulting files
+may be checked via eg/make-qhull_qh.sh.  It performs the inverse mapping for comparison with
+non-reentrant code.
+
+<p>For example, even though the original conversion of libqhull to
+libqhull_r required thousands of changes, the first run of reentrant Qhull (unix_r.c) produced the same
+output, and nearly the same log files, as the original, non-reentrant Qhull (unix.c).  The
+original conversion was made without the help of eg/make-qhull_qh.sh.  Conversion errors almost
+always produce compiler errors.
 
 <p>Suggestions to help with conversion.
 <ul>
+<li>Qhull 2019.1 introduces eg/make-qhull_qh.sh.  It simplifies the task of checking the consistency
+of reentrant and non-reentrant C code for Qhull.
 <li>Compare qconvex_r.c with qconvex.c.   Define a qhT object and a pointer it.  The qhT* pointer is the first argument to most Qhull functions.
 Clear <tt>qh_qh-&lt;NOerrext</tt> before calling qh_initflags().  Invoke QHULL_LIB_CHECK to check for a compatible Qhull library.
 <li>Compare user_eg2_r.c with user_eg2.c
@@ -132,6 +150,35 @@ Simple C++ programs should compile as is.
 <li>For detailed notes on libqhull_r, see "libqhull_r (reentrant Qhull)" and "Source code changes for libqhull_r" in <a href="../src/Changes.txt">Changes.txt</a>.
 <li>For detailed notes on libqhullcpp, see "C++ interface" and following sections in <a href="../src/Changes.txt">Changes.txt</a>.
 <li>For regexps and conversion notes, see <a href="http://www.qhull.org/html/README_r.txt">README_r.txt</a> (unedited).
+</ul>
+
+<p>Suggestions for updating src/libqhull/* from src/libqhull_r/*:
+<ul>
+<li>Make edits to libqhull_r/* instead of libqhull/*.  The reverse update is more difficult, as desribed above.
+<li>Use 'eg/make-qhull_qh.sh libqhull_r' to automatically convert libqhull_r/* to qhull_qh/*
+<li>Compare src/qhull_qh/ to src/libqhull/ using Beyond Compare (<a href="https://www.scootersoftware.com/">www.scootersoftware.com</a>)
+or another directory comparison utility.
+<li>Configure Beyond Compare for expected differences:
+<ul><li>Rules > Importance > Unimportant text<br>'$Id: ', '$DateTime: ', 'char qh_version'
+<li>When updating 'Unimportant text', select 'Use for all files in parent session' and, optionally, 'Updated session defaults'
+<li>Select 'Minor' to ignore unimportant text
+<li>Review Rules > Importance > Mark grammar elements.  Be sure to include 'Comment'
+</ul>
+<li>Almost all unmodified lines should be identical.
+<li>Copy modified lines as needed.
+<li>Be careful of removing true differences, such as those involiving
+<ul>
+<li>DEFqhT
+<li>oldqhA, oldqhB
+<li>qh_QHpointer
+<li>qh_last_random
+<li>qh_rand_r
+<li>qhmem
+<li>qhstat, qhstatT
+<li>rbox_inuse
+<li>rboxT
+<li>"renentrant" vs. "non-reentrant"
+</ul>
 </ul>
 
 <h2><a href="#TOC">&#187;</a><a name="64bit">Qhull on 64-bit computers</a></h2>
@@ -358,7 +405,7 @@ It can also append a cube's vertices or specific points.
 Developing C++ code requires many conventions, idioms, and technical details.
 The following questions have either
 mystified the author or do not have a clear answer.  See also
-<a href="http://www.qhull.org/road/road-faq/xml/cpp-guideline.xml">C++ and Perl Guidelines</a>.
+<a href="http://www.qhull.org/road/road-faq/xml/cpp-guideline.xml">C++ and Perl Guidelines</a>
 and FIXUP notes in the code.
 Please add notes to <a href="http://github.com/qhull/qhull/wiki">Qhull Wiki</a>.
 
@@ -412,12 +459,14 @@ and Qhull's
 <a href=../src/qvoronoi/qvoronoi.c>qvoronoi.c</a>.  The '*_r.c' files are reentrant, otherwise they are non-reentrant.
 Either version may be used.  New code should use reentrant Qhull.
 
-<p>See <a href="../src/libqhull_r/index.htm">Reentrant Qhull functions, macros, and data
-structures</a> for internal documentation of Qhull. The
-documentation provides an overview and index. To use the library
-you will need to read and understand the code. For most users, it
-is better to write data to a file, call the qhull program, and
-read the results from the output file.</p>
+<p>
+    See <a href="http://www.qhull.org/src/libqhull_r/index.htm">Functions</a> (<a href="../src/libqhull_r/index.htm">local</a>) for
+    internal documentation of Qhull. The
+    documentation provides an overview and index. To use the library
+    you will need to read and understand the code. For most users, it
+    is better to write data to a file, call the qhull program, and
+    read the results from the output file.
+</p>
 
 <p>If you use non-reentrant Qhull, be aware of the macros &quot;qh&quot;
 and &quot;qhstat&quot;, e.g., &quot;qh hull_dim&quot;. They are
@@ -483,7 +532,7 @@ allocation</a></h3>
 malloc/free in applications that allocate and deallocate lots of
 memory. </p>
 
-<p><tt>Qset_r.c</tt> implements sets and related collections. It's
+<p><tt>qset_r.c</tt> implements sets and related collections. It's
 the inner loop of Qhull, so speed is more important than
 abstraction. Set iteration is particularly fast. <tt>qset_r.c</tt>
 just includes the functions needed for Qhull. </p>
@@ -654,7 +703,7 @@ either visit all neighbors of the apex or recursively visit
 all neighbors of a tricoplanar facet.  The tricoplanar facets
 will have the same facet->center.</p>
 
-<p>See <a href=../src/libqhull_r/io_r.c#detvridge>qh_detvridge</a> for an example of ignoring tricoplanar facets.</p>
+<p>See <a href="http://www.qhull.org/src/libqhull_r/io_r.c#detvridge">qh_detvridge</a> for an example of ignoring tricoplanar facets.</p>
 
 <h3><a href="#TOC">&#187;</a><a name="vertices">Voronoi vertices of a
 region</a></h3>
@@ -733,6 +782,197 @@ decomposition of the (d-2)-faces between each pair of facets --
 if you need 1-faces, you probably need to generate the full face
 graph of the convex hull. </p>
 
+<h2><a href="#TOC">&#187;</a><a name="debugging">Debugging Qhull </a></h2>
+
+<h3><a href="#TOC">&#187;</a><a name="errors">Qhull errors</a></h3>
+
+<p>Qhull continually checks its execution, so most errors will stop Qhull with an error message.
+Additional checking occurs for verified output ('<a href="qh-optt.htm#Tv">Tv</a>'), check
+frequently ('<a href="qh-optt.htm#Tc">Tc</a>'), check for duplicate ridges ('<a href="qh-optt.htm#Q15">T15</a>'),
+and tracing at level 4 ('<a href="qh-optt.htm#Tn">T4</a>'). </p>
+
+<p>
+Qhull errors start with 'QH6...' and Qhull warnings start with 'QH7...'.  The error message and
+error code are arguments to a qh_fprintf call.  After printing the error message, Qhull exits with
+an exit status code.  The exit status code indicates the type of error:
+<ul>
+<li>
+qh_ERRinput (1) -- badly formed options or input.  Badly formed options are reported as
+Qhull warnings.  Unless option '<a href="qh-optq.htm#Qw">Qw</a>' is specified, Qhull reports error
+QH6035 or QH6037 and exits with qh_ERRinput. Inconsistent options typically report an error.
+<br>The input to Qhull specifies the dimension
+and number of points.  If the input contains
+the wrong number of coordinates, Qhull reports error QH6337 and exits with qh_ERRinput.
+If option '<a href="qh-optq.htm#Qa">Qa</a>' is specified, it reports warning QH7073
+and continues execution. </li>
+<li>
+qh_ERRsingular (2) -- singular input data.  If the input data is singular or flat (e.g., a line segment in 2-d),
+Qhull reports error QH6114 or QH6154.  Qhull calls qh_printhelp_singular to print an explanation of the error.
+It exits qhull with qh_ERRsingular. </li>
+<li>
+qh_ERRprec (3) -- precision error.  By default, Qhull handles precision errors by merging.
+If merging is not possible, or if a precision error is identified after Qhull finishes, Qhull reports an
+error and calls qh_printhelp_degenerate.  It exits qhull with qh_ERRprec. </li>
+<li>
+qh_ERRmem (4) -- memory error.  If Qhull runs out of memory, it reports an error and exits qhull with qh_ERRmem. </li>
+<li>
+qh_ERRQhull (5) -- internal error.  If Qhull detects an internal error, it reports the
+error and calls qh_printhelp_internal.  It exits qhull with qh_ERRQhull. </li>
+<li>
+qh_ERRother (6) -- other errors.  If Qhull identifies an error while reporting another error, it prints
+"qhull error while handling previous error" and exits Qhull with qh_ERRother.  The same exit code is
+used for vertex id overflow and missing exitcode for qh_errexit.  </li>
+<li>
+qh_ERRtopology (7) -- topology error.  If Qhull cannot recover from a topology error, it reports
+the error and calls qh_printhelp_topology.  It exits qhull with qh_ERRtopology. </li>
+<li>
+qh_ERRwide (8) -- wide facet error.  If Qhull produces an extra-wide facet, it reports the error and
+calls qh_printhelp_wide. It exits qhull with qh_ERRwide. </li>
+<li>
+qh_ERRdebug (9) -- debug.  Use qh_ERRdebug for exits from debugging code. </li>
+</ul></p>
+
+<h3><a href="#TOC">&#187;</a><a name="loops">Qhull infinite loops</a></h3>
+
+Except for list traversals, most loops in Qhull are limited by a count or the size of set.
+Linked lists of facets and vertices terminate with a sentinel whose next element is NULL.
+If a programming error inserts a link to a previous facet or vertex, an infinite loop occurs
+on the next traversal.  Qhull periodically checks and corrects its linked lists for infinite loops
+(<a href="http://www.qhull.org/src/libqhull_r/poly2_r.c#qh_checklists">qh_checklists</a>).
+</p>
+
+<h3><a href="#TOC">&#187;</a><a name="trace">Qhull trace options</a></h3>
+
+<p>Qhull's <a href="qh-optt.htm#trace">trace</a> options are the key to debugging Qhull.  They describe
+an execution of Qhull at various levels of detail, with various options to control what is traced.
+<ul>
+<li>Level 0 ('T-1') -- Key events are prefixed with '[QH00nn]'
+<li>Level 1 ('T1') -- Main steps in the program are prefixed with '[QH1nnn]'.<br>
+[QH1049]qh_addpoint -- When Qhull adds a point, it logs information about the point, the convex hull so far, and changes since the previous qh_addpoint.
+<li>Level 2 ('T2') -- Minor steps in the program are prefixed with '[QH2nnn]'.
+<li>Level 3 ('T3') -- Merge and other events are prefixed with '[QH3nnn]'.
+<li>Level 4 ('T4') -- Detailed trace of Qhull execution.
+<li>Level 5 ('T5') -- Memory allocations and Guassian elimination.  Memory allocations are prefixed with "qh_mem " followed by address, sequence number, alloc/free, short/long, etc.
+If you sort by address and sequence number, each allocate should be paired with its free.
+</ul></p>
+
+<p>These options select when tracing starts or stops.  It limits the amount of tracing, especially in high dimensions.
+<ul>
+<li>'<a href="qh-optt.htm#TAn">TAn</a>' -- stop Qhull after adding n vertices
+<li>'<a href="qh-optt.htm#TCn">TCn</a>' -- stop Qhull after building cone for point n
+<li>'<a href="qh-optt.htm#TMn">TMn</a>' -- turn on tracing at merge n.
+When Qhull reports an error, it reports "Last merge was #nnn".
+<li>'<a href="qh-optt.htm#TPn">TPn</a>' -- turn on tracing when point n is added to hull or point n is referenced.
+When Qhull reports an error, it reports "Last point added to hull was pnnn".
+<li>'<a href="qh-optt.htm#TVn">TVn</a>' -- stop Qhull after adding point n, -n for before
+<li>'<a href="qh-optt.htm#TWn">TWn</a>' -- trace merge facets when width > n
+</ul></p>
+
+Additional logging by facet id (fnnn), ridge id (rnnn) or vertex id (vnnn), may be enabled by
+setting qh.tracefacet_id, qh.traceridge_id,
+or qh.tracevertex_id in global_r.c/qh_initqhull_start2.
+
+<h3><a href="#TOC">&#187;</a><a name="segfault">Qhull core dumps and segfaults</a></h3>
+
+<p>If a segfault occurs, use option '<a href="qh-optt.htm#Tf">Tf</a>' to flush output after every qh_fprintf.
+Logging will be significantly slower than normal.</p>
+
+<p>The following debugging plan usually identifies the error
+<ol>
+<li>Trace execution at level 1 with flush after each qh_fprintf and output to stdout ('<a href="qh-optq.htm#T1">T1</a> <a href="qh-optq.htm#Tf">Tf</a> <a href="qh-optq.htm#Tz">Tz</a>').
+<li>Repeat at level 4 after the last qh_addpoint (QH1049, '<a href="qh-optq.htm#TPn">TPn</a>').
+Add line numbers to the log by piping the output through 'grep -n .'.
+<ul>
+<li>If there is too much level 4 output,
+repeat at level 2 to find the last qh_mergefacet (QH2081) and then trace at level 4 from the last merge ('<a href="qh-optq.htm#TMn">TMn</a>').
+<li>If there is still too much level 4 output, identify one of the last level 3 events and add debugging
+to the corresponding trace3 call.  Be sure to mark the code for removal.  For example<br>
+<pre>
+  if (facetA->id==4675)
+    qh->IStracing= 4; /* FIXUP */
+  trace3((qh, qh->ferr, 3020, "qh_triangulate_facet: triangulate facet f%d\n", facetA->id));
+</pre>
+</ul></li>
+<li>Identify the location of the failure using a build of Qhull with debug symbols.
+<li>Use the debugger to find relevant facet ids, ridge ids, and vertex ids.  These identifiers will appear in the
+level 4 log.
+</ol>
+
+<h3><a href="#TOC">&#187;</a><a name="qtest">eg/qtest.sh for intermittent errors and profiling</a></h3>
+
+<p>For intermittent errors, use 'rbox' to generate random test cases, and <a href="../eg/qtest.sh">eg/qtest.sh</a>
+to invoke multiple runs of qhull.
+When a failing case is found, rerun eg/qtest.sh with the test case identifier.  It produces qhull.log and the
+corresponding reduced log, qhull-step.log.  These logs include line numbers generated by 'grep -n .'</p>
+
+<p>qtest.sh provides the following options
+<ul>
+<li>N qhull runs (qtest.sh -N 'rbox c | qhull')
+<br>execute the qhull command N times with rotated input 'QR1', 'QR2', ...
+<li>N random qhull runs (qtest.sh N 'rbox c | qhull')
+<br>execute the qhull command N times with random rotations 'QRn', ...
+<p>
+<li>N 'rbox|qhull' runs (qtest.sh -N 'rbox-opts' 'qhull-opts')
+<br>execute rbox and qhull N times with random inputs 't1', 't2', ...
+<li>N random 'rbox|qhull' runs (qtest.sh N 'rbox-opts' 'qhull-opts')
+<br>execute rbox and qhull N times with random inputs 'tnnn', ...
+<p>
+<li>Run qhull command (qtest.sh run 'rbox c | qhull')
+<br>execute a qhull command line
+<li>Run qhull QRnnn (qtest.sh run QRnnn 'rbox | qhull')
+<br>execute a qhull command line with QRnnn rotated input
+<li>Run rbox tnnn | qhull (qtest.sh run  t... 'rbox-opts' 'qhull-opts')
+<br>execute rbox and qhull commands with tnnn random input
+<p>
+<li>Log qhull command (qtest.sh log 'rbox c | qhull')
+<br>trace (T4) a qhull command line to qhull.log and qhull-step.log
+<li>Log qhull QRnnn (qtest.sh QRnnn 'rbox | qhull')
+<br>trace (T4) a qhull command line with QRnnn rotated input to qhull.log and qhull-step.log
+<li>Log rbox tnnn | qhull (qtest.sh tnnn 'rbox-opts' 'qhull-opts')
+<br>trace (T4) rbox and qhull commands with tnnn random input to qhull.log and qhull-step.log
+<p>
+<li> Grep qhull.log for events (qtest.sh grep)
+<br> grep qhull.log for $QH_GREP excluding $QH_GREPX to stdout
+<li> Grep qhull.log for regexp (qtest.sh grep 'include-regexp')
+<br> grep qhull.log for regexp|$QH_GREP excluding $QH_GREPX to stdout
+<li> Grep qhull.log for include and exclude regexps (qtest.sh grep 'include-regexp' 'exclude-regexp')
+<br> grep qhull.log for include|$QH_GREP excluding exclude|$QH_GREPX to stdout
+<p>
+<li> Grep logfile for merge events (qtest.sh grep-merge logfile)
+<br> grep logfile for merge events to stdout, see #grep-merge in qtest.sh
+<p>
+<li> Grep logfile for step events (qtest.sh grep-merge logfile)
+<br> grep logfile for step events to stdout, same as qhull-step.log
+<p>
+<li> Verbose logging (qtest.sh -v ...)
+<br> prepend log with command and environment variables
+</ul>
+
+<h3><a href="#TOC">&#187;</a><a name="memory">Memory errors</a></h3>
+
+Qhull checks memory usage before exiting.   To locate memory that is not freed ("QH7068 qhull internal warning (main): did not free ..."):
+<ol>
+<li>Run qhull with memory tracing '<a href="qh-optt.htm#Tn">T5</a>'.
+<li>Sort lines that start with 'qh_mem'.  It matches qh_memalloc with the corresponding qh_memfree.
+<li>Replace 'qh_mem.*alloc.*\nqh_mem.*free.*' with 'Match' (<a href="http://www.textpad.com">Textpad</a> supports internal newlines in match expressions).
+<li>Sort by column 25 (n...).  It shows unallocated items in execution order, for example<br>qh_mem 0000000000537440 n    10053 alloc long: 128 bytes (tot 484800 cnt 1209)
+</ol></p>
+
+<p>Option '<a href="qh-optt.htm#Ts">Ts</a>' reports
+numerous memory statistics.
+
+<h3><a href="#TOC">&#187;</a><a name="debugtip">Qhull debugging tips</a></h3>
+
+<ul>
+<li>qh_printlists in poly2_r.c -- called during qh_addpoint.  Easily inserted into existing code and a
+good location for debugging code.
+<li>qh_fprintf in user_r.c -- called for all Qhull output, including trace logs.  A good location
+for reasonably efficient debugging code.
+The debugging code may refer to a facet, ridge, or vertex by setting
+qh.tracefacet_id, qh.traceridge_id, or qh.tracevertex_id in global_r.c/qh_initqhull_start2.
+<li>qh_tracemerge in merge_r.c -- called after each merge.  It is a good location for debugging code.
+</ul>
+
 <h2><a href="#TOC">&#187;</a><a name="performance">Performance of
 Qhull </a></h2>
 
@@ -750,9 +990,9 @@ and <i>O(n f_v/v)</i> otherwise. The function <i>f_v</i>
 increases rapidly with dimension. It is <em>O(v^floor(d/2) /
 floor(d/2)!)</em>.</p>
 
-<p>The time complexity for merging is unknown. Options '<a
-href="qh-optc.htm#C0">C-0</a>' and '<a href="qh-optq.htm#Qx">Qx</a>'
-(defaults) handle precision problems due to floating-point
+<p>The time complexity for merging is unknown. The default options '<a
+href="qh-optc.htm#C0">C-0</a>' (2-d, 3-d, 4-d) and '<a href="qh-optq.htm#Qx">Qx</a>' (5-d and higher)
+handle precision problems due to floating-point
 arithmetic. They are optimized for simplicial outputs. </p>
 
 <p>When running large data sets, you should monitor Qhull's
@@ -761,6 +1001,14 @@ The time per facet is approximately constant. In high-d with many
 merged facets, the size of the ridge sets grows rapidly. For
 example the product of 8-d simplices contains 18 facets and
 500,000 ridges. This will increase the time needed per facet. </p>
+
+<p>Additional detail is provided by QH1049 in the level-1 trace ('<a href="qh-optt.htm#Tn">T1</a>').
+For each qh_addpoint, it provides vertex id, facet count, outside point count,
+CPU time for the previous point, deltas for facets/hyperplanes/distplanes, and the number
+of retries due to merged pinched vertices.  For example:</p>
+<blockquote>
+[QH1049]qh_addpoint: add p260(v176) to hull of 286 facets (1.4e-12 above f830) and 2 outside at 1.192 CPU secs.  Previous p710(v175) delta 0.007 CPU, 2 facets, 3 hyperplanes, 443 distplanes, 0 retries
+</blockquote>
 
 <p>As dimension increases, the number of facets and ridges in a
 convex hull grows rapidly for the same number of vertices. For
@@ -844,17 +1092,120 @@ read the corresponding code. </p>
 convex hull of cosperical points is qh_distplane(), mainly called
 from qh_findbestnew().  The dominate cost for 3-d Delaunay triangulation
 is creating new facets in qh_addpoint(), while qh_distplane() remains
-the most expensive function.
+the most expensive function.</p>
 
-</p>
+
+<h2><a href="#TOC">&#187;</a><a name="profile">Profiling and optimizing Qhull performance </a></h2>
+
+<p><a href="../eg/q_benchmark">eg/q_benchmark</a> and <a href="../eg/qtest.sh">eg/qtest.sh</a>
+make multiple runs of Qhull for testing,
+benchmarking, and debugging.   They help test and analyze intermittent errors, performance issues, and precision issues.
+Each release will update <a href="../eg/q_benchmark-ok.txt">eg/q_benchmark-ok.txt</a>.  For performance benchmarks,
+qhull uses the median of five runs.
+
+<p>Qhull 2019.1 is FIXUP 25% larger than Qhull 2015.2 due to enhanced error reporting, tracing, and facet merging.
+The increased code size may increase startup times by 0.1 seconds.
+See <a href="../eg/q_benchmark-ok.txt">eg/q_benchmark-ok.txt</a> </p>
+
+<p>Qhull is single threaded.  gcc's gprof works well for profiling Qhull performance. </p>
+
+<ul>
+<li>Recompile Qhull with '-pg' added to CC_OPTS1 in qhull's Makefile.  Check for optimization ('-O3').
+<li>Execute a performance test of Qhull
+<ul><li>See "=== Timing test cases ===" in 'eg/q_benchmark'.
+</ul>
+<li>Check for gmon.out from gcc's '-pg' option -- ls -l gmon.out
+<li>Run gprof -- gprof qhull >gprof.txt # gprof qhull.exe >gprof.txt
+<li>Review gprof.txt
+<ul>
+<li>The first section gives results by function, the second section, results by caller
+</ul>
+<li>Sample runs
+<pre>rbox 500000 s >r.x; time qhull TI r.x
+
+AIR2-/local/qhull/bin> time qhull TI r.x
+
+Convex hull of 500000 points in 3-d:
+
+  Number of vertices: 500000
+  Number of facets: 999996
+
+Statistics for: rbox 500000 s | qhull TI r.x
+
+  Number of points processed: 500000
+  Number of hyperplanes created: 2827999
+  Number of distance tests for qhull: 24786928
+  CPU seconds to compute hull (after input): 4.852
+
+
+[4]     62.8    0.02    2.11  499996         qh_addpoint [4]
+                0.01    0.83  499996/499996      qh_buildcone [5]
+                0.04    0.56  499996/499996      qh_partitionvisible [7]
+                0.01    0.28  499996/499996      qh_premerge [13]
+                0.04    0.13  499996/499996      qh_findhorizon [19]
+
+# 2015.2
+Statistics for: rbox 500000 s | qhull TI c:/bash/local/qhull/bin/r.x
+  Number of vertices: 500000
+  Number of facets: 999996
+  Number of points processed: 500000
+  Number of hyperplanes created: 2827999
+  Number of distance tests for qhull: 24786929
+  CPU seconds to compute hull (after input): 4.477
+real    0m6.334s
+user    0m0.016s
+sys     0m0.015s
+
 <h2><a href="#TOC">&#187;</a><a name="enhance">Enhancements to Qhull </a></h2>
 
 <p>There are many ways in which Qhull can be improved. </p>
 
 <pre>
+[May 2019] Suggestions
+------------
+Precision issues
+- Improve handling of data with positive, integer coordinates, particularly for Delaunay triangulation
+  eg Sterratt's github issue #25
+  Add a warning that available precision is reduced
+  Add an option to automatically translate the data to the origin
+- Review qh.MAXcoplanar ('Un'), it varies by dimension compared to qh.ONEmerge
+
+Topology issues
+- Need theory for facet merging, vertex merging, and topological errors
+- Does qh_triangulate produce a consistent orientation if qh_renamevertex is not called?
+
+Facet and vertex merging
+- Reduce the overhead of qh.NEWtentative ('Q14') and improve the speed of facet and vertex merging
+- Review MRGconcavecoplanar and early out for isconcave in qh_test_nonsimplicial_merge
+- Review user_r.h ratios and precision constants for merging
+  Pre-compute derived precision values (e.g., qh_detmaxoutside)
+- Use a fixed target instead of a relative wide-max ratio.
+  Why should qh.MAXoutside increase when qh.max_outside increases dramatically
+  Why should a slow but steady increase in qh.max_outside be OK?
+  Define an option to specify wide-max ratio -- 100x is borderline, bad cases can produce 400x,
+- Add statistics for dupridge matching in qh_matchneighbor and qh_matchdupridge.  Report as a "precision problem"
+- Collect statistics for MRGdegen and MRGredundant
+- In qh_all_merges, why is isreduce set when qh.POSTmerging && qh.hull_dim >= 4?
+- In qh_forcedmerges and qh_initmergesets, remove assumption that qh.facet_mergeset is the last temporary set
+- Review comparisons for qh_compare_anglemerge and qh_compare_facetmerge (after developing a theory)
+
+Other
+- Add a version flag to 'rbox' (cf. global_r.c/qh_version).  Currently, the release date is part of its help prompt.
+- Review effect of qh.GOODclosest on qh_buildcone_onlygood ('Qg', QH11030 FIXUP).  qh_findgood preserves old value if didn't find a good facet.  See qh_findgood_all for disabling
+- Review the rules for -REALmax -- they look inconsistent.
+  Why REALmax/2 and -REALmax/2?  The comments say 'avoid underflow'.  When was it introduced?
+- Review comment in qh_matchnewfacets -- "do not allocate memory after qh.hash_table (need to free it cleanly)"
+- Chase circular dependencies when compiling qhulltest with Microsoft Devstudio
+  Warning MSB8017 A circular dependency has been detected while executing custom build commands for item "moc\Coordinates_test.moc". This may cause incremental build to work incorrectly.        qhulltest-64    C:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\Common7\IDE\VC\VCTargets\Microsoft.CppCommon.targets   209
+- Add 'design:' documentation for poly2_r.c/qh_triangulate
+  Consider splitting up
+- Geomview for 4-d merge is difficult to understand.  Not able to see the convexity of the edges
+- Review memory sizes (mem_r.c/qh_memsize) and quick allocations for 64-bit code
+- Review Qhull's collection API conventions, http://www.qhull.org/road/road-faq/xml/qhull-cpp.xml
+  See http://gnuwin32.sourceforge.net/packages.html and https://google-styleguide.googlecode.com/svn/trunk/cppguide.html
+
 [Jan 2016] Suggestions
 ------------
-To do for a future verson of Qhull
  - Add a post-merge pass for Delaunay slivers.  Merge into a neighbor with a circumsphere that includes the opposite point. [M. Treacy]
  - Option to add a bounding box for Delaunay triangulations, e,g., nearly coincident points
  - Rescale output to match 'QbB' on input [J. Metz, 1/30/2014 12:21p]
@@ -885,8 +1236,10 @@ To do for a future verson of Qhull
 
 ------------
 To do for a furture version of the C++ interface
+ - Add defineAs() to each object
+ - Add Qtest::toString() functions for QhullPoint and others.  QByteArray and qstrdup()
  - Document C++ using Doxygen conventions (//! and //!<)
- - Should Qhull manage the output formats for doubles?  QH11010 user_r.h defines qh_REAL_1 as %6.8g
+ - Should Qhull manage the output formats for doubles?  QH11010 FIXUP user_r.h defines qh_REAL_1 as %6.8g
  - Allocate memory for QhullSet using Qhull.qhmem.  Create default constructors for QhullVertexSet etc.  Also mid() etc.
  - Add interior point for automatic translation?
  - Write a program with concurrent Qhull
@@ -899,6 +1252,22 @@ To do for a furture version of the C++ interface
  - QhullVertexSet uses QhullSetBase::referenceSetT() to free it's memory.   Probably needed elsewhere
  - The Boost Graph Library provides C++ classes for graph data structures. It may help
    enhance Qhull's C++ interface [Dr. Dobb's 9/00 p. 29-38; OOPSLA '99 p. 399-414].
+
+[Jan 2019] Suggestions
+- Optimize poly_r.c/qh_update_vertexneighbors for qh_triangulate. qh_setunique and qh_setcompact are slow
+- The size of maxpoints in qh_initialvertices/qh_maxsimplex should be d+3 unique points to help avoid QH6154
+- Review coordT vs. realT.  Should parameters and variables be coordT when they are distances or coordinates?
+  'coordT' is defined as 'realT'
+  Having computations as 'double' with coordinates stored as 'float' requires many type conversions
+  Expressions are often computed as 'double' anyway
+  Source code sometimes uses 'coordT' and sometimes 'realT'
+- Need a separate, hash check for duplicate ridge vertices in a facet list -- faster than current qh_checkfacet
+- Add joggle for 'almost incident' vertices (order of 100), may clean up Qt as well, projected to hyperplane
+- Consider using r.mergevertex2 to optimize qh_postmerge
+- Report two facets with same ridge vertices, opposite orientation (topology error)
+  add warning (see QH7084) for duplicate ridge with opposite orientation (only two facets in the list)
+- Review 'VERSION 7.0' in qhull_r-exports.def.  Should it include the sub-version?
+- Check 'qh_NOmerge' compiler option
 
 [Jan 2010] Suggestions
  - Generate vcproj from qtpro files
@@ -923,7 +1292,7 @@ Documentation
    qh-code.htm#inc on-line construction with qh_addpoint()
 - How to handle 64-bit possible loss of data.  WARN64, ptr_intT, size_t/int
 - Show custom of qh_fprintf
-- grep 'qh_mem ' x | sort | awk '{ print $2; }' | uniq -c | grep -vE ' (2|4|6|8|10|12|14|16|20|64|162)[^0-9]'
+- cat x.x | grep 'qh_mem ' | sort | awk '{ print $2; }' | uniq -c | grep -vE ' (2|4|6|8|10|12|14|16|20|64|162)[^0-9]'
 - qtpro/qhulltest contains .pro and Makefile.  Remove Makefiles by setting shadow directory to ../../tmp/projectname
 - Rules for use of qh_qh and multi processes
     UsingQhull
@@ -1001,10 +1370,11 @@ Input/output improvements:
  - track total number of ridges for summary and logging
 
 Performance improvements:
+ - GPU hardware acceleration, particularly for qh_setplane [D. Reese]
  - optimize Qhull for 2-d Delaunay triangulations
  -   use O'Rourke's <a href="index.htm#orou94">'94</a> vertex-&gt;duplicate_edge
  -   add bucketing
- -   better to specialize all of the code (ca. 2-3x faster w/o merging)
+ -   better to specialize all of the code (ca. 2-3x faster w/o meSrging)
  - use updated LU decomposition to speed up hyperplane construction
  -        [Gill et al. 1974, Math. Comp. 28:505-35]
  - construct hyperplanes from the corresponding horizon/visible facets
@@ -1016,32 +1386,34 @@ Performance improvements:
 <!-- Navigation links -->
 <hr>
 
-<p><b>Up:</b> <a href="http://www.qhull.org">Home
-page for Qhull</a> <br>
-<b>Up:</b> <a href="index.htm#TOC">Qhull manual: Table of
-Contents</a><br>
-<b>To:</b> <a href="qh-quick.htm#programs">Programs</a>
-&#149; <a href="qh-quick.htm#options">Options</a>
-&#149; <a href="qh-opto.htm#output">Output</a>
-&#149; <a href="qh-optf.htm#format">Formats</a>
-&#149; <a href="qh-optg.htm#geomview">Geomview</a>
-&#149; <a href="qh-optp.htm#print">Print</a>
-&#149; <a href="qh-optq.htm#qhull">Qhull</a>
-&#149; <a href="qh-optc.htm#prec">Precision</a>
-&#149; <a href="qh-optt.htm#trace">Trace</a>
-&#149; <a href="../src/libqhull_r/index.htm">Functions</a><br>
-<b>To:</b> <a href="#TOC">Qhull code</a>: Table of Contents <br>
-<b>Dn:</b> <a href="../src/libqhull_r/index.htm">Qhull functions</a>, macros, and data
-structures <!-- GC common information -->
+<p>
+    <b>Up:</b> <a href="http://www.qhull.org">Home page</a> for Qhull (<a href="../index.htm">local</a>) <br>
+    <b>Up:</b> <a href="index.htm#TOC">
+        Qhull manual: Table of
+        Contents
+    </a><br>
+    <b>To:</b> <a href="qh-quick.htm#programs">Programs</a>
+    &#149; <a href="qh-quick.htm#options">Options</a>
+    &#149; <a href="qh-opto.htm#output">Output</a>
+    &#149; <a href="qh-optf.htm#format">Formats</a>
+    &#149; <a href="qh-optg.htm#geomview">Geomview</a>
+    &#149; <a href="qh-optp.htm#print">Print</a>
+    &#149; <a href="qh-optq.htm#qhull">Qhull</a>
+    &#149; <a href="qh-optc.htm#prec">Precision</a>
+    &#149; <a href="qh-optt.htm#trace">Trace</a>
+    &#149; <a href="http://www.qhull.org/src/libqhull_r/index.htm">Functions</a> (<a href="../src/libqhull_r/index.htm">local</a>)<br>
+    <b>To:</b> <a href="qh-impre.htm">Imprecision</a> in Qhull<br>
+    <b>To:</b> <a href="#TOC">Qhull code</a>: Table of Contents <br>
+    <!-- GC common information -->
 
-<hr>
+    <hr>
 
 <p><a href="http://www.geom.uiuc.edu/"><img src="qh--geom.gif"
 align="middle" width="40" height="40"></a><i>The Geometry Center
 Home Page </i></p>
 
 <p>Comments to: <a href=mailto:qhull@qhull.org>qhull@qhull.org</a>
-</a><br>
+<br>
 Created: Sept. 25, 1995 --- <!-- hhmts start --> Last modified: see changes.txt <!-- hhmts end --> </p>
 </body>
 </html>

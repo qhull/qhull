@@ -56,10 +56,13 @@
 #
 # Targets
 #   make           Build results using gcc or another compiler
+#   make all
 #   make SO=dll    For mingw on Windows, use SO=dll. It builds dlls
 #   make bin/qvoronoi  Produce bin/qvoronoi (etc.)
 #   make qhullx    Produce qhull, qconvex etc. without using library
 #
+#   make benchmark Benchmark of qhull precision and performance
+#                  make benchmark 2>&1 | tee eg/q_benchmark.x
 #   make clean     Remove object files
 #   make cleanall  Remove generated files, build/*.dlr/, buildqt/, and buildvc/
 #   make doc       Print documentation
@@ -70,19 +73,21 @@
 #   make qtest     Quick test of rbox and qhull
 #   make test      Quick test of qhull programs
 #   make testall   Test programs for manual review with eg/q_test-ok.txt
-#                  make testall >eg/q_test.x 2>&1 
+#                  make testall >eg/q_test.x 2>&1
+#                  make testall 2>&1 | tee eg/q_test.x
 #                  Build the C++ qhulltest with Qt
 #
+# $Id: //main/2019/qhull/Makefile#2 $
+
 # Do not replace tabs with spaces.  Needed for build rules
 # Unix line endings (\n)
-# $Id: //main/2015/qhull/Makefile#11 $
 
 DESTDIR = /usr/local
-BINDIR	= $(DESTDIR)/bin
-INCDIR	= $(DESTDIR)/include
-LIBDIR	= $(DESTDIR)/lib
-DOCDIR	= $(DESTDIR)/share/doc/qhull
-MANDIR	= $(DESTDIR)/share/man/man1
+BINDIR  = $(DESTDIR)/bin
+INCDIR  = $(DESTDIR)/include
+LIBDIR  = $(DESTDIR)/lib
+DOCDIR  = $(DESTDIR)/share/doc/qhull
+MANDIR  = $(DESTDIR)/share/man/man1
 
 # if you do not have enscript, try a2ps or just use lpr.  The files are text.
 PRINTMAN = enscript -2rl
@@ -92,8 +97,9 @@ PRINTC = enscript -2r
 
 #for Gnu's gcc compiler, -O3 for optimization, -g for debugging, -pg for profiling
 # -fpic needed for gcc x86_64-linux-gnu.  Not needed for mingw
+# see below for gcc's CC_WARNINGS and CCX_WARNINGS
 CC        = gcc
-CC_OPTS1  = -O3 -ansi -Isrc -fpic $(CC_WARNINGS)
+CC_OPTS1  = -O3 -ansi -Isrc -fpic $(CC_WARNINGS) # FIXUP
 CXX       = g++
 
 # libqhullcpp must be before libqhull_r
@@ -103,16 +109,14 @@ CXX_OPTS1 = -O3 -Isrc/ $(CXX_WARNINGS)
 CC_OPTS3  =
 
 # Define qhull_VERSION in CMakeLists.txt, Makefile, and qhull-warn.pri
-# Truncated version in qhull-exports.def, qhull_p-exports.def, 
-#  qhull.so -- static qh_qhT global data structure (qh_QHpointer=0)
-#  qhull_p.so -- allocated qh_qhT global data structure (qh_QHpointer=1)
-#  qhull_r.so -- relocatable Qhull with qh_qhT passed as an argument.
+# Truncated version in qhull-exports.def, qhull_p-exports.def, qhull_r-exports.def
+#  libqhull_r.so -- reentrant Qhull with qh_qhT passed as an argument.
 qhull_SOVERSION=7
-SO  = so.7.3.0
+SO  = so.7.3.1
 
 # On MinGW, 
 #   make SO=dll
-#   Copy lib/libqhull6_p.dll and lib/libqhull.dll to bin/
+#   Copy lib/libqhull_r.dll to bin/
 
 # for Sun's cc compiler, -fast or O2 for optimization, -g for debugging, -Xc for ANSI
 #CC       = cc
@@ -130,13 +134,37 @@ SO  = so.7.3.0
 CC_OPTS2 = $(CC_OPTS1)
 CXX_OPTS2 = $(CXX_OPTS1)
 
+# Warnings for gcc
 # [gcc 4.4] Compiles without error (-Werror)
 CC_WARNINGS  = -Wall -Wcast-qual -Wextra -Wwrite-strings -Wshadow
 CXX_WARNINGS = -Wall -Wcast-qual -Wextra -Wwrite-strings -Wno-sign-conversion -Wshadow -Wconversion 
 
+# All warnings for gcc
+# Ignore these gcc warnings (-f*, Fortran only, Go only, ObjC only, Qhull issues)
+#Ignore warnings that require an operand.  Include them specifically if needed
+#   NOT_EQUAL_WARN="normalized=[^> ]*>|larger-than=[^> ]*>|larger-than-|abi=|array-bounds=|format=|stack-usage=|strict-aliasing=|strict-overflow="
+#Ignore warnings that are GCC specific and occur in Qhull
+#   NOT_GCC_WARN="abi-tag|effc[+][+]|stringop-truncation|suggest-attribute|suggest-final|suggest-override"
+#   -Wstringop-truncation -- known issue Bug c++/85700
+#Ignore warnings that occur in Qhull and appear to be OK
+#   NOT_QHULL_WARN="aggregate-return|float-equal|format-nonliteral|format-signedness|padded|redundant-decls|long-long|strict-overflow|switch-enum|traditional|traditional-conversion|unsafe-loop-optimizations|unsuffixed-float-constants|useless-cast|zero-as-null-pointer-constant"
+#Ignore these warnings for CC and CCX when testing Qhull for warnings
+#   NOT_CCX_WARN="$NOT_EQUAL_WARN|$NOT_GCC_WARN|$NOT_QHULL_WARN|aliasing|align-commons|ampersand|array-temporaries|assign-intercept|c-binding-type|character-truncation|compare-reals|conversion-extra|function-elimination|implicit-interface|implicit-procedure|intrinsic-shadow|intrinsics-std|line-truncation|property-assign-default|protocol|real-q-constant|realloc-lhs|realloc-lhs-all|selector|shadow-ivar|strict-selector-match|surprising|tabs|target-lifetime|undeclared-selector|underflow|unused-dummy-argument|use-without-only|zerotrip"
+#   NOT_CC_WARN="$NOT_CCX_WARN|abi-tag|c++0x-compat|c++11-compat|c++14-compat|conditionally-supported|conversion-null|ctor-dtor-privacy|delete-incomplete|delete-non-virtual-dtor|effc++|inherited-variadic-ctor|invalid-offsetof|literal-suffix|noexcept|non-template-friend|non-virtual-dtor|old-style-cast|overloaded-virtual|pmf-conversions|reorder|sign-promo|sized-deallocation|strict-null-sentinel|suggest-override|synth|useless-cast|virtual-move-assign|zero-as-null-pointer-constant"
+# List of gcc warnings for CC_WARNINGS
+#   (echo -Wno-sign-conversion; gcc --help=warnings) | sed -nr 's/^ *(-W[^ ]*) .*/\1/p' | sort | grep -vE "[-]W\$|-W(all|extra|$NOT_CC_WARN)\$"
+# List gcc warnings for CCX_WARNINGS except for NOT_CC_WARN and NOT_QHULL_WARN
+#   (echo -Wno-sign-conversion; gcc --help=warnings) | sed -nr 's/^ *(-W[^ ]*) .*/\1/p' | sort | grep -vE "[-]W\$|-W(all|extra|$NOT_CCX_WARN)\$"
+# Test gcc warnings on Windows with mingw gcc
+#   make cleanall SO=dll all >bin/x.2 2>&1
+# Summary list of warnings to bin/x.1
+#   grep -vE 'Tools/mingw|short unsigned int:9' bin/x.2 | grep -E -A6 'warning:|: error:' >bin/x.1
+#   grep -vE 'Tools/mingw530_32|zero-as-null-pointer-constant|unsafe-loop-optimizations|but does not override|suggest-final-types|aggregate-return|or .operator=|suggest-final-methods|has pointer data members|is greater than the length|short unsigned int:9|unused-macros|Wlong-long|Wsuggest-override|Wabi-tag|Wuseless-cast|Wsuggest-attribute=const|bad-function-cast|Wstrict-overflow|Wclobbered' bin/x.2 | grep -E -A6 'warning:|: error:' >bin/x.1
+# CC_WARNINGS  = -Wno-sign-conversion -Wconversion -Wabi -Waddress -Waggregate-return -Waggressive-loop-optimizations -Warray-bounds -Wattributes -Wbad-function-cast -Wbool-compare -Wbuiltin-macro-redefined -Wc++-compat -Wc90-c99-compat -Wc99-c11-compat -Wcast-align -Wcast-qual -Wchar-subscripts -Wchkp -Wclobbered -Wcomment -Wcomments -Wcoverage-mismatch -Wcpp -Wdate-time -Wdeclaration-after-statement -Wdeprecated -Wdeprecated-declarations -Wdesignated-init -Wdisabled-optimization -Wdiscarded-array-qualifiers -Wdiscarded-qualifiers -Wdiv-by-zero -Wdouble-promotion -Wempty-body -Wendif-labels -Wenum-compare -Werror-implicit-function-declaration -Werror=implicit-function-declaration -Wformat -Wformat-contains-nul -Wformat-extra-args -Wformat-security -Wformat-y2k -Wformat-zero-length -Wfree-nonheap-object -Wignored-qualifiers -Wimplicit -Wimplicit-function-declaration -Wimplicit-int -Wincompatible-pointer-types -Winit-self -Winline -Wint-conversion -Wint-to-pointer-cast -Winvalid-memory-model -Winvalid-pch -Wjump-misses-init -Wlogical-not-parentheses -Wlogical-op -Wlong-long -Wmain -Wmaybe-uninitialized -Wmemset-transposed-args -Wmissing-braces -Wmissing-declarations -Wmissing-field-initializers -Wmissing-include-dirs -Wmissing-parameter-type -Wmissing-prototypes -Wmultichar -Wnarrowing -Wnested-externs -Wnonnull -Wodr -Wold-style-declaration -Wold-style-definition -Wopenmp-simd -Woverflow -Woverlength-strings -Woverride-init -Wpacked -Wpacked-bitfield-compat -Wparentheses -Wpedantic -Wpedantic-ms-format -Wpointer-arith -Wpointer-sign -Wpointer-to-int-cast -Wpragmas -Wreturn-local-addr -Wreturn-type -Wsequence-point -Wshadow -Wshift-count-negative -Wshift-count-overflow -Wsign-compare -Wsizeof-array-argument -Wsizeof-pointer-memaccess -Wstack-protector -Wstrict-aliasing -Wstrict-overflow -Wstrict-prototypes -Wsuggest-attribute=const -Wsuggest-final-methods -Wsuggest-final-types -Wswitch -Wswitch-bool -Wswitch-default -Wsync-nand -Wsystem-headers -Wtrampolines -Wtrigraphs -Wtype-limits -Wundef -Wuninitialized -Wunknown-pragmas -Wunsafe-loop-optimizations -Wunused -Wunused-but-set-parameter -Wunused-but-set-variable -Wunused-function -Wunused-label -Wunused-local-typedefs -Wunused-macros -Wunused-parameter -Wunused-result -Wunused-value -Wunused-variable -Wvarargs -Wvariadic-macros -Wvector-operation-performance -Wvla -Wvolatile-register-var -Wwrite-strings 
+# CXX_WARNINGS2 = -Wno-sign-conversion -Wconversion -Wabi -Waddress -Waggregate-return -Waggressive-loop-optimizations -Warray-bounds -Wattributes -Wbad-function-cast -Wbool-compare -Wbuiltin-macro-redefined -Wcast-align -Wcast-qual -Wchar-subscripts -Wchkp -Wclobbered -Wcomment -Wcomments -Wcoverage-mismatch -Wcpp -Wdate-time -Wdeprecated -Wdeprecated-declarations -Wdisabled-optimization -Wdiv-by-zero -Wdouble-promotion -Wempty-body -Wendif-labels -Wenum-compare -Werror-implicit-function-declaration -Werror=implicit-function-declaration -Wformat -Wformat-contains-nul -Wformat-extra-args -Wformat-security -Wformat-y2k -Wformat-zero-length -Wfree-nonheap-object -Wignored-qualifiers -Winit-self -Winline -Wint-to-pointer-cast -Winvalid-memory-model -Winvalid-pch -Wlogical-not-parentheses -Wlogical-op -Wlong-long -Wmain -Wmaybe-uninitialized -Wmemset-transposed-args -Wmissing-braces -Wmissing-declarations -Wmissing-field-initializers -Wmissing-include-dirs -Wmultichar -Wnarrowing -Wnonnull -Wodr -Wopenmp-simd -Woverflow -Woverlength-strings -Wpacked -Wpacked-bitfield-compat -Wparentheses -Wpedantic -Wpedantic-ms-format -Wpointer-arith -Wpragmas -Wreturn-local-addr -Wreturn-type -Wsequence-point -Wshadow -Wshift-count-negative -Wshift-count-overflow -Wsign-compare -Wsizeof-array-argument -Wsizeof-pointer-memaccess -Wstack-protector -Wstrict-aliasing -Wstrict-overflow -Wsuggest-attribute=const -Wsuggest-final-methods -Wsuggest-final-types -Wswitch -Wswitch-bool -Wswitch-default -Wsync-nand -Wsystem-headers -Wtrampolines -Wtrigraphs -Wtype-limits -Wundef -Wuninitialized -Wunknown-pragmas -Wunsafe-loop-optimizations -Wunused -Wunused-but-set-parameter -Wunused-but-set-variable -Wunused-function -Wunused-label -Wunused-local-typedefs -Wunused-macros -Wunused-parameter -Wunused-result -Wunused-value -Wunused-variable -Wvarargs -Wvariadic-macros -Wvector-operation-performance -Wvla -Wvolatile-register-var -Wwrite-strings 
+# CXX_WARNINGS = $(CXX_WARNINGS2) -Wabi-tag -Wc++0x-compat -Wc++11-compat -Wc++14-compat -Wconditionally-supported -Wconversion-null -Wctor-dtor-privacy -Wdelete-incomplete -Wdelete-non-virtual-dtor -Weffc++ -Winherited-variadic-ctor -Winvalid-offsetof -Wliteral-suffix -Wnoexcept -Wnon-template-friend -Wnon-virtual-dtor -Wold-style-cast -Woverloaded-virtual -Wpmf-conversions -Wreorder -Wsign-promo -Wsized-deallocation -Wstrict-null-sentinel -Wsuggest-override -Wsynth -Wuseless-cast -Wvirtual-move-assign -Wzero-as-null-pointer-constant
 # [mar'11] Compiles OK with all gcc warnings except for -Wno-sign-conversion and -Wconversion
 # Qhull reports -Wunused-but-set-variable warnings but these are OK (see annotations)
-# --help=warnings
 # Compiles OK with all g++ warnings except Qt source errors on -Wshadow and -Wconversion
 #    -Waddress -Warray-bounds -Wchar-subscripts -Wclobbered -Wcomment -Wunused-variable
 #    -Wempty-body -Wformat -Wignored-qualifiers -Wimplicit-function-declaration -Wimplicit-int
@@ -149,13 +177,14 @@ CXX_WARNINGS = -Wall -Wcast-qual -Wextra -Wwrite-strings -Wno-sign-conversion -W
 # Default targets for make
 
 all: bin-lib bin/rbox bin/qconvex bin/qdelaunay bin/qhalf bin/qvoronoi bin/qhull bin/testqset \
-     bin/testqset_r qtest bin/user_eg2 bin/user_eg3 bin/user_eg qconvex-prompt
+     bin/testqset_r qtest bin/user_eg2 bin/user_eg3 lib/libqhull_r.so bin/user_eg qconvex-prompt
 
 help:
-	head -n 75 Makefile
+	head -n 80 Makefile
 
 bin-lib:
-	mkdir -p bin lib
+	mkdir -p bin
+	mkdir -p lib
 
 # Remove intermediate files for all builds
 clean:
@@ -164,6 +193,14 @@ clean:
 	rm -f bin/*.idb lib/*.idb build-cmake/*/*.idb eg/*.x *.x *.tmp
 	rm -f build/*/*/*.a build/*/*/*.rsp build/moc/*.moc
 	rm -f build-cmake/*/*.obj build-cmake/*/*/*.obj build-cmake/*/*.ilk
+	@echo Remove linked C files from libqhull/ and libqhull_r/
+	rm -f src/libqhull/rbox.c src/libqhull/qconvex.c src/libqhull/qdelaun.c
+	rm -f src/libqhull/qhalf.c src/libqhull/qvoronoi.c src/libqhull/testqset.c
+	rm -f src/libqhull/unix.c src/libqhull/user_eg.c src/libqhull/user_eg2.c
+	rm -f src/libqhull_r/rbox_r.c src/libqhull_r/qconvex_r.c src/libqhull_r/qdelaun_r.c
+	rm -f src/libqhull_r/qhalf_r.c src/libqhull_r/qvoronoi_r.c src/libqhull_r/testqset_r.c
+	rm -f src/libqhull_r/unix_r.c src/libqhull_r/user_eg_r.c src/libqhull_r/user_eg2_r.c
+	rm -f src/libqhull_r/user_eg3_r.c
 
 # Remove intermediate files and targets for all builds
 # DevStudio prevents build/qhull.ncb deletes
@@ -173,29 +210,21 @@ cleanall: clean
 	rm -rf buildvc/
 	rm -rf buildqt/
 	rm -rf build-qhull-all*/
-	rm -f eg/eg.* eg/t*.tmp
+	rm -rf src/qhull_qh/
 	rm -f bin/qconvex bin/qdelaunay bin/qhalf bin/qvoronoi bin/qhull
 	rm -f bin/rbox core bin/core bin/user_eg bin/user_eg2 bin/user_eg3
 	rm -f bin/testqset bin/testqset_r bin/qhulltest
-	rm -f lib/libqhull* lib/qhull*.lib lib/qhull*.exp  lib/qhull*.dll
 	rm -f bin/libqhull* bin/qhull*.dll bin/*.exe bin/*.pdb lib/*.pdb
 	rm -f build/*.dll build/*.exe build/*.a build/*.exp 
 	rm -f build/*.lib build/*.pdb build/*.idb build/qhull-no-qt.sln
 	rm -f build-cmake/*/*.dll build-cmake/*/*.exe build-cmake/*/*.exp 
 	rm -f build-cmake/*/*.lib build-cmake/*/*.pdb
-	rm -f src/libqhull/qconvex.c src/libqhull/qdelaun.c src/libqhull/qhalf.c
-	rm -f src/libqhull/qvoronoi.c  src/libqhull/rbox.c src/libqhull/testqset.c
-	rm -f src/libqhull/unix.c src/libqhull/user_eg.c src/libqhull/user_eg2.c
-	rm -f src/libqhull/*.exe  src/libqhull/libqhullstatic* src/libqhull/core
-	rm -f src/libqhull/qconvex src/libqhull/qdelaunay src/libqhull/qhalf src/libqhull/qvoronoi src/libqhull/qhull
-	rm -f src/libqhull/rbox src/libqhull/core src/libqhull/user_eg src/libqhull/user_eg2 src/libqhull/user_eg3
-	rm -f src/libqhull_r/unix_r.c src/libqhull_r/user_eg_r.c src/libqhull_r/user_eg2_r.c
-	rm -f src/libqhull_r/qconvex_r.c src/libqhull_r/qdelaun_r.c src/libqhull_r/qhalf_r.c
-	rm -f src/libqhull_r/qvoronoi_r.c  src/libqhull_r/rbox_r.c src/libqhull_r/testqset_r.c
-	rm -f src/libqhull_r/unix_r.c src/libqhull_r/user_eg_r.c src/libqhull_r/user_eg2_r.c
-	rm -f src/libqhull_r/*.exe  src/libqhull_r/libqhullstatic*
-	rm -f src/libqhull_r/qconvex src/libqhull_r/qdelaunay src/libqhull_r/qhalf src/libqhull_r/qvoronoi src/libqhull_r/qhull
-	rm -f src/libqhull_r/rbox src/libqhull_r/core src/libqhull_r/user_eg src/libqhull_r/user_eg2 src/libqhull_r/user_eg3
+	rm -f eg/eg.* eg/t*.tmp
+	rm -f lib/libqhull* lib/qhull*.lib lib/qhull*.exp  lib/qhull*.dll
+	rm -f src/libqhull*/*.exe  src/libqhull*/libqhullstatic* src/libqhull*/core
+	rm -f src/libqhull*/qconvex src/libqhull*/qdelaunay src/libqhull*/qhalf 
+	rm -f src/libqhull*/qvoronoi src/libqhull*/qhull src/libqhull*/rbox
+	rm -f src/libqhull*/user_eg src/libqhull*/user_eg2 src/libqhull*/user_eg3
 
 doc: 
 	$(PRINTMAN) $(TXTFILES) $(DOCFILES)
@@ -264,7 +293,7 @@ qtest:
 	
 test: qtest
 	@echo ============================================
-	@echo == make test ===============================
+	@echo == make test, after running qtest ==========
 	@echo ============================================
 	@echo
 	@echo ==============================
@@ -292,9 +321,11 @@ test: qtest
 	@echo ==============================
 	-bin/rbox 10 | bin/qvoronoi Tv
 	@echo
-	@echo ==============================
-	@echo ========= user_eg ============
-	@echo ==============================
+	@echo =================================
+	@echo ========= user_eg ===============
+	@echo == if fails under Windows =======
+	@echo ==  cp lib/libqhull_r.dll bin/ ==
+	@echo =================================
 	-bin/user_eg
 	@echo
 	@echo ==============================
@@ -305,22 +336,36 @@ test: qtest
 	@echo ==============================
 	@echo ========= user_eg3 ===========
 	@echo ==============================
+	-bin/user_eg3
 	-bin/user_eg3 rbox "10 D2"  "2 D2" qhull "s p" facets
 
-# make testall >q_test.txt 2>&1
+# make testall >eg/q_test.x 2>&1
 testall: test 
-	@echo ============================================
-	@echo == make testall ============================
-	@echo ============================================
+	@echo ================================================
+	@echo == make testall, after running qtest and test ==
+	@echo ================================================
 	@echo -n "== "
 	@date
 	@echo
 	-eg/q_eg
 	-eg/q_egtest
 	-eg/q_test
+	-eg/q_benchmark test 1 1 1 1
 
+# make benchmark >eg/q_benchmark.x 2>&1
+benchmark: 
+	@echo ============================================
+	@echo == make benchmark ==========================
+	@echo == eg/qtest.sh    ==========================
+	@echo ============================================
+	@echo -n "== "
+	@date
+	@echo
+	-eg/q_benchmark -10 -10 -10 -10
+
+# last command for 'make all'
 qconvex-prompt:
-	bin/qconvex
+	bin/qconvex -?
 	@echo
 	@echo ============================================
 	@echo == Run the qconvex smoketest
@@ -328,7 +373,7 @@ qconvex-prompt:
 	bin/rbox D4 | bin/qconvex Tv
 	@echo
 	@echo ============================================
-	@echo == To enable user_eg and user_eg2
+	@echo == To enable user_eg
 	@echo ==
 	@echo == Windows -- make SO=dll
 	@echo '==     cp -p lib/libqhull*.dll bin'
@@ -344,11 +389,11 @@ qconvex-prompt:
 	@echo
 	@echo ============================================
 	@echo == To run qhull tests for manual review with eg/q_test-ok.txt
-	@echo '==     make testall >q_test.txt 2>&1'
+	@echo '==     make testall >eg/q_test.x 2>&1'
 	@echo ============================================
 	@echo
 	@echo ============================================
-	@echo == For all make targets
+	@echo == To show all make targets
 	@echo '==     make help'
 	@echo ============================================
 	@echo
@@ -369,8 +414,8 @@ LCPP= src/libqhullcpp
 TCPP= src/qhulltest
 
 LIBQHULL_HDRS = $(L)/user.h $(L)/libqhull.h $(L)/qhull_a.h $(L)/geom.h \
-        $(L)/io.h $(L)/mem.h $(L)/merge.h $(L)/poly.h $(L)/random.h \
-        $(L)/qset.h $(L)/stat.h
+	$(L)/io.h $(L)/mem.h $(L)/merge.h $(L)/poly.h $(L)/random.h \
+	$(L)/qset.h $(L)/stat.h
 
 LIBQHULLR_HDRS = $(LR)/user_r.h $(LR)/libqhull_r.h $(LR)/qhull_ra.h $(LR)/geom_r.h \
 	$(LR)/io_r.h $(LR)/mem_r.h $(LR)/merge_r.h $(LR)/poly_r.h $(LR)/random_r.h \
@@ -380,11 +425,11 @@ LIBQHULLR_HDRS = $(LR)/user_r.h $(LR)/libqhull_r.h $(LR)/qhull_ra.h $(LR)/geom_r
 # small files at end.  Better locality.
 
 LIBQHULLS_OBJS= $(LS)/global.o $(LS)/stat.o $(LS)/geom2.o $(LS)/poly2.o \
-        $(LS)/merge.o $(LS)/libqhull.o $(LS)/geom.o $(LS)/poly.o \
-        $(LS)/qset.o $(LS)/mem.o $(LS)/random.o 
+	$(LS)/merge.o $(LS)/libqhull.o $(LS)/geom.o $(LS)/poly.o \
+	$(LS)/qset.o $(LS)/mem.o $(LS)/random.o 
 
 LIBQHULLS_USER_OBJS = $(LIBQHULLS_OBJS) $(LS)/usermem.o $(LS)/userprintf.o \
-        $(LS)/io.o $(LS)/user.o
+	$(LS)/io.o $(LS)/user.o
 
 LIBQHULLS_RBOX_OBJS = $(LIBQHULLS_USER_OBJS) $(LS)/rboxlib.o $(LS)/userprintf_rbox.o
 
@@ -527,17 +572,20 @@ $(LCPP)/RboxPoints.o:       $(LIBQHULLCPP_HDRS) $(LIBQHULLR_HDRS)
 # qhullx -- Compile qhull without using a qhull library.  Must be after LIBQHULLS_RBOX_OBJS
 # For qconvex, rbox, and other programs, qhullx produces the same results as libqhull/Makefile
 # For qhull, 'make qhullx' produces the same results as libqhull_r/Makefile
-qhullx: src/qconvex/qconvex.o src/qdelaunay/qdelaun.o src/qhalf/qhalf.o \
-	    src/qvoronoi/qvoronoi.o src/rbox/rbox.o \
-            src/qhull/unix_r.o $(LIBQHULLS_RBOX_OBJS)  $(LIBQHULLSR_USER_OBJS)
+qhullx: src/qconvex/qconvex.o src/qdelaunay/qdelaun.o src/qhalf/qhalf.o src/qvoronoi/qvoronoi.o\
+	    src/qhull/unix_r.o src/rbox/rbox.o src/testqset/testqset.o src/testqset_r/testqset_r.o\
+	    $(LIBQHULLS_RBOX_OBJS) $(LIBQHULLSR_USER_OBJS) $(LS)/mem.o $(LS)/qset.o $(LS)/usermem.o
+	mkdir -p bin/
 	$(CC) -o bin/qconvex $(CC_OPTS2) -lm $(LIBQHULLS_USER_OBJS) src/qconvex/qconvex.o
 	$(CC) -o bin/qdelaunay $(CC_OPTS2) -lm $(LIBQHULLS_USER_OBJS) src/qdelaunay/qdelaun.o
 	$(CC) -o bin/qhalf $(CC_OPTS2) -lm $(LIBQHULLS_USER_OBJS) src/qhalf/qhalf.o
 	$(CC) -o bin/qvoronoi $(CC_OPTS2) -lm $(LIBQHULLS_USER_OBJS) src/qvoronoi/qvoronoi.o
 	$(CC) -o bin/qhull $(CC_OPTS2) -lm $(LIBQHULLSR_USER_OBJS) src/qhull/unix_r.o
 	$(CC) -o bin/rbox $(CC_OPTS2) -lm $(LIBQHULLS_RBOX_OBJS) src/rbox/rbox.o
-	$(CC) -o bin/testqset $(CC_OPTS2) -lm mem.o qset.o usermem.o testqset.o
-	$(CC) -o bin/testqset_r $(CC_OPTS2) -lm mem_r.o qset_r.o usermem_r.o testqset_r.o
+	$(CC) -o bin/testqset $(CC_OPTS2) -lm $(LS)/mem.o $(LS)/qset.o $(LS)/usermem.o src/testqset/testqset.o
+	$(CC) -o bin/testqset_r $(CC_OPTS2) -lm $(LSR)/mem_r.o $(LSR)/qset_r.o $(LSR)/usermem_r.o src/testqset_r/testqset_r.o
+	-bin/testqset 10000
+	-bin/testqset_r 10000
 	-bin/rbox D4 | bin/qhull
 
 # The static library, libqhullstatic, contains non-reentrant code for Qhull.  It is somewhat faster than reentrant libqhullstatic_r
@@ -633,7 +681,10 @@ lib/libqhullcpp.a: $(LIBQHULLCPP_OBJS)
 
 lib/libqhull_r.$(SO): $(LIBQHULLSR_RBOX_OBJS)
 	$(CC) -shared -o $@ $(CC_OPTS3) $^
-	cd lib && ln -f -s libqhull_r.$(SO) libqhull_r.so
+
+lib/libqhull_r.so: lib/libqhull_r.$(SO)
+	(cd lib/ && ln -f -s libqhull_r.$(SO) libqhull_r.so)
+	ls -d $(PWD)
 
 # don't use ../qconvex.	 Does not work on Red Hat Linux
 bin/qconvex: src/qconvex/qconvex.o lib/libqhullstatic.a
@@ -643,7 +694,7 @@ bin/qdelaunay: src/qdelaunay/qdelaun.o lib/libqhullstatic.a
 	$(CC) -o $@ $< $(CC_OPTS2) -Llib -lqhullstatic -lm
 
 bin/qhalf: src/qhalf/qhalf.o lib/libqhullstatic.a
-	$(CC) -o $@ $< $(CC_OPTS2) -Llib  -lqhullstatic -lm
+	$(CC) -o $@ $< $(CC_OPTS2) -Llib -lqhullstatic -lm
 
 bin/qvoronoi: src/qvoronoi/qvoronoi.o lib/libqhullstatic.a
 	$(CC) -o $@ $< $(CC_OPTS2) -Llib -lqhullstatic -lm
@@ -664,7 +715,7 @@ bin/testqset_r: src/testqset_r/testqset_r.o src/libqhull_r/qset_r.o src/libqhull
 # You may use  -lqhullstatic_r instead of -lqhull_r
 bin/user_eg: src/user_eg/user_eg_r.o lib/libqhull_r.$(SO)
 	@echo -e '\n\n==================================================='
-	@echo -e '== If user_eg fails to link on MinGW or Cygwin, use'
+	@echo -e '== If user_eg fails to link on a Windows host, use'
 	@echo -e '==   "make SO=dll" and copy lib/libqhull_r.dll to bin/'
 	@echo -e '== Otherwise if user_eg fails to link, switch to -lqhullstatic_r'
 	@echo -e '===================================================\n'

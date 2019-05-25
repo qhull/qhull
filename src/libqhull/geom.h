@@ -6,9 +6,9 @@
 
    see qh-geom.htm and geom.c
 
-   Copyright (c) 1993-2018 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull/geom.h#3 $$Change: 2549 $
-   $DateTime: 2018/12/28 22:24:20 $$Author: bbarber $
+   Copyright (c) 1993-2019 The Geometry Center.
+   $Id: //main/2019/qhull/src/libqhull/geom.h#1 $$Change: 2661 $
+   $DateTime: 2019/05/24 20:09:58 $$Author: bbarber $
 */
 
 #ifndef qhDEFgeom
@@ -111,7 +111,7 @@ void    qh_gausselim(realT **rows, int numrow, int numcol, boolT *sign, boolT *n
 realT   qh_getangle(pointT *vect1, pointT *vect2);
 pointT *qh_getcenter(setT *vertices);
 pointT *qh_getcentrum(facetT *facet);
-realT   qh_getdistance(facetT *facet, facetT *neighbor, realT *mindist, realT *maxdist);
+coordT  qh_getdistance(facetT *facet, facetT *neighbor, coordT *mindist, coordT *maxdist);
 void    qh_normalize(coordT *normal, int dim, boolT toporient);
 void    qh_normalize2(coordT *normal, int dim, boolT toporient,
             realT *minnorm, boolT *ismin);
@@ -130,6 +130,7 @@ coordT *qh_copypoints(coordT *points, int numpoints, int dimension);
 void    qh_crossproduct(int dim, realT vecA[3], realT vecB[3], realT vecC[3]);
 realT   qh_determinant(realT **rows, int dim, boolT *nearzero);
 realT   qh_detjoggle(pointT *points, int numpoints, int dimension);
+void    qh_detmaxoutside(void);
 void    qh_detroundoff(void);
 realT   qh_detsimplex(pointT *apex, setT *points, int dim, boolT *nearzero);
 realT   qh_distnorm(int dim, pointT *point, pointT *normal, realT *offsetp);
@@ -140,6 +141,8 @@ realT   qh_facetarea_simplex(int dim, coordT *apex, setT *vertices,
           vertexT *notvertex,  boolT toporient, coordT *normal, realT *offset);
 pointT *qh_facetcenter(setT *vertices);
 facetT *qh_findgooddist(pointT *point, facetT *facetA, realT *distp, facetT **facetlist);
+vertexT *qh_furthestnewvertex(unsigned int unvisited, facetT *facet, realT *maxdistp /* qh.newvertex_list */);
+vertexT *qh_furthestvertex(facetT *facetA, facetT *facetB, realT *maxdistp, realT *mindistp);
 void    qh_getarea(facetT *facetlist);
 boolT   qh_gram_schmidt(int dim, realT **rows);
 boolT   qh_inthresholds(coordT *normal, realT *angle);
@@ -168,6 +171,8 @@ void    qh_scalepoints(pointT *points, int numpoints, int dim,
 boolT   qh_sethalfspace(int dim, coordT *coords, coordT **nextp,
               coordT *normal, coordT *offset, coordT *feasible);
 coordT *qh_sethalfspace_all(int dim, int count, coordT *halfspaces, pointT *feasible);
+coordT  qh_vertex_bestdist(setT *vertices);
+coordT  qh_vertex_bestdist2(setT *vertices, vertexT **vertexp, vertexT **vertexp2);
 pointT *qh_voronoi_center(int dim, setT *points);
 
 #endif /* qhDEFgeom */

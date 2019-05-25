@@ -1,16 +1,19 @@
 #!/bin/sh
 #   writes examples to eg/
-if ! qconvex >/dev/null 2>&1; then
+if ! which qconvex >/dev/null 2>&1; then
     if [ ! -d bin ]; then
-	echo Run eg/q_eg from the Qhull directory
+	echo 'eg/q_egtest: Run eg/q_egtest from the Qhull directory with bin/qconvex, or add qconvex/etc. to $PATH'
 	exit
     fi
     if [ ! -e bin/qconvex -a ! -e bin/qconvex.exe ]; then
-	echo 'Build qhull first.  qconvex is missing from bin/ directory and $PATH'
+	echo 'eg/q_egtest: Build qhull first.  qconvex is missing from bin/ directory and $PATH'
 	exit
     fi
-    if ! qconvex >/dev/null 2>&1; then
-	PATH=$PWD/bin:$PATH
+    echo 'eg/q_egtest: Temporarily add "$PWD/bin" to $PATH for access to qconvex,etc.'
+    PATH=$PWD/bin:$PATH
+    if ! which qconvex >/dev/null 2>&1; then
+	echo 'eg/q_egtest: PATH=... failed.  Please execute "export PATH=$PWD/bin:$PATH" and repeat'
+	exit 1
     fi
 fi
 mkdir -p eg
@@ -48,5 +51,5 @@ rbox 30 s D4 | qconvex s Gh Pd0d1d2D3 Tc >eg/eg.t24.intersect.precise.4d
 echo ==the following generates an error== >/dev/null
 rbox 1000 D4 | qhull Q0 s Po R0.005 Ga Tc Tv >eg/eg.t25.neighbors.4d
 echo ==the previous should generate an error== >/dev/null
-
+echo END q_egtest >/dev/null
 

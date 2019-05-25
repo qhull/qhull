@@ -29,9 +29,9 @@
     qh-mem.htm and mem.h
     global.c (qh_initbuffers) for an example of using mem.c
 
-  Copyright (c) 1993-2018 The Geometry Center.
-  $Id: //main/2015/qhull/src/libqhull/mem.c#10 $$Change: 2549 $
-  $DateTime: 2018/12/28 22:24:20 $$Author: bbarber $
+  Copyright (c) 1993-2019 The Geometry Center.
+  $Id: //main/2019/qhull/src/libqhull/mem.c#1 $$Change: 2661 $
+  $DateTime: 2019/05/24 20:09:58 $$Author: bbarber $
 */
 
 #include "user.h"  /* for QHULL_CRTDBG */
@@ -157,7 +157,7 @@ void *qh_memalloc(int insize) {
         qhmem.freesize= bufsize - size;
         qhmem.totbuffer += bufsize - size; /* easier to check */
         /* Periodically test totbuffer.  It matches at beginning and exit of every call */
-        n = qhmem.totshort + qhmem.totfree + qhmem.totdropped + qhmem.freesize - outsize;
+        n= qhmem.totshort + qhmem.totfree + qhmem.totdropped + qhmem.freesize - outsize;
         if (qhmem.totbuffer != n) {
             qh_fprintf(qhmem.ferr, 6212, "qh_memalloc internal error: short totbuffer %d != totshort+totfree... %d\n", qhmem.totbuffer, n);
             qh_errexit(qhmem_ERRmem, NULL, NULL);
@@ -205,7 +205,8 @@ void qh_memcheck(void) {
   void *object;
 
   if (qhmem.ferr == 0 || qhmem.IStracing < 0 || qhmem.IStracing > 10 || (((qhmem.ALIGNmask+1) & qhmem.ALIGNmask) != 0)) {
-    qh_fprintf_stderr(6244, "qh_memcheck error: either qhmem is overwritten or qhmem is not initialized.  Call qh_meminit() or qh_new_qhull() before calling qh_mem routines.  ferr 0x%x IsTracing %d ALIGNmask 0x%x", qhmem.ferr, qhmem.IStracing, qhmem.ALIGNmask);
+    qh_fprintf_stderr(6244, "qh_memcheck error: either qhmem is overwritten or qhmem is not initialized.  Call qh_meminit or qh_new_qhull before calling qh_mem routines.  ferr 0x%x, IsTracing %d, ALIGNmask 0x%x\n", 
+          qhmem.ferr, qhmem.IStracing, qhmem.ALIGNmask);
     qh_exit(qhmem_ERRqhull);  /* can not use qh_errexit() */
   }
   if (qhmem.IStracing != 0)
@@ -281,6 +282,11 @@ void qh_memfree(void *object, int insize) {
   returns:
     number and size of current long allocations
 
+  notes:
+    if qh_NOmem (qh_malloc() for all allocations),
+       short objects (e.g., facetT) are not recovered.
+       use qh_freeqhull(qh_ALL) instead.
+
   see:
     qh_freeqhull(allMem)
     qh_memtotal(curlong, totlong, curshort, totshort, maxlong, totbuffer);
@@ -291,7 +297,7 @@ void qh_memfreeshort(int *curlong, int *totlong) {
 
   *curlong= qhmem.cntlong - qhmem.freelong;
   *totlong= qhmem.totlong;
-  for (buffer= qhmem.curbuffer; buffer; buffer= nextbuffer) {
+  for (buffer=qhmem.curbuffer; buffer; buffer= nextbuffer) {
     nextbuffer= *((void **) buffer);
     qh_free(buffer);
   }
@@ -311,7 +317,7 @@ void qh_memfreeshort(int *curlong, int *totlong) {
   >--------------------------------</a><a name="meminit">-</a>
 
   qh_meminit( ferr )
-    initialize qhmem and test sizeof( void*)
+    initialize qhmem and test sizeof(void *)
     Does not throw errors.  qh_exit on failure
 */
 void qh_meminit(FILE *ferr) {
@@ -321,13 +327,13 @@ void qh_meminit(FILE *ferr) {
     qhmem.ferr= ferr;
   else
     qhmem.ferr= stderr;
-  if (sizeof(void*) < sizeof(int)) {
-    qh_fprintf(qhmem.ferr, 6083, "qhull internal error (qh_meminit): sizeof(void*) %d < sizeof(int) %d.  qset.c will not work\n", (int)sizeof(void*), (int)sizeof(int));
+  if (sizeof(void *) < sizeof(int)) {
+    qh_fprintf(qhmem.ferr, 6083, "qhull internal error (qh_meminit): sizeof(void *) %d < sizeof(int) %d.  qset.c will not work\n", (int)sizeof(void*), (int)sizeof(int));
     qh_exit(qhmem_ERRqhull);  /* can not use qh_errexit() */
   }
-  if (sizeof(void*) > sizeof(ptr_intT)) {
-      qh_fprintf(qhmem.ferr, 6084, "qhull internal error (qh_meminit): sizeof(void*) %d > sizeof(ptr_intT) %d. Change ptr_intT in mem.h to 'long long'\n", (int)sizeof(void*), (int)sizeof(ptr_intT));
-      qh_exit(qhmem_ERRqhull);  /* can not use qh_errexit() */
+  if (sizeof(void *) > sizeof(ptr_intT)) {
+    qh_fprintf(qhmem.ferr, 6084, "qhull internal error (qh_meminit): sizeof(void *) %d > sizeof(ptr_intT) %d. Change ptr_intT in mem.h to 'long long'\n", (int)sizeof(void*), (int)sizeof(ptr_intT));
+    qh_exit(qhmem_ERRqhull);  /* can not use qh_errexit() */
   }
   qh_memcheck();
 } /* meminit */
@@ -367,7 +373,7 @@ void qh_meminitbuffers(int tracelevel, int alignment, int numsizes, int bufsize,
 /*-<a                             href="qh-mem.htm#TOC"
   >-------------------------------</a><a name="memsetup">-</a>
 
-  qh_memsetup()
+  qh_memsetup( )
     set up memory after running memsize()
 */
 void qh_memsetup(void) {
@@ -405,7 +411,7 @@ void qh_memsize(int size) {
   int k;
 
   if (qhmem.LASTsize) {
-    qh_fprintf(qhmem.ferr, 6089, "qhull error (qh_memsize): called after qhmem_setup\n");
+    qh_fprintf(qhmem.ferr, 6089, "qhull internal error (qh_memsize): qh_memsize called after qhmem_setup\n");
     qh_errexit(qhmem_ERRqhull, NULL, NULL);
   }
   size= (size + qhmem.ALIGNmask) & ~qhmem.ALIGNmask;
@@ -456,7 +462,7 @@ void qh_memstatistics(FILE *fp) {
            qhmem.totbuffer, qhmem.BUFsize, qhmem.BUFinit);
   if (qhmem.cntlarger) {
     qh_fprintf(fp, 9279, "%7d calls to qh_setlarger\n%7.2g     average copy size\n",
-           qhmem.cntlarger, ((float)qhmem.totlarger)/(float)qhmem.cntlarger);
+           qhmem.cntlarger, ((double)qhmem.totlarger)/(double)qhmem.cntlarger);
     qh_fprintf(fp, 9280, "  freelists(bytes->count):");
   }
   for (i=0; i < qhmem.TABLEsize; i++) {
@@ -496,6 +502,9 @@ void *qh_memalloc(int insize) {
   return object;
 }
 
+void qh_memcheck(void) {
+}
+
 void qh_memfree(void *object, int insize) {
 
   if (!object)
@@ -520,8 +529,8 @@ void qh_meminit(FILE *ferr) {
       qhmem.ferr= ferr;
   else
       qhmem.ferr= stderr;
-  if (sizeof(void*) < sizeof(int)) {
-    qh_fprintf(qhmem.ferr, 6091, "qhull internal error (qh_meminit): sizeof(void*) %d < sizeof(int) %d.  qset.c will not work\n", (int)sizeof(void*), (int)sizeof(int));
+  if (sizeof(void *) < sizeof(int)) {
+    qh_fprintf(qhmem.ferr, 6091, "qhull internal error (qh_meminit): sizeof(void *) %d < sizeof(int) %d.  qset.c will not work\n", (int)sizeof(void*), (int)sizeof(int));
     qh_errexit(qhmem_ERRqhull, NULL, NULL);
   }
 }
@@ -532,11 +541,9 @@ void qh_meminitbuffers(int tracelevel, int alignment, int numsizes, int bufsize,
 }
 
 void qh_memsetup(void) {
-
 }
 
 void qh_memsize(int size) {
-
 }
 
 void qh_memstatistics(FILE *fp) {
@@ -563,7 +570,7 @@ void qh_memstatistics(FILE *fp) {
     Returns the total current bytes of long and short allocations
     Returns the current count of long and short allocations
     Returns the maximum long memory and total short buffer (minus one link per buffer)
-    Does not error (UsingLibQhull.cpp)
+    Does not error (for deprecated UsingLibQhull.cpp in libqhullpcpp)
 */
 void qh_memtotal(int *totlong, int *curlong, int *totshort, int *curshort, int *maxlong, int *totbuffer) {
     *totlong= qhmem.totlong;

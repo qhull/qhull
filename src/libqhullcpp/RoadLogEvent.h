@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (c) 2008-2018 C.B. Barber. All rights reserved.
-** $Id: //main/2015/qhull/src/libqhullcpp/RoadLogEvent.h#3 $$Change: 2549 $
-** $DateTime: 2018/12/28 22:24:20 $$Author: bbarber $
+** Copyright (c) 2008-2019 C.B. Barber. All rights reserved.
+** $Id: //main/2019/qhull/src/libqhullcpp/RoadLogEvent.h#1 $$Change: 2661 $
+** $DateTime: 2019/05/24 20:09:58 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -37,7 +37,7 @@ public:
 #//!\name Constants
 
 #//!\name Constructors
-    RoadLogEvent() : format_string(0), int_1(0), int_2(0), float_1(0), int64_1(0) {};
+    RoadLogEvent() : format_string(NULL), int_1(0), int_2(0), float_1(0), int64_1(0) {};
     explicit RoadLogEvent(const char *fmt) : format_string(fmt), int_1(0), int_2(0), float_1(0), int64_1(0) {};
     RoadLogEvent(const char *fmt, int d) : format_string(fmt), int_1(d), int_2(0), float_1(0), int64_1(0) {};
     RoadLogEvent(const char *fmt, int d, int d2) : format_string(fmt), int_1(d), int_2(d2), float_1(0), int64_1(0) {};
@@ -51,7 +51,7 @@ public:
     //! Default copy constructor and assignment
 
 #//!\name GetSet
-    bool                isValid() const { return format_string!=0; }
+    bool                isValid() const { return format_string!=NULL; }
     int                 int1() const { return int_1; };
     int                 int2() const { return int_2; };
     float               float1() const { return float_1; };

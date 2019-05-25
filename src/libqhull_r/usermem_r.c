@@ -2,7 +2,7 @@
   >-------------------------------</a><a name="TOP">-</a>
 
    usermem_r.c
-   qh_exit(), qh_free(), and qh_malloc()
+   user redefinable functions -- qh_exit, qh_free, and qh_malloc
 
    See README.txt.
 
@@ -46,7 +46,7 @@ void qh_exit(int exitcode) {
     fprintf to stderr with msgcode (non-zero)
 
   notes:
-    qh_fprintf_stderr() is called when qh->ferr is not defined, usually due to an initialization error
+    qh_fprintf_stderr() is called when qh.ferr is not defined, usually due to an initialization error
     
     It is typically followed by qh_errexit().
 
@@ -67,7 +67,7 @@ void qh_fprintf_stderr(int msgcode, const char *fmt, ... ) {
 /*-<a                             href="qh-user_r.htm#TOC"
 >-------------------------------</a><a name="qh_free">-</a>
 
-  qh_free(qhT *qh, mem )
+  qh_free(qh, mem )
     free memory
 
   notes:

@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (c) 2009-2018 C.B. Barber. All rights reserved.
-** $Id: //main/2015/qhull/src/libqhullcpp/Coordinates.cpp#6 $$Change: 2549 $
-** $DateTime: 2018/12/28 22:24:20 $$Author: bbarber $
+** Copyright (c) 2009-2019 C.B. Barber. All rights reserved.
+** $Id: //main/2019/qhull/src/libqhullcpp/Coordinates.cpp#1 $$Change: 2661 $
+** $DateTime: 2019/05/24 20:09:58 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -150,6 +150,7 @@ indexOf(const coordT &t, countT from) const
 countT Coordinates::
 lastIndexOf(const coordT &t, countT from) const
 {
+    countT idx;
     if(from<0){
         from += count();
     }else if(from>=count()){
@@ -159,7 +160,8 @@ lastIndexOf(const coordT &t, countT from) const
         const_iterator i= begin()+from+1;
         while(i-- != constBegin()){
             if(*i==t){
-                return (static_cast<countT>(i-begin())); // WARN64 coordinate index
+                idx= static_cast<countT>(i-begin()); // WARN64 coordinate index
+                return idx;
             }
         }
     }

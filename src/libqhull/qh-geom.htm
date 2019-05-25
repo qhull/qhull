@@ -9,7 +9,7 @@ content="text/html; charset=iso-8859-1">
 <body>
 <!-- Navigation links -->
 <p><a name="TOP"><b>Up:</b></a> <a
-href="http://www.qhull.org">Home page</a> for Qhull<br>
+href="http://www.qhull.org">Home page</a> for Qhull (<a href="../index.htm">local</a>)<br>
 <b>Up:</b> <a href="../../html/index.htm#TOC">Qhull manual</a>: Table of Contents <br>
 <b>Up:</b> <a href="../../html/qh-quick.htm#programs">Programs</a>
 &#149; <a href="../../html/qh-quick.htm#options">Options</a>
@@ -20,9 +20,8 @@ href="http://www.qhull.org">Home page</a> for Qhull<br>
 &#149; <a href="../../html/qh-optq.htm#qhull">Qhull</a>
 &#149; <a href="../../html/qh-optc.htm#prec">Precision</a>
 &#149; <a href="../../html/qh-optt.htm#trace">Trace</a>
-&#149; <a href="index.htm">Functions</a><br>
-<b>Up:</b> <a href="../../html/qh-code.htm#TOC">Qhull code: Table of Contents</a><br>
-<b>To:</b> <a href="index.htm">Qhull functions</a>, macros, and data structures<br>
+&#149; <a href="http://www.qhull.org/src/libqhull/index.htm">Functions</a> (<a href="index.htm">local</a>)<br>
+<b>Up:</b> <a href="../../html/qh-code.htm">Qhull code</a><br>
 <b>To:</b> <a href="qh-geom.htm#TOC">Geom</a> &#149; <a href="qh-globa.htm">Global</a>
 &#149; <a href="qh-io.htm">Io</a> &#149; <a href="qh-mem.htm">Mem</a>
 &#149; <a href="qh-merge.htm">Merge</a> &#149; <a href="qh-poly.htm">Poly</a>
@@ -55,7 +54,7 @@ computations is determined at initialization. The roundoff error
 in halfspace computation is accounted for by computing the
 distance from vertices to the halfspace. </p>
 </blockquote>
-<p><b>Copyright &copy; 1995-2018 C.B. Barber</b></p>
+<p><b>Copyright &copy; 1995-2019 C.B. Barber</b></p>
 <hr>
 <p><a href="#TOP">&#187;</a> <b>Geom</b>
 <a name="TOC">&#149;</a> <a href="qh-globa.htm#TOC">Global</a> &#149;
@@ -219,6 +218,10 @@ facet or best facet for a point </li>
 update best new facet with horizon facets</li>
 <li><a href="geom.c#findbestnew">qh_findbestnew</a> find best
 new facet for point </li>
+<li><a href="geom2.c#furthestnewvertex">qh_furthestnewvertex</a> return
+furthest new vertex for facet </li>
+<li><a href="geom2.c#furthestvertex">qh_furthestvertex</a> return
+furthest vertex in facetA above facetB </li>
 <li><a href="geom2.c#getarea">qh_getarea</a> get area and volume of all
 facets in facetlist, collect statistics </li>
 <li><a href="geom.c#getcentrum">qh_getcentrum</a> return
@@ -238,30 +241,36 @@ point onto a facet </li>
 the hyperplane for a facet </li>
 <li><a href="geom2.c#sharpnewfacets">qh_sharpnewfacets</a> true
 if new facets contains a sharp corner</li>
+<li><a href="geom2.c#vertex_bestdist">qh_vertex_bestdist</a>
+return nearest distance between vertices, except 'skip' </li>
+<li><a href="geom2.c#vertex_isbelow">qh_vertex_isbelow</a> true if
+vertexA is below vertexB's simplicial facets, or least above </li>
 </ul>
 
 <h3><a href="qh-geom.htm#TOC">&#187;</a><a name="ground">geometric roundoff functions</a></h3>
 <ul>
 <li><a href="geom2.c#detjoggle">qh_detjoggle</a> determine
-default joggle for points and distance roundoff error</li>
+default joggle for points and distance roundoff error </li>
+<li><a href="geom2.c#detmaxoutside">qh_detmaxoutside</a>
+determine qh.MAXoutside target for qh_RATIO... tests </li>
 <li><a href="geom2.c#detroundoff">qh_detroundoff</a>
-determine maximum roundoff error and other precision constants</li>
+determine maximum roundoff error and other precision constants </li>
 <li><a href="geom2.c#distround">qh_distround</a> compute
 maximum roundoff error due to a distance computation to a
-normalized hyperplane</li>
+normalized hyperplane </li>
 <li><a href="geom2.c#divzero">qh_divzero</a> divide by a
 number that is nearly zero </li>
 <li><a href="geom2.c#maxouter">qh_maxouter</a> return maximum outer
 plane</li>
 <li><a href="geom2.c#outerinner">qh_outerinner</a> return actual
-outer and inner planes
+outer and inner planes</li>
 </ul>
 
 <p><!-- Navigation links --> </p>
 <hr>
 <p><b>Up:</b>
-<a href="http://www.qhull.org">Home page for
-Qhull</a> <br>
+<a href="http://www.qhull.org">Home page</a> for
+Qhull (<a href="../index.htm">local</a>) <br>
 <b>Up:</b> <a href="index.htm#TOC">Qhull manual: Table of Contents</a> <br>
 <b>Up:</b> <a href="../../html/qh-quick.htm#programs">Programs</a>
 &#149; <a href="../../html/qh-quick.htm#options">Options</a>
@@ -272,9 +281,8 @@ Qhull</a> <br>
 &#149; <a href="../../html/qh-optq.htm#qhull">Qhull</a>
 &#149; <a href="../../html/qh-optc.htm#prec">Precision</a>
 &#149; <a href="../../html/qh-optt.htm#trace">Trace</a>
-&#149; <a href="index.htm">Functions</a><br>
-<b>Up:</b> <a href="../../html/qh-code.htm#TOC">Qhull code: Table of Contents</a> <br>
-<b>To:</b> <a href="index.htm">Qhull functions</a>, macros, and data structures<br>
+&#149; <a href="http://www.qhull.org/src/libqhull/index.htm">Functions</a> (<a href="index.htm">local</a>)<br>
+<b>Up:</b> <a href="../../html/qh-code.htm">Qhull code</a> <br>
 <b>To:</b> <a href="qh-geom.htm">Geom</a> &#149;
 <a href="qh-globa.htm">Global</a> &#149; <a href="qh-io.htm">Io</a>
 &#149; <a href="qh-mem.htm">Mem</a> &#149; <a href="qh-merge.htm">Merge</a>
@@ -289,7 +297,7 @@ Qhull</a> <br>
 src="../../html/qh--geom.gif" align="middle" width="40" height="40"></a><i>The
 Geometry Center Home Page </i></p>
 <p>Comments to: <a href=mailto:qhull@qhull.org>qhull@qhull.org</a>
-</a><br>
+<br>
 Created: May 2, 1997 --- <!-- hhmts start --> Last modified: see top <!-- hhmts end --> </p>
 </body>
 </html>

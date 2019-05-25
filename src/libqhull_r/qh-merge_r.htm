@@ -9,7 +9,7 @@ content="text/html; charset=iso-8859-1">
 <body>
 <!-- Navigation links -->
 <p><a name="TOP"><b>Up:</b></a> <a
-href="http://www.qhull.org">Home page</a> for Qhull<br>
+href="http://www.qhull.org">Home page</a> for Qhull (<a href="../index.htm">local</a>)<br>
 <b>Up:</b> <a href="../../html/index.htm#TOC">Qhull manual</a>: Table of Contents <br>
 <b>Up:</b> <a href="../../html/qh-quick.htm#programs">Programs</a>
 &#149; <a href="../../html/qh-quick.htm#options">Options</a>
@@ -20,9 +20,8 @@ href="http://www.qhull.org">Home page</a> for Qhull<br>
 &#149; <a href="../../html/qh-optq.htm#qhull">Qhull</a>
 &#149; <a href="../../html/qh-optc.htm#prec">Precision</a>
 &#149; <a href="../../html/qh-optt.htm#trace">Trace</a>
-&#149; <a href="index.htm">Functions</a><br>
-<b>Up:</b> <a href="../../html/qh-code.htm#TOC">Qhull code: Table of Contents</a><br>
-<b>To:</b> <a href="index.htm">Qhull functions</a>, macros, and data structures<br>
+&#149; <a href="http://www.qhull.org/src/libqhull_r/index.htm">Functions</a> (<a href="index.htm">local</a>)<br>
+<b>Up:</b> <a href="../../html/qh-code.htm">Qhull code</a><br>
 <b>To:</b> <a href="qh-geom_r.htm">Geom</a> &#149; <a href="qh-globa_r.htm">Global</a>
 &#149; <a href="qh-io_r.htm">Io</a> &#149; <a href="qh-mem_r.htm">Mem</a>
 &#149; <a href="qh-merge_r.htm#TOC">Merge</a> &#149; <a href="qh-poly_r.htm">Poly</a>
@@ -47,10 +46,9 @@ Qhull creates facets, it creates an even number
 of facets for each ridge. A convex hull always
 has two facets for each ridge. More than two
 facets may be created if non-adjacent facets
-share a subridge. This is called a <em>duplicate
-ridge</em>. In 2-d, a duplicate ridge would
+share a subridge. This is called a <em>dupridge</em>. In 2-d, a dupridge would
 create a loop of facets.  See 'pinched vertices'
-below for the resolution of a duplicate ridge.</li>
+below for the resolution of a dupridge.</li>
 </ul>
 <ul>
 <li><b>A facet contained in another facet. </b>Facet
@@ -101,20 +99,20 @@ structure.This is called a <em>redundant vertex</em>.
 </ul>
 <ul>
 <li><b>Pinched vertices. </b>Nearly adjacent vertices
-may allow a duplicate ridge that connects more than two
+may allow a dupridge that connects more than two
 new facets.
 A <em>pinched vertex</em> is the nearest horizon
-vertex that is a neighbor of a duplicate ridge vertex.  In 4-D and higher,
-both vertices may be in the same duplicate ridge.  If the
+vertex that is a neighbor of a dupridge vertex.  In 4-D and higher,
+both vertices may be in the same dupridge.  If the
 vertices are in new facets with inverse orientation, the facets
 cannot be merged.  If so, qhull
 merges the pinched vertices and recreates the cone of new facets.
-For a discussion, see 'Nearly coincident points within 1e-13' in
+For a discussion, see 'Nearly adjacent vertices within 1e-13' in
 <a href="../../html/qh-impre.htm#limit">Limitations of merged facets</a>.
 </li>
 </ul>
 </blockquote>
-<p><b>Copyright &copy; 1995-2018 C.B. Barber</b></p>
+<p><b>Copyright &copy; 1995-2019 C.B. Barber</b></p>
 <hr>
 <p><a href="#TOP">&#187;</a> <a href="qh-geom_r.htm#TOC">Geom</a>
 <a name="TOC">&#149;</a> <a href="qh-globa_r.htm#TOC">Global</a>
@@ -140,7 +138,7 @@ best merge</a> </li>
 <li><a href="#mcycle">functions for merging a cycle
 of facets</a> </li>
 <li><a href="#mpinched">functions for pinched vertices
-of duplicate ridges</a> </li>
+of dupridges</a> </li>
 <li><a href="#mrename">functions for renaming a
 vertex</a> </li>
 <li><a href="#mvertex">functions for identifying
@@ -172,13 +170,8 @@ constants</a></h3>
 precision constants for Qhull </li>
 <li><a href="merge_r.h#MRG">MRG...</a> indicates the
 type of a merge (mergeT-&gt;type)</li>
-<li><a href="merge_r.h#qh_ANGLEredundant">qh_ANGLEredundant</a>
-indicates redundant merge in mergeT-&gt;angle </li>
-<li><a href="merge_r.h#qh_ANGLEdegen">qh_ANGLEdegen</a>
-indicates degenerate facet in mergeT-&gt;angle </li>
-<li><a href="merge_r.h#qh_ANGLEconcave">qh_ANGLEconcave</a>
-offset to indicate concave facets in
-mergeT-&gt;angle </li>
+<li><a href="merge_r.h#qh_ANGLEnone">qh_ANGLEnone</a>
+indicates missing mergeT.angle </li>
 <li><a href="merge_r.h#qh_MERGEapex">qh_MERGEapex</a>
 flag for qh_mergefacet() to indicate an apex
 merge </li>
@@ -194,7 +187,7 @@ check that facets are clearly convex </li>
 <li><a href="merge_r.c#flippedmerges">qh_flippedmerges</a>
 merge flipped facets into best neighbor </li>
 <li><a href="merge_r.c#forcedmerges">qh_forcedmerges</a>
-merge all duplicate ridges </li>
+merge all dupridges </li>
 <li><a href="merge_r.c#merge_degenredundant">qh_merge_degenredundant</a>
 merge degenerate and redundant facets </li>
 <li><a href="merge_r.c#merge_nonconvex">qh_merge_nonconvex</a>
@@ -214,14 +207,19 @@ identifying merges</a></h3>
 <li><a href="merge_r.c#appendmergeset">qh_appendmergeset</a>
 appends an entry to qh.facet_mergeset</li>
 <li><a href="merge_r.c#check_dupridge">qh_check_dupridge</a>
-check duplicate ridge between facet1 and facet2 for wide merge </li>
+check dupridge between facet1 and facet2 for wide merge </li>
 <li><a href="merge_r.c#checkdelfacet">qh_checkdelfacet</a>
 check that facet is not referenced by a mergeset </li>
+<li><a href="merge_r.compare_anglemerge">qh_compare_anglemerge</a>
+used by qsort() to order merges by type and angle </li>
+<li><a href="merge_r.compare_facetmerge">qh_compare_facetmerge</a>
+used by qsort() to order merges by type and distance </li>
 <li><a href="merge_r.c#degen_redundant_facet">qh_degen_redundant_facet</a>
-check for a degenerate and redundant facet</li>
+check for a degenerate or redundant facet</li>
 <li><a href="merge_r.c#degen_redundant_neighbors">qh_degen_redundant_neighbors</a>
-append degenerate and redundant neighbors to
-qh.degen_mergeset </li>
+append degenerate and redundant neighbors to qh.degen_mergeset </li>
+<li><a href="geom2_r.c#detmaxoutside">qh_detmaxoutside</a>
+determine qh.MAXoutside target for qh_RATIO... tests </li>
 <li><a href="merge_r.c#getmergeset_initial">qh_getmergeset_initial</a>
 build initial qh.facet_mergeset </li>
 <li><a href="merge_r.c#getmergeset">qh_getmergeset</a>
@@ -229,7 +227,7 @@ update qh.facet_mergeset </li>
 <li><a href="merge_r.c#hasmerge">qh_hasmerge</a>
 True if mergeset has mergetype for facetA and facetB </li>
 <li><a href="merge_r.c#mark_dupridges">qh_mark_dupridges</a>
-add duplicated ridges to qh.facet_mergeset</li>
+add dupridges to qh.facet_mergeset</li>
 <li><a href="merge_r.c#maybe_convexvertex">qh_maybe_convexvertex</a>
 maybe convex vertex for newly merged facet1/vertex1 and facet2 </li>
 <li><a href="merge_r.c#maybe_duplicateridge">qh_maybe_duplicateridge</a>
@@ -239,12 +237,10 @@ if a merged facet has two ridges with the same vertices, merge the closest pair 
 <li><a href="merge_r.c#maydropneighbor">qh_maydropneighbor</a>
 drop neighbor relationship if no ridge between
 facet and neighbor </li>
-<li><a href="poly2_r.c#matchduplicate_horizon">qh_matchduplicate_horizon</a>
-match duplicate ridges in qh.hash_table for atfacet@atskip.  True if can merge duplicate ridges into the same mergehorizon facet </li>
-<li><a href="poly2_r.c#matchduplicates">qh_matchduplicates</a>
-match duplicate ridges in hash table </li>
+<li><a href="poly2_r.c#matchduplicates">qh_matchdupridge</a>
+match dupridges in hash table </li>
 <li><a href="merge_r.c#merge_dupridges">qh_merge_dupridges</a>
-identify duplicate ridges for merging </li>
+identify dupridges for merging </li>
 <li><a href="merge_r.c#next_facetmerge">qh_next_facetmerge</a>
 return next facet merge from qh.facet_mergeset</li>
 <li><a href="merge_r.c#next_vertexmerge">qh_next_vertexmerge</a>
@@ -252,6 +248,14 @@ return next vertex merge from qh.vertex_mergeset</li>
 <li><a href="merge_r.c#test_appendmerge">qh_test_appendmerge</a>
 test a pair of facets for convexity and append to
 qh.facet_mergeset if non-convex </li>
+<li><a href="merge_r.c#test_centrum_merge">qh_test_centrum_merge</a>
+test centrum convexity and append non-convex facets to qh.facet_mergeset </li>
+<li><a href="merge_r.c#test_degen_neighbors">qh_test_degen_neighbors</a>
+append degenerate neighbors to qh.degen_mergeset </li>
+<li><a href="merge_r.c#test_nonsimplicial_merge">qh_test_nonsimplicial_merge</a>
+test centrum and vertex convexity and append non-convex or redundant facets to qh.facet_mergeset </li>
+<li><a href="merge_r.c#test_redundant_neighbors">qh_test_redundant_neighbors</a>
+append degenerate facet or its redundant neighbors to qh.degen_mergeset </li>
 <li><a href="merge_r.c#test_vneighbors">qh_test_vneighbors</a>
 test vertex neighbors for convexity </li>
 </ul>
@@ -341,16 +345,16 @@ merge vertex neighbor sets for samecycle </li>
 </ul>
 
 <h3><a href="qh-merge_r.htm#TOC">&#187;</a><a name="mpinched">functions
-for pinched vertices of duplicate ridges</h3>
+for pinched vertices of dupridges</h3>
 <ul>
 <li><a href="merge_r.c#findbest_pinchedvertex">qh_findbest_pinchedvertex</a>
-find the best vertex to merge for a duplicate ridge in qh.newfacet_list </li>
+find the best vertex to merge for a dupridge in qh.newfacet_list </li>
 <li><a href="merge_r.c#get_maybepinched_vertices">qh_get_maybepinched_vertices</a>
-return neighboring horizon vertices of a vertex in a duplicate ridge </li>
+return neighboring horizon vertices of a vertex in a dupridge </li>
 <li><a href="merge_r.c#getpinchedmerges">qh_getpinchedmerges</a>
 return qh.vertex_mergeset for pinched vertices that cannot be facet merged </li>
 <li><a href="merge_r.c#merge_pinchedvertices">qh_merge_pinchedvertices</a>
-merge pinched vertices in qh.vertex_mergeset to avoid qh_forcedmerges of duplicated ridges </li>
+merge pinched vertices in qh.vertex_mergeset to avoid qh_forcedmerges of dupridges </li>
 <li><a href="merge_r.c#neighbor_vertices">qh_neighbor_vertices</a>
 return neighboring vertices for a vertex </li>
 <li><a href="merge_r.c#neighbor_vertices_facet">qh_neighbor_vertices_facet</a>
@@ -390,8 +394,7 @@ returns matching ridge in hashtable</li>
 return intersection of vertex sets for
 neighboring facets </li>
 <li><a href="merge_r.c#vertexridges">qh_vertexridges</a>
-return temporary set of ridges adjacent to a
-vertex </li>
+return temporary set of ridges adjacent to a vertex </li>
 <li><a href="merge_r.c#vertexridges_facet">qh_vertexridges_facet</a>
 add adjacent ridges for a vertex in facet </li>
 </ul>
@@ -410,8 +413,8 @@ print trace message during post-merging </li>
 <p><!-- Navigation links --> </p>
 <hr>
 <p><b>Up:</b>
-<a href="http://www.qhull.org">Home page for
-Qhull</a> <br>
+<a href="http://www.qhull.org">Home page</a> for
+Qhull (<a href="../index.htm">local</a>)<br>
 <b>Up:</b> <a href="../../html/index.htm#TOC">Qhull manual: Table of Contents</a> <br>
 <b>Up:</b> <a href="../../html/qh-quick.htm#programs">Programs</a>
 &#149; <a href="../../html/qh-quick.htm#options">Options</a>
@@ -422,9 +425,8 @@ Qhull</a> <br>
 &#149; <a href="../../html/qh-optq.htm#qhull">Qhull</a>
 &#149; <a href="../../html/qh-optc.htm#prec">Precision</a>
 &#149; <a href="../../html/qh-optt.htm#trace">Trace</a>
-&#149; <a href="index.htm">Functions</a><br>
-<b>Up:</b> <a href="../../html/qh-code.htm#TOC">Qhull code: Table of Contents</a> <br>
-<b>To:</b> <a href="index.htm">Qhull functions</a>, macros, and data structures<br>
+&#149; <a href="http://www.qhull.org/src/libqhull_r/index.htm">Functions</a> (<a href="index.htm">local</a>)<br>
+<b>Up:</b> <a href="../../html/qh-code.htm">Qhull code</a> <br>
 <b>To:</b> <a href="qh-geom_r.htm">Geom</a> &#149;
 <a href="qh-globa_r.htm">Global</a> &#149; <a href="qh-io_r.htm">Io</a>
 &#149; <a href="qh-mem_r.htm">Mem</a> &#149; <a href="qh-merge_r.htm">Merge</a>
@@ -438,7 +440,7 @@ Qhull</a> <br>
 src="../../html/qh--geom.gif" align="middle" width="40" height="40"></a><i>The
 Geometry Center Home Page </i></p>
 <p>Comments to: <a href=mailto:qhull@qhull.org>qhull@qhull.org</a>
-</a><br>
+<br>
 Created: May 2, 1997 --- <!-- hhmts start --> Last modified: see top <!-- hhmts end --> </p>
 </body>
 </html>

@@ -11,9 +11,9 @@
    either the actual size of the set plus 1, or the NULL terminator
    of the set (i.e., setelemT).
 
-   Copyright (c) 1993-2018 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull_r/qset_r.c#6 $$Change: 2549 $
-   $DateTime: 2018/12/28 22:24:20 $$Author: bbarber $
+   Copyright (c) 1993-2019 The Geometry Center.
+   $Id: //main/2019/qhull/src/libqhull_r/qset_r.c#1 $$Change: 2661 $
+   $DateTime: 2019/05/24 20:09:58 $$Author: bbarber $
 */
 
 #include "libqhull_r.h" /* for qhT and QHULL_CRTDBG */
@@ -44,7 +44,7 @@ void    qh_fprintf(qhT *qh, FILE *fp, int msgcode, const char *fmt, ... );
 /*-<a                             href="qh-set_r.htm#TOC"
   >--------------------------------<a name="setaddnth">-</a>
 
-  qh_setaddnth(qh, setp, nth, newelem)
+  qh_setaddnth(qh, setp, nth, newelem )
     adds newelem as n'th element of sorted or unsorted *setp
 
   notes:
@@ -116,7 +116,7 @@ void qh_setaddsorted(qhT *qh, setT **setp, void *newelem) {
 /*-<a                             href="qh-set_r.htm#TOC"
   >-------------------------------<a name="setappend">-</a>
 
-  qh_setappend(qh, setp, newelem)
+  qh_setappend(qh, setp, newelem )
     append newelem to *setp
 
   notes:
@@ -148,7 +148,7 @@ void qh_setappend(qhT *qh, setT **setp, void *newelem) {
 /*-<a                             href="qh-set_r.htm#TOC"
   >-------------------------------<a name="setappend_set">-</a>
 
-  qh_setappend_set(qh, setp, setA)
+  qh_setappend_set(qh, setp, setA )
     appends setA to *setp
 
   notes:
@@ -367,7 +367,7 @@ void *qh_setdel(setT *set, void *oldelem) {
 /*-<a                             href="qh-set_r.htm#TOC"
   >-------------------------------<a name="setdellast">-</a>
 
-  qh_setdellast(set)
+  qh_setdellast( set )
     return last element of set or NULL
 
   notes:
@@ -428,7 +428,7 @@ void *qh_setdelnth(qhT *qh, setT *set, int nth) {
 
   sizep= SETsizeaddr_(set);
   if ((sizep->i--)==0)         /*  if was a full set */
-    sizep->i= set->maxsize;  /*     *sizep= (maxsize-1)+ 1 */
+    sizep->i= set->maxsize;    /*    *sizep= (maxsize-1)+ 1 */
   if (nth < 0 || nth >= sizep->i) {
     qh_fprintf(qh, qh->qhmem.ferr, 6174, "qhull internal error (qh_setdelnth): nth %d is out-of-bounds for set:\n", nth);
     qh_setprint(qh, qh->qhmem.ferr, "", set);
@@ -487,7 +487,7 @@ void *qh_setdelnthsorted(qhT *qh, setT *set, int nth) {
 /*-<a                             href="qh-set_r.htm#TOC"
   >-------------------------------<a name="setdelsorted">-</a>
 
-  qh_setdelsorted(set, oldelem )
+  qh_setdelsorted( set, oldelem )
     deletes oldelem from sorted set
 
   returns:
@@ -938,7 +938,7 @@ setT *qh_setnew(qhT *qh, int setsize) {
       setsize += (sizereceived - size)/SETelemsize;
 #endif
   }else
-    set= (setT*)qh_memalloc(qh, size);
+    set= (setT *)qh_memalloc(qh, size);
   set->maxsize= setsize;
   set->e[setsize].i= 1;
   set->e[0].p= NULL;
@@ -1104,6 +1104,7 @@ void qh_setreplace(qhT *qh, setT *set, void *oldelem, void *newelem) {
     errors if set's maxsize is incorrect
     same as SETreturnsize_(set)
     same code for qh_setsize [qset_r.c] and QhullSetBase::count
+    if first element is NULL, SETempty_() is True but qh_setsize may be greater than 0
 
   design:
     determine actual size of set from maxsize
@@ -1132,7 +1133,7 @@ int qh_setsize(qhT *qh, setT *set) {
   >-------------------------------<a name="settemp">-</a>
 
   qh_settemp(qh, setsize )
-    return a stacked, temporary set of upto setsize elements
+    return a stacked, temporary set of up to setsize elements
 
   notes:
     use settempfree or settempfree_all to release from qh->qhmem.tempstack
@@ -1221,7 +1222,7 @@ void qh_settempfree_all(qhT *qh) {
 setT *qh_settemppop(qhT *qh) {
   setT *stackedset;
 
-  stackedset= (setT*)qh_setdellast(qh->qhmem.tempstack);
+  stackedset= (setT *)qh_setdellast(qh->qhmem.tempstack);
   if (!stackedset) {
     qh_fprintf(qh, qh->qhmem.ferr, 6180, "qhull internal error (qh_settemppop): pop from empty temporary stack\n");
     qh_errexit(qh, qhmem_ERRqhull, NULL, NULL);

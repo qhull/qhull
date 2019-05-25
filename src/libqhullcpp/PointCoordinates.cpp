@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (c) 2009-2018 C.B. Barber. All rights reserved.
-** $Id: //main/2015/qhull/src/libqhullcpp/PointCoordinates.cpp#5 $$Change: 2549 $
-** $DateTime: 2018/12/28 22:24:20 $$Author: bbarber $
+** Copyright (c) 2009-2019 C.B. Barber. All rights reserved.
+** $Id: //main/2019/qhull/src/libqhullcpp/PointCoordinates.cpp#1 $$Change: 2661 $
+** $DateTime: 2019/05/24 20:09:58 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -239,7 +239,7 @@ appendPoints(istream &in)
         getline(in, remainder);
         throw QhullError(10005, "Qhull error: input did not start with dimension or count -- %s", 0, 0, 0, remainder.c_str());
     }
-    char c= (char)in.peek();
+    char c= static_cast<char>(in.peek());
     if(c!='-' && !isdigit(c)){         // Comments start with a non-digit
         getline(in, describe_points);
         in >> ws;
@@ -251,7 +251,7 @@ appendPoints(istream &in)
         getline(in, remainder);
         throw QhullError(10009, "Qhull error: input did not start with dimension and count -- %d %s", inDimension, 0, 0, remainder.c_str());
     }
-    c= (char)in.peek();
+    c= static_cast<char>(in.peek());
     if(c!='-' && !isdigit(c)){         // Comments start with a non-digit
         getline(in, describe_points);
         in >> ws;
@@ -264,16 +264,17 @@ appendPoints(istream &in)
     countT coordinatesCount= 0;
     while(!in.eof()){
         realT p;
-        in >> p >> ws;
+        in >> p;
         if(in.fail()){
             in.clear();
             string remainder;
             getline(in, remainder);
-            throw QhullError(10008, "Qhull error: failed to read coordinate %d  of point %d\n   %s", coordinatesCount % inDimension, coordinatesCount/inDimension, 0, remainder.c_str());
+            throw QhullError(10008, "Qhull error: failed to read coordinate %d  of point %d\n   '%s'", coordinatesCount % inDimension, coordinatesCount/inDimension, 0, remainder.c_str());
         }else{
             point_coordinates.push_back(p);
             coordinatesCount++;
         }
+        in >> ws;
     }
     if(coordinatesCount != inCount*inDimension){
         if(coordinatesCount%inDimension==0){
@@ -297,7 +298,7 @@ void PointCoordinates::
 reserveCoordinates(countT newCoordinates)
 {
     // vector::reserve is not const
-    point_coordinates.reserve((countT)point_coordinates.size()+newCoordinates); // WARN64
+    point_coordinates.reserve(static_cast<countT>(point_coordinates.size()+newCoordinates)); // WARN64
     makeValid();
 }//reserveCoordinates
 

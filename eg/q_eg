@@ -1,17 +1,20 @@
 #!/bin/sh
 #   writes examples to eg/
 #   see html/qh_eg.htm
-if ! qconvex >/dev/null 2>&1; then
+if ! which qconvex >/dev/null 2>&1; then
     if [ ! -d bin ]; then
-	echo Run eg/q_eg from the Qhull directory
-	exit
+	echo 'eg/q_eg: Run eg/q_eg from the Qhull directory with bin/qconvex, or add qconvex/etc. to $PATH'
+	exit 1
     fi
     if [ ! -e bin/qconvex -a ! -e bin/qconvex.exe ]; then
-	echo 'Build qhull first.  qconvex is missing from bin/ directory and $PATH'
-	exit
+	echo 'eg/q_eg: Build qhull first.  qconvex is missing from bin/ directory and $PATH'
+	exit 1
     fi
-    if ! qconvex >/dev/null 2>&1; then
-	PATH=$PWD/bin:$PATH
+    echo 'eg/q_eg: Temporarily add "$PWD/bin" to $PATH for access to qconvex,etc.'
+    PATH=$PWD/bin:$PATH
+    if ! which qconvex >/dev/null 2>&1; then
+	echo 'eg/q_eg: PATH=... failed.  Please execute "export PATH=$PWD/bin:$PATH" and repeat'
+	exit 1
     fi
 fi
 mkdir -p eg

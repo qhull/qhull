@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (c) 2008-2018 C.B. Barber. All rights reserved.
-** $Id: //main/2015/qhull/src/libqhullcpp/QhullFacet.h#6 $$Change: 2549 $
-** $DateTime: 2018/12/28 22:24:20 $$Author: bbarber $
+** Copyright (c) 2008-2019 C.B. Barber. All rights reserved.
+** $Id: //main/2019/qhull/src/libqhullcpp/QhullFacet.h#1 $$Change: 2661 $
+** $DateTime: 2019/05/24 20:09:58 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -67,8 +67,10 @@ public:
     facetT *            getBaseT() const { return getFacetT(); } //!< For QhullSet<QhullFacet>
                         // Do not define facetT().  It conflicts with return type facetT*
     facetT *            getFacetT() const { return qh_facet; }
+    bool                hasNext() const { return (qh_facet->next != NULL && qh_facet->next != qh_qh->facet_tail); }
+    bool                hasPrevious() const { return (qh_facet->previous != NULL); }
     QhullHyperplane     hyperplane() const { return QhullHyperplane(qh_qh, dimension(), qh_facet->normal, qh_facet->offset); }
-    countT              id() const { return (qh_facet ? qh_facet->id : (int)qh_IDunknown); }
+    countT              id() const { return (qh_facet ? qh_facet->id : static_cast<countT>(qh_IDunknown)); }
     QhullHyperplane     innerplane() const;
     bool                isValid() const { return qh_qh && qh_facet && qh_facet != &s_empty_facet; }
     bool                isGood() const { return qh_facet && qh_facet->good; }

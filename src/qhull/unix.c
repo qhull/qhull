@@ -7,13 +7,12 @@
 
    see qh-qhull.htm
 
-   Copyright (c) 1993-2018 The Geometry Center.
-   $Id: //main/2015/qhull/src/qhull/unix.c#6 $$Change: 2549 $
-   $DateTime: 2018/12/28 22:24:20 $$Author: bbarber $
+   Copyright (c) 1993-2019 The Geometry Center.
+   $Id: //main/2019/qhull/src/qhull/unix.c#1 $$Change: 2661 $
+   $DateTime: 2019/05/24 20:09:58 $$Author: bbarber $
 */
 
 #include "libqhull/libqhull.h"
-#include "libqhull/qset.h"
 
 #include <ctype.h>
 #include <math.h>
@@ -21,12 +20,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#if __cplusplus
-extern "C" {
-  int isatty(int);
-}
-
-#elif _MSC_VER
+#if defined(_MSC_VER)
 #include <io.h>
 #define isatty _isatty
 /* int _isatty(int); */
@@ -42,11 +36,13 @@ int isatty(int);  /* returns 1 if stdin is a tty
   qh_prompt
     long prompt for qhull
 
-  see:
-    concise prompt below
+  notes:
+    see concise prompt below
+    same text as qconvex.c, qdelanay.c, qhalf.c, qvoronoi.c
+    limit maximum literal to 1800 characters
 */
 char qh_prompta[]= "\n\
-qhull- compute convex hulls and related structures.\n\
+qhull -- compute convex hulls and related structures.\n\
     http://www.qhull.org  %s\n\
 \n\
 input (stdin):\n\
@@ -59,15 +55,16 @@ input (stdin):\n\
 options:\n\
     d    - Delaunay triangulation by lifting points to a paraboloid\n\
     d Qu - furthest-site Delaunay triangulation (upper convex hull)\n\
-    v    - Voronoi diagram (dual of the Delaunay triangulation)\n\
-    v Qu - furthest-site Voronoi diagram\n\
     Hn,n,... - halfspace intersection about point [n,n,0,...]\n\
-    Qt   - triangulated output\n\
-    QJ   - joggled input instead of merged facets\n\
     Qc   - keep coplanar points with nearest facet\n\
     Qi   - keep interior points with nearest facet\n\
+    QJ   - joggled input instead of merged facets\n\
+    Qt   - triangulated output\n\
+    v    - Voronoi diagram (dual of the Delaunay triangulation)\n\
+    v Qu - furthest-site Voronoi diagram\n\
 \n\
 Qhull control options:\n\
+    Qa   - allow short input with more coordinates than points\n\
     Qbk:n   - scale coord k so that low bound is n\n\
       QBk:n - scale coord k so that upper bound is n (QBk is %2.2g)\n\
     QbB  - scale input to unit cube centered at the origin\n\
@@ -75,23 +72,26 @@ Qhull control options:\n\
     Qbk:0Bk:0 - remove k-th coordinate from input\n\
     QJn  - randomly joggle input in range [-n,n]\n\
     QRn  - random rotation (n=seed, n=0 time, n=-1 time/no rotate)\n\
-%s%s%s%s";  /* split up qh_prompt for Visual C++ */
-char qh_promptb[]= "\
-    Qf   - partition point to furthest outside facet\n\
-    Qg   - only build good facets (needs 'QGn', 'QVn', or 'PdD')\n\
-    Qm   - only process points that would increase max_outside\n\
-    Qr   - process random outside points instead of furthest ones\n\
     Qs   - search all points for the initial simplex\n\
     Qu   - for 'd' or 'v', compute upper hull without point at-infinity\n\
               returns furthest-site Delaunay triangulation\n\
-    Qv   - test vertex neighbors for convexity\n\
+    QVn  - good facet if it includes point n, -n if not\n\
     Qx   - exact pre-merges (skips coplanar and angle-coplanar facets)\n\
     Qz   - add point-at-infinity to Delaunay triangulation\n\
+\n\
+%s%s%s%s";  /* split up qh_prompt for Visual C++ */
+char qh_promptb[]= "\
+Qhull extra options:\n\
+    Qf   - partition point to furthest outside facet\n\
+    Qg   - only build good facets (needs 'QGn', 'QVn', or 'PdD')\n\
     QGn  - good facet if visible from point n, -n for not visible\n\
-    QVn  - good facet if it includes point n, -n if not\n\
+    Qm   - only process points that would increase max_outside\n\
+    Qr   - process random outside points instead of furthest ones\n\
+    Qv   - test vertex neighbors for convexity\n\
+    Qw   - allow option warnings\n\
     Q0   - turn off default premerge with 'C-0'/'Qx'\n\
-    Q1     - sort merges by type instead of angle\n\
-    Q2   - merge all non-convex at once instead of independent sets\n\
+    Q1   - merge by mergetype/angle instead of mergetype/distance\n\
+    Q2   - merge all coplanar facets instead of merging independent sets\n\
     Q3   - do not merge redundant vertices\n\
     Q4   - avoid old->new merges\n\
     Q5   - do not correct outer planes at end of qhull\n\
@@ -101,26 +101,33 @@ char qh_promptb[]= "\
     Q9   - process furthest of furthest points\n\
     Q10  - no special processing for narrow distributions\n\
     Q11  - copy normals and recompute centrums for tricoplanar facets\n\
-    Q12  - no error on wide merge due to duplicate ridge\n\
+    Q12  - allow wide facets and wide dupridge\n\
+    Q14  - merge pinched vertices that create a dupridge\n\
+    Q15  - check for duplicate ridges with the same vertices\n\
+\n\
+T options:\n\
+    TFn  - report summary when n or more facets created\n\
+    TI file - input file, may be enclosed in single quotes\n\
+    TO file - output file, may be enclosed in single quotes\n\
+    Ts   - statistics\n\
+    Tv   - verify result: structure, convexity, and point inclusion\n\
+    Tz   - send all output to stdout\n\
 \n\
 ";
 char qh_promptc[]= "\
-Topts- Trace options:\n\
+Trace options:\n\
     T4   - trace at level n, 4=all, 5=mem/gauss, -1= events\n\
     Ta   - annotate output with message codes\n\
+    TAn  - stop qhull after adding n vertices\n\
+     TCn - stop qhull after building cone for point n\n\
+     TVn - stop qhull after adding point n, -n for before\n\
     Tc   - check frequently during execution\n\
-    Ts   - print statistics\n\
-    Tv   - verify result: structure, convexity, and point inclusion\n\
-    Tz   - send all output to stdout\n\
-    TFn  - report summary when n or more facets created\n\
-    TI file - input data from file, no spaces or single quotes\n\
-    TO file - output results to file, may be enclosed in single quotes\n\
+    Tf   - flush each qh_fprintf for debugging segfaults\n\
     TPn  - turn on tracing when point n added to hull\n\
+     TP-1  turn on tracing after qh_buildhull and qh_postmerge\n\
      TMn - turn on tracing at merge n\n\
      TWn - trace merge facets when width > n\n\
-    TRn  - rerun qhull n times.  Use with 'QJn'\n\
-    TVn  - stop qhull after adding point n, -n for before (see TCn)\n\
-     TCn - stop qhull after building cone for point n (see TVn)\n\
+    TRn  - rerun qhull n times for statistics to adjust 'QJn'\n\
 \n\
 Precision options:\n\
     Cn   - radius of centrum (roundoff added).  Merge facets if non-convex\n\
@@ -137,8 +144,8 @@ Output formats (may be combined; if none, produces a summary to stdout):\n\
     G    - Geomview output (see below)\n\
     i    - vertices incident to each facet\n\
     m    - Mathematica output (2-d and 3-d)\n\
-    o    - OFF format (dim, points and facets; Voronoi regions)\n\
     n    - normals with offsets\n\
+    o    - OFF format (dim, points and facets; Voronoi regions)\n\
     p    - vertex coordinates or Voronoi vertices (coplanar points if 'Qc')\n\
     s    - summary (stderr)\n\
 \n\
@@ -179,25 +186,25 @@ More formats:\n\
 \n\
 ";
 char qh_prompte[]= "\
-Geomview options (2-d, 3-d, and 4-d; 2-d Voronoi)\n\
+Geomview output (2-d, 3-d, and 4-d; 2-d Voronoi)\n\
     Ga   - all points as dots\n\
      Gp  -  coplanar points and vertices as radii\n\
      Gv  -  vertices as spheres\n\
+    Gc   - centrums\n\
+    GDn  - drop dimension n in 3-d and 4-d output\n\
+    Gh   - hyperplane intersections\n\
     Gi   - inner planes only\n\
      Gn  -  no planes\n\
      Go  -  outer planes only\n\
-    Gc   - centrums\n\
-    Gh   - hyperplane intersections\n\
     Gr   - ridges\n\
-    GDn  - drop dimension n in 3-d and 4-d output\n\
     Gt   - for 3-d 'd', transparent outer ridges\n\
 \n\
 Print options:\n\
     PAn  - keep n largest facets by area\n\
     Pdk:n - drop facet if normal[k] <= n (default 0.0)\n\
     PDk:n - drop facet if normal[k] >= n\n\
-    Pg   - print good facets (needs 'QGn' or 'QVn')\n\
     PFn  - keep facets whose area is at least n\n\
+    Pg   - print good facets (needs 'QGn' or 'QVn')\n\
     PG   - print neighbors of good facets\n\
     PMn  - keep n facets with most merges\n\
     Po   - force output.  If error, output neighborhood of facet\n\
@@ -205,6 +212,7 @@ Print options:\n\
 \n\
     .    - list of all options\n\
     -    - one line descriptions of all options\n\
+    -?   - help with examples\n\
     -V   - version\n\
 ";
 /* for opts, don't assign 'e' or 'E' to a flag (already used for exponent) */
@@ -214,10 +222,13 @@ Print options:\n\
 
   qh_prompt2
     synopsis for qhull
+
+  notes:
+    limit maximum literal to 1800 characters
 */
-char qh_prompt2[]= "\n\
-qhull- compute convex hulls and related structures.  Qhull %s\n\
-    input (stdin): dimension, n, point coordinates\n\
+char qh_prompt2a[]= "\n\
+qhull -- compute convex hulls and related structures.  Qhull %s\n\
+    input (stdin): dimension, number of points, point coordinates\n\
     comments start with a non-numeric character\n\
     halfspace: use dim+1 and put offsets after coefficients\n\
 \n\
@@ -232,6 +243,7 @@ options (qh-quick.htm):\n\
     Tv   - verify result: structure, convexity, and point inclusion\n\
     .    - concise list of all options\n\
     -    - one-line description of each option\n\
+    -?   - this message\n\
     -V   - version\n\
 \n\
 Output options (subset):\n\
@@ -240,22 +252,26 @@ Output options (subset):\n\
     n    - normals with offsets\n\
     p    - vertex coordinates (if 'Qc', includes coplanar points)\n\
            if 'v', Voronoi vertices\n\
+    FA   - report total area and volume\n\
     Fp   - halfspace intersections\n\
+    FS   - total area and volume\n\
     Fx   - extreme points (convex hull vertices)\n\
-    FA   - compute total area and volume\n\
-    o    - OFF format (if 'v', outputs Voronoi regions)\n\
     G    - Geomview output (2-d, 3-d and 4-d)\n\
     m    - Mathematica output (2-d and 3-d)\n\
+    o    - OFF format (if 'v', outputs Voronoi regions)\n\
     QVn  - print facets that include point n, -n if not\n\
-    TO file- output results to file, may be enclosed in single quotes\n\
+    TI file - input file, may be enclosed in single quotes\n\
+    TO file - output file, may be enclosed in single quotes\n\
 \n\
+%s";  /* split literal */
+char qh_prompt2b[]= "\
 examples:\n\
     rbox D4 | qhull Tv                        rbox 1000 s | qhull Tv s FA\n\
     rbox 10 D2 | qhull d QJ s i TO result     rbox 10 D2 | qhull v Qbb Qt p\n\
     rbox 10 D2 | qhull d Qu QJ m              rbox 10 D2 | qhull v Qu QJ o\n\
     rbox c d D2 | qhull Qc s f Fx | more      rbox c | qhull FV n | qhull H Fp\n\
     rbox d D12 | qhull QR0 FA                 rbox c D7 | qhull FA TF1000\n\
-    rbox y 1000 W0 | qhull                    rbox c | qhull n\n\
+    rbox y 1000 W0 | qhull Qc                 rbox c | qhull n\n\
 \n\
 ";
 /* for opts, don't assign 'e' or 'E' to a flag (already used for exponent) */
@@ -265,43 +281,54 @@ examples:\n\
 
   qh_prompt3
     concise prompt for qhull
+
+  notes:
+    limit maximum literal to 1800 characters
 */
-char qh_prompt3[]= "\n\
-Qhull %s.\n\
+char qh_prompt3a[]= "\n\
+Qhull %s\n\
 Except for 'F.' and 'PG', upper-case options take an argument.\n\
 \n\
- delaunay       voronoi        Geomview       Halfspace      facet_dump\n\
- incidences     mathematica    normals        OFF_format     points\n\
- summary\n\
+ delaunay       facet-dump     Geomview       H0,0-interior  Halfspace\n\
+ incidences     mathematica    normals        off-format     points\n\
+ summary        voronoi\n\
 \n\
  Farea          FArea-total    Fcoplanars     FCentrums      Fd-cdd-in\n\
- FD-cdd-out     FF-dump-xridge Finner         FIDs           Fmerges\n\
- Fneighbors     FNeigh-vertex  Fouter         FOptions       Fpoint-intersect\n\
- FPoint_near    FQhull         Fsummary       FSize          Ftriangles\n\
- Fvertices      Fvoronoi       FVertex-ave    Fxtremes       FMaple\n\
+ FD-cdd-out     FFacets-xridge Finner         FIDs           Fmerges\n\
+ FMaple         Fneighbors     FNeigh-vertex  Fouter         FOptions\n\
+ Fpoint-intersect  FPoint-near FQhull         Fsummary       FSize\n\
+ Ftriangles     Fvertices      Fvoronoi       FVertex-ave    Fxtremes\n\
 \n\
- Gvertices      Gpoints        Gall_points    Gno_planes     Ginner\n\
- Gcentrums      Ghyperplanes   Gridges        Gouter         GDrop_dim\n\
- Gtransparent\n\
+ Gall-points    Gcentrums      GDrop-dim      Ghyperplanes   Ginner\n\
+ Gno-planes     Gouter         Gpoints        Gridges        Gtransparent\n\
+ Gvertices\n\
 \n\
- PArea-keep     Pdrop d0:0D0   Pgood          PFacet_area_keep\n\
- PGood_neighbors PMerge-keep   Poutput_forced Pprecision_not\n\
+ PArea-keep     Pdrop-d0:0D0   PFacet-area-keep  Pgood       PGood-neighbors\n\
+ PMerge-keep    Poutput-forced Pprecision-not\n\
 \n\
- QbBound 0:0.5  Qbk:0Bk:0_drop QbB-scale-box  Qbb-scale-last Qcoplanar\n\
- Qfurthest      Qgood_only     QGood_point    Qinterior      Qmax_out\n\
- QJoggle        Qrandom        QRotate        Qsearch_1st    Qtriangulate\n\
- QupperDelaunay QVertex_good   Qvneighbors    Qxact_merge    Qzinfinite\n\
+ Qallow-short   QbBound-0:0.5  QbB-scale-box  Qbb-scale-last Qbk:0Bk:0-drop\n\
+ Qcoplanar      Qinterior      QJoggle        QRotate        Qsearch-all\n\
+ Qtriangulate   QupperDelaunay Qwarn-allow    Qxact-merge    Qzinfinite\n\
 \n\
- Q0_no_premerge Q1_no_angle    Q2_no_independ Q3_no_redundant Q4_no_old\n\
- Q5_no_check_out Q6_no_concave Q7_depth_first Q8_no_near_in  Q9_pick_furthest\n\
- Q10_no_narrow  Q11_trinormals Q12_no_wide_dup\n\
+ Qfurthest      Qgood-only     QGood-point    Qmax-outside   Qrandom\n\
+ Qvneighbors    QVertex-good\n\
 \n\
- T4_trace       Tannotate      Tcheck_often   Tstatistics    Tverify\n\
- Tz_stdout      TFacet_log     TInput_file    TPoint_trace   TMerge_trace\n\
- TOutput_file   TRerun         TWide_trace    TVertex_stop   TCone_stop\n\
+%s"; /* split literal */
+char qh_prompt3b[]= "\
+ Q0-no-premerge Q1-angle-merge     Q2-no-independ  Q3-no-redundant\n\
+ Q4-no-old      Q5-no-check-out    Q6-no-concave   Q7-depth-first\n\
+ Q8-no-near-in  Q9-pick-furthest   Q10-no-narrow   Q11-trinormals\n\
+ Q12-allow-wide Q14-merge-pinched  Q15-duplicates\n\
 \n\
- Angle_max      Centrum_size   Error_round    Random_dist    Visible_min\n\
- Ucoplanar_max  Wide_outside\n\
+ TFacet-log     TInput-file    TOutput-file   Tstatistics    Tverify\n\
+ Tz-stdout\n\
+\n\
+ T4-trace       Tannotate      TAdd-stop      Tcheck-often   TCone-stop\n\
+ Tflush         TMerge-trace   TPoint-trace   TRerun         TVertex-stop\n\
+ TWide-trace\n\
+\n\
+ Angle-max      Centrum-size   Error-round    Random-dist    Ucoplanar-max\n\
+ Visible-min    Wide-outside\n\
 ";
 
 /*-<a                             href="../libqhull/qh-qhull.htm#TOC"
@@ -328,7 +355,15 @@ int main(int argc, char *argv[]) {
   QHULL_LIB_CHECK /* Check for compatible library */
 
   if ((argc == 1) && isatty( 0 /*stdin*/)) {
-    fprintf(stdout, qh_prompt2, qh_version);
+    fprintf(stdout, qh_prompt2a, qh_version, qh_prompt2b);
+    exit(qh_ERRnone);
+  }
+  if (argc > 1 && *argv[1] == '-' && (*(argv[1] + 1) == '?' || *(argv[1] + 1) == '-')) { /* -? or --help */
+    fprintf(stdout, qh_prompt2a, qh_version, qh_prompt2b);
+    exit(qh_ERRnone);
+  }
+  if (argc > 1 && *argv[1] == '-' && (*(argv[1] + 1) == '?' || *(argv[1] + 1) == '-')) { /* -? or --help */
+    fprintf(stdout, qh_prompt2a, qh_version, qh_prompt2b);
     exit(qh_ERRnone);
   }
   if (argc > 1 && *argv[1] == '-' && !*(argv[1]+1)) {
@@ -337,7 +372,7 @@ int main(int argc, char *argv[]) {
     exit(qh_ERRnone);
   }
   if (argc > 1 && *argv[1] == '.' && !*(argv[1]+1)) {
-    fprintf(stdout, qh_prompt3, qh_version);
+    fprintf(stdout, qh_prompt3a, qh_version, qh_prompt3b);
     exit(qh_ERRnone);
   }
   if (argc > 1 && *argv[1] == '-' && *(argv[1]+1)=='V') {
@@ -347,21 +382,22 @@ int main(int argc, char *argv[]) {
   qh_init_A(stdin, stdout, stderr, argc, argv);  /* sets qh qhull_command */
   exitcode= setjmp(qh errexit); /* simple statement for CRAY J916 */
   if (!exitcode) {
+    qh NOerrexit = False;
     qh_initflags(qh qhull_command);
     points= qh_readpoints(&numpoints, &dim, &ismalloc);
     qh_init_B(points, numpoints, dim, ismalloc);
     qh_qhull();
     qh_check_output();
     qh_produce_output();
-    if (qh VERIFYoutput && !qh FORCEoutput && !qh STOPpoint && !qh STOPcone)
+    if (qh VERIFYoutput && !qh FORCEoutput && !qh STOPadd && !qh STOPcone && !qh STOPpoint)
       qh_check_points();
     exitcode= qh_ERRnone;
   }
   qh NOerrexit= True;  /* no more setjmp */
 #ifdef qh_NOmem
-  qh_freeqhull( qh_ALL);
+  qh_freeqhull(qh_ALL);
 #else
-  qh_freeqhull( !qh_ALL);
+  qh_freeqhull(!qh_ALL);
   qh_memfreeshort(&curlong, &totlong);
   if (curlong || totlong)
     qh_fprintf_stderr(6263, "qhull internal warning (main): did not free %d bytes of long memory(%d pieces)\n",

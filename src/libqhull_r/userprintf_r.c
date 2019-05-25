@@ -2,7 +2,7 @@
   >-------------------------------</a><a name="TOP">-</a>
 
    userprintf_r.c
-   qh_fprintf()
+   user redefinable function -- qh_fprintf
 
    see README.txt  see COPYING.txt for copyright information.
 
@@ -15,10 +15,13 @@
    See usermem_r.c for qh_exit(), qh_free(), and qh_malloc()
    see Qhull.cpp and RboxPoints.cpp for examples.
 
+   qh_printf is a good location for debugging traps, checked on each log line
+
    Please report any errors that you fix to qhull@qhull.org
 */
 
 #include "libqhull_r.h"
+#include "poly_r.h" /* for qh.tracefacet */
 
 #include <stdarg.h>
 #include <stdio.h>
@@ -40,10 +43,11 @@
 
 void qh_fprintf(qhT *qh, FILE *fp, int msgcode, const char *fmt, ... ) {
     va_list args;
+    facetT *neighbor, **neighborp;
 
     if (!fp) {
         if(!qh){
-            qh_fprintf_stderr(6241, "userprintf_r.c: fp and qh not defined for qh_fprintf '%s'", fmt);
+            qh_fprintf_stderr(6241, "userprintf_r.c: fp and qh not defined for qh_fprintf '%s'\n", fmt);
             qh_exit(qhmem_ERRqhull);  /* can not use qh_errexit() */
         }
         /* could use qh->qhmem.ferr, but probably better to be cautious */
@@ -59,7 +63,25 @@ void qh_fprintf(qhT *qh, FILE *fp, int msgcode, const char *fmt, ... ) {
     vfprintf(fp, fmt, args);
     va_end(args);
     
-    /* Place debugging traps here. Use with option 'Tn' */
+    /* Place debugging traps here. Use with trace option 'Tn' 
+      set qh.tracefacet_id, qh.traceridge_id, and/or qh.tracevertex_id in global_r.c
+    */
+    if (False) { /* in production, skip test for debugging traps */
+      if (qh->tracefacet && qh->tracefacet->tested) {
+        if (qh_setsize(qh, qh->tracefacet->neighbors) < qh->hull_dim)
+          qh_errexit(qh, qh_ERRdebug, qh->tracefacet, qh->traceridge);
+        FOREACHneighbor_(qh->tracefacet) {
+          if (neighbor != qh_DUPLICATEridge && neighbor != qh_MERGEridge && neighbor->visible)
+            qh_errexit2(qh, qh_ERRdebug, qh->tracefacet, neighbor);
+        }
+      } 
+      if (qh->traceridge && qh->traceridge->top->id == 234342223) {
+        qh_errexit(qh, qh_ERRdebug, qh->tracefacet, qh->traceridge);
+      }
+      if (qh->tracevertex && qh_setsize(qh, qh->tracevertex->neighbors)>3434334) {
+        qh_errexit(qh, qh_ERRdebug, qh->tracefacet, qh->traceridge);
+      }
+    }
     if (qh->FLUSHprint) {
       fflush(fp);
     }

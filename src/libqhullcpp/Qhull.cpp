@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (c) 2008-2018 C.B. Barber. All rights reserved.
-** $Id: //main/2015/qhull/src/libqhullcpp/Qhull.cpp#6 $$Change: 2549 $
-** $DateTime: 2018/12/28 22:24:20 $$Author: bbarber $
+** Copyright (c) 2008-2019 C.B. Barber. All rights reserved.
+** $Id: //main/2019/qhull/src/libqhullcpp/Qhull.cpp#1 $$Change: 2661 $
+** $DateTime: 2019/05/24 20:09:58 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -34,7 +34,7 @@ namespace orgQhull {
 #//!\name Global variables
 
 const char s_unsupported_options[]=" Fd TI ";
-const char s_not_output_options[]= " Fd TI A C d E H P Qb QbB Qbb Qc Qf Qg Qi Qm QJ Qr QR Qs Qt Qv Qx Qz Q0 Q1 Q2 Q3 Q4 Q5 Q6 Q7 Q8 Q9 Q10 Q11 R Tc TC TM TP TR Tv TV TW U v V W ";
+const char s_not_output_options[]= " Fd TI A C d E H P Qa Qb QbB Qbb Qc Qf Qg Qi Qm QJ Qr QR Qs Qt Qv Qx Qz Q0 Q1 Q2 Q3 Q4 Q5 Q6 Q7 Q8 Q9 Q10 Q11 Q15 R TA Tc TC TM TP TR Tv TV TW U v V W ";
 
 #//!\name Constructor, destructor, etc.
 Qhull::
@@ -96,7 +96,7 @@ Qhull::
 {
     // Except for cerr, does not throw errors
     if(qh_qh->hasQhullMessage()){
-        cerr<< "\nQhull output at end\n"; //FIXUP QH11005: where should error and log messages go on ~Qhull?
+        cerr<< "\nQhull output at end\n"; // QH11005 FIXUP: where should error and log messages go on ~Qhull?
         cerr<< qh_qh->qhullMessage();
         qh_qh->clearQhullMessage();
     }
@@ -243,7 +243,7 @@ outputQhull(const char *outputflags)
             qh_prepare_output(qh_qh);
         }
         qh_produce_output2(qh_qh);
-        if(qh_qh->VERIFYoutput && !qh_qh->STOPpoint && !qh_qh->STOPcone){
+        if(qh_qh->VERIFYoutput && !qh_qh->FORCEoutput && !qh_qh->STOPadd && !qh_qh->STOPcone && !qh_qh->STOPpoint){
             qh_check_points(qh_qh);
         }
     }
@@ -306,7 +306,7 @@ runQhull(const char *inputComment, int pointDimension, int pointCount, const rea
         qh_qhull(qh_qh);
         qh_check_output(qh_qh);
         qh_prepare_output(qh_qh);
-        if(qh_qh->VERIFYoutput && !qh_qh->STOPpoint && !qh_qh->STOPcone){
+        if(qh_qh->VERIFYoutput && !qh_qh->FORCEoutput && !qh_qh->STOPadd && !qh_qh->STOPcone && !qh_qh->STOPpoint){
             qh_check_points(qh_qh);
         }
     }
@@ -332,11 +332,12 @@ initializeFeasiblePoint(int hulldim)
             qh_fprintf(qh_qh, qh_qh->ferr, 6209, "qhull error: missing feasible point for halfspace intersection.  Use option 'Hn,n' or Qhull::setFeasiblePoint before runQhull()\n");
             qh_errexit(qh_qh, qh_ERRmem, NULL, NULL);
         }
-        if(feasible_point.size()!=(size_t)hulldim){
-            qh_fprintf(qh_qh, qh_qh->ferr, 6210, "qhull error: dimension of feasiblePoint should be %d.  It is %u", hulldim, feasible_point.size());
+        if(feasible_point.size()!=static_cast<size_t>(hulldim)){
+            qh_fprintf(qh_qh, qh_qh->ferr, 6210, "qhull error: dimension of feasiblePoint should be %d.  It is %u\n", hulldim, feasible_point.size());
             qh_errexit(qh_qh, qh_ERRmem, NULL, NULL);
         }
-        if (!(qh_qh->feasible_point= (coordT*)qh_malloc(hulldim * sizeof(coordT)))) {
+        qh_qh->feasible_point= static_cast<coordT*>(qh_malloc(hulldim * sizeof(coordT)));
+        if (!qh_qh->feasible_point) {
             qh_fprintf(qh_qh, qh_qh->ferr, 6202, "qhull error: insufficient memory for feasible point\n");
             qh_errexit(qh_qh, qh_ERRmem, NULL, NULL);
         }

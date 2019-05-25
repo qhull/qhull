@@ -45,7 +45,6 @@
    see libqhull.h for data structures, macros, and user-callable functions.
 */
 
-#define qh_QHimport
 #include "libqhull_r/qhull_ra.h"
 
 /*-------------------------------------------------
@@ -106,7 +105,7 @@ void makeDelaunay(qhT *qh, coordT *points, int numpoints, int dim, int seed) {
   qh_RANDOMseed_(qh, seed);
   for (j=0; j<numpoints; j++) {
     point= points + j*dim;
-    for (k= 0; k < dim; k++) {
+    for (k=0; k < dim; k++) {
       realr= qh_RANDOMint;
       point[k]= 2.0 * realr/(qh_RANDOMmax+1) - 1.0;
     }
@@ -130,7 +129,7 @@ void findDelaunay(qhT *qh, int dim) {
   facetT *facet;
   vertexT *vertex, **vertexp;
 
-  for (k= 0; k < dim; k++)
+  for (k=0; k < dim; k++)
     point[k]= 0.5;
   qh_setdelaunay(qh, dim+1, 1, point);
   facet= qh_findbestfacet(qh, point, qh_ALL, &bestdist, &isoutside);
@@ -194,7 +193,7 @@ int main(int argc, char *argv[]) {
   FILE *errfile= stderr;    /* error messages from qhull code */
   int exitcode;             /* 0 if no error from qhull */
   facetT *facet;            /* set by FORALLfacets */
-  int curlong, totlong;     /* memory remaining after qh_memfreeshort */
+  int curlong, totlong;     /* memory remaining after qh_memfreeshort, used if !qh_NOmem  */
   int i;
 
   qhT qh_qh;                /* Qhull's data structure.  First argument of most calls */
@@ -204,17 +203,19 @@ int main(int argc, char *argv[]) {
 
   qh_zero(qh, errfile);
 
-  printf("This is the output from user_eg_r.c\n\n\
-It shows how qhull() may be called from an application using the qhull\n\
-reentrant library.  user_eg is not part of qhull itself.  If it appears\n\
-accidently, please remove user_eg_r.c from your project.  If it fails\n\
-immediately, user_eg_r.c was incorrectly linked to the non-reentrant library.\n\
-Also try 'user_eg T1 2>&1'\n\n");
+  printf("\n========\nuser_eg 'cube qhull options' 'Delaunay options' 'halfspace options'\n\
+\n\
+This is the output from user_eg_r.c.  It shows how qhull() may be called from\n\
+an application, via Qhull's shared, reentrant library.  user_eg is not part of\n\
+Qhull itself.  If user_eg fails immediately, user_eg_r.c was incorrectly linked\n\
+to Qhull's non-reentrant library, libqhull.\n\
+Try -- user_eg 'T1' 'T1' 'T1'\n\
+\n");
 
   /*
     Run 1: convex hull
   */
-  printf( "\ncompute convex hull of cube after rotating input\n");
+  printf( "\n========\ncompute convex hull of cube after rotating input\n");
   sprintf(flags, "qhull s Tcv %s", argc >= 2 ? argv[1] : "");
   numpoints= SIZEcube;
   makecube(points, numpoints, DIM);
@@ -223,6 +224,8 @@ Also try 'user_eg T1 2>&1'\n\n");
   qh_printmatrix(qh, outfile, "input", rows, numpoints, dim);
   exitcode= qh_new_qhull(qh, dim, numpoints, points, ismalloc,
                       flags, outfile, errfile);
+  fflush(outfile);
+  fflush(errfile);
   if (!exitcode) {                  /* if no error */
     /* 'qh->facet_list' contains the convex hull */
     print_summary(qh);
@@ -230,16 +233,20 @@ Also try 'user_eg T1 2>&1'\n\n");
        /* ... your code ... */
     }
   }
+#ifdef qh_NOmem
+  qh_freeqhull(qh, qh_ALL);
+#else
   qh_freeqhull(qh, !qh_ALL);                   /* free long memory  */
   qh_memfreeshort(qh, &curlong, &totlong);    /* free short memory and memory allocator */
   if (curlong || totlong)
     fprintf(errfile, "qhull internal warning (user_eg, #1): did not free %d bytes of long memory (%d pieces)\n", totlong, curlong);
+#endif
 
   /*
     Run 2: Delaunay triangulation, reusing the previous qh/qh_qh
   */
 
-  printf( "\ncompute %d-d Delaunay triangulation\n", dim);
+  printf( "\n========\ncompute %d-d Delaunay triangulation\n", dim);
   sprintf(flags, "qhull s d Tcv %s", argc >= 3 ? argv[2] : "");
   numpoints= SIZEcube;
   makeDelaunay(qh, points, numpoints, dim, (int)time(NULL));
@@ -248,6 +255,8 @@ Also try 'user_eg T1 2>&1'\n\n");
   qh_printmatrix(qh, outfile, "input", rows, numpoints, dim);
   exitcode= qh_new_qhull(qh, dim, numpoints, points, ismalloc,
                       flags, outfile, errfile);
+  fflush(outfile);
+  fflush(errfile);
   if (!exitcode) {                  /* if no error */
     /* 'qh->facet_list' contains the convex hull */
     /* If you want a Voronoi diagram ('v') and do not request output (i.e., outfile=NULL),
@@ -273,7 +282,7 @@ Also try 'user_eg T1 2>&1'\n\n");
     qhT *qhB= &qh_qhB;
     qh_zero(qhB, errfile);
 
-    printf( "\nCompute a new triangulation as a separate instance of Qhull\n");
+    printf( "\n========\nCompute a new triangulation as a separate instance of Qhull\n");
     sprintf(flags, "qhull s d Tcv %s", argc >= 3 ? argv[2] : "");
     numpoints= SIZEcube;
     makeDelaunay(qhB, pointsB, numpoints, dim, (int)time(NULL)+1);
@@ -282,27 +291,36 @@ Also try 'user_eg T1 2>&1'\n\n");
     qh_printmatrix(qhB, outfile, "input", rows, numpoints, dim);
     exitcode= qh_new_qhull(qhB, dim, numpoints, pointsB, ismalloc,
                       flags, outfile, errfile);
+    fflush(outfile);
+    fflush(errfile);
     if (!exitcode)
       print_summary(qhB);
-    printf( "\nFree memory allocated by the new instance of Qhull, and redisplay the old results.\n");
+    printf( "\n========\nFree memory allocated by the new instance of Qhull, and redisplay the old results.\n");
+#ifdef qh_NOmem
+    qh_freeqhull(qh, qh_ALL);
+#else
     qh_freeqhull(qhB, !qh_ALL);                 /* free long memory */
     qh_memfreeshort(qhB, &curlong, &totlong);  /* free short memory and memory allocator */
     if (curlong || totlong)
         fprintf(errfile, "qhull internal warning (user_eg, #4): did not free %d bytes of long memory (%d pieces)\n", totlong, curlong);
-
+#endif
     printf( "\n\n");
     print_summary(qh);  /* The other instance is unchanged */
     /* Exiting the block frees qh_qhB */
   }
+#ifdef qh_NOmem
+  qh_freeqhull(qh, qh_ALL);
+#else
   qh_freeqhull(qh, !qh_ALL);                 /* free long memory */
   qh_memfreeshort(qh, &curlong, &totlong);  /* free short memory and memory allocator */
   if (curlong || totlong)
     fprintf(errfile, "qhull internal warning (user_eg, #2): did not free %d bytes of long memory (%d pieces)\n", totlong, curlong);
+#endif
 
   /*
     Run 3: halfspace intersection about the origin
   */
-  printf( "\ncompute halfspace intersection about the origin for a diamond\n");
+  printf( "\n========\ncompute halfspace intersection about the origin for a diamond\n");
   sprintf(flags, "qhull H0 s Tcv %s", argc >= 4 ? argv[3] : "Fp");
   numpoints= SIZEcube;
   makehalf(points, numpoints, dim);
@@ -314,13 +332,19 @@ Also try 'user_eg T1 2>&1'\n\n");
   */
   exitcode= qh_new_qhull(qh, dim+1, numpoints, points, ismalloc,
                       flags, outfile, errfile);
+  fflush(outfile);
+  fflush(errfile);
   if (!exitcode)
     print_summary(qh);
+#ifdef qh_NOmem
+  qh_freeqhull(qh, qh_ALL);
+#else
   qh_freeqhull(qh, !qh_ALL);
   qh_memfreeshort(qh, &curlong, &totlong);
   if (curlong || totlong)  /* could also check previous runs */
     fprintf(stderr, "qhull internal warning (user_eg, #3): did not free %d bytes of long memory (%d pieces)\n",
        totlong, curlong);
+#endif
   return exitcode;
 } /* main */
 

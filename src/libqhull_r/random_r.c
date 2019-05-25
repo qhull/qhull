@@ -21,22 +21,21 @@
 #endif
 
 /*-<a                             href="qh-globa_r.htm#TOC"
- >-------------------------------</a><a name="argv_to_command">-</a>
+  >-------------------------------</a><a name="argv_to_command">-</a>
 
- qh_argv_to_command(argc, argv, command, max_size )
+  qh_argv_to_command( argc, argv, command, max_size )
 
     build command from argc/argv
     max_size is at least
 
- returns:
+  returns:
     a space-delimited string of options (just as typed)
     returns false if max_size is too short
 
- notes:
+  notes:
     silently removes
     makes option string easy to input and output
-    matches qh_argv_to_command_size()
-
+    matches qh_argv_to_command_size
     argc may be 0
 */
 int qh_argv_to_command(int argc, char *argv[], char* command, int max_size) {
@@ -93,13 +92,13 @@ error_argv:
 } /* argv_to_command */
 
 /*-<a                             href="qh-globa_r.htm#TOC"
->-------------------------------</a><a name="argv_to_command_size">-</a>
+  >-------------------------------</a><a name="argv_to_command_size">-</a>
 
-qh_argv_to_command_size(argc, argv )
+  qh_argv_to_command_size( argc, argv )
 
     return size to allocate for qh_argv_to_command()
 
-notes:
+  notes:
     argc may be 0
     actual size is usually shorter
 */
@@ -192,9 +191,9 @@ realT qh_randomfactor(qhT *qh, realT scale, realT offset) {
 /*-<a                             href="qh-geom_r.htm#TOC"
 >-------------------------------</a><a name="randommatrix">-</a>
 
-qh_randommatrix(qh, buffer, dim, rows )
-  generate a random dim X dim matrix in range [-1,1]
-  assumes buffer is [dim+1, dim]
+  qh_randommatrix(qh, buffer, dim, rows )
+    generate a random dim X dim matrix in range [-1,1]
+    assumes buffer is [dim+1, dim]
 
   returns:
     sets buffer to random numbers

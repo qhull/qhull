@@ -30,22 +30,24 @@ using orgQhull::QhullVertexSet;
 int main(int argc, char **argv);
 int user_eg3(int argc, char **argv);
 
-char prompt[]= "\n\
-user_eg3 -- demonstrate calling rbox and qhull from C++.\n\
+char prompt[]= "\n========\n\
+user_eg3 commands... -- demonstrate calling rbox and qhull from C++.\n\
 \n\
-user_eg3 is statically linked to reentrant qhull.  If user_eg3\n\
-fails immediately, it is probably linked to the non-reentrant qhull.\n\
-Try 'user_eg3 rbox qhull \"T1\"'\n\
+user_eg3 is statically linked to reentrant qhull.  If user_eg3 fails\n\
+immediately, it is probably linked to the non-reentrant, qhull library.\n\
 \n\
+Commands:\n\
   eg-100                       Run the example in qh-code.htm\n\
-  rbox \"200 D4\" ...            Generate points from rbox\n\
-  qhull \"d p\" ...              Run qhull and produce output\n\
-  qhull-cout \"o\" ...           Run qhull and produce output to cout\n\
-  qhull \"T1\" ...               Run qhull with level-1 trace to cerr\n\
+  rbox \"200 D4\" ...          Generate points from rbox\n\
+  qhull \"d p\" ...            Run qhull with options and produce output\n\
+  qhull-cout \"o\" ...         Run qhull with options and produce output to cout\n\
+  qhull \"T1\" ...             Run qhull with level-1 trace to cerr\n\
+                               Use 'qhull-cout' for option 'Tz' (trace to cout)\n\
   facets                       Print facets when done\n\
 \n\
 For example\n\
   user_eg3 rbox qhull\n\
+  user_eg3 rbox qhull T1\n\
   user_eg3 rbox qhull d\n\
   user_eg3 rbox \"10 D2\"  \"2 D2\" qhull  \"s p\" facets\n\
 \n\
@@ -61,7 +63,7 @@ int main(int argc, char **argv) {
 
     if(argc==1){
         cout << prompt;
-        return 1;
+        return 0;
     }
     try{
         return user_eg3(argc, argv);

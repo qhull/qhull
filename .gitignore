@@ -17,10 +17,9 @@ r?
 *.rej
 
 # Build products
-<<<<<<< HEAD
-bin/
-build/.vs/
-build?*/
+tmp/*
+build-cmake/*
+build/.vs/*
 build/Debug/*
 build/moc/*
 build/qhulltest/*
@@ -30,16 +29,13 @@ build/CMakeCache.txt
 build/CMakeFiles
 build/install_manifest.txt
 build/Makefile*
-build/qhullp.vcproj
-build/user_egp.vcproj
 build/*/Makefile*
 build/*/object_script*
 build/*/Release/*
 build/*/Debug/*
 build/*/MinSizeRel/*
 build/*/RelWithDebInfo/*
-tmp/
-lib/
+lib
 *.a
 *.dll
 *.idb
@@ -58,7 +54,6 @@ lib/
 *.suo
 *.user
 *.ilk
-src/qhulltest/RoadTest.h.cpp
 
 # CVS files
 CVS/*

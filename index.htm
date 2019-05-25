@@ -10,13 +10,16 @@
 <b>URL:</b> <a href="http://www.qhull.org">http://www.qhull.org</a>
 <br><b>To:</b>
 <a href="http://www.qhull.org/news">News</a>
-&#149; <a href="http://www.qhull.org/download">Download</a>
-&#149; <a href="http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.117.405">CiteSeer</a>
+&#149; <a href="http://scholar.google.com/scholar?cites=13151392091060773178&as_sdt=40000005">Scholar</a>
 &#149; <a href=http://images.google.com/images?q=qhull&num=100>Images</a>
-&#149; <a href="html/index.htm#TOC">Manual</a>
-&#149; <a href="http://www.qhull.org/html/qh-faq.htm">FAQ</a>
+&#149; <a href="http://github.com/qhull/qhull/wiki">GitHub</a>
+&#149; <a href="http://www.qhull.org/download">Download</a>
+&#149; <a href="html/index.htm">Manual</a>
 &#149; <a href="html/qh-quick.htm#programs">Programs</a>
 &#149; <a href="html/qh-quick.htm#options">Options</a>
+&#149; <a href="html/qh-code.htm">Code</a>
+&#149; <a href="src/libqhull_r/index.htm">Functions</a>
+&#149; <a href="html/qh-faq.htm">FAQ</a>
 </p>
 
 <hr>
@@ -43,8 +46,8 @@ generation of non-convex objects, medium-sized inputs in 9-D
 and higher, alpha shapes, weighted Voronoi diagrams, Voronoi volumes, or
 constrained Delaunay triangulations,  </p>
 
-<p>Qhull 2015.2 introduces reentrant Qhull.  It allows concurrent Qhull runs and simplifies the C++ interface to Qhull.
-If you call Qhull from your program, you should use reentrant Qhull (libqhull_r) instead of qh_QHpointer (libqhull).
+<p>
+Qhull 2019.1 is the last release with qh_QHpointer support (libqhull_p).  Please use reentrant Qhull (libqhull_r) or static Qhull (libqhull).
 If you use Qhull 2003.1. please upgrade or apply <a href="http://www.qhull.org/download/poly.c-qh_gethash.patch">poly.c-qh_gethash.patch</a>.
 </p>
 </td></tr></table>
@@ -57,17 +60,17 @@ If you use Qhull 2003.1. please upgrade or apply <a href="http://www.qhull.org/d
     <li><a href="http://www.qhull.org/news">News</a> and
         <a href="http://www.qhull.org/news/qhull-news.html#bugs">Bugs</a>
         about Qhull 2015.2  2016/01/18</li>
-         <li><a href="http://www.qhull.org/download">Download</a> Qhull (<a href="http://www.qhull.org/src/Changes.txt">changes</a>)</li>
-        <li><a href=http://github.com/qhull/qhull/wiki>GitHub</a> C++ interface to Qhull
-        <li><a href="html/index.htm">Manual</a> for Qhull and rbox
-        <li><a href="html/index.htm#geomview">Geomview</a> for 3-D and 4-D visualization of Qhull output
-        <li><input name=as_q size=10 value="">
+	<li><a href="http://www.qhull.org/download">Download</a> Qhull (<a href="http://www.qhull.org/src/Changes.txt">changes</a>)</li>
+	<li><a href="http://github.com/qhull/qhull/wiki">GitHub</a> C++ interface to Qhull
+	<li><a href="http://github.com/qhull/qhull/wiki">Wiki</a>, <a href="html/qh-faq.htm">FAQ</a>,
+  	    and <a href="html/index.htm">Manual</a> for Qhull and rbox
+	<li><a href="html/index.htm#geomview">Geomview</a> for 3-D and 4-D visualization of Qhull output
+	<li><input name=as_q size=10 value="">
                 <input type="submit" value="Search">
                 www.qhull.org
         <p>
     <li><a href="http://www.qhull.org/news/qhull-news.html#users">How</a> is Qhull used?</li>
         <li><a href="http://scholar.google.com/scholar?cites=13151392091060773178&as_sdt=40000005">Google Scholar</a>,
-        <a href="http://libra.msra.cn/Publication/232063/the-quickhull-algorithm-for-convex-hulls">Microsoft Academic</a>,
         and <a href="http://citeseerx.ist.psu.edu/showciting?doi=10.1.1.117.405&sort=cite">CiteSeer</a>
         references to Qhull
     <li>
@@ -135,7 +138,7 @@ If you use Qhull 2003.1. please upgrade or apply <a href="http://www.qhull.org/d
                 <li><a href="html/qhalf.htm">qhalf</a> -- halfspace intersection about a point
                 <li><a href="html/rbox.htm">rbox</a> -- generate point distributions
         </ul></td><td><ul>
-            <li><a href="http://www.qhull.org/html/qh-faq.htm">Frequently</a> asked
+            <li><a href="html/qh-faq.htm">FAQ</a> - frequently asked
                 questions about Qhull</li>
             <li><a href="html/index.htm#geomview">Geomview</a> for visualizing Qhull
             <li><a href="COPYING.txt">COPYING.txt</a> - copyright notice<br>
@@ -144,7 +147,7 @@ If you use Qhull 2003.1. please upgrade or apply <a href="http://www.qhull.org/d
             instructions<br>
             <li><a href="src/Changes.txt">Changes.txt</a> - change history <br>
             <li><a href="html/qh-code.htm">Calling Qhull</a> from your program
-            <li><a href="src/libqhull_r/index.htm">Reentrant</a> Qhull functions, macros, and data structures with source
+            <li><a href="http://www.qhull.org/src/libqhull_r/index.htm">Function</a> index to Qhull
             </ul>
         </td></tr></table>
     <li>Send e-mail to <a href=mailto:qhull@qhull.org>qhull@qhull.org</a> </li>
@@ -264,12 +267,13 @@ Projects of the Geometry Center</i></a> <br>
 <br><b>To:</b>
 <a href="http://www.qhull.org/news">News</a>
 &#149; <a href="http://www.qhull.org/download">Download</a>
-&#149; <a href="http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.117.405">CiteSeer</a>
+&#149; <a href="http://scholar.google.com/scholar?cites=13151392091060773178&as_sdt=40000005">Scholar</a>
 &#149; <a href=http://images.google.com/images?q=qhull&num=100>Images</a>
 &#149; <a href="html/index.htm#TOC">Manual</a>
 &#149; <a href="http://www.qhull.org/html/qh-faq.htm">FAQ</a>
 &#149; <a href="html/qh-quick.htm#programs">Programs</a>
 &#149; <a href="html/qh-quick.htm#options">Options</a>
+&#149; <a href="src/libqhull_r/index.htm">Functions</a>
 <!-- GC common information --></p>
 
 <hr>

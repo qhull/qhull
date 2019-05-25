@@ -24,41 +24,50 @@ qhull- compute convex hulls and related structures
     halfspace: use dim plus one with offsets after coefficients
 
 options (qh-quick.htm):
-    d      - Delaunay triangulation by lifting points to a paraboloid
-    v      - Voronoi diagram via the Delaunay triangulation
-    H1,1   - Halfspace intersection about [1,1,0,...]
-    d Qu   - Furthest-site Delaunay triangulation (upper convex hull)
-    v Qu   - Furthest-site Voronoi diagram
-    Qt     - triangulated output
-    QJ     - Joggle the input to avoid precision problems
-    .      - concise list of all options
-    -      - one-line description of all options
+    d    - Delaunay triangulation by lifting points to a paraboloid
+    d Qu - furthest-site Delaunay triangulation (upper convex hull)
+    v    - Voronoi diagram as the dual of the Delaunay triangulation
+    v Qu - furthest-site Voronoi diagram
+    H1,1 - Halfspace intersection about [1,1,0,...] via polar duality
+    Qt   - triangulated output
+    QJ   - joggled input instead of merged facets
+    Tv   - verify result: structure, convexity, and point inclusion
+    .    - concise list of all options
+    -    - one-line description of each option
+    -?   - this message
+    -V   - version
 
 Output options (subset):
-    FA     - compute total area and volume
-    Fx     - extreme points (convex hull vertices)
-    G      - Geomview output (2-d, 3-d and 4-d)
-    Fp     - halfspace intersection coordinates
-    m      - Mathematica output (2-d and 3-d)
-    n      - normals with offsets
-    o      - OFF file format (if Voronoi, outputs regions)
-    TO file- output results to file, may be enclosed in single quotes
-    f      - print all fields of all facets
-    s      - summary of results (default)
-    Tv     - verify result: structure, convexity, and point inclusion
-    p      - vertex coordinates (centers for Voronoi)
-    i      - vertices incident to each facet
+    s    - summary of results (default)
+    i    - vertices incident to each facet
+    n    - normals with offsets
+    p    - vertex coordinates (if 'Qc', includes coplanar points)
+           if 'v', Voronoi vertices
+    FA   - report total area and volume
+    Fp   - halfspace intersections
+    FS   - total area and volume
+    Fx   - extreme points (convex hull vertices)
+    G    - Geomview output (2-d, 3-d and 4-d)
+    m    - Mathematica output (2-d and 3-d)
+    o    - OFF format (if 'v', outputs Voronoi regions)
+    QVn  - print facets that include point n, -n if not
+    TI file - input file, may be enclosed in single quotes
+    TO file - output file, may be enclosed in single quotes
 
-example:
-    rbox 1000 s | qhull Tv s FA
+examples:
+    rbox D4 | qhull Tv                        rbox 1000 s | qhull Tv s FA
+    rbox 10 D2 | qhull d QJ s i TO result     rbox 10 D2 | qhull v Qbb Qt p
+    rbox 10 D2 | qhull d Qu QJ m              rbox 10 D2 | qhull v Qu QJ o
+    rbox c d D2 | qhull Qc s f Fx | more      rbox c | qhull FV n | qhull H Fp
+    rbox d D12 | qhull QR0 FA                 rbox c D7 | qhull FA TF1000
+    rbox y 1000 W0 | qhull Qc                 rbox c | qhull n
 .fi
 
- - html manual:    index.htm
+ - html manual:    html/index.htm
  - installation:   README.txt
  - see also:       COPYING.txt, REGISTER.txt, Changes.txt
  - WWW:            <http://www.qhull.org>
  - GIT:            <git@github.com:qhull/qhull.git>
- - mirror:         <http://www6.uniovi.es/ftp/pub/mirrors/geom.umn.edu/software/ghindex.html>
  - news:           <http://www.qhull.org/news>
  - Geomview:       <http://www.geomview.org>
  - news group:     <news:comp.graphics.algorithms>
@@ -85,7 +94,7 @@ The sections are:
  - ACKNOWLEGEMENTS
 
 This man page briefly describes all Qhull options.  Please report
-any mismatches with Qhull's html manual (index.htm).
+any mismatches with Qhull's html manual (html/index.htm).
 
 .PP
 .SH INTRODUCTION
@@ -157,15 +166,14 @@ To guarantee triangular output, joggle the input with option 'QJ'.  Facet
 merging will not occur.
 .SH OPTIONS
 .PP
-To get a list of the most important options, execute 'qhull' by itself.
-To get a complete list of options,
-execute 'qhull \-'.
+To get a list of the most important options, execute 'qhull -?'.
+To get a complete list of options, execute 'qhull \-'.
 To get a complete, concise list of options, execute 'qhull .'.
 
 Options can be in any order.
 Capitalized options take an argument (except 'PG' and 'F' options).
 Single letters are used for output formats and precision constants.  The
-other options are grouped into menus for other output formats ('F'),
+other options are grouped into menus: output formats ('F'),
 Geomview output ('G'),
 printing ('P'), Qhull control ('Q'), and tracing ('T').
 .TP
@@ -233,7 +241,7 @@ and degenerate Delaunay triangles.
 Input/Output options:
 .TP
 f
-Print out all facets and all fields of each facet.
+Print all facets and all fields of each facet.
 .TP
 G
 Output the hull in Geomview format.  For imprecise hulls,
@@ -298,7 +306,7 @@ of each Voronoi vertex.
 .TP
 s
 Print a summary to stderr.  If no output options
-are specified at all, a summary goes to stdout.  The summary lists
+are specified, a summary goes to stdout.  The summary lists
 the number of input points, the dimension, the number of vertices
 in the convex hull, the number of facets in the convex hull, the
 number of good facets (if 'Pg'), and statistics.
@@ -435,8 +443,8 @@ of ridges.  Then each hyperplane is printed, one per line.  A line starts
 with the number of indices and floats.  The first pair lists
 adjacent input
 sites, the next d floats are the normalized coefficients for the hyperplane,
-and the last float is the offset.  The hyperplane is oriented toward 'QVn'
-(if defined), or the first input site of the pair.  Use 'Tv' to
+and the last float is the offset.  The hyperplane is oriented 
+toward 'QVn' (if defined), or the first input site of the pair.  Use 'Tv' to
 verify that the hyperplanes are perpendicular bisectors.  Use 'Fo' for
 unbounded regions, and 'Fv' for the corresponding Voronoi vertices.
 .TP
@@ -486,8 +494,8 @@ of ridges.  Then each hyperplane is printed, one per line.  A line starts
 with the number of indices and floats.  The first pair lists
 adjacent input
 sites, the next d floats are the normalized coefficients for the hyperplane,
-and the last float is the offset.  The hyperplane is oriented toward 'QVn'
-(if defined), or the first input site of the pair.  Use 'Tv' to
+and the last float is the offset.  The hyperplane is oriented 
+toward 'QVn' (if defined), or the first input site of the pair.  Use 'Tv' to
 verify that the hyperplanes are perpendicular bisectors.  Use 'Fi' for
 bounded regions, and 'Fv' for the corresponding Voronoi vertices.
 .TP
@@ -660,7 +668,7 @@ Pg
 Print only good facets.  A good facet is either visible from a point
 (the 'QGn' option) or includes a point (the 'QVn' option).  It also meets the
 requirements of 'Pdk' and 'PDk' options.  Option 'Pg' is automatically
-set for options 'PAn' and 'PFn'.
+set for options 'd', 'PAn', 'PFn', and 'PMn'.
 .TP
 PG
 Print neighbors of good facets.
@@ -685,6 +693,9 @@ Do not report precision problems.
 .PP
 .TP
 Qhull control options
+.TP
+Qa
+Allow short input with fewer points than coordinates.
 .TP
 Qbk:0Bk:0
 Drop dimension k from the input points.  This allows the user to
@@ -781,6 +792,9 @@ A good facet (see 'Qg' and 'Pg') includes point n.  If n<0, then a good facet do
 include point n.  The point is either in the initial simplex or it
 is the first point added to the hull.  Option 'QVn' may not be used with merging.
 .TP
+Qw
+Allow option warnings. Otherwise Qhull returns an error after most option warnings
+.TP
 Qx
 Perform exact merges while building the hull.  The "exact" merges
 are merging a point into a coplanar facet (defined by 'Vn', 'Un',
@@ -809,8 +823,7 @@ may lead to precision errors.  If so, a descriptive warning is
 generated.
 .TP
 Q1
-With 'Q1', Qhull sorts merges by type (coplanar, angle coplanar, concave)
-instead of by angle.
+With 'Q1', Qhull merges by mergetype/angle instead of mergetype/distance.
 .TP
 Q2
 With 'Q2', Qhull merges all facets at once instead of using
@@ -848,9 +861,13 @@ Q11
 With 'Q11', Qhull copies normals and recompute centrums for tricoplanar facets.
 .TP
 Q12
-With 'Q12', Qhull does not report a very wide merge due to a duplicated ridge with nearly coincident vertices
+With 'Q12', Qhull allows wide facets and wide dupridge.
+.TP
 Q14
-With 'Q14', Qhull does not rename vertices that create a duplicate ridge
+With 'Q14', Qhull merges pinched vertices that create a dupridge.
+.TP
+Q15
+With 'Q15', Qhull checks for duplicate ridges with the same vertices.
 .PP
 .TP
 Trace options
@@ -867,6 +884,9 @@ Ta
 Annotate output with codes that identify the
 corresponding qh_fprintf() statement.
 .TP
+TAn
+Stop Qhull after adding n vertices.
+.TP
 Tc
 Check frequently during execution.  This will catch most inconsistency
 errors.
@@ -875,6 +895,10 @@ TCn
 Stop Qhull after building the cone of new facets for point n.  The
 output for 'f' includes the cone and the old hull.
 See also 'TVn'.
+.TP
+Tf
+Flush output after each qh_fprintf.  Use 'Tf' for debugging segfaults.  See 'Tz' for
+redirecting stderr.
 .TP
 TFn
 Report progress whenever more than n facets are created
@@ -885,6 +909,9 @@ TI file
 Input data from 'file'.  The filename may not include spaces or
 quotes.
 .TP
+TMn
+Turn on tracing at n'th merge.
+.TP
 TO file
 Output results to 'file'.  The name may be enclosed in single
 quotes.
@@ -893,6 +920,9 @@ TPn
 Turn on tracing when point n is added to the hull.  Trace
 partitions of point n.  If used with TWn, turn off
 tracing after adding point n to the hull.
+.TP
+TP-1
+Turn on tracing after qh_buildhull and qh_postmerge.
 .TP
 TRn
 Rerun qhull n times.  Usually used with 'QJn' to determine the
@@ -923,14 +953,11 @@ TVn
 Stop Qhull after adding point n.  If n < 0, stop Qhull before adding
 point n.  Output shows the hull at this time.  See also 'TCn'
 .TP
-TMn
-Turn on tracing at n'th merge.
-.TP
 TWn
 Trace merge facets when the width is greater than n.
 .TP
 Tz
-Redirect stderr to stdout.
+Redirect stderr to stdout.  See 'Tf' for flushing writes.
 .PP
 .SH BUGS
 Please report bugs to Brad Barber at qhull_bug@qhull.org.

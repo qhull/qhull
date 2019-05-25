@@ -16,9 +16,9 @@
     - every set is NULL terminated
     - sets may be sorted or unsorted, the caller must distinguish this
 
-   Copyright (c) 1993-2018 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull/qset.h#4 $$Change: 2549 $
-   $DateTime: 2018/12/28 22:24:20 $$Author: bbarber $
+   Copyright (c) 1993-2019 The Geometry Center.
+   $Id: //main/2019/qhull/src/libqhull/qset.h#1 $$Change: 2661 $
+   $DateTime: 2019/05/24 20:09:58 $$Author: bbarber $
 */
 
 #ifndef qhDEFset
@@ -77,7 +77,7 @@ structure for set of n elements:
 typedef union setelemT setelemT;
 union setelemT {
   void    *p;
-  int      i;         /* integer used for e[maxSize] */
+  int   i;         /* integer used for e[maxSize] */
 };
 
 struct setT {
@@ -123,10 +123,11 @@ struct setT {
      variable is NULL at end of loop
 
    example:
-     #define FOREACHfacet_( facets ) FOREACHsetelement_( facetT, facets, facet )
+     #define FOREACHfacet_(facets) FOREACHsetelement_(facetT, facets, facet)
 
    notes:
      use FOREACHsetelement_i_() if need index or include NULLs
+     assumes set is not modified
 
    WARNING:
      nested loops can't use the same variable (define another FOREACH)
@@ -159,7 +160,7 @@ struct setT {
      variable==NULL and variable_i==variable_n
 
    example:
-     #define FOREACHfacet_i_( facets ) FOREACHsetelement_i_( facetT, facets, facet )
+     #define FOREACHfacet_i_(facets) FOREACHsetelement_i_(facetT, facets, facet)
 
    WARNING:
      nested loops can't use the same variable (define another FOREACH)
@@ -194,7 +195,7 @@ struct setT {
      variable is NULL
 
    example:
-     #define FOREACHvertexreverse_( vertices ) FOREACHsetelementreverse_( vertexT, vertices, vertex )
+     #define FOREACHvertexreverse_(vertices) FOREACHsetelementreverse_(vertexT, vertices, vertex)
 
    notes:
      use FOREACHsetelementreverse12_() to reverse first two elements
@@ -226,7 +227,7 @@ struct setT {
      variable is NULL at end of loop
 
    example
-     #define FOREACHvertexreverse12_( vertices ) FOREACHsetelementreverse12_( vertexT, vertices, vertex )
+     #define FOREACHvertexreverse12_(vertices) FOREACHsetelementreverse12_(vertexT, vertices, vertex)
 
    notes:
      WARNING: needs braces if nested inside another FOREACH
@@ -261,6 +262,7 @@ struct setT {
      FOREACHelem_(set) {
 
    notes:
+     assumes set is not modified
      WARNING: needs braces if nested inside another FOREACH
 */
 #define FOREACHelem_(set) FOREACHsetelement_(void, set, elem)
@@ -339,7 +341,7 @@ struct setT {
    notes:
       assumes that n is valid [0..size] and that set is defined
 */
-#define SETelemt_(set, n, type)    ((type*)((set)->e[n].p))
+#define SETelemt_(set, n, type)    ((type *)((set)->e[n].p))
 
 /*-<a                                     href="qh-set.htm#TOC"
   >---------------------------------------</a><a name="SETelemaddr_">-</a>
@@ -368,7 +370,7 @@ struct setT {
      return first element of set as a type
 
 */
-#define SETfirstt_(set, type)      ((type*)((set)->e[0].p))
+#define SETfirstt_(set, type)      ((type *)((set)->e[0].p))
 
 /*-<a                                     href="qh-set.htm#TOC"
   >---------------------------------------</a><a name="SETsecond_">-</a>
@@ -385,7 +387,7 @@ struct setT {
    SETsecondt_(set, type)
      return second element of set as a type
 */
-#define SETsecondt_(set, type)     ((type*)((set)->e[1].p))
+#define SETsecondt_(set, type)     ((type *)((set)->e[1].p))
 
 /*-<a                                     href="qh-set.htm#TOC"
   >---------------------------------------</a><a name="SETaddr_">-</a>
@@ -411,10 +413,11 @@ struct setT {
   >---------------------------------------</a><a name="SETempty_">-</a>
 
    SETempty_(set)
-     return true(1) if set is empty
+     return true(1) if set is empty (i.e., FOREACHsetelement_ is empty)
 
    notes:
       set may be NULL
+      qh_setsize may be non-zero if first element is NULL
 */
 #define SETempty_(set)            (!set || (SETfirst_(set) ? 0 : 1))
 
@@ -460,13 +463,13 @@ void *qh_setdellast(setT *set);
 void *qh_setdelnth(setT *set, int nth);
 void *qh_setdelnthsorted(setT *set, int nth);
 void *qh_setdelsorted(setT *set, void *newelem);
-setT *qh_setduplicate( setT *set, int elemsize);
+setT *qh_setduplicate(setT *set, int elemsize);
 void **qh_setendpointer(setT *set);
 int   qh_setequal(setT *setA, setT *setB);
 int   qh_setequal_except(setT *setA, void *skipelemA, setT *setB, void *skipelemB);
 int   qh_setequal_skip(setT *setA, int skipA, setT *setB, int skipB);
 void  qh_setfree(setT **set);
-void  qh_setfree2( setT **setp, int elemsize);
+void  qh_setfree2(setT **setp, int elemsize);
 void  qh_setfreelong(setT **set);
 int   qh_setin(setT *set, void *setelem);
 int   qh_setindex(setT *set, void *setelem);
@@ -485,6 +488,5 @@ void  qh_settemppush(setT *set);
 void  qh_settruncate(setT *set, int size);
 int   qh_setunique(setT **set, void *elem);
 void  qh_setzero(setT *set, int idx, int size);
-
 
 #endif /* qhDEFset */

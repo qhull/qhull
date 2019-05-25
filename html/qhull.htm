@@ -7,7 +7,7 @@
 
 <body>
 <!-- Navigation links -->
-<p><b><a name="TOP">Up</a></b><b>:</b> <a href="http://www.qhull.org">Home page</a> for Qhull<br>
+<p><b><a name="TOP">Up</a></b><b>:</b> <a href="http://www.qhull.org">Home page</a> for Qhull (<a href="../index.htm">local</a>)<br>
 <b>Up:</b> <a href="index.htm#TOC">Qhull manual</a>: Table of Contents<br>
 <b>To:</b> <a href="qh-quick.htm#programs">Programs</a>
 &#149; <a href="qh-quick.htm#options">Options</a>
@@ -18,7 +18,7 @@
 &#149; <a href="qh-optq.htm#qhull">Qhull</a>
 &#149; <a href="qh-optc.htm#prec">Precision</a>
 &#149; <a href="qh-optt.htm#trace">Trace</a>
-&#149; <a href="../src/libqhull_r/index.htm">Functions</a><br>
+&#149; <a href="http://www.qhull.org/src/libqhull_r/index.htm">Functions</a> (<a href="../src/libqhull_r/index.htm">local</a>)<br>
 <b>To:</b> <a href="#synopsis">sy</a>nopsis &#149; <a href="#input">in</a>put
 &#149; <a href="#outputs">ou</a>tputs &#149; <a href="#controls">co</a>ntrols
 &#149; <a href="#options">op</a>tions
@@ -66,8 +66,7 @@ It takes the same options and uses the same code.
                  This leads to serious precision errors.</dd>
 </dl>
 </blockquote>
-<p>Use the following equivalences when calling <tt>qhull</tt> in 2-d to 4-d (a 3-d
-Delaunay triangulation is a 4-d convex hull):
+<p>Use the following equivalences when calling <tt>qhull</tt>:
 <blockquote>
 <ul>
 <li>
@@ -80,22 +79,6 @@ Delaunay triangulation is a 4-d convex hull):
 <a href=qvoronoi.htm>qvoronoi</a> == qhull v <a href="qh-optq.htm#Qbb">Qbb</a>
 </ul>
 </blockquote>
-
-<p>Use the following equivalences when calling <tt>qhull</tt> in 5-d and higher (a 4-d
-Delaunay triangulation is a 5-d convex hull):
-<blockquote>
-<ul>
-<li>
-<a href="qconvex.htm">qconvex</a> == qhull <a href="qh-optq.htm#Qx">Qx</a>
-<li>
-<a href=qdelaun.htm>qdelaunay</a> == qhull d <a href="qh-optq.htm#Qbb">Qbb</a> <a href="qh-optq.htm#Qx">Qx</a>
-<li>
-<a href=qhalf.htm>qhalf</a> == qhull H <a href="qh-optq.htm#Qx">Qx</a>
-<li>
-<a href=qvoronoi.htm>qvoronoi</a> == qhull v <a href="qh-optq.htm#Qbb">Qbb</a> <a href="qh-optq.htm#Qx">Qx</a>
-</ul>
-</blockquote>
-
 
 <p>By default, Qhull merges coplanar facets.  For example, the convex
 hull of a cube's vertices has six facets.
@@ -117,28 +100,30 @@ hull contains non-simplicial facets (e.g., a hypercube). See
 are there extra points in a 4-d or higher convex hull?</a><br>
 </p>
 
-<p><b>Copyright &copy; 1995-2018 C.B. Barber</b></p>
+<p><b>Copyright &copy; 1995-2019 C.B. Barber</b></p>
 
 <hr>
 
 <h3><a href="#TOP">&#187;</a><a name="synopsis">qhull synopsis</a></h3>
 <pre>
-qhull- compute convex hulls and related structures.
-    input (stdin): dimension, n, point coordinates
+qhull -- compute convex hulls and related structures.
+    input (stdin): dimension, number of points, point coordinates
     comments start with a non-numeric character
     halfspace: use dim+1 and put offsets after coefficients
 
-options (qh-quick.htm):
+options:
     d    - Delaunay triangulation by lifting points to a paraboloid
     d Qu - furthest-site Delaunay triangulation (upper convex hull)
     v    - Voronoi diagram as the dual of the Delaunay triangulation
     v Qu - furthest-site Voronoi diagram
     H1,1 - Halfspace intersection about [1,1,0,...] via polar duality
     Qt   - triangulated output
-    QJ   - joggle input instead of merging facets
+    QJ   - joggled input instead of merged facets
     Tv   - verify result: structure, convexity, and point inclusion
     .    - concise list of all options
-    -    - one-line description of all options
+    -    - one-line description of each option
+    -?   - this message
+    -V   - version
 
 Output options (subset):
     s    - summary of results (default)
@@ -146,22 +131,24 @@ Output options (subset):
     n    - normals with offsets
     p    - vertex coordinates (if 'Qc', includes coplanar points)
            if 'v', Voronoi vertices
+    FA   - report total area and volume
     Fp   - halfspace intersections
+    FS   - total area and volume
     Fx   - extreme points (convex hull vertices)
-    FA   - compute total area and volume
-    o    - OFF format (if 'v', outputs Voronoi regions)
     G    - Geomview output (2-d, 3-d and 4-d)
     m    - Mathematica output (2-d and 3-d)
+    o    - OFF format (if 'v', outputs Voronoi regions)
     QVn  - print facets that include point n, -n if not
-    TO file- output results to file, may be enclosed in single quotes
+    TI file - input file, may be enclosed in single quotes
+    TO file - output file, may be enclosed in single quotes
 
 examples:
-    rbox c d D2 | qhull Qc s f Fx | more      rbox 1000 s | qhull Tv s FA
+    rbox D4 | qhull Tv                        rbox 1000 s | qhull Tv s FA
     rbox 10 D2 | qhull d QJ s i TO result     rbox 10 D2 | qhull v Qbb Qt p
     rbox 10 D2 | qhull d Qu QJ m              rbox 10 D2 | qhull v Qu QJ o
-    rbox c | qhull n                          rbox c | qhull FV n | qhull H Fp
+    rbox c d D2 | qhull Qc s f Fx | more      rbox c | qhull FV n | qhull H Fp
     rbox d D12 | qhull QR0 FA                 rbox c D7 | qhull FA TF1000
-    rbox y 1000 W0 | qhull                    rbox 10 | qhull v QJ o Fv
+    rbox y 1000 W0 | qhull Qc                 rbox c | qhull n
 </pre>
 
 <h3><a href="#TOP">&#187;</a><a name="input">qhull input</a></h3>
@@ -254,7 +241,7 @@ individually or together.</p>
         See <a href=qvoronoi.htm>qvoronoi</a>.</dd>
     <dt><a name="H">qhull H</a></dt>
     <dd>compute the halfspace intersection about a point via polar
-        duality.  The point is below the hyperplane that defines the halfspace.
+        duality.  The point is below the hyperplanes that defines the halfspace.
         See <a href=qhalf.htm>qhalf</a>.</dd>
 </dl>
 </blockquote>
@@ -289,7 +276,7 @@ individually or together.</p>
 <h3><a href="#TOP">&#187;</a><a name="options">qhull options</a></h3>
 
 <pre>
-qhull- compute convex hulls and related structures.
+qhull -- compute convex hulls and related structures.
     http://www.qhull.org
 
 input (stdin):
@@ -302,15 +289,16 @@ input (stdin):
 options:
     d    - Delaunay triangulation by lifting points to a paraboloid
     d Qu - furthest-site Delaunay triangulation (upper convex hull)
-    v    - Voronoi diagram (dual of the Delaunay triangulation)
-    v Qu - furthest-site Voronoi diagram
     Hn,n,... - halfspace intersection about point [n,n,0,...]
-    Qt   - triangulated output
-    QJ   - joggle input instead of merging facets
     Qc   - keep coplanar points with nearest facet
     Qi   - keep interior points with nearest facet
+    QJ   - joggled input instead of merged facets
+    Qt   - triangulated output
+    v    - Voronoi diagram (dual of the Delaunay triangulation)
+    v Qu - furthest-site Voronoi diagram
 
 Qhull control options:
+    Qa   - allow short input with more coordinates than points
     Qbk:n   - scale coord k so that low bound is n
       QBk:n - scale coord k so that upper bound is n (QBk is 0.5)
     QbB  - scale input to unit cube centered at the origin
@@ -318,23 +306,26 @@ Qhull control options:
     Qbk:0Bk:0 - remove k-th coordinate from input
     QJn  - randomly joggle input in range [-n,n]
     QRn  - random rotation (n=seed, n=0 time, n=-1 time/no rotate)
-    Qf   - partition point to furthest outside facet
-    Qg   - only build good facets (needs 'QGn', 'QVn', or 'PdD')
-    Qm   - only process points that would increase max_outside
-    Qr   - process random outside points instead of furthest ones
     Qs   - search all points for the initial simplex
     Qu   - for 'd' or 'v', compute upper hull without point at-infinity
               returns furthest-site Delaunay triangulation
-    Qv   - test vertex neighbors for convexity
-    Qx   - exact pre-merges (skips coplanar and anglomaniacs facets)
-    Qz   - add point-at-infinity to Delaunay triangulation
-    QGn  - good facet if visible from point n, -n for not visible
     QVn  - good facet if it includes point n, -n if not
-    Q0   - turn off default p remerge with 'C-0'/'Qx'
-    Q1     - sort merges by type instead of angle
-    Q2   - merge all non-convex at once instead of independent sets
+    Qx   - exact pre-merges (skips coplanar and angle-coplanar facets)
+    Qz   - add point-at-infinity to Delaunay triangulation
+
+Qhull extra options:
+    Qf   - partition point to furthest outside facet
+    Qg   - only build good facets (needs 'QGn', 'QVn', or 'PdD')
+    QGn  - good facet if visible from point n, -n for not visible
+    Qm   - only process points that would increase max_outside
+    Qr   - process random outside points instead of furthest ones
+    Qv   - test vertex neighbors for convexity
+    Qw   - allow option warnings
+    Q0   - turn off default premerge with 'C-0'/'Qx'
+    Q1   - merge by mergetype/angle instead of mergetype/distance
+    Q2   - merge all coplanar facets instead of merging independent sets
     Q3   - do not merge redundant vertices
-    Q4   - avoid old>new merges
+    Q4   - avoid old->new merges
     Q5   - do not correct outer planes at end of qhull
     Q6   - do not pre-merge concave or coplanar facets
     Q7   - depth-first processing instead of breadth-first
@@ -342,24 +333,31 @@ Qhull control options:
     Q9   - process furthest of furthest points
     Q10  - no special processing for narrow distributions
     Q11  - copy normals and recompute centrums for tricoplanar facets
-    Q12  - do not error on wide merge due to duplicate ridge and nearly coincident points
-    Q14  - do not rename vertices that create a duplicate ridge
+    Q12  - allow wide facets and wide dupridge
+    Q14  - merge pinched vertices that create a dupridge
+    Q15  - check for duplicate ridges with the same vertices
+
+T options:
+    TFn  - report summary when n or more facets created
+    TI file - input file, may be enclosed in single quotes
+    TO file - output file, may be enclosed in single quotes
+    Ts   - statistics
+    Tv   - verify result: structure, convexity, and point inclusion
+    Tz   - send all output to stdout
 
 Trace options:
     T4   - trace at level n, 4=all, 5=mem/gauss, -1= events
+    Ta   - annotate output with message codes
+    TAn  - stop qhull after adding n vertices
+     TCn - stop qhull after building cone for point n
+     TVn - stop qhull after adding point n, -n for before
     Tc   - check frequently during execution
-    Ts   - print statistics
-    Tv   - verify result: structure, convexity, and point inclusion
-    Tz   - send all output to stdout
-    TFn  - report summary when n or more facets created
-    TI file - input data from file, no spaces or single quotes
-    TO file - output results to file, may be enclosed in single quotes
+    Tf   - flush each qh_fprintf for debugging segfaults
     TPn  - turn on tracing when point n added to hull
+     TP-1  turn on tracing after qh_buildhull and qh_postmerge
      TMn - turn on tracing at merge n
      TWn - trace merge facets when width > n
-    TRn  - rerun qhull n times.  Use with 'QJn'
-    TVn  - stop qhull after adding point n, -n for before (see TCn)
-     TCn - stop qhull after building cone for point n (see TVn)
+    TRn  - rerun qhull n times for statistics to adjust 'QJn'
 
 Precision options:
     Cn   - radius of centrum (roundoff added).  Merge facets if non-convex
@@ -376,8 +374,8 @@ Output formats (may be combined; if none, produces a summary to stdout):
     G    - Geomview output (see below)
     i    - vertices incident to each facet
     m    - Mathematica output (2-d and 3-d)
-    o    - OFF format (dim, points and facets; Voronoi regions)
     n    - normals with offsets
+    o    - OFF format (dim, points and facets; Voronoi regions)
     p    - vertex coordinates or Voronoi vertices (coplanar points if 'Qc')
     s    - summary (stderr)
 
@@ -407,32 +405,32 @@ More formats:
                       output: #vertices, #facets, #coplanars, #nonsimplicial
                     #real (2), max outer plane, min vertex
     FS   - sizes:   #int (0)
-                    #real(2) tot area, tot volume
+                    #real (2) tot area, tot volume
     Ft   - triangulation with centrums for non-simplicial facets (OFF format)
     Fv   - count plus vertices for each facet
            for 'v', Voronoi diagram as Voronoi vertices for pairs of sites
     FV   - average of vertices (a feasible point for 'H')
     Fx   - extreme points (in order for 2-d)
 
-Geomview options (2-d, 3-d, and 4-d; 2-d Voronoi)
+Geomview output (2-d, 3-d, and 4-d; 2-d Voronoi)
     Ga   - all points as dots
      Gp  -  coplanar points and vertices as radii
      Gv  -  vertices as spheres
+    Gc   - centrums
+    GDn  - drop dimension n in 3-d and 4-d output
+    Gh   - hyperplane intersections
     Gi   - inner planes only
      Gn  -  no planes
      Go  -  outer planes only
-    Gc   - centrums
-    Gh   - hyperplane intersections
     Gr   - ridges
-    GDn  - drop dimension n in 3-d and 4-d output
     Gt   - for 3-d 'd', transparent outer ridges
 
 Print options:
     PAn  - keep n largest facets by area
-    Pdk:n - drop facet if normal[k] &lt;= n (default 0.0)
+    Pdk:n - drop facet if normal[k] <= n (default 0.0)
     PDk:n - drop facet if normal[k] >= n
-    Pg   - print good facets (needs 'QGn' or 'QVn')
     PFn  - keep facets whose area is at least n
+    Pg   - print good facets (needs 'QGn' or 'QVn')
     PG   - print neighbors of good facets
     PMn  - keep n facets with most merges
     Po   - force output.  If error, output neighborhood of facet
@@ -440,12 +438,14 @@ Print options:
 
     .    - list of all options
     -    - one line descriptions of all options
+    -?   - help with examples
+    -V   - version
 </pre>
 
 <!-- Navigation links -->
 <hr>
 
-<p><b>Up:</b> <a href="http://www.qhull.org">Home page</a> for Qhull<br>
+<p><b>Up:</b> <a href="http://www.qhull.org">Home page</a> for Qhull (<a href="../index.htm">local</a>)<br>
 <b>Up:</b> <a href="index.htm#TOC">Qhull manual</a>: Table of Contents<br>
 <b>To:</b> <a href="qh-quick.htm#programs">Programs</a>
 &#149; <a href="qh-quick.htm#options">Options</a>
@@ -456,7 +456,7 @@ Print options:
 &#149; <a href="qh-optq.htm#qhull">Qhull</a>
 &#149; <a href="qh-optc.htm#prec">Precision</a>
 &#149; <a href="qh-optt.htm#trace">Trace</a>
-&#149; <a href="../src/libqhull_r/index.htm">Functions</a><br>
+&#149; <a href="http://www.qhull.org/src/libqhull_r/index.htm">Functions</a> (<a href="../src/libqhull_r/index.htm">local</a>)<br>
 <b>To:</b> <a href="#synopsis">sy</a>nopsis &#149; <a href="#input">in</a>put
 &#149; <a href="#outputs">ou</a>tputs &#149; <a href="#controls">co</a>ntrols
 &#149; <a href="#options">op</a>tions
@@ -468,7 +468,7 @@ align="middle" width="40" height="40"></a><i>The Geometry Center
 Home Page </i></p>
 
 <p>Comments to: <a href=mailto:qhull@qhull.org>qhull@qhull.org</a>
-</a><br>
+<br>
 Created: Sept. 25, 1995 --- <!-- hhmts start --> Last modified: see top <!-- hhmts end --> </p>
 </body>
 </html>

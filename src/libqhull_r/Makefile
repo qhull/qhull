@@ -38,6 +38,7 @@
 #
 # Make targets
 #   make           Build results using gcc or another compiler
+#   make all
 #   make clean     Remove object files
 #   make cleanall  Remove generated files
 #   make doc       Print documentation
@@ -50,7 +51,7 @@
 #
 # Do not replace tabs with spaces.  Needed for build rules
 # Unix line endings (\n)
-# $Id: //main/2015/qhull/src/libqhull_r/Makefile#6 $
+# $Id: //main/2019/qhull/src/libqhull_r/Makefile#1 $
 
 DESTDIR = /usr/local
 BINDIR	= $(DESTDIR)/bin
@@ -90,7 +91,7 @@ CC_OPTS2 = $(CC_OPTS1)
 all: qhull_links qhull_all qtest
 
 help:
-	head -n 50 Makefile
+	head -n 51 Makefile
 
 clean:
 	rm -f *.o 
@@ -108,7 +109,8 @@ doc:
 install:
 	mkdir -p $(BINDIR)
 	mkdir -p $(DOCDIR)
-	mkdir -p $(INCDIR)/libqhull
+	mkdir -p $(INCDIR)/libqhull_r
+	mkdir -p $(LIBDIR)
 	mkdir -p $(MANDIR)
 	cp -p qconvex qdelaunay qhalf qhull qvoronoi rbox $(BINDIR)
 	cp -p libqhullstatic_r.a $(LIBDIR)
@@ -131,15 +133,15 @@ printc:
 # Same definitions as ../../Makefile
 
 LIBQHULLS_OBJS_1= global_r.o stat_r.o geom2_r.o poly2_r.o merge_r.o \
-        libqhull_r.o geom_r.o poly_r.o qset_r.o mem_r.o random_r.o 
+	libqhull_r.o geom_r.o poly_r.o qset_r.o mem_r.o random_r.o 
 
 LIBQHULLS_OBJS_2= $(LIBQHULLS_OBJS_1) usermem_r.o userprintf_r.o io_r.o user_r.o
 
 LIBQHULLS_OBJS= $(LIBQHULLS_OBJS_2)  rboxlib_r.o userprintf_rbox_r.o
 
 LIBQHULL_HDRS= user_r.h libqhull_r.h qhull_ra.h geom_r.h \
-        io_r.h mem_r.h merge_r.h poly_r.h random_r.h \
-        qset_r.h stat_r.h
+	io_r.h mem_r.h merge_r.h poly_r.h random_r.h \
+	qset_r.h stat_r.h
 
 # CFILES ordered alphabetically after libqhull.c 
 CFILES= ../qhull/unix_r.c libqhull_r.c geom_r.c geom2_r.c global_r.c io_r.c \
@@ -199,7 +201,7 @@ qtest:
 	@echo ============================================
 	@echo
 	@echo ============================================
-	@echo == For all make targets
+	@echo == To show all make targets
 	@echo '==     make help'
 	@echo ============================================
 	@echo

@@ -13,9 +13,9 @@
    unix.c and user.c are the only callers of io.c functions
    This allows the user to avoid loading io.o from qhull.a
 
-   Copyright (c) 1993-2018 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull/io.c#9 $$Change: 2552 $
-   $DateTime: 2018/12/29 15:39:43 $$Author: bbarber $
+   Copyright (c) 1993-2019 The Geometry Center.
+   $Id: //main/2019/qhull/src/libqhull/io.c#1 $$Change: 2661 $
+   $DateTime: 2019/05/24 20:09:58 $$Author: bbarber $
 */
 
 #include "qhull_a.h"
@@ -25,10 +25,11 @@
 /*-<a                             href="qh-io.htm#TOC"
   >-------------------------------</a><a name="produce_output">-</a>
 
-  qh_produce_output()
-  qh_produce_output2()
+  qh_produce_output( )
+  qh_produce_output2( )
     prints out the result of qhull in desired format
-    qh_produce_output2() does not call qh_prepare_output()
+    qh_produce_output2 does not call qh_prepare_output
+      qh_checkpolygon is valid for qh_prepare_output
     if qh.GETarea
       computes and prints area and volume
     qh.PRINTout[] is an array of output formats
@@ -58,6 +59,8 @@ void qh_produce_output2(void) {
     qh_printsummary(qh fout);
   for (i=0; i < qh_PRINTEND; i++)
     qh_printfacets(qh fout, qh PRINTout[i], qh facet_list, NULL, !qh_ALL);
+  fflush(qh fout);
+
   qh_allstatistics();
   if (qh PRINTprecision && !qh MERGING && (qh JOGGLEmax > REALmax/2 || qh RERUN))
     qh_printstats(qh ferr, qhstat precision, NULL);
@@ -139,18 +142,6 @@ int qh_compare_facetarea(const void *p1, const void *p2) {
 } /* compare_facetarea */
 
 /*-<a                             href="qh-io.htm#TOC"
-  >-------------------------------</a><a name="compare_facetmerge">-</a>
-
-  qh_compare_facetmerge( p1, p2 )
-    used by qsort() to order facets by number of merges
-*/
-int qh_compare_facetmerge(const void *p1, const void *p2) {
-  const facetT *a= *((facetT *const*)p1), *b= *((facetT *const*)p2);
-
-  return(a->nummerge - b->nummerge);
-} /* compare_facetvisit */
-
-/*-<a                             href="qh-io.htm#TOC"
   >-------------------------------</a><a name="compare_facetvisit">-</a>
 
   qh_compare_facetvisit( p1, p2 )
@@ -168,18 +159,19 @@ int qh_compare_facetvisit(const void *p1, const void *p2) {
 } /* compare_facetvisit */
 
 /*-<a                             href="qh-io.htm#TOC"
-  >-------------------------------</a><a name="compare_vertexpoint">-</a>
+  >-------------------------------</a><a name="compare_nummerge">-</a>
 
-  qh_compare_vertexpoint( p1, p2 )
-    used by qsort() to order vertices by point id
+  qh_compare_nummerge( p1, p2 )
+    used by qsort() to order facets by number of merges
 
-  Not used.  Not available in libqhull_r.h since qh_pointid depends on qh
+notes:
+    called by qh_markkeep ('PMerge-keep')
 */
-int qh_compare_vertexpoint(const void *p1, const void *p2) {
-  const vertexT *a= *((vertexT *const*)p1), *b= *((vertexT *const*)p2);
+int qh_compare_nummerge(const void *p1, const void *p2) {
+  const facetT *a= *((facetT *const*)p1), *b= *((facetT *const*)p2);
 
-  return((qh_pointid(a->point) > qh_pointid(b->point)?1:-1));
-} /* compare_vertexpoint */
+  return(a->nummerge - b->nummerge);
+} /* compare_nummerge */
 
 /*-<a                             href="qh-io.htm#TOC"
   >-------------------------------</a><a name="copyfilename">-</a>
@@ -217,7 +209,7 @@ void qh_copyfilename(char *filename, int size, const char* source, int length) {
 /*-<a                             href="qh-io.htm#TOC"
   >-------------------------------</a><a name="countfacets">-</a>
 
-  qh_countfacets( facetlist, facets, printall,
+  qh_countfacets(facetlist, facets, printall,
           numfacets, numsimplicial, totneighbors, numridges, numcoplanar, numtricoplanars  )
     count good facets for printing and set visitid
     if allfacets, ignores qh_skipfacet()
@@ -595,6 +587,7 @@ setT *qh_detvridge3(vertexT *atvertex, vertexT *vertex) {
     if printvridge,
       calls printvridge( fp, vertex, vertexA, centers)
         fp== any pointer (assumes FILE*)
+             fp may be NULL for QhullQh::qh_fprintf which calls appendQhullMessage
         vertex,vertexA= pair of input sites that define a Voronoi ridge
         centers= set of facets (i.e., Voronoi vertices)
                  ->visitid == index or 0 if vertex_at_infinity
@@ -669,7 +662,7 @@ int qh_eachvoronoi(FILE *fp, printvridgeT printvridge, vertexT *atvertex, boolT 
             totridges++;
             trace4((qh ferr, 4017, "qh_eachvoronoi: Voronoi ridge of %d vertices between sites %d and %d\n",
                   count, qh_pointid(atvertex->point), qh_pointid(vertex->point)));
-            if (printvridge && fp) {
+            if (printvridge) {
               if (inorder && qh hull_dim == 3+1) /* 3-d Voronoi diagram */
                 centers= qh_detvridge3(atvertex, vertex);
               else
@@ -869,12 +862,16 @@ void qh_geomplanes(facetT *facet, realT *outerplane, realT *innerplane) {
   >-------------------------------</a><a name="markkeep">-</a>
 
   qh_markkeep( facetlist )
-    mark good facets that meet qh.KEEParea, qh.KEEPmerge, and qh.KEEPminArea
+    restrict good facets for qh.KEEParea, qh.KEEPmerge, and qh.KEEPminArea
     ignores visible facets (!part of convex hull)
 
   returns:
     may clear facet->good
     recomputes qh.num_good
+
+  notes:
+    only called by qh_prepare_output after qh_findgood_all
+    does not throw errors except memory/corruption of qset.c
 
   design:
     get set of good facets
@@ -913,7 +910,7 @@ void qh_markkeep(facetT *facetlist) {
   }
   if (qh KEEPmerge) {
     qsort(SETaddr_(facets, facetT), (size_t)size,
-             sizeof(facetT *), qh_compare_facetmerge);
+             sizeof(facetT *), qh_compare_nummerge);
     if ((count= size - qh KEEPmerge) > 0) {
       FOREACHfacet_(facets) {
         facet->good= False;
@@ -1035,7 +1032,7 @@ void qh_order_vertexneighbors(vertexT *vertex) {
 
   trace4((qh ferr, 4018, "qh_order_vertexneighbors: order neighbors of v%d for 3-d\n", vertex->id));
   newset= qh_settemp(qh_setsize(vertex->neighbors));
-  facet= (facetT*)qh_setdellast(vertex->neighbors);
+  facet= (facetT *)qh_setdellast(vertex->neighbors);
   qh_setappend(&newset, facet);
   while (qh_setsize(vertex->neighbors)) {
     FOREACHneighbor_(vertex) {
@@ -1066,6 +1063,7 @@ void qh_order_vertexneighbors(vertexT *vertex) {
     does not reset facet->good
 
   notes
+    called by qh_produce_output, qh_new_qhull, Qhull.outputQhull
     except for PRINTstatistics, no-op if previously called with same options
 */
 void qh_prepare_output(void) {
@@ -1232,11 +1230,11 @@ void qh_printafacet(FILE *fp, qh_PRINT format, facetT *facet, boolT printall) {
   case qh_PRINTpointintersect:
     if (!qh feasible_point) {
       qh_fprintf(qh ferr, 6067, "qhull input error (qh_printafacet): option 'Fp' needs qh feasible_point\n");
-      qh_errexit( qh_ERRinput, NULL, NULL);
+      qh_errexit(qh_ERRinput, NULL, NULL);
     }
     if (facet->offset > 0)
       goto LABELprintinfinite;
-    point= coordp= (coordT*)qh_memalloc(qh normal_size);
+    point= coordp= (coordT *)qh_memalloc(qh normal_size);
     normp= facet->normal;
     feasiblep= qh feasible_point;
     if (facet->offset < -qh MINdenom) {
@@ -1288,7 +1286,7 @@ void qh_printafacet(FILE *fp, qh_PRINT format, facetT *facet, boolT printall) {
 /*-<a                             href="qh-io.htm#TOC"
   >-------------------------------</a><a name="printbegin">-</a>
 
-  qh_printbegin(  )
+  qh_printbegin( )
     prints header for all output formats
 
   returns:
@@ -1519,7 +1517,7 @@ void qh_printbegin(FILE *fp, qh_PRINT format, facetT *facetlist, setT *facets, b
   case qh_PRINTtriangles:
     if (qh VORONOI)
       goto LABELnoformat;
-    num = qh hull_dim;
+    num= qh hull_dim;
     if (format == qh_PRINToff || qh hull_dim == 2)
       qh_fprintf(fp, 9060, "%d\n%d %d %d\n", num,
         qh num_points+qh_setsize(qh other_points), numfacets, totneighbors/2);
@@ -2137,7 +2135,7 @@ void qh_printfacet3geom_points(FILE *fp, setT *points, facetT *facet, realT offs
 /*-<a                             href="qh-io.htm#TOC"
   >-------------------------------</a><a name="printfacet3geom_simplicial">-</a>
 
-  qh_printfacet3geom_simplicial(  )
+  qh_printfacet3geom_simplicial( )
     print Geomview OFF for a 3-d simplicial facet.
 
   notes:
@@ -2271,7 +2269,7 @@ void qh_printfacet3vertex(FILE *fp, facetT *facet, qh_PRINT format) {
 /*-<a                             href="qh-io.htm#TOC"
   >-------------------------------</a><a name="printfacet4geom_nonsimplicial">-</a>
 
-  qh_printfacet4geom_nonsimplicial(  )
+  qh_printfacet4geom_nonsimplicial( )
     print Geomview 4OFF file for a 4d nonsimplicial facet
     prints all ridges to unvisited neighbors (qh.visit_id)
     if qh.DROPdim
@@ -2472,17 +2470,23 @@ void qh_printfacetheader(FILE *fp, facetT *facet) {
   if (facet->visible)
     qh_fprintf(fp, 9143, " visible");
   if (facet->newfacet)
-    qh_fprintf(fp, 9144, " new");
+    qh_fprintf(fp, 9144, " newfacet");
   if (facet->tested)
     qh_fprintf(fp, 9145, " tested");
   if (!facet->good)
     qh_fprintf(fp, 9146, " notG");
-  if (facet->seen)
+  if (facet->seen && qh IStracing)
     qh_fprintf(fp, 9147, " seen");
-  if (facet->coplanar)
-    qh_fprintf(fp, 9148, " coplanar");
+  if (facet->seen2 && qh IStracing)
+    qh_fprintf(fp, 9418, " seen2");
+  if (facet->isarea)
+    qh_fprintf(fp, 9419, " isarea");
+  if (facet->coplanarhorizon)
+    qh_fprintf(fp, 9148, " coplanarhorizon");
   if (facet->mergehorizon)
     qh_fprintf(fp, 9149, " mergehorizon");
+  if (facet->cycledone)
+    qh_fprintf(fp, 9420, " cycledone");
   if (facet->keepcentrum)
     qh_fprintf(fp, 9150, " keepcentrum");
   if (facet->dupridge)
@@ -2514,18 +2518,20 @@ void qh_printfacetheader(FILE *fp, facetT *facet) {
       qh_fprintf(fp, 9163, "    - owner of normal & centrum is facet f%d\n", facet->f.triowner->id);
   }else if (facet->f.newcycle)
     qh_fprintf(fp, 9164, "    - was horizon to f%d\n", facet->f.newcycle->id);
-  if (facet->nummerge)
+  if (facet->nummerge == qh_MAXnummerge)
+    qh_fprintf(fp, 9427, "    - merges: %dmax\n", qh_MAXnummerge);
+  else if (facet->nummerge)
     qh_fprintf(fp, 9165, "    - merges: %d\n", facet->nummerge);
   qh_printpointid(fp, "    - normal: ", qh hull_dim, facet->normal, qh_IDunknown);
   qh_fprintf(fp, 9166, "    - offset: %10.7g\n", facet->offset);
   if (qh CENTERtype == qh_ASvoronoi || facet->center)
     qh_printcenter(fp, qh_PRINTfacets, "    - center: ", facet);
 #if qh_MAXoutside
-  if (facet->maxoutside > qh DISTround)
+  if (facet->maxoutside > qh DISTround) /* initial value */
     qh_fprintf(fp, 9167, "    - maxoutside: %10.7g\n", facet->maxoutside);
 #endif
   if (!SETempty_(facet->outsideset)) {
-    furthest= (pointT*)qh_setlast(facet->outsideset);
+    furthest= (pointT *)qh_setlast(facet->outsideset);
     if (qh_setsize(facet->outsideset) < 6) {
       qh_fprintf(fp, 9168, "    - outside set(furthest p%d):\n", qh_pointid(furthest));
       FOREACHpoint_(facet->outsideset)
@@ -2541,7 +2547,7 @@ void qh_printfacetheader(FILE *fp, facetT *facet) {
 #endif
   }
   if (!SETempty_(facet->coplanarset)) {
-    furthest= (pointT*)qh_setlast(facet->coplanarset);
+    furthest= (pointT *)qh_setlast(facet->coplanarset);
     if (qh_setsize(facet->coplanarset) < 6) {
       qh_fprintf(fp, 9171, "    - coplanar set(furthest p%d):\n", qh_pointid(furthest));
       FOREACHpoint_(facet->coplanarset)
@@ -2560,9 +2566,9 @@ void qh_printfacetheader(FILE *fp, facetT *facet) {
   qh_fprintf(fp, 9174, "    - neighboring facets:");
   FOREACHneighbor_(facet) {
     if (neighbor == qh_MERGEridge)
-      qh_fprintf(fp, 9175, " MERGE");
+      qh_fprintf(fp, 9175, " MERGEridge");
     else if (neighbor == qh_DUPLICATEridge)
-      qh_fprintf(fp, 9176, " DUP");
+      qh_fprintf(fp, 9176, " DUPLICATEridge");
     else
       qh_fprintf(fp, 9177, " f%d", neighbor->id);
   }
@@ -2587,10 +2593,10 @@ void qh_printfacetridges(FILE *fp, facetT *facet) {
   facetT *neighbor, **neighborp;
   ridgeT *ridge, **ridgep;
   int numridges= 0;
-
+  int n;
 
   if (facet->visible && qh NEWfacets) {
-    qh_fprintf(fp, 9179, "    - ridges(ids may be garbage):");
+    qh_fprintf(fp, 9179, "    - ridges (tentative ids):");
     FOREACHridge_(facet->ridges)
       qh_fprintf(fp, 9180, " r%d", ridge->id);
     qh_fprintf(fp, 9181, "\n");
@@ -2609,7 +2615,7 @@ void qh_printfacetridges(FILE *fp, facetT *facet) {
     }else {
       FOREACHneighbor_(facet) {
         FOREACHridge_(facet->ridges) {
-          if (otherfacet_(ridge,facet) == neighbor) {
+          if (otherfacet_(ridge, facet) == neighbor && !ridge->seen) {
             ridge->seen= True;
             qh_printridge(fp, ridge);
             numridges++;
@@ -2617,12 +2623,17 @@ void qh_printfacetridges(FILE *fp, facetT *facet) {
         }
       }
     }
-    if (numridges != qh_setsize(facet->ridges)) {
+    n= qh_setsize(facet->ridges);
+    if (n == 1 && facet->newfacet && qh NEWtentative) {
+      qh_fprintf(fp, 9411, "     - horizon ridge to visible facet\n");
+    }
+    if (numridges != n) {
       qh_fprintf(fp, 9183, "     - all ridges:");
       FOREACHridge_(facet->ridges)
         qh_fprintf(fp, 9184, " r%d", ridge->id);
       qh_fprintf(fp, 9185, "\n");
     }
+    /* non-3d ridges w/o non-simplicial neighbors */
     FOREACHridge_(facet->ridges) {
       if (!ridge->seen)
         qh_printridge(fp, ridge);
@@ -2817,7 +2828,7 @@ void qh_printneighborhood(FILE *fp, qh_PRINT format, facetT *facetA, facetT *fac
     facetB= NULL;
   facets= qh_settemp(2*(qh_setsize(facetA->neighbors)+1));
   qh visit_id++;
-  for (facet= facetA; facet; facet= ((facet == facetA) ? facetB : NULL)) {
+  for (facet=facetA; facet; facet= ((facet == facetA) ? facetB : NULL)) {
     if (facet->visitid != qh visit_id) {
       facet->visitid= qh visit_id;
       qh_setappend(&facets, facet);
@@ -2850,9 +2861,9 @@ void qh_printneighborhood(FILE *fp, qh_PRINT format, facetT *facetA, facetT *fac
     Same as QhullPoint's printPoint
 */
 void qh_printpoint(FILE *fp, const char *string, pointT *point) {
-  int id= qh_pointid( point);
+  int id= qh_pointid(point);
 
-  qh_printpointid( fp, string, qh hull_dim, point, id);
+  qh_printpointid(fp, string, qh hull_dim, point, id);
 } /* printpoint */
 
 void qh_printpointid(FILE *fp, const char *string, int dim, pointT *point, int id) {
@@ -3024,6 +3035,14 @@ void qh_printridge(FILE *fp, ridgeT *ridge) {
     qh_fprintf(fp, 9223, " tested");
   if (ridge->nonconvex)
     qh_fprintf(fp, 9224, " nonconvex");
+  if (ridge->mergevertex)
+    qh_fprintf(fp, 9421, " mergevertex");
+  if (ridge->mergevertex2)
+    qh_fprintf(fp, 9422, " mergevertex2");
+  if (ridge->simplicialtop)
+    qh_fprintf(fp, 9425, " simplicialtop");
+  if (ridge->simplicialbot)
+    qh_fprintf(fp, 9423, " simplicialbot");
   qh_fprintf(fp, 9225, "\n");
   qh_printvertices(fp, "           vertices:", ridge->vertices);
   if (ridge->top && ridge->bottom)
@@ -3154,7 +3173,7 @@ void qh_printvdiagram(FILE *fp, qh_PRINT format, facetT *facetlist, setT *facets
     printvridge= qh_printvnorm;
   }else {
     qh_fprintf(qh ferr, 6219, "qhull internal error (qh_printvdiagram): unknown print format %d.\n", format);
-    qh_errexit(qh_ERRinput, NULL, NULL);
+    qh_errexit(qh_ERRqhull, NULL, NULL);
   }
   vertices= qh_markvoronoi(facetlist, facets, printall, &isLower, &numcenters);
   totcount= qh_printvdiagram2(NULL, NULL, vertices, innerouter, False);
@@ -3242,7 +3261,13 @@ void qh_printvertex(FILE *fp, vertexT *vertex) {
   if (vertex->deleted)
     qh_fprintf(fp, 9237, " deleted");
   if (vertex->delridge)
-    qh_fprintf(fp, 9238, " ridgedeleted");
+    qh_fprintf(fp, 9238, " delridge");
+  if (vertex->newfacet)
+    qh_fprintf(fp, 9415, " newfacet");
+  if (vertex->seen && qh IStracing)
+    qh_fprintf(fp, 9416, " seen");
+  if (vertex->seen2 && qh IStracing)
+    qh_fprintf(fp, 9417, " seen2");
   qh_fprintf(fp, 9239, "\n");
   if (vertex->neighbors) {
     qh_fprintf(fp, 9240, "  neighbors:");
@@ -3396,7 +3421,7 @@ void qh_printvoronoi(FILE *fp, qh_PRINT format, facetT *facetlist, setT *facets,
   FOREACHvertex_i_(vertices) {
     if (vertex) {
       numvertices++;
-      numneighbors = numinf = 0;
+      numneighbors= numinf= 0;
       FOREACHneighbor_(vertex) {
         if (neighbor->visitid == 0)
           numinf= 1;
@@ -3601,7 +3626,7 @@ int qh_readfeasible(int dim, const char *curline) {
   }
   if (qh feasible_string)
     qh_fprintf(qh ferr, 7057, "qhull input warning: feasible point(dim 1 coords) overrides 'Hn,n,n' feasible point for halfspace intersection\n");
-  if (!(qh feasible_point= (coordT*)qh_malloc(dim* sizeof(coordT)))) {
+  if (!(qh feasible_point= (coordT *)qh_malloc(dim * sizeof(coordT)))) {
     qh_fprintf(qh ferr, 6071, "qhull error: insufficient memory for feasible point\n");
     qh_errexit(qh_ERRmem, NULL, NULL);
   }
@@ -3668,7 +3693,7 @@ int qh_readfeasible(int dim, const char *curline) {
   notes:
     dimension will change in qh_initqhull_globals if qh.PROJECTinput
     uses malloc() since qh_mem not initialized
-    FIXUP QH11012: qh_readpoints needs rewriting, too long
+    QH11012 FIXUP: qh_readpoints needs rewriting, too long
 */
 coordT *qh_readpoints(int *numpoints, int *dimension, boolT *ismalloc) {
   coordT *points, *coords, *infinity= NULL;
@@ -3741,11 +3766,22 @@ coordT *qh_readpoints(int *numpoints, int *dimension, boolT *ismalloc) {
     numinput= tempi;
   }
   if (diminput < 2) {
-    qh_fprintf(qh ferr, 6220,"qhull input error: dimension %d(first number) should be at least 2\n",
+    qh_fprintf(qh ferr, 6220, "qhull input error: dimension %d (first or smaller number) should be at least 2\n",
             diminput);
     qh_errexit(qh_ERRinput, NULL, NULL);
   }
-  if (isdelaunay) {
+  if (numinput < 1 || numinput > qh_POINTSmax) {
+    qh_fprintf(qh ferr, 6338, "qhull input error: expecting between 1 and %d points.  Got %d %d-d points\n",
+      qh_POINTSmax, numinput, diminput);
+    qh_errexit(qh_ERRinput, NULL, NULL);
+    /* same error message in qh_initqhull_globals */
+  }
+
+  if (isdelaunay && qh HALFspace) {
+    qh_fprintf(qh ferr, 6037, "qhull option error (qh_readpoints): can not use Delaunay('d') or Voronoi('v') with halfspace intersection('H')\n");
+    qh_errexit(qh_ERRinput, NULL, NULL);
+    /* otherwise corrupted memory allocations, same error message as in qh_initqhull_globals */
+  }else if (isdelaunay) {
     qh PROJECTdelaunay= False;
     if (qh CDDinput)
       *dimension= diminput;
@@ -3758,7 +3794,7 @@ coordT *qh_readpoints(int *numpoints, int *dimension, boolT *ismalloc) {
     *dimension= diminput - 1;
     *numpoints= numinput;
     if (diminput < 3) {
-      qh_fprintf(qh ferr, 6221,"qhull input error: dimension %d(first number, includes offset) should be at least 3 for halfspaces\n",
+      qh_fprintf(qh ferr, 6221,"qhull input error: dimension %d (first number, includes offset) should be at least 3 for halfspaces\n",
             diminput);
       qh_errexit(qh_ERRinput, NULL, NULL);
     }
@@ -3779,7 +3815,7 @@ coordT *qh_readpoints(int *numpoints, int *dimension, boolT *ismalloc) {
   }
   qh normal_size= *dimension * sizeof(coordT); /* for tracing with qh_printpoint */
   if (qh HALFspace) {
-    qh half_space= coordp= (coordT*)qh_malloc(qh normal_size + sizeof(coordT));
+    qh half_space= coordp= (coordT *)qh_malloc(qh normal_size + sizeof(coordT));
     if (qh CDDinput) {
       offsetp= qh half_space;
       normalp= offsetp + 1;
@@ -3790,10 +3826,10 @@ coordT *qh_readpoints(int *numpoints, int *dimension, boolT *ismalloc) {
   }
   qh maxline= diminput * (qh_REALdigits + 5);
   maximize_(qh maxline, 500);
-  qh line= (char*)qh_malloc((qh maxline+1) * sizeof(char));
+  qh line= (char *)qh_malloc((qh maxline+1) * sizeof(char));
   *ismalloc= True;  /* use malloc since memory not setup */
   coords= points= qh temp_malloc=  /* numinput and diminput >=2 by QH6220 */
-        (coordT*)qh_malloc((*numpoints)*(*dimension)*sizeof(coordT));
+        (coordT *)qh_malloc((*numpoints)*(*dimension)*sizeof(coordT));
   if (!coords || !qh line || (qh HALFspace && !qh half_space)) {
     qh_fprintf(qh ferr, 6076, "qhull error: insufficient memory to read %d points\n",
             numinput);
@@ -3894,19 +3930,29 @@ coordT *qh_readpoints(int *numpoints, int *dimension, boolT *ismalloc) {
     }
     isfirst= False;
   }
+  if (qh rbox_command[0])
+    qh rbox_command[strlen(qh rbox_command)-1]= '\0'; /* remove \n, previous qh_errexit's display command as two lines */
   if (tokcount != maxcount) {
     newnum= fmin_(numinput, tokcount/diminput);
-    qh_fprintf(qh ferr, 7073,"\
-qhull warning: instead of %d %d-dimensional points, input contains\n\
-%d points and %d extra coordinates.  Line %d is the first\npoint",
-       numinput, diminput, tokcount/diminput, tokcount % diminput, firstpoint);
+    if (qh ALLOWshort)
+      qh_fprintf(qh ferr, 7073, "qhull warning: ");
+    else
+      qh_fprintf(qh ferr, 6337, "qhull error: ");
+    qh_fprintf(qh ferr, 8082, "instead of %d points in %d-d, input contains %d points and %d extra coordinates.\n",
+        numinput, diminput, tokcount/diminput, tokcount % diminput);
     if (firsttext)
-      qh_fprintf(qh ferr, 8051, ", line %d is the first comment", firsttext);
+      qh_fprintf(qh ferr, 8051, "    Line %d is the first comment.\n", firsttext);
+    qh_fprintf(qh ferr, 8033,   "    Line %d is the first point.\n", firstpoint);
     if (firstshort)
-      qh_fprintf(qh ferr, 8052, ", line %d is the first short\nline", firstshort);
+      qh_fprintf(qh ferr, 8052, "    Line %d is the first short line.\n", firstshort);
     if (firstlong)
-      qh_fprintf(qh ferr, 8053, ", line %d is the first long line", firstlong);
-    qh_fprintf(qh ferr, 8054, ".  Continue with %d points.\n", newnum);
+      qh_fprintf(qh ferr, 8053, "    Line %d is the first long line.\n", firstlong);
+    if (qh ALLOWshort)
+      qh_fprintf(qh ferr, 8054, "    Continuing with %d points.\n", newnum);
+    else {
+      qh_fprintf(qh ferr, 8077, "    Override with option 'Qa' (allow-short)\n");
+      qh_errexit(qh_ERRinput, NULL, NULL);
+    }
     numinput= newnum;
     if (isdelaunay && qh ATinfinity) {
       for (k= tokcount % diminput; k--; )
@@ -3918,20 +3964,18 @@ qhull warning: instead of %d %d-dimensional points, input contains\n\
     }
   }
   if (isdelaunay && qh ATinfinity) {
-    for (k= (*dimension) -1; k--; )
+    for (k= (*dimension) - 1; k--; )
       infinity[k] /= numinput;
     if (coords == infinity)
       coords += (*dimension) -1;
     else {
-      for (k=0; k < (*dimension) -1; k++)
+      for (k=0; k < (*dimension) - 1; k++)
         *(coords++)= infinity[k];
     }
     *(coords++)= maxboloid * 1.1;
   }
-  if (qh rbox_command[0]) {
-    qh rbox_command[strlen(qh rbox_command)-1]= '\0';
-    if (!strcmp(qh rbox_command, "./rbox D4"))
-      qh_fprintf(qh ferr, 8055, "\n\
+  if (!strcmp(qh rbox_command, "./rbox D4"))
+    qh_fprintf(qh ferr, 8055, "\n\
 This is the qhull test case.  If any errors or core dumps occur,\n\
 recompile qhull with 'make new'.  If errors still occur, there is\n\
 an incompatibility.  You should try a different compiler.  You can also\n\
@@ -3939,7 +3983,6 @@ change the choices in user.h.  If you discover the source of the problem,\n\
 please send mail to qhull_bug@qhull.org.\n\
 \n\
 Type 'qhull' for a short list of options.\n");
-  }
   qh_free(qh line);
   qh line= NULL;
   if (qh half_space) {
@@ -3975,7 +4018,7 @@ qhull input error: halfspace intersection needs a feasible point.\n\
 Either prepend the input with 1 point or use 'Hn,n,n'.  See manual.\n");
     qh_errexit(qh_ERRinput, NULL, NULL);
   }
-  if (!(qh feasible_point= (pointT*)qh_malloc(dim * sizeof(coordT)))) {
+  if (!(qh feasible_point= (pointT *)qh_malloc(dim * sizeof(coordT)))) {
     qh_fprintf(qh ferr, 6079, "qhull error: insufficient memory for 'Hn,n,n'\n");
     qh_errexit(qh_ERRmem, NULL, NULL);
   }

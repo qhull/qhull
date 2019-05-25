@@ -2,7 +2,7 @@
   >-------------------------------</a><a name="TOP">-</a>
 
    userprintf_rbox.c
-   qh_fprintf_rbox()
+   user redefinable function -- qh_fprintf_rbox
 
    see README.txt  see COPYING.txt for copyright information.
 
@@ -27,7 +27,7 @@
 /*-<a                             href="qh-user.htm#TOC"
    >-------------------------------</a><a name="qh_fprintf_rbox">-</a>
 
-   qh_fprintf_rbox(fp, msgcode, format, list of args )
+   qh_fprintf_rbox( fp, msgcode, format, list of args )
      print arguments to *fp according to format
      Use qh_fprintf_rbox() for rboxlib.c
 

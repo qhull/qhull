@@ -27,6 +27,8 @@ Code flags --
 
 */
 
+#include <float.h>
+#include <limits.h>
 #include <time.h>
 
 #ifndef qhDEFuser
@@ -61,13 +63,13 @@ Code flags --
   See QhullError.h for 10000 error codes.
   Cannot use '0031' since it would be octal
 
-  def counters =  [17/46, 1058, 2103/2102/2059/2105, 3056, 4025/4021/4090, 5005,
-     6334, 7085, 8077/8082/8083/8084/8120/8122/8147/8148/8149/8150/8152, 9426, 10000, 11029]
+  def counters =  [30/31/32/33/38, 1065, 2113, 3078, 4096, 5005,
+     6380, 7102, 8162, 9428, 10000, 11034]
 
   See: qh_ERR* [libqhull_r.h]
 */
 
-#define MSG_TRACE0 0      /* precision errors and warnings */
+#define MSG_TRACE0 0      /* always include if logging ('Tn') */
 #define MSG_TRACE1 1000
 #define MSG_TRACE2 2000
 #define MSG_TRACE3 3000
@@ -78,7 +80,7 @@ Code flags --
 #define MSG_STDERR  8000  /* log messages Written to qh.ferr */
 #define MSG_OUTPUT  9000
 #define MSG_QHULL_ERROR 10000 /* errors thrown by QhullError.cpp (QHULLlastError is in QhullError.h) */
-#define MSG_FIXUP  11000  /* FIXUP QH11... */
+#define MSG_FIXUP  11000  /* Document as 'QH11... FIXUP ...' */
 #define MSG_MAXLEN  3000 /* qh_printhelp_degenerate() in user.c */
 
 
@@ -175,15 +177,22 @@ Code flags --
 
     Defined as 'int' for C-code compatibility and QH11026
 
-    FIXUP QH11026 countT may be defined as a unsigned value, but several code issues need to be solved first.  See countT in Changes.txt
+    QH11026 FIXUP countT may be defined as a unsigned value, but several code issues need to be solved first.  See countT in Changes.txt
 */
 
 #ifndef DEFcountT
 #define DEFcountT 1
 typedef int countT;
 #endif
-#define COUNTmax 0x7fffffff
+#define COUNTmax INT_MAX
 
+/*-<a                             href="qh-user_r.htm#TOC"
+  >--------------------------------</a><a name="qh_POINTSmax">-</a>
+
+  qh_POINTSmax
+    Maximum number of points for qh.num_points and point allocation in qh_readpoints
+*/
+#define qh_POINTSmax (INT_MAX-16)
 
 /*-<a                             href="qh-user_r.htm#TOC"
   >--------------------------------</a><a name="CPUclock">-</a>
@@ -573,6 +582,7 @@ stop after qh_JOGGLEmaxretry attempts
 
   qh_NOmerge
     disables facet merging if defined
+    For MSVC compiles, use qhull_r-exports-nomerge.def instead of qhull_r-exports.def
 
   notes:
     This saves about 10% space.
@@ -580,12 +590,12 @@ stop after qh_JOGGLEmaxretry attempts
     Unless 'Q0'
       qh_NOmerge sets 'QJ' to avoid precision errors
 
-    #define qh_NOmerge
-
   see:
-    <a href="mem_r.h#NOmem">qh_NOmem</a> in mem_r.c
+    <a href="mem_r.h#NOmem">qh_NOmem</a> in mem_r.h
 
     see user_r.c/user_eg.c for removing io_r.o
+
+  #define qh_NOmerge
 */
 
 /*-<a                             href="qh-user_r.htm#TOC"
@@ -597,7 +607,7 @@ stop after qh_JOGGLEmaxretry attempts
   notes:
     This saves about 5% space.
 
-    #define qh_NOtrace
+  #define qh_NOtrace
 */
 
 #if 0  /* sample code */
@@ -624,22 +634,6 @@ stop after qh_JOGGLEmaxretry attempts
 */
 
 /*-<a                             href="qh-user_r.htm#TOC"
-  >--------------------------------</a><a name="DIMmergeVertex">-</a>
-
-  qh_DIMmergeVertex
-    max dimension for vertex merging (it is not effective in high-d)
-*/
-#define qh_DIMmergeVertex 6
-
-/*-<a                             href="qh-user_r.htm#TOC"
-  >--------------------------------</a><a name="DIMreduceBuild">-</a>
-
-  qh_DIMreduceBuild
-     max dimension for vertex reduction during build (slow in high-d)
-*/
-#define qh_DIMreduceBuild 5
-
-/*-<a                             href="qh-user_r.htm#TOC"
   >--------------------------------</a><a name="BESTcentrum">-</a>
 
   qh_BESTcentrum
@@ -664,30 +658,6 @@ stop after qh_JOGGLEmaxretry attempts
 #define qh_BESTnonconvex 15
 
 /*-<a                             href="qh-user_r.htm#TOC"
-  >--------------------------------</a><a name="MAXnewmerges">-</a>
-
-  qh_MAXnewmerges
-    if >n newmerges, qh_merge_nonconvex() calls qh_reducevertices_centrums.
-
-  notes:
-    It is needed because postmerge can merge many facets at once
-*/
-#define qh_MAXnewmerges 2
-
-/*-<a                             href="qh-user_r.htm#TOC"
-  >--------------------------------</a><a name="MAXnewcentrum">-</a>
-
-  qh_MAXnewcentrum
-    if <= dim+n vertices (n approximates the number of merges),
-      reset the centrum in qh_updatetested() and qh_mergecycle_facets()
-
-  notes:
-    needed to reduce cost and because centrums may move too much if
-    many vertices in high-d
-*/
-#define qh_MAXnewcentrum 5
-
-/*-<a                             href="qh-user_r.htm#TOC"
   >--------------------------------</a><a name="COPLANARratio">-</a>
 
   qh_COPLANARratio
@@ -697,6 +667,22 @@ stop after qh_JOGGLEmaxretry attempts
     for non-merging, it's DISTround
 */
 #define qh_COPLANARratio 3
+
+/*-<a                             href="qh-user_r.htm#TOC"
+  >--------------------------------</a><a name="DIMmergeVertex">-</a>
+
+  qh_DIMmergeVertex
+    max dimension for vertex merging (it is not effective in high-d)
+*/
+#define qh_DIMmergeVertex 6
+
+/*-<a                             href="qh-user_r.htm#TOC"
+  >--------------------------------</a><a name="DIMreduceBuild">-</a>
+
+  qh_DIMreduceBuild
+     max dimension for vertex reduction during build (slow in high-d)
+*/
+#define qh_DIMreduceBuild 5
 
 /*-<a                             href="qh-user_r.htm#TOC"
   >--------------------------------</a><a name="DISToutside">-</a>
@@ -728,6 +714,44 @@ stop after qh_JOGGLEmaxretry attempts
 */
 #define qh_DISToutside ((qh_USEfindbestnew ? 2 : 1) * \
      fmax_((qh->MERGING ? 2 : 1)*qh->MINoutside, qh->max_outside))
+
+/*-<a                             href="qh-user_r.htm#TOC"
+  >--------------------------------</a><a name="MAXcoplanarcentrum">-</a>
+
+  qh_MAXcoplanarcentrum
+    if pre-merging with qh.MERGEexact ('Qx') and f.nummerge > qh_MAXcoplanarcentrum
+      use f.maxoutside instead of qh.centrum_radius for coplanarity testing
+
+  notes:
+    see qh_test_nonsimplicial_merges
+    with qh.MERGEexact, a coplanar ridge is ignored until post-merging
+    otherwise a large facet with many merges may take all the facets
+*/
+#define qh_MAXcoplanarcentrum 10
+
+/*-<a                             href="qh-user_r.htm#TOC"
+  >--------------------------------</a><a name="MAXnewcentrum">-</a>
+
+  qh_MAXnewcentrum
+    if <= dim+n vertices (n approximates the number of merges),
+      reset the centrum in qh_updatetested() and qh_mergecycle_facets()
+
+  notes:
+    needed to reduce cost and because centrums may move too much if
+    many vertices in high-d
+*/
+#define qh_MAXnewcentrum 5
+
+/*-<a                             href="qh-user_r.htm#TOC"
+  >--------------------------------</a><a name="MAXnewmerges">-</a>
+
+  qh_MAXnewmerges
+    if >n newmerges, qh_merge_nonconvex() calls qh_reducevertices_centrums.
+
+  notes:
+    It is needed because postmerge can merge many facets at once
+*/
+#define qh_MAXnewmerges 2
 
 /*-<a                             href="qh-user_r.htm#TOC"
   >--------------------------------</a><a name="RATIOconcavehorizon">-</a>
@@ -764,7 +788,7 @@ stop after qh_JOGGLEmaxretry attempts
   >--------------------------------</a><a name="RATIOcoplanaroutside">-</a>
 
   qh_RATIOcoplanaroutside
-    ratio to repartition a coplanar point as an outside point in qh_partitioncoplanar and qh_check_maxout
+    qh.MAXoutside ratio to repartition a coplanar point in qh_partitioncoplanar and qh_check_maxout
 
   notes:
     combines several tests, see qh_partitioncoplanar
@@ -802,7 +826,6 @@ stop after qh_JOGGLEmaxretry attempts
   qh_RATIOtrypinched
     ratio to qh.ONEmerge to try qh_getpinchedmerges in qh_buildcone_mergepinched
     otherwise a duplicate ridge will increase facet width by this amount
-    FIXUP document
 */
 #define qh_RATIOtrypinched 4.0
 
@@ -820,7 +843,7 @@ stop after qh_JOGGLEmaxretry attempts
   qh_SEARCHdist
     When is a facet coplanar with the best facet?
     qh_findbesthorizon: all coplanar facets of the best facet need to be searched.
-
+        increases minsearch if ischeckmax and more than 100 neighbors (is_5x_minsearch)
   See:
     qh_DISToutside -- when is a point clearly outside of a facet
     qh_SEARCHdist -- when is facet coplanar with the best facet?
@@ -874,52 +897,62 @@ stop after qh_JOGGLEmaxretry attempts
 /*-<a                             href="qh-user_r.htm#TOC"
 >--------------------------------</a><a name="WIDEcoplanar">-</a>
 
-qh_WIDEcoplanar
-n*MAXcoplanar or n*MINvisible for a WIDEfacet
+  qh_WIDEcoplanar
+    n*MAXcoplanar or n*MINvisible for a WIDEfacet
 
-if vertex is further than qh.WIDEfacet from the hyperplane
-then its ridges are not counted in computing the area, and
-the facet's centrum is frozen.
+    if vertex is further than qh.WIDEfacet from the hyperplane
+    then its ridges are not counted in computing the area, and
+    the facet's centrum is frozen.
 
-notes:
-qh.WIDEfacet= max(qh.MAXoutside,qh_WIDEcoplanar*qh.MAXcoplanar,
-qh_WIDEcoplanar * qh.MINvisible);
+  notes:
+    qh.WIDEfacet= max(qh.MAXoutside,qh_WIDEcoplanar*qh.MAXcoplanar,
+    qh_WIDEcoplanar * qh.MINvisible);
 */
 #define qh_WIDEcoplanar 6
 
 /*-<a                             href="qh-user_r.htm#TOC"
 >--------------------------------</a><a name="WIDEduplicate">-</a>
 
-qh_WIDEduplicate
-Merge ratio for errexit from qh_forcedmerges due to duplicate ridge
-Override with option Q12 no-wide-duplicate
+  qh_WIDEduplicate
+    merge ratio for errexit from qh_forcedmerges due to duplicate ridge
+    Override with option Q12-allow-wide
 
-Notes:
-Merging a duplicate ridge can lead to very wide facets.
-A future release of qhull will avoid duplicate ridges by removing duplicate sub-ridges from the horizon
+  Notes:
+    Merging a duplicate ridge can lead to very wide facets.
 */
 #define qh_WIDEduplicate 100
 
 /*-<a                             href="qh-user_r.htm#TOC"
+>--------------------------------</a><a name="WIDEdupridge">-</a>
+
+  qh_WIDEdupridge
+    Merge ratio for selecting a forced dupridge merge
+
+  Notes:
+    Merging a dupridge can lead to very wide facets.
+*/
+#define qh_WIDEdupridge 50
+
+/*-<a                             href="qh-user_r.htm#TOC"
 >--------------------------------</a><a name="WIDEmaxoutside">-</a>
 
-qh_WIDEmaxoutside
-Precision ratio for maximum increase for qh.max_outside in qh_check_maxout
-Precision errors while constructing the hull, may lead to very wide facets when checked in qh_check_maxout
-Nearly incident points in 4-d and higher is the most likely culprit
-Skip qh_check_maxout with 'Q5' no-check-outer
-Do not error with option 'Q15' allow-wide-maxout 
-Do not warn with options 'Q15 Pp'
+  qh_WIDEmaxoutside
+    Precision ratio for maximum increase for qh.max_outside in qh_check_maxout
+    Precision errors while constructing the hull, may lead to very wide facets when checked in qh_check_maxout
+    Nearly incident points in 4-d and higher is the most likely culprit
+    Skip qh_check_maxout with 'Q5' (no-check-outer)
+    Do not error with option 'Q12' (allow-wide)
+    Do not warn with options 'Q12 Pp'
 */
 #define qh_WIDEmaxoutside 100
 
 /*-<a                             href="qh-user_r.htm#TOC"
 >--------------------------------</a><a name="WIDEmaxoutside2">-</a>
 
-qh_WIDEmaxoutside2
-Precision ratio for maximum qh.max_outside in qh_check_maxout
-Skip qh_check_maxout with 'Q5' no-check-outer
-Do not error with option 'Q15' allow-wide-maxout 
+  qh_WIDEmaxoutside2
+    Precision ratio for maximum qh.max_outside in qh_check_maxout
+    Skip qh_check_maxout with 'Q5' no-check-outer
+    Do not error with option 'Q12' allow-wide
 */
 #define qh_WIDEmaxoutside2 (10*qh_WIDEmaxoutside)
 
@@ -927,16 +960,16 @@ Do not error with option 'Q15' allow-wide-maxout
 /*-<a                             href="qh-user_r.htm#TOC"
 >--------------------------------</a><a name="WIDEpinched">-</a>
 
-qh_WIDEpinched
-Merge ratio for distance between pinched vertices compared to current facet width for qh_getpinchedmerges and qh_next_vertexmerge
-Reports warning and merges duplicate ridges instead
-Skip these attempts with option Q14 no-rename-pinched
+  qh_WIDEpinched
+    Merge ratio for distance between pinched vertices compared to current facet width for qh_getpinchedmerges and qh_next_vertexmerge
+    Reports warning and merges duplicate ridges instead
+    Enable these attempts with option Q14 merge-pinched-vertices
 
-Notes:
-Merging pinched vertices should prevent duplicate ridges (see qh_WIDEduplicate)
-Merging the duplicate ridges may be better than merging the pinched vertices
-Found upto 45x ratio for qh_pointdist -- for ((i=1; i<20; i++)); do rbox 175 C1,6e-13 t | qhull d T4 2>&1 | tee x.1 | grep  -E 'QH|non-simplicial|Statis|pinched' | grep -vE 'QH6134'; done
-Actual distance to facets is a third to a tenth of the qh_pointdist (T1)
+  notes:
+    Merging pinched vertices should prevent duplicate ridges (see qh_WIDEduplicate)
+    Merging the duplicate ridges may be better than merging the pinched vertices
+    Found up to 45x ratio for qh_pointdist -- for ((i=1; i<20; i++)); do rbox 175 C1,6e-13 t | qhull d T4 2>&1 | tee x.1 | grep  -E 'QH|non-simplicial|Statis|pinched' | grep -vE 'QH6134'; done
+    Actual distance to facets is a third to a tenth of the qh_pointdist (T1)
 */
 #define qh_WIDEpinched 100
 
@@ -989,6 +1022,3 @@ Actual distance to facets is a third to a tenth of the qh_pointdist (T1)
 #endif
 
 #endif /* qh_DEFuser */
-
-
-

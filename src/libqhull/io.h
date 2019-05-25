@@ -6,9 +6,9 @@
 
    see README, libqhull.h and io.c
 
-   Copyright (c) 1993-2018 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull/io.h#3 $$Change: 2549 $
-   $DateTime: 2018/12/28 22:24:20 $$Author: bbarber $
+   Copyright (c) 1993-2019 The Geometry Center.
+   $Id: //main/2019/qhull/src/libqhull/io.h#1 $$Change: 2661 $
+   $DateTime: 2019/05/24 20:09:58 $$Author: bbarber $
 */
 
 #ifndef qhDEFio
@@ -60,7 +60,7 @@
 */
 typedef enum
 {
-    qh_RIDGEall = 0, qh_RIDGEinner, qh_RIDGEouter
+    qh_RIDGEall= 0, qh_RIDGEinner, qh_RIDGEouter
 }
 qh_RIDGE;
 
@@ -80,9 +80,8 @@ typedef void (*printvridgeT)(FILE *fp, vertexT *vertex, vertexT *vertexA, setT *
 void    qh_dfacet(unsigned id);
 void    qh_dvertex(unsigned id);
 int     qh_compare_facetarea(const void *p1, const void *p2);
-int     qh_compare_facetmerge(const void *p1, const void *p2);
 int     qh_compare_facetvisit(const void *p1, const void *p2);
-int     qh_compare_vertexpoint(const void *p1, const void *p2); /* not used, not in libqhull_r.h */
+int     qh_compare_nummerge(const void *p1, const void *p2);
 void    qh_copyfilename(char *filename, int size, const char* source, int length);
 void    qh_countfacets(facetT *facetlist, setT *facets, boolT printall,
               int *numfacetsp, int *numsimplicialp, int *totneighborsp,
@@ -127,8 +126,8 @@ void    qh_printfacetridges(FILE *fp, facetT *facet);
 void    qh_printfacets(FILE *fp, qh_PRINT format, facetT *facetlist, setT *facets, boolT printall);
 void    qh_printhyperplaneintersection(FILE *fp, facetT *facet1, facetT *facet2,
                    setT *vertices, realT color[3]);
-void    qh_printneighborhood(FILE *fp, qh_PRINT format, facetT *facetA, facetT *facetB, boolT printall);
 void    qh_printline3geom(FILE *fp, pointT *pointA, pointT *pointB, realT color[3]);
+void    qh_printneighborhood(FILE *fp, qh_PRINT format, facetT *facetA, facetT *facetB, boolT printall);
 void    qh_printpoint(FILE *fp, const char *string, pointT *point);
 void    qh_printpointid(FILE *fp, const char *string, int dim, pointT *point, int id);
 void    qh_printpoint3(FILE *fp, pointT *point);

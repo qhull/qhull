@@ -1,22 +1,26 @@
 #!/bin/sh
 #
 #  NOTE:  all tests duplicated in q_test.bat
-if ! qconvex >/dev/null 2>&1; then
+if ! which qconvex >/dev/null 2>&1; then
     if [ ! -d bin ]; then
-	echo Run eg/q_test from the Qhull directory
-	exit
+	echo 'eg/q_test: Run eg/q_test from the Qhull directory with bin/qconvex, or add qconvex/etc. to $PATH'
+        exit 1
     fi
     if [ ! -e bin/qconvex -a ! -e bin/qconvex.exe ]; then
-	echo 'Build qhull first.  qconvex is missing from bin/ directory and $PATH'
-	exit
+        echo 'eg/q_test: Build qhull first.  qconvex is missing from bin/ directory and $PATH'
+        exit 1
     fi
-    if ! qconvex >/dev/null 2>&1; then
-	PATH=$PWD/bin:$PATH
+    echo 'eg/q_test: Temporarily add "$PWD/bin" to $PATH for access to qconvex,etc.'
+    PATH=$PWD/bin:$PATH
+    if ! which qconvex >/dev/null 2>&1; then
+	echo 'eg/q_test: PATH=... failed.  Please execute "export PATH=$PWD/bin:$PATH" and repeat'
+	exit 1
     fi
 fi
 if ! user_eg >/dev/null; then
-    echo user_eg failed to run.  It uses the shared qhull library 
+    echo eg/q_test: user_eg failed to run.  It uses the shared qhull library 
     echo 'On Linux, export LD_LIBRARY_PATH=$PWD/lib:$LD_LIBRARY_PATH'
+    echo 'On Windows with mingw, cp -p lib/libqhull_r.dll bin/'
 fi
 echo ==============================
 echo ========= eg/q_test ==========
@@ -33,33 +37,37 @@ echo ==============================
 echo == check user_eg, user_eg2, and user_eg3
 echo == errors if 'user_eg' and 'user_eg2' not found
 echo ==============================
-set -v
-user_eg "QR1 p n Qt" "v p" Fp
-user_eg2 "QR1 p" "v p" Fp
-user_eg3 rbox "10 D2" "2 D2" qhull "p"
-echo === check front ends ${d:-`date`} ==================
+set -v # echo commands to stdout
+user_eg  'QR1 p n Qt'  'v p'  'Fp'
+user_eg2 'QR1 p'       'v p'  'Fp'
+user_eg3 rbox '10 D2'  's r 5 D2'  qhull 's p'
+echo === check front ends and examples ${d:-`date`} ==================
 qconvex -
 qconvex .
-qconvex
+qconvex -? # [mar'19] isatty does not work for Git for Windows
 rbox c D3 | qconvex s n Qt 
 rbox c D2 | qconvex s i 
+rbox c D2 | qconvex s n
 rbox c D2 | qconvex o
 rbox 1000 s | qconvex s Tv FA
 rbox c d D2 | qconvex s Qc Fx
-rbox y 1000 W0 | qconvex s n 
+rbox y 1000 W0 | qconvex Qc s n 
 rbox y 1000 W0 | qconvex s QJ
 rbox d G1 D12 | qconvex QR0 FA
-rbox c D6 | qconvex FA TF500
+rbox c D6 | qconvex s FA TF500
+rbox c D7 | qconvex s FA TF1000
+rbox d G1 D12 | qconvex QR0 FA Pp
 rbox c P0 d D2 | qconvex p Fa Fc FP FI Fn FN FS Fv Fx 
 rbox c d D2 | qconvex s i QV0
 rbox c | qconvex Q0
 qvoronoi -
 qvoronoi .
-qvoronoi
+qvoronoi -? # [mar'19] isatty does not work for Git for Windows
 rbox c P0 D2 | qvoronoi s o
 rbox c P0 D2 | qvoronoi Fi Tv
-rbox c P0 D2 | qvoronoi Fo
+rbox c P0 D2 | qvoronoi Fo Tv
 rbox c P0 D2 | qvoronoi Fv
+rbox c P0 D2 | qvoronoi s Qu Fv
 rbox c P0 D2 | qvoronoi s Qu Qt Fv
 rbox c P0 D2 | qvoronoi Qu Fo
 rbox c G1 d D2 | qvoronoi s p 
@@ -68,7 +76,7 @@ rbox c P-0.1 P+0.1 P+0.1 D2 | qvoronoi s Fc FP FQ Fn FN
 rbox P0 c D2 | qvoronoi s Fv QV0
 qdelaunay -
 qdelaunay .
-qdelaunay
+qdelaunay -? # [mar'19] isatty does not work for Git for Windows
 rbox c P0 D2 | qdelaunay s o
 rbox c P0 D2 | qdelaunay i
 rbox c P0 D2 | qdelaunay Fv
@@ -81,11 +89,26 @@ rbox c P-0.1 P+0.1 P+0.1 D2 | qdelaunay s Fx Fa Fc FP FQ Fn FN
 rbox P0 P0 c D2 | qdelaunay s FP QV0
 qhalf -
 qhalf .
-qhalf
+qhalf -? # [mar'19] isatty does not work for Git for Windows
 rbox d | qhull FQ n | qhalf s Qt H0,0,0 Fp
 rbox c | qhull FQ FV n | qhalf s i
 rbox c | qhull FQ FV n | qhalf o
 rbox d D2 | qhull FQ n | qhalf s H0 Fc FP Fn FN FQ Fv Fx
+# qhull - printed at end
+qhull .
+qhull -? # [mar'19] isatty does not work for Git for Windows
+rbox 1000 s | qhull Tv s FA
+rbox 10 D2 | qhull d QJ s i TO q_test.log.1
+cat q_test.log.1
+rbox 10 D2 | qhull v Qbb Qt p
+rbox 10 D2 | qhull d Qu QJ m              
+rbox 10 D2 | qhull v Qu QJ o
+rbox c d D2 | qhull Qc s f Fx      
+rbox c | qhull FV n | qhull H Fp
+rbox d D12 | qhull QR0 FA                 
+rbox c D7 | qhull FA TF1000
+rbox y 1000 W0 | qhull Qc                 
+rbox c | qhull n
 echo === check quality of Qhull for ${d:-`hostname`} ${d:-`date`}
 rbox 1000 W0 | qhull QR2 QJ s Fs Tv
 rbox 1000 W0 | qhull QR2 s Fs Tv
@@ -100,21 +123,21 @@ rbox 1000 W5e-4 D4 | qhull C-1e-5 Qc Tv
 rbox 400 W1e-3 D5 | qhull C-1e-5 Qx Qc Tv
 echo === check input format etc. ${d:-`date`}
 qhull <<EOF
-2 4 #;laskdjf
+2 4 input comment
 1 0 1 1 1 2  0 0
 EOF
 qhull <<EOF
-2 4 #;laskdjf
+2 4 input comment
 1 0 1 1 1 2  0 0 0
 EOF
 qhull <<EOF
-2 4 #;laskdjf
+2 4 input comment
 1 0 1 1 1 2  0
 EOF
 qhull <<EOF
 2 
-4 #;laskdjf
-1 #kjdfasdf
+4 input comment
+1 #another comment
 0 1 1 1 2  0
 EOF
 qhull <<EOF
@@ -157,7 +180,7 @@ rbox 12 D8 | qhull Tcv
 rbox 12 D9 | qhull Tcv
 rbox 1000 D4 | qhull s i A-0.97 C0.2 A0.7 Tcv
 rbox 3 D2 | qhull Qb0B1:-2 p 
-rbox 100 r D2 | qhull Pd0:0.7 PD0:0.8 n Tcv
+rbox 100 r D2 | qhull Pd0:0.7 PD0:0.8 Pg n Tcv
 rbox 1000 s | qhull  C0.05 Tcv
 rbox 1000 s t | qhull Qm C0.05 Tcv
 rbox 500 D2 | qhull n A-0.95 C0.1 Tcv
@@ -217,7 +240,7 @@ rbox 10 D3 | qhull p
 rbox 10 D3 | qhull o 
 rbox 10 D3 | qhull Fx
 rbox 27 M1,0,1 | qhull Qc
-rbox 50 D3 s | qhull C0.1 Qc Pd0d1d2 s p Tcv
+rbox 50 D3 s | qhull C0.1 Qc Pd0d1d2 Pg s p Tcv
 rbox 10 D2 P0 P1e-15 | qhull d Qc FP s Tcv
 rbox 100 s | qhull C-0.003 Qc FP s
 rbox 100 s D2 | qhull C0.1 i Fx Tcv
@@ -295,14 +318,16 @@ rbox 5 r D2 | qhull s n Tcv | qhull H0 Fp Tcv
 
 echo === check qhull ${d:-`date`}
 rbox 10 s D3 | qhull Tcv
-rbox 10 s D3 | qhull f Pd0:0.5 Pd2 Tcv
-rbox 10 s D3 | qhull f Tcv PD2:-0.5
+rbox 10 s D3 | qhull f Pd0:0.5 Pd2 Pg Tcv
+rbox 10 s D3 | qhull f Tcv PD2:-0.5 Pg 
 rbox 10 s D3 | qhull QR-1
 rbox 10 s D3 | qhull QR-40
 rbox 1000 D3 | qhull Tcvs
-rbox 100 D3 | qhull T8 Tz TO q_test.log.1
+# Test tracing 'Tn', combine stderr/stdout 'Tz', flush fprintf 'Tf'
+rbox 100 D3 | qhull T8 Tz Tf TO q_test.log.1
 tail -n -10 q_test.log.1
 rm q_test.log.1
+rbox 100 s D3 | qhull TcvA10
 rbox 100 s D3 | qhull TcvV-2
 rbox 100 s D3 | qhull TcvC2
 rbox 100 s D3 | qhull TcvV2
@@ -314,7 +339,7 @@ rbox 100 D3 | qhull Qs Tcv
 rbox 100 D5 | qhull Qs Tcv
 rbox 100 D3 | qhull Qr Tcv
 rbox 100 D3 | qhull Qxv Tcv
-rbox 100 D3 | qhull Qi f Pd0 Pd1 Pd2 Tcv
+rbox 100 D3 | qhull Qi f Pd0 Pd1 Pd2 Pg Tcv
 rbox c d | qhull Qc f Tcv
 rbox c d | qhull Qc p Tcv
 rbox 100 D3 | qhull QbB FO Tcv
@@ -392,8 +417,8 @@ echo === check bad cases for Qhull.  May cause errors ${d:-`date`}
 rbox 1000 L100000 s G1e-6 t | qhull Tv
 rbox 1000 L100000 s G1e-6 t | qhull Tv Q10
 rbox 1000 s Z1 G1e-13 t | qhull Tv
-rbox 1000 s W1e-13 P0 t | qhull d Qbb Qc Tv
-rbox 1000 s W1e-13 t | qhull d Tv
+rbox 1000 s W1e-13 P0 t | qhull d Qbb Qc Q12 Tv
+rbox 1000 s W1e-13 t | qhull d Q12 Tv
 rbox 1000 s W1e-13 t D2 | qhull d Tv
 
 echo =======================================================
@@ -416,8 +441,8 @@ rbox L100 10000 D4 s C1,1e-13 t2 | qhull
 rbox L100 10000 D4 s C1,1e-13 t2 | qhull Q12
 rbox 50 C1,1E-13 t1447644703 | qhull d
 rbox 50 C1,1E-13 t1447644703 | qhull d Q12
-qhull
-qhull .
+rbox 50 C1,1E-13 t1447644703 | qhull d Q14
+
 qhull -
 rbox
 cat html/qhull.txt html/rbox.txt

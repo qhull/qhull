@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (c) 2008-2018 C.B. Barber. All rights reserved.
-** $Id: //main/2015/qhull/src/qhulltest/qhulltest.cpp#7 $$Change: 2549 $
-** $DateTime: 2018/12/28 22:24:20 $$Author: bbarber $
+** Copyright (c) 2008-2019 C.B. Barber. All rights reserved.
+** $Id: //main/2019/qhull/src/qhulltest/qhulltest.cpp#1 $$Change: 2661 $
+** $DateTime: 2019/05/24 20:09:58 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -26,7 +26,8 @@ namespace orgQhull {
 
 void addQhullTests(QStringList &args)
 {
-    TESTadd_(add_Qhull_test);
+    // Default test, use Qhull_test for qhulltest-ok.txt
+    TESTadd_(add_Qhull_test); 
 
     if(args.contains("--all")){
         args.removeAll("--all");
@@ -85,7 +86,7 @@ int main(int argc, char *argv[])
     return status;
 }
 
-}//orgQhull
+}//namespace orgQhull
 
 int main(int argc, char *argv[])
 {

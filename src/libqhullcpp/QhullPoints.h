@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (c) 2009-2018 C.B. Barber. All rights reserved.
-** $Id: //main/2015/qhull/src/libqhullcpp/QhullPoints.h#7 $$Change: 2549 $
-** $DateTime: 2018/12/28 22:24:20 $$Author: bbarber $
+** Copyright (c) 2009-2019 C.B. Barber. All rights reserved.
+** $Id: //main/2019/qhull/src/libqhullcpp/QhullPoints.h#1 $$Change: 2661 $
+** $DateTime: 2019/05/24 20:09:58 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -80,8 +80,8 @@ public:
     const coordT *      constData() const { return point_first; }
     ConstIterator       constEnd() const { return ConstIterator(qh_qh, point_dimension, point_end); }
     coordT *            coordinates() const { return point_first; }
-    countT              coordinateCount() const { return (countT)(point_end-point_first); } // WARN64
-    countT              count() const { return (countT)size(); } // WARN64
+    countT              coordinateCount() const { return static_cast<countT>(point_end-point_first); } // WARN64
+    countT              count() const { return static_cast<countT>(size()); } // WARN64
     const coordT *      data() const { return point_first; }
     coordT *            data() { return point_first; }
     void                defineAs(int pointDimension, countT coordinatesCount, coordT *c) { QHULL_ASSERT(pointDimension>=0 && coordinatesCount>=0 && c!=0); point_first= c; point_end= c+coordinatesCount; point_dimension= pointDimension; }
@@ -177,7 +177,7 @@ public:
     };//QhullPoints::iterator
 
 #//!\name QhullPoints::const_iterator
-    //!\todo FIXUP QH11018 const_iterator same as iterator.  SHould have a common definition
+    //!\todo QH11018 FIXUP: const_iterator same as iterator.  SHould have a common definition
     class const_iterator : public QhullPoint {
 
     public:

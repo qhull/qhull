@@ -8,7 +8,7 @@
 <body>
 <!-- Navigation links -->
 <a name="TOP"><b>Up</b></a><b>:</b>
-<a href="http://www.qhull.org">Home page</a> for Qhull<br>
+<a href="http://www.qhull.org">Home page</a> for Qhull (<a href="../index.htm">local</a>)<br>
 <b>Up:</b> <a href="index.htm#TOC">Qhull manual</a>: Table of Contents<br>
 <b>To:</b> <a href="qh-quick.htm#programs">Programs</a>
 &#149; <a href="qh-quick.htm#options">Options</a>
@@ -19,7 +19,7 @@
 &#149; <a href="qh-optq.htm#qhull">Qhull</a>
 &#149; <a href="qh-optc.htm#prec">Precision</a>
 &#149; <a href="qh-optt.htm#trace">Trace</a>
-&#149; <a href="../src/libqhull_r/index.htm">Functions</a><br>
+&#149; <a href="http://www.qhull.org/src/libqhull_r/index.htm">Functions</a> (<a href="../src/libqhull_r/index.htm">local</a>)<br>
 <b>To:</b> <a href="#synopsis">sy</a>nopsis
 &#149; <a href="#input">in</a>put &#149; <a href="#outputs">ou</a>tputs
 &#149; <a href="#controls">co</a>ntrols &#149; <a href="#graphics">gr</a>aphics
@@ -103,17 +103,15 @@ for further processing [see <a href="#graphics">graphics</a>].</p>
 <p>Use option '<a href="qh-optq.htm#Qz">Qz</a>' if the input is circular, cospherical, or
 nearly so.  It improves precision by adding a point "at infinity," above the corresponding paraboloid.
 
-<p>See <a href="http://www.qhull.org/html/qh-faq.htm#TOC">Qhull FAQ</a> - Delaunay and
+<p>See <a href="http://www.qhull.org/html/qh-faq.htm#TOC">Qhull FAQ</a> (qh-faq.htm#TOC">local</a>) - Delaunay and
 Voronoi diagram questions.</p>
 
 <p>The 'qvonoroi' program is equivalent to
-'<a href=qhull.htm#outputs>qhull v</a> <a href=qh-optq.htm#Qbb>Qbb</a>' in 2-d to 3-d, and
-'<a href=qhull.htm#outputs>qhull v</a> <a href=qh-optq.htm#Qbb>Qbb</a> <a href=qh-optq.htm#Qx>Qx</a>'
-in 4-d and higher.  It disables the following Qhull
+'<a href=qhull.htm#outputs>qhull v</a> <a href=qh-optq.htm#Qbb>Qbb</a>'.  It disables the following Qhull
 <a href=qh-quick.htm#options>options</a>: <i>d n v Qbb QbB Qf Qg Qm
-Qr QR Qv Qx Qz TR E V Fa FA FC FD FS Ft FV Gt Q0,etc</i>.
+Qr Qv Qx Qz TR E V Fa FA FC FD FS Ft FV Gt Q0,etc</i>.
 
-<p><b>Copyright &copy; 1995-2018 C.B. Barber</b></p>
+<p><b>Copyright &copy; 1995-2019 C.B. Barber</b></p>
 
 <p>Voronoi image by KOOK Architecture, Silvan Oesterle and Michael Knauss.
 
@@ -121,26 +119,29 @@ Qr QR Qv Qx Qz TR E V Fa FA FC FD FS Ft FV Gt Q0,etc</i>.
 <h3><a href="#TOP">&#187;</a><a name="synopsis">qvoronoi synopsis</a></h3>
 
 <pre>
-qvoronoi- compute the Voronoi diagram.
+qvoronoi -- compute the Voronoi diagram.
     input (stdin): dimension, number of points, point coordinates
     comments start with a non-numeric character
 
-options (qh-voron.htm):
+options (qvoronoi.htm):
     Qu   - compute furthest-site Voronoi diagram
     Tv   - verify result: structure, convexity, and in-circle test
     .    - concise list of all options
     -    - one-line description of all options
+    -?   - this message
+    -V   - version
 
 output options (subset):
-    s    - summary of results (default)
-    p    - Voronoi vertices
-    o    - OFF file format (dim, Voronoi vertices, and Voronoi regions)
+    Fi   - separating hyperplanes for bounded regions, 'Fo' for unbounded
     FN   - count and Voronoi vertices for each Voronoi region
     Fv   - Voronoi diagram as Voronoi vertices between adjacent input sites
-    Fi   - separating hyperplanes for bounded regions, 'Fo' for unbounded
     G    - Geomview output (2-d only)
+    o    - OFF file format (dim, Voronoi vertices, and Voronoi regions)
+    p    - Voronoi vertices
     QVn  - Voronoi vertices for input point n, -n if not
-    TO file- output results to file, may be enclosed in single quotes
+    s    - summary of results (default)
+    TI file - input file, may be enclosed in single quotes
+    TO file - output file, may be enclosed in single quotes
 
 examples:
 rbox c P0 D2 | qvoronoi s o         rbox c P0 D2 | qvoronoi Fi
@@ -339,6 +340,10 @@ controls</a></h3>
 <dl compact>
    <dt><a href="qh-optq.htm#Qu">Qu</a></dt>
     <dd>compute the <a href="qvoron_f.htm">furthest-site Voronoi diagram</a>.</dd>
+    <dt><a href="qh-optq.htm#QRn">QRn</a></dt>
+    <dd>randomly rotate the input with a random seed of n.  If n=0, the
+        seed is the time.  If n=-1, use time for the random seed, but do
+        not rotate the input.</dd>
     <dt><a href="qh-optq.htm#QVn">QVn</a></dt>
     <dd>select Voronoi vertices for input site <em>n</em> </dd>
     <dt><a href="qh-optq.htm#Qz">Qz</a></dt>
@@ -538,7 +543,7 @@ href="qdelaun.htm#conventions">Delaunay conventions</a>, and
 <h3><a href="#TOP">&#187;</a><a name="options">qvoronoi options</a></h3>
 
 <pre>
-qvoronoi- compute the Voronoi diagram
+qvoronoi -- compute the Voronoi diagram
     http://www.qhull.org
 
 input (stdin):
@@ -550,26 +555,37 @@ options:
     Qu   - compute furthest-site Voronoi diagram
 
 Qhull control options:
-    QJn  - randomly joggle input in range [-n,n]
+    Qa   - allow short input with more coordinates than points
+    QRn  - random rotation (n=seed, n=0 time, n=-1 time/no rotate)
     Qs   - search all points for the initial simplex
     Qz   - add point-at-infinity to Voronoi diagram
+
+Qhull extra options:
     QGn  - Voronoi vertices if visible from point n, -n if not
     QVn  - Voronoi vertices for input point n, -n if not
+    Qw   - allow option warnings
+    Q12  - allow wide facets and wide dupridge
+    Q14  - merge pinched vertices that create a dupridge
 
-Trace options:
-    T4   - trace at level n, 4=all, 5=mem/gauss, -1= events
-    Tc   - check frequently during execution
+T options:
+    TFn  - report summary when n or more facets created
+    TI file - input file, may be enclosed in single quotes
+    TO file - output file, may be enclosed in single quotes
     Ts   - statistics
     Tv   - verify result: structure, convexity, and in-circle test
     Tz   - send all output to stdout
-    TFn  - report summary when n or more facets created
-    TI file - input data from file, no spaces or single quotes
-    TO file - output results to file, may be enclosed in single quotes
+
+Trace options:
+    T4   - trace at level n, 4=all, 5=mem/gauss, -1= events
+    Ta   - annotate output with message codes
+    TAn  - stop qhull after adding n vertices
+     TCn - stop qhull after building cone for point n
+     TVn - stop qhull after adding point n, -n for before
+    Tc   - check frequently during execution
+    Tf   - flush each qh_fprintf for debugging segfaults
     TPn  - turn on tracing when point n added to hull
      TMn - turn on tracing at merge n
      TWn - trace merge facets when width > n
-    TVn  - stop qhull after adding point n, -n for before (see TCn)
-     TCn - stop qhull after building cone for point n (see TVn)
 
 Precision options:
     Cn   - radius of centrum (roundoff added).  Merge facets if non-convex
@@ -578,12 +594,12 @@ Precision options:
     Rn   - randomly perturb computations by a factor of [1-n,1+n]
     Wn   - min facet width for non-coincident point (before roundoff)
 
-Output formats (may be combined; if none, produces a summary to stdout):
-    s    - summary to stderr
+Output formats (may be combined; if none, summary to stdout):
     p    - Voronoi vertices
-    o    - OFF format (dim, Voronoi vertices, and Voronoi regions)
-    i    - Delaunay regions (use 'Pp' to avoid warning)
+    s    - summary to stderr
     f    - facet dump
+    i    - Delaunay regions (use 'Pp' to avoid warning)
+    o    - OFF format (dim, Voronoi vertices, and Voronoi regions)
 
 More formats:
     Fc   - count plus coincident points (by Voronoi vertex)
@@ -606,24 +622,24 @@ More formats:
     Fv   - Voronoi diagram as Voronoi vertices between adjacent input sites
     Fx   - extreme points of Delaunay triangulation (on convex hull)
 
-Geomview options (2-d only)
+Geomview output (2-d only)
     Ga   - all points as dots
      Gp  -  coplanar points and vertices as radii
      Gv  -  vertices as spheres
+    Gc   - centrums
+    GDn  - drop dimension n in 3-d and 4-d output
+    Gh   - hyperplane intersections
     Gi   - inner planes only
      Gn  -  no planes
      Go  -  outer planes only
-    Gc   - centrums
-    Gh   - hyperplane intersections
     Gr   - ridges
-    GDn  - drop dimension n in 3-d and 4-d output
 
 Print options:
     PAn  - keep n largest Voronoi vertices by 'area'
-    Pdk:n - drop facet if normal[k] &lt;= n (default 0.0)
+    Pdk:n - drop facet if normal[k] <= n (default 0.0)
     PDk:n - drop facet if normal[k] >= n
-    Pg   - print good Voronoi vertices (needs 'QGn' or 'QVn')
     PFn  - keep Voronoi vertices whose 'area' is at least n
+    Pg   - print good Voronoi vertices (needs 'QGn' or 'QVn')
     PG   - print neighbors of good Voronoi vertices
     PMn  - keep n Voronoi vertices with most merges
     Po   - force output.  If error, output neighborhood of facet
@@ -631,12 +647,14 @@ Print options:
 
     .    - list of all options
     -    - one line descriptions of all options
+    -?   - help with examples
+    -V   - version
 </pre>
 
 <!-- Navigation links -->
 <hr>
 
-<p><b>Up:</b> <a href="http://www.qhull.org">Home page</a> for Qhull<br>
+<p><b>Up:</b> <a href="http://www.qhull.org">Home page</a> for Qhull (<a href="../index.htm">local</a>)<br>
 <b>Up:</b> <a href="index.htm#TOC">Qhull manual</a>: Table of Contents<br>
 <b>To:</b> <a href="qh-quick.htm#programs">Programs</a>
 &#149; <a href="qh-quick.htm#options">Options</a>
@@ -647,7 +665,7 @@ Print options:
 &#149; <a href="qh-optq.htm#qhull">Qhull</a>
 &#149; <a href="qh-optc.htm#prec">Precision</a>
 &#149; <a href="qh-optt.htm#trace">Trace</a>
-&#149; <a href="../src/libqhull_r/index.htm">Functions</a><br>
+&#149; <a href="http://www.qhull.org/src/libqhull_r/index.htm">Functions</a> (<a href="../src/libqhull_r/index.htm">local</a>)<br>
 <b>To:</b> <a href="#synopsis">sy</a>nopsis
 &#149; <a href="#input">in</a>put &#149; <a href="#outputs">ou</a>tputs
 &#149; <a href="#controls">co</a>ntrols &#149; <a href="#graphics">gr</a>aphics
@@ -661,7 +679,7 @@ align="middle" width="40" height="40"></a><i>The Geometry Center
 Home Page </i></p>
 
 <p>Comments to: <a href=mailto:qhull@qhull.org>qhull@qhull.org</a>
-</a><br>
+<br>
 Created: Sept. 25, 1995 --- <!-- hhmts start --> Last modified: see top <!-- hhmts end --> </p>
 </body>
 </html>

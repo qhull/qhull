@@ -9,7 +9,7 @@ content="text/html; charset=iso-8859-1">
 <body>
 <!-- Navigation links -->
 <p><a name="TOP"><b>Up:</b></a> <a
-href="http://www.qhull.org">Home page</a> for Qhull<br>
+href="http://www.qhull.org">Home page</a> for Qhull (<a href="../index.htm">local</a>)<br>
 <b>Up:</b> <a href="../../html/index.htm#TOC">Qhull manual</a>: Table of Contents <br>
 <b>Up:</b> <a href="../../html/qh-quick.htm#programs">Programs</a>
 &#149; <a href="../../html/qh-quick.htm#options">Options</a>
@@ -20,9 +20,8 @@ href="http://www.qhull.org">Home page</a> for Qhull<br>
 &#149; <a href="../../html/qh-optq.htm#qhull">Qhull</a>
 &#149; <a href="../../html/qh-optc.htm#prec">Precision</a>
 &#149; <a href="../../html/qh-optt.htm#trace">Trace</a>
-&#149; <a href="index.htm">Functions</a><br>
-<b>Up:</b> <a href="../../html/qh-code.htm#TOC">Qhull code: Table of Contents</a><br>
-<b>To:</b> <a href="index.htm">Qhull functions</a>, macros, and data structures<br>
+&#149; <a href="http://www.qhull.org/src/libqhull_r/index.htm">Functions</a> (<a href="index.htm">local</a>)<br>
+<b>Up:</b> <a href="../../html/qh-code.htm">Qhull code</a><br>
 <b>To:</b> <a href="qh-geom_r.htm">Geom</a> &#149; <a href="qh-globa_r.htm">Global</a>
 &#149; <a href="qh-io_r.htm">Io</a> &#149; <a href="qh-mem_r.htm">Mem</a>
 &#149; <a href="qh-merge_r.htm">Merge</a> &#149; <a href="qh-poly_r.htm#TOC">Poly</a>
@@ -120,7 +119,7 @@ joggled input, they
 may have zero area or flipped orientation.
 
 </blockquote>
-<p><b>Copyright &copy; 1995-2018 C.B. Barber</b></p>
+<p><b>Copyright &copy; 1995-2019 C.B. Barber</b></p>
 <hr>
 <p><a href="#TOP">&#187;</a> <a href="qh-geom_r.htm#TOC">Geom</a>
 <a name="TOC">&#149;</a> <a href="qh-globa_r.htm#TOC">Global</a>
@@ -368,8 +367,11 @@ return temporary set of vertices indexed by point
 ID </li>
 <li><a href="poly_r.c#removevertex">qh_removevertex</a>
 unlink vertex from qh.vertex_list, </li>
-<li><a href="poly_r.c#updatevertices">qh_updatevertices</a>
+<li><a href="poly_r.c#update_vertexneighbors">qh_update_vertexneighbors</a>
 update vertex neighbors and delete interior
+vertices </li>
+<li><a href="poly_r.c#update_vertexneighbors_cone">qh_update_vertexneighbors_cone</a>
+update vertex neighbors for a cone of new facets and delete interior
 vertices </li>
 <li><a href="poly2_r.c#vertexintersect">qh_vertexintersect</a>
 intersect two vertex sets </li>
@@ -403,6 +405,8 @@ ridge </li>
 allocate a new qh.hash_table </li>
 <li><a href="poly2_r.c#printhashtable">qh_printhashtable</a>
 print hash table </li>
+<li><a href="poly2_r.c#printlists">qh_printlists</a>
+print out facet lists for debugging </li>
 </ul>
 <h3><a href="qh-poly_r.htm#TOC">&#187;</a><a name="pnew">Allocation and
 deallocation functions</a></h3>
@@ -413,6 +417,8 @@ clear old data from facet-&gt;center </li>
 delete visible facets and vertices </li>
 <li><a href="poly_r.c#delfacet">qh_delfacet</a> free up
 the memory occupied by a facet </li>
+<li><a href="poly2_r.c#delridge">qh_delridge</a> free up
+the memory occupied by a ridge </li>
 <li><a href="poly2_r.c#delvertex">qh_delvertex</a>
 delete vertex </li>
 <li><a href="poly_r.c#newfacet">qh_newfacet</a> create
@@ -444,6 +450,8 @@ check for consistency errors in facet </li>
 check facet orientation to the interior point </li>
 <li><a href="poly2_r.c#checkflipped_all">qh_checkflipped_all</a>
 check facet orientation for a facet list </li>
+<li><a href="poly2_r.c#checklists">qh_checklists</a>
+Check and repair facetlist and its vertexlist for infinite loops or overwritten facets/vertices </li>
 <li><a href="poly2_r.c#checkpolygon">qh_checkpolygon</a>
 check topological structure </li>
 <li><a href="poly2_r.c#checkvertex">qh_checkvertex</a>
@@ -456,8 +464,8 @@ report error for a loop of facets </li>
 <p><!-- Navigation links --> </p>
 <hr>
 <p><b>Up:</b>
-<a href="http://www.qhull.org">Home page for
-Qhull</a> <br>
+<a href="http://www.qhull.org">Home page</a> for
+Qhull (<a href="../index.htm">local</a>)<br>
 <b>Up:</b> <a href="../../html/index.htm#TOC">Qhull manual: Table of Contents</a> <br>
 <b>Up:</b> <a href="../../html/qh-quick.htm#programs">Programs</a>
 &#149; <a href="../../html/qh-quick.htm#options">Options</a>
@@ -468,9 +476,8 @@ Qhull</a> <br>
 &#149; <a href="../../html/qh-optq.htm#qhull">Qhull</a>
 &#149; <a href="../../html/qh-optc.htm#prec">Precision</a>
 &#149; <a href="../../html/qh-optt.htm#trace">Trace</a>
-&#149; <a href="index.htm">Functions</a><br>
-<b>Up:</b> <a href="../../html/qh-code.htm#TOC">Qhull code: Table of Contents</a> <br>
-<b>To:</b> <a href="index.htm">Qhull functions</a>, macros, and data structures<br>
+&#149; <a href="http://www.qhull.org/src/libqhull_r/index.htm">Functions</a> (<a href="index.htm">local</a>)<br>
+<b>Up:</b> <a href="../../html/qh-code.htm">Qhull code</a> <br>
 <b>To:</b> <a href="qh-geom_r.htm">Geom</a> &#149;
 <a href="qh-globa_r.htm">Global</a> &#149; <a href="qh-io_r.htm">Io</a>
 &#149; <a href="qh-mem_r.htm">Mem</a> &#149; <a href="qh-merge_r.htm">Merge</a>
@@ -484,7 +491,7 @@ Qhull</a> <br>
 src="../../html/qh--geom.gif" align="middle" width="40" height="40"></a><i>The
 Geometry Center Home Page </i></p>
 <p>Comments to: <a href=mailto:qhull@qhull.org>qhull@qhull.org</a>
-</a><br>
+<br>
 Created: May 2, 1997 --- <!-- hhmts start --> Last modified: see top <!-- hhmts end --> </p>
 </body>
 </html>

@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (c) 2009-2018 C.B. Barber. All rights reserved.
-** $Id: //main/2015/qhull/src/libqhullcpp/Coordinates.h#8 $$Change: 2549 $
-** $DateTime: 2018/12/28 22:24:20 $$Author: bbarber $
+** Copyright (c) 2009-2019 C.B. Barber. All rights reserved.
+** $Id: //main/2019/qhull/src/libqhullcpp/Coordinates.h#1 $$Change: 2661 $
+** $DateTime: 2019/05/24 20:09:58 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -50,7 +50,7 @@ public:
     typedef countT              size_type;
 
 #//!\name Construct
-                        Coordinates() {};
+                        Coordinates() : coordinate_array() {};
     explicit            Coordinates(const std::vector<coordT> &other) : coordinate_array(other) {}
                         Coordinates(const Coordinates &other) : coordinate_array(other.coordinate_array) {}
     Coordinates &       operator=(const Coordinates &other) { coordinate_array= other.coordinate_array; return *this; }
@@ -68,8 +68,8 @@ public:
 
 #//!\name GetSet
     countT              count() const { return static_cast<countT>(size()); }
-    coordT *            data() { return isEmpty() ? 0 : &at(0); }
-    const coordT *      data() const { return const_cast<const pointT*>(isEmpty() ? 0 : &at(0)); }
+    coordT *            data() { return (isEmpty() ? NULL : &at(0)); }
+    const coordT *      data() const { return (isEmpty() ? NULL : &at(0)); }
     bool                isEmpty() const { return coordinate_array.empty(); }
     bool                operator==(const Coordinates &other) const  { return coordinate_array==other.coordinate_array; }
     bool                operator!=(const Coordinates &other) const  { return coordinate_array!=other.coordinate_array; }
@@ -154,9 +154,9 @@ public:
         typedef value_type &reference;
         typedef ptrdiff_t   difference_type;
 
-                        iterator() {}
-                        iterator(const iterator &other) { i= other.i; }
-        explicit        iterator(const std::vector<coordT>::iterator &vi) { i= vi; }
+                        iterator() : i() {}
+                        iterator(const iterator &other) : i() { i= other.i; }
+        explicit        iterator(const std::vector<coordT>::iterator &vi) : i() { i= vi; }
         iterator &      operator=(const iterator &other) { i= other.i; return *this; }
         std::vector<coordT>::iterator &base() { return i; }
         coordT &        operator*() const { return *i; }
@@ -201,10 +201,10 @@ public:
         typedef const value_type &reference;
         typedef ptrdiff_t         difference_type;
 
-                        const_iterator() {}
-                        const_iterator(const const_iterator &other) { i= other.i; }
+                        const_iterator() : i() {}
+                        const_iterator(const const_iterator &other) : i() { i= other.i; }
                         const_iterator(const iterator &o) : i(o.i) {}
-        explicit        const_iterator(const std::vector<coordT>::const_iterator &vi) { i= vi; }
+        explicit        const_iterator(const std::vector<coordT>::const_iterator &vi) : i() { i= vi; }
         const_iterator &operator=(const const_iterator &other) { i= other.i; return *this; }
         const coordT &  operator*() const { return *i; }
         // No operator->() when the base type is double
@@ -272,7 +272,7 @@ private:
     bool                item_exists() const { return const_iterator(n) != c->constEnd(); }
 
 public:
-                        MutableCoordinatesIterator(Coordinates &container) : c(&container) { i= c->begin(); n= c->end(); }
+                        MutableCoordinatesIterator(Coordinates &container) : c(&container), i(), n() { i= c->begin(); n= c->end(); }
     MutableCoordinatesIterator &operator=(Coordinates &container) { c= &container; i= c->begin(); n= c->end(); return *this; }
                         ~MutableCoordinatesIterator() {}
 

@@ -2,7 +2,7 @@
   >-------------------------------</a><a name="TOP">-</a>
 
    usermem.c
-   qh_exit(), qh_free(), and qh_malloc()
+   user redefinable functions -- qh_exit, qh_free, and qh_malloc
 
    See README.txt.
 

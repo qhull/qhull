@@ -9,7 +9,7 @@ content="text/html; charset=iso-8859-1">
 <body>
 <!-- Navigation links -->
 <p><a name="TOP"><b>Up:</b></a> <a
-href="http://www.qhull.org">Home page</a> for Qhull<br>
+href="http://www.qhull.org">Home page</a> for Qhull (<a href="../index.htm">local</a>)<br>
 <b>Up:</b> <a href="../../html/index.htm#TOC">Qhull manual</a>: Table of Contents <br>
 <b>Up:</b> <a href="../../html/qh-quick.htm#programs">Programs</a>
 &#149; <a href="../../html/qh-quick.htm#options">Options</a>
@@ -20,8 +20,8 @@ href="http://www.qhull.org">Home page</a> for Qhull<br>
 &#149; <a href="../../html/qh-optq.htm#qhull">Qhull</a>
 &#149; <a href="../../html/qh-optc.htm#prec">Precision</a>
 &#149; <a href="../../html/qh-optt.htm#trace">Trace</a>
-&#149; <a href="index.htm">Functions</a><br>
-<b>Up:</b> <a href="../../html/qh-code.htm#TOC">Qhull code</a><br>
+&#149; <a href="http://www.qhull.org/src/libqhull/index.htm">Functions</a> (<a href="index.htm">local</a>)<br>
+<b>Up:</b> <a href="../../html/qh-code.htm">Qhull code</a><br>
 <b>To:</b> <a href="#TOC">Qhull files</a><br>
 <b>To:</b> <a href="qh-geom.htm">Geom</a> &#149; <a href="qh-globa.htm">Global</a>
 &#149; <a href="qh-io.htm">Io</a> &#149; <a href="qh-mem.htm">Mem</a>
@@ -78,9 +78,11 @@ determine the corresponding <a href="libqhull.h#qh_PRINT">qh_PRINT...</a> consta
 Search <a href="io.c">io.c</a> to learn how the print function is implemented.</p>
 
 <p>If your web browser is configured for .c and .h files, the function, macro, and data type links
-go to the corresponding source location.  To configure your web browser for .c and .h files.
+go to the corresponding source location.
 <ul>
-<li>In the Download Preferences or Options panel, add file extensions 'c' and 'h' to mime type 'text/html'.
+<li>Internet Explorer -- OK for web access but not for file access
+<li>Chrome -- OK for web access but not for file access
+<li>Firefox -- Mime types are not available from 'Preferences'.  Is there an add-on to change the file extensions for a mime type?
 <li>Opera 12.10
 <ol>
 <li>In Tools > Preferences > Advanced > Downloads
@@ -90,9 +92,6 @@ go to the corresponding source location.  To configure your web browser for .c a
 <li>Add File extensions 'c,h,'
 <li>Click 'OK'
 </ol>
-<li>Internet Explorer -- Mime types are not available from 'Internet Options'.    Is there a registry key for these settings?
-<li>Firefox -- Mime types are not available from 'Preferences'.  Is there an add-on to change the file extensions for a mime type?
-<li>Chrome -- Can Chrome be configured?
 </ul>
 
 <p>
@@ -100,7 +99,7 @@ Please report documentation and link errors
 to <a href="mailto:qhull-bug@qhull.org">qhull-bug@qhull.org</a>.
 </blockquote>
 
-<p><b>Copyright &copy; 1997-2018 C.B. Barber</b></p>
+<p><b>Copyright &copy; 1997-2019 C.B. Barber</b></p>
 
 <hr>
 
@@ -188,7 +187,7 @@ while infrequent ones are in <tt>poly2.c</tt>.</dd>
 <a href="libqhull.c"><b>libqhull.c</b></a><b>, </b>
 <a href="libqhull.h"><b>libqhull.h</b></a><b>, </b>
 <a href="qhull_a.h"><b>qhull_a.h</b></a><b>, </b>
-<a href="../qhullo/unix.c"><b>unix.c</b></a> <b>, </b>
+<a href="../qhull/unix.c"><b>unix.c</b></a> <b>, </b>
 <a href="../qconvex/qconvex.c"><b>qconvex.c</b></a> <b>, </b>
 <a href="../qdelaunay/qdelaun.c"><b>qdelaun.c</b></a> <b>, </b>
 <a href="../qhalf/qhalf.c"><b>qhalf.c</b></a> <b>, </b>
@@ -219,6 +218,7 @@ its implementation. </dd>
 <a href="user.c"><b>user.c</b></a><b>, </b>
 <a href="../user_eg/user_eg.c"><b>user_eg.c</b></a><b>, </b>
 <a href="../user_eg2/user_eg2.c"><b>user_eg2.c</b></a><b>, </b>
+<a href="../user_eg3/user_eg3.cpp"><b>user_eg3.cpp</b></a><b>, </b>
 </dt>
 <dd>User-defined routines. Qhull allows the user to configure
 the code with defined constants and specialized routines.
@@ -230,8 +230,8 @@ the code with defined constants and specialized routines.
 <p><!-- Navigation links --> </p>
 <hr>
 <p><b>Up:</b>
-<a href="http://www.qhull.org">Home page for
-Qhull</a> <br>
+<a href="http://www.qhull.org">Home page</a> for
+Qhull (<a href="../index.htm">local</a>) <br>
 <b>Up:</b> <a href="../../html/index.htm#TOC">Qhull manual: Table of Contents</a> <br>
 <b>Up:</b> <a href="../../html/qh-quick.htm#programs">Programs</a>
 &#149; <a href="../../html/qh-quick.htm#options">Options</a>
@@ -242,8 +242,8 @@ Qhull</a> <br>
 &#149; <a href="../../html/qh-optq.htm#qhull">Qhull</a>
 &#149; <a href="../../html/qh-optc.htm#prec">Precision</a>
 &#149; <a href="../../html/qh-optt.htm#trace">Trace</a>
-&#149; <a href="index.htm">Functions</a><br>
-<b>Up:</b> <a href="../../html/qh-code.htm#TOC">Qhull code: Table of Contents</a> <br>
+&#149; <a href="http://www.qhull.org/src/libqhull/index.htm">Functions</a> (<a href="index.htm">local</a>)<br>
+<b>Up:</b> <a href="../../html/qh-code.htm">Qhull code</a> <br>
 <b>To:</b> <a href="#TOC">Qhull files</a><br>
 <b>To:</b> <a href="qh-geom.htm">Geom</a> &#149;
 <a href="qh-globa.htm">Global</a> &#149; <a href="qh-io.htm">Io</a>
@@ -258,7 +258,7 @@ Qhull</a> <br>
 src="../../html/qh--geom.gif" align="middle" width="40" height="40"></a><i>The
 Geometry Center Home Page </i></p>
 <p>Comments to: <a href=mailto:qhull@qhull.org>qhull@qhull.org</a>
-</a><br>
+<br>
 Created: May 2, 1997 --- <!-- hhmts start --> Last modified: see top <!-- hhmts end --> </p>
 </body>
 </html>

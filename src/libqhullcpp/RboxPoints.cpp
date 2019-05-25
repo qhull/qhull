@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (c) 2008-2018 C.B. Barber. All rights reserved.
-** $Id: //main/2015/qhull/src/libqhullcpp/RboxPoints.cpp#5 $$Change: 2549 $
-** $DateTime: 2018/12/28 22:24:20 $$Author: bbarber $
+** Copyright (c) 2008-2019 C.B. Barber. All rights reserved.
+** $Id: //main/2019/qhull/src/libqhullcpp/RboxPoints.cpp#1 $$Change: 2661 $
+** $DateTime: 2019/05/24 20:09:58 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -187,7 +187,8 @@ void qh_fprintf_rbox(qhT *qh, FILE*, int msgcode, const char *fmt, ... ) {
         out->rbox_message += "RboxPoints error: options 'h', 'n' not supported.\n";
         qh_errexit_rbox(qh, 10010);
         /* never returns */
-    case 9393:  // FIXUP QH11026 countT vs. int
+        break;
+    case 9393:  // QH11026 FIXUP: countT vs. int
         {
             int dimension= va_arg(args, int);
             string command(va_arg(args, char*));
@@ -217,6 +218,9 @@ void qh_fprintf_rbox(qhT *qh, FILE*, int msgcode, const char *fmt, ... ) {
         // fall through
     case 9404:
         *out << va_arg(args, double);
+        break;
+    default:
+        // do nothing
         break;
     }
     va_end(args);

@@ -11,9 +11,9 @@
        and
      qh_errexit(qhmem_ERRqhull, NULL, NULL) otherwise
 
-   Copyright (c) 1993-2018 The Geometry Center.
-   $Id: //main/2015/qhull/src/libqhull/mem.h#5 $$Change: 2552 $
-   $DateTime: 2018/12/29 15:39:43 $$Author: bbarber $
+   Copyright (c) 1993-2019 The Geometry Center.
+   $Id: //main/2019/qhull/src/libqhull/mem.h#1 $$Change: 2661 $
+   $DateTime: 2019/05/24 20:09:58 $$Author: bbarber $
 */
 
 #ifndef qhDEFmem
@@ -33,7 +33,7 @@
     problem, and send the answer to qhull@qhull.org.  If this can
     not be done, define qh_NOmem to use malloc/free instead.
 
-   #define qh_NOmem
+  #define qh_NOmem
 */
 
 /*-<a                             href="qh-mem.htm#TOC"
@@ -80,7 +80,7 @@ Trace short and quick memory allocations at T5
 */
 #if (defined(__MINGW64__)) && defined(_WIN64)
 typedef long long ptr_intT;
-#elif (_MSC_VER) && defined(_WIN64)
+#elif defined(_MSC_VER) && defined(_WIN64)
 typedef long long ptr_intT;
 #else
 typedef long ptr_intT;
@@ -112,7 +112,7 @@ extern qhmemT qhmem;
 typedef struct setT setT;          /* defined in qset.h */
 #endif
 
-/* Update qhmem in mem.c if add or remove fields */
+/* mem.c -- Update static initializer list for qhmem if add or remove fields */
 struct qhmemT {               /* global memory management variables */
   int      BUFsize;           /* size of memory allocation buffer */
   int      BUFinit;           /* initial size of memory allocation buffer */
@@ -160,21 +160,21 @@ struct qhmemT {               /* global memory management variables */
 #if defined qh_NOmem
 #define qh_memalloc_(insize, freelistp, object, type) {\
   (void)freelistp; /* Avoid warnings */ \
-  object= (type*)qh_memalloc(insize); }
+  object= (type *)qh_memalloc(insize); }
 #elif defined qh_TRACEshort
 #define qh_memalloc_(insize, freelistp, object, type) {\
   (void)freelistp; /* Avoid warnings */ \
-  object= (type*)qh_memalloc(insize); }
+  object= (type *)qh_memalloc(insize); }
 #else /* !qh_NOmem */
 
 #define qh_memalloc_(insize, freelistp, object, type) {\
   freelistp= qhmem.freelists + qhmem.indextable[insize];\
-  if ((object= (type*)*freelistp)) {\
+  if ((object= (type *)*freelistp)) {\
     qhmem.totshort += qhmem.sizetable[qhmem.indextable[insize]]; \
     qhmem.totfree -= qhmem.sizetable[qhmem.indextable[insize]]; \
     qhmem.cntquick++;  \
     *freelistp= *((void **)*freelistp);\
-  }else object= (type*)qh_memalloc(insize);}
+  }else object= (type *)qh_memalloc(insize);}
 #endif
 
 /*-<a                             href="qh-mem.htm#TOC"

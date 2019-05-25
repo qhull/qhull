@@ -7,7 +7,7 @@
 
    see unix.c for full interface
 
-   Copyright (c) 1993-2018, The Geometry Center
+   Copyright (c) 1993-2019, The Geometry Center
 */
 
 #include "libqhull_r/libqhull_r.h"
@@ -18,12 +18,12 @@
 #include <ctype.h>
 #include <math.h>
 
-#if __cplusplus
+#ifdef __cplusplus
 extern "C" {
   int isatty(int);
 }
 
-#elif _MSC_VER
+#elif defined(_MSC_VER)
 #include <io.h>
 #define isatty _isatty
 /* int _isatty(int); */
@@ -42,15 +42,17 @@ int isatty(int);  /* returns 1 if stdin is a tty
   notes:
     restricted version of libqhull.c
 
-  see:
-    concise prompt below
+  notes:
+    same text as unix.c
+    see concise prompt below
+    limit maximum literal to 1800 characters
 */
 
 /* duplicated in qdelau_f.htm and qdelaun.htm */
-char hidden_options[]=" d n v H U Qb QB Qc Qf Qg Qi Qm Qr QR Qv Qx TR E V FC Fi Fo Ft Fp FV Q0 Q1 Q2 Q3 Q4 Q5 Q6 Q7 Q8 Q9 ";
+char hidden_options[]=" d n v H U Qb QB Qc Qf Qg Qi Qm Qr Qv Qx TR E V FC Fi Fo Ft Fp FV Q0 Q1 Q2 Q3 Q4 Q5 Q6 Q7 Q8 Q9 Q10 Q11 Q15 ";
 
 char qh_prompta[]= "\n\
-qdelaunay- compute the Delaunay triangulation\n\
+qdelaunay -- compute the Delaunay triangulation\n\
     http://www.qhull.org  %s\n\
 \n\
 input (stdin):\n\
@@ -59,35 +61,47 @@ input (stdin):\n\
     comments:    start with a non-numeric character\n\
 \n\
 options:\n\
-    Qu   - compute furthest-site Delaunay triangulation\n\
-    Qt   - triangulated output\n\
     QJ   - joggled input instead of merged facets\n\
+    Qt   - triangulated output\n\
+    Qu   - compute furthest-site Delaunay triangulation\n\
 \n\
 Qhull control options:\n\
+    Qa  - allow short input with more coordinates than points\n\
     QJn  - randomly joggle input in range [-n,n]\n\
-%s%s%s%s";  /* split up qh_prompt for Visual C++ */
-char qh_promptb[]= "\
+    QRn  - random rotation (n=seed, n=0 time, n=-1 time/no rotate)\n\
     Qs   - search all points for the initial simplex\n\
     Qz   - add point-at-infinity to Delaunay triangulation\n\
+\n\
+%s%s%s%s";  /* split up qh_prompt for Visual C++ */
+char qh_promptb[]= "\
+Qhull extra options:\n\
     QGn  - print Delaunay region if visible from point n, -n if not\n\
     QVn  - print Delaunay regions that include point n, -n if not\n\
+    Qw   - allow option warnings\n\
+    Q12  - allow wide facets and wide dupridge\n\
+    Q14  - merge pinched vertices that create a dupridge\n\
+\n\
+T options:\n\
+    TFn  - report summary when n or more facets created\n\
+    TI file - input file, may be enclosed in single quotes\n\
+    TO file - output file, may be enclosed in single quotes\n\
+    Ts   - statistics\n\
+    Tv   - verify result: structure, convexity, and in-circle test\n\
+    Tz   - send all output to stdout\n\
 \n\
 ";
 char qh_promptc[]= "\
 Trace options:\n\
     T4   - trace at level n, 4=all, 5=mem/gauss, -1= events\n\
+    Ta   - annotate output with message codes\n\
+    TAn  - stop qhull after adding n vertices\n\
+     TCn - stop qhull after building cone for point n\n\
+     TVn - stop qhull after adding point n, -n for before\n\
     Tc   - check frequently during execution\n\
-    Ts   - print statistics\n\
-    Tv   - verify result: structure, convexity, and in-circle test\n\
-    Tz   - send all output to stdout\n\
-    TFn  - report summary when n or more facets created\n\
-    TI file - input data from file, no spaces or single quotes\n\
-    TO file - output results to file, may be enclosed in single quotes\n\
+    Tf   - flush each qh_fprintf for debugging segfaults\n\
     TPn  - turn on tracing when point n added to hull\n\
      TMn - turn on tracing at merge n\n\
      TWn - trace merge facets when width > n\n\
-    TVn  - stop qhull after adding point n, -n for before (see TCn)\n\
-     TCn - stop qhull after building cone for point n (see TVn)\n\
 \n\
 Precision options:\n\
     Cn   - radius of centrum (roundoff added).  Merge facets if non-convex\n\
@@ -123,7 +137,7 @@ More formats:\n\
     FP   - nearest point and distance for each coincident point\n\
     FQ   - command used for qdelaunay\n\
     Fs   - summary: #int (8), dimension, #points, tot vertices, tot facets,\n\
-                    for output: #vertices, #Delaunay regions,\n\
+                    output: #vertices, #Delaunay regions,\n\
                                 #coincident points, #non-simplicial regions\n\
                     #real (2), max outer plane, min vertex\n\
     FS   - sizes:   #int (0)\n\
@@ -133,25 +147,25 @@ More formats:\n\
 \n\
 ";
 char qh_prompte[]= "\
-Geomview options (2-d and 3-d)\n\
+Geomview output (2-d and 3-d points lifted to a paraboloid)\n\
     Ga   - all points as dots\n\
      Gp  -  coplanar points and vertices as radii\n\
      Gv  -  vertices as spheres\n\
+    Gc   - centrums\n\
+    GDn  - drop dimension n in 3-d and 4-d output\n\
+    Gh   - hyperplane intersections\n\
     Gi   - inner planes only\n\
      Gn  -  no planes\n\
      Go  -  outer planes only\n\
-    Gc     - centrums\n\
-    Gh   - hyperplane intersections\n\
     Gr   - ridges\n\
-    GDn  - drop dimension n in 3-d and 4-d output\n\
     Gt   - transparent outer ridges to view 3-d Delaunay\n\
 \n\
 Print options:\n\
     PAn  - keep n largest Delaunay regions by area\n\
     Pdk:n - drop facet if normal[k] <= n (default 0.0)\n\
     PDk:n - drop facet if normal[k] >= n\n\
-    Pg   - print good Delaunay regions (needs 'QGn' or 'QVn')\n\
     PFn  - keep Delaunay regions whose area is at least n\n\
+    Pg   - print good Delaunay regions (needs 'QGn' or 'QVn')\n\
     PG   - print neighbors of good regions (needs 'QGn' or 'QVn')\n\
     PMn  - keep n Delaunay regions with most merges\n\
     Po   - force output.  If error, output neighborhood of facet\n\
@@ -159,6 +173,7 @@ Print options:\n\
 \n\
     .    - list of all options\n\
     -    - one line descriptions of all options\n\
+    -?   - help with examples\n\
     -V   - version\n\
 ";
 /* for opts, don't assign 'e' or 'E' to a flag (already used for exponent) */
@@ -170,7 +185,7 @@ Print options:\n\
     synopsis for qhull
 */
 char qh_prompt2[]= "\n\
-qdelaunay- compute the Delaunay triangulation.  Qhull %s\n\
+qdelaunay -- compute the Delaunay triangulation.  Qhull %s\n\
     input (stdin): dimension, number of points, point coordinates\n\
     comments start with a non-numeric character\n\
 \n\
@@ -180,18 +195,20 @@ options (qdelaun.htm):\n\
     QJ   - joggled input instead of merged facets\n\
     Tv   - verify result: structure, convexity, and in-circle test\n\
     .    - concise list of all options\n\
-    -    - one-line description of all options\n\
+    -    - one-line description of each option\n\
+    -?   - this message\n\
     -V   - version\n\
 \n\
 output options (subset):\n\
     s    - summary of results (default)\n\
     i    - vertices incident to each Delaunay region\n\
     Fx   - extreme points (vertices of the convex hull)\n\
-    o    - OFF format (shows the points lifted to a paraboloid)\n\
     G    - Geomview output (2-d and 3-d points lifted to a paraboloid)\n\
     m    - Mathematica output (2-d inputs lifted to a paraboloid)\n\
+    o    - OFF format (shows the points lifted to a paraboloid)\n\
     QVn  - print Delaunay regions that include point n, -n if not\n\
-    TO file- output results to file, may be enclosed in single quotes\n\
+    TI file - input file, may be enclosed in single quotes\n\
+    TO file - output file, may be enclosed in single quotes\n\
 \n\
 examples:\n\
     rbox c P0 D2 | qdelaunay s o          rbox c P0 D2 | qdelaunay i\n\
@@ -209,32 +226,35 @@ examples:\n\
     concise prompt for qhull
 */
 char qh_prompt3[]= "\n\
-Qhull %s.\n\
+Qhull %s\n\
 Except for 'F.' and 'PG', upper-case options take an argument.\n\
 \n\
- incidences     mathematica    OFF_format     points_lifted  summary\n\
- facet_dump\n\
+ facet-dump     Geomview       incidences     mathematica    off-format\n\
+ points-lifted  summary\n\
 \n\
- Farea          FArea_total    Fcoincident    Fd_cdd_in      FD_cdd_out\n\
- FF_dump_xridge FIDs           Fmerges        Fneighbors     FNeigh_vertex\n\
- FOptions       FPoint_near    FQdelaun       Fsummary       FSize\n\
- Fvertices      Fxtremes       FMaple\n\
+ Farea          FArea-total    Fcoincident    Fd-cdd-in      FD-cdd-out\n\
+ FF-dump-xridge FIDs           Fmerges        FMaple         Fneighbors\n\
+ FNeigh-vertex  FOptions       FPoint-near    FQdelaun       Fsummary\n\
+ FSize          Fvertices      Fxtremes\n\
 \n\
- Gvertices      Gpoints        Gall_points    Gno_planes     Ginner\n\
- Gcentrums      Ghyperplanes   Gridges        Gouter         GDrop_dim\n\
- Gtransparent\n\
+ Gall-points    Gcentrums      GDrop-dim      Ghyperplanes   Ginner\n\
+ Gno-planes     Gouter         Gpoints        Gridges        Gtransparent\n\
+ Gvertices\n\
 \n\
- PArea_keep     Pdrop d0:0D0   Pgood          PFacet_area_keep\n\
- PGood_neighbors PMerge_keep   Poutput_forced Pprecision_not\n\
+ PArea-keep     Pdrop-d0:0D0   PFacet-area-keep  Pgood       PGood-neighbors\n\
+ PMerge-keep    Poutput-forced Pprecision-not\n\
 \n\
- QGood_point    QJoggle        Qsearch_1st    Qtriangulate   QupperDelaunay\n\
- QVertex_good   Qzinfinite\n\
+ Qallow-short   QGood-point    QJoggle        Qrotate        Qsearch-all\n\
+ Qtriangulate   QupperDelaunay QVertex-good   Qwarn-allow    Qzinfinite\n\
+ Q12-allow-wide Q14-merge-pinched\n\
 \n\
- T4_trace       Tcheck_often   Tstatistics    Tverify        Tz_stdout\n\
- TFacet_log     TInput_file    TPoint_trace   TMerge_trace   TOutput_file\n\
- TWide_trace    TVertex_stop   TCone_stop\n\
+ TFacet-log     TInput-file    TOutput-file   Tstatistics    Tverify\n\
+ Tz-stdout\n\
 \n\
- Angle_max      Centrum_size   Random_dist    Wide_outside\n\
+ T4-trace       Tannotate      TAdd-stop      Tcheck-often   TCone-stop\n\
+ Tflush         TMerge-trace   TPoint-trace   TVertex-stop   TWide-trace\n\
+\n\
+ Angle-max      Centrum-size   Random-dist    Wide-outside\n\
 ";
 
 /*-<a                             href="../libqhull/qh-qhull.htm#TOC"
@@ -266,6 +286,10 @@ int main(int argc, char *argv[]) {
     fprintf(stdout, qh_prompt2, qh_version);
     exit(qh_ERRnone);
   }
+  if (argc > 1 && *argv[1] == '-' && (*(argv[1] + 1) == '?' || *(argv[1] + 1) == '-')) { /* -? or --help */
+    fprintf(stdout, qh_prompt2, qh_version);
+    exit(qh_ERRnone);
+  }
   if (argc > 1 && *argv[1] == '-' && !*(argv[1]+1)) {
     fprintf(stdout, qh_prompta, qh_version,
                 qh_promptb, qh_promptc, qh_promptd, qh_prompte);
@@ -290,10 +314,6 @@ int main(int argc, char *argv[]) {
     qh_checkflags(qh, qh->qhull_command, hidden_options);
     qh_initflags(qh, qh->qhull_command);
     points= qh_readpoints(qh, &numpoints, &dim, &ismalloc);
-    if (dim >= 5) {
-      qh_option(qh, "Qxact_merge", NULL, NULL);
-      qh->MERGEexact= True; /* 'Qx' always */
-    }
     qh_init_B(qh, points, numpoints, dim, ismalloc);
     qh_qhull(qh);
     qh_check_output(qh);

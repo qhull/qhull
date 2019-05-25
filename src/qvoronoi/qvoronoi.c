@@ -7,7 +7,7 @@
 
    see unix.c for full interface
 
-   Copyright (c) 1993-2018, The Geometry Center
+   Copyright (c) 1993-2019, The Geometry Center
 */
 
 #include "libqhull/libqhull.h"
@@ -18,12 +18,7 @@
 #include <ctype.h>
 #include <math.h>
 
-#if __cplusplus
-extern "C" {
-  int isatty(int);
-}
-
-#elif _MSC_VER
+#if defined(_MSC_VER)
 #include <io.h>
 #define isatty _isatty
 /* int _isatty(int); */
@@ -41,18 +36,18 @@ int isatty(int);  /* returns 1 if stdin is a tty
 
   notes:
     restricted version of libqhull.c
-
-  see:
-    concise prompt below
+    same text as unix.c
+    see concise prompt below
+    limit maximum literal to 1800 characters
 */
 
 /* duplicated in qvoron_f.htm and qvoronoi.htm
    QJ and Qt are deprecated, but allowed for backwards compatibility
 */
-char hidden_options[]=" d n m v H U Qb QB Qc Qf Qg Qi Qm Qr QR Qv Qx TR E V Fa FA FC Fp FS Ft FV Pv Gt Q0 Q1 Q2 Q3 Q4 Q5 Q6 Q7 Q8 Q9 ";
+char hidden_options[]=" d n m v H U Qb QB Qc Qf Qg Qi Qm Qr Qv Qx TR E V Fa FA FC FM Fp FS Ft FV Gt Pv Q0 Q1 Q2 Q3 Q4 Q5 Q6 Q7 Q8 Q9 Q10 Q11 Q15 ";
 
 char qh_prompta[]= "\n\
-qvoronoi- compute the Voronoi diagram\n\
+qvoronoi -- compute the Voronoi diagram\n\
     http://www.qhull.org  %s\n\
 \n\
 input (stdin):\n\
@@ -64,29 +59,41 @@ options:\n\
     Qu   - compute furthest-site Voronoi diagram\n\
 \n\
 Qhull control options:\n\
+    Qa   - allow short input with more coordinates than points\n\
+    QRn  - random rotation (n=seed, n=0 time, n=-1 time/no rotate)\n\
+    Qs   - search all points for the initial simplex\n\
     Qz   - add point-at-infinity to Voronoi diagram\n\
 %s%s%s%s";  /* split up qh_prompt for Visual C++ */
 char qh_promptb[]= "\
-    Qs   - search all points for the initial simplex\n\
+\n\
+Qhull extra options:\n\
     QGn  - Voronoi vertices if visible from point n, -n if not\n\
     QVn  - Voronoi vertices for input point n, -n if not\n\
+    Qw   - allow option warnings\n\
+    Q12  - allow wide facets and wide dupridge\n\
+    Q14  - merge pinched vertices that create a dupridge\n\
+\n\
+T options:\n\
+    TFn  - report summary when n or more facets created\n\
+    TI file - input file, may be enclosed in single quotes\n\
+    TO file - output file, may be enclosed in single quotes\n\
+    Ts   - statistics\n\
+    Tv   - verify result: structure, convexity, and in-circle test\n\
+    Tz   - send all output to stdout\n\
 \n\
 ";
 char qh_promptc[]= "\
 Trace options:\n\
     T4   - trace at level n, 4=all, 5=mem/gauss, -1= events\n\
+    Ta   - annotate output with message codes\n\
+    TAn  - stop qhull after adding n vertices\n\
+     TCn - stop qhull after building cone for point n\n\
+     TVn - stop qhull after adding point n, -n for before\n\
     Tc   - check frequently during execution\n\
-    Ts   - statistics\n\
-    Tv   - verify result: structure, convexity, and in-circle test\n\
-    Tz   - send all output to stdout\n\
-    TFn  - report summary when n or more facets created\n\
-    TI file - input data from file, no spaces or single quotes\n\
-    TO file - output results to file, may be enclosed in single quotes\n\
+    Tf   - flush each qh_fprintf for debugging segfaults\n\
     TPn  - turn on tracing when point n added to hull\n\
      TMn - turn on tracing at merge n\n\
      TWn - trace merge facets when width > n\n\
-    TVn  - stop qhull after adding point n, -n for before (see TCn)\n\
-     TCn - stop qhull after building cone for point n (see TVn)\n\
 \n\
 Precision options:\n\
     Cn   - radius of centrum (roundoff added).  Merge facets if non-convex\n\
@@ -95,12 +102,12 @@ Precision options:\n\
     Rn   - randomly perturb computations by a factor of [1-n,1+n]\n\
     Wn   - min facet width for non-coincident point (before roundoff)\n\
 \n\
-Output formats (may be combined; if none, produces a summary to stdout):\n\
-    s    - summary to stderr\n\
+Output formats (may be combined; if none, summary to stdout):\n\
     p    - Voronoi vertices\n\
-    o    - OFF format (dim, Voronoi vertices, and Voronoi regions)\n\
-    i    - Delaunay regions (use 'Pp' to avoid warning)\n\
+    s    - summary to stderr\n\
     f    - facet dump\n\
+    i    - Delaunay regions (use 'Pp' to avoid warning)\n\
+    o    - OFF format (dim, Voronoi vertices, and Voronoi regions)\n\
 \n\
 ";
 char qh_promptd[]= "\
@@ -127,24 +134,24 @@ More formats:\n\
 \n\
 ";
 char qh_prompte[]= "\
-Geomview options (2-d only)\n\
+Geomview output (2-d only)\n\
     Ga   - all points as dots\n\
      Gp  -  coplanar points and vertices as radii\n\
      Gv  -  vertices as spheres\n\
+    Gc   - centrums\n\
+    GDn  - drop dimension n in 3-d and 4-d output\n\
+    Gh   - hyperplane intersections\n\
     Gi   - inner planes only\n\
      Gn  -  no planes\n\
      Go  -  outer planes only\n\
-    Gc   - centrums\n\
-    Gh   - hyperplane intersections\n\
     Gr   - ridges\n\
-    GDn  - drop dimension n in 3-d and 4-d output\n\
 \n\
 Print options:\n\
     PAn  - keep n largest Voronoi vertices by 'area'\n\
     Pdk:n - drop facet if normal[k] <= n (default 0.0)\n\
     PDk:n - drop facet if normal[k] >= n\n\
-    Pg   - print good Voronoi vertices (needs 'QGn' or 'QVn')\n\
     PFn  - keep Voronoi vertices whose 'area' is at least n\n\
+    Pg   - print good Voronoi vertices (needs 'QGn' or 'QVn')\n\
     PG   - print neighbors of good Voronoi vertices\n\
     PMn  - keep n Voronoi vertices with most merges\n\
     Po   - force output.  If error, output neighborhood of facet\n\
@@ -152,6 +159,7 @@ Print options:\n\
 \n\
     .    - list of all options\n\
     -    - one line descriptions of all options\n\
+    -?   - help with examples\n\
     -V   - version\n\
 ";
 /* for opts, don't assign 'e' or 'E' to a flag (already used for exponent) */
@@ -163,7 +171,7 @@ Print options:\n\
     synopsis for qhull
 */
 char qh_prompt2[]= "\n\
-qvoronoi- compute the Voronoi diagram.  Qhull %s\n\
+qvoronoi -- compute the Voronoi diagram.  Qhull %s\n\
     input (stdin): dimension, number of points, point coordinates\n\
     comments start with a non-numeric character\n\
 \n\
@@ -172,24 +180,26 @@ options (qvoronoi.htm):\n\
     Tv   - verify result: structure, convexity, and in-circle test\n\
     .    - concise list of all options\n\
     -    - one-line description of all options\n\
+    -?   - this message\n\
     -V   - version\n\
 \n\
 output options (subset):\n\
-    s    - summary of results (default)\n\
-    p    - Voronoi vertices\n\
-    o    - OFF file format (dim, Voronoi vertices, and Voronoi regions)\n\
+    Fi   - separating hyperplanes for bounded regions, 'Fo' for unbounded\n\
     FN   - count and Voronoi vertices for each Voronoi region\n\
     Fv   - Voronoi diagram as Voronoi vertices between adjacent input sites\n\
-    Fi   - separating hyperplanes for bounded regions, 'Fo' for unbounded\n\
     G    - Geomview output (2-d only)\n\
+    o    - OFF file format (dim, Voronoi vertices, and Voronoi regions)\n\
+    p    - Voronoi vertices\n\
     QVn  - Voronoi vertices for input point n, -n if not\n\
-    TO file- output results to file, may be enclosed in single quotes\n\
+    s    - summary of results (default)\n\
+    TI file - input file, may be enclosed in single quotes\n\
+    TO file - output file, may be enclosed in single quotes\n\
 \n\
 examples:\n\
-rbox c P0 D2 | qvoronoi s o         rbox c P0 D2 | qvoronoi Fi\n\
-rbox c P0 D2 | qvoronoi Fo          rbox c P0 D2 | qvoronoi Fv\n\
-rbox c P0 D2 | qvoronoi s Qu Fv     rbox c P0 D2 | qvoronoi Qu Fo\n\
-rbox c G1 d D2 | qvoronoi s p       rbox c P0 D2 | qvoronoi s Fv QV0\n\
+    rbox c P0 D2 | qvoronoi s o         rbox c P0 D2 | qvoronoi Fi\n\
+    rbox c P0 D2 | qvoronoi Fo          rbox c P0 D2 | qvoronoi Fv\n\
+    rbox c P0 D2 | qvoronoi s Qu Fv     rbox c P0 D2 | qvoronoi Qu Fo\n\
+    rbox c G1 d D2 | qvoronoi s p       rbox c P0 D2 | qvoronoi s Fv QV0\n\
 \n\
 ";
 /* for opts, don't assign 'e' or 'E' to a flag (already used for exponent) */
@@ -201,28 +211,33 @@ rbox c G1 d D2 | qvoronoi s p       rbox c P0 D2 | qvoronoi s Fv QV0\n\
     concise prompt for qhull
 */
 char qh_prompt3[]= "\n\
-Qhull %s.\n\
+Qhull %s\n\
 Except for 'F.' and 'PG', upper-case options take an argument.\n\
 \n\
- OFF_format     p_vertices     i_delaunay     summary        facet_dump\n\
+ facet-dump     Geomview       i-delaunay     off-format     p-vertices\n\
+ summary\n\
 \n\
- Fcoincident    Fd_cdd_in      FD_cdd_out     FF-dump-xridge Fi_bounded\n\
- Fxtremes       Fmerges        Fneighbors     FNeigh_region  FOptions\n\
- Fo_unbounded   FPoint_near    FQvoronoi      Fsummary       Fvoronoi\n\
- FIDs\n\
+ Fcoincident    Fd-cdd-in      FD-cdd-out     FF-dump-xridge Fi-bounded\n\
+ FIDs           Fmerges        Fneighbors     FNeigh-region  Fo-unbounded\n\
+ FOptions       FPoint-near    FQvoronoi      Fsummary       Fvoronoi\n\
+ Fxtremes\n\
 \n\
- Gvertices      Gpoints        Gall_points    Gno_planes     Ginner\n\
- Gcentrums      Ghyperplanes   Gridges        Gouter         GDrop_dim\n\
+ Gall-points    Gcentrums      GDrop-dim      Ghyperplanes   Ginner\n\
+ Gno-planes     Gouter         Gpoints        Gridges        Gvertices\n\
 \n\
- PArea_keep     Pdrop d0:0D0   Pgood          PFacet_area_keep\n\
- PGood_neighbors PMerge_keep   Poutput_forced Pprecision_not\n\
+ PArea-keep     Pdrop-d0:0D0   PFacet-area-keep  Pgood       PGood-neighbors\n\
+ PMerge-keep    Poutput-forced Pprecision-not\n\
 \n\
- QG_vertex_good Qsearch_1st    Qupper_voronoi QV_point_good  Qzinfinite\n\
- T4_trace       Tcheck_often   Tstatistics    Tverify        Tz_stdout\n\
- TFacet_log     TInput_file    TPoint_trace   TMerge_trace   TOutput_file\n\
- TWide_trace    TVertex_stop   TCone_stop\n\
+ Qallow-short   QG-vertex-good QRotate        Qsearch-all    Qupper-voronoi\n\
+ QV-point-good  Qwarn-allow    Qzinfinite     Q12-allow-wide Q14-merge-pinched\n\
 \n\
- Angle_max      Centrum_size   Random_dist    Wide_outside\n\
+ TFacet-log     TInput-file    TOutput-file   Tstatistics    Tverify\n\
+ Tz-stdout\n\
+\n\
+ T4-trace       Tannotate      TAdd-stop      Tcheck-often   TCone-stop\n\
+ Tflush         TMerge-trace   TPoint-trace   TVertex-stop   TWide-trace\n\
+\n\
+ Angle-max      Centrum-size   Random-dist    Wide-outside\n\
 ";
 
 /*-<a                             href="../libqhull/qh-qhull.htm#TOC"
@@ -252,6 +267,10 @@ int main(int argc, char *argv[]) {
     fprintf(stdout, qh_prompt2, qh_version);
     exit(qh_ERRnone);
   }
+  if (argc > 1 && *argv[1] == '-' && (*(argv[1] + 1) == '?' || *(argv[1] + 1) == '-')) { /* -? or --help */
+    fprintf(stdout, qh_prompt2, qh_version);
+    exit(qh_ERRnone);
+  }
   if (argc > 1 && *argv[1] == '-' && !*(argv[1]+1)) {
     fprintf(stdout, qh_prompta, qh_version,
                 qh_promptb, qh_promptc, qh_promptd, qh_prompte);
@@ -276,10 +295,6 @@ int main(int argc, char *argv[]) {
     qh_checkflags(qh qhull_command, hidden_options);
     qh_initflags(qh qhull_command);
     points= qh_readpoints(&numpoints, &dim, &ismalloc);
-    if (dim >= 5) {
-      qh_option("_merge-exact", NULL, NULL);
-      qh MERGEexact= True; /* 'Qx' always */
-    }
     qh_init_B(points, numpoints, dim, ismalloc);
     qh_qhull();
     qh_check_output();

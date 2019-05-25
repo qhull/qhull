@@ -23,6 +23,7 @@ win32-msvc* : QMAKE_LFLAGS += /INCREMENTAL:NO
 
 win32-msvc* : DEF_FILE += ../../src/libqhull_r/qhull_r-exports.def
 
+# Order object files by frequency of execution.  Small files at end.
 # libqhull_r/libqhull_r.pro and ../qhull-libqhull-src_r.pri have the same SOURCES and HEADERS
 
 SOURCES += ../libqhull_r/global_r.c

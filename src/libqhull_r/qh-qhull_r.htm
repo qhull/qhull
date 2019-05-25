@@ -9,7 +9,7 @@ content="text/html; charset=iso-8859-1">
 <body>
 <!-- Navigation links -->
 <p><a name="TOP"><b>Up:</b></a> <a
-href="http://www.qhull.org">Home page</a> for Qhull<br>
+href="http://www.qhull.org">Home page</a> for Qhull (<a href="../index.htm">local</a>)<br>
 <b>Up:</b> <a href="../../html/index.htm#TOC">Qhull manual</a>: Table of Contents <br>
 <b>Up:</b> <a href="../../html/qh-quick.htm#programs">Programs</a>
 &#149; <a href="../../html/qh-quick.htm#options">Options</a>
@@ -20,9 +20,8 @@ href="http://www.qhull.org">Home page</a> for Qhull<br>
 &#149; <a href="../../html/qh-optq.htm#qhull">Qhull</a>
 &#149; <a href="../../html/qh-optc.htm#prec">Precision</a>
 &#149; <a href="../../html/qh-optt.htm#trace">Trace</a>
-&#149; <a href="index.htm">Functions</a><br>
-<b>Up:</b> <a href="../../html/qh-code.htm#TOC">Qhull code: Table of Contents</a><br>
-<b>To:</b> <a href="index.htm">Qhull functions</a>, macros, and data structures<br>
+&#149; <a href="http://www.qhull.org/src/libqhull_r/index.htm">Functions</a> (<a href="index.htm">local</a>)<br>
+<b>Up:</b> <a href="../../html/qh-code.htm">Qhull code</a><br>
 <b>To:</b> <a href="qh-geom_r.htm">Geom</a> &#149; <a href="qh-globa_r.htm">Global</a>
 &#149; <a href="qh-io_r.htm">Io</a> &#149; <a href="qh-mem_r.htm">Mem</a>
 &#149; <a href="qh-merge_r.htm">Merge</a> &#149; <a href="qh-poly_r.htm">Poly</a>
@@ -42,7 +41,7 @@ the n-d beneath-beyond algorithm. See
 functions and base data types.  The top-level header file, <tt>libqhull_r.h</tt>,
 contains prototypes for these functions.</p>
 </blockquote>
-<p><b>Copyright &copy; 1995-2018 C.B. Barber</b></p>
+<p><b>Copyright &copy; 1995-2019 C.B. Barber</b></p>
 <hr>
 <p><a href="#TOP">&#187;</a> <a href="qh-geom_r.htm#TOC">Geom</a>
 <a name="TOC">&#149;</a> <a href="qh-globa_r.htm#TOC">Global</a>
@@ -79,14 +78,14 @@ distinguish facet-&gt;center </li>
 formats for printing (qh.PRINTout) </li>
 <li><a href="libqhull_r.h#qh_ALL">qh_ALL</a> argument flag
 for selecting everything </li>
-<li><a href="libqhull_r.h#qh_ERR">qh_ERR</a> Qhull exit
-codes for indicating errors </li>
+<li><a href="libqhull_r.h#qh_ERR">qh_ERR</a> Qhull exit status codes
+for indicating errors </li>
 <li><a href="libqhull_r.h#qh_FILEstderr">qh_FILEstderr</a> Fake stderr
 to distinguish error output from normal output [C++ only]</li>
 <li><a href="../qhull/unix_r.c#prompt">qh_prompt</a> version and long prompt for Qhull</li>
 <li><a href="../qhull/unix_r.c#prompt2">qh_prompt2</a> synopsis for Qhull</li>
 <li><a href="../qhull/unix_r.c#prompt3">qh_prompt3</a> concise prompt for Qhull</li>
-<li><a href="global_r.c#qh_version">qh_version</a> version stamp</li>
+<li><a href="global_r.c#version">qh_version</a> version stamp</li>
 </ul>
 
 <h3><a href="qh-qhull_r.htm#TOC">&#187;</a><a name="qmacro">libqhull_r.h other
@@ -142,10 +141,7 @@ if joggle ('QJn') and not merging, restart on precision errors</li>
 <h3><a href="qh-qhull_r.htm#TOC">&#187;</a><a name="qinit">Top-level routines for initializing and terminating Qhull (in other modules)</a></h3>
 <ul>
 <li><a href="global_r.c#freebuild">qh_freebuild</a>
-free memory used by qh_initbuild and qh_buildhull
-</li>
-<li><a href="global_r.c#checkflags">qh_checkflags</a>
-check flags for multiple frontends to qhull
+free memory used by qh_initbuild and qh_buildhull </li>
 <li><a href="global_r.c#freeqhull">qh_freeqhull</a>
 free memory used by qhull </li>
 <li><a href="global_r.c#init_A">qh_init_A</a> called
@@ -250,8 +246,8 @@ print all fields for a list of facets </li>
 <p><!-- Navigation links --> </p>
 <hr>
 <p><b>Up:</b>
-<a href="http://www.qhull.org">Home page for
-Qhull</a> <br>
+<a href="http://www.qhull.org">Home page</a> for
+Qhull (<a href="../index.htm">local</a>)<br>
 <b>Up:</b> <a href="../../html/index.htm#TOC">Qhull manual: Table of Contents</a> <br>
 <b>Up:</b> <a href="../../html/qh-quick.htm#programs">Programs</a>
 &#149; <a href="../../html/qh-quick.htm#options">Options</a>
@@ -262,9 +258,8 @@ Qhull</a> <br>
 &#149; <a href="../../html/qh-optq.htm#qhull">Qhull</a>
 &#149; <a href="../../html/qh-optc.htm#prec">Precision</a>
 &#149; <a href="../../html/qh-optt.htm#trace">Trace</a>
-&#149; <a href="index.htm">Functions</a><br>
-<b>Up:</b> <a href="../../html/qh-code.htm#TOC">Qhull code: Table of Contents</a> <br>
-<b>To:</b> <a href="index.htm">Qhull functions</a>, macros, and data structures<br>
+&#149; <a href="http://www.qhull.org/src/libqhull_r/index.htm">Functions</a> (<a href="index.htm">local</a>)<br>
+<b>Up:</b> <a href="../../html/qh-code.htm">Qhull code</a> <br>
 <b>To:</b> <a href="qh-geom_r.htm">Geom</a> &#149;
 <a href="qh-globa_r.htm">Global</a> &#149; <a href="qh-io_r.htm">Io</a>
 &#149; <a href="qh-mem_r.htm">Mem</a> &#149; <a href="qh-merge_r.htm">Merge</a>
@@ -278,7 +273,7 @@ Qhull</a> <br>
 src="../../html/qh--geom.gif" align="middle" width="40" height="40"></a><i>The
 Geometry Center Home Page </i></p>
 <p>Comments to: <a href=mailto:qhull@qhull.org>qhull@qhull.org</a>
-</a><br>
+<br>
 Created: May 2, 1997 --- <!-- hhmts start --> Last modified: see top <!-- hhmts end --> </p>
 </body>
 </html>
