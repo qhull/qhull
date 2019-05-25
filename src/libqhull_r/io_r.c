@@ -14,8 +14,8 @@
    This allows the user to avoid loading io_r.o from qhull.a
 
    Copyright (c) 1993-2019 The Geometry Center.
-   $Id: //main/2019/qhull/src/libqhull_r/io_r.c#1 $$Change: 2661 $
-   $DateTime: 2019/05/24 20:09:58 $$Author: bbarber $
+   $Id: //main/2019/qhull/src/libqhull_r/io_r.c#2 $$Change: 2664 $
+   $DateTime: 2019/05/25 13:44:04 $$Author: bbarber $
 */
 
 #include "qhull_ra.h"
@@ -3693,7 +3693,7 @@ int qh_readfeasible(qhT *qh, int dim, const char *curline) {
   notes:
     dimension will change in qh_initqhull_globals if qh.PROJECTinput
     uses malloc() since qh_mem not initialized
-    QH11012 FIXUP: qh_readpoints needs rewriting, too long
+    QH11012 FIX: qh_readpoints needs rewriting, too long
 */
 coordT *qh_readpoints(qhT *qh, int *numpoints, int *dimension, boolT *ismalloc) {
   coordT *points, *coords, *infinity= NULL;

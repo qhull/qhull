@@ -695,7 +695,7 @@ Do not report precision problems.
 Qhull control options
 .TP
 Qa
-Allow short input with fewer points than coordinates.
+Allow input with fewer or more points than coordinates
 .TP
 Qbk:0Bk:0
 Drop dimension k from the input points.  This allows the user to

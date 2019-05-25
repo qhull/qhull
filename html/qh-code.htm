@@ -406,11 +406,11 @@ Developing C++ code requires many conventions, idioms, and technical details.
 The following questions have either
 mystified the author or do not have a clear answer.  See also
 <a href="http://www.qhull.org/road/road-faq/xml/cpp-guideline.xml">C++ and Perl Guidelines</a>
-and FIXUP notes in the code.
+and 'QH110nn FIX' notes in the code.
 Please add notes to <a href="http://github.com/qhull/qhull/wiki">Qhull Wiki</a>.
 
 <ul>
-<li>FIXUP QH11028 Should return reference, but get reference to temporary
+<li>QH11028 FIX: Should return reference, but get reference to temporary
 <pre>iterator Coordinates::operator++() { return iterator(++i); }</pre>
 <li>size() as size_t, size_type, or int
 <li>Should all containers have a reserve()?
@@ -802,7 +802,7 @@ Qhull warnings.  Unless option '<a href="qh-optq.htm#Qw">Qw</a>' is specified, Q
 QH6035 or QH6037 and exits with qh_ERRinput. Inconsistent options typically report an error.
 <br>The input to Qhull specifies the dimension
 and number of points.  If the input contains
-the wrong number of coordinates, Qhull reports error QH6337 and exits with qh_ERRinput.
+fewer or more points than coordinates, Qhull reports error QH6337 and exits with qh_ERRinput.
 If option '<a href="qh-optq.htm#Qa">Qa</a>' is specified, it reports warning QH7073
 and continues execution. </li>
 <li>
@@ -1191,7 +1191,7 @@ Facet and vertex merging
 
 Other
 - Add a version flag to 'rbox' (cf. global_r.c/qh_version).  Currently, the release date is part of its help prompt.
-- Review effect of qh.GOODclosest on qh_buildcone_onlygood ('Qg', QH11030 FIXUP).  qh_findgood preserves old value if didn't find a good facet.  See qh_findgood_all for disabling
+- Review effect of qh.GOODclosest on qh_buildcone_onlygood ('Qg', QH11030 FIX).  qh_findgood preserves old value if didn't find a good facet.  See qh_findgood_all for disabling
 - Review the rules for -REALmax -- they look inconsistent.
   Why REALmax/2 and -REALmax/2?  The comments say 'avoid underflow'.  When was it introduced?
 - Review comment in qh_matchnewfacets -- "do not allocate memory after qh.hash_table (need to free it cleanly)"
@@ -1239,7 +1239,7 @@ To do for a furture version of the C++ interface
  - Add defineAs() to each object
  - Add Qtest::toString() functions for QhullPoint and others.  QByteArray and qstrdup()
  - Document C++ using Doxygen conventions (//! and //!<)
- - Should Qhull manage the output formats for doubles?  QH11010 FIXUP user_r.h defines qh_REAL_1 as %6.8g
+ - Should Qhull manage the output formats for doubles?  QH11010 FIX: user_r.h defines qh_REAL_1 as %6.8g
  - Allocate memory for QhullSet using Qhull.qhmem.  Create default constructors for QhullVertexSet etc.  Also mid() etc.
  - Add interior point for automatic translation?
  - Write a program with concurrent Qhull

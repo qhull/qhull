@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2019 C.B. Barber. All rights reserved.
-** $Id: //main/2019/qhull/src/libqhullcpp/QhullFacet.cpp#1 $$Change: 2661 $
-** $DateTime: 2019/05/24 20:09:58 $$Author: bbarber $
+** $Id: //main/2019/qhull/src/libqhullcpp/QhullFacet.cpp#2 $$Change: 2664 $
+** $DateTime: 2019/05/25 13:44:04 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -51,14 +51,14 @@ s_empty_facet= {
 #//!\name Constructors
 
 QhullFacet::
-QhullFacet(const Qhull &q) 
+QhullFacet(const Qhull &q)
 : qh_facet(&s_empty_facet)
 , qh_qh(q.qh())
 {
 }
 
 QhullFacet::
-QhullFacet(const Qhull &q, facetT *f) 
+QhullFacet(const Qhull &q, facetT *f)
 : qh_facet(f ? f : &s_empty_facet)
 , qh_qh(q.qh())
 {
@@ -145,7 +145,7 @@ tricoplanarOwner() const
         }
         return QhullFacet(qh_qh, qh_facet->f.triowner);
     }
-    return QhullFacet(qh_qh); 
+    return QhullFacet(qh_qh);
 }//tricoplanarOwner
 
 QhullPoint QhullFacet::
@@ -266,11 +266,11 @@ operator<<(ostream &os, const QhullFacet::PrintCenter &pr)
                 f->center= qh_facetcenter(pr.facet->qh(), f->vertices);
             }
             for(int k=0; k<numCoords; k++){
-                os << f->center[k] << " "; // QH11010 FIXUP: qh_REAL_1
+                os << f->center[k] << " "; // QH11010 FIX: qh_REAL_1
             }
         }else{
             for(int k=0; k<numCoords; k++){
-                os << qh_INFINITE << " "; // QH11010 FIXUP: qh_REAL_1
+                os << qh_INFINITE << " "; // QH11010 FIX: qh_REAL_1
             }
         }
     }else{ // qh CENTERtype==qh_AScentrum
@@ -282,7 +282,7 @@ operator<<(ostream &os, const QhullFacet::PrintCenter &pr)
             f->center= qh_getcentrum(pr.facet->qh(), f);
         }
         for(int k=0; k<numCoords; k++){
-            os << f->center[k] << " "; // QH11010 FIXUP: qh_REAL_1
+            os << f->center[k] << " "; // QH11010 FIX: qh_REAL_1
         }
     }
     if(pr.print_format==qh_PRINTgeom && numCoords==2){
@@ -381,7 +381,7 @@ operator<<(ostream &os, const QhullFacet::PrintHeader &pr)
     os << "- f" << facet.id() << endl;
     os << facet.printFlags("    - flags:");
     if(f->isarea){
-        os << "    - area: " << f->f.area << endl; //QH11010 FIXUP: 2.2g
+        os << "    - area: " << f->f.area << endl; //QH11010 FIX: 2.2g
     }else if(pr.facet->qh()->NEWfacets && f->visible && f->f.replace){
         os << "    - replacement: f" << f->f.replace->id << endl;
     }else if(f->newfacet){
@@ -398,13 +398,13 @@ operator<<(ostream &os, const QhullFacet::PrintHeader &pr)
     if(f->nummerge){
         os << "    - merges: " << f->nummerge << endl;
     }
-    os << facet.hyperplane().print("    - normal: ", "\n    - offset: "); // QH11010 FIXUP: %10.7g
+    os << facet.hyperplane().print("    - normal: ", "\n    - offset: "); // QH11010 FIX: %10.7g
     if(pr.facet->qh()->CENTERtype==qh_ASvoronoi || f->center){
         os << facet.printCenter(qh_PRINTfacets, "    - center: ");
     }
 #if qh_MAXoutside
     if(f->maxoutside > pr.facet->qh()->DISTround){
-        os << "    - maxoutside: " << f->maxoutside << endl; //QH11010 FIXUP: %10.7g
+        os << "    - maxoutside: " << f->maxoutside << endl; //QH11010 FIX: %10.7g
     }
 #endif
     QhullPointSet ps= facet.outsidePoints();
@@ -423,7 +423,7 @@ operator<<(ostream &os, const QhullFacet::PrintHeader &pr)
             os << furthest.print("  Furthest");
         }
 #if !qh_COMPUTEfurthest
-        os << "    - furthest distance= " << f->furthestdist << endl; //QH11010 FIXUP: %2.2g
+        os << "    - furthest distance= " << f->furthestdist << endl; //QH11010 FIX: %2.2g
 #endif
     }
     QhullPointSet cs= facet.coplanarPoints();
@@ -441,9 +441,9 @@ operator<<(ostream &os, const QhullFacet::PrintHeader &pr)
             os << "    - coplanar set:  " << cs.size() << " points.";
             os << furthest.print("  Furthest");
         }
-        // QH11027 FIXUP: Can/should zinc_(Zdistio) be called from C++ interface
+        // QH11027 FIX: Can/should zinc_(Zdistio) be called from C++ interface
         double d= facet.distance(furthest);
-        os << "      furthest distance= " << d << endl; //QH11010 FIXUP: %2.2g
+        os << "      furthest distance= " << d << endl; //QH11010 FIX: %2.2g
     }
     QhullVertexSet vs= facet.vertices();
     if(!vs.isEmpty()){

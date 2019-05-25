@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2019 C.B. Barber. All rights reserved.
-** $Id: //main/2019/qhull/src/libqhullcpp/RoadError.h#1 $$Change: 2661 $
-** $DateTime: 2019/05/24 20:09:58 $$Author: bbarber $
+** $Id: //main/2019/qhull/src/libqhullcpp/RoadError.h#2 $$Change: 2664 $
+** $DateTime: 2019/05/25 13:44:04 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -72,7 +72,7 @@ public:
 #//!\name GetSet
     bool                isValid() const { return log_event.isValid(); }
     int                 errorCode() const { return error_code; };
-   // QH11021 FIXUP: should RoadError provide errorMessage().  Currently what()
+   // QH11021 FIX: should RoadError provide errorMessage().  Currently what()
     RoadLogEvent        roadLogEvent() const { return log_event; };
 
 #//!\name Update

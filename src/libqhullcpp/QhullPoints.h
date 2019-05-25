@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2009-2019 C.B. Barber. All rights reserved.
-** $Id: //main/2019/qhull/src/libqhullcpp/QhullPoints.h#1 $$Change: 2661 $
-** $DateTime: 2019/05/24 20:09:58 $$Author: bbarber $
+** $Id: //main/2019/qhull/src/libqhullcpp/QhullPoints.h#2 $$Change: 2664 $
+** $DateTime: 2019/05/25 13:44:04 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -177,7 +177,7 @@ public:
     };//QhullPoints::iterator
 
 #//!\name QhullPoints::const_iterator
-    //!\todo QH11018 FIXUP: const_iterator same as iterator.  SHould have a common definition
+    //!\todo QH11018 FIX: const_iterator same as iterator.  SHould have a common definition
     class const_iterator : public QhullPoint {
 
     public:

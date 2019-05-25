@@ -7,8 +7,8 @@
    see qh-geom.htm and geom.h
 
    Copyright (c) 1993-2019 The Geometry Center.
-   $Id: //main/2019/qhull/src/libqhull/geom.c#1 $$Change: 2661 $
-   $DateTime: 2019/05/24 20:09:58 $$Author: bbarber $
+   $Id: //main/2019/qhull/src/libqhull/geom.c#2 $$Change: 2664 $
+   $DateTime: 2019/05/25 13:44:04 $$Author: bbarber $
 
    infrequent code goes into geom2.c
 */
@@ -277,7 +277,7 @@ LABELreturn_best:
     called by qh_findbestnew if point is not outside a new facet
     called by qh_check_maxout for each point in hull
     called by qh_check_bestdist for each point in hull (rarely used)
-    
+
     no early out -- use qh_findbest() or qh_findbestnew()
     Searches coplanar or better horizon facets
 
@@ -329,7 +329,7 @@ facetT *qh_findbesthorizon(boolT ischeckmax, pointT* point, facetT *startfacet, 
   facet= startfacet;
   while (True) {
     numfacet++;
-    is_5x_minsearch= (ischeckmax && facet->nummerge > 10 && qh_setsize(facet->neighbors) > 100);  /* QH11033 FIXUP qh_findbesthorizon: many tests for facets with many merges and neighbors.  Can hide coplanar facets, e.g., 'rbox 1000 s Z1 G1e-13' with 4400+ neighbors */ 
+    is_5x_minsearch= (ischeckmax && facet->nummerge > 10 && qh_setsize(facet->neighbors) > 100);  /* QH11033 FIX: qh_findbesthorizon: many tests for facets with many merges and neighbors.  Can hide coplanar facets, e.g., 'rbox 1000 s Z1 G1e-13' with 4400+ neighbors */
     trace4((qh ferr, 4002, "qh_findbesthorizon: test neighbors of f%d bestdist %2.2g f%d ischeckmax? %d noupper? %d minsearch %2.2g is_5x? %d searchdist %2.2g\n",
                 facet->id, *bestdist, getid_(bestfacet), ischeckmax, noupper,
                 minsearch, is_5x_minsearch, searchdist));
@@ -391,7 +391,7 @@ facetT *qh_findbesthorizon(boolT ischeckmax, pointT* point, facetT *startfacet, 
     if (newbest)
       zinc_(Znewbesthorizon);
   }
-  trace4((qh ferr, 4003, "qh_findbesthorizon: p%d, newbest? %d, bestfacet f%d, bestdist %2.2g, numfacet %d, coplanarfacets %d, numdist %d\n", 
+  trace4((qh ferr, 4003, "qh_findbesthorizon: p%d, newbest? %d, bestfacet f%d, bestdist %2.2g, numfacet %d, coplanarfacets %d, numdist %d\n",
     qh_pointid(point), newbest, getid_(bestfacet), *bestdist, numfacet, numcoplanar, *numpart - numpartinit));
   return bestfacet;
 }  /* findbesthorizon */
@@ -506,7 +506,7 @@ facetT *qh_findbestnew(pointT *point, facetT *startfacet,
 LABELreturn_bestnew:
   zadd_(Zfindnewtot, *numpart);
   zmax_(Zfindnewmax, *numpart);
-  trace4((qh ferr, 4004, "qh_findbestnew: bestfacet f%d bestdist %2.2g for p%d f%d bestoutside? %d \n", 
+  trace4((qh ferr, 4004, "qh_findbestnew: bestfacet f%d bestdist %2.2g for p%d f%d bestoutside? %d \n",
     getid_(bestfacet), *dist, qh_pointid(point), startfacet->id, bestoutside));
   qh IStracing= oldtrace;
   return bestfacet;

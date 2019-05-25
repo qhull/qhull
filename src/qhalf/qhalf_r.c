@@ -66,7 +66,7 @@ options:\n\
     Qt   - triangulated output\n\
 \n\
 Qhull control options:\n\
-    Qa   - allow short input with more coordinates than points\n\
+    Qa   - allow input with fewer or more points than coordinates\n\
     Qbk:0Bk:0 - remove k-th coordinate from input\n\
     QJn  - randomly joggle input in range [-n,n]\n\
     QRn  - random rotation (n=seed, n=0 time, n=-1 time/no rotate)\n\

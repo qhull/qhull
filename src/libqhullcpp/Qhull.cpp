@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2019 C.B. Barber. All rights reserved.
-** $Id: //main/2019/qhull/src/libqhullcpp/Qhull.cpp#1 $$Change: 2661 $
-** $DateTime: 2019/05/24 20:09:58 $$Author: bbarber $
+** $Id: //main/2019/qhull/src/libqhullcpp/Qhull.cpp#2 $$Change: 2664 $
+** $DateTime: 2019/05/25 13:44:04 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -96,7 +96,7 @@ Qhull::
 {
     // Except for cerr, does not throw errors
     if(qh_qh->hasQhullMessage()){
-        cerr<< "\nQhull output at end\n"; // QH11005 FIXUP: where should error and log messages go on ~Qhull?
+        cerr<< "\nQhull output at end\n"; // QH11005 FIX: where should error and log messages go on ~Qhull?
         cerr<< qh_qh->qhullMessage();
         qh_qh->clearQhullMessage();
     }

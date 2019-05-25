@@ -64,7 +64,7 @@ options:\n\
     Qu   - compute furthest-site Voronoi diagram\n\
 \n\
 Qhull control options:\n\
-    Qa   - allow short input with more coordinates than points\n\
+    Qa   - allow input with fewer or more points than coordinates\n\
     QRn  - random rotation (n=seed, n=0 time, n=-1 time/no rotate)\n\
     Qs   - search all points for the initial simplex\n\
     Qz   - add point-at-infinity to Voronoi diagram\n\

@@ -1,4 +1,4 @@
-$Id: //main/2019/qhull/src/Changes.txt#2 $
+$Id: //main/2019/qhull/src/Changes.txt#3 $
 
 .............This file lists all changes to qhull and rbox.....................
 
@@ -36,29 +36,27 @@ Suggestions
 ====
 
 - Add user_eg3 to libqhull_r/Makefile
-- Fix build for DevStudio Release-Win32, Use it for the release
+- Check build for DevStudio Release-Win32
 - Check build for QtCreator
 - Check vcxproj files for DevStudio
-- Review gcc warnings from a recent version of gcc
-- Review Qhull email and github discussions for issues that can be fixed quickly
-- Should Makefile and CMake builds, build libqhull_r.dll or qhull_r.dll?
-- Combine QJ and C-n with QJ as a fallback in case of error in pre- or post-merging
-   rbox 100 s W1e-13 C1,2e-13 D6 | qhull Q14 d Qbb QJ1e-11 C-0
+- Check html links
 - Check pictures with Geomview
-- Compare old and new error codes (qh_fprintf)
+- Review gcc warnings from a current version of gcc
+- Review Qhull email and github discussions for issues that can be fixed quickly
+- Review repurposed error codes (qh_fprintf)
+- Should Makefile and CMake builds, build libqhull_r.dll or qhull_r.dll?
 - qhulltest: Add check for dll access.  It currently exits without an error message
-- Check q_test against q_test.bat
+- Update q_test.bat for changes to q_test
 - How to configure Firefox for html access to src/*/*.c files
 - Test qh_QHpointer
 - Check for tests of new options in q_test
-- libqhull/Makefile: add user_eg static library and fix shared library under MSYS
+- libqhull/Makefile: add user_eg static library and review shared library
 - libqhull_r/Makefile: add user_eg3 build and user_eg shared library
-- Recreate build/qhull*.pc.in for pkg-config, it was apparently not updated for 2015.2
 - Review Qhull performance for Peterka et al and Li and Snoeyink, 64-bit vs. 32-bit
-- Review random spherical points
-- Review dimension reduction 
+- Review random spherical points via a Gaussian distribution
+- Review dimension reduction via Johnson-Lindenstrauss flattening
 - Review bulk qh_addpoint using a box around qh.interior_point to identify first facet
-- Review dupridge, can they be avoided by topological constraints on facet merge?
+- Review dupridge, can dupridges be avoided with topological constraints?
 
 =============
 == 2019
@@ -67,9 +65,8 @@ Suggestions
 Qhull 2019.0.1 2019/05/24 (7.3.1)
 
 Qhull options
-- Error if option warning (e.g., rbox 10 | qhull Qy), override error with 'Qw'
-- Error if 'd', 'v', or 'Hn,n,n' are used together
-- New option 'Qallow-short': allow short input with fewer points than coordinates
+- Disallow unknown options and other option errors, allow option warnings with 'Qw'
+- New option 'Qallow-short': allow input with fewer or more points than coordinates
 - New option 'Qwarn-allow': allow option warnings
 - New option 'TAn': stop after adding n vertices
 - New option 'Tf': flush after qh_fprintf for debugging segfaults
@@ -80,9 +77,8 @@ Qhull options
   In 2015.2 by default, Qhull merged by mergetype/angle with lower angles first
 - Option 'TP-1' turns on tracing after qh_buildhull and qh_postmerge
   It traces qh_check_maxout, qh_prepare_output, qh_triangulate, qh_voronoi_center
-- Allow '-?' and "--help" (or "--") as alternatives for short prompts
-  Qhull does not support '--' options
-  Git for Windows v2.21.0 does not support isatty ('winpty qhull' is OK)
+- Options '--help', '-?', and '--' display a short help message
+  Qhull does not support '--' options.  Git for Windows v2.21.0 does not support isatty ('winpty qhull' is OK)
 - Allow Qhull extra options Q12 and Q14 for qconvex/qdelaunay/qhalf/qvoronoi
 - Allow option 'QRn' (random rotate) for qdelaunay/qhalf/qvoronoi
 - Alphabetize short prompts (qhull .)
@@ -91,6 +87,7 @@ Qhull options
 - Add 'Number of merged pinched vertices' to summary ('s')
 - Add 'TI file' to help message for qconvex/qdelaunay/qhalf/qvoronoi
 - Dropped experimental option 'Q16-simplex-merge'.   Centrums are required for convexity
+- Error if 'd', 'v', or 'Hn,n,n' are used together
 - Ignore missing space after 'TI' or 'TO'.  Allow 'TIinputfile' and 'TOoutputfile'
 - Prefix option errors and warnings with 'qhull option error:' or 'qhull option warning:'
 - Remove hidden option 'normals' from help prompts for qdelaunay, qhalf, qvoronoi
@@ -106,7 +103,6 @@ Qhull builds, scripts, and debugging
 - Makefile/benchmark: Add q_benchmark, 10 runs of each
 - Makefile/clean: Delete linked files from src/libqhull and src/libqhull_r, as in their Makefiles
 - Makefile/help: Add 'make all' to 'make help' prompts
-- Makefile/libqhull_r.so: Add target for creating symbolic link
 - Makefile/qhullx: Add test of testqset and testqset_r
 - Makefile/qhullx: Create bin/ directory if missing
 - Makefile/test: Add user_eg3 help prompt
@@ -255,7 +251,7 @@ Qhull documentation and statistics
 - Add links to Wiki, http://github.com/qhull/qhull/wiki
 - Add links to local home page (index.htm)
 - Add GitHub, Scholar, and Code to navigation bar on home page
-- Change numbered fixups to 'QH11... FIXUP: '
+- Change numbered fixups to 'QH110nn FIX:'
 - Chrome and Internet Explorer load '.c' and '.h' files as text/html from the Web
   These browsers along with Firefox do not read disk files as text/html 
   Changed 'Functions' link from a local link to "http://www.qhull.org/src/libqhull_r/index.htm"

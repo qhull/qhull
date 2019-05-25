@@ -80,7 +80,7 @@ Code flags --
 #define MSG_STDERR  8000  /* log messages Written to qh.ferr */
 #define MSG_OUTPUT  9000
 #define MSG_QHULL_ERROR 10000 /* errors thrown by QhullError.cpp (QHULLlastError is in QhullError.h) */
-#define MSG_FIXUP  11000  /* Document as 'QH11... FIXUP ...' */
+#define MSG_FIXUP  11000  /* Document as 'QH11... FIX: ...' */
 #define MSG_MAXLEN  3000 /* qh_printhelp_degenerate() in user.c */
 
 
@@ -177,7 +177,7 @@ Code flags --
 
     Defined as 'int' for C-code compatibility and QH11026
 
-    QH11026 FIXUP countT may be defined as a unsigned value, but several code issues need to be solved first.  See countT in Changes.txt
+    QH11026 FIX: countT may be defined as a unsigned value, but several code issues need to be solved first.  See countT in Changes.txt
 */
 
 #ifndef DEFcountT

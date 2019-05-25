@@ -250,7 +250,7 @@ triangulations, triangulation of non-convex surfaces, mesh
 generation of non-convex objects, or medium-sized inputs in 9-D
 and higher. </p>
 
-<p>This is a big package with many options. It is one of the
+<p>This is a big package with many options. For 32-bit code, it is one of the
 fastest available. It is the only 3-d and higher code that handles precision
 problems due to floating point arithmetic. For example, it
 implements the identity function for extreme points (see <a
@@ -285,7 +285,8 @@ but do not handle them.</p>
 <p><a href=http://www.cgal.org>CGAL</a> is a library of efficient and reliable
 geometric algorithms.  It uses C++ templates and the Boost library to produce dimension-specific
 code.  This allows more efficient use of memory than Qhull's general-dimension
-code.  CGAL simulates arbitrary precision while Qhull handles round-off error
+code.  For 64-bit code, CGAL uses significantly less memory than Qhull and runs faster.
+CGAL simulates arbitrary precision while Qhull handles round-off error
 with thick facets.  Compare the two approaches with <a href="http://doc.cgal.org/latest/Manual/devman_robustness.html">Robustness Issues in CGAL</a>,
 and <a href="qh-impre.htm">Imprecision in Qhull</a>.
 

@@ -66,7 +66,7 @@ options:\n\
     Qu   - compute furthest-site Delaunay triangulation\n\
 \n\
 Qhull control options:\n\
-    Qa  - allow short input with more coordinates than points\n\
+    Qa   - allow input with fewer or more points than coordinates\n\
     QJn  - randomly joggle input in range [-n,n]\n\
     QRn  - random rotation (n=seed, n=0 time, n=-1 time/no rotate)\n\
     Qs   - search all points for the initial simplex\n\

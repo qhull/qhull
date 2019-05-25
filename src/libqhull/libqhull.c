@@ -11,8 +11,8 @@
    see qhull_a.h for internal functions
 
    Copyright (c) 1993-2019 The Geometry Center.
-   $Id: //main/2019/qhull/src/libqhull/libqhull.c#1 $$Change: 2661 $
-   $DateTime: 2019/05/24 20:09:58 $$Author: bbarber $
+   $Id: //main/2019/qhull/src/libqhull/libqhull.c#2 $$Change: 2664 $
+   $DateTime: 2019/05/25 13:44:04 $$Author: bbarber $
 */
 
 #include "qhull_a.h"
@@ -148,7 +148,7 @@ void qh_qhull(void) {
     assumes point is near its best facet and not at a local minimum of a lens
       distributions.  Use qh_findbestfacet to avoid this case.
     uses qh.visible_list, qh.newfacet_list, qh.delvertex_list, qh.NEWfacets
-    if called from a user application after qh_qhull and 'QJ' (joggle), 
+    if called from a user application after qh_qhull and 'QJ' (joggle),
       facet merging for precision problems is disabled by default
 
   design:
@@ -413,7 +413,7 @@ vertexT *qh_buildcone(pointT *furthest, facetT *facet, int goodhorizon, facetT *
     }
   }else if(qh MERGEpinched) {
 #ifndef qh_NOmerge
-    if (qh_buildcone_mergepinched(apex, facet, retryfacet /* qh.newfacet_list */)) 
+    if (qh_buildcone_mergepinched(apex, facet, retryfacet /* qh.newfacet_list */))
       return NULL;
 #else
     qh_fprintf(qh ferr, 6375, "qhull option error (qh_buildcone): option 'Q14' (qh.MERGEpinched) is not available due to qh_NOmerge\n");
@@ -527,7 +527,7 @@ boolT qh_buildcone_mergepinched(vertexT *apex, facetT *facet, facetT **retryface
 
   notes:
     called from qh_buildcone
-    QH11030 FIXUP Review effect of qh.GOODclosest on qh_buildcone_onlygood ('Qg').  qh_findgood preserves old value if didn't find a good facet.  See qh_findgood_all for disabling
+    QH11030 FIX: Review effect of qh.GOODclosest on qh_buildcone_onlygood ('Qg').  qh_findgood preserves old value if didn't find a good facet.  See qh_findgood_all for disabling
 
   design:
     make hyperplanes for point
@@ -759,7 +759,7 @@ At %02d:%02d:%02d & %2.5g CPU secs, qhull has created %d facets and merged %d.\n
 */
 void qh_errexit2(int exitcode, facetT *facet, facetT *otherfacet) {
   qh tracefacet= NULL;  /* avoid infinite recursion through qh_fprintf */
-  qh traceridge= NULL; 
+  qh traceridge= NULL;
   qh tracevertex= NULL;
   qh_errprint("ERRONEOUS", facet, otherfacet, NULL, NULL);
   qh_errexit(exitcode, NULL, NULL);

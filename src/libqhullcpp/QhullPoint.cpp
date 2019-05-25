@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2009-2019 C.B. Barber. All rights reserved.
-** $Id: //main/2019/qhull/src/libqhullcpp/QhullPoint.cpp#1 $$Change: 2661 $
-** $DateTime: 2019/05/24 20:09:58 $$Author: bbarber $
+** $Id: //main/2019/qhull/src/libqhullcpp/QhullPoint.cpp#2 $$Change: 2664 $
+** $DateTime: 2019/05/25 13:44:04 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -23,7 +23,7 @@ namespace orgQhull {
 
 
 QhullPoint::
-QhullPoint(const Qhull &q) 
+QhullPoint(const Qhull &q)
 : point_coordinates(0)
 , qh_qh(q.qh())
 , point_dimension(q.hullDimension())
@@ -31,7 +31,7 @@ QhullPoint(const Qhull &q)
 }//QhullPoint
 
 QhullPoint::
-QhullPoint(const Qhull &q, coordT *c) 
+QhullPoint(const Qhull &q, coordT *c)
 : point_coordinates(c)
 , qh_qh(q.qh())
 , point_dimension(q.hullDimension())
@@ -40,7 +40,7 @@ QhullPoint(const Qhull &q, coordT *c)
 }//QhullPoint dim, coordT
 
 QhullPoint::
-QhullPoint(const Qhull &q, int pointDimension, coordT *c) 
+QhullPoint(const Qhull &q, int pointDimension, coordT *c)
 : point_coordinates(c)
 , qh_qh(q.qh())
 , point_dimension(pointDimension)
@@ -49,7 +49,7 @@ QhullPoint(const Qhull &q, int pointDimension, coordT *c)
 
 //! QhullPoint of Coordinates with point_dimension==c.count()
 QhullPoint::
-QhullPoint(const Qhull &q, Coordinates &c) 
+QhullPoint(const Qhull &q, Coordinates &c)
 : point_coordinates(c.data())
 , qh_qh(q.qh())
 , point_dimension(c.count())
@@ -172,7 +172,7 @@ using orgQhull::QhullPoint;
 ostream &
 operator<<(ostream &os, const QhullPoint::PrintPoint &pr)
 {
-    QhullPoint p= *pr.point; 
+    QhullPoint p= *pr.point;
     countT i= p.id();
     if(pr.point_message){
         if(*pr.point_message){
@@ -186,18 +186,18 @@ operator<<(ostream &os, const QhullPoint::PrintPoint &pr)
     for(int k=p.dimension(); k--; ){
         realT r= *c++;
         if(pr.point_message){
-            os << " " << r; // QH11010 FIXUP: %8.4g
+            os << " " << r; // QH11010 FIX: %8.4g
         }else{
-            os << " " << r; // QH11010 FIXUP: qh_REAL_1
+            os << " " << r; // QH11010 FIX: qh_REAL_1
         }
     }
     os << std::endl;
     return os;
 }//printPoint
 
-ostream & 
+ostream &
 operator<<(ostream &os, const QhullPoint &p)
 {
-    os << p.print(""); 
+    os << p.print("");
     return os;
 }//operator<<

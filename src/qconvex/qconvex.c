@@ -61,7 +61,7 @@ options:\n\
     Qt   - triangulated output\n\
 \n\
 Qhull control options:\n\
-    Qa   - allow short input with more coordinates than points\n\
+    Qa   - allow input with fewer or more points than coordinates\n\
     Qbk:n   - scale coord k so that low bound is n\n\
       QBk:n - scale coord k so that upper bound is n (QBk is %2.2g)\n\
     QbB  - scale input to unit cube centered at the origin\n\

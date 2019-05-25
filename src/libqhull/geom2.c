@@ -8,8 +8,8 @@
    see qh-geom.htm and geom.h
 
    Copyright (c) 1993-2019 The Geometry Center.
-   $Id: //main/2019/qhull/src/libqhull/geom2.c#1 $$Change: 2661 $
-   $DateTime: 2019/05/24 20:09:58 $$Author: bbarber $
+   $Id: //main/2019/qhull/src/libqhull/geom2.c#2 $$Change: 2664 $
+   $DateTime: 2019/05/25 13:44:04 $$Author: bbarber $
 
    frequently used code goes into geom.c
 */
@@ -23,7 +23,7 @@
 
   qh_copypoints( points, numpoints, dimension )
     return qh_malloc'd copy of points
-  
+
   notes:
     qh_free the returned points to avoid a memory leak
 */
@@ -92,13 +92,13 @@ realT qh_determinant(realT **rows, int dim, boolT *nearzero) {
   }else if (dim == 2) {
     det= det2_(rows[0][0], rows[0][1],
                  rows[1][0], rows[1][1]);
-    if (fabs_(det) < 10*qh NEARzero[1])  /* QH11031 FIXUP not really correct, what should this be? */
+    if (fabs_(det) < 10*qh NEARzero[1])  /* QH11031 FIX: not really correct, what should this be? */
       *nearzero= True;
   }else if (dim == 3) {
     det= det3_(rows[0][0], rows[0][1], rows[0][2],
                  rows[1][0], rows[1][1], rows[1][2],
                  rows[2][0], rows[2][1], rows[2][2]);
-    if (fabs_(det) < 10*qh NEARzero[2])  /* QH11031 FIXUP what should this be?  det 5.5e-12 was flat for qh_maxsimplex of qdelaunay 0,0 27,27 -36,36 -9,63 */
+    if (fabs_(det) < 10*qh NEARzero[2])  /* QH11031 FIX: what should this be?  det 5.5e-12 was flat for qh_maxsimplex of qdelaunay 0,0 27,27 -36,36 -9,63 */
       *nearzero= True;
   }else {
     qh_gausselim(rows, dim, dim, &sign, nearzero);  /* if nearzero, diagonal still ok */
@@ -392,7 +392,7 @@ realT qh_distnorm(int dim, pointT *point, pointT *normal, realT *offsetp) {
       to a normalized hyperplane
     maxabs is the maximum absolute value of a coordinate
     maxsumabs is the maximum possible sum of absolute coordinate values
-    if qh.RANDOMdist ('Qr'), adjusts qh_distround 
+    if qh.RANDOMdist ('Qr'), adjusts qh_distround
 
   returns:
     max dist round for qh.REALepsilon and qh.RANDOMdist
@@ -1279,7 +1279,7 @@ void qh_maxsimplex(int dim, setT *maxpoints, pointT *points, int numpoints, setT
       }
     }
     maybe_falsenarrow= False;
-    if (k == dim && prevdet > 0.0 && maxdet > 0.0 && maxdet/prevdet < 4e-6) /* QH11032 FIXUP how to detect a false narrow initial hull?, ratio of 3.5e-6 for 'rbox M3,4 z 100 D2 | qhull d QJ3.95e-6' */
+    if (k == dim && prevdet > 0.0 && maxdet > 0.0 && maxdet/prevdet < 4e-6) /* QH11032 FIX: how to detect a false narrow initial hull?, ratio of 3.5e-6 for 'rbox M3,4 z 100 D2 | qhull d QJ3.95e-6' */
       maybe_falsenarrow= True;
     if (!maxpoint || maxnearzero || maybe_falsenarrow) {
       zinc_(Zsearchpoints);
@@ -2122,8 +2122,8 @@ boolT qh_sharpnewfacets(void) {
     optionally returns vertex and vertex2
 
   notes:
-    called by qh_partitioncoplanar, qh_mergefacet, qh_check_maxout, qh_checkpoint 
-*/       
+    called by qh_partitioncoplanar, qh_mergefacet, qh_check_maxout, qh_checkpoint
+*/
 coordT qh_vertex_bestdist(setT *vertices) {
   vertexT *vertex, *vertex2;
 

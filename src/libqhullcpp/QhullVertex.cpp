@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2019 C.B. Barber. All rights reserved.
-** $Id: //main/2019/qhull/src/libqhullcpp/QhullVertex.cpp#1 $$Change: 2661 $
-** $DateTime: 2019/05/24 20:09:58 $$Author: bbarber $
+** $Id: //main/2019/qhull/src/libqhullcpp/QhullVertex.cpp#2 $$Change: 2664 $
+** $DateTime: 2019/05/25 13:44:04 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -82,7 +82,7 @@ operator<<(ostream &os, const QhullVertex::PrintVertex &pr)
     os << "p" << p.id() << " (v" << v.id() << "): ";
     const realT *c= p.coordinates();
     for(int k= p.dimension(); k--; ){
-        os << " " << *c++; // QH11010 FIXUP: %5.2g
+        os << " " << *c++; // QH11010 FIX: %5.2g
     }
     if(v.getVertexT()->deleted){
         os << " deleted";

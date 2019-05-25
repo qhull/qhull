@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2019 C.B. Barber. All rights reserved.
-** $Id: //main/2019/qhull/src/libqhullcpp/QhullSet.cpp#1 $$Change: 2661 $
-** $DateTime: 2019/05/24 20:09:58 $$Author: bbarber $
+** $Id: //main/2019/qhull/src/libqhullcpp/QhullSet.cpp#2 $$Change: 2664 $
+** $DateTime: 2019/05/25 13:44:04 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -26,7 +26,7 @@ s_empty_set;
 #//!\name Constructors
 
 QhullSetBase::
-QhullSetBase(const Qhull &q, setT *s) 
+QhullSetBase(const Qhull &q, setT *s)
 : qh_set(s ? s : &s_empty_set)
 , qh_qh(q.qh())
 {
@@ -48,7 +48,7 @@ count(const setT *set)
     if ((size= sizep->i)) {
         size--;
         if (size > set->maxsize) {
-            // QH11022 FIXUP: How to add additional output to a error? -- qh_setprint(qhmem.ferr, "set: ", set);
+            // QH11022 FIX: How to add additional output to a error? -- qh_setprint(qhmem.ferr, "set: ", set);
             throw QhullError(10032, "QhullSet internal error: current set size %d is greater than maximum size %d\n",
                 size, set->maxsize);
         }

@@ -834,7 +834,7 @@ qhull(1)                                                 qhull(1)
 
        Qhull control options
 
-       Qa     Allow short input with fewer points than coordinates.
+       Qa     Allow input with fewer or more points than coordinates
        
        Qbk:0Bk:0
               Drop dimension  k  from  the  input  points.   This

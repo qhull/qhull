@@ -7,8 +7,8 @@
    see qh-qhull.htm, qhull_a.h
 
    Copyright (c) 1993-2019 The Geometry Center.
-   $Id: //main/2019/qhull/src/libqhull/libqhull.h#1 $$Change: 2661 $
-   $DateTime: 2019/05/24 20:09:58 $$Author: bbarber $
+   $Id: //main/2019/qhull/src/libqhull/libqhull.h#2 $$Change: 2664 $
+   $DateTime: 2019/05/25 13:44:04 $$Author: bbarber $
 
    NOTE: access to qh_qh is via the 'qh' macro.  This allows
    qh_qh to be either a pointer or a structure.  An example
@@ -301,15 +301,15 @@ struct facetT {
   facetT  *next;        /* next facet in the facet_list or facet_tail */
   setT    *vertices;    /* vertices for this facet, inverse sorted by ID
                            if simplicial, 1st vertex was apex/furthest
-                           qh_reduce_vertices removes extraneous vertices via qh_remove_extravertices 
+                           qh_reduce_vertices removes extraneous vertices via qh_remove_extravertices
                            if f.visible, vertices may be on qh.del_vertices */
   setT    *ridges;      /* explicit ridges for nonsimplicial facets or nonsimplicial neighbors.
                            For simplicial facets, neighbors define the ridges
                            qh_makeridges() converts simplicial facets by creating ridges prior to merging
-                           If qh.NEWtentative, new facets have horizon ridge, but not vice versa 
+                           If qh.NEWtentative, new facets have horizon ridge, but not vice versa
                            if f.visible && qh.NEWfacets, ridges is empty */
-  setT    *neighbors;   /* neighbors of the facet.  Neighbors may be f.visible 
-                           If simplicial, the kth neighbor is opposite the kth vertex and the 
+  setT    *neighbors;   /* neighbors of the facet.  Neighbors may be f.visible
+                           If simplicial, the kth neighbor is opposite the kth vertex and the
                            first neighbor is the horizon facet for the first vertex.
                            dupridges marked by qh_DUPLICATEridge (0x01) and qh_MERGEridge (0x02)
                            if f.visible && qh.NEWfacets, neighbors is empty */
@@ -509,7 +509,7 @@ struct qhT {
     copied into qh by qh_setflags().  qh-quick.htm#options defines the flags.
 */
   boolT ALLpoints;        /* true 'Qs' if search all points for initial simplex */
-  boolT ALLOWshort;       /* true 'Qa' allow short input and truncate long input */
+  boolT ALLOWshort;       /* true 'Qa' allow input with fewer or more points than coordinates */
   boolT ALLOWwarning;     /* true 'Qw' if allow option warnings */
   boolT ALLOWwide;        /* true 'Q12' if allow wide facets and wide dupridges, c.f. qh_WIDEmaxoutside */
   boolT ANGLEmerge;       /* true 'Q1' if sort potential merges by type/angle instead of type/distance  */

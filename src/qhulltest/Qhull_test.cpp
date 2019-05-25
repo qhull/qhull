@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2019 C.B. Barber. All rights reserved.
-** $Id: //main/2019/qhull/src/qhulltest/Qhull_test.cpp#1 $$Change: 2661 $
-** $DateTime: 2019/05/24 20:09:58 $$Author: bbarber $
+** $Id: //main/2019/qhull/src/qhulltest/Qhull_test.cpp#2 $$Change: 2664 $
+** $DateTime: 2019/05/25 13:44:04 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -138,7 +138,7 @@ t_message()
             const char *s= e.what();
             cout << "INFO   : Caught " << s;
             QCOMPARE(QString::fromStdString(s).left(6), QString("QH6029"));
-            // QH11025 FIXUP: review decision to clearQhullMessage at QhullError()            // Cleared when copied to QhullError
+            // QH11025 FIX: review decision to clearQhullMessage at QhullError()            // Cleared when copied to QhullError
             QVERIFY(!q.hasQhullMessage());
             // QCOMPARE(q.qhullMessage(), QString::fromStdString(s).remove(0, 7));
             // QCOMPARE(q.qhullStatus(), 6029);
@@ -166,7 +166,7 @@ t_message()
             cout << "INFO   : Caught " << e;
             QCOMPARE(e.errorCode(), 6029);
         }
-        //QH11025 FIXUP: Qhullmessage cleared when QhullError thrown.  Switched to e
+        //QH11025 FIX: Qhullmessage cleared when QhullError thrown.  Switched to e
         //QVERIFY(q.hasQhullMessage());
         //QCOMPARE(QString::fromStdString(q.qhullMessage()).left(6), QString("QH6029"));
         q.clearQhullMessage();
@@ -185,7 +185,7 @@ t_message()
             cout << "INFO   : Caught " << s;
             QCOMPARE(QString::fromLatin1(s).left(6), QString("QH6023"));
         }
-        //QH11025 FIXUP: Qhullmessage cleared when QhullError thrown.  Switched to e
+        //QH11025 FIX: Qhullmessage cleared when QhullError thrown.  Switched to e
         //QVERIFY(q.hasQhullMessage());
         //QCOMPARE(QString::fromStdString(q.qhullMessage()).left(17), QString("qhull: no message"));
         //QCOMPARE(q.qhullStatus(), 6023);
@@ -205,7 +205,7 @@ t_message()
             cout << "INFO   : Caught " << s;
             QCOMPARE(QString::fromLatin1(s).left(6), QString("QH6029"));
         }
-        //QH11025 FIXUP: QhullMessage cleared when QhullError thrown.  Switched to e
+        //QH11025 FIX: QhullMessage cleared when QhullError thrown.  Switched to e
         //QVERIFY(q.hasQhullMessage());
         //QCOMPARE(QString::fromStdString(q.qhullMessage()).left(9), QString("qhull err"));
         //QCOMPARE(q.qhullStatus(), 6029);

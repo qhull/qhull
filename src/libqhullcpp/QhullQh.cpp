@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2019 C.B. Barber. All rights reserved.
-** $Id: //main/2019/qhull/src/libqhullcpp/QhullQh.cpp#1 $$Change: 2661 $
-** $DateTime: 2019/05/24 20:09:58 $$Author: bbarber $
+** $Id: //main/2019/qhull/src/libqhullcpp/QhullQh.cpp#2 $$Change: 2664 $
+** $DateTime: 2019/05/25 13:44:04 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -88,7 +88,7 @@ checkAndFreeQhullMemory()
 void QhullQh::
 appendQhullMessage(const string &s)
 {
-    if(output_stream && use_output_stream && this->USEstdout){ 
+    if(output_stream && use_output_stream && this->USEstdout){
         *output_stream << s;
     }else if(error_stream){
         *error_stream << s;
@@ -111,7 +111,7 @@ bool QhullQh::
 hasQhullMessage() const
 {
     return (!qhull_message.empty() || qhull_status!=qh_ERRnone);
-    // QH11006 FIXUP: inconsistent usage with Rbox.  hasRboxMessage just tests rbox_status.  No appendRboxMessage()
+    // QH11006 FIX: inconsistent usage with Rbox.  hasRboxMessage just tests rbox_status.  No appendRboxMessage()
 }
 
 void QhullQh::
@@ -134,7 +134,7 @@ maybeThrowQhullMessage(int exitCode)
     if(qhull_status!=qh_ERRnone){
         QhullError e(qhull_status, qhull_message);
         clearQhullMessage();
-        throw e; // QH11007 FIXUP: copy constructor is expensive if logging
+        throw e; // QH11007 FIX: copy constructor is expensive if logging
     }
 }//maybeThrowQhullMessage
 
@@ -229,7 +229,7 @@ void qh_fprintf(qhT *qh, FILE *fp, int msgcode, const char *fmt, ... ) {
         va_end(args);
         return;
     }
-    // QH11008 FIXUP: how do users trap messages and handle input?  A callback?
+    // QH11008 FIX: how do users trap messages and handle input?  A callback?
     char newMessage[MSG_MAXLEN];
     vsnprintf(newMessage, sizeof(newMessage), fmt, args);
     qhullQh->appendQhullMessage(newMessage);

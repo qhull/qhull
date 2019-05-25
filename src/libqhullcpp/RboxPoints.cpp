@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2019 C.B. Barber. All rights reserved.
-** $Id: //main/2019/qhull/src/libqhullcpp/RboxPoints.cpp#1 $$Change: 2661 $
-** $DateTime: 2019/05/24 20:09:58 $$Author: bbarber $
+** $Id: //main/2019/qhull/src/libqhullcpp/RboxPoints.cpp#2 $$Change: 2664 $
+** $DateTime: 2019/05/25 13:44:04 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -188,7 +188,7 @@ void qh_fprintf_rbox(qhT *qh, FILE*, int msgcode, const char *fmt, ... ) {
         qh_errexit_rbox(qh, 10010);
         /* never returns */
         break;
-    case 9393:  // QH11026 FIXUP: countT vs. int
+    case 9393:  // QH11026 FIX: countT vs. int
         {
             int dimension= va_arg(args, int);
             string command(va_arg(args, char*));

@@ -49,7 +49,7 @@ options are indicated by 'Q' followed by a letter. </p>
 
 <dl compact>
     <dt><a href="#Qa">Qa</a></dt>
-    <dd>allow short input with fewer points than coordinates</dd>
+    <dd>allow input with fewer or more points than coordinates</dd>
     <dt><a href="#Qc">Qc</a></dt>
     <dd>keep coplanar points with nearest facet</dd>
     <dt><a href="#Qi">Qi</a></dt>
@@ -143,12 +143,12 @@ options are indicated by 'Q' followed by a letter. </p>
 
 <hr>
 
-<h3><a href="#qhull">&#187;</a><a name="Qa">Qa - allow short input with fewer points than coordinates</a></h3>
+<h3><a href="#qhull">&#187;</a><a name="Qa">Qa - allow input with fewer or more points than coordinates</a></h3>
 
-<p>Option 'Qa' (qh.ALLOWshort) allows more input coordinates than points.  Qhull's input
+<p>Option 'Qa' (qh.ALLOWshort) allows input with fewer or more points than coordinates.  Qhull's input
 starts with the number of points and the dimension, d.  The coordinates follow, d coordinates per point.
 
-<p>With option 'Qa', there may be more coordinates than points.  This simplifies exploring an input point set by
+<p>With option 'Qa', there may be fewer or more points than coordinates.  This simplifies exploring an input point set by
 adjusting the number of points.
 
 <h3><a href="#qhull">&#187;</a><a name="Qbb">Qbb - scale the last

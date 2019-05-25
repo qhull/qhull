@@ -77,7 +77,7 @@
 #                  make testall 2>&1 | tee eg/q_test.x
 #                  Build the C++ qhulltest with Qt
 #
-# $Id: //main/2019/qhull/Makefile#2 $
+# $Id: //main/2019/qhull/Makefile#3 $
 
 # Do not replace tabs with spaces.  Needed for build rules
 # Unix line endings (\n)
@@ -99,7 +99,7 @@ PRINTC = enscript -2r
 # -fpic needed for gcc x86_64-linux-gnu.  Not needed for mingw
 # see below for gcc's CC_WARNINGS and CCX_WARNINGS
 CC        = gcc
-CC_OPTS1  = -O3 -ansi -Isrc -fpic $(CC_WARNINGS) # FIXUP
+CC_OPTS1  = -O3 -ansi -Isrc -fpic $(CC_WARNINGS)
 CXX       = g++
 
 # libqhullcpp must be before libqhull_r
@@ -177,7 +177,7 @@ CXX_WARNINGS = -Wall -Wcast-qual -Wextra -Wwrite-strings -Wno-sign-conversion -W
 # Default targets for make
 
 all: bin-lib bin/rbox bin/qconvex bin/qdelaunay bin/qhalf bin/qvoronoi bin/qhull bin/testqset \
-     bin/testqset_r qtest bin/user_eg2 bin/user_eg3 lib/libqhull_r.so bin/user_eg qconvex-prompt
+     bin/testqset_r qtest bin/user_eg2 bin/user_eg3 bin/user_eg qconvex-prompt
 
 help:
 	head -n 80 Makefile
@@ -681,10 +681,8 @@ lib/libqhullcpp.a: $(LIBQHULLCPP_OBJS)
 
 lib/libqhull_r.$(SO): $(LIBQHULLSR_RBOX_OBJS)
 	$(CC) -shared -o $@ $(CC_OPTS3) $^
-
-lib/libqhull_r.so: lib/libqhull_r.$(SO)
-	(cd lib/ && ln -f -s libqhull_r.$(SO) libqhull_r.so)
-	ls -d $(PWD)
+	# the following line fails under MSYS, not needed for SO=dll
+	-(cd lib/ && ln -f -s libqhull_r.$(SO) libqhull_r.so)
 
 # don't use ../qconvex.	 Does not work on Red Hat Linux
 bin/qconvex: src/qconvex/qconvex.o lib/libqhullstatic.a

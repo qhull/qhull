@@ -8,8 +8,8 @@
    see qh-qhull.htm
 
    Copyright (c) 1993-2019 The Geometry Center.
-   $Id: //main/2019/qhull/src/qhull/unix.c#1 $$Change: 2661 $
-   $DateTime: 2019/05/24 20:09:58 $$Author: bbarber $
+   $Id: //main/2019/qhull/src/qhull/unix.c#2 $$Change: 2664 $
+   $DateTime: 2019/05/25 13:44:04 $$Author: bbarber $
 */
 
 #include "libqhull/libqhull.h"
@@ -64,7 +64,7 @@ options:\n\
     v Qu - furthest-site Voronoi diagram\n\
 \n\
 Qhull control options:\n\
-    Qa   - allow short input with more coordinates than points\n\
+    Qa   - allow input with fewer or more points than coordinates\n\
     Qbk:n   - scale coord k so that low bound is n\n\
       QBk:n - scale coord k so that upper bound is n (QBk is %2.2g)\n\
     QbB  - scale input to unit cube centered at the origin\n\

@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2009-2019 C.B. Barber. All rights reserved.
-** $Id: //main/2019/qhull/src/libqhullcpp/QhullHyperplane.cpp#1 $$Change: 2661 $
-** $DateTime: 2019/05/24 20:09:58 $$Author: bbarber $
+** $Id: //main/2019/qhull/src/libqhullcpp/QhullHyperplane.cpp#2 $$Change: 2664 $
+** $DateTime: 2019/05/25 13:44:04 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -22,7 +22,7 @@ namespace orgQhull {
 #//!\name Constructors
 
 QhullHyperplane::
-QhullHyperplane(const Qhull &q) 
+QhullHyperplane(const Qhull &q)
 : hyperplane_coordinates(0)
 , qh_qh(q.qh())
 , hyperplane_offset(0.0)
@@ -31,7 +31,7 @@ QhullHyperplane(const Qhull &q)
 }
 
 QhullHyperplane::
-QhullHyperplane(const Qhull &q, int hyperplaneDimension, coordT *c, coordT hyperplaneOffset) 
+QhullHyperplane(const Qhull &q, int hyperplaneDimension, coordT *c, coordT hyperplaneOffset)
 : hyperplane_coordinates(c)
 , qh_qh(q.qh())
 , hyperplane_offset(hyperplaneOffset)
@@ -175,9 +175,9 @@ operator<<(ostream &os, const QhullHyperplane::PrintHyperplane &pr)
     for(int k=p.dimension(); k--; ){
         realT r= *c++;
         if(pr.print_message){
-            os << " " << r; // QH11010 FIXUP: %8.4g
+            os << " " << r; // QH11010 FIX: %8.4g
         }else{
-            os << " " << r; // QH11010 FIXUP: qh_REAL_1
+            os << " " << r; // QH11010 FIX: qh_REAL_1
         }
     }
     os << pr.hyperplane_offset_message << " " << p.offset();
