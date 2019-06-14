@@ -61,7 +61,7 @@
 # $DateTime: 2019/05/24 20:09:58 $$Author: bbarber $
 
 project(qhull)
-cmake_minimum_required(VERSION 2.6)
+cmake_minimum_required(VERSION 3.0)
 
 # Define qhull_VERSION in README.txt, Announce.txt, qh-get.htm, CMakeLists.txt, 
 #   Makefile, qhull-exports.def, qhull_p-exports.def, qhull_r-exports.def, qhull-warn.pri
@@ -613,10 +613,48 @@ add_test(NAME user_eg3
 # Define install
 # ---------------------------------------
 
-install(TARGETS ${qhull_TARGETS_INSTALL}
+install(TARGETS ${qhull_TARGETS_INSTALL} EXPORT QhullTargets
         RUNTIME DESTINATION ${BIN_INSTALL_DIR}
         LIBRARY DESTINATION ${LIB_INSTALL_DIR}
-        ARCHIVE DESTINATION ${LIB_INSTALL_DIR})
+        ARCHIVE DESTINATION ${LIB_INSTALL_DIR}
+        INCLUDES DESTINATION include)
+
+include(CMakePackageConfigHelpers)
+
+write_basic_package_version_file(
+    "${CMAKE_CURRENT_BINARY_DIR}/Qhull/QhullConfigVersion.cmake"
+    VERSION ${qhull_VERSION}
+    COMPATIBILITY AnyNewerVersion
+)
+
+export(EXPORT QhullTargets
+  FILE "${CMAKE_CURRENT_BINARY_DIR}/Qhull/QhullTargets.cmake"
+  NAMESPACE Qhull::
+)
+
+configure_file(Config.cmake.in
+  "${CMAKE_CURRENT_BINARY_DIR}/Qhull/QhullConfig.cmake"
+  @ONLY
+)
+
+set(ConfigPackageLocation lib/cmake/Qhull)
+install(EXPORT QhullTargets
+  FILE
+    QhullTargets.cmake
+  NAMESPACE
+    Qhull::
+  DESTINATION
+    ${ConfigPackageLocation}
+)
+install(
+  FILES
+    "${CMAKE_CURRENT_BINARY_DIR}/Qhull/QhullConfig.cmake"
+    "${CMAKE_CURRENT_BINARY_DIR}/Qhull/QhullConfigVersion.cmake"
+  DESTINATION
+    ${ConfigPackageLocation}
+  COMPONENT
+    Devel
+)
 
 install(FILES ${libqhull_HEADERS}    DESTINATION ${INCLUDE_INSTALL_DIR}/libqhull)
 install(FILES ${libqhull_DOC}        DESTINATION ${INCLUDE_INSTALL_DIR}/libqhull)
