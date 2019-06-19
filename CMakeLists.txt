@@ -632,7 +632,7 @@ export(EXPORT QhullTargets
   NAMESPACE Qhull::
 )
 
-configure_file(Config.cmake.in
+configure_file(${PROJECT_SOURCE_DIR}/build/config.cmake.in
   "${CMAKE_CURRENT_BINARY_DIR}/Qhull/QhullConfig.cmake"
   @ONLY
 )
