@@ -9,8 +9,8 @@
 #   can not use path with $zip_file 
 #   odd error messages if can't locate directory
 #
-# $Id: //main/2019/qhull/eg/qhull-zip.sh#11 $$Change: 2715 $
-# $DateTime: 2019/06/28 18:10:49 $$Author: bbarber $
+# $Id: //main/2019/qhull/eg/qhull-zip.sh#12 $$Change: 2722 $
+# $DateTime: 2019/06/28 21:07:44 $$Author: bbarber $
 
 if [[ $# -ne 3 ]]; then
         echo 'Missing date stamp -- eg/qhull-zip.sh 2019 2019.1 7.3.2' 
@@ -151,7 +151,7 @@ md5_tgz_file=qhull-$versionyear-src-$versionunix-tgz.md5sum
 # recursive 
 qhull_dirs="qhull/CMakeModules qhull/eg qhull/html qhull/src"
 qhull_files="qhull/build/*.sln qhull/build/*.vcproj qhull/build/qhulltest/*.vcproj \
-    qhull/build/*.vcxproj qhull/build/qhulltest/*.vcxproj \
+    qhull/build/*.vcxproj qhull/build/config.cmake.in qhull/build/qhulltest/*.vcxproj \
     qhull/Announce.txt qhull/CMakeLists.txt qhull/COPYING.txt \
     qhull/File_id.diz qhull/QHULL-GO.lnk qhull/README.txt \
     qhull/REGISTER.txt qhull/index.htm qhull/Makefile  \
@@ -161,10 +161,12 @@ qhull_files="qhull/build/*.sln qhull/build/*.vcproj qhull/build/qhulltest/*.vcpr
     qhull/bin/testqset_r.exe \
     qhull/bin/user_eg3.exe qhull/bin/testqset.exe qhull/bin/msvcr80.dll"
 qhull_ufiles="$qhull_dirs qhull/build/*.sln qhull/build/*.vcproj \
+    qhull/build/config.cmake.in \
     qhull/Announce.txt qhull/CMakeLists.txt qhull/COPYING.txt \
     qhull/File_id.diz qhull/QHULL-GO.lnk qhull/README.txt \
     qhull/REGISTER.txt qhull/index.htm qhull/Makefile"
 qhull_d2ufiles="Makefile src/libqhull/Makefile src/libqhull_r/Makefile \
+    qhull/build/config.cmake.in \
     src/*/DEPRECATED.txt src/*/*.pro src/*/*.htm html/*.htm html/*.txt \
     src/libqhull/MBorland eg/q_eg eg/q_egtest eg/q_test "
     

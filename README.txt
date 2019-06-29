@@ -399,6 +399,7 @@ Distributed files
   qhull*.md5sum        // md5sum for all files
 
   bin/*                // Qhull executables and dll (.zip only)
+  build/config.cmake.in // extract target variables
   build/qhull*.pc.in   // pkg-config templates for qhull_r, qhull, and qhull_p
   build/qhull-32.sln   // 32-bit DevStudio solution and project files (2010 and later)
   build/*-32.vcxproj
