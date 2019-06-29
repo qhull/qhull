@@ -23,10 +23,12 @@ build/.vs/*
 build/Debug/*
 build/moc/*
 build/qhulltest/*
+build/Qhull/*
 build/Release/*
 build/cmake_install.cmake
 build/CMakeCache.txt
 build/CMakeFiles
+build/CTestTestfile.cmake
 build/install_manifest.txt
 build/Makefile*
 build/*/Makefile*
