@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2019 C.B. Barber. All rights reserved.
-** $Id: //main/2019/qhull/src/libqhullcpp/RoadError.h#2 $$Change: 2664 $
-** $DateTime: 2019/05/25 13:44:04 $$Author: bbarber $
+** $Id: //main/2019/qhull/src/libqhullcpp/RoadError.h#3 $$Change: 2673 $
+** $DateTime: 2019/06/07 16:27:53 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -58,7 +58,7 @@ public:
     RoadError(int code, const char *fmt, int d, int d2, float f, double e);
 
     RoadError &         operator=(const RoadError &other);
-                        ~RoadError() throw() {};
+                        ~RoadError() throw() {}
 
 #//!\name Class methods
 
@@ -71,9 +71,9 @@ public:
 
 #//!\name GetSet
     bool                isValid() const { return log_event.isValid(); }
-    int                 errorCode() const { return error_code; };
+    int                 errorCode() const { return error_code; }
    // QH11021 FIX: should RoadError provide errorMessage().  Currently what()
-    RoadLogEvent        roadLogEvent() const { return log_event; };
+    RoadLogEvent        roadLogEvent() const { return log_event; }
 
 #//!\name Update
     void                logErrorLastResort() const;

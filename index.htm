@@ -12,7 +12,7 @@
 <a href="http://www.qhull.org/news">News</a>
 &#149; <a href="http://scholar.google.com/scholar?cites=13151392091060773178&as_sdt=40000005">Scholar</a>
 &#149; <a href=http://images.google.com/images?q=qhull&num=100>Images</a>
-&#149; <a href="http://github.com/qhull/qhull/wiki">GitHub</a>
+&#149; <a href="https://github.com/qhull/qhull/wiki">GitHub</a>
 &#149; <a href="http://www.qhull.org/download">Download</a>
 &#149; <a href="html/index.htm">Manual</a>
 &#149; <a href="html/qh-quick.htm#programs">Programs</a>
@@ -46,9 +46,8 @@ generation of non-convex objects, medium-sized inputs in 9-D
 and higher, alpha shapes, weighted Voronoi diagrams, Voronoi volumes, or
 constrained Delaunay triangulations,  </p>
 
-<p>
-Qhull 2019.1 is the last release with qh_QHpointer support (libqhull_p).  Please use reentrant Qhull (libqhull_r) or static Qhull (libqhull).
-If you use Qhull 2003.1. please upgrade or apply <a href="http://www.qhull.org/download/poly.c-qh_gethash.patch">poly.c-qh_gethash.patch</a>.
+<p>If you call Qhull from your program, please use reentrant Qhull (libqhull_r) or static Qhull (libqhull).
+If you use Qhull 2003.1, please upgrade or apply <a href="http://www.qhull.org/download/poly.c-qh_gethash.patch">poly.c-qh_gethash.patch</a>.
 </p>
 </td></tr></table>
 
@@ -59,11 +58,10 @@ If you use Qhull 2003.1. please upgrade or apply <a href="http://www.qhull.org/d
 <ul>
     <li><a href="http://www.qhull.org/news">News</a> and
         <a href="http://www.qhull.org/news/qhull-news.html#bugs">Bugs</a>
-        about Qhull 2015.2  2016/01/18</li>
+        about Qhull 2019.1  2019/06/21 (7.3.2)</li>
 	<li><a href="http://www.qhull.org/download">Download</a> Qhull (<a href="http://www.qhull.org/src/Changes.txt">changes</a>)</li>
-	<li><a href="http://github.com/qhull/qhull/wiki">GitHub</a> C++ interface to Qhull
-	<li><a href="http://github.com/qhull/qhull/wiki">Wiki</a>, <a href="html/qh-faq.htm">FAQ</a>,
-  	    and <a href="html/index.htm">Manual</a> for Qhull and rbox
+	<li><a href="https://github.com/qhull/qhull/wiki">GitHub</a> C++ interface to Qhull
+	<li><a href="html/index.htm">Introduction and manual</a> for Qhull and rbox with a <a href="html/qh-faq.htm">FAQ</a>
 	<li><a href="html/index.htm#geomview">Geomview</a> for 3-D and 4-D visualization of Qhull output
 	<li><input name=as_q size=10 value="">
                 <input type="submit" value="Search">
@@ -79,22 +77,20 @@ If you use Qhull 2003.1. please upgrade or apply <a href="http://www.qhull.org/d
          <a href="http://www.google.com/#q=qhull&tbm=bks">Books</a>,
          <a href="http://www.google.com/search?q=qhull&tbm=pts">Patents</a>,
          <a href="http://groups.google.com/groups?as_q=qhull&num=100&as_scoring=d">Newsgroups</a>,
-         <a href="http://www.google.com/search?q=qhull&tbm=blg">Blogs</a>,
         and <a href=http://www.googlism.com/who_is/q/qhull/>Who is</a> Qhull?
 
 
         <p>
         <li><a href=http://www.mathworks.com/>MATLAB</a> uses Qhull for their n-d computational geometry functions:
-        <a href=http://www.mathworks.com/help/techdoc/ref/convhulln.html>convhulln</a>
-        <a href=http://www.mathworks.com/help/techdoc/ref/delaunayn.html>delaunayn</a>
-        <a href=http://www.mathworks.com/help/techdoc/ref/griddatan.html>griddatan</a>
-        <a href=http://www.mathworks.com/help/techdoc/ref/voronoin.html>voronoin</a>.
+        <a href=http://www.mathworks.com/help/matlab/ref/convhulln.html>convhulln</a>
+        <a href=http://www.mathworks.com/help/matlab/ref/delaunayn.html>delaunayn</a>
+        <a href=http://www.mathworks.com/help/matlab/ref/griddatan.html>griddatan</a>
+        <a href=http://www.mathworks.com/help/matlab/ref/voronoin.html>voronoin</a>.
     </li>
         <li>The <a href="http://cran.r-project.org/web/packages/geometry/geometry.pdf">geometry</a> package of <a href="http://www.r-project.org/">R</a> provides <a href="http://geometry.r-forge.r-project.org/">Qhull in R</a>.
-        <li>The <a href="http://packages.debian.org/sid/octave3.2">Debian build</a> of
-        <a href=http://www.octave.org/>GNU Octave</a> includes Qhull for <a href="http://www.gnu.org/software/octave/doc/interpreter/Geometry.html">computational geometry<a>.
+        <li><a href=http://www.octave.org/>GNU Octave</a> includes Qhull for <a href="http://www.gnu.org/software/octave/doc/interpreter/Geometry.html">computational geometry<a>.
         <li><a href=http://www.wolfram.com/products/mathematica/>Mathematica</a>'s Delaunay interface <a href=http://library.wolfram.com/infocenter/MathSource/1160/>qh-math</a>
-        and <a href="http://portal.uni-freiburg.de/imteksimulation/downloads/ims">QHullInterface</a>
+        </a>
      <li>The <a href="http://docs.scipy.org/doc/scipy/reference/tutorial/spatial.html">scipy.spatial</a> of <a href="http://scipy.org/">SciPy</a> is implemented with Qhull.  It includes
      support for Delaunay triangulations,
 </ul>
@@ -103,12 +99,13 @@ If you use Qhull 2003.1. please upgrade or apply <a href="http://www.qhull.org/d
 <p><b>Introduction</b>
 <ul>
     <li><a
+        href="http://box2d.org/files/GDC2014/DirkGregorius_ImplementingQuickHull.pdf">Gregorius' talk</a> on implementing Quickhull,
+        Lloyd's <a href="https://www.cs.ubc.ca/~lloyd/java/quickhull3d.html">QuickHull3D</a> in Java,
+        and Newbold's <a href="http://dogfeathers.com/java/ccppoly.html">Waterman polyhedra</a>
+    <li><a
         href="http://www.cs.mcgill.ca/~fukuda/soft/polyfaq/polyfaq.html"
                 >Fukuda's introduction</a> to convex hulls, Delaunay
         triangulations, Voronoi diagrams, and linear programming</li>
-    <li><a
-        href="http://www.cse.unsw.edu.au/~lambert/java/3d/hull.html"
-                >Lambert's Java</a> visualization of convex hull algorithms </li>
         <li><a
         href="http://www.algorithmic-solutions.info/leda_guide/geometryalgorithms.html"
                 >LEDA Guide</a> to geometry algorithms
@@ -146,7 +143,7 @@ If you use Qhull 2003.1. please upgrade or apply <a href="http://www.qhull.org/d
             <li><a href="README.txt">README.txt</a> - installation
             instructions<br>
             <li><a href="src/Changes.txt">Changes.txt</a> - change history <br>
-            <li><a href="html/qh-code.htm">Calling Qhull</a> from your program
+            <li><a href="html/qh-code.htm">Qhull code</a>
             <li><a href="http://www.qhull.org/src/libqhull_r/index.htm">Function</a> index to Qhull
             </ul>
         </td></tr></table>
@@ -163,13 +160,16 @@ If you use Qhull 2003.1. please upgrade or apply <a href="http://www.qhull.org/d
         <li><a href=http://www.boost.org/libs/graph/doc/table_of_contents.html>BGL</a>
         Boost Graph Library provides C++ classes for graph data structures
 and algorithms,
+    <li><a href=http://www.cgal.org/>CGAL</a> and <a href=http://www.algorithmic-solutions.com/index.php/products/leda-for-c>Leda</a>
+libraries for writing computational
+geometry programs and other combinatorial algorithms
     <li><a
         href="http://www.netlib.org/voronoi/hull.html">Clarkson's
         hull </a>program with exact arithmetic for convex hulls, Delaunay triangulations,
                 Voronoi volumes, and alpha shapes. </li>
-        <li><a href="http://compgeom.cs.uiuc.edu/~jeffe/compgeom/compgeom.html">Erickson's
+        <li><a href="http://jeffe.cs.illinois.edu/compgeom/">Erickson's
             Computational</a> Geometry Pages and
-                <a href="http://compgeom.cs.uiuc.edu/~jeffe/compgeom/code.html">Software</a>
+                <a href="http://jeffe.cs.illinois.edu/compgeom/code.html">Software</a>
     <li><a
         href="http://www.cs.mcgill.ca/~fukuda/soft/cdd_home/cdd.html">Fukuda's
         cdd</a> program for halfspace intersection and convex hulls (<a
@@ -177,20 +177,17 @@ and algorithms,
         <li><a href="http://www.inf.ethz.ch/personal/gaertner/miniball.html">Gartner's
         Miniball</a> for fast and robust smallest enclosing balls (up to 20-d)
 
-    <li><a href=http://www.algorithmic-solutions.com/enleda.htm>Leda</a>
-and <a href=http://www.cgal.org/>CGAL</a> libraries for writing computational
-geometry programs and other combinatorial algorithms
         <li><a href=http://www.mathtools.net/>Mathtools.net</a> of scientific and engineering
         software
     <li><a href="http://www.imr.sandia.gov/papers/topics.html">Owen's International Meshing</a> Roundtable
     <li><a
         href="http://www.robertschneiders.de/meshgeneration/meshgeneration.html">Schneiders'
         Finite Element</a> Mesh Generation page</li>
-    <li><a href="http://www.cs.cmu.edu/~quake/triangle.html">Shewchuk's
+     <li><a href="http://www.cs.cmu.edu/~quake/triangle.html">Shewchuk's
         triangle </a>program for 2-d Delaunay</li>
         <li><a href=http://www.voronoi.com>Voronoi Web Site</a> for all things Voronoi
         <li>Young's <a href="http://homepage.usask.ca/~ijm451/finite/fe_resources/">Internet Finite Element Resources</a>
-        <li><a href="http://www.uic.nnov.ru/~zny/skeleton/">Zolotykh's Skeleton</a> generates all extreme rays of a polyhedral cone using the Double Description Method</li>
+        <li><a href="http://www.uic.unn.ru/~zny/skeleton/">Zolotykh's Skeleton</a> generates all extreme rays of a polyhedral cone using the Double Description Method</li>
         <li><a href="https://github.com/tomilov/quickhull/blob/master/include/quickhull.hpp">Tomilov's quickhull.hpp</a> (<a href="http://habrahabr.ru/post/245221/">doc-ru</a>) implements the Quickhull algorithm for points in general position.
 </ul>
 
@@ -199,10 +196,9 @@ geometry programs and other combinatorial algorithms
     <li><a
         href="http://www.faqs.org/faqs/graphics/algorithms-faq/">FAQ</a>
         for computer graphics algorithms
-                (Exaflop.org: <a href="http://exaflop.org/docs/cgafaq/cga6.html">geometric</a> structures)
- </li>
+    </li>
     <li><a
-        href="http://www-unix.mcs.anl.gov/otc/Guide/faq/linear-programming-faq.html">FAQ
+        href="http://lpsolve.sourceforge.net/4.0/LinearProgrammingFAQ.htm">FAQ
         </a>for linear programming </li>
     <li><a href="news:comp.graphics.algorithms">Newsgroup</a>:
         comp.graphics.algorithms </li>
@@ -226,7 +222,7 @@ href="http://www.geomview.org">Geomview</a>.   An alternative
 is <a href=http://www.vtk.org/>VTK</a>.</p>
 
 <p>For an article about Qhull, download from
-  <a href="http://dl.acm.org/authorize?89250">ACM</a> or <a
+  <a href="https://dl.acm.org/authorize?N685077">ACM</a> or <a
     href="http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.117.405">CiteSeer</a>:
 </p>
 

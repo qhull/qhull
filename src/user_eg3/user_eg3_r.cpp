@@ -37,13 +37,13 @@ user_eg3 is statically linked to reentrant qhull.  If user_eg3 fails\n\
 immediately, it is probably linked to the non-reentrant, qhull library.\n\
 \n\
 Commands:\n\
-  eg-100                       Run the example in qh-code.htm\n\
-  rbox \"200 D4\" ...          Generate points from rbox\n\
-  qhull \"d p\" ...            Run qhull with options and produce output\n\
-  qhull-cout \"o\" ...         Run qhull with options and produce output to cout\n\
-  qhull \"T1\" ...             Run qhull with level-1 trace to cerr\n\
-                               Use 'qhull-cout' for option 'Tz' (trace to cout)\n\
-  facets                       Print facets when done\n\
+  eg-100                 Run the example in qh-code.htm\n\
+  rbox \"200 D4\" ...    Generate points from rbox\n\
+  qhull \"d p\" ...      Run qhull with options and produce output\n\
+  qhull-cout \"o\" ...   Run qhull with options and produce output to cout\n\
+  qhull \"T1\" ...       Run qhull with level-1 trace to cerr\n\
+                         Use 'qhull-cout' for option 'Tz' (trace to cout)\n\
+  facets                 Print facets when done\n\
 \n\
 For example\n\
   user_eg3 rbox qhull\n\

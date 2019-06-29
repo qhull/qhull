@@ -1,7 +1,8 @@
 
- Qhull 2019.0.1  2019/05/24
+ Qhull 2019.1  2019/06/21
 
         http://www.qhull.org
+        http://github.com/qhull/qhull/wiki
         git@github.com:qhull/qhull.git
         http://www.geomview.org
 

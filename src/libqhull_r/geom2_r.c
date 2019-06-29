@@ -8,8 +8,8 @@
    see qh-geom_r.htm and geom_r.h
 
    Copyright (c) 1993-2019 The Geometry Center.
-   $Id: //main/2019/qhull/src/libqhull_r/geom2_r.c#2 $$Change: 2664 $
-   $DateTime: 2019/05/25 13:44:04 $$Author: bbarber $
+   $Id: //main/2019/qhull/src/libqhull_r/geom2_r.c#15 $$Change: 2712 $
+   $DateTime: 2019/06/28 12:57:00 $$Author: bbarber $
 
    frequently used code goes into geom_r.c
 */
@@ -229,8 +229,10 @@ void qh_detroundoff(qhT *qh) {
   qh->MINdenom_2= qh->MINdenom_1_2 * qh->MAXabs_coord;
                                               /* for inner product */
   qh->ANGLEround= 1.01 * qh->hull_dim * REALepsilon;
-  if (qh->RANDOMdist)
+  if (qh->RANDOMdist) {
     qh->ANGLEround += qh->RANDOMfactor;
+    trace4((qh, qh->ferr, 4096, "qh_detroundoff: increase qh.ANGLEround by option 'R%2.2g'\n", qh->RANDOMfactor));
+  }
   if (qh->premerge_cos < REALmax/2) {
     qh->premerge_cos -= qh->ANGLEround;
     if (qh->RANDOMdist)
@@ -827,7 +829,7 @@ void qh_getarea(qhT *qh, facetT *facetlist) {
   if (qh->REPORTfreq)
     qh_fprintf(qh, qh->ferr, 8020, "computing area of each facet and volume of the convex hull\n");
   else
-    trace1((qh, qh->ferr, 1001, "qh_getarea: computing volume and area for each facet\n"));
+    trace1((qh, qh->ferr, 1001, "qh_getarea: computing area for each facet and its volume to qh.interior_point (dist*area/dim)\n"));
   qh->totarea= qh->totvol= 0.0;
   FORALLfacet_(facetlist) {
     if (!facet->normal)
@@ -997,7 +999,7 @@ void qh_joggleinput(qhT *qh) {
   if (!qh->input_points) { /* first call */
     qh->input_points= qh->first_point;
     qh->input_malloc= qh->POINTSmalloc;
-    size= qh->num_points * qh->hull_dim * sizeof(coordT);
+    size= qh->num_points * qh->hull_dim * (int)sizeof(coordT);
     if (!(qh->first_point= (coordT *)qh_malloc((size_t)size))) {
       qh_fprintf(qh, qh->ferr, 6009, "qhull error: insufficient memory to joggle %d points\n",
           qh->num_points);
@@ -1021,14 +1023,14 @@ void qh_joggleinput(qhT *qh) {
     qh_option(qh, "QJoggle", NULL, &qh->JOGGLEmax);
   }
   if (qh->build_cnt > 1 && qh->JOGGLEmax > fmax_(qh->MAXwidth/4, 0.1)) {
-      qh_fprintf(qh, qh->ferr, 6010, "qhull precision error (qh_joggleinput): the current joggle for 'QJn', %.2g, is too large for the width\nof the input.  If possible, recompile Qhull with higher-precision reals.\n",
+      qh_fprintf(qh, qh->ferr, 6010, "qhull input error (qh_joggleinput): the current joggle for 'QJn', %.2g, is too large for the width\nof the input.  If possible, recompile Qhull with higher-precision reals.\n",
                 qh->JOGGLEmax);
-      qh_errexit(qh, qh_ERRprec, NULL, NULL);
+      qh_errexit(qh, qh_ERRinput, NULL, NULL);
   }
   /* for some reason, using qh->ROTATErandom and qh_RANDOMseed does not repeat the run. Use 'TRn' instead */
   seed= qh_RANDOMint;
   qh_option(qh, "_joggle-seed", &seed, NULL);
-  trace0((qh, qh->ferr, 6, "qh_joggleinput: joggle input by %2.2g with seed %d\n",
+  trace0((qh, qh->ferr, 6, "qh_joggleinput: joggle input by %4.4g with seed %d\n",
     qh->JOGGLEmax, seed));
   inputp= qh->input_points;
   coordp= qh->first_point;
@@ -1112,12 +1114,12 @@ setT *qh_maxmin(qhT *qh, pointT *points, int numpoints, int dimension) {
   && REALmax > 0.0 && -REALmax < 0.0)
     ; /* all ok */
   else {
-    qh_fprintf(qh, qh->ferr, 6011, "qhull error: floating point constants in user.h are wrong\n\
-REALepsilon %g REALmin %g REALmax %g -REALmax %g\n",
-             REALepsilon, REALmin, REALmax, -REALmax);
+    qh_fprintf(qh, qh->ferr, 6011, "qhull error: one or more floating point constants in user_r.h are inconsistent. REALmin %g, -REALmax %g, 0.0, REALepsilon %g, REALmax %g\n",
+          REALmin, -REALmax, REALepsilon, REALmax);
     qh_errexit(qh, qh_ERRinput, NULL, NULL);
   }
   set= qh_settemp(qh, 2*dimension);
+  trace1((qh, qh->ferr, 8082, "qh_maxmin: dim             min             max           width    nearzero  min-point  max-point\n"));
   for (k=0; k < dimension; k++) {
     if (points == qh->GOODpointp)
       minimum= maximum= points + dimension;
@@ -1136,7 +1138,7 @@ REALepsilon %g REALmin %g REALmax %g -REALmax %g\n",
       qh->MAXlastcoord= maximum[k];
     }
     if (qh->SCALElast && k == dimension-1)
-      maxcoord= qh->MAXwidth;
+      maxcoord= qh->MAXabs_coord;
     else {
       maxcoord= fmax_(maximum[k], -minimum[k]);
       if (qh->GOODpointp) {
@@ -1148,15 +1150,20 @@ REALepsilon %g REALmin %g REALmax %g -REALmax %g\n",
     }
     maximize_(qh->MAXabs_coord, maxcoord);
     qh->MAXsumcoord += maxcoord;
-    qh_setappend(qh, &set, maximum);
     qh_setappend(qh, &set, minimum);
+    qh_setappend(qh, &set, maximum);
     /* calculation of qh NEARzero is based on Golub & van Loan, 1983,
        Eq. 4.4-13 for "Gaussian elimination with complete pivoting".
        Golub & van Loan say that n^3 can be ignored and 10 be used in
        place of rho */
     qh->NEARzero[k]= 80 * qh->MAXsumcoord * REALepsilon;
+    trace1((qh, qh->ferr, 8106, "           %3d % 14.8e % 14.8e % 14.8e  %4.4e  p%-9d p%-d\n",
+            k, minimum[k], maximum[k], maximum[k]-minimum[k], qh->NEARzero[k], qh_pointid(qh, minimum), qh_pointid(qh, maximum)));
+    if (qh->SCALElast && k == dimension-1)
+      trace1((qh, qh->ferr, 8107, "           last coordinate scaled to (%4.4g, %4.4g), width %4.4e for option 'Qbb'\n",
+            qh->MAXabs_coord - qh->MAXwidth, qh->MAXabs_coord, qh->MAXwidth));
   }
-  if (qh->IStracing >=1)
+  if (qh->IStracing >= 1)
     qh_printpoints(qh, qh->ferr, "qh_maxmin: found the max and min points (by dim):", set);
   return(set);
 } /* maxmin */
@@ -1187,7 +1194,7 @@ realT qh_maxouter(qhT *qh) {
 
   dist= fmax_(qh->max_outside, qh->DISTround);
   dist += qh->DISTround;
-  trace4((qh, qh->ferr, 4012, "qh_maxouter: max distance from facet to outer plane is %2.2g max_outside is %2.2g\n", dist, qh->max_outside));
+  trace4((qh, qh->ferr, 4012, "qh_maxouter: max distance from facet to outer plane is %4.4g, qh.max_outside is %4.4g\n", dist, qh->max_outside));
   return dist;
 } /* maxouter */
 
@@ -1196,7 +1203,8 @@ realT qh_maxouter(qhT *qh) {
 
   qh_maxsimplex(qh, dim, maxpoints, points, numpoints, simplex )
     determines maximum simplex for a set of points
-    starts from points already in simplex
+    maxpoints is the subset of points with a min or max coordinate
+    may start with points already in simplex
     skips qh.GOODpointp (assumes that it isn't in maxpoints)
 
   returns:
@@ -1204,6 +1212,7 @@ realT qh_maxouter(qhT *qh) {
 
   notes:
     called by qh_initialvertices, qh_detvnorm, and qh_voronoi_center
+    requires qh.MAXwidth to estimate determinate for each vertex
     assumes at least needed points in points
     maximizes determinate for x,y,z,w, etc.
     uses maxpoints as long as determinate is clearly non-zero
@@ -1211,18 +1220,28 @@ realT qh_maxouter(qhT *qh) {
   design:
     initialize simplex with at least two points
       (find points with max or min x coordinate)
-    for each remaining dimension
-      add point that maximizes the determinate
-        (use points from maxpoints first)
+    create a simplex of dim+1 vertices as follows
+      add point from maxpoints that maximizes the determinate of the point and the simplex vertices  
+      if last point and maxdet/prevdet < qh_RATIOmaxsimplex (3.0e-2)
+        flag maybe_falsenarrow
+      if no maxpoint or maxnearzero or maybe_falsenarrow
+        search all points for maximum determinate
+        early exit if maybe_falsenarrow and !maxnearzero and maxdet > prevdet
 */
 void qh_maxsimplex(qhT *qh, int dim, setT *maxpoints, pointT *points, int numpoints, setT **simplex) {
   pointT *point, **pointp, *pointtemp, *maxpoint, *minx=NULL, *maxx=NULL;
   boolT nearzero, maxnearzero= False, maybe_falsenarrow;
-  int k, sizinit;
-  realT maxdet= -1.0, prevdet= -1.0, det, mincoord= REALmax, maxcoord= -REALmax;
+  int i, sizinit;
+  realT maxdet= -1.0, prevdet= -1.0, det, mincoord= REALmax, maxcoord= -REALmax, mindet, ratio, targetdet;
 
+  if (qh->MAXwidth <= 0.0) {
+    qh_fprintf(qh, qh->ferr, 6421, "qhull internal error (qh_maxsimplex): qh.MAXwidth required for qh_maxsimplex.  Used to estimate determinate\n");
+    qh_errexit(qh, qh_ERRqhull, NULL, NULL);
+  }
   sizinit= qh_setsize(qh, *simplex);
-  if (sizinit < 2) {
+  if (sizinit >= 2) {
+    maxdet= pow(qh->MAXwidth, sizinit - 1);
+  }else {
     if (qh_setsize(qh, maxpoints) >= 2) {
       FOREACHpoint_(maxpoints) {
         if (maxcoord < point[0]) {
@@ -1248,6 +1267,7 @@ void qh_maxsimplex(qhT *qh, int dim, setT *maxpoints, pointT *points, int numpoi
         }
       }
     }
+    maxdet= maxcoord - mincoord;
     qh_setunique(qh, simplex, minx);
     if (qh_setsize(qh, *simplex) < 2)
       qh_setunique(qh, simplex, maxx);
@@ -1255,22 +1275,23 @@ void qh_maxsimplex(qhT *qh, int dim, setT *maxpoints, pointT *points, int numpoi
     if (sizinit < 2) {
       qh_joggle_restart(qh, "input has same x coordinate");
       if (zzval_(Zsetplane) > qh->hull_dim+1) {
-        qh_fprintf(qh, qh->ferr, 6012, "qhull precision error (qh_maxsimplex for voronoi_center): %d points with the same x coordinate.\n",
-                 qh_setsize(qh, maxpoints)+numpoints);
+        qh_fprintf(qh, qh->ferr, 6012, "qhull precision error (qh_maxsimplex for voronoi_center): %d points with the same x coordinate %4.4g\n",
+                 qh_setsize(qh, maxpoints)+numpoints, mincoord);
         qh_errexit(qh, qh_ERRprec, NULL, NULL);
       }else {
-        qh_fprintf(qh, qh->ferr, 6013, "qhull input error: input is less than %d-dimensional since it has the same x coordinate\n", qh->hull_dim);
+        qh_fprintf(qh, qh->ferr, 6013, "qhull input error: input is less than %d-dimensional since all points have the same x coordinate %4.4g\n",
+                 qh->hull_dim, mincoord);
         qh_errexit(qh, qh_ERRinput, NULL, NULL);
       }
     }
   }
-  for (k=sizinit; k < dim+1; k++) {
+  for (i=sizinit; i < dim+1; i++) {
     prevdet= maxdet;
     maxpoint= NULL;
     maxdet= -1.0;
     FOREACHpoint_(maxpoints) {
       if (!qh_setin(*simplex, point) && point != maxpoint) {
-        det= qh_detsimplex(qh, point, *simplex, k, &nearzero); /* retests maxpoints if duplicate or multiple iterations */
+        det= qh_detsimplex(qh, point, *simplex, i, &nearzero); /* retests maxpoints if duplicate or multiple iterations */
         if ((det= fabs_(det)) > maxdet) {
           maxdet= det;
           maxpoint= point;
@@ -1279,29 +1300,39 @@ void qh_maxsimplex(qhT *qh, int dim, setT *maxpoints, pointT *points, int numpoi
       }
     }
     maybe_falsenarrow= False;
-    if (k == dim && prevdet > 0.0 && maxdet > 0.0 && maxdet/prevdet < 4e-6) /* QH11032 FIX: how to detect a false narrow initial hull?, ratio of 3.5e-6 for 'rbox M3,4 z 100 D2 | qhull d QJ3.95e-6' */
-      maybe_falsenarrow= True;
+    ratio= 1.0;
+    targetdet= prevdet * qh->MAXwidth;
+    mindet= 10 * qh_RATIOmaxsimplex * targetdet;
+    if (maxdet > 0.0) {
+      ratio= maxdet / targetdet;
+      if (ratio < qh_RATIOmaxsimplex)
+        maybe_falsenarrow= True;
+    }
     if (!maxpoint || maxnearzero || maybe_falsenarrow) {
       zinc_(Zsearchpoints);
       if (!maxpoint) {
-        trace0((qh, qh->ferr, 7, "qh_maxsimplex: searching all points for %d-th initial vertex.\n", k+1));
+        trace0((qh, qh->ferr, 7, "qh_maxsimplex: searching all points for %d-th initial vertex, better than mindet %4.4g, targetdet %4.4g\n",
+                i+1, mindet, targetdet));
+      }else if (qh->ALLpoints) {
+        trace0((qh, qh->ferr, 30, "qh_maxsimplex: searching all points ('Qs') for %d-th initial vertex, better than p%d det %4.4g, targetdet %4.4g, ratio %4.4g\n",
+                i+1, qh_pointid(qh, maxpoint), maxdet, targetdet, ratio));
       }else if (maybe_falsenarrow) {
-        trace0((qh, qh->ferr, 17, "qh_maxsimplex: searching all points for %d-th initial vertex, better than p%d det %2.2g or prevdet %2.2g\n",
-                k+1, qh_pointid(qh, maxpoint), maxdet, prevdet));
+        trace0((qh, qh->ferr, 17, "qh_maxsimplex: searching all points for %d-th initial vertex, better than p%d det %4.4g and mindet %4.4g, ratio %4.4g\n",
+                i+1, qh_pointid(qh, maxpoint), maxdet, mindet, ratio));
       }else {
-        trace0((qh, qh->ferr, 8, "qh_maxsimplex: searching all points for %d-th initial vertex, better than p%d det %2.2g\n",
-                k+1, qh_pointid(qh, maxpoint), maxdet));
+        trace0((qh, qh->ferr, 8, "qh_maxsimplex: searching all points for %d-th initial vertex, better than p%d det %2.2g and mindet %4.4g, targetdet %4.4g\n",
+                i+1, qh_pointid(qh, maxpoint), maxdet, mindet, targetdet));
       }
       FORALLpoint_(qh, points, numpoints) {
         if (point == qh->GOODpointp)
           continue;
-        if (!qh_setin(*simplex, point)) {
-          det= qh_detsimplex(qh, point, *simplex, k, &nearzero);
+        if (!qh_setin(maxpoints, point) && !qh_setin(*simplex, point)) {
+          det= qh_detsimplex(qh, point, *simplex, i, &nearzero);
           if ((det= fabs_(det)) > maxdet) {
             maxdet= det;
             maxpoint= point;
             maxnearzero= nearzero;
-            if (maybe_falsenarrow && !maxnearzero && maxdet > prevdet)
+            if (!maxnearzero && !qh->ALLpoints && maxdet > mindet)
               break;
           }
         }
@@ -1312,9 +1343,9 @@ void qh_maxsimplex(qhT *qh, int dim, setT *maxpoints, pointT *points, int numpoi
       qh_errexit(qh, qh_ERRqhull, NULL, NULL);
     }
     qh_setappend(qh, simplex, maxpoint);
-    trace1((qh, qh->ferr, 1002, "qh_maxsimplex: selected point p%d for %d`th initial vertex, det=%2.2g\n",
-            qh_pointid(qh, maxpoint), k+1, maxdet));
-  } /* k */
+    trace1((qh, qh->ferr, 1002, "qh_maxsimplex: selected point p%d for %d`th initial vertex, det=%4.4g, targetdet=%4.4g, mindet=%4.4g\n",
+            qh_pointid(qh, maxpoint), i+1, maxdet, prevdet * qh->MAXwidth, mindet));
+  } /* i */
 } /* maxsimplex */
 
 /*-<a                             href="qh-geom_r.htm#TOC"
@@ -1555,7 +1586,7 @@ void qh_projectinput(qhT *qh) {
   int k,i;
   int newdim= qh->input_dim, newnum= qh->num_points;
   signed char *project;
-  int projectsize= (qh->input_dim+1)*sizeof(*project);
+  int projectsize= (qh->input_dim + 1) * (int)sizeof(*project);
   pointT *newpoints, *coord, *infinity;
   realT paraboloid, maxboloid= 0;
 
@@ -1578,7 +1609,7 @@ void qh_projectinput(qhT *qh) {
     qh_fprintf(qh, qh->ferr, 6015, "qhull internal error (qh_projectinput): dimension after projection %d != hull_dim %d\n", newdim, qh->hull_dim);
     qh_errexit(qh, qh_ERRqhull, NULL, NULL);
   }
-  if (!(newpoints= qh->temp_malloc= (coordT *)qh_malloc(newnum*newdim*sizeof(coordT)))){
+  if (!(newpoints= qh->temp_malloc= (coordT *)qh_malloc((size_t)(newnum * newdim) * sizeof(coordT)))) {
     qh_memfree(qh, project, projectsize);
     qh_fprintf(qh, qh->ferr, 6016, "qhull error: insufficient memory to project %d points\n",
            qh->num_points);
@@ -1787,16 +1818,20 @@ void qh_scaleinput(qhT *qh) {
   >-------------------------------</a><a name="scalelast">-</a>
 
   qh_scalelast(qh, points, numpoints, dim, low, high, newhigh )
-    scale last coordinate to [0,m] for Delaunay triangulations
+    scale last coordinate to [0.0, newhigh], for Delaunay triangulation
     input points given by points, numpoints, dim
 
   returns:
-    changes scale of last coordinate from [low, high] to [0, newhigh]
+    changes scale of last coordinate from [low, high] to [0.0, newhigh]
     overwrites last coordinate of each point
     saves low/high/newhigh in qh.last_low, etc. for qh_setdelaunay()
 
   notes:
-    when called by qh_setdelaunay, low/high may not match actual data
+    to reduce precision issues, qh_scalelast makes the last coordinate similar to other coordinates
+      the last coordinate for Delaunay triangulation is the sum of squares of input coordinates
+      note that the range [0.0, newwidth] is wrong for narrow distributions with large positive coordinates (e.g., [995933.64, 995963.48])
+
+    when called by qh_setdelaunay, low/high may not match the data passed to qh_setdelaunay
 
   design:
     compute scale and shift factors
@@ -1805,26 +1840,28 @@ void qh_scaleinput(qhT *qh) {
 void qh_scalelast(qhT *qh, coordT *points, int numpoints, int dim, coordT low,
                    coordT high, coordT newhigh) {
   realT scale, shift;
-  coordT *coord;
+  coordT *coord, newlow;
   int i;
   boolT nearzero= False;
 
-  trace4((qh, qh->ferr, 4013, "qh_scalelast: scale last coordinate from [%2.2g, %2.2g] to [0,%2.2g]\n",
-    low, high, newhigh));
+  newlow= 0.0;
+  trace4((qh, qh->ferr, 4013, "qh_scalelast: scale last coordinate from [%2.2g, %2.2g] to [%2.2g, %2.2g]\n",
+    low, high, newlow, newhigh));
   qh->last_low= low;
   qh->last_high= high;
   qh->last_newhigh= newhigh;
-  scale= qh_divzero(newhigh, high - low,
+  scale= qh_divzero(newhigh - newlow, high - low,
                   qh->MINdenom_1, &nearzero);
   if (nearzero) {
     if (qh->DELAUNAY)
-      qh_fprintf(qh, qh->ferr, 6019, "qhull input error: can not scale last coordinate.  Input is cocircular\n   or cospherical.   Use option 'Qz' to add a point at infinity.\n");
+      qh_fprintf(qh, qh->ferr, 6019, "qhull input error (qh_scalelast): can not scale last coordinate to [%4.4g, %4.4g].  Input is cocircular or cospherical.   Use option 'Qz' to add a point at infinity.\n",
+             newlow, newhigh);
     else
-      qh_fprintf(qh, qh->ferr, 6020, "qhull input error: can not scale last coordinate.  New bounds [0, %2.2g] are too wide for\nexisting bounds [%2.2g, %2.2g] (width %2.2g)\n",
-                newhigh, low, high, high-low);
+      qh_fprintf(qh, qh->ferr, 6020, "qhull input error (qh_scalelast): can not scale last coordinate to [%4.4g, %4.4g].  New bounds are too wide for compared to existing bounds [%4.4g, %4.4g] (width %4.4g)\n",
+             newlow, newhigh, low, high, high-low);
     qh_errexit(qh, qh_ERRinput, NULL, NULL);
   }
-  shift= - low * newhigh / (high-low);
+  shift= newlow - low * scale;
   coord= points + dim - 1;
   for (i=numpoints; i--; coord += dim)
     *coord= *coord * scale + shift;
@@ -1996,6 +2033,7 @@ boolT qh_sethalfspace(qhT *qh, int dim, coordT *coords, coordT **nextp,
     }
   }
   *nextp= coordp;
+#ifndef qh_NOtrace
   if (qh->IStracing >= 4) {
     qh_fprintf(qh, qh->ferr, 8021, "qh_sethalfspace: halfspace at offset %6.2g to point: ", *offset);
     for (k=dim, coordp=coords; k--; ) {
@@ -2004,6 +2042,7 @@ boolT qh_sethalfspace(qhT *qh, int dim, coordT *coords, coordT **nextp,
     }
     qh_fprintf(qh, qh->ferr, 8023, "\n");
   }
+#endif
   return True;
 LABELerroroutside:
   feasiblep= feasible;
@@ -2052,7 +2091,7 @@ coordT *qh_sethalfspace_all(qhT *qh, int dim, int count, coordT *halfspaces, poi
 
   trace0((qh, qh->ferr, 12, "qh_sethalfspace_all: compute dual for halfspace intersection\n"));
   newdim= dim - 1;
-  if (!(newpoints= (coordT *)qh_malloc(count*newdim*sizeof(coordT)))){
+  if (!(newpoints= (coordT *)qh_malloc((size_t)(count * newdim) * sizeof(coordT)))){
     qh_fprintf(qh, qh->ferr, 6024, "qhull error: insufficient memory to compute dual of %d halfspaces\n",
           count);
     qh_errexit(qh, qh_ERRmem, NULL, NULL);
@@ -2093,7 +2132,7 @@ boolT qh_sharpnewfacets(qhT *qh) {
   boolT issharp= False;
   int *quadrant, k;
 
-  quadrant= (int *)qh_memalloc(qh, qh->hull_dim * sizeof(int));
+  quadrant= (int *)qh_memalloc(qh, qh->hull_dim * (int)sizeof(int));
   FORALLfacet_(qh->newfacet_list) {
     if (facet == qh->newfacet_list) {
       for (k=qh->hull_dim; k--; )
@@ -2109,7 +2148,7 @@ boolT qh_sharpnewfacets(qhT *qh) {
     if (issharp)
       break;
   }
-  qh_memfree(qh, quadrant, qh->hull_dim * sizeof(int));
+  qh_memfree(qh, quadrant, qh->hull_dim * (int)sizeof(int));
   trace3((qh, qh->ferr, 3001, "qh_sharpnewfacets: %d\n", issharp));
   return issharp;
 } /* sharpnewfacets */

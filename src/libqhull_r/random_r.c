@@ -99,11 +99,13 @@ error_argv:
     return size to allocate for qh_argv_to_command()
 
   notes:
+    only called from rbox with qh_errexit not enabled
+    caller should report error if returned size is less than 1
     argc may be 0
     actual size is usually shorter
 */
 int qh_argv_to_command_size(int argc, char *argv[]) {
-    unsigned int count= 1; /* null-terminator if argc==0 */
+    int count= 1; /* null-terminator if argc==0 */
     int i;
     char *s;
 
@@ -129,7 +131,7 @@ int qh_argv_to_command_size(int argc, char *argv[]) {
     generate pseudo-random number between 1 and 2^31 -2
 
   notes:
-    For qhull and rbox, called from qh_RANDOMint(),etc. [user.h]
+    For qhull and rbox, called from qh_RANDOMint(),etc. [user_r.h]
 
     From Park & Miller's minimal standard random number generator
       Communications of the ACM, 31:1192-1201, 1988.

@@ -88,18 +88,18 @@ Contents </a></h2>
             <li><a href="#ridge">Voronoi vertices</a> of a ridge</li>
         </ul>
     </li>
-    <li><a href="#debugging">Debugging</a> Qhull
+    <li><a href="#debug">How to debug</a> Qhull
     <ul>
         <li><a href="#errors">Qhull</a> errors</li>
         <li><a href="#loops">Qhull</a> infinite loops</li>
         <li><a href="#trace">Qhull</a> trace options</li>
         <li><a href="#segfault">Qhull</a> core dumps and segfaults</li>
-        <li><a href="#qtest">eg/qtest.sh<a> for intermittent errors and profiling</li>
+        <li><a href="#qtest">eg/qtest.sh<a> for intermittent errors and logging</li>
         <li><a href="#memory">Memory</a> errors</li>
         <li><a href="#debugtip">Qhull</a> debugging tips</li>
     </ul> </li>
     <li><a href="#performance">Performance</a> of Qhull</li>
-    <li><a href="#profile">Profiling</a> and optimizing Qhull performance</li>
+    <li><a href="#benchmark">eg/q_benchmark</a> for optimizing Qhull</li>
     <li><a href="#enhance">Enhancements</a> to Qhull</li>
     <li><a href="http://www.qhull.org/src/libqhull_r/index.htm">Function</a> index to Qhull (<a href="../src/libqhull_r/index.htm">local</a>)</li>
 </ul>
@@ -185,6 +185,10 @@ or another directory comparison utility.
 
 <p>Qhull compiles for 64-bit hosts.  Since the size of a pointer on a 64-bit host is double the size on a 32-bit host,
 memory consumption increases about 50% for simplicial facets and up-to 100% for non-simplicial facets.
+If the convex hull does not fit in the computer's level 1 and level 2 cache memory, Qhull will run
+slower as it retrieves data from main memory.
+
+<p>If your data fits in 32-bits, run Qhull as 32-bit code.  It will use less memory and run faster.
 
 <p>You can check memory consumption with option <a href="qh-optt.htm#Ts">Ts</a>.   It includes the size of
 each data structure:
@@ -568,17 +572,27 @@ qh_findbestfacet()</a></h3>
 
 <p>The routine qh_findbestfacet in <tt>poly2_r.c</tt> is
 particularly useful. It uses a directed search to locate the
-facet that is furthest below a point. For Delaunay
-triangulations, this facet is the Delaunay triangle that contains
-the lifted point. For convex hulls, the distance of a point to
+facet that is furthest below a point. </p>
+
+<p>For Delaunay
+triangulations, this facet is either the Delaunay triangle or a neighbor of
+the Delaunay triangle that contains the lifted point.  Qhull determines the
+Delaunay triangulation by projecting the input sites to a paraboloid.  The
+convex hull matches the Delaunay triangulation at the input sites, but does not
+match along the edges.  See this <a href="qh_findbestfacet-drielsma.pdf">image</a>
+by F. Drielsma.   A point is green or yellow depending upon the facet returned
+by qh_findbestfacet.  For points near an
+edge, the circumcircles overlap and the adjacent facet may be returned. </p>
+
+<p>For convex hulls, the distance of a point to
 the convex hull is either the distance to this facet or the
 distance to a subface of the facet.</p>
 
 <blockquote>
 <p><b>Warning:</b> If triangulated output ('<a href=qh-optq.htm#Qt>Qt</a>') and
-the best facet is triangulated, qh_findbestfacet() returns one of
+the best facet was triangulated, qh_findbestfacet() returns one of
 the corresponding 'tricoplanar' facets.  The actual best facet may be a different
-tricoplanar facet.
+tricoplanar facet from the same set of facets.
 <p>
 See qh_nearvertex() in poly2.c for sample code to visit each
 tricoplanar facet.  To identify the correct tricoplanar facet,
@@ -782,17 +796,54 @@ decomposition of the (d-2)-faces between each pair of facets --
 if you need 1-faces, you probably need to generate the full face
 graph of the convex hull. </p>
 
-<h2><a href="#TOC">&#187;</a><a name="debugging">Debugging Qhull </a></h2>
-
-<h3><a href="#TOC">&#187;</a><a name="errors">Qhull errors</a></h3>
+<h2><a href="#TOC">&#187;</a><a name="debug">How to debug</a> Qhull</h2>
 
 <p>Qhull continually checks its execution, so most errors will stop Qhull with an error message.
 Additional checking occurs for verified output ('<a href="qh-optt.htm#Tv">Tv</a>'), check
 frequently ('<a href="qh-optt.htm#Tc">Tc</a>'), check for duplicate ridges ('<a href="qh-optt.htm#Q15">T15</a>'),
 and tracing at level 4 ('<a href="qh-optt.htm#Tn">T4</a>'). </p>
 
-<p>
-Qhull errors start with 'QH6...' and Qhull warnings start with 'QH7...'.  The error message and
+<p>If Qhull detects an error, it writes a descriptive error message to stderr, and exits with an exit status code (see following).
+The C++ interface captures the message
+in Qhull::qhullMessage.  If Qhull::setErrorStream was called, it writes the error message to Qhull::errorStream.
+
+<p>If a Qhull segfault occurs, turn on tracing with option '<a href="qh-optt.htm#Tn">T4</a>' and
+flush output (qh_fprintf) with option '<a href="qh-optt.htm#Tf">Tf</a>'.  See <a href="#segfault">core dumps and
+segfaults</a>.
+
+<p>If Qhull never finishes, is Qhull running slow or was there an infinite loop?
+<ul>
+<li>If you are running Qhull under Git for Windows or MSYS2, 'qhull' waits for stdin instead of displaying a help message.
+Use 'qhull --help' instead.
+<li>Turn on monitoring with option
+'<a href="qh-optt.htm#TFn">TFn</a>'.   Qhull normally takes approximately the same amount of time per point.
+If the output is too large, it will slow down due to main memory or virtual memory.
+<li>If there are large,
+non-simplicial facets, see "quadradic running time" in <a href="qh-impre.htm#limit">Limitations of merged facets</a>.
+<li>See <a href="#performance">Performance</a> and <a href="#loops">infinite loops</a> for further suggestions.
+</ul>
+
+<p>If a Qhull error occurs, try to simplify the problem.
+<ul>
+<li>If new to Qhull, start with short examples that you can work out by hand.  Your problem may
+be due to misunderstanding Qhull's output, or an incompatibility between your program and the Qhull libraries.
+<li>Can you produce the input that triggers the problem?  The input to Qhull includes the dimension,
+number of points, point coordinates, and Qhull options.  Qhull is usually deterministic for a particular build.
+<li>Can you duplicate the problem using one of the Qhull programs (e.g., 'qhull' or 'qconvex')?
+<li>Does a shorter output trigger the problem?
+<li>Can you turn on tracing with option '<a href="qh-optt.htm#Tn">T4</a>'?  If too much output occurs,
+use the <a href="qh-optt.htm">trace options</a> to reduce the trace output.
+<li>The test program, '<a href="#qtest">eg/qtest.sh</a>', repeats a qhull run for intermittent errors.
+It can log a qhull run to 'qhull.log' and a reduced log, 'qhull-step.log'.
+</ul>
+
+<p>If the segfault, infinite loop, or internal error was
+due to Qhull, please report the error to '<a href="mailto:bradb@shore.net">bradb@shore.net</a>.
+Please include the input data (i.e., point coordinates) that triggered the error.
+
+<h3><a href="#TOC">&#187;</a><a name="errors">Qhull errors</a></h3>
+
+<p>Qhull errors start with 'QH6...' and Qhull warnings start with 'QH7...'.  The error message and
 error code are arguments to a qh_fprintf call.  After printing the error message, Qhull exits with
 an exit status code.  The exit status code indicates the type of error:
 <ul>
@@ -802,12 +853,12 @@ Qhull warnings.  Unless option '<a href="qh-optq.htm#Qw">Qw</a>' is specified, Q
 QH6035 or QH6037 and exits with qh_ERRinput. Inconsistent options typically report an error.
 <br>The input to Qhull specifies the dimension
 and number of points.  If the input contains
-fewer or more points than coordinates, Qhull reports error QH6337 and exits with qh_ERRinput.
+fewer or more points than coordinates, Qhull reports error QH6410 and exits with qh_ERRinput.
 If option '<a href="qh-optq.htm#Qa">Qa</a>' is specified, it reports warning QH7073
 and continues execution. </li>
 <li>
 qh_ERRsingular (2) -- singular input data.  If the input data is singular or flat (e.g., a line segment in 2-d),
-Qhull reports error QH6114 or QH6154.  Qhull calls qh_printhelp_singular to print an explanation of the error.
+Qhull reports error QH6114, QH6379, or QH6154.  Qhull calls qh_printhelp_singular to print an explanation of the error.
 It exits qhull with qh_ERRsingular. </li>
 <li>
 qh_ERRprec (3) -- precision error.  By default, Qhull handles precision errors by merging.
@@ -889,7 +940,7 @@ repeat at level 2 to find the last qh_mergefacet (QH2081) and then trace at leve
 to the corresponding trace3 call.  Be sure to mark the code for removal.  For example<br>
 <pre>
   if (facetA->id==4675)
-    qh->IStracing= 4; /* FIXUP */
+    qh->IStracing= 4; /* DEBUG */
   trace3((qh, qh->ferr, 3020, "qh_triangulate_facet: triangulate facet f%d\n", facetA->id));
 </pre>
 </ul></li>
@@ -898,7 +949,7 @@ to the corresponding trace3 call.  Be sure to mark the code for removal.  For ex
 level 4 log.
 </ol>
 
-<h3><a href="#TOC">&#187;</a><a name="qtest">eg/qtest.sh for intermittent errors and profiling</a></h3>
+<h3><a href="#TOC">&#187;</a><a name="qtest">eg/qtest.sh for intermittent errors and logging</a></h3>
 
 <p>For intermittent errors, use 'rbox' to generate random test cases, and <a href="../eg/qtest.sh">eg/qtest.sh</a>
 to invoke multiple runs of qhull.
@@ -950,12 +1001,17 @@ corresponding reduced log, qhull-step.log.  These logs include line numbers gene
 
 <h3><a href="#TOC">&#187;</a><a name="memory">Memory errors</a></h3>
 
-Qhull checks memory usage before exiting.   To locate memory that is not freed ("QH7068 qhull internal warning (main): did not free ..."):
+Qhull checks memory usage before exiting.   To locate memory that is not freed ("QH7079 qhull internal warning (main): did not free ..."):
 <ol>
 <li>Run qhull with memory tracing '<a href="qh-optt.htm#Tn">T5</a>'.
+<br>See 'Level 5' in <a href="#trace">Qhull trace options</a> (above)
 <li>Sort lines that start with 'qh_mem'.  It matches qh_memalloc with the corresponding qh_memfree.
-<li>Replace 'qh_mem.*alloc.*\nqh_mem.*free.*' with 'Match' (<a href="http://www.textpad.com">Textpad</a> supports internal newlines in match expressions).
-<li>Sort by column 25 (n...).  It shows unallocated items in execution order, for example<br>qh_mem 0000000000537440 n    10053 alloc long: 128 bytes (tot 484800 cnt 1209)
+<li>For long allocations, sort lines that contain -- qh_mem.*long:
+<li>Replace -- qh_mem.*alloc.*\nqh_mem.*free.* -- with 'Match' (<a href="http://www.textpad.com">Textpad</a> supports internal newlines in match expressions).
+<li>Sort by column 25 (n...).  It shows unallocated actions.  Long allocations are in execution order.
+Short and quick allocations are in execution order.
+<li>For example: qh_mem 0000000000537440 n    10053 alloc long: 128 bytes (tot 484800 cnt 1209)
+<li>To check quick vs. long allocations -- grep "qh_mem .*alloc " qhull.log | sed -e 's/^.*long/long/' -e 's/^.*short/short/' -e 's/^.*quick/quick/' -e 's/bytes.*/bytes/' | sort | uniq -c >x.1
 </ol></p>
 
 <p>Option '<a href="qh-optt.htm#Ts">Ts</a>' reports
@@ -1094,20 +1150,17 @@ from qh_findbestnew().  The dominate cost for 3-d Delaunay triangulation
 is creating new facets in qh_addpoint(), while qh_distplane() remains
 the most expensive function.</p>
 
-
-<h2><a href="#TOC">&#187;</a><a name="profile">Profiling and optimizing Qhull performance </a></h2>
+<h2><a href="#TOC">&#187;</a><a name="benchmark">eg/q_benchmark</a> for optimizing Qhull</h2>
 
 <p><a href="../eg/q_benchmark">eg/q_benchmark</a> and <a href="../eg/qtest.sh">eg/qtest.sh</a>
 make multiple runs of Qhull for testing,
 benchmarking, and debugging.   They help test and analyze intermittent errors, performance issues, and precision issues.
-Each release will update <a href="../eg/q_benchmark-ok.txt">eg/q_benchmark-ok.txt</a>.  For performance benchmarks,
-qhull uses the median of five runs.
+Each release updates <a href="../eg/q_benchmark-ok.txt">eg/q_benchmark-ok.txt</a>.
 
-<p>Qhull 2019.1 is FIXUP 25% larger than Qhull 2015.2 due to enhanced error reporting, tracing, and facet merging.
-The increased code size may increase startup times by 0.1 seconds.
-See <a href="../eg/q_benchmark-ok.txt">eg/q_benchmark-ok.txt</a> </p>
+<p>Qhull 2019.1 is 15% larger than Qhull 2015.2 due to enhanced error reporting, tracing, and facet merging.
+The increased code size may increase startup times. </p>
 
-<p>Qhull is single threaded.  gcc's gprof works well for profiling Qhull performance. </p>
+<p>Qhull is single threaded.  Gcc's gprof works well for profiling Qhull performance. </p>
 
 <ul>
 <li>Recompile Qhull with '-pg' added to CC_OPTS1 in qhull's Makefile.  Check for optimization ('-O3').
@@ -1155,12 +1208,55 @@ Statistics for: rbox 500000 s | qhull TI c:/bash/local/qhull/bin/r.x
 real    0m6.334s
 user    0m0.016s
 sys     0m0.015s
+</pre>
+</ul>
 
 <h2><a href="#TOC">&#187;</a><a name="enhance">Enhancements to Qhull </a></h2>
 
 <p>There are many ways in which Qhull can be improved. </p>
 
 <pre>
+Top Suggestions
+ - Optimize for 64-bit code
+   Custom facetT for simplicial facets
+   32-bit indices for facets and vertices
+ - Bulk qh_addpoint with a custom point partition
+ - Full-dimensional flats
+   Add points at right angles like 'Qz'
+   Ignore added facets in output (cf. f.upperDelaunay and f.good)
+ - Per-vertex joggle
+   Joggle by random flip of low-order and adjustable-order bits in mantissa
+   Allows consistent triangulations across distributed partitions
+   Detect integer input data and automatically translate to the origin
+ - Develop a theory for merging Qhull's non-simplicial facets
+   A merge creates constraints on subsequent merges, what are these constraints?
+   Identify topological errors in qh_findbest_test (merge_r.c)f
+   Prevent duplicate ridges (Q15-check-duplicates) or facets with the same vertices
+   Preserve facet-ridge orientation for nonsimplicial facets (ridge top/bot)
+   Produce conformant triangulations for nonsimplicial facets (option 'Qt', QH2088)
+   Should vertex merge account for facet orientation?
+   Rationalize the merge options qh_RATIOtwisted, qh_WIDEdupridge, etc.
+   Should wide merges be proportional to qh.ONEmerge or f.maxoutside?
+   Can dupridges be avoided with geometric and topological constraints?
+   Review coplanar tests across sharp ridges (coplanar horizon, qh_test_appendmerge, qh_check_maxout)
+ - Octave creates endpoints for unbounded ridges, for drawing Delaunay/Voronoi diagrams [M. Voss]
+ - Option to select bounded Voronoi regions [A. Uzunovic]
+ - Review Qhull performance.  qh_next_vertexmerge and qh_check_maxout are slower than expected
+   Compare to Peterka et al and Li and Snoeyink, particularly 64-bit vs. 32-bit
+ - Use Gaussian distribution for random cospherical points in rbox
+ - Implement dimension reduction via Johnson-Lindenstrauss flattening
+ - Implement bulk qh_addpoint via a subset of the facets, perhaps a box about qh.interior_point
+   Allow qh_triangulate to run after each increment [coldfix, scipy #4974]
+ - Write incremental addPoint with bucketed inputs and facet search (CGAL)
+ - Compute hyperplanes in parallel (cf. qh_setfactplane)
+ - Create Voronoi volumes and topology in parallel
+ - Implement Delaunay to Voronoi tesselation [Peterka et al, 2014, www.mcs.anl.gov/papers/P5154-0614.pdf]
+ - Integrate 4dview with Geomview 1.9.5
+ - Use coverage testing to expand Qhull's test programs
+ - Add RPM and Debian builds to Qhull (CMake's CPackRMP and CPackDeb).
+ - Create a mirror/archive web site for old and new Qhull builds
+ - Constrain delaunay triangulations via Shewchuk's algorithm (ACM Symp. Comp. Geo., 1998)
+
 [May 2019] Suggestions
 ------------
 Precision issues

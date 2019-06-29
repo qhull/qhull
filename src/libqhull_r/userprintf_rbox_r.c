@@ -41,8 +41,8 @@ void qh_fprintf_rbox(qhT *qh, FILE *fp, int msgcode, const char *fmt, ... ) {
     va_list args;
 
     if (!fp) {
-        qh_fprintf_stderr(6231, "qhull internal error (userprintf_rbox_r.c): fp is 0.  Wrong qh_fprintf_rbox called.\n");
-        qh_errexit_rbox(qh, 6231);
+      qh_fprintf_stderr(6231, "qhull internal error (userprintf_rbox_r.c): fp is 0.  Wrong qh_fprintf_rbox called.\n");
+      qh_errexit_rbox(qh, qh_ERRqhull);
     }
     if (msgcode >= MSG_ERROR && msgcode < MSG_STDERR)
       fprintf(fp, "QH%.4d ", msgcode);

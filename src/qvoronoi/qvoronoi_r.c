@@ -1,11 +1,11 @@
-/*<html><pre>  -<a                             href="../libqhull/qh-qhull.htm"
+/*<html><pre>  -<a                             href="../libqhull_r/qh-qhull_r.htm"
   >-------------------------------</a><a name="TOP">-</a>
 
-   qvoronoi.c
+   qvoronoi_r.c
      compute Voronoi diagrams and furthest-point Voronoi
      diagrams using qhull
 
-   see unix.c for full interface
+   see unix_r.c for full interface
 
    Copyright (c) 1993-2019, The Geometry Center
 */
@@ -33,15 +33,15 @@ int isatty(int);  /* returns 1 if stdin is a tty
                    if "Undefined symbol" this can be deleted along with call in main() */
 #endif
 
-/*-<a                             href="../libqhull/qh-qhull.htm#TOC"
+/*-<a                             href="../libqhull_r/qh-qhull_r.htm#TOC"
   >-------------------------------</a><a name="prompt">-</a>
 
   qh_prompt
     long prompt for qhull
 
   notes:
-    restricted version of libqhull.c
-    same text as unix.c
+    restricted version of libqhull_r.c
+    same text as unix_r.c
     see concise prompt below
     limit maximum literal to 1800 characters
 */
@@ -169,7 +169,7 @@ Print options:\n\
 ";
 /* for opts, don't assign 'e' or 'E' to a flag (already used for exponent) */
 
-/*-<a                             href="../libqhull/qh-qhull.htm#TOC"
+/*-<a                             href="../libqhull_r/qh-qhull_r.htm#TOC"
   >-------------------------------</a><a name="prompt2">-</a>
 
   qh_prompt2
@@ -209,7 +209,7 @@ examples:\n\
 ";
 /* for opts, don't assign 'e' or 'E' to a flag (already used for exponent) */
 
-/*-<a                             href="../libqhull/qh-qhull.htm#TOC"
+/*-<a                             href="../libqhull_r/qh-qhull_r.htm#TOC"
   >-------------------------------</a><a name="prompt3">-</a>
 
   qh_prompt3
@@ -245,7 +245,7 @@ Except for 'F.' and 'PG', upper-case options take an argument.\n\
  Angle-max      Centrum-size   Random-dist    Wide-outside\n\
 ";
 
-/*-<a                             href="../libqhull/qh-qhull.htm#TOC"
+/*-<a                             href="../libqhull_r/qh-qhull_r.htm#TOC"
   >-------------------------------</a><a name="main">-</a>
 
   main( argc, argv )
@@ -317,7 +317,7 @@ int main(int argc, char *argv[]) {
   qh_freeqhull(qh, !qh_ALL);
   qh_memfreeshort(qh, &curlong, &totlong);
   if (curlong || totlong)
-    qh_fprintf_stderr(6263, "qhull internal warning (main): did not free %d bytes of long memory(%d pieces)\n",
+    qh_fprintf_stderr(7079, "qhull internal warning (main): did not free %d bytes of long memory(%d pieces)\n",
        totlong, curlong);
 #endif
   return exitcode;

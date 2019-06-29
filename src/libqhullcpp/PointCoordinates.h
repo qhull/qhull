@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2009-2019 C.B. Barber. All rights reserved.
-** $Id: //main/2019/qhull/src/libqhullcpp/PointCoordinates.h#2 $$Change: 2664 $
-** $DateTime: 2019/05/25 13:44:04 $$Author: bbarber $
+** $Id: //main/2019/qhull/src/libqhullcpp/PointCoordinates.h#3 $$Change: 2711 $
+** $DateTime: 2019/06/27 22:34:56 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -136,16 +136,16 @@ private:
 
 public:
                         PointCoordinatesIterator(const PointCoordinates &container) : c(&container), i(c->constBegin()) {}
-                        PointCoordinatesIterator &operator=(const PointCoordinates &container) { c = &container; i = c->constBegin(); return *this; }
+                        PointCoordinatesIterator &operator=(const PointCoordinates &container) { c= &container; i = c->constBegin(); return *this; }
 
-    void                toFront() { i = c->constBegin(); }
-    void                toBack() { i = c->constEnd(); }
+    void                toFront() { i= c->constBegin(); }
+    void                toBack() { i= c->constEnd(); }
     bool                hasNext() const { return i != c->constEnd(); }
     const QhullPoint    next() { return *i++; }
     const QhullPoint    peekNext() const { return *i; }
     bool                hasPrevious() const { return i != c->constBegin(); }
     const QhullPoint    previous() { return *--i; }
-    const QhullPoint    peekPrevious() const { const_iterator p = i; return *--p; }
+    const QhullPoint    peekPrevious() const { const_iterator p= i; return *--p; }
     bool                findNext(const QhullPoint &t) { while(i != c->constEnd()){ if (*i++ == t) return true;} return false; }
     bool                findPrevious(const QhullPoint &t) { while(i != c->constBegin()){ if (*(--i) == t) return true;} return false;  }
 };//CoordinatesIterator

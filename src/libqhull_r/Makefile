@@ -51,7 +51,7 @@
 #
 # Do not replace tabs with spaces.  Needed for build rules
 # Unix line endings (\n)
-# $Id: //main/2019/qhull/src/libqhull_r/Makefile#1 $
+# $Id: //main/2019/qhull/src/libqhull_r/Makefile#4 $
 
 DESTDIR = /usr/local
 BINDIR	= $(DESTDIR)/bin
@@ -67,9 +67,12 @@ PRINTC = enscript -2r
 # PRINTC = lpr
 
 #for Gnu's gcc compiler, -O3 for optimization, -g for debugging, -pg for profiling
+# Qhull uses less memory with 32-bit builds (-m32)
 # -fpic  needed for gcc x86_64-linux-gnu.  Not needed for mingw
+# caller may defined CC_WARNINGS
+M32       = -m32
 CC        = gcc
-CC_OPTS1  = -O3 -ansi -I../../src -fpic $(CC_WARNINGS)
+CC_OPTS1  = -O3 -ansi -I../../src -fpic $(CC_WARNINGS) ${M32}
 
 # for Sun's cc compiler, -fast or O2 for optimization, -g for debugging, -Xc for ANSI
 #CC       = cc
@@ -143,11 +146,12 @@ LIBQHULL_HDRS= user_r.h libqhull_r.h qhull_ra.h geom_r.h \
 	io_r.h mem_r.h merge_r.h poly_r.h random_r.h \
 	qset_r.h stat_r.h
 
-# CFILES ordered alphabetically after libqhull.c 
+# CFILES for 'printc', ordered alphabetically after libqhull_r.c 
 CFILES= ../qhull/unix_r.c libqhull_r.c geom_r.c geom2_r.c global_r.c io_r.c \
 	mem_r.c merge_r.c poly_r.c poly2_r.c random_r.c rboxlib_r.c \
 	qset_r.c stat_r.c user_r.c usermem_r.c userprintf_r.c \
-	../qconvex/qconvex.c ../qdelaunay/qdelaun.c ../qhalf/qhalf.c ../qvoronoi/qvoronoi.c
+	../qconvex/qconvex_r.c ../qdelaunay/qdelaun_r.c \
+	../qhalf/qhalf_r.c ../qvoronoi/qvoronoi_r.c
 
 TXTFILES= ../../Announce.txt ../../REGISTER.txt ../../COPYING.txt ../../README.txt ../Changes.txt
 DOCFILES= ../../html/rbox.txt ../../html/qhull.txt
@@ -167,6 +171,7 @@ qhull_links:
 	[ -f unix_r.c ]     || ln -s ../qhull/unix_r.c
 	[ -f user_eg_r.c ]  || ln -s ../user_eg/user_eg_r.c
 	[ -f user_eg2_r.c ] || ln -s ../user_eg2/user_eg2_r.c
+	# user_eg3_r.c not compiled.  It requires all of libqhullcpp; use qhull/Makefile instead
 
 # compile qhull without using bin/libqhullstatic_r.a
 qhull_all: qconvex_r.o qdelaun_r.o qhalf_r.o qvoronoi_r.o unix_r.o user_eg_r.o user_eg2_r.o rbox_r.o testqset_r.o $(LIBQHULLS_OBJS)
@@ -191,7 +196,7 @@ qtest:
 	@echo -n "== "
 	@date
 	@echo
-	@echo Testing qset.c and mem.c with testqset
+	@echo Testing qset_r.c and mem_r.c with testqset_r
 	./testqset_r 10000
 	@echo Run the qhull smoketest
 	./rbox D4 | ./qhull

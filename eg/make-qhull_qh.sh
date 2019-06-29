@@ -2,8 +2,8 @@
 #
 # make-qhull_qh.sh [libqhull_r] [sed-only] [files] -- Derive src/qhull-qh/ from src/libqhull_r with 'qh' macros
 #
-# $Id: //main/2019/qhull/eg/make-qhull_qh.sh#1 $$Change: 2661 $
-# $DateTime: 2019/05/24 20:09:58 $$Author: bbarber $
+# $Id: //main/2019/qhull/eg/make-qhull_qh.sh#2 $$Change: 2672 $
+# $DateTime: 2019/06/06 15:21:49 $$Author: bbarber $
 
 if [[ "$1" == "" ]]; then
     echo "eg/make-qhull_qh.sh libqhull_r | sed-only | <directory-file-list> -- convert 'qh->' to macro 'qh'"
@@ -138,3 +138,4 @@ for F in $DEST/*.htm; do
         u2d $F
     fi
 done
+echo -e "\nCompare '$DEST' to 'src/libqhull', 'src/qdelaunay', etc.  Do not ignore minor differences."

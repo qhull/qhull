@@ -1,6 +1,6 @@
 Name
 
-      qhull, rbox         2019.0.1       2019/05/24
+      qhull, rbox         2019.1          2019/06/21
   
 Convex hull, Delaunay triangulation, Voronoi diagrams, Halfspace intersection
  
@@ -173,7 +173,8 @@ Installing Qhull with CMake 2.6 or later
   The ".." is important.  It refers to the parent directory (i.e., qhull/)
 
   On Windows, CMake installs to C:/Program Files/qhull.  64-bit generators
-  have a "Win64" tag.
+  have a "Win64" tag.  Qhull's data structures are substantial larger as
+  64-bit code than as 32-bit code.  This may slow down Qhull.
   
   If creating a qhull package, please include a pkg-config file based on build/qhull*.pc.in
 
@@ -187,8 +188,9 @@ Installing Qhull with Qt
   - Download and extract Qhull (either GitHub, .tgz file, or .zip file)
   - Load src/qhull-all.pro into QtCreator
   - Build
-  - qhulltest depends on shared libraries QtCore.a and QtTest.a.  They may need to be copied into the bin directory
-    On Windows, copy Qt5Core.dll and Qt5Test.dll, e.g., qt/5.11.2/msvc2017_64/bin
+  - qhulltest depends on shared libraries QtCore.a and QtTest.a.  They may need to be copied 
+    into the bin directory.  On Windows, copy Qt5Core.dll and Qt5Test.dll, e.g., qt/5.11.2/msvc2017_64/bin
+  - If qhulltest fails without an error message, check for missing Q54Core.dll and Qt5Test.dll
 
 -------------------
 Working with Qhull's C++ interface
@@ -240,7 +242,8 @@ Compiling Qhull with Microsoft Visual C++
 
   To compile 32-bit Qhull with Microsoft Visual C++ 2010 and later
   - Download and extract Qhull (either GitHub, .tgz file, or .zip file)
-  - Load solution build/qhull-32.sln 
+  - Load solution build/qhull-32.sln
+  - Right-click 'Retarget solution' from toolset v110 to your Platform Toolset
   - Build target 'Win32'
   - Project qhulltest requires Qt for DevStudio (http://www.qt.io)
     Set the QTDIR environment variable to your Qt directory (e.g., c:/qt/5.2.0/5.2.0/msvc2012)
@@ -248,14 +251,19 @@ Compiling Qhull with Microsoft Visual C++
   - Copy Qt shared libraries, QtCore.dll and QtTest.dll, into the bin directory
 
   To compile 64-bit Qhull with Microsoft Visual C++ 2010 and later
-  - 64-bit Qhull has larger data structures due to 64-bit pointers
+  - 64-bit Qhull has larger data structures due to 64-bit pointers.  This may slow down Qhull.
   - Download and extract Qhull (either GitHub, .tgz file, or .zip file)
   - Load solution build/qhull-64.sln 
+  - Right-click 'Retarget solution' from toolset v110 to your Platform Toolset
   - Build target 'x64'
   - Project qhulltest requires Qt for DevStudio (http://www.qt.io)
     Set the QTDIR environment variable to your Qt directory (e.g., c:/qt/5.2.0/5.2.0/msvc2012_64)
     If QTDIR is incorrect, precompile will fail with 'Can not locate the file specified'
   
+  If error -- MSB8020: The build tools for Visual Studio 2012 (Platform Toolset = 'v110') cannot be found.
+  - 'Project > Retarget solution' for both qhull-32.sln and qhull-64.sln
+  - 'Save All' both projects
+
   To compile Qhull with Microsoft Visual C++ 2005 (vcproj files)
   - Download and extract Qhull (either GitHub, .tgz file, or .zip file)
   - Load solution build/qhull.sln 
@@ -412,6 +420,8 @@ eg/
   q_eg                 // shell script for Geomview examples (eg.01.cube)
   q_egtest             // shell script for Geomview test examples
   q_test               // shell script to test qhull
+  q_test.bat           // Windows batch test for QHULL-GO.bat
+                       // cd bin; ..\eg\q_test.bat >q_test.x 2>&1
   q_test-ok.txt        // reviewed output from q_test
   qhulltest-ok.txt     // reviewed output from qhulltest (Qt only)
   make-qhull_qh.sh     // shell script to create non-reentrant qhull_qh from reentrant Qhull
@@ -447,11 +457,9 @@ qhull consists of (bin, html):
   qh-quick.htm
   qh--*.gif            // images for manual
   normal_voronoi_knauss_oesterle.jpg
+  qh_findbestfacet-drielsma.pdf
   qhull.man            // Unix man page 
   qhull.txt
-  
-  
-  
 
 bin/
   msvcr80.dll          // Visual C++ redistributable file (.zip download only)

@@ -51,7 +51,7 @@
 #
 # Do not replace tabs with spaces.  Needed for build rules
 # Unix line endings (\n)
-# $Id: //main/2019/qhull/src/libqhull/Makefile#1 $
+# $Id: //main/2019/qhull/src/libqhull/Makefile#4 $
 
 DESTDIR = /usr/local
 BINDIR	= $(DESTDIR)/bin
@@ -67,9 +67,12 @@ PRINTC = enscript -2r
 # PRINTC = lpr
 
 #for Gnu's gcc compiler, -O3 for optimization, -g for debugging, -pg for profiling
+# Qhull uses less memory with 32-bit builds (-m32)
 # -fpic  needed for gcc x86_64-linux-gnu.  Not needed for mingw
+# caller may defined CC_WARNINGS
+M32       = -m32
 CC        = gcc
-CC_OPTS1  = -O3 -ansi -I../../src -fpic $(CC_WARNINGS)
+CC_OPTS1  = -O3 -ansi -I../../src -fpic $(CC_WARNINGS) ${M32}
 
 # for Sun's cc compiler, -fast or O2 for optimization, -g for debugging, -Xc for ANSI
 #CC       = cc
@@ -143,11 +146,12 @@ LIBQHULL_HDRS= user.h libqhull.h qhull_a.h geom.h \
 	io.h mem.h merge.h poly.h random.h \
 	qset.h stat.h
 
-# CFILES ordered alphabetically after libqhull.c 
+# CFILES for 'printc', ordered alphabetically after libqhull.c 
 CFILES= ../qhull/unix.c libqhull.c geom.c geom2.c global.c io.c \
 	mem.c merge.c poly.c poly2.c random.c rboxlib.c \
 	qset.c stat.c user.c usermem.c userprintf.c \
-	../qconvex/qconvex.c ../qdelaunay/qdelaun.c ../qhalf/qhalf.c ../qvoronoi/qvoronoi.c
+	../qconvex/qconvex.c ../qdelaunay/qdelaun.c \
+	../qhalf/qhalf.c ../qvoronoi/qvoronoi.c
 
 TXTFILES= ../../Announce.txt ../../REGISTER.txt ../../COPYING.txt ../../README.txt ../Changes.txt
 DOCFILES= ../../html/rbox.txt ../../html/qhull.txt
@@ -167,6 +171,7 @@ qhull_links:
 	[ -f unix.c ]     || ln -s ../qhull/unix.c
 	[ -f user_eg.c ]  || ln -s ../user_eg/user_eg.c
 	[ -f user_eg2.c ] || ln -s ../user_eg2/user_eg2.c
+	# user_eg3.c not compiled.  It requires all of libqhullcpp; use qhull/Makefile instead
 
 # compile qhull without using bin/libqhullstatic.a
 qhull_all: qconvex.o qdelaun.o qhalf.o qvoronoi.o unix.o user_eg.o user_eg2.o rbox.o testqset.o $(LIBQHULLS_OBJS)

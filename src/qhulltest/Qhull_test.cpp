@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2019 C.B. Barber. All rights reserved.
-** $Id: //main/2019/qhull/src/qhulltest/Qhull_test.cpp#2 $$Change: 2664 $
-** $DateTime: 2019/05/25 13:44:04 $$Author: bbarber $
+** $Id: //main/2019/qhull/src/qhulltest/Qhull_test.cpp#3 $$Change: 2695 $
+** $DateTime: 2019/06/21 16:40:16 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -87,6 +87,10 @@ t_construct()
         QCOMPARE(q.facetCount(),3);
         QCOMPARE(q.vertexCount(),3);
         QCOMPARE(q.dimension(),2);
+        double area= (2.0 + sqrt(2.0));
+        double delta= fabs(q.area() - area);
+        double qtDelta= 0.000000000001 * area;
+        cout << "area delta " << delta << ". qFuzzyCompare delta " << qtDelta << endl;
         QCOMPARE(q.area(), 2.0+sqrt(2.0)); // length of boundary
         QCOMPARE(q.volume(), 0.5);        // the 2-d area
     }

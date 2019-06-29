@@ -7,8 +7,8 @@
    see qh-poly_r.htm, libqhull_r.h and poly_r.c
 
    Copyright (c) 1993-2019 The Geometry Center.
-   $Id: //main/2019/qhull/src/libqhull_r/poly_r.h#1 $$Change: 2661 $
-   $DateTime: 2019/05/24 20:09:58 $$Author: bbarber $
+   $Id: //main/2019/qhull/src/libqhull_r/poly_r.h#3 $$Change: 2701 $
+   $DateTime: 2019/06/25 15:24:47 $$Author: bbarber $
 */
 
 #ifndef qhDEFpoly
@@ -246,7 +246,7 @@ void    qh_addhash(void *newelem, setT *hashtable, int hashsize, int hash);
 void    qh_check_bestdist(qhT *qh);
 void    qh_check_maxout(qhT *qh);
 void    qh_check_output(qhT *qh);
-void    qh_check_point(qhT *qh, pointT *point, facetT *facet, realT *maxoutside, realT *maxdist, facetT **errfacet1, facetT **errfacet2);
+void    qh_check_point(qhT *qh, pointT *point, facetT *facet, realT *maxoutside, realT *maxdist, facetT **errfacet1, facetT **errfacet2, int *errcount);
 void    qh_check_points(qhT *qh);
 void    qh_checkconvex(qhT *qh, facetT *facetlist, int fault);
 void    qh_checkfacet(qhT *qh, facetT *facet, boolT newmerge, boolT *waserrorp);
@@ -262,7 +262,7 @@ setT   *qh_facet3vertex(qhT *qh, facetT *facet);
 facetT *qh_findbestfacet(qhT *qh, pointT *point, boolT bestoutside,
            realT *bestdist, boolT *isoutside);
 facetT *qh_findbestlower(qhT *qh, facetT *upperfacet, pointT *point, realT *bestdistp, int *numpart);
-facetT *qh_findfacet_all(qhT *qh, pointT *point, realT *bestdist, boolT *isoutside,
+facetT *qh_findfacet_all(qhT *qh, pointT *point, boolT noupper, realT *bestdist, boolT *isoutside,
                           int *numpart);
 int     qh_findgood(qhT *qh, facetT *facetlist, int goodhorizon);
 void    qh_findgood_all(qhT *qh, facetT *facetlist);

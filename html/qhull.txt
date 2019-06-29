@@ -312,7 +312,11 @@ qhull(1)                                                 qhull(1)
               trum.  Its index is greater than the indices of the
               input points.  Each base corresponds to  a  simpli-
               cial  ridge  between two facets.  To print the ver-
-              tices without triangulation, use option 'Fv'.
+              tices without triangulation, use option 'Fv'.  To 
+              print the centrum coordinates, use option 'Ft'. The
+              centrum indices for option 'i' are one more than 
+              the centrum indices for option 'Ft'.
+
 
        m      Output  the  hull  in  Mathematica  format.   Qhull
               writes  a  Mathematica  file for 2-d and 3-d convex

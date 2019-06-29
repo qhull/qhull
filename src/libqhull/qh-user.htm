@@ -90,6 +90,8 @@ define default box size for rbox, 'Qbb', and 'QbB' (Geomview expects 0.5) </li>
 output, indicates Voronoi center at infinity </li>
 <li><a href="user.h#ORIENTclock">qh_ORIENTclock</a>
 define convention for orienting facets</li>
+<li><a href="user.h#RANDOMdist">qh_RANDOMdist</a>
+for testing qh.DISTround (sets qh.RANDOMfactor for qh.RANDOMdist, same as option 'Rn')</li>
 </ul>
 
 <h3><a href="qh-user.htm#TOC">&#187;</a><a name="ujoggle">joggle constants</a></h3>
@@ -148,6 +150,8 @@ e.g., _STDC_ and _cplusplus
     compute furthest distance to an outside point instead of storing it with the facet
 <li><a href="user.h#KEEPstatistics">qh_KEEPstatistics</a>
     enable statistic gathering and reporting with option 'Ts'
+<li><a href="user.h#MAXcheckpoint">qh_MAXcheckpoint</a>
+    report up to qh_MAXcheckpoint errors per facet in qh_check_point ('Tv')
 <li><a href="user.h#MAXoutside">qh_MAXoutside</a>
 record outer plane for each facet
 <li><a href="user.h#NOmerge">qh_NOmerge</a>
@@ -190,12 +194,14 @@ when does qh_merge_nonconvex() call
 qh_reducevertices_centrums? </li>
 <li><a href="user.h#RATIOconcavehorizon">qh_RATIOconcavehorizon</a>
 ratio of horizon vertex distance to qh.max_outside for concave, twisted new facets in qh_test_nonsimplicial_merge </li>
-<li><a href="user.h#RATIOconvexmerge">qh_qh_RATIOconvexmerge</a>
+<li><a href="user.h#RATIOconvexmerge">qh_RATIOconvexmerge</a>
 ratio of vertex distance to qh.min_vertex for clearly convex new facets in qh_test_nonsimplicial_merge </li>
 <li><a href="user.h#RATIOcoplanarapex">qh_RATIOcoplanarapex</a>
 ratio of best distance for coplanar apex vs. vertex merge in qh_getpinchedmerges </li>
 <li><a href="user.h#RATIOcoplanaroutside">qh_RATIOcoplanaroutside</a>
 ratio to repartition a coplanar point as an outside point in qh_partitioncoplanar and qh_check_maxout </li>
+<li><a href="user.h#RATIOmaxsimplex">qh_RATIOmaxsimplex</a>
+ratio for searching all points in qh_maxsimplex </li>
 <li><a href="user.h#RATIOnearinside">qh_RATIOnearinside</a>
 ratio for retaining inside points for qh_check_maxout </li>
 <li><a href="user.h#RATIOpinchedsubridge">qh_RATIOpinchedsubridge</a>

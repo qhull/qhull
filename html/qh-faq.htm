@@ -19,6 +19,7 @@ NOTE -- verify all links by 'grep href=' 'grep name=' add # 'sort /+7'
 <b>Up:</b> <a href="http://github.com/qhull/qhull/wiki">Qhull Wiki</a> and
 <a href="http://www.qhull.org/html/qh-faq.htm">FAQ</a> (<a href="qh-faq.htm">local</a>) <br>
 <b>Up:</b> <a href="index.htm#TOC">Qhull manual</a>: Table of Contents<br>
+<b>To:</b> <a href="qh-impre.htm">Imprecision in Qhull</a> <br>
 <b>To:</b> <a href="qh-quick.htm#programs">Programs</a>
 &#149; <a href="qh-quick.htm#options">Options</a>
 &#149; <a href="qh-opto.htm#output">Output</a>
@@ -189,7 +190,7 @@ first.
 (i.e., a "command prompt"). You can double click on
 'eg\Qhull-go.bat'. </p>
 
-<blockquote><ul>
+<ul>
     <li>Type 'qconvex', 'qdelaunay', 'qhalf', 'qvoronoi,
       'qhull', and 'rbox' for a synopsis of each program.
 
@@ -209,12 +210,26 @@ first.
     <li>If you want to enter data by hand, type 'qconvex s i TO
         results.txt' to read input data from the console. Type in
         the numbers and end with a ctrl-D. </li>
-</ul></blockquote>
+</ul>
+
+<p>If you regularly use Qhull on a Windows host, install a bash shell such as
+<ul>
+<li><a href=https://gitforwindows.org>Git for Windows</a> (<a href=https://github.com/git-for-windows/git/wiki>wiki</a>, based on MSYS2)
+-- Git for Windows v2.21 requires arguments for 'qhull', otherwise it waits for stdin.  Use 'qhull --help' for a usage note instead of 'qhull'.
+<li><a href=http://www.msys2.org>MSYS2</a> (<a href=https://github.com/msys2/msys2/wiki>wiki</a>)
+<li><a href=http://www.cygwin.com>Cygwin</a>
+</ul>
+
+<p>If you use Windows XP or Windows 8, you may use
+<ul>
+<li><a href=http://www.mingw.org/wiki/msys>MSYS</a>
+<li><a href=http://www.qhull.org/bash>Road Bash</a> -- MSYS with useful utilities and shell scripts
+</ul>
 
 </blockquote><h4><a href="#TOC">&#187;</a><a name="input">How</a> do I enter
 points for Qhull?</h4><blockquote>
 
-<p>Qhull takes its data from standard input. For example, create
+<p>Qhull takes its data from standard input (stdin). For example, create
 a file named 'data.txt' with the following contents: </p>
 
 <blockquote>
@@ -234,7 +249,7 @@ summary of the convex hull. Use 'qconvex &lt; data.txt o' to print
 the vertices and edges. See also <a href="index.htm#input">input
 format</a>. </p>
 
-<p>You can generate sample data with rbox, e.g., 'rbox 10'
+<p>You can generate sample data with rbox.  For example, 'rbox 10'
 generates 10 random points in 3-d. Use a pipe ('|') to run rbox
 and qhull together, e.g., </p>
 
@@ -264,43 +279,49 @@ use Qhull?</h4><blockquote>
 <p>Look at Qhull's on-line documentation: </p>
 
 <ul>
-    <li>'qconvex' gives a synopsis of qconvex and its options
-
     <li>'rbox' lists all of the options for generating point
     sets
-    <li>'qconvex - | more' lists the options for qconvex
+    <li>'qconvex --help' gives a synopsis of qconvex and its options
+    <li>'qconvex -' lists all of the options for qconvex
     <li>'qconvex .' gives a concise list of options
-    <li>'qdelaunay', 'qhalf', 'qvoronoi', and 'qhull' also have a synopsis and option list</li>
+    <li>'qdelaunay', 'qhalf', 'qvoronoi', and 'qhull' also have a synopsis and options</li>
 </ul>
 
 <p>Then try out the Qhull programs on small examples. </p>
 
 <ul>
-    <li>'rbox c' lists the vertices of a cube
-    <li>'rbox c | qconvex' is the convex hull of a cube
-    <li>'rbox c | qconvex o' lists the vertices and facets of
+    <li>'rbox c' -- lists the vertices of a cube
+    <li>'rbox c D2 | qconvex' -- is the convex hull of a square
+    <li>'rbox c D2 | qconvex o' -- lists the vertices and facets of
+    a square
+    <li>'rbox c | qconvex' -- is the convex hull of a cube
+    <li>'rbox c | qconvex o' -- lists the vertices and facets of
     a cube
-    <li>'rbox c | qconvex Qt o' triangulates the cube
-    <li>'rbox c | qconvex QJ o' joggles the input and
+    <li>'rbox c | qconvex Qt o' -- triangulates the cube
+    <li>'rbox c | qconvex QJ o' -- joggles the input and
     triangulates the cube
-    <li>'rbox c D2 | qconvex' generates the convex hull of a
-    square
-    <li>'rbox c D4 | qconvex' generates the convex hull of a
-    hypercube
-    <li>'rbox 6 s D2 | qconvex p Fx' lists 6 random points in
-    a circle and lists the vertices of their convex hull in order
-    <li>'rbox c D2 c G2 | qdelaunay' computes the Delaunay
-    triangulation of two embedded squares. It merges the cospherical facets.
-    <li>'rbox c D2 c G2 | qdelaunay Qt' computes the Delaunay
-    triangulation of two embedded squares. It triangulates the cospherical facets.
-    <li>'rbox c D2 c G2 | qvoronoi o' computes the
-    corresponding Voronoi vertices and regions.
-    <li>'rbox c D2 c G2 | qvoronio Fv' shows the Voronoi diagram
+    <li>'rbox c D4 | qconvex' -- is the convex hull of a hypercube
+    <br><p></p>
+    <li>'rbox 6 s D2 t | qconvex p Fx' -- is the convex hull of 6 random, cocircular points.
+       Option 'p' lists the points while option 'Fx' lists the vertices in order.
+    <br><p></p>
+    <li>'rbox d D2 c G2 | qdelaunay' -- is the Delaunay
+    triangulation of a diamond and a square. The diamond's vertices are cocircular.
+    <li>'rbox d D2 c G2 | qdelaunay o' -- lists the input sites projected
+    to a paraboloid and the Delaunay regions.  The region with 4 vertices is the diamond.
+    <li>'rbox d D2 c G2 | qdelaunay o Qt' -- the cocircular diamond is triangulated as two Delaunay regions.
+    <li>'rbox d D2 c G2 | qdelaunay o QJ' -- the input is joggled and the diamond is triangulated.
+    <br><p></p>
+    <li>'rbox d D2 c G2 | qvoronoi o' -- is the Voronoi regions for a diamond and a square.  The Voronoi vertex
+    for the diamond is the origin (0,0).  Unbounded regions are represented by the first vertex (-10.101 -10.101)
+    <li>'rbox d D2 c G2 | qvoronoi Fv' -- shows the Voronoi diagram
         for the previous example. Each line is one edge of the
         diagram. The first number is 4, the next two numbers list
         a pair of input sites, and the last two numbers list the
         corresponding pair of Voronoi vertices. </li>
-</ul>
+    <li>'rbox d D2 c G2 | qvoronoi o Qt' -- the cocircular Delaunay region is triangulated.  Instead of one Voronoi vertex
+    for the diamond, there are two Voronoi vertices (0,0) and (0,0).
+    </ul>
 
 <p>Install <a href="http://www.geomview.org">Geomview</a>
 if you are running SGI Irix, Solaris, SunOS, Linux, HP, IBM
@@ -318,13 +339,13 @@ problems. It can triangulate the output ('<a
  href="qh-optq.htm#QJn" >QJ</a>'), or merge facets (the default). </p>
 
 <ul>
+    <li>With triangulated output, Qhull merges facets and triangulates
+    the result.</li>
     <li>With joggle, Qhull produces simplicial (i.e.,
     triangular) output by joggling the input.  After joggle,
     no points are cocircular or cospherical.
     <li>With facet merging, Qhull produces a better
-    approximation and does not modify the input.
-    <li>With triangulated output, Qhull merges facets and triangulates
-    the result.</li>
+    approximation than joggle, nor does it modify the input.
     <li>See <a href="qh-impre.htm#joggle">Merged facets or joggled input</a>. </li>
 </ul>
 
@@ -334,14 +355,18 @@ problems. It can triangulate the output ('<a
 <h4><a href="#TOC">&#187;</a><a name="area">How</a> do I report just the area
                         and volume of a convex hull?</h4><blockquote>
 
-Use option 'FS'.  For example,
+Use option '<a href="qh-optf.htm#FS">FS</a>' or  '<a href="qh-optf.htm#FA">FA</a>'.
+The area is the area of the surface of the convex hull, while
+the volume is the total volume of the convex hull.
+
+<p>For example,
 
 <blockquote><pre>
-C:\qhull>rbox 10 | qconvex FS
+rbox 10 | qconvex FS
 0
 2 2.192915621644613 0.2027867899638665
 
-C:\qhull>rbox 10 | qconvex FA
+rbox 10 | qconvex FA
 
 Convex hull of 10 points in 3-d:
 
@@ -358,16 +383,51 @@ Statistics for: RBOX 10 | QCONVEX FA
   Total volume:       0.20278679
 </pre></blockquote>
 
+<p>
+In 2-d, the convex hull is a polygon.
+Its surface is the edges of a polygon.  So in 2-d, the 'area' is the length of the polygon's edges, while
+the 'volume' is the area of the polygon.
+
+<p>For example the convex hull of a square,
+
+<blockquote><pre>
+rbox c D2 | qconvex FS
+0
+2      4      1
+
+rbox c D2 | qconvex FA
+
+Convex hull of 4 points in 2-d:
+
+  Number of vertices: 4
+  Number of facets: 4
+
+Statistics for: rbox c D2 | qconvex FA
+
+  Number of points processed: 4
+  Number of hyperplanes created: 6
+  Number of distance tests for qhull: 5
+  CPU seconds to compute hull (after input):  0
+  Total facet area:    4
+  Total volume:        1
+</pre></blockquote>
+
+
 </blockquote><h4><a href="#TOC">&#187;</a><a name="extra">Why</a> are there extra
 points in a 4-d or higher convex hull?</h4><blockquote>
 
-<p>You may see extra points if you use options '<a
- href="qh-opto.htm#i" >i</a>' or '<a href="qh-optf.htm#Ft">Ft</a>'
- without using triangulated output ('<a href="qh-optq.htm#Qt">Qt</a>').
-The extra points occur when a facet is non-simplicial (i.e., a
-facet with more than <i>d</i> vertices). For example, Qhull
+<p>Options '<a
+href="qh-opto.htm#i" >i</a>' (in 4-D and higher) and '<a href="qh-optf.htm#Ft">Ft</a>'
+ (in 3-D and higher) use "extra" points for non-simplicial facets (e.g., a face
+of a cube or hypercube).  These points are not part
+of the convex hull.  Options 'i' and 'Ft' triangulate non-simplicial facets using
+the facet's centrum.
+
+<p>For example, Qhull
 reports the following for one facet of the convex hull of a hypercube.
-Option 'Pd0:0.5' returns the facet along the positive-x axis: </p>
+The facets of a 4-D hypercube are 3-d cubes.
+Option 'Pd0:0.5' returns the facet along the positive-x axis.  Point 17
+represents the centrum of this facet.  The facet's vertices are eight points: point 8 to point 15</p>
 
 <blockquote>
     <pre>
@@ -385,6 +445,17 @@ rbox c D4 | qconvex i Pd0:0.5
 17 13 9 8
 17 9 11 8
 17 11 9 13
+
+rbox c D4 | qconvex Fx Pd0:0.5
+8
+8
+9
+10
+11
+12
+13
+14
+15
 </pre>
 </blockquote>
 
@@ -426,7 +497,9 @@ C:\qhull&gt;rbox c D4 | qconvex Pd0:0.5 Fv
 </blockquote>
 
 <p>The coordinates of the extra point are printed with the '<A
- href="qh-optf.htm#Ft" >Ft</a>' option. </p>
+href="qh-optf.htm#Ft" >Ft</a>' option.  For centrums, option 'Ft' uses
+indices one less than option 'i'.  In this case, point 16 represents
+the centrum of the facet.</p>
 
 <blockquote>
     <pre>
@@ -624,7 +697,7 @@ Delaunay triangulation?"</p>
 use triangulated output ('<a href="qh-optq.htm#Qt">Qt</a>') or
 joggled input  ('<a href="qh-optq.htm#QJn">QJ</a>').  Otherwise
 option 'i' will
-triangulate non-simplicial facets by adding a point to the facet.
+triangulate non-simplicial facets with the facet's centrum.
 
 <p>If you want non-simplicial output for cospherical sites, use
 option
@@ -963,7 +1036,7 @@ C:\qhull&gt;rbox c D2 | qvoronoi QJ Fv
 </blockquote><h4><a href="#TOC">&#187;</a><a name="vsphere">How</a> do I construct
 the Voronoi diagram of cospherical points?</h4><blockquote>
 
-<p>Three-d terrain data can be approximated with cospherical
+<p>Three-dimensional terrain data can be approximated with cospherical
 points. The Delaunay triangulation of cospherical points is the
 same as their convex hull. If the points lie on the unit sphere,
 the facet normals are the Voronoi vertices [via S. Fortune]. </p>
@@ -1148,22 +1221,18 @@ questions</a></h2>
 <p><b>MATLAB</b>
 
 <p>Z. You of <a href="http://www.mathworks.com">MathWorks</a> added qhull to MATLAB 6.
-See functions <a href="http://www.mathworks.com/help/techdoc/ref/convhulln.html"
+See functions <a href="http://www.mathworks.com/help/matlab/ref/convhulln.html"
  >convhulln</a>,
-        <a href="http://www.mathworks.com/help/techdoc/ref/delaunayn.html"
+        <a href="http://www.mathworks.com/help/matlab/ref/delaunayn.html"
  >delaunayn</a>,
-        <a href="http://www.mathworks.com/help/techdoc/ref/griddata3.html"
- >griddata3</a>,
-        <a href="http://www.mathworks.com/help/techdoc/ref/griddatan.html"
+        <a href="http://www.mathworks.com/help/matlab/ref/griddatan.html"
  >griddatan</a>,
-        <a href="http://www.mathworks.com/help/techdoc/ref/tsearch.html"
- >tsearch</a>,
-        <a href="http://www.mathworks.com/help/techdoc/ref/tsearchn.html"
+        <a href="http://www.mathworks.com/help/matlab/ref/tsearchn.html"
  >tsearchn</a>, and
-    <a href="http://www.mathworks.com/help/techdoc/ref/voronoin.html"
+    <a href="http://www.mathworks.com/help/matlab/ref/voronoin.html"
  >voronoin</a>.  V. Brumberg update MATLAB R14 for Qhull 2003.1 and triangulated output.
 
-<p>Engwirda wrote <a href="http://www.mathworks.com/matlabcentral/fileexchange/loadFile.do?objectId=10307&objectType=file">mesh2d</a> for unstructured mesh generation in MATLAB.
+<p>Engwirda wrote <a href="https://www.mathworks.com/matlabcentral/fileexchange/25555-mesh2d-delaunay-based-unstructured-mesh-generation">mesh2d</a> for unstructured mesh generation in MATLAB.
 It is based on the iterative method of Persson and generally results in better quality meshes than delaunay refinement.
 
 
@@ -1197,7 +1266,7 @@ The following sample code may produce fewer ridges than expected:
 
 <p>  Qhull does not create ridges for  simplicial facets.
 Instead it computes ridges from  facet-&gt;neighbors. To make ridges for a
-simplicial facet, use qh_makeridges() in  merge.c. Usefacet-&gt;visit_id to visit
+simplicial facet, use qh_makeridges() in  merge.c. Use facet-&gt;visit_id to visit
 each ridge once (instead of twice).  For example,
 
 <blockquote><pre>
@@ -1235,6 +1304,12 @@ See <a href="qh-code.htm">Qhull code</a> for an introduction to Qhull's reentran
 The size depends on the dimension.  Use option 'Ts' to print
 out the memory statistics [e.g., 'rbox D2 10 | qconvex Ts'].
 
+<p>Qhull's data structures use many pointers.  For 64-bit code, pointers are twice
+the size of integers.  For 64-bit code, Qhull uses almost twice as much
+memory.  It there is not enough memory in the computer's level 1 and level 2
+caches, Qhull will run slower as it retrieves data from main memory.  A future
+version of Qhull will include memory and performance improvements for 64-bit
+code.
 
 </blockquote><h4><a href="#TOC">&#187;</a><a name="inc">Can</a> Qhull construct
 convex hulls and Delaunay triangulations one point at a time?</h4><blockquote>
@@ -1309,11 +1384,6 @@ facets. In pseudo-code: </p>
     }
 </pre>
 
-<p>Qhull should be redesigned as a class library, or at least as
-an API. It currently provides everything needed, but the
-programmer has to do a lot of work. Hopefully someone will write
-C++ wrapper classes or a Python module for Qhull. </p>
-
 </blockquote><h4><a href="#TOC">&#187;</a><a name="listd">How</a> do I visit the
 Delaunay regions?</h4><blockquote>
 
@@ -1378,6 +1448,10 @@ by qh.DISTround. </p>
 </blockquote><h4><a href="#TOC">&#187;</a><a name="closest">How</a> do I find the
 facet that is closest to a point?</h4><blockquote>
 
+<p>See <a href="qh-code.htm#findfacet">Locate facet with qh_findbestfacet</a>.
+For Delaunay triangulations, qh_findbestfacet returns the Delaunay triangle or
+adjacent triangle that contains the point.
+
 <p>Use qh_findbestfacet(). For example, </p>
 
 <pre>
@@ -1390,7 +1464,7 @@ facet that is closest to a point?</h4><blockquote>
 
     facet= qh_findbestfacet (point, qh_ALL, &amp;bestdist, &amp;isoutside);
 
-    /* 'facet' is the closest facet to 'point' */
+    /* 'facet' or an adjacent facet is the closest facet to 'point' */
 </pre>
 
 <p>qh_findbestfacet() performs a directed search for the facet
@@ -1417,8 +1491,8 @@ is too slow.
 
 <p>First compute the Delaunay triangle with qh_new_qhull() in user_r.c or Qhull::runQhull().
 Lift the point to the paraboloid by summing the squares of the
-coordinates. Use qh_findbestfacet() [poly2.c] to find the closest Delaunay
-triangle. Determine the closest vertex to find the corresponding
+coordinates. Use <a href="qh-code.htm#findfacet">qh_findbestfacet</a> [poly2_r.c] to find the closest Delaunay facet or
+adjacent facet.  Determine the closest vertex to find the corresponding
 Voronoi region.  Do not use options
 '<a href="qh-optq.htm#Qbb">Qbb</a>', '<a href="qh-optq.htm#QbB">QbB</a>',
 '<a href="qh-optq.htm#Qbk">Qbk:n</a>', or '<A
@@ -1443,10 +1517,11 @@ user_eg.c. </p>
 
     qh_setdelaunay (DIM+1, 1, point);
     facet= qh_findbestfacet (point, qh_ALL, &amp;bestdist, &amp;isoutside);
-    /* 'facet' is the closest Delaunay triangle to 'point' */
+    /* 'facet' or an adjacent facet is the closest Delaunay triangle to 'point' */
 </pre>
 
-<p>The returned facet either contains the point or it is the
+<p>The returned facet either contains the point, or an adjacent facet contains
+the point, or it is the
 closest Delaunay triangle along the convex hull of the input set.
 
 <p>Point location is an active research area in Computational
@@ -1529,6 +1604,7 @@ the vertex order and the flag facet-&gt;toporient.</p>
 <b>Up:</b> <a href="http://github.com/qhull/qhull/wiki">Qhull Wiki</a> and
 <a href="http://www.qhull.org/html/qh-faq.htm">FAQ</a> (<a href="qh-faq.htm">local</a>) <br>
 <b>Up:</b> <a href="index.htm#TOC">Qhull manual</a>: Table of Contents <br>
+<b>To:</b> <a href="qh-impre.htm">Imprecision in Qhull</a> <br>
 <b>To:</b> <a href="qh-quick.htm#programs">Programs</a>
 &#149; <a href="qh-quick.htm#options">Options</a>
 &#149; <a href="qh-opto.htm#output">Output</a>

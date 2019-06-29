@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2009-2019 C.B. Barber. All rights reserved.
-** $Id: //main/2019/qhull/src/libqhullcpp/Coordinates.h#1 $$Change: 2661 $
-** $DateTime: 2019/05/24 20:09:58 $$Author: bbarber $
+** $Id: //main/2019/qhull/src/libqhullcpp/Coordinates.h#3 $$Change: 2711 $
+** $DateTime: 2019/06/27 22:34:56 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -50,7 +50,7 @@ public:
     typedef countT              size_type;
 
 #//!\name Construct
-                        Coordinates() : coordinate_array() {};
+                        Coordinates() : coordinate_array() {}
     explicit            Coordinates(const std::vector<coordT> &other) : coordinate_array(other) {}
                         Coordinates(const Coordinates &other) : coordinate_array(other.coordinate_array) {}
     Coordinates &       operator=(const Coordinates &other) { coordinate_array= other.coordinate_array; return *this; }
@@ -134,8 +134,8 @@ public:
 #//!\name Search
     bool                contains(const coordT &t) const;
     countT              count(const coordT &t) const;
-    countT              indexOf(const coordT &t, countT from = 0) const;
-    countT              lastIndexOf(const coordT &t, countT from = -1) const;
+    countT              indexOf(const coordT &t, countT from= 0) const;
+    countT              lastIndexOf(const coordT &t, countT from= -1) const;
     void                removeAll(const coordT &t);
 
 #//!\name Coordinates::iterator -- from QhullPoints, forwarding to coordinate_array
@@ -217,7 +217,7 @@ public:
         bool            operator>(const const_iterator &other) const { return i>other.i; }
         bool            operator>=(const const_iterator &other) const { return i>=other.i; }
 
-        const_iterator & operator++() { ++i; return *this; } 
+        const_iterator & operator++() { ++i; return *this; }
         const_iterator  operator++(int) { return const_iterator(i++); }
         const_iterator & operator--() { --i; return *this; }
         const_iterator  operator--(int) { return const_iterator(i--); }

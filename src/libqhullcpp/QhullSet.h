@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2019 C.B. Barber. All rights reserved.
-** $Id: //main/2019/qhull/src/libqhullcpp/QhullSet.h#1 $$Change: 2661 $
-** $DateTime: 2019/05/24 20:09:58 $$Author: bbarber $
+** $Id: //main/2019/qhull/src/libqhullcpp/QhullSet.h#2 $$Change: 2711 $
+** $DateTime: 2019/06/27 22:34:56 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -308,10 +308,10 @@ public:
     bool                hasPrevious() const { return i != begin_i; }
     T                   next() { return T(qh_qh, *i++); }
     T                   peekNext() const { return T(qh_qh, *i); }
-    T                   peekPrevious() const { const typename T::base_type *p = i; return T(qh_qh, *--p); }
+    T                   peekPrevious() const { const typename T::base_type *p= i; return T(qh_qh, *--p); }
     T                   previous() { return T(qh_qh, *--i); }
-    void                toBack() { i = end_i; }
-    void                toFront() { i = begin_i; }
+    void                toBack() { i= end_i; }
+    void                toFront() { i= begin_i; }
 };//class QhullSetIterator
 
 #//!\name == Definitions =========================================
@@ -325,8 +325,8 @@ template <typename T>
 std::vector<T> QhullSet<T>::
 toStdVector() const
 {
-    typename QhullSet<T>::const_iterator i = begin();
-    typename QhullSet<T>::const_iterator e = end();
+    typename QhullSet<T>::const_iterator i= begin();
+    typename QhullSet<T>::const_iterator e= end();
     std::vector<T> vs;
     while(i!=e){
         vs.push_back(*i++);

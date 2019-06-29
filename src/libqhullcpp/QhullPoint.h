@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2009-2019 C.B. Barber. All rights reserved.
-** $Id: //main/2019/qhull/src/libqhullcpp/QhullPoint.h#1 $$Change: 2661 $
-** $DateTime: 2019/05/24 20:09:58 $$Author: bbarber $
+** $Id: //main/2019/qhull/src/libqhullcpp/QhullPoint.h#2 $$Change: 2673 $
+** $DateTime: 2019/06/07 16:27:53 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -87,7 +87,7 @@ public:
     int                 dimension() const { return point_dimension; }
     coordT *            getBaseT() const { return point_coordinates; } // for QhullPointSet
     countT              id() const { return qh_pointid(qh_qh, point_coordinates); } // NOerrors
-    bool                isValid() const { return (point_coordinates!=0 && point_dimension>0); };
+    bool                isValid() const { return (point_coordinates!=0 && point_dimension>0); }
     bool                operator==(const QhullPoint &other) const;
     bool                operator!=(const QhullPoint &other) const { return ! operator==(other); }
     const coordT &      operator[](int idx) const { QHULL_ASSERT(point_coordinates!=0 && idx>=0 && idx<point_dimension); return *(point_coordinates+idx); } //!< 0 to hull_dim-1

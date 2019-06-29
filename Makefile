@@ -73,11 +73,12 @@
 #   make qtest     Quick test of rbox and qhull
 #   make test      Quick test of qhull programs
 #   make testall   Test programs for manual review with eg/q_test-ok.txt
+#                  Windows --  make cleanall SO=dll all; cp lib/libqhull*.dll bin/
 #                  make testall >eg/q_test.x 2>&1
 #                  make testall 2>&1 | tee eg/q_test.x
 #                  Build the C++ qhulltest with Qt
 #
-# $Id: //main/2019/qhull/Makefile#3 $
+# $Id: //main/2019/qhull/Makefile#19 $
 
 # Do not replace tabs with spaces.  Needed for build rules
 # Unix line endings (\n)
@@ -96,14 +97,16 @@ PRINTC = enscript -2r
 # PRINTC = lpr
 
 #for Gnu's gcc compiler, -O3 for optimization, -g for debugging, -pg for profiling
+# Qhull uses less memory with 32-bit builds (-m32), override with 'make M32='
 # -fpic needed for gcc x86_64-linux-gnu.  Not needed for mingw
-# see below for gcc's CC_WARNINGS and CCX_WARNINGS
+# see below for gcc's CC_WARNINGS and CXX_WARNINGS
+M32       = -m32
 CC        = gcc
-CC_OPTS1  = -O3 -ansi -Isrc -fpic $(CC_WARNINGS)
+CC_OPTS1  = -O3 -ansi -Isrc -fpic $(CC_WARNINGS) ${M32}
 CXX       = g++
 
 # libqhullcpp must be before libqhull_r
-CXX_OPTS1 = -O3 -Isrc/ $(CXX_WARNINGS)
+CXX_OPTS1 = -O3 -Isrc/ $(CXX_WARNINGS) ${M32}
 
 # for shared library link
 CC_OPTS3  =
@@ -112,7 +115,7 @@ CC_OPTS3  =
 # Truncated version in qhull-exports.def, qhull_p-exports.def, qhull_r-exports.def
 #  libqhull_r.so -- reentrant Qhull with qh_qhT passed as an argument.
 qhull_SOVERSION=7
-SO  = so.7.3.1
+SO  = so.7.3.2
 
 # On MinGW, 
 #   make SO=dll
@@ -135,44 +138,43 @@ CC_OPTS2 = $(CC_OPTS1)
 CXX_OPTS2 = $(CXX_OPTS1)
 
 # Warnings for gcc
-# [gcc 4.4] Compiles without error (-Werror)
-CC_WARNINGS  = -Wall -Wcast-qual -Wextra -Wwrite-strings -Wshadow
+# [gcc 8.1 from may'2018] Compiles without error (-Werror)
+CC_WARNINGS  = -Wall -Wcast-qual -Wextra -Wwrite-strings -Wshadow -Wsign-conversion -Wconversion
 CXX_WARNINGS = -Wall -Wcast-qual -Wextra -Wwrite-strings -Wno-sign-conversion -Wshadow -Wconversion 
 
 # All warnings for gcc
 # Ignore these gcc warnings (-f*, Fortran only, Go only, ObjC only, Qhull issues)
-#Ignore warnings that require an operand.  Include them specifically if needed
-#   NOT_EQUAL_WARN="normalized=[^> ]*>|larger-than=[^> ]*>|larger-than-|abi=|array-bounds=|format=|stack-usage=|strict-aliasing=|strict-overflow="
-#Ignore warnings that are GCC specific and occur in Qhull
-#   NOT_GCC_WARN="abi-tag|effc[+][+]|stringop-truncation|suggest-attribute|suggest-final|suggest-override"
-#   -Wstringop-truncation -- known issue Bug c++/85700
-#Ignore warnings that occur in Qhull and appear to be OK
-#   NOT_QHULL_WARN="aggregate-return|float-equal|format-nonliteral|format-signedness|padded|redundant-decls|long-long|strict-overflow|switch-enum|traditional|traditional-conversion|unsafe-loop-optimizations|unsuffixed-float-constants|useless-cast|zero-as-null-pointer-constant"
-#Ignore these warnings for CC and CCX when testing Qhull for warnings
-#   NOT_CCX_WARN="$NOT_EQUAL_WARN|$NOT_GCC_WARN|$NOT_QHULL_WARN|aliasing|align-commons|ampersand|array-temporaries|assign-intercept|c-binding-type|character-truncation|compare-reals|conversion-extra|function-elimination|implicit-interface|implicit-procedure|intrinsic-shadow|intrinsics-std|line-truncation|property-assign-default|protocol|real-q-constant|realloc-lhs|realloc-lhs-all|selector|shadow-ivar|strict-selector-match|surprising|tabs|target-lifetime|undeclared-selector|underflow|unused-dummy-argument|use-without-only|zerotrip"
-#   NOT_CC_WARN="$NOT_CCX_WARN|abi-tag|c++0x-compat|c++11-compat|c++14-compat|conditionally-supported|conversion-null|ctor-dtor-privacy|delete-incomplete|delete-non-virtual-dtor|effc++|inherited-variadic-ctor|invalid-offsetof|literal-suffix|noexcept|non-template-friend|non-virtual-dtor|old-style-cast|overloaded-virtual|pmf-conversions|reorder|sign-promo|sized-deallocation|strict-null-sentinel|suggest-override|synth|useless-cast|virtual-move-assign|zero-as-null-pointer-constant"
-# List of gcc warnings for CC_WARNINGS
-#   (echo -Wno-sign-conversion; gcc --help=warnings) | sed -nr 's/^ *(-W[^ ]*) .*/\1/p' | sort | grep -vE "[-]W\$|-W(all|extra|$NOT_CC_WARN)\$"
-# List gcc warnings for CCX_WARNINGS except for NOT_CC_WARN and NOT_QHULL_WARN
-#   (echo -Wno-sign-conversion; gcc --help=warnings) | sed -nr 's/^ *(-W[^ ]*) .*/\1/p' | sort | grep -vE "[-]W\$|-W(all|extra|$NOT_CCX_WARN)\$"
-# Test gcc warnings on Windows with mingw gcc
+##Ignore warnings that occur in Qhull and appear to be OK
+#   NOT_QHULL_WARN="aggregate-return|float-equal|format-nonliteral|format-signedness|old-style-cast|padded|redundant-decls|long-long|strict-overflow|switch-enum|traditional|traditional-conversion|unsafe-loop-optimizations|unsuffixed-float-constants|useless-cast|zero-as-null-pointer-constant"
+##Ignore warnings that require an operand.  Include them specifically if needed.  Pattern may be a substring
+#   NOT_EQUAL_WARN="format-overflow<|normalized=[^> ]*>|larger-than=|larger-than-|abi=|array-bounds=|aligned-new=|catch-value=|format=|format-overflow=|format-truncation=|implicit-fallthrough=|normalized=[^.]|placement-new=[^.]|shift-overflow=[^.]|stack-usage=|strict-aliasing=|strict-overflow=|stringop-overflow=[^.]|unused-const-variable=[^.]"
+##Ignore warnings that are GCC specific and occur in Qhull
+#   NOT_GCC_WARN="abi-tag|effc[+][+]|missing-format-attribute|missing-noreturn|namespaces|suggest-attribute|suggest-attribute=(format|malloc|noreturn|pure)|suggest-final-methods|suggest-final-types|suggest-override|templates"
+##  -Wstringop-truncation -- known issue Bug c++/85700
+##Ignore the above warnings and warnings specific to Fortran, ObjC, etc
+#   NOT_CC_CXX_WARN="$NOT_GCC_WARN|$NOT_QHULL_WARN|aliasing|align-commons|ampersand|argument-mismatch|array-temporaries|assign-intercept|c-binding-type|character-truncation|compare-reals|conversion-extra|do-subscript|function-elimination|implicit-interface|implicit-procedure|integer-division|intrinsic-shadow|intrinsics-std|line-truncation|property-assign-default|protocol|real-q-constant|realloc-lhs|realloc-lhs-all|selector|shadow-ivar|strict-selector-match|surprising|tabs|target-lifetime|undeclared-selector|undefined-do-loop|underflow|unused-dummy-argument|use-without-only|zerotrip"
+##Ignore these warnings and warnings for CC but not CXX and vice versa
+#   NOT_CC_WARNINGS="$NOT_CC_CXX_WARN|c[+][+][0-9xz]*-compat|abi-tag|argument-mismatch|catch-value|class-memaccess|conditionally-supported|conversion-null|ctor-dtor-privacy|delete-incomplete|delete-non-virtual-dtor|effc++|extra-semi|inherited-variadic-ctor|invalid-offsetof|literal-suffix|multiple-inheritance|namespaces|noexcept|noexcept-type|non-template-friend|non-virtual-dtor|overloaded-virtual|placement-new|pmf-conversions|register|reorder|sign-promo|sized-deallocation|strict-null-sentinel|subobject-linkage|suggest-override|synth|templates|terminate|useless-cast|virtual-inheritance|virtual-move-assign|zero-as-null-pointer-constant"
+#   NOT_CXX_WARNINGS="$NOT_CC_CXX_WARN|c[+][+]-compat|bad-function-cast|c90-c99-compat|c99-c11-compat|declaration-after-statement|designated-init|discarded-array-qualifiers|discarded-qualifiers|duplicate-decl-specifier|implicit|implicit-function-declaration|implicit-int|incompatible-pointer-types|int-conversion|jump-misses-init|missing-parameter-type|missing-prototypes|nested-externs|old-style-declaration|old-style-definition|override-init|override-init-side-effects|pointer-sign|pointer-to-int-cast|strict-prototypes"
+#   NOT_CXX_WARNINGS="$NOT_CXX_WARNINGS|sign-conversion"
+##List of gcc warnings for CC_WARNINGS, excluding NOT_CC_WARNINGS and NOT_EQUAL_WARN, to bin/x.cc
+#   (echo -n -Wformat-overflow; echo " "; gcc --help=warnings) | sed -nr 's/^ *(-W[^ ]*) .*/\1/p' | sort -u | grep -vE "[-]W\$|-W(all|extra|$NOT_CC_WARNINGS)\$|$NOT_EQUAL_WARN" >bin/x.cc
+##List gcc warnings for CXX_WARNINGS, excluding NOT_CXX_WARNINGS and NOT_EQUAL_WARN, bin/x.ccx
+##  -Wno-sign-conversion due to 'int' vs. 'size_t' for indexing, boolT, countT, and size_t returns
+##..-Wno-old-style-cast due to warnings for libqhull_r macros
+##  Test CXX_WARNINGS with -Wsign-conversion and -Wold-style-cast
+#   (echo -n -Wno-old-style-cast -Wno-sign-conversion -Wformat-overflow; echo " "; gcc --help=warnings) | sed -nr 's/^ *(-W[^ ]*) .*/\1/p' | sort -u | grep -vE "[-]W\$|-W(all|extra|sign-conversion|$NOT_CXX_WARNINGS)\$|$NOT_EQUAL_WARN" >bin/x.cxx
+##List of mismatched gcc warnings for NOT_CC_CXX_WARN, NOT_CC_WARNINGS, and NOT_CXX_WARNINGS to bin/x.1
+#   make cleanall SO=dll qhullx 2>&1 | grep "not for C" | sort -u > bin/x.1
+##Test gcc warnings on Windows with mingw gcc to bin/x.2
+#   make cleanall SO=dll qhullx >bin/x.2 2>&1		# libqhull and libqhull_r
+#   make cleanall SO=dll bin/user_eg3 >bin/x.2 2>&1     # libqhullcpp
 #   make cleanall SO=dll all >bin/x.2 2>&1
-# Summary list of warnings to bin/x.1
-#   grep -vE 'Tools/mingw|short unsigned int:9' bin/x.2 | grep -E -A6 'warning:|: error:' >bin/x.1
-#   grep -vE 'Tools/mingw530_32|zero-as-null-pointer-constant|unsafe-loop-optimizations|but does not override|suggest-final-types|aggregate-return|or .operator=|suggest-final-methods|has pointer data members|is greater than the length|short unsigned int:9|unused-macros|Wlong-long|Wsuggest-override|Wabi-tag|Wuseless-cast|Wsuggest-attribute=const|bad-function-cast|Wstrict-overflow|Wclobbered' bin/x.2 | grep -E -A6 'warning:|: error:' >bin/x.1
-# CC_WARNINGS  = -Wno-sign-conversion -Wconversion -Wabi -Waddress -Waggregate-return -Waggressive-loop-optimizations -Warray-bounds -Wattributes -Wbad-function-cast -Wbool-compare -Wbuiltin-macro-redefined -Wc++-compat -Wc90-c99-compat -Wc99-c11-compat -Wcast-align -Wcast-qual -Wchar-subscripts -Wchkp -Wclobbered -Wcomment -Wcomments -Wcoverage-mismatch -Wcpp -Wdate-time -Wdeclaration-after-statement -Wdeprecated -Wdeprecated-declarations -Wdesignated-init -Wdisabled-optimization -Wdiscarded-array-qualifiers -Wdiscarded-qualifiers -Wdiv-by-zero -Wdouble-promotion -Wempty-body -Wendif-labels -Wenum-compare -Werror-implicit-function-declaration -Werror=implicit-function-declaration -Wformat -Wformat-contains-nul -Wformat-extra-args -Wformat-security -Wformat-y2k -Wformat-zero-length -Wfree-nonheap-object -Wignored-qualifiers -Wimplicit -Wimplicit-function-declaration -Wimplicit-int -Wincompatible-pointer-types -Winit-self -Winline -Wint-conversion -Wint-to-pointer-cast -Winvalid-memory-model -Winvalid-pch -Wjump-misses-init -Wlogical-not-parentheses -Wlogical-op -Wlong-long -Wmain -Wmaybe-uninitialized -Wmemset-transposed-args -Wmissing-braces -Wmissing-declarations -Wmissing-field-initializers -Wmissing-include-dirs -Wmissing-parameter-type -Wmissing-prototypes -Wmultichar -Wnarrowing -Wnested-externs -Wnonnull -Wodr -Wold-style-declaration -Wold-style-definition -Wopenmp-simd -Woverflow -Woverlength-strings -Woverride-init -Wpacked -Wpacked-bitfield-compat -Wparentheses -Wpedantic -Wpedantic-ms-format -Wpointer-arith -Wpointer-sign -Wpointer-to-int-cast -Wpragmas -Wreturn-local-addr -Wreturn-type -Wsequence-point -Wshadow -Wshift-count-negative -Wshift-count-overflow -Wsign-compare -Wsizeof-array-argument -Wsizeof-pointer-memaccess -Wstack-protector -Wstrict-aliasing -Wstrict-overflow -Wstrict-prototypes -Wsuggest-attribute=const -Wsuggest-final-methods -Wsuggest-final-types -Wswitch -Wswitch-bool -Wswitch-default -Wsync-nand -Wsystem-headers -Wtrampolines -Wtrigraphs -Wtype-limits -Wundef -Wuninitialized -Wunknown-pragmas -Wunsafe-loop-optimizations -Wunused -Wunused-but-set-parameter -Wunused-but-set-variable -Wunused-function -Wunused-label -Wunused-local-typedefs -Wunused-macros -Wunused-parameter -Wunused-result -Wunused-value -Wunused-variable -Wvarargs -Wvariadic-macros -Wvector-operation-performance -Wvla -Wvolatile-register-var -Wwrite-strings 
-# CXX_WARNINGS2 = -Wno-sign-conversion -Wconversion -Wabi -Waddress -Waggregate-return -Waggressive-loop-optimizations -Warray-bounds -Wattributes -Wbad-function-cast -Wbool-compare -Wbuiltin-macro-redefined -Wcast-align -Wcast-qual -Wchar-subscripts -Wchkp -Wclobbered -Wcomment -Wcomments -Wcoverage-mismatch -Wcpp -Wdate-time -Wdeprecated -Wdeprecated-declarations -Wdisabled-optimization -Wdiv-by-zero -Wdouble-promotion -Wempty-body -Wendif-labels -Wenum-compare -Werror-implicit-function-declaration -Werror=implicit-function-declaration -Wformat -Wformat-contains-nul -Wformat-extra-args -Wformat-security -Wformat-y2k -Wformat-zero-length -Wfree-nonheap-object -Wignored-qualifiers -Winit-self -Winline -Wint-to-pointer-cast -Winvalid-memory-model -Winvalid-pch -Wlogical-not-parentheses -Wlogical-op -Wlong-long -Wmain -Wmaybe-uninitialized -Wmemset-transposed-args -Wmissing-braces -Wmissing-declarations -Wmissing-field-initializers -Wmissing-include-dirs -Wmultichar -Wnarrowing -Wnonnull -Wodr -Wopenmp-simd -Woverflow -Woverlength-strings -Wpacked -Wpacked-bitfield-compat -Wparentheses -Wpedantic -Wpedantic-ms-format -Wpointer-arith -Wpragmas -Wreturn-local-addr -Wreturn-type -Wsequence-point -Wshadow -Wshift-count-negative -Wshift-count-overflow -Wsign-compare -Wsizeof-array-argument -Wsizeof-pointer-memaccess -Wstack-protector -Wstrict-aliasing -Wstrict-overflow -Wsuggest-attribute=const -Wsuggest-final-methods -Wsuggest-final-types -Wswitch -Wswitch-bool -Wswitch-default -Wsync-nand -Wsystem-headers -Wtrampolines -Wtrigraphs -Wtype-limits -Wundef -Wuninitialized -Wunknown-pragmas -Wunsafe-loop-optimizations -Wunused -Wunused-but-set-parameter -Wunused-but-set-variable -Wunused-function -Wunused-label -Wunused-local-typedefs -Wunused-macros -Wunused-parameter -Wunused-result -Wunused-value -Wunused-variable -Wvarargs -Wvariadic-macros -Wvector-operation-performance -Wvla -Wvolatile-register-var -Wwrite-strings 
-# CXX_WARNINGS = $(CXX_WARNINGS2) -Wabi-tag -Wc++0x-compat -Wc++11-compat -Wc++14-compat -Wconditionally-supported -Wconversion-null -Wctor-dtor-privacy -Wdelete-incomplete -Wdelete-non-virtual-dtor -Weffc++ -Winherited-variadic-ctor -Winvalid-offsetof -Wliteral-suffix -Wnoexcept -Wnon-template-friend -Wnon-virtual-dtor -Wold-style-cast -Woverloaded-virtual -Wpmf-conversions -Wreorder -Wsign-promo -Wsized-deallocation -Wstrict-null-sentinel -Wsuggest-override -Wsynth -Wuseless-cast -Wvirtual-move-assign -Wzero-as-null-pointer-constant
-# [mar'11] Compiles OK with all gcc warnings except for -Wno-sign-conversion and -Wconversion
-# Qhull reports -Wunused-but-set-variable warnings but these are OK (see annotations)
-# Compiles OK with all g++ warnings except Qt source errors on -Wshadow and -Wconversion
-#    -Waddress -Warray-bounds -Wchar-subscripts -Wclobbered -Wcomment -Wunused-variable
-#    -Wempty-body -Wformat -Wignored-qualifiers -Wimplicit-function-declaration -Wimplicit-int
-#    -Wmain -Wmissing-braces -Wmissing-field-initializers -Wmissing-parameter-type -Wnonnull
-#    -Wold-style-declaration -Woverride-init -Wparentheses -Wpointer-sign -Wreturn-type
-#    -Wsequence-point -Wsign-compare -Wsign-compare -Wstrict-aliasing -Wstrict-overflow=1
-#    -Wswitch -Wtrigraphs -Wtype-limits -Wuninitialized -Wuninitialized -Wvolatile-register-var
-#    -Wunknown-pragmas -Wunused-function -Wunused-label -Wunused-parameter -Wunused-value
+##Summary list of warnings to bin/x.1 for review
+#   grep -vE 'Tools/mingw|mingw-w64|short unsigned int:9|string length .([0-9][0-9][0-9]|1[0-7][0-9][0-9]). is greater|from src/' bin/x.2 | grep -E -A6 'warning:|: error:' >bin/x.1
+## [gcc 8.1 from may'2018] Compiles OK with these CC_WARNINGS and CXX_WARNINGS
+# CC_WARNINGS = -Wformat-overflow -Wabi -Waddress -Waggressive-loop-optimizations -Walloc-zero -Walloca -Warray-bounds -Wattribute-alias -Wattributes -Wbad-function-cast -Wbool-compare -Wbool-operation -Wbuiltin-declaration-mismatch -Wbuiltin-macro-redefined -Wc90-c99-compat -Wc99-c11-compat -Wcast-align -Wcast-align=strict -Wcast-function-type -Wcast-qual -Wchar-subscripts -Wchkp -Wclobbered -Wcomment -Wcomments -Wconversion -Wcoverage-mismatch -Wcpp -Wdangling-else -Wdate-time -Wdeclaration-after-statement -Wdeprecated -Wdeprecated-declarations -Wdesignated-init -Wdisabled-optimization -Wdiscarded-array-qualifiers -Wdiscarded-qualifiers -Wdiv-by-zero -Wdouble-promotion -Wduplicate-decl-specifier -Wduplicated-branches -Wduplicated-cond -Wempty-body -Wendif-labels -Wenum-compare -Werror-implicit-function-declaration -Werror=implicit-function-declaration -Wexpansion-to-defined -Wfloat-conversion -Wformat -Wformat-contains-nul -Wformat-extra-args -Wformat-security -Wformat-truncation -Wformat-y2k -Wformat-zero-length -Wframe-address -Wfree-nonheap-object -Whsa -Wif-not-aligned -Wignored-attributes -Wignored-qualifiers -Wimplicit -Wimplicit-fallthrough -Wimplicit-function-declaration -Wimplicit-int -Wincompatible-pointer-types -Winit-self -Winline -Wint-conversion -Wint-in-bool-context -Wint-to-pointer-cast -Winvalid-memory-model -Winvalid-pch -Wjump-misses-init -Wlogical-not-parentheses -Wlogical-op -Wlto-type-mismatch -Wmain -Wmaybe-uninitialized -Wmemset-elt-size -Wmemset-transposed-args -Wmisleading-indentation -Wmissing-attributes -Wmissing-braces -Wmissing-declarations -Wmissing-field-initializers -Wmissing-include-dirs -Wmissing-parameter-type -Wmissing-prototypes -Wmultichar -Wmultistatement-macros -Wnarrowing -Wnested-externs -Wnonnull -Wnonnull-compare -Wnormalized -Wnull-dereference -Wodr -Wold-style-declaration -Wold-style-definition -Wopenmp-simd -Woverflow -Woverlength-strings -Woverride-init -Woverride-init-side-effects -Wpacked -Wpacked-bitfield-compat -Wpacked-not-aligned -Wparentheses -Wpedantic -Wpedantic-ms-format -Wpointer-arith -Wpointer-compare -Wpointer-sign -Wpointer-to-int-cast -Wpragmas -Wpsabi -Wrestrict -Wreturn-local-addr -Wreturn-type -Wscalar-storage-order -Wsequence-point -Wshadow -Wshadow-compatible-local -Wshadow-local -Wshadow=compatible-local -Wshadow=global -Wshadow=local -Wshift-count-negative -Wshift-count-overflow -Wshift-negative-value -Wshift-overflow -Wsign-compare -Wsign-conversion -Wsizeof-array-argument -Wsizeof-pointer-div -Wsizeof-pointer-memaccess -Wstack-protector -Wstrict-aliasing -Wstrict-prototypes -Wstringop-overflow -Wstringop-truncation -Wsuggest-attribute=cold -Wsuggest-attribute=const -Wswitch -Wswitch-bool -Wswitch-default -Wswitch-unreachable -Wsync-nand -Wsystem-headers -Wtautological-compare -Wtrampolines -Wtrigraphs -Wtype-limits -Wundef -Wuninitialized -Wunknown-pragmas -Wunreachable-code -Wunused -Wunused-but-set-parameter -Wunused-but-set-variable -Wunused-const-variable -Wunused-function -Wunused-label -Wunused-local-typedefs -Wunused-macros -Wunused-parameter -Wunused-result -Wunused-value -Wunused-variable -Wvarargs -Wvariadic-macros -Wvector-operation-performance -Wvla -Wvolatile-register-var -Wwrite-strings
+# CXX_WARNINGS = -Wno-old-style-cast -Wno-sign-conversion -Wformat-overflow -Wabi -Waddress -Waggressive-loop-optimizations -Walloc-zero -Walloca -Warray-bounds -Wattribute-alias -Wattributes -Wbool-compare -Wbool-operation -Wbuiltin-declaration-mismatch -Wbuiltin-macro-redefined -Wc++0x-compat -Wc++11-compat -Wc++14-compat -Wc++17-compat -Wc++1z-compat -Wcast-align -Wcast-align=strict -Wcast-function-type -Wcast-qual -Wcatch-value -Wchar-subscripts -Wchkp -Wclass-memaccess -Wclobbered -Wcomment -Wcomments -Wconditionally-supported -Wconversion -Wconversion-null -Wcoverage-mismatch -Wcpp -Wctor-dtor-privacy -Wdangling-else -Wdate-time -Wdelete-incomplete -Wdelete-non-virtual-dtor -Wdeprecated -Wdeprecated-declarations -Wdisabled-optimization -Wdiv-by-zero -Wdouble-promotion -Wduplicated-branches -Wduplicated-cond -Wempty-body -Wendif-labels -Wenum-compare -Werror-implicit-function-declaration -Werror=implicit-function-declaration -Wexpansion-to-defined -Wextra-semi -Wfloat-conversion -Wformat -Wformat-contains-nul -Wformat-extra-args -Wformat-security -Wformat-truncation -Wformat-y2k -Wformat-zero-length -Wframe-address -Wfree-nonheap-object -Whsa -Wif-not-aligned -Wignored-attributes -Wignored-qualifiers -Wimplicit-fallthrough -Winherited-variadic-ctor -Winit-self -Winline -Wint-in-bool-context -Wint-to-pointer-cast -Winvalid-memory-model -Winvalid-offsetof -Winvalid-pch -Wliteral-suffix -Wlogical-not-parentheses -Wlogical-op -Wlto-type-mismatch -Wmain -Wmaybe-uninitialized -Wmemset-elt-size -Wmemset-transposed-args -Wmisleading-indentation -Wmissing-attributes -Wmissing-braces -Wmissing-declarations -Wmissing-field-initializers -Wmissing-include-dirs -Wmultichar -Wmultiple-inheritance -Wmultistatement-macros -Wnarrowing -Wnoexcept -Wnoexcept-type -Wnon-template-friend -Wnon-virtual-dtor -Wnonnull -Wnonnull-compare -Wnormalized -Wnull-dereference -Wodr -Wopenmp-simd -Woverflow -Woverlength-strings -Woverloaded-virtual -Wpacked -Wpacked-bitfield-compat -Wpacked-not-aligned -Wparentheses -Wpedantic -Wpedantic-ms-format -Wplacement-new -Wpmf-conversions -Wpointer-arith -Wpointer-compare -Wpragmas -Wpsabi -Wregister -Wreorder -Wrestrict -Wreturn-local-addr -Wreturn-type -Wscalar-storage-order -Wsequence-point -Wshadow -Wshadow-compatible-local -Wshadow-local -Wshadow=compatible-local -Wshadow=global -Wshadow=local -Wshift-count-negative -Wshift-count-overflow -Wshift-negative-value -Wshift-overflow -Wsign-compare -Wsign-promo -Wsized-deallocation -Wsizeof-array-argument -Wsizeof-pointer-div -Wsizeof-pointer-memaccess -Wstack-protector -Wstrict-aliasing -Wstrict-null-sentinel -Wstringop-overflow -Wstringop-truncation -Wsubobject-linkage -Wsuggest-attribute=cold -Wsuggest-attribute=const -Wswitch -Wswitch-bool -Wswitch-default -Wswitch-unreachable -Wsync-nand -Wsynth -Wsystem-headers -Wtautological-compare -Wterminate -Wtrampolines -Wtrigraphs -Wtype-limits -Wundef -Wuninitialized -Wunknown-pragmas -Wunreachable-code -Wunused -Wunused-but-set-parameter -Wunused-but-set-variable -Wunused-const-variable -Wunused-function -Wunused-label -Wunused-local-typedefs -Wunused-macros -Wunused-parameter -Wunused-result -Wunused-value -Wunused-variable -Wvarargs -Wvariadic-macros -Wvector-operation-performance -Wvirtual-inheritance -Wvirtual-move-assign -Wvla -Wvolatile-register-var -Wwrite-strings
 
 # Default targets for make
 
@@ -185,12 +187,17 @@ help:
 bin-lib:
 	mkdir -p bin
 	mkdir -p lib
+	@echo "if gcc fails with -- bits/predefs.h: No such file"
+	@echo "  install a 32-bit build environment, or"
+	@echo "  make M32="
 
 # Remove intermediate files for all builds
+# Deletes eg/*.x, *.x, and *.tmp
 clean:
 	rm -f src/*/*.o src/qhulltest/RoadTest.h.cpp build/*/*/*.o  build/*/*.o
 	rm -f src/*/*.obj build/*/*/*.obj build/*/*/*/*/*.obj build/*/*.obj 
-	rm -f bin/*.idb lib/*.idb build-cmake/*/*.idb eg/*.x *.x *.tmp
+	rm -f src/*/gmon.out bin/*.idb lib/*.idb build-cmake/*/*.idb
+	rm -f eg/*.x *.x *.tmp
 	rm -f build/*/*/*.a build/*/*/*.rsp build/moc/*.moc
 	rm -f build-cmake/*/*.obj build-cmake/*/*/*.obj build-cmake/*/*.ilk
 	@echo Remove linked C files from libqhull/ and libqhull_r/
@@ -211,6 +218,7 @@ cleanall: clean
 	rm -rf buildqt/
 	rm -rf build-qhull-all*/
 	rm -rf src/qhull_qh/
+	rm -rf gmon.out bin/gmon.out
 	rm -f bin/qconvex bin/qdelaunay bin/qhalf bin/qvoronoi bin/qhull
 	rm -f bin/rbox core bin/core bin/user_eg bin/user_eg2 bin/user_eg3
 	rm -f bin/testqset bin/testqset_r bin/qhulltest
@@ -221,7 +229,7 @@ cleanall: clean
 	rm -f build-cmake/*/*.lib build-cmake/*/*.pdb
 	rm -f eg/eg.* eg/t*.tmp
 	rm -f lib/libqhull* lib/qhull*.lib lib/qhull*.exp  lib/qhull*.dll
-	rm -f src/libqhull*/*.exe  src/libqhull*/libqhullstatic* src/libqhull*/core
+	rm -f src/libqhull*/*.exe  src/libqhull*/libqhullstatic.a src/libqhull*/core
 	rm -f src/libqhull*/qconvex src/libqhull*/qdelaunay src/libqhull*/qhalf 
 	rm -f src/libqhull*/qvoronoi src/libqhull*/qhull src/libqhull*/rbox
 	rm -f src/libqhull*/user_eg src/libqhull*/user_eg2 src/libqhull*/user_eg3
@@ -229,7 +237,7 @@ cleanall: clean
 doc: 
 	$(PRINTMAN) $(TXTFILES) $(DOCFILES)
 
-install:
+install: bin/qconvex bin/qdelaunay bin/qhalf bin/qhull bin/qvoronoi bin/rbox
 	mkdir -p $(BINDIR)
 	mkdir -p $(DOCDIR)
 	mkdir -p $(INCDIR)/libqhull
@@ -269,6 +277,7 @@ printc:
 printf:
 	$(PRINTC) $(FILES)
 
+# for Windows, do not depend on bin/qhull,etc.
 qtest:
 	@echo ============================================
 	@echo == make qtest ==============================
@@ -291,6 +300,7 @@ qtest:
 	@echo ============================================
 	-bin/rbox D4 | bin/qhull Tv
 	
+# for Windows, do not depend on bin/qhull,etc.
 test: qtest
 	@echo ============================================
 	@echo == make test, after running qtest ==========
@@ -364,7 +374,7 @@ benchmark:
 	-eg/q_benchmark -10 -10 -10 -10
 
 # last command for 'make all'
-qconvex-prompt:
+qconvex-prompt: bin/qconvex bin/rbox 
 	bin/qconvex -?
 	@echo
 	@echo ============================================
@@ -390,6 +400,7 @@ qconvex-prompt:
 	@echo ============================================
 	@echo == To run qhull tests for manual review with eg/q_test-ok.txt
 	@echo '==     make testall >eg/q_test.x 2>&1'
+	@echo '==     make testall 2>&1 | tee eg/q_test.x'
 	@echo ============================================
 	@echo
 	@echo ============================================

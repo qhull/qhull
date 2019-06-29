@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2019 C.B. Barber. All rights reserved.
-** $Id: //main/2019/qhull/src/libqhullcpp/RboxPoints.cpp#2 $$Change: 2664 $
-** $DateTime: 2019/05/25 13:44:04 $$Author: bbarber $
+** $Id: //main/2019/qhull/src/libqhullcpp/RboxPoints.cpp#4 $$Change: 2711 $
+** $DateTime: 2019/06/27 22:34:56 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -154,19 +154,23 @@ appendPoints(const char *rboxCommand)
 
 notes:
     only called from qh_rboxpoints()
+    sets rbox_status to msgcode if error 6000..6999
     same as fprintf() and Qhull.qh_fprintf()
     fgets() is not trapped like fprintf()
     Do not throw errors from here.  Use qh_errexit_rbox;
     A similar technique can be used for qh_fprintf to capture all of its output
 */
 extern "C"
+
 void qh_fprintf_rbox(qhT *qh, FILE*, int msgcode, const char *fmt, ... ) {
     va_list args;
 
     using namespace orgQhull;
 
     if(!qh->cpp_object){
-        qh_errexit_rbox(qh, 10072);
+        fprintf(stderr, "QH10072 Qhull internal error (qh_fprintf_rbox): qh.cpp_object not defined.  Exit program\n");
+        qh_errexit_rbox(qh, 72);
+        /* never returns */
     }
     RboxPoints *out= reinterpret_cast<RboxPoints *>(qh->cpp_object);
     va_start(args, fmt);
@@ -184,8 +188,8 @@ void qh_fprintf_rbox(qhT *qh, FILE*, int msgcode, const char *fmt, ... ) {
     switch(msgcode){
     case 9391:
     case 9392:
-        out->rbox_message += "RboxPoints error: options 'h', 'n' not supported.\n";
-        qh_errexit_rbox(qh, 10010);
+        out->rbox_message += "QH10010 Qhull input error (RboxPoints): options 'h', 'n' not supported.\n";
+        qh_errexit_rbox(qh, 10);
         /* never returns */
         break;
     case 9393:  // QH11026 FIX: countT vs. int

@@ -12,8 +12,8 @@
    see qhull_ra.h for internal functions
 
    Copyright (c) 1993-2019 The Geometry Center.
-   $Id: //main/2019/qhull/src/libqhull_r/global_r.c#1 $$Change: 2661 $
-   $DateTime: 2019/05/24 20:09:58 $$Author: bbarber $
+   $Id: //main/2019/qhull/src/libqhull_r/global_r.c#12 $$Change: 2712 $
+   $DateTime: 2019/06/28 12:57:00 $$Author: bbarber $
  */
 
 #include "qhull_ra.h"
@@ -39,8 +39,8 @@
     recompile user_eg_r.c, rbox_r.c, libqhull_r.c, qconvex_r.c, qdelaun_r.c qvoronoi_r.c, qhalf_r.c, testqset_r.c
 */
 
-const char qh_version[]= "2019.0.1.r 2019/05/24";
-const char qh_version2[]= "qhull_r 7.3.1 (2019.0.1.r 2019/05/24)";
+const char qh_version[]= "2019.1.r 2019/06/21";
+const char qh_version2[]= "qhull_r 7.3.2 (2019.1.r 2019/06/21)";
 
 /*-<a                             href="qh-globa_r.htm#TOC"
   >-------------------------------</a><a name="appendprint">-</a>
@@ -245,19 +245,19 @@ unsigned long qh_clock(qhT *qh) {
 
   if (!clktck) {
     if ((clktck= sysconf(_SC_CLK_TCK)) < 0) {
-      qh_fprintf(qh, qh->ferr, 6030, "qhull internal error (qh_clock): sysconf() failed.  Use qh_CLOCKtype 1 in user.h\n");
+      qh_fprintf(qh, qh->ferr, 6030, "qhull internal error (qh_clock): sysconf() failed.  Use qh_CLOCKtype 1 in user_r.h\n");
       qh_errexit(qh, qh_ERRqhull, NULL, NULL);
     }
   }
   if (times(&time) == -1) {
-    qh_fprintf(qh, qh->ferr, 6031, "qhull internal error (qh_clock): times() failed.  Use qh_CLOCKtype 1 in user.h\n");
+    qh_fprintf(qh, qh->ferr, 6031, "qhull internal error (qh_clock): times() failed.  Use qh_CLOCKtype 1 in user_r.h\n");
     qh_errexit(qh, qh_ERRqhull, NULL, NULL);
   }
   ratio= qh_SECticks / (double)clktck;
   ticks= time.tms_utime * ratio;
   return ticks;
 #else
-  qh_fprintf(qh, qh->ferr, 6032, "qhull internal error (qh_clock): use qh_CLOCKtype 2 in user.h\n");
+  qh_fprintf(qh, qh->ferr, 6032, "qhull internal error (qh_clock): use qh_CLOCKtype 2 in user_r.h\n");
   qh_errexit(qh, qh_ERRqhull, NULL, NULL); /* never returns */
   return 0;
 #endif
@@ -279,13 +279,13 @@ void qh_freebuffers(qhT *qh) {
   qh_setfree(qh, &qh->other_points);
   qh_setfree(qh, &qh->del_vertices);
   qh_setfree(qh, &qh->coplanarfacetset);
-  qh_memfree(qh, qh->NEARzero, qh->hull_dim * sizeof(realT));
-  qh_memfree(qh, qh->lower_threshold, (qh->input_dim+1) * sizeof(realT));
-  qh_memfree(qh, qh->upper_threshold, (qh->input_dim+1) * sizeof(realT));
-  qh_memfree(qh, qh->lower_bound, (qh->input_dim+1) * sizeof(realT));
-  qh_memfree(qh, qh->upper_bound, (qh->input_dim+1) * sizeof(realT));
-  qh_memfree(qh, qh->gm_matrix, (qh->hull_dim+1) * qh->hull_dim * sizeof(coordT));
-  qh_memfree(qh, qh->gm_row, (qh->hull_dim+1) * sizeof(coordT *));
+  qh_memfree(qh, qh->NEARzero, qh->hull_dim * (int)sizeof(realT));
+  qh_memfree(qh, qh->lower_threshold, (qh->input_dim+1) * (int)sizeof(realT));
+  qh_memfree(qh, qh->upper_threshold, (qh->input_dim+1) * (int)sizeof(realT));
+  qh_memfree(qh, qh->lower_bound, (qh->input_dim+1) * (int)sizeof(realT));
+  qh_memfree(qh, qh->upper_bound, (qh->input_dim+1) * (int)sizeof(realT));
+  qh_memfree(qh, qh->gm_matrix, (qh->hull_dim+1) * qh->hull_dim * (int)sizeof(coordT));
+  qh_memfree(qh, qh->gm_row, (qh->hull_dim+1) * (int)sizeof(coordT *));
   qh->NEARzero= qh->lower_threshold= qh->upper_threshold= NULL;
   qh->lower_bound= qh->upper_bound= NULL;
   qh->gm_matrix= NULL;
@@ -341,6 +341,8 @@ void qh_freebuild(qhT *qh, boolT allmem) {
   vertexT *vertex, *previousvertex= NULL;
   ridgeT *ridge, **ridgep, *previousridge= NULL;
   mergeT *merge, **mergep;
+  int newsize;
+  boolT freeall;
 
   /* free qhT global sets first, includes references from qh_buildhull */
   trace5((qh, qh->ferr, 5004, "qh_freebuild: free global sets\n"));
@@ -409,10 +411,13 @@ void qh_freebuild(qhT *qh, boolT allmem) {
       QHULL_UNUSED(previousfacet)
     }
   }else {
+    freeall= True;
+    if (qh_setlarger_quick(qh, qh->hull_dim + 1, &newsize))
+      freeall= False;
     FORALLfacets {
       qh_setfreelong(qh, &(facet->outsideset));
       qh_setfreelong(qh, &(facet->coplanarset));
-      if (!facet->simplicial) {
+      if (!facet->simplicial || freeall) {
         qh_setfreelong(qh, &(facet->neighbors));
         qh_setfreelong(qh, &(facet->ridges));
         qh_setfreelong(qh, &(facet->vertices));
@@ -613,6 +618,11 @@ void qh_initflags(qhT *qh, char *command) {
     qh_fprintf(qh, qh->ferr, 6245, "qhull internal error (qh_initflags): qh.NOerrexit was not cleared before calling qh_initflags().  It should be cleared after setjmp().  Exit qhull.\n");
     qh_exit(qh_ERRqhull);
   }
+#ifdef qh_RANDOMdist
+  qh->RANDOMfactor= qh_RANDOMdist;
+  qh_option(qh, "Random-qh_RANDOMdist", NULL, &qh->RANDOMfactor);
+  qh->RANDOMdist= True;
+#endif
   if (command <= &qh->qhull_command[0] || command > &qh->qhull_command[0] + sizeof(qh->qhull_command)) {
     if (command != &qh->qhull_command[0]) {
       *qh->qhull_command= '\0';
@@ -1528,25 +1538,25 @@ void qh_initflags(qhT *qh, char *command) {
 void qh_initqhull_buffers(qhT *qh) {
   int k;
 
-  qh->TEMPsize= (qh->qhmem.LASTsize - sizeof(setT))/SETelemsize;
+  qh->TEMPsize= (qh->qhmem.LASTsize - (int)sizeof(setT))/SETelemsize;
   if (qh->TEMPsize <= 0 || qh->TEMPsize > qh->qhmem.LASTsize)
     qh->TEMPsize= 8;  /* e.g., if qh_NOmem */
   qh->other_points= qh_setnew(qh, qh->TEMPsize);
   qh->del_vertices= qh_setnew(qh, qh->TEMPsize);
   qh->coplanarfacetset= qh_setnew(qh, qh->TEMPsize);
-  qh->NEARzero= (realT *)qh_memalloc(qh, qh->hull_dim * sizeof(realT));
-  qh->lower_threshold= (realT *)qh_memalloc(qh, (qh->input_dim+1) * sizeof(realT));
-  qh->upper_threshold= (realT *)qh_memalloc(qh, (qh->input_dim+1) * sizeof(realT));
-  qh->lower_bound= (realT *)qh_memalloc(qh, (qh->input_dim+1) * sizeof(realT));
-  qh->upper_bound= (realT *)qh_memalloc(qh, (qh->input_dim+1) * sizeof(realT));
+  qh->NEARzero= (realT *)qh_memalloc(qh, qh->hull_dim * (int)sizeof(realT));
+  qh->lower_threshold= (realT *)qh_memalloc(qh, (qh->input_dim+1) * (int)sizeof(realT));
+  qh->upper_threshold= (realT *)qh_memalloc(qh, (qh->input_dim+1) * (int)sizeof(realT));
+  qh->lower_bound= (realT *)qh_memalloc(qh, (qh->input_dim+1) * (int)sizeof(realT));
+  qh->upper_bound= (realT *)qh_memalloc(qh, (qh->input_dim+1) * (int)sizeof(realT));
   for (k=qh->input_dim+1; k--; ) {  /* duplicated in qh_initqhull_buffers and qh_clear_outputflags */
     qh->lower_threshold[k]= -REALmax;
     qh->upper_threshold[k]= REALmax;
     qh->lower_bound[k]= -REALmax;
     qh->upper_bound[k]= REALmax;
   }
-  qh->gm_matrix= (coordT *)qh_memalloc(qh, (qh->hull_dim+1) * qh->hull_dim * sizeof(coordT));
-  qh->gm_row= (coordT **)qh_memalloc(qh, (qh->hull_dim+1) * sizeof(coordT *));
+  qh->gm_matrix= (coordT *)qh_memalloc(qh, (qh->hull_dim+1) * qh->hull_dim * (int)sizeof(coordT));
+  qh->gm_row= (coordT **)qh_memalloc(qh, (qh->hull_dim+1) * (int)sizeof(coordT *));
 } /* initqhull_buffers */
 
 /*-<a                             href="qh-globa_r.htm#TOC"
@@ -1588,7 +1598,7 @@ void qh_initqhull_globals(qhT *qh, coordT *points, int numpoints, int dim, boolT
   trace0((qh, qh->ferr, 13, "qh_initqhull_globals: for %s | %s\n", qh->rbox_command,
       qh->qhull_command));
   if (numpoints < 1 || numpoints > qh_POINTSmax) {
-    qh_fprintf(qh, qh->ferr, 6339, "qhull input error (qh_initqhull_globals): expecting between 1 and %d points.  Got %d %d-d points\n",
+    qh_fprintf(qh, qh->ferr, 6412, "qhull input error (qh_initqhull_globals): expecting between 1 and %d points.  Got %d %d-d points\n",
       qh_POINTSmax, numpoints, dim);
     qh_errexit(qh, qh_ERRinput, NULL, NULL);
     /* same error message in qh_readpoints */
@@ -1615,8 +1625,8 @@ void qh_initqhull_globals(qhT *qh, coordT *points, int numpoints, int dim, boolT
     qh->JOGGLEmax= 0.0;
 #endif
   }
-  if (qh->TRIangulate && qh->JOGGLEmax < REALmax/2 && qh->PRINTprecision)
-    qh_fprintf(qh, qh->ferr, 7038, "qhull option warning: joggle('QJ') always produces simplicial output.  Triangulated output('Qt') does nothing.\n");
+  if (qh->TRIangulate && qh->JOGGLEmax < REALmax/2 && !qh->PREmerge && !qh->POSTmerge && qh->PRINTprecision)
+      qh_fprintf(qh, qh->ferr, 7038, "qhull option warning: joggle ('QJ') produces simplicial output (i.e., triangles in 2-D).  Unless merging is requested, option 'Qt' has no effect\n");
   if (qh->JOGGLEmax < REALmax/2 && qh->DELAUNAY && !qh->SCALEinput && !qh->SCALElast) {
     qh->SCALElast= True;
     qh_option(qh, "Qbbound-last-qj", NULL, NULL);
@@ -1628,7 +1638,7 @@ void qh_initqhull_globals(qhT *qh, coordT *points, int numpoints, int dim, boolT
     qh_option(qh, "_zero-centrum", NULL, NULL);
   }
   if (qh->JOGGLEmax < REALmax/2 && REALepsilon > 2e-8 && qh->PRINTprecision)
-    qh_fprintf(qh, qh->ferr, 7039, "qhull warning: real epsilon, %2.2g, is probably too large for joggle('QJn')\nRecompile with double precision reals(see user.h).\n",
+    qh_fprintf(qh, qh->ferr, 7039, "qhull warning: real epsilon, %2.2g, is probably too large for joggle('QJn')\nRecompile with double precision reals(see user_r.h).\n",
           REALepsilon);
 #ifdef qh_NOmerge
   if (qh->MERGING) {
@@ -1667,7 +1677,7 @@ void qh_initqhull_globals(qhT *qh, coordT *points, int numpoints, int dim, boolT
   }
   if (qh->SCALElast && !qh->DELAUNAY && qh->PRINTprecision)
     qh_fprintf(qh, qh->ferr, 7040, "qhull option warning: option 'Qbb' (scale-last-coordinate) is normally used with 'd' or 'v'\n");
-  qh->DOcheckmax= (!qh->SKIPcheckmax && qh->MERGING );
+  qh->DOcheckmax= (!qh->SKIPcheckmax && (qh->MERGING || qh->APPROXhull));
   qh->KEEPnearinside= (qh->DOcheckmax && !(qh->KEEPinside && qh->KEEPcoplanar)
                           && !qh->NOnearinside);
   if (qh->MERGING)
@@ -1695,8 +1705,8 @@ void qh_initqhull_globals(qhT *qh, coordT *points, int numpoints, int dim, boolT
   qh->AREAfactor= 1.0 / factorial;
   trace2((qh, qh->ferr, 2005, "qh_initqhull_globals: initialize globals.  input_dim %d, numpoints %d, malloc? %d, projected %d to hull_dim %d\n",
         qh->input_dim, numpoints, ismalloc, qh->PROJECTinput, qh->hull_dim));
-  qh->normal_size= qh->hull_dim * sizeof(coordT);
-  qh->center_size= qh->normal_size - sizeof(coordT);
+  qh->normal_size= qh->hull_dim * (int)sizeof(coordT);
+  qh->center_size= qh->normal_size - (int)sizeof(coordT);
   pointsneeded= qh->hull_dim+1;
   if (qh->hull_dim > qh_DIMmergeVertex) {
     qh->MERGEvertices= False;
@@ -1705,15 +1715,18 @@ void qh_initqhull_globals(qhT *qh, coordT *points, int numpoints, int dim, boolT
   if (qh->GOODpoint)
     pointsneeded++;
 #ifdef qh_NOtrace
-  if (qh->IStracing) {
-    qh_fprintf(qh, qh->ferr, 6051, "qhull option error: tracing is not installed (qh_NOtrace in user.h).  Cannot use 'Tn' or other trace options\n");
-    qh_errexit(qh, qh_ERRinput, NULL, NULL);
+  if (qh->IStracing || qh->TRACEmerge || qh->TRACEpoint != qh_IDnone || qh->TRACEdist < REALmax/2) {
+      qh_fprintf(qh, qh->ferr, 6051, "qhull option error: tracing is not installed (qh_NOtrace in user_r.h).  Trace options 'Tn', 'TMn', 'TPn' and 'TWn' mostly removed.  Continue with 'Qw' (allow warning)\n");
+      if (!qh->ALLOWwarning)
+        qh_errexit(qh, qh_ERRinput, NULL, NULL);
   }
 #endif
   if (qh->RERUN > 1) {
     qh->TRACElastrun= qh->IStracing; /* qh_build_withrestart duplicates next conditional */
-    if (qh->IStracing != -1)
+    if (qh->IStracing && qh->IStracing != -1) {
+      qh_fprintf(qh, qh->ferr, 8162, "qh_initqhull_globals: trace last of TR%d runs at level %d\n", qh->RERUN, qh->IStracing);
       qh->IStracing= 0;
+    }
   }else if (qh->TRACEpoint != qh_IDnone || qh->TRACEdist < REALmax/2 || qh->TRACEmerge) {
     qh->TRACElevel= (qh->IStracing ? qh->IStracing : 3);
     qh->IStracing= 0;
@@ -1739,7 +1752,7 @@ void qh_initqhull_globals(qhT *qh, coordT *points, int numpoints, int dim, boolT
     randr += randi;
     if (randi > qh_RANDOMmax) {
       qh_fprintf(qh, qh->ferr, 8036, "\
-qhull configuration error (qh_RANDOMmax in user.h): random integer %d > qh_RANDOMmax (%.8g)\n",
+qhull configuration error (qh_RANDOMmax in user_r.h): random integer %d > qh_RANDOMmax (%.8g)\n",
                randi, qh_RANDOMmax);
       qh_errexit(qh, qh_ERRinput, NULL, NULL);
     }
@@ -1749,7 +1762,7 @@ qhull configuration error (qh_RANDOMmax in user.h): random integer %d > qh_RANDO
   if (randr < qh_RANDOMmax * 0.1
   || randr > qh_RANDOMmax * 0.9)
     qh_fprintf(qh, qh->ferr, 8037, "\
-qhull configuration warning (qh_RANDOMmax in user.h): average of 1000 random integers (%.2g) is much different than expected (%.2g).  Is qh_RANDOMmax (%.2g) wrong?\n",
+qhull configuration warning (qh_RANDOMmax in user_r.h): average of 1000 random integers (%.2g) is much different than expected (%.2g).  Is qh_RANDOMmax (%.2g) wrong?\n",
              randr, qh_RANDOMmax * 0.5, qh_RANDOMmax);
   qh->RANDOMa= 2.0 * qh->RANDOMfactor/qh_RANDOMmax;
   qh->RANDOMb= 1.0 - qh->RANDOMfactor;
@@ -1797,7 +1810,7 @@ void qh_initqhull_mem(qhT *qh) {
     qh_memsize(qh, (int)sizeof(mergeT));
   }
   qh_memsize(qh, (int)sizeof(facetT));
-  i= sizeof(setT) + (qh->hull_dim - 1) * SETelemsize;  /* ridge.vertices */
+  i= (int)sizeof(setT) + (qh->hull_dim - 1) * SETelemsize;  /* ridge.vertices */
   qh_memsize(qh, i);
   qh_memsize(qh, qh->normal_size);        /* normal */
   i += SETelemsize;                 /* facet.vertices, .ridges, .neighbors */
@@ -1892,8 +1905,7 @@ void qh_initqhull_outputflags(qhT *qh) {
     /* can not warn about furthest-site Geomview output: no lower_threshold */
     if (qh->hull_dim == 4 && qh->DROPdim == -1 &&
         (qh->PRINTcoplanar || qh->PRINTspheres || qh->PRINTcentrums)) {
-      qh_fprintf(qh, qh->ferr, 7042, "qhull option warning: coplanars, vertices, and centrums output not\n\
-available for 4-d output(ignored).  Could use 'GDn' instead.\n");
+      qh_fprintf(qh, qh->ferr, 7042, "qhull option warning: coplanars, vertices, and centrums output not available for 4-d output(ignored).  Could use 'GDn' instead.\n");
       qh->PRINTcoplanar= qh->PRINTspheres= qh->PRINTcentrums= False;
     }
   }
@@ -2145,7 +2157,7 @@ void qh_initthresholds(qhT *qh, char *command) {
     NOerrors -- qh_lib_check can not call qh_errexit()
 */
 void qh_lib_check(int qhullLibraryType, int qhTsize, int vertexTsize, int ridgeTsize, int facetTsize, int setTsize, int qhmemTsize) {
-    boolT iserror= False;
+    int last_errcode= qh_ERRnone;
 
 #if defined(_MSC_VER) && defined(_DEBUG) && defined(QHULL_CRTDBG)  /* user_r.h */
     /*_CrtSetBreakAlloc(744);*/  /* Break at memalloc {744}, or 'watch' _crtBreakAlloc */
@@ -2159,42 +2171,43 @@ void qh_lib_check(int qhullLibraryType, int qhTsize, int vertexTsize, int ridgeT
 #endif
 
     if (qhullLibraryType==QHULL_NON_REENTRANT) { /* 0 */
-        qh_fprintf_stderr(6257, "qh_lib_check: Incorrect qhull library called.  Caller uses non-reentrant Qhull with a static qhT.  Qhull library is reentrant.\n");
-        iserror= True;
+      qh_fprintf_stderr(6257, "qh_lib_check: Incorrect qhull library called.  Caller uses non-reentrant Qhull with a static qhT.  Qhull library is reentrant.\n");
+      last_errcode= 6257;
     }else if (qhullLibraryType==QHULL_QH_POINTER) { /* 1 */
-        qh_fprintf_stderr(6258, "qh_lib_check: Incorrect qhull library called.  Caller uses non-reentrant Qhull with a dynamic qhT via qh_QHpointer.  Qhull library is reentrant.\n");
-        iserror= True;
+      qh_fprintf_stderr(6258, "qh_lib_check: Incorrect qhull library called.  Caller uses non-reentrant Qhull with a dynamic qhT via qh_QHpointer.  Qhull library is reentrant.\n");
+      last_errcode= 6258;
     }else if (qhullLibraryType != QHULL_REENTRANT) { /* 2 */
-        qh_fprintf_stderr(6262, "qh_lib_check: Expecting qhullLibraryType QHULL_NON_REENTRANT(0), QHULL_QH_POINTER(1), or QHULL_REENTRANT(2).  Got %d\n", qhullLibraryType);
-        iserror= True;
+      qh_fprintf_stderr(6262, "qh_lib_check: Expecting qhullLibraryType QHULL_NON_REENTRANT(0), QHULL_QH_POINTER(1), or QHULL_REENTRANT(2).  Got %d\n", qhullLibraryType);
+      last_errcode= 6262;
     }
-    if (qhTsize != sizeof(qhT)) {
-        qh_fprintf_stderr(6249, "qh_lib_check: Incorrect qhull library called.  Size of qhT for caller is %d, but for qhull library is %d.\n", qhTsize, sizeof(qhT));
-        iserror= True;
+    if (qhTsize != (int)sizeof(qhT)) {
+      qh_fprintf_stderr(6249, "qh_lib_check: Incorrect qhull library called.  Size of qhT for caller is %d, but for qhull library is %d.\n", qhTsize, (int)sizeof(qhT));
+      last_errcode= 6249;
     }
-    if (vertexTsize != sizeof(vertexT)) {
-        qh_fprintf_stderr(6250, "qh_lib_check: Incorrect qhull library called.  Size of vertexT for caller is %d, but for qhull library is %d.\n", vertexTsize, sizeof(vertexT));
-        iserror= True;
+    if (vertexTsize != (int)sizeof(vertexT)) {
+      qh_fprintf_stderr(6250, "qh_lib_check: Incorrect qhull library called.  Size of vertexT for caller is %d, but for qhull library is %d.\n", vertexTsize, (int)sizeof(vertexT));
+      last_errcode= 6250;
     }
-    if (ridgeTsize != sizeof(ridgeT)) {
-        qh_fprintf_stderr(6251, "qh_lib_check: Incorrect qhull library called.  Size of ridgeT for caller is %d, but for qhull library is %d.\n", ridgeTsize, sizeof(ridgeT));
-        iserror= True;
+    if (ridgeTsize != (int)sizeof(ridgeT)) {
+      qh_fprintf_stderr(6251, "qh_lib_check: Incorrect qhull library called.  Size of ridgeT for caller is %d, but for qhull library is %d.\n", ridgeTsize, (int)sizeof(ridgeT));
+      last_errcode= 6251;
     }
-    if (facetTsize != sizeof(facetT)) {
-        qh_fprintf_stderr(6252, "qh_lib_check: Incorrect qhull library called.  Size of facetT for caller is %d, but for qhull library is %d.\n", facetTsize, sizeof(facetT));
-        iserror= True;
+    if (facetTsize != (int)sizeof(facetT)) {
+      qh_fprintf_stderr(6252, "qh_lib_check: Incorrect qhull library called.  Size of facetT for caller is %d, but for qhull library is %d.\n", facetTsize, (int)sizeof(facetT));
+      last_errcode= 6252;
     }
-    if (setTsize && setTsize != sizeof(setT)) {
-        qh_fprintf_stderr(6253, "qh_lib_check: Incorrect qhull library called.  Size of setT for caller is %d, but for qhull library is %d.\n", setTsize, sizeof(setT));
-        iserror= True;
+    if (setTsize && setTsize != (int)sizeof(setT)) {
+      qh_fprintf_stderr(6253, "qh_lib_check: Incorrect qhull library called.  Size of setT for caller is %d, but for qhull library is %d.\n", setTsize, (int)sizeof(setT));
+      last_errcode= 6253;
     }
     if (qhmemTsize && qhmemTsize != sizeof(qhmemT)) {
-        qh_fprintf_stderr(6254, "qh_lib_check: Incorrect qhull library called.  Size of qhmemT for caller is %d, but for qhull library is %d.\n", qhmemTsize, sizeof(qhmemT));
-        iserror= True;
+      qh_fprintf_stderr(6254, "qh_lib_check: Incorrect qhull library called.  Size of qhmemT for caller is %d, but for qhull library is %d.\n", qhmemTsize, sizeof(qhmemT));
+      last_errcode= 6254;
     }
-    if (iserror) {
-        qh_fprintf_stderr(6259, "qhull internal error (qh_lib_check): Cannot continue.  '%s' is reentrant (e.g., qhull_r.so)\n", qh_version2);
-        qh_exit(qh_ERRqhull);  /* can not use qh_errexit() */
+    if (last_errcode) {
+      qh_fprintf_stderr(6259, "qhull internal error (qh_lib_check): Cannot continue due to QH%d.  '%s' is not reentrant (e.g., qhull.so) or out-of-date.  Exit with %d\n", 
+            last_errcode, qh_version2, last_errcode - 6200);
+      qh_exit(last_errcode - 6200);  /* can not use qh_errexit(), must be less than 255 */
     }
 } /* lib_check */
 
@@ -2214,8 +2227,8 @@ void qh_option(qhT *qh, const char *option, int *i, realT *r) {
   int buflen, remainder;
 
   if (strlen(option) > sizeof(buf)-30-30) {
-    qh_fprintf(qh, qh->ferr, 6335, "qhull internal error (qh_option): option (%d chars) has more than %d chars.  May overflow temporary buffer.  Option '%s'\n",
-         strlen(option), sizeof(buf)-30-30, option);
+    qh_fprintf(qh, qh->ferr, 6408, "qhull internal error (qh_option): option (%d chars) has more than %d chars.  May overflow temporary buffer.  Option '%s'\n",
+        (int)strlen(option), (int)sizeof(buf)-30-30, option);
     qh_errexit(qh, qh_ERRqhull, NULL, NULL);
   }
   sprintf(buf, "  %s", option);
@@ -2228,14 +2241,14 @@ void qh_option(qhT *qh, const char *option, int *i, realT *r) {
   remainder= (int)(sizeof(qh->qhull_options) - strlen(qh->qhull_options)) - 1;    /* WARN64 */
   maximize_(remainder, 0);
   if (qh->qhull_optionlen >= qh_OPTIONline && remainder > 0) {
-    strncat(qh->qhull_options, "\n", remainder);
+    strncat(qh->qhull_options, "\n", (unsigned int)remainder);
     --remainder;
     qh->qhull_optionlen= buflen;
   }
   if (buflen > remainder) {
     trace1((qh, qh->ferr, 1058, "qh_option: option would overflow qh.qhull_options. Truncated '%s'\n", buf));
   }
-  strncat(qh->qhull_options, buf, remainder);
+  strncat(qh->qhull_options, buf, (unsigned int)remainder);
 } /* option */
 
 /*-<a                             href="qh-globa_r.htm#TOC"
@@ -2245,7 +2258,7 @@ void qh_option(qhT *qh, const char *option, int *i, realT *r) {
     Initialize and zero Qhull's memory for qh_new_qhull()
 
   notes:
-    Not needed in global.c because static variables are initialized to zero
+    Not needed in global_r.c because static variables are initialized to zero
 */
 void qh_zero(qhT *qh, FILE *errfile) {
     memset((char *)qh, 0, sizeof(qhT));   /* every field is 0, FALSE, NULL */

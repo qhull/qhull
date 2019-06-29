@@ -67,8 +67,8 @@ Functions and macros from qset.h.  Counts occurrences in this test.  Does not co
     SETtruncate_ -- 2 tests
 
     Copyright (c) 2012-2019 C.B. Barber. All rights reserved.
-    $Id: //main/2019/qhull/src/testqset/testqset.c#1 $$Change: 2661 $
-    $DateTime: 2019/05/24 20:09:58 $$Author: bbarber $
+    $Id: //main/2019/qhull/src/testqset/testqset.c#6 $$Change: 2699 $
+    $DateTime: 2019/06/24 19:27:13 $$Author: bbarber $
 */
 
 #include "libqhull/user.h"  /* QHULL_CRTDBG */
@@ -84,10 +84,10 @@ typedef int i2T;
 #define MAXerrorCount 100 /* quit after n errors */
 
 #define FOREACHint_( ints ) FOREACHsetelement_(i2T, ints, i2)
-#define FOREACHint4_( ints ) FOREACHsetelement_(i2T, ints, i4) /* not tested */
 #define FOREACHint_i_(ints) FOREACHsetelement_i_(i2T, ints, i2)
-#define FOREACHintreverse_(ints) FOREACHsetelementreverse_(i2T, ints, i2) /* not tested */
-#define FOREACHintreverse12_( ints ) FOREACHsetelementreverse12_(i2T, ints, i2) /* not tested */
+/* not tested -- #define FOREACHint4_( ints ) FOREACHsetelement_(i2T, ints, i4) */
+/* not tested -- #define FOREACHintreverse_(ints) FOREACHsetelementreverse_(i2T, ints, i2) */
+/* not tested -- #define FOREACHintreverse12_( ints ) FOREACHsetelementreverse12_(i2T, ints, i2) */
 
 enum {
     MAXint= 0x7fffffff
@@ -115,8 +115,8 @@ int error_count= 0;  /* Global error_count.  checkSetContents() keeps its own er
 
 #define realT double
 #define qh_ERRinput 1    /* input inconsistency */
-#define qh_ERRmem   4    /* insufficient memory, matches mem_r.h */
-#define qh_ERRqhull 5    /* internal error detected, matches mem_r.h, calls qh_printhelp_internal */
+#define qh_ERRmem   4    /* insufficient memory, matches mem.h */
+#define qh_ERRqhull 5    /* internal error detected, matches mem.h, calls qh_printhelp_internal */
 #define qh_MEMalign ((int)(fmax_(sizeof(realT), sizeof(void *))))
 #define qh_MEMbufsize 0x10000       /* allocate 64K memory buffers */
 #define qh_MEMinitbuf 0x20000      /* initially allocate 128K buffer */
@@ -197,6 +197,7 @@ int main(int argc, char **argv) {
     int curlong, totlong;  /* used if !qh_NOmem */
     int traceLevel= 4; /* 4 normally, no tracing since qset does not log.  Option 'T5' for memory tracing */
 
+
 #if defined(_MSC_VER) && defined(_DEBUG) && defined(QHULL_CRTDBG)  /* user.h */
     _CrtSetDbgFlag( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_DELAY_FREE_MEM_DF | _CRTDBG_LEAK_CHECK_DF | _CrtSetDbgFlag(_CRTDBG_REPORT_FLAG) );
     _CrtSetReportMode( _CRT_ERROR, _CRTDBG_MODE_FILE | _CRTDBG_MODE_DEBUG );
@@ -214,7 +215,8 @@ int main(int argc, char **argv) {
     testSettemp(numInts, intarray, checkEvery);
     testSetlastEtc(numInts, intarray, checkEvery);
     testSetdelsortedEtc(numInts, intarray, checkEvery);
-    qh_fprintf(stderr, 8083, "\nNot testing qh_setduplicate and qh_setfree2.\n  These routines use heap-allocated set contents.  See qhull tests.\n\n");
+    qh_fprintf(stderr, 8083, "\nNot testing qh_setduplicate and qh_setfree2.  These routines use heap-allocated,\n\
+set contents.  See qhull tests in eg/q_test and bin/qhulltest.\n\n");
 
     qh_memstatistics(stderr);
 #ifndef qh_NOmem
@@ -224,7 +226,7 @@ int main(int argc, char **argv) {
         error_count++;
     }
 #endif
-    fflush(stderr);
+    fflush(NULL);
     if(error_count){
         qh_fprintf(stderr, 8088, "testqset: %d errors\n\n", error_count);
         exit(qh_ERRqhull);
@@ -290,9 +292,9 @@ void setupMemory(int tracelevel, int numInts, int **intarray)
         qh_fprintf(stderr, 6303, "testqset: qset does not currently support 64-bit ints.  Integer overflow\n");
         exit(qh_ERRinput);
     }
-    *intarray= (int *)qh_malloc(numInts * sizeof(int));
+    *intarray= (int *)qh_malloc((unsigned int)numInts * sizeof(int));
     if(!*intarray){
-        qh_fprintf(stderr, 6304, "testqset: Failed to allocate %d bytes of memory\n", numInts * sizeof(int));
+        qh_fprintf(stderr, 6304, "testqset: Failed to allocate %d bytes of memory\n", numInts * (int)sizeof(int));
         exit(qh_ERRmem);
     }
     for(i= 0; i<numInts; i++){

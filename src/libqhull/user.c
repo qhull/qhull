@@ -64,8 +64,8 @@
   coordT *points;           /* array of coordinates for each point */
   boolT ismalloc;           /* True if qhull should free points in qh_freeqhull() or reallocation */
   char flags[]= "qhull Tv"; /* option flags for qhull, see html/qh-quick.htm */
-  FILE *outfile= stdout;    /* output from qh_produce_output()
-                               use NULL to skip qh_produce_output() */
+  FILE *outfile= stdout;    /* output from qh_produce_output
+                               use NULL to skip qh_produce_output */
   FILE *errfile= stderr;    /* error messages from qhull code */
   int exitcode;             /* 0 if no error from qhull */
   facetT *facet;            /* set by FORALLfacets */
@@ -75,9 +75,9 @@
 
 #if qh_QHpointer  /* see user.h */
   if (qh_qh){ /* should be NULL */
-      qh_printf_stderr(6238, "Qhull link error.  The global variable qh_qh was not initialized\n\
-              to NULL by global.c.  Please compile this program with -Dqh_QHpointer_dllimport\n\
-              as well as -Dqh_QHpointer, or use libqhull_r, libqhullstatic, or a different tool chain.\n\n");
+      qh_printf_stderr(6238, "Qhull link error.  The global variable qh_qh was not initialized to NULL by global.c.\n\
+Please compile this program with -Dqh_QHpointer_dllimport and -Dqh_QHpointer,\n\
+or use libqhull_r or libqhullstatic, or a different tool chain.\n\n");
       exit(1);
   }
 #endif
@@ -94,7 +94,7 @@
   qh_freeqhull(!qh_ALL);
   qh_memfreeshort(&curlong, &totlong);
   if (curlong || totlong)
-    qh_fprintf(errfile, 7068, "qhull internal warning (main): did not free %d bytes of long memory(%d pieces)\n", totlong, curlong);
+    qh_fprintf(errfile, 7079, "qhull internal warning (main): did not free %d bytes of long memory(%d pieces)\n", totlong, curlong);
 }
 #endif
 
@@ -124,7 +124,7 @@
 
   To allow multiple, concurrent calls to qhull()
     - use libqhull_r for relocatable Qhull
-	- qh_QHpointer is deprecated.  To use it
+        - qh_QHpointer is deprecated.  To use it
     -   set qh_QHpointer in user.h
     -   use qh_save_qhull and qh_restore_qhull to swap the global data structure between calls.
     -   use qh_freeqhull(qh_ALL) to free intermediate convex hulls
@@ -140,7 +140,7 @@ int qh_new_qhull(int dim, int numpoints, coordT *points, boolT ismalloc,
      See http://stackoverflow.com/questions/7721854/what-sense-do-these-clobbered-variable-warnings-make */
   int exitcode, hulldim;
   boolT new_ismalloc;
-  static boolT firstcall = True;
+  static boolT firstcall= True;
   coordT *new_points;
   if(!errfile){
     errfile= stderr;
@@ -151,8 +151,8 @@ int qh_new_qhull(int dim, int numpoints, coordT *points, boolT ismalloc,
   } else {
     qh_memcheck();
   }
-  if (strncmp(qhull_cmd, "qhull ", (size_t)6)) {
-    qh_fprintf(errfile, 6186, "qhull error (qh_new_qhull): start qhull_cmd argument with \"qhull \"\n");
+  if (strncmp(qhull_cmd, "qhull ", (size_t)6) && strcmp(qhull_cmd, "qhull") != 0) {
+    qh_fprintf(errfile, 6186, "qhull error (qh_new_qhull): start qhull_cmd argument with \"qhull \" or set to \"qhull\"\n");
     return qh_ERRinput;
   }
   qh_initqhull_start(NULL, outfile, errfile);
@@ -162,8 +162,7 @@ int qh_new_qhull(int dim, int numpoints, coordT *points, boolT ismalloc,
   }
   trace1((qh ferr, 1044, "qh_new_qhull: build new Qhull for %d %d-d points with %s\n", numpoints, dim, qhull_cmd));
   exitcode= setjmp(qh errexit);
-  if (!exitcode)
-  {
+  if (!exitcode) {
     qh NOerrexit= False;
     qh_initflags(qhull_cmd);
     if (qh DELAUNAY)
@@ -222,7 +221,7 @@ int qh_new_qhull(int dim, int numpoints, coordT *points, boolT ismalloc,
 void qh_errexit(int exitcode, facetT *facet, ridgeT *ridge) {
 
   qh tracefacet= NULL;  /* avoid infinite recursion through qh_fprintf */
-  qh traceridge= NULL; 
+  qh traceridge= NULL;
   qh tracevertex= NULL;
   if (qh ERREXITcalled) {
     qh_fprintf(qh ferr, 8126, "\nqhull error while handling previous error in qh_errexit.  Exit program\n");
@@ -278,10 +277,14 @@ void qh_errexit(int exitcode, facetT *facet, ridgeT *ridge) {
       qh_printhelp_topology(qh ferr);
     else if (exitcode == qh_ERRwide)
       qh_printhelp_wide(qh ferr);
-  } 
+  }else if (exitcode > 255) {
+    qh_fprintf(qh ferr, 6426, "qhull internal error (qh_errexit): exit code %d is greater than 255.  Invalid argument for exit().  Replaced with 255\n", exitcode);
+    exitcode= 255;
+  }
   if (qh NOerrexit) {
-    qh_fprintf(qh ferr, 6187, "qhull error while ending program, or qh NOerrexit not cleared after setjmp(). Exit program with error.\n");
-    qh_exit(qh_ERRqhull);
+    qh_fprintf(qh ferr, 6187, "qhull internal error (qh_errexit): either error while reporting error QH%d, or qh.NOerrexit not cleared after setjmp(). Exit program with error status %d\n",
+         qh last_errcode, exitcode);
+    qh_exit(exitcode);
   }
   qh ERREXITcalled= False;
   qh NOerrexit= True;
@@ -368,7 +371,7 @@ void qh_printfacetlist(facetT *facetlist, setT *facets, boolT printall) {
 } /* printfacetlist */
 
 
-/*-<a                             href="qh-io.htm#TOC"
+/*-<a                             href="qh-user.htm#TOC"
   >-------------------------------</a><a name="printhelp_degenerate">-</a>
 
   qh_printhelp_degenerate( fp )
@@ -474,10 +477,11 @@ include the log file.\n");
 */
 void qh_printhelp_narrowhull(FILE *fp, realT minangle) {
 
-    qh_fprintf(fp, 7089, "qhull precision warning: The initial hull is narrow.  Is the input\n\
-lower dimensional (e.g., a square in 3-d instead of a cube)?  Cosine of the minimum angle\n\
-is %.16f.  If so, Qhull may produce a wide facet.  Options 'Qs' (search all points),\n\
-'Qbb' (scale last coordinate), or 'QbB' (scale to unit box) may remove this warning.\n\
+    qh_fprintf(fp, 7089, "qhull precision warning: The initial hull is narrow.  Is the input lower\n\
+dimensional (e.g., a square in 3-d instead of a cube)?  Cosine of the minimum\n\
+angle is %.16f.  If so, Qhull may produce a wide facet.\n\
+Options 'Qs' (search all points), 'Qbb' (scale last coordinate), or\n\
+'QbB' (scale to unit box) may remove this warning.\n\
 See 'Limitations' in qh-impre.htm.  Use 'Pp' to skip this warning.\n",
           -minangle);   /* convert from angle between normals to angle between facets */
 } /* printhelp_narrowhull */
@@ -583,7 +587,7 @@ void qh_printhelp_topology(FILE *fp) {
 
   if (!qh_QUICKhelp) {
     qh_fprintf(fp, 9427, "\n\
-A Qhull topology error has occurred.  Qhull did not recover from facet and vertex merging\n\
+A Qhull topology error has occurred.  Qhull did not recover from facet merges and vertex merges.\n\
 This usually occurs when the input is nearly degenerate and substantial merging has occurred.\n\
 See http://www.qhull.org/html/qh-impre.htm#limit\n");
   }
@@ -602,7 +606,7 @@ void qh_printhelp_wide(FILE *fp) {
 
   if (!qh_QUICKhelp) {
     qh_fprintf(fp, 9428, "\n\
-A wide merge error has occurred.  Qhull has produced a wide facet due to facet and vertex merging.\n\
+A wide merge error has occurred.  Qhull has produced a wide facet due to facet merges and vertex merges.\n\
 This usually occurs when the input is nearly degenerate and substantial merging has occurred.\n\
 See http://www.qhull.org/html/qh-impre.htm#limit\n");
   }

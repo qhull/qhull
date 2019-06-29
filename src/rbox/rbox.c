@@ -24,7 +24,7 @@
 char prompt[]= "\n\
 rbox -- generate various point distributions.  Default is random in cube.\n\
 \n\
-args (any order, space separated):                    Version: 2019/05/24\n\
+args (any order, space separated):                    Version: 2019/06/21\n\
   3000    number of random points in cube, lens, spiral, sphere or grid\n\
   D3      dimension 3-d\n\
   c       add a unit cube to the output ('c G2.0' sets size)\n\
@@ -72,10 +72,13 @@ int main(int argc, char **argv) {
     qh_fprintf_stderr(0, "\nStarting the rbox smoketest for qhull.  An immediate failure indicates\nthat non-reentrant rbox was linked to reentrant routines.  An immediate\nfailure of qhull may indicate that qhull was linked to the wrong\nqhull library.  Also try 'rbox D4 | qhull T1'\n");
 
   command_size= qh_argv_to_command_size(argc, argv);
-  if ((command= (char *)qh_malloc((size_t)command_size))) {
+  if (command_size < 1) {
+    qh_fprintf_stderr(6419, "rbox internal error: expecting qh_argv_to_command_size >= 1.  Got %d.  Exit with error\n", command_size);
+    return_status= qh_ERRqhull;
+  }else if ((command= (char *)qh_malloc((size_t)command_size))) {
     if (!qh_argv_to_command(argc, argv, command, command_size)) {
       qh_fprintf_stderr(6264, "rbox internal error: allocated insufficient memory (%d) for arguments\n", command_size);
-      return_status= qh_ERRinput;
+      return_status= qh_ERRqhull;
     }else {
       return_status= qh_rboxpoints(stdout, stderr, command);
     }

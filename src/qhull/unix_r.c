@@ -1,4 +1,4 @@
-/*<html><pre>  -<a                             href="../libqhull/qh-qhull.htm"
+/*<html><pre>  -<a                             href="../libqhull_r/qh-qhull_r.htm"
   >-------------------------------</a><a name="TOP">-</a>
 
    unix_r.c
@@ -8,8 +8,8 @@
    see qh-qhull.htm
 
    Copyright (c) 1993-2019 The Geometry Center.
-   $Id: //main/2019/qhull/src/qhull/unix_r.c#2 $$Change: 2664 $
-   $DateTime: 2019/05/25 13:44:04 $$Author: bbarber $
+   $Id: //main/2019/qhull/src/qhull/unix_r.c#4 $$Change: 2710 $
+   $DateTime: 2019/06/27 14:24:04 $$Author: bbarber $
 */
 
 #include "libqhull_r/libqhull_r.h"
@@ -35,7 +35,7 @@ int isatty(int);  /* returns 1 if stdin is a tty
                    if "Undefined symbol" this can be deleted along with call in main() */
 #endif
 
-/*-<a                             href="../libqhull/qh-qhull.htm#TOC"
+/*-<a                             href="../libqhull_r/qh-qhull_r.htm#TOC"
   >-------------------------------</a><a name="prompt">-</a>
 
   qh_prompt
@@ -222,7 +222,7 @@ Print options:\n\
 ";
 /* for opts, don't assign 'e' or 'E' to a flag (already used for exponent) */
 
-/*-<a                             href="../libqhull/qh-qhull.htm#TOC"
+/*-<a                             href="../libqhull_r/qh-qhull_r.htm#TOC"
   >-------------------------------</a><a name="prompt2">-</a>
 
   qh_prompt2
@@ -281,7 +281,7 @@ examples:\n\
 ";
 /* for opts, don't assign 'e' or 'E' to a flag (already used for exponent) */
 
-/*-<a                             href="../libqhull/qh-qhull.htm#TOC"
+/*-<a                             href="../libqhull_r/qh-qhull_r.htm#TOC"
   >-------------------------------</a><a name="prompt3">-</a>
 
   qh_prompt3
@@ -336,7 +336,7 @@ char qh_prompt3b[]= "\
  Visible-min    Wide-outside\n\
 ";
 
-/*-<a                             href="../libqhull/qh-qhull.htm#TOC"
+/*-<a                             href="../libqhull_r/qh-qhull_r.htm#TOC"
   >-------------------------------</a><a name="main">-</a>
 
   main( argc, argv )
@@ -407,7 +407,7 @@ int main(int argc, char *argv[]) {
   qh_freeqhull(qh, !qh_ALL);
   qh_memfreeshort(qh, &curlong, &totlong);
   if (curlong || totlong)
-    qh_fprintf_stderr(6263, "qhull internal warning (main): did not free %d bytes of long memory(%d pieces)\n",
+    qh_fprintf_stderr(7079, "qhull internal warning (main): did not free %d bytes of long memory(%d pieces)\n",
        totlong, curlong);
 #endif
   return exitcode;

@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2019 C.B. Barber. All rights reserved.
-** $Id: //main/2019/qhull/src/libqhullcpp/Qhull.cpp#2 $$Change: 2664 $
-** $DateTime: 2019/05/25 13:44:04 $$Author: bbarber $
+** $Id: //main/2019/qhull/src/libqhullcpp/Qhull.cpp#6 $$Change: 2711 $
+** $DateTime: 2019/06/27 22:34:56 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -227,14 +227,13 @@ outputQhull(const char *outputflags)
     char *command= const_cast<char*>(cmd.c_str());
     QH_TRY_(qh_qh){ // no object creation -- destructors skipped on longjmp()
         qh_clear_outputflags(qh_qh);
-        char *s = qh_qh->qhull_command + strlen(qh_qh->qhull_command) + 1; //space
+        char *s= qh_qh->qhull_command + strlen(qh_qh->qhull_command) + 1; //space
         strncat(qh_qh->qhull_command, command, sizeof(qh_qh->qhull_command)-strlen(qh_qh->qhull_command)-1);
         qh_checkflags(qh_qh, command, const_cast<char *>(s_not_output_options));
         qh_initflags(qh_qh, s);
         qh_initqhull_outputflags(qh_qh);
-        if(qh_qh->KEEPminArea < REALmax/2
-           || (0 != qh_qh->KEEParea + qh_qh->KEEPmerge + qh_qh->GOODvertex
-                    + qh_qh->GOODthreshold + qh_qh->GOODpoint + qh_qh->SPLITthresholds)){
+        if(qh_qh->KEEPminArea < REALmax/2 || qh_qh->KEEParea || qh_qh->KEEPmerge || qh_qh->GOODvertex 
+                  || qh_qh->GOODpoint || qh_qh->GOODthreshold || qh_qh->SPLITthresholds){
             facetT *facet;
             qh_qh->ONLYgood= False;
             FORALLfacet_(qh_qh->facet_list) {
@@ -263,7 +262,7 @@ runQhull(const RboxPoints &rboxPoints, const char *qhullCommand2)
 //! For rbox commands, see http://www.qhull.org/html/rbox.htm or html/rbox.htm
 //! For qhull commands, see http://www.qhull.org/html/qhull.htm or html/qhull.htm
 void Qhull::
-runQhull(const char *inputComment, int pointDimension, int pointCount, const realT *pointCoordinates, const char *qhullCommand)
+runQhull(const char *inputComment2, int pointDimension, int pointCount, const realT *pointCoordinates, const char *qhullCommand2)
 {
   /* gcc may issue a "might be clobbered" warning for pointDimension and pointCoordinates [-Wclobbered].
      These parameters are not referenced after a longjmp() and hence not clobbered.
@@ -273,7 +272,7 @@ runQhull(const char *inputComment, int pointDimension, int pointCount, const rea
     }
     run_called= true;
     string s("qhull ");
-    s += qhullCommand;
+    s += qhullCommand2;
     char *command= const_cast<char*>(s.c_str());
     /************* Expansion of QH_TRY_ for debugging
     int QH_TRY_status;
@@ -289,7 +288,7 @@ runQhull(const char *inputComment, int pointDimension, int pointCount, const rea
         qh_checkflags(qh_qh, command, const_cast<char *>(s_unsupported_options));
         qh_initflags(qh_qh, command);
         *qh_qh->rbox_command= '\0';
-        strncat( qh_qh->rbox_command, inputComment, sizeof(qh_qh->rbox_command)-1);
+        strncat( qh_qh->rbox_command, inputComment2, sizeof(qh_qh->rbox_command)-1);
         if(qh_qh->DELAUNAY){
             qh_qh->PROJECTdelaunay= True;   // qh_init_B() calls qh_projectinput()
         }
@@ -336,9 +335,9 @@ initializeFeasiblePoint(int hulldim)
             qh_fprintf(qh_qh, qh_qh->ferr, 6210, "qhull error: dimension of feasiblePoint should be %d.  It is %u\n", hulldim, feasible_point.size());
             qh_errexit(qh_qh, qh_ERRmem, NULL, NULL);
         }
-        qh_qh->feasible_point= static_cast<coordT*>(qh_malloc(hulldim * sizeof(coordT)));
+        qh_qh->feasible_point= static_cast<coordT*>(qh_malloc(static_cast<size_t>(hulldim) * sizeof(coordT)));
         if (!qh_qh->feasible_point) {
-            qh_fprintf(qh_qh, qh_qh->ferr, 6202, "qhull error: insufficient memory for feasible point\n");
+            qh_fprintf(qh_qh, qh_qh->ferr, 6042, "qhull error (Qhull.cpp): insufficient memory for feasible point\n");
             qh_errexit(qh_qh, qh_ERRmem, NULL, NULL);
         }
         coordT *t= qh_qh->feasible_point;

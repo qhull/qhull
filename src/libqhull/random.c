@@ -99,11 +99,13 @@ error_argv:
     return size to allocate for qh_argv_to_command()
 
   notes:
+    only called from rbox with qh_errexit not enabled
+    caller should report error if returned size is less than 1
     argc may be 0
     actual size is usually shorter
 */
 int qh_argv_to_command_size(int argc, char *argv[]) {
-    unsigned int count= 1; /* null-terminator if argc==0 */
+    int count= 1; /* null-terminator if argc==0 */
     int i;
     char *s;
 
@@ -149,7 +151,7 @@ int qh_last_random= 1;  /* define as global variable instead of using qh */
 
 int qh_rand(void) {
     int lo, hi, test;
-    int seed = qh_last_random;
+    int seed= qh_last_random;
 
     hi= seed / qh_rand_q;  /* seed div q */
     lo= seed % qh_rand_q;  /* seed mod q */
@@ -159,8 +161,8 @@ int qh_rand(void) {
     else
         seed= test + qh_rand_m;
     qh_last_random= seed;
-    /* seed = seed < qh_RANDOMmax/2 ? 0 : qh_RANDOMmax;  for testing */
-    /* seed = qh_RANDOMmax;  for testing */
+    /* seed= seed < qh_RANDOMmax/2 ? 0 : qh_RANDOMmax;  for testing */
+    /* seed= qh_RANDOMmax;  for testing */
     return seed;
 } /* rand */
 

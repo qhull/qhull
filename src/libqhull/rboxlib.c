@@ -27,8 +27,6 @@
 #ifdef _MSC_VER  /* Microsoft Visual C++ */
 #pragma warning( disable : 4706)  /* assignment within conditional expression. */
 #pragma warning( disable : 4996)  /* this function (strncat,sprintf,strcpy) or variable may be unsafe. */
-#else
-#pragma GCC diagnostic ignored "-Wstringop-truncation"  /* [mar'19] gcc warns on the second of two strncat() */
 #endif
 
 #define MAXdim 200
@@ -97,7 +95,7 @@ int qh_rboxpoints(FILE* fout, FILE* ferr, char* rbox_command) {
 
   if (rbox_inuse) {
     qh_fprintf_stderr(6188, "rbox error: rbox in use by another process.  Please lock calls to rbox or use libqhull_r/rboxlib_r.c\n");
-    return 6188;
+    return qh_ERRqhull;
   }
   rbox_inuse = True;
   rbox.ferr= ferr;
@@ -109,14 +107,14 @@ int qh_rboxpoints(FILE* fout, FILE* ferr, char* rbox_command) {
     /* same code for error exit and normal return.  qh.NOerrexit is set */
     if (simplex)
       qh_free(simplex);
-    rbox_inuse = False;
+    rbox_inuse= False;
     return exitcode;
   }
   qh_rboxpoints2(rbox_command, &simplex);
   /* same code for error exit and normal return */
   if (simplex)
     qh_free(simplex);
-  rbox_inuse = False;
+  rbox_inuse= False;
   return qh_ERRnone;
 } /* rboxpoints */
 
@@ -138,12 +136,12 @@ void qh_rboxpoints2(char* rbox_command, double **simplex) {
   double anglediff, angle, x, y, cube=0.0, diamond=0.0;
   double box= qh_DEFAULTbox; /* scale all numbers before output */
   double randmax= qh_RANDOMmax;
-  char command[200], seedbuf[200];
+  char command[250], seedbuf[50];
   char *s=command, *t, *first_point=NULL;
   time_t timedata;
 
   *command= '\0';
-  strncat(command, rbox_command, sizeof(command)-strlen(command)-1);
+  strncat(command, rbox_command, sizeof(command)-sizeof(seedbuf)-strlen(command)-1);
 
   while (*s && !isspace(*s))  /* skip program name */
     s++;
@@ -360,6 +358,11 @@ void qh_rboxpoints2(char* rbox_command, double **simplex) {
     qh_fprintf_rbox(rbox.ferr, 6270, "rbox error: 'Cn,r,m' requested n coincident points for each of m points.  Either there is no points or m (%d) is greater than the number of points (%d).\n", coincidenttotal, numpoints);
     qh_errexit_rbox(qh_ERRinput);
   }
+  if (coincidentpoints > 0 && isregular) {
+    qh_fprintf_rbox(rbox.ferr, 6423, "rbox error: 'Cn,r,m' is not implemented for regular points ('r')\n");
+    qh_errexit_rbox(qh_ERRinput);
+  }
+
   if (coincidenttotal == 0)
     coincidenttotal= numpoints;
 
@@ -398,7 +401,7 @@ void qh_rboxpoints2(char* rbox_command, double **simplex) {
   }else if (israndom) {
     seed= (int)time(&timedata);
     sprintf(seedbuf, " t%d", seed);  /* appends an extra t, not worth removing */
-    strncat(command, seedbuf, sizeof(command) - strlen(command) - 1); /* gcc -Wstringop-trunction */
+    strncat(command, seedbuf, sizeof(command) - strlen(command) - 1);
     t= strstr(command, " t ");
     if (t)
       strcpy(t+1, t+3); /* remove " t " */
@@ -452,7 +455,7 @@ void qh_rboxpoints2(char* rbox_command, double **simplex) {
 
   /* ============= simplex distribution =============== */
   if (issimplex+issimplex2) {
-    if (!(*simplex= (double *)qh_malloc( dim * (dim+1) * sizeof(double)))) {
+    if (!(*simplex= (double *)qh_malloc( (size_t)(dim * (dim+1)) * sizeof(double)))) {
       qh_fprintf_rbox(rbox.ferr, 6196, "rbox error: insufficient memory for simplex\n");
       qh_errexit_rbox(qh_ERRmem); /* qh_ERRmem */
     }
@@ -870,6 +873,7 @@ void qh_outcoincident(int coincidentpoints, double radius, int iscdd, double *co
 /*------------------------------------------------
    Only called from qh_rboxpoints2 or qh_fprintf_rbox
    qh_fprintf_rbox is only called from qh_rboxpoints2
+   The largest exitcode is '255' for compatibility with exit()
 */
 void qh_errexit_rbox(int exitcode)
 {

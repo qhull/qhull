@@ -7,8 +7,8 @@
    see qh-stat.htm and stat.c
 
    Copyright (c) 1993-2019 The Geometry Center.
-   $Id: //main/2019/qhull/src/libqhull/stat.h#1 $$Change: 2661 $
-   $DateTime: 2019/05/24 20:09:58 $$Author: bbarber $
+   $Id: //main/2019/qhull/src/libqhull/stat.h#3 $$Change: 2711 $
+   $DateTime: 2019/06/27 22:34:56 $$Author: bbarber $
 
    recompile qhull if you change this file
 
@@ -27,7 +27,9 @@
   >-------------------------------</a><a name="KEEPstatistics">-</a>
 
   qh_KEEPstatistics
-    0 turns off statistic gathering (except zzdef/zzinc/zzadd/zzval/wwval)
+    0 turns off statistic reporting and gathering (except zzdef/zzinc/zzadd/zzval/wwval)
+
+  set qh_KEEPstatistics in user.h to 0 to turn off statistics
 */
 #ifndef qh_KEEPstatistics
 #define qh_KEEPstatistics 1
@@ -530,8 +532,8 @@ extern qhstatT qh_qhstat;
 #endif
 struct qhstatT {
   intrealT   stats[ZEND];     /* integer and real statistics */
-  unsigned   char id[ZEND+10]; /* id's in print order */
-  const char *doc[ZEND];       /* array of documentation strings */
+  unsigned char id[ZEND+10];  /* id's in print order */
+  const char *doc[ZEND];      /* array of documentation strings */
   short int  count[ZEND];     /* -1 if none, else index of count to use */
   char       type[ZEND];      /* type, see ztypes above */
   char       printed[ZEND];   /* true, if statistic has been printed */

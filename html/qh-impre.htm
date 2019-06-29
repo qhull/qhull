@@ -57,12 +57,12 @@ imprecision: Table of Contents </a></h2>
 <ul>
     <li><a href="#prec">Precision problems</a></li>
     <li><a href="#joggle">Merged facets or joggled input</a></li>
+    <li><a href="#injoggle">Joggled input</a></li>
     <li><a href="#delaunay">Delaunay triangulations</a></li>
     <li><a href="#halfspace">Halfspace intersection</a></li>
     <li><a href="#imprecise">Merged facets</a></li>
     <li><a href="#how">How Qhull merges facets</a></li>
     <li><a href="#limit">Limitations of merged facets</a></li>
-    <li><a href="#injoggle">Joggled input</a></li>
     <li><a href="#exact">Exact arithmetic</a></li>
     <li><a href="#approximate">Approximating a convex hull</a></li>
 </ul>
@@ -172,34 +172,36 @@ of joggled input and triangulated output.
 <ul>
 <li>Use merged facets (the default)
 when you want non-simplicial output (e.g., the faces of a cube).
-<li>Use merged facets and triangulated output ('<a href="qh-optq.htm#Qt">Qt</a>') when
-you want simplicial output and coplanar facets (e.g., triangles for a Delaunay triangulation).
 <li>Use joggled input ('<a href="qh-optq.htm#QJn">QJ</a>') when you need clearly-convex,
 simplicial output.
 <li>Use joggled input if your code is sensitive to errors.  Joggled input handles
 all inputs, even highly degenerate inputs such as 100 identical points.  If you compile
 with <a href="http://www.qhull.org/src/libqhull_r/user_r.h#NOmerge">qh_NOmerge</a>, Qhull
 does not contain code for merging facets.  It uses joggled input instead.
+<li>Otherwise, use merged facets and triangulated output ('<a href="qh-optq.htm#Qt">Qt</a>') when
+you want simplicial output and coplanar facets (e.g., triangles for a Delaunay triangulation).
 </ul>
 
 <p>The choice between merged facets and joggled input depends on
 the application. Both run about the same speed. Joggled input may
 be faster if the initial joggle is sufficiently large to avoid
 precision errors.  Although less precise, joggled
-input is more reliable than merged facets (c.f., <a href="../eg/q_benchmark-nomerge-ok.txt">q_benchmark-nomerge-ok.txt</a>).
+input is more reliable than merged facets.  A future version of Qhull will provide
+per vertex joggle.
 
 <p>Use merged facets (the
 default, '<a href="qh-optc.htm#C0">C-0</a>')
 or triangulated output ('<a href="qh-optq.htm#Qt">Qt</a>') if </p>
-
 <ul>
     <li>Your application supports non-simplicial facets, or
     it allows degenerate, simplicial facets (option '<a href="qh-optq.htm#Qt">Qt</a>'). </li>
     <li>You do not want the input modified. </li>
-    <li>You want to set additional options for approximating the
-        hull. </li>
+    <li>Your input coordinates start with the same five or more digits (i.e., it is shifted
+    relative to the origin).  This reduces the available precision. </li>
     <li>You use single precision arithmetic (<a href="http://www.qhull.org/src/libqhull_r/user_r.h#realT">realT</a>).
     </li>
+    <li>You want to set additional options for approximating the
+        hull. </li>
 </ul>
 
 <p>Use joggled input ('<a href="qh-optq.htm#QJn">QJ</a>') if </p>
@@ -228,6 +230,179 @@ merges one of the offending facets into one of its neighbors.
 With multiple merges, topological problems may lead to severe precision
 problems, or prevent Qhull from continuing.  Otherwise, Qhull will either
 fix the problem or attempt to merge the last remaining facets. </p>
+
+
+<h2><a href="#TOC">&#187;</a><a name="injoggle">Joggled input</a></h2>
+
+<p>Joggled input is a simple work-around for precision problems
+in computational geometry [&quot;joggle: to shake or jar
+slightly,&quot; Amer. Heritage Dictionary].  Other names are
+<i>jostled input</i> or <i>random perturbation</i>.
+Qhull joggles the
+input by modifying each coordinate by a small random quantity. If
+a precision problem occurs, Qhull joggles the input with a larger
+quantity and the algorithm is restarted. This process continues
+until no precision problems occur. Unless all inputs incur
+precision problems, Qhull will terminate. Qhull adjusts the inner
+and outer planes to account for the joggled input. </p>
+
+<p>Neither joggle nor merged facets has an upper bound for the width of the output
+facets, but both methods work well in practice. Joggled input is
+easier to justify. Precision errors occur when the points are
+nearly singular. For example, four points may be coplanar or
+three points may be collinear. Consider a line and an incident
+point. A precision error occurs if the point is within some
+epsilon of the line. Now joggle the point away from the line by a
+small, uniformly distributed, random quantity. If the point is
+changed by more than epsilon, the precision error is avoided. The
+probability of this event depends on the maximum joggle. Once the
+maximum joggle is larger than epsilon, doubling the maximum
+joggle will halve the probability of a precision error. </p>
+
+<p>With actual data, an analysis would need to account for each
+point changing independently and other computations. It is easier
+to determine the probabilities empirically ('<a href="qh-optt.htm#TRn">TRn</a>') . For example, consider
+computing the convex hull of the unit cube centered on the
+origin. The arithmetic has 16 significant decimal digits. </p>
+
+<blockquote>
+    <p><b>Convex hull of unit cube</b> </p>
+    <table border="1">
+        <tr>
+            <th align="left">joggle</th>
+            <th align="right">error prob. </th>
+        </tr>
+        <tr>
+            <td align="right">1.0e-15</td>
+            <td align="center">0.983 </td>
+        </tr>
+        <tr>
+            <td align="right">2.0e-15</td>
+            <td align="center">0.830 </td>
+        </tr>
+        <tr>
+            <td align="right">4.0e-15</td>
+            <td align="center">0.561 </td>
+        </tr>
+        <tr>
+            <td align="right">8.0e-15</td>
+            <td align="center">0.325 </td>
+        </tr>
+        <tr>
+            <td align="right">1.6e-14</td>
+            <td align="center">0.185 </td>
+        </tr>
+        <tr>
+            <td align="right">3.2e-14</td>
+            <td align="center">0.099 </td>
+        </tr>
+        <tr>
+            <td align="right">6.4e-14</td>
+            <td align="center">0.051 </td>
+        </tr>
+        <tr>
+            <td align="right">1.3e-13</td>
+            <td align="center">0.025 </td>
+        </tr>
+        <tr>
+            <td align="right">2.6e-13</td>
+            <td align="center">0.010 </td>
+        </tr>
+        <tr>
+            <td align="right">5.1e-13</td>
+            <td align="center">0.004 </td>
+        </tr>
+        <tr>
+            <td align="right">1.0e-12</td>
+            <td align="center">0.002 </td>
+        </tr>
+        <tr>
+            <td align="right">2.0e-12</td>
+            <td align="center">0.001 </td>
+        </tr>
+    </table>
+</blockquote>
+
+<p>A larger joggle is needed for multiple points. Since the
+number of potential singularities increases, the probability of
+one or more precision errors increases. Here is an example. </p>
+
+<blockquote>
+    <p><b>Convex hull of 1000 points on unit cube</b> </p>
+    <table border="1">
+        <tr>
+            <th align="left">joggle</th>
+            <th align="right">error prob. </th>
+        </tr>
+        <tr>
+            <td align="right">1.0e-12</td>
+            <td align="center">0.870 </td>
+        </tr>
+        <tr>
+            <td align="right">2.0e-12</td>
+            <td align="center">0.700 </td>
+        </tr>
+        <tr>
+            <td align="right">4.0e-12</td>
+            <td align="center">0.450 </td>
+        </tr>
+        <tr>
+            <td align="right">8.0e-12</td>
+            <td align="center">0.250 </td>
+        </tr>
+        <tr>
+            <td align="right">1.6e-11</td>
+            <td align="center">0.110 </td>
+        </tr>
+        <tr>
+            <td align="right">3.2e-11</td>
+            <td align="center">0.065 </td>
+        </tr>
+        <tr>
+            <td align="right">6.4e-11</td>
+            <td align="center">0.030 </td>
+        </tr>
+        <tr>
+            <td align="right">1.3e-10</td>
+            <td align="center">0.010 </td>
+        </tr>
+        <tr>
+            <td align="right">2.6e-10</td>
+            <td align="center">0.008 </td>
+        </tr>
+        <tr>
+            <td align="right">5.1e-09</td>
+            <td align="center">0.003 </td>
+        </tr>
+    </table>
+</blockquote>
+
+<p>Other distributions behave similarly. No distribution should
+behave significantly worse. In Euclidean space, the probability
+measure of all singularities is zero. With floating point
+numbers, the probability of a singularity is non-zero. With
+sufficient digits, the probability of a singularity is extremely
+small for random data. For a sufficiently large joggle, all data
+is nearly random data. </p>
+
+<p>Qhull uses an initial joggle of 30,000 times the maximum
+roundoff error for a distance computation. This avoids most
+potential singularities. If a failure occurs, Qhull retries at
+the initial joggle (in case bad luck occurred). If it occurs
+again, Qhull increases the joggle by ten-fold and tries again.
+This process repeats until the joggle is a hundredth of the width
+of the input points. Qhull reports an error after 100 attempts.
+This should never happen with double-precision arithmetic. Once
+the probability of success is non-zero, the probability of
+success increases about ten-fold at each iteration. The
+probability of repeated failures becomes extremely small. </p>
+
+<p>Merged facets produces a significantly better approximation.
+Empirically, the maximum separation between inner and outer
+facets is about 30 times the maximum roundoff error for a
+distance computation. This is about 2,000 times better than
+joggled input. Most applications though will not notice the
+difference. </p>
 
 <h2><a href="#TOC">&#187;</a><a name="delaunay">Delaunay
 triangulations </a></h2>
@@ -603,178 +778,6 @@ try a strong convexity constraint:
 
 </ul>
 
-<h2><a href="#TOC">&#187;</a><a name="injoggle">Joggled input</a></h2>
-
-<p>Joggled input is a simple work-around for precision problems
-in computational geometry [&quot;joggle: to shake or jar
-slightly,&quot; Amer. Heritage Dictionary].  Other names are
-<i>jostled input</i> or <i>random perturbation</i>.
-Qhull joggles the
-input by modifying each coordinate by a small random quantity. If
-a precision problem occurs, Qhull joggles the input with a larger
-quantity and the algorithm is restarted. This process continues
-until no precision problems occur. Unless all inputs incur
-precision problems, Qhull will terminate. Qhull adjusts the inner
-and outer planes to account for the joggled input. </p>
-
-<p>Neither joggle nor merged facets has an upper bound for the width of the output
-facets, but both methods work well in practice. Joggled input is
-easier to justify. Precision errors occur when the points are
-nearly singular. For example, four points may be coplanar or
-three points may be collinear. Consider a line and an incident
-point. A precision error occurs if the point is within some
-epsilon of the line. Now joggle the point away from the line by a
-small, uniformly distributed, random quantity. If the point is
-changed by more than epsilon, the precision error is avoided. The
-probability of this event depends on the maximum joggle. Once the
-maximum joggle is larger than epsilon, doubling the maximum
-joggle will halve the probability of a precision error. </p>
-
-<p>With actual data, an analysis would need to account for each
-point changing independently and other computations. It is easier
-to determine the probabilities empirically ('<a href="qh-optt.htm#TRn">TRn</a>') . For example, consider
-computing the convex hull of the unit cube centered on the
-origin. The arithmetic has 16 significant decimal digits. </p>
-
-<blockquote>
-    <p><b>Convex hull of unit cube</b> </p>
-    <table border="1">
-        <tr>
-            <th align="left">joggle</th>
-            <th align="right">error prob. </th>
-        </tr>
-        <tr>
-            <td align="right">1.0e-15</td>
-            <td align="center">0.983 </td>
-        </tr>
-        <tr>
-            <td align="right">2.0e-15</td>
-            <td align="center">0.830 </td>
-        </tr>
-        <tr>
-            <td align="right">4.0e-15</td>
-            <td align="center">0.561 </td>
-        </tr>
-        <tr>
-            <td align="right">8.0e-15</td>
-            <td align="center">0.325 </td>
-        </tr>
-        <tr>
-            <td align="right">1.6e-14</td>
-            <td align="center">0.185 </td>
-        </tr>
-        <tr>
-            <td align="right">3.2e-14</td>
-            <td align="center">0.099 </td>
-        </tr>
-        <tr>
-            <td align="right">6.4e-14</td>
-            <td align="center">0.051 </td>
-        </tr>
-        <tr>
-            <td align="right">1.3e-13</td>
-            <td align="center">0.025 </td>
-        </tr>
-        <tr>
-            <td align="right">2.6e-13</td>
-            <td align="center">0.010 </td>
-        </tr>
-        <tr>
-            <td align="right">5.1e-13</td>
-            <td align="center">0.004 </td>
-        </tr>
-        <tr>
-            <td align="right">1.0e-12</td>
-            <td align="center">0.002 </td>
-        </tr>
-        <tr>
-            <td align="right">2.0e-12</td>
-            <td align="center">0.001 </td>
-        </tr>
-    </table>
-</blockquote>
-
-<p>A larger joggle is needed for multiple points. Since the
-number of potential singularities increases, the probability of
-one or more precision errors increases. Here is an example. </p>
-
-<blockquote>
-    <p><b>Convex hull of 1000 points on unit cube</b> </p>
-    <table border="1">
-        <tr>
-            <th align="left">joggle</th>
-            <th align="right">error prob. </th>
-        </tr>
-        <tr>
-            <td align="right">1.0e-12</td>
-            <td align="center">0.870 </td>
-        </tr>
-        <tr>
-            <td align="right">2.0e-12</td>
-            <td align="center">0.700 </td>
-        </tr>
-        <tr>
-            <td align="right">4.0e-12</td>
-            <td align="center">0.450 </td>
-        </tr>
-        <tr>
-            <td align="right">8.0e-12</td>
-            <td align="center">0.250 </td>
-        </tr>
-        <tr>
-            <td align="right">1.6e-11</td>
-            <td align="center">0.110 </td>
-        </tr>
-        <tr>
-            <td align="right">3.2e-11</td>
-            <td align="center">0.065 </td>
-        </tr>
-        <tr>
-            <td align="right">6.4e-11</td>
-            <td align="center">0.030 </td>
-        </tr>
-        <tr>
-            <td align="right">1.3e-10</td>
-            <td align="center">0.010 </td>
-        </tr>
-        <tr>
-            <td align="right">2.6e-10</td>
-            <td align="center">0.008 </td>
-        </tr>
-        <tr>
-            <td align="right">5.1e-09</td>
-            <td align="center">0.003 </td>
-        </tr>
-    </table>
-</blockquote>
-
-<p>Other distributions behave similarly. No distribution should
-behave significantly worse. In Euclidean space, the probability
-measure of all singularities is zero. With floating point
-numbers, the probability of a singularity is non-zero. With
-sufficient digits, the probability of a singularity is extremely
-small for random data. For a sufficiently large joggle, all data
-is nearly random data. </p>
-
-<p>Qhull uses an initial joggle of 30,000 times the maximum
-roundoff error for a distance computation. This avoids most
-potential singularities. If a failure occurs, Qhull retries at
-the initial joggle (in case bad luck occurred). If it occurs
-again, Qhull increases the joggle by ten-fold and tries again.
-This process repeats until the joggle is a hundredth of the width
-of the input points. Qhull reports an error after 100 attempts.
-This should never happen with double-precision arithmetic. Once
-the probability of success is non-zero, the probability of
-success increases about ten-fold at each iteration. The
-probability of repeated failures becomes extremely small. </p>
-
-<p>Merged facets produces a significantly better approximation.
-Empirically, the maximum separation between inner and outer
-facets is about 30 times the maximum roundoff error for a
-distance computation. This is about 2,000 times better than
-joggled input. Most applications though will not notice the
-difference. </p>
-
 <h2><a href="#TOC">&#187;</a><a name="exact">Exact arithmetic</a></h2>
 
 <p>Exact arithmetic may be used instead of floating point.
@@ -784,6 +787,12 @@ arithmetic is slower than using floating point arithmetic and the
 output may take more space. Chaining a sequence of operations
 increases the time and space required. Some operations are
 difficult to do.</p>
+
+<p><a href=http://www.cgal.org/>CGAL</a> includes a practical implementation
+of symbolic perturbation.  It uses the BOOST library to generate
+dimension-specific, C++ data structures.   It makes good use of 64-bit memory.
+Input sites may be added incrementally.  It is the fastest 64-bit code
+available.
 
 <p>Clarkson's <a
 href="http://www.netlib.org/voronoi/hull.html">hull

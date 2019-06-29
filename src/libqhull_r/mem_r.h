@@ -12,8 +12,8 @@
      qh_errexit(qhT *qh, qhmem_ERRqhull, NULL, NULL) otherwise
 
    Copyright (c) 1993-2019 The Geometry Center.
-   $Id: //main/2019/qhull/src/libqhull_r/mem_r.h#1 $$Change: 2661 $
-   $DateTime: 2019/05/24 20:09:58 $$Author: bbarber $
+   $Id: //main/2019/qhull/src/libqhull_r/mem_r.h#5 $$Change: 2698 $
+   $DateTime: 2019/06/24 14:52:34 $$Author: bbarber $
 */
 
 #ifndef qhDEFmem
@@ -66,7 +66,7 @@ Trace short and quick memory allocations at T5
     of machines (e.g., DEC Alpha) with large pointers.  If gcc is available,
     use __alignof__(double) or fmax_(__alignof__(float), __alignof__(void *)).
 
-   see <a href="user.h#MEMalign">qh_MEMalign</a> in user.h for qhull's alignment
+   see <a href="user_r.h#MEMalign">qh_MEMalign</a> in user_r.h for qhull's alignment
 */
 
 #define qhmem_ERRmem 4    /* matches qh_ERRmem in libqhull_r.h */

@@ -7,8 +7,8 @@
    see README, libqhull.h and io.c
 
    Copyright (c) 1993-2019 The Geometry Center.
-   $Id: //main/2019/qhull/src/libqhull/io.h#1 $$Change: 2661 $
-   $DateTime: 2019/05/24 20:09:58 $$Author: bbarber $
+   $Id: //main/2019/qhull/src/libqhull/io.h#2 $$Change: 2672 $
+   $DateTime: 2019/06/06 15:21:49 $$Author: bbarber $
 */
 
 #ifndef qhDEFio
@@ -77,8 +77,8 @@ typedef void (*printvridgeT)(FILE *fp, vertexT *vertex, vertexT *vertexA, setT *
 
 /*============== -prototypes in alphabetical order =========*/
 
-void    qh_dfacet(unsigned id);
-void    qh_dvertex(unsigned id);
+void    qh_dfacet(unsigned int id);
+void    qh_dvertex(unsigned int id);
 int     qh_compare_facetarea(const void *p1, const void *p2);
 int     qh_compare_facetvisit(const void *p1, const void *p2);
 int     qh_compare_nummerge(const void *p1, const void *p2);

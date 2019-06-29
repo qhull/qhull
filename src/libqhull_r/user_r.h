@@ -1,7 +1,7 @@
 /*<html><pre>  -<a                             href="qh-user_r.htm"
   >-------------------------------</a><a name="TOP">-</a>
 
-   user.h
+   user_r.h
    user redefinable constants
 
    for each source file, user_r.h is included first
@@ -19,7 +19,8 @@ Sections:
    ============= memory constants =============================
    ============= joggle constants =============================
    ============= conditional compilation ======================
-   ============= -merge constants- ============================
+   ============= merge constants ==============================
+   ============= Microsoft DevStudio ==========================
 
 Code flags --
   NOerrors -- the code does not call qh_errexit()
@@ -63,25 +64,25 @@ Code flags --
   See QhullError.h for 10000 error codes.
   Cannot use '0031' since it would be octal
 
-  def counters =  [30/31/32/33/38, 1065, 2113, 3078, 4096, 5005,
-     6380, 7102, 8162, 9428, 10000, 11034]
+  def counters =  [31/32/33/38, 1067, 2113, 3079, 4097, 5006,
+     6428, 7027/7028/7035/7068/7070/7102, 8163, 9428, 10000, 11034]
 
   See: qh_ERR* [libqhull_r.h]
 */
 
-#define MSG_TRACE0 0      /* always include if logging ('Tn') */
-#define MSG_TRACE1 1000
-#define MSG_TRACE2 2000
-#define MSG_TRACE3 3000
-#define MSG_TRACE4 4000
-#define MSG_TRACE5 5000
-#define MSG_ERROR  6000   /* errors written to qh.ferr */
+#define MSG_TRACE0     0   /* always include if logging ('Tn') */
+#define MSG_TRACE1  1000
+#define MSG_TRACE2  2000
+#define MSG_TRACE3  3000
+#define MSG_TRACE4  4000
+#define MSG_TRACE5  5000
+#define MSG_ERROR   6000   /* errors written to qh.ferr */
 #define MSG_WARNING 7000
-#define MSG_STDERR  8000  /* log messages Written to qh.ferr */
+#define MSG_STDERR  8000   /* log messages Written to qh.ferr */
 #define MSG_OUTPUT  9000
 #define MSG_QHULL_ERROR 10000 /* errors thrown by QhullError.cpp (QHULLlastError is in QhullError.h) */
-#define MSG_FIXUP  11000  /* Document as 'QH11... FIX: ...' */
-#define MSG_MAXLEN  3000 /* qh_printhelp_degenerate() in user.c */
+#define MSG_FIX    11000   /* Document as 'QH11... FIX: ...' */
+#define MSG_MAXLEN  3000   /* qh_printhelp_degenerate() in user_r.c */
 
 
 /*-<a                             href="qh-user_r.htm#TOC"
@@ -177,7 +178,7 @@ Code flags --
 
     Defined as 'int' for C-code compatibility and QH11026
 
-    QH11026 FIX: countT may be defined as a unsigned value, but several code issues need to be solved first.  See countT in Changes.txt
+    QH11026 FIX: countT may be defined as a 'unsigned int', but several code issues need to be solved first.  See countT in Changes.txt
 */
 
 #ifndef DEFcountT
@@ -296,12 +297,12 @@ typedef int countT;
 #define qh_RANDOMmax ((realT)32767)   /* 15 bits (System 5) */
 #endif
 #define qh_RANDOMint  rand()
-#define qh_RANDOMseed_(qh, seed) srand((unsigned)seed);
+#define qh_RANDOMseed_(qh, seed) srand((unsigned int)seed);
 
 #elif (qh_RANDOMtype == 3)
 #define qh_RANDOMmax ((realT)0x7fffffffUL)  /* 31 bits, Sun */
 #define qh_RANDOMint  rand()
-#define qh_RANDOMseed_(qh, seed) srand((unsigned)seed);
+#define qh_RANDOMseed_(qh, seed) srand((unsigned int)seed);
 
 #elif (qh_RANDOMtype == 4)
 #define qh_RANDOMmax ((realT)0x7fffffffUL)  /* 31 bits, lrand38()/MAX */
@@ -326,46 +327,56 @@ typedef int countT;
 */
 #define qh_ORIENTclock 0
 
+/*-<a                             href="qh-user_r.htm#TOC"
+  >--------------------------------</a><a name="RANDOMdist">-</a>
+
+  qh_RANDOMdist
+    define for random perturbation of qh_distplane and qh_setfacetplane (qh.RANDOMdist, 'QRn')
+
+  For testing qh.DISTround.  Qhull should not depend on computations always producing the same roundoff error 
+
+  #define qh_RANDOMdist 1e-13
+*/
 
 /*============================================================*/
 /*============= joggle constants =============================*/
 /*============================================================*/
 
 /*-<a                             href="qh-user_r.htm#TOC"
->--------------------------------</a><a name="JOGGLEdefault">-</a>
+  >--------------------------------</a><a name="JOGGLEdefault">-</a>
 
-qh_JOGGLEdefault
-default qh.JOGGLEmax is qh.DISTround * qh_JOGGLEdefault
+  qh_JOGGLEdefault
+    default qh.JOGGLEmax is qh.DISTround * qh_JOGGLEdefault
 
-notes:
-rbox s r 100 | qhull QJ1e-15 QR0 generates 90% faults at distround 7e-16
-rbox s r 100 | qhull QJ1e-14 QR0 generates 70% faults
-rbox s r 100 | qhull QJ1e-13 QR0 generates 35% faults
-rbox s r 100 | qhull QJ1e-12 QR0 generates 8% faults
-rbox s r 100 | qhull QJ1e-11 QR0 generates 1% faults
-rbox s r 100 | qhull QJ1e-10 QR0 generates 0% faults
-rbox 1000 W0 | qhull QJ1e-12 QR0 generates 86% faults
-rbox 1000 W0 | qhull QJ1e-11 QR0 generates 20% faults
-rbox 1000 W0 | qhull QJ1e-10 QR0 generates 2% faults
-the later have about 20 points per facet, each of which may interfere
+  notes:
+    rbox s r 100 | qhull QJ1e-15 QR0 generates 90% faults at distround 7e-16
+    rbox s r 100 | qhull QJ1e-14 QR0 generates 70% faults
+    rbox s r 100 | qhull QJ1e-13 QR0 generates 35% faults
+    rbox s r 100 | qhull QJ1e-12 QR0 generates 8% faults
+    rbox s r 100 | qhull QJ1e-11 QR0 generates 1% faults
+    rbox s r 100 | qhull QJ1e-10 QR0 generates 0% faults
+    rbox 1000 W0 | qhull QJ1e-12 QR0 generates 86% faults
+    rbox 1000 W0 | qhull QJ1e-11 QR0 generates 20% faults
+    rbox 1000 W0 | qhull QJ1e-10 QR0 generates 2% faults
+    the later have about 20 points per facet, each of which may interfere
 
-pick a value large enough to avoid retries on most inputs
+    pick a value large enough to avoid retries on most inputs
 */
 #define qh_JOGGLEdefault 30000.0
 
 /*-<a                             href="qh-user_r.htm#TOC"
->--------------------------------</a><a name="JOGGLEincrease">-</a>
+  >--------------------------------</a><a name="JOGGLEincrease">-</a>
 
-qh_JOGGLEincrease
-factor to increase qh.JOGGLEmax on qh_JOGGLEretry or qh_JOGGLEagain
+  qh_JOGGLEincrease
+    factor to increase qh.JOGGLEmax on qh_JOGGLEretry or qh_JOGGLEagain
 */
 #define qh_JOGGLEincrease 10.0
 
 /*-<a                             href="qh-user_r.htm#TOC"
->--------------------------------</a><a name="JOGGLEretry">-</a>
+  >--------------------------------</a><a name="JOGGLEretry">-</a>
 
-qh_JOGGLEretry
-if ZZretry = qh_JOGGLEretry, increase qh.JOGGLEmax
+  qh_JOGGLEretry
+    if ZZretry = qh_JOGGLEretry, increase qh.JOGGLEmax
 
 notes:
 try twice at the original value in case of bad luck the first time
@@ -373,35 +384,35 @@ try twice at the original value in case of bad luck the first time
 #define qh_JOGGLEretry 2
 
 /*-<a                             href="qh-user_r.htm#TOC"
->--------------------------------</a><a name="JOGGLEagain">-</a>
+  >--------------------------------</a><a name="JOGGLEagain">-</a>
 
-qh_JOGGLEagain
-every following qh_JOGGLEagain, increase qh.JOGGLEmax
+  qh_JOGGLEagain
+    every following qh_JOGGLEagain, increase qh.JOGGLEmax
 
-notes:
-1 is OK since it's already failed qh_JOGGLEretry times
+  notes:
+    1 is OK since it's already failed qh_JOGGLEretry times
 */
 #define qh_JOGGLEagain 1
 
 /*-<a                             href="qh-user_r.htm#TOC"
->--------------------------------</a><a name="JOGGLEmaxincrease">-</a>
+  >--------------------------------</a><a name="JOGGLEmaxincrease">-</a>
 
-qh_JOGGLEmaxincrease
-maximum qh.JOGGLEmax due to qh_JOGGLEincrease
-relative to qh.MAXwidth
+  qh_JOGGLEmaxincrease
+    maximum qh.JOGGLEmax due to qh_JOGGLEincrease
+    relative to qh.MAXwidth
 
-notes:
-qh.joggleinput will retry at this value until qh_JOGGLEmaxretry
+  notes:
+    qh.joggleinput will retry at this value until qh_JOGGLEmaxretry
 */
 #define qh_JOGGLEmaxincrease 1e-2
 
 /*-<a                             href="qh-user_r.htm#TOC"
->--------------------------------</a><a name="JOGGLEmaxretry">-</a>
+  >--------------------------------</a><a name="JOGGLEmaxretry">-</a>
 
-qh_JOGGLEmaxretry
-stop after qh_JOGGLEmaxretry attempts
+  qh_JOGGLEmaxretry
+    stop after qh_JOGGLEmaxretry attempts
 */
-#define qh_JOGGLEmaxretry 100
+#define qh_JOGGLEmaxretry 50
 
 /*============================================================*/
 /*============= performance related constants ================*/
@@ -585,9 +596,10 @@ stop after qh_JOGGLEmaxretry attempts
     For MSVC compiles, use qhull_r-exports-nomerge.def instead of qhull_r-exports.def
 
   notes:
-    This saves about 10% space.
+    This saves about 25% space, 30% space in combination with qh_NOtrace, 
+    and 36% with qh_NOtrace and qh_KEEPstatistics 0
 
-    Unless 'Q0'
+    Unless option 'Q0' is used
       qh_NOmerge sets 'QJ' to avoid precision errors
 
   see:
@@ -603,9 +615,12 @@ stop after qh_JOGGLEmaxretry attempts
 
   qh_NOtrace
     no tracing if defined
+    disables 'Tn', 'TMn', 'TPn' and 'TWn'
+    override with 'Qw' for qh_addpoint tracing and various other items
 
   notes:
-    This saves about 5% space.
+    This saves about 15% space.
+    Removes all traceN((...)) code and substantial sections of qh.IStracing code
 
   #define qh_NOtrace
 */
@@ -626,7 +641,7 @@ stop after qh_JOGGLEmaxretry attempts
 #define qh_QUICKhelp    0
 
 /*============================================================*/
-/*============= -merge constants- ============================*/
+/*============= merge constants ==============================*/
 /*============================================================*/
 /*
    These constants effect facet merging.  You probably will not need
@@ -716,6 +731,14 @@ stop after qh_JOGGLEmaxretry attempts
      fmax_((qh->MERGING ? 2 : 1)*qh->MINoutside, qh->max_outside))
 
 /*-<a                             href="qh-user_r.htm#TOC"
+  >--------------------------------</a><a name="MAXcheckpoint">-</a>
+
+  qh_MAXcheckpoint
+    Report up to qh_MAXcheckpoint errors per facet in qh_check_point ('Tv')
+*/
+#define qh_MAXcheckpoint 10
+
+/*-<a                             href="qh-user_r.htm#TOC"
   >--------------------------------</a><a name="MAXcoplanarcentrum">-</a>
 
   qh_MAXcoplanarcentrum
@@ -795,6 +818,19 @@ stop after qh_JOGGLEmaxretry attempts
 
 */
 #define qh_RATIOcoplanaroutside 30.0
+
+/*-<a                             href="qh-user_r.htm#TOC"
+  >--------------------------------</a><a name="RATIOmaxsimplex">-</a>
+
+  qh_RATIOmaxsimplex
+    ratio of max determinate to estimated determinate for searching all points in qh_maxsimplex
+
+  notes:
+    As each point is added to the simplex, the max determinate is should approximate the previous determinate * qh.MAXwidth
+    If maxdet is significantly less, the simplex may not be full-dimensional.
+    If so, all points are searched, stopping at 10 times qh_RATIOmaxsimplex
+*/
+#define qh_RATIOmaxsimplex 1.0e-3
 
 /*-<a                             href="qh-user_r.htm#TOC"
   >--------------------------------</a><a name="RATIOnearinside">-</a>
@@ -968,7 +1004,7 @@ stop after qh_JOGGLEmaxretry attempts
   notes:
     Merging pinched vertices should prevent duplicate ridges (see qh_WIDEduplicate)
     Merging the duplicate ridges may be better than merging the pinched vertices
-    Found up to 45x ratio for qh_pointdist -- for ((i=1; i<20; i++)); do rbox 175 C1,6e-13 t | qhull d T4 2>&1 | tee x.1 | grep  -E 'QH|non-simplicial|Statis|pinched' | grep -vE 'QH6134'; done
+    Found up to 45x ratio for qh_pointdist -- for ((i=1; i<20; i++)); do rbox 175 C1,6e-13 t | qhull d T4 2>&1 | tee x.1 | grep  -E 'QH|non-simplicial|Statis|pinched'; done
     Actual distance to facets is a third to a tenth of the qh_pointdist (T1)
 */
 #define qh_WIDEpinched 100

@@ -28,6 +28,8 @@
 
   qh_exit( exitcode )
     exit program
+    the exitcode must be 255 or less.  Zero indicates success.
+    Note: Exit status ('$?') in bash reports 256 as 0
 
   notes:
     qh_exit() is called when qh_errexit() and longjmp() are not available.
@@ -47,6 +49,7 @@ void qh_exit(int exitcode) {
 
   notes:
     qh_fprintf_stderr() is called when qh.ferr is not defined, usually due to an initialization error
+    if msgcode is a MSG_ERROR (6000), caller should set qh.last_errcode (like qh_fprintf) or variable 'last_errcode'
     
     It is typically followed by qh_errexit().
 

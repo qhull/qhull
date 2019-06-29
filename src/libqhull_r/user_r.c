@@ -1,7 +1,7 @@
 /*<html><pre>  -<a                             href="qh-user_r.htm"
   >-------------------------------</a><a name="TOP">-</a>
 
-   user.c
+   user_r.c
    user redefinable functions
 
    see user2_r.c for qh_fprintf, qh_malloc, qh_free
@@ -10,13 +10,13 @@
 
    see libqhull_r.h for data structures, macros, and user-callable functions.
 
-   see user_eg.c, user_eg2.c, and unix.c for examples.
+   see user_eg_r.c, user_eg2_r.c, and unix_r.c for examples.
 
-   see user.h for user-definable constants
+   see user_r.h for user-definable constants
 
       use qh_NOmem in mem_r.h to turn off memory management
-      use qh_NOmerge in user.h to turn off facet merging
-      set qh_KEEPstatistics in user.h to 0 to turn off statistics
+      use qh_NOmerge in user_r.h to turn off facet merging
+      set qh_KEEPstatistics in user_r.h to 0 to turn off statistics
 
    This is unsupported software.  You're welcome to make changes,
    but you're on your own if something goes wrong.  Use 'Tc' to
@@ -90,7 +90,7 @@
   qh_freeqhull(qh, !qh_ALL);
   qh_memfreeshort(qh, &curlong, &totlong);
   if (curlong || totlong)
-    qh_fprintf(qh, errfile, 7068, "qhull internal warning (main): did not free %d bytes of long memory(%d pieces)\n", totlong, curlong);
+    qh_fprintf(qh, errfile, 7079, "qhull internal warning (main): did not free %d bytes of long memory(%d pieces)\n", totlong, curlong);
 }
 #endif
 
@@ -138,8 +138,8 @@ int qh_new_qhull(qhT *qh, int dim, int numpoints, coordT *points, boolT ismalloc
   } else {
     qh_memcheck(qh);
   }
-  if (strncmp(qhull_cmd, "qhull ", (size_t)6)) {
-    qh_fprintf(qh, errfile, 6186, "qhull error (qh_new_qhull): start qhull_cmd argument with \"qhull \"\n");
+  if (strncmp(qhull_cmd, "qhull ", (size_t)6) && strcmp(qhull_cmd, "qhull") != 0) {
+    qh_fprintf(qh, errfile, 6186, "qhull error (qh_new_qhull): start qhull_cmd argument with \"qhull \" or set to \"qhull\"\n");
     return qh_ERRinput;
   }
   qh_initqhull_start(qh, NULL, outfile, errfile);
@@ -149,8 +149,7 @@ int qh_new_qhull(qhT *qh, int dim, int numpoints, coordT *points, boolT ismalloc
   }
   trace1((qh, qh->ferr, 1044, "qh_new_qhull: build new Qhull for %d %d-d points with %s\n", numpoints, dim, qhull_cmd));
   exitcode= setjmp(qh->errexit);
-  if (!exitcode)
-  {
+  if (!exitcode){
     qh->NOerrexit= False;
     qh_initflags(qh, qhull_cmd);
     if (qh->DELAUNAY)
@@ -209,7 +208,7 @@ int qh_new_qhull(qhT *qh, int dim, int numpoints, coordT *points, boolT ismalloc
 void qh_errexit(qhT *qh, int exitcode, facetT *facet, ridgeT *ridge) {
 
   qh->tracefacet= NULL;  /* avoid infinite recursion through qh_fprintf */
-  qh->traceridge= NULL; 
+  qh->traceridge= NULL;
   qh->tracevertex= NULL;
   if (qh->ERREXITcalled) {
     qh_fprintf(qh, qh->ferr, 8126, "\nqhull error while handling previous error in qh_errexit.  Exit program\n");
@@ -265,10 +264,14 @@ void qh_errexit(qhT *qh, int exitcode, facetT *facet, ridgeT *ridge) {
       qh_printhelp_topology(qh, qh->ferr);
     else if (exitcode == qh_ERRwide)
       qh_printhelp_wide(qh, qh->ferr);
-  } 
+  }else if (exitcode > 255) {
+    qh_fprintf(qh, qh->ferr, 6426, "qhull internal error (qh_errexit): exit code %d is greater than 255.  Invalid argument for exit().  Replaced with 255\n", exitcode);
+    exitcode= 255;
+  }
   if (qh->NOerrexit) {
-    qh_fprintf(qh, qh->ferr, 6187, "qhull error while ending program, or qh->NOerrexit not cleared after setjmp(). Exit program with error.\n");
-    qh_exit(qh_ERRqhull);
+    qh_fprintf(qh, qh->ferr, 6187, "qhull internal error (qh_errexit): either error while reporting error QH%d, or qh.NOerrexit not cleared after setjmp(). Exit program with error status %d\n",
+         qh->last_errcode, exitcode);
+    qh_exit(exitcode);
   }
   qh->ERREXITcalled= False;
   qh->NOerrexit= True;
@@ -392,7 +395,7 @@ concave ridge, flipped facet, or duplicate facet occurs.\n");
 \n\
 Qhull is currently using single precision arithmetic.  The following\n\
 will probably remove the precision problems:\n\
-  - recompile qhull for realT precision(#define REALfloat 0 in user.h).\n");
+  - recompile qhull for realT precision(#define REALfloat 0 in user_r.h).\n");
 #endif
     if (qh->DELAUNAY && !qh->SCALElast && qh->MAXabs_coord > 1e4)
       qh_fprintf(qh, fp, 9371, "\
@@ -456,15 +459,16 @@ include the log file.\n");
     Warn about a narrow hull
 
   notes:
-    Alternatively, reduce qh_WARNnarrow in user.h
+    Alternatively, reduce qh_WARNnarrow in user_r.h
 
 */
 void qh_printhelp_narrowhull(qhT *qh, FILE *fp, realT minangle) {
 
-    qh_fprintf(qh, fp, 7089, "qhull precision warning: The initial hull is narrow.  Is the input\n\
-lower dimensional (e.g., a square in 3-d instead of a cube)?  Cosine of the minimum angle\n\
-is %.16f.  If so, Qhull may produce a wide facet.  Options 'Qs' (search all points),\n\
-'Qbb' (scale last coordinate), or 'QbB' (scale to unit box) may remove this warning.\n\
+    qh_fprintf(qh, fp, 7089, "qhull precision warning: The initial hull is narrow.  Is the input lower\n\
+dimensional (e.g., a square in 3-d instead of a cube)?  Cosine of the minimum\n\
+angle is %.16f.  If so, Qhull may produce a wide facet.\n\
+Options 'Qs' (search all points), 'Qbb' (scale last coordinate), or\n\
+'QbB' (scale to unit box) may remove this warning.\n\
 See 'Limitations' in qh-impre.htm.  Use 'Pp' to skip this warning.\n",
           -minangle);   /* convert from angle between normals to angle between facets */
 } /* printhelp_narrowhull */
@@ -570,7 +574,7 @@ void qh_printhelp_topology(qhT *qh, FILE *fp) {
 
   if (!qh_QUICKhelp) {
     qh_fprintf(qh, fp, 9427, "\n\
-A Qhull topology error has occurred.  Qhull did not recover from facet and vertex merging\n\
+A Qhull topology error has occurred.  Qhull did not recover from facet merges and vertex merges.\n\
 This usually occurs when the input is nearly degenerate and substantial merging has occurred.\n\
 See http://www.qhull.org/html/qh-impre.htm#limit\n");
   }
@@ -589,7 +593,7 @@ void qh_printhelp_wide(qhT *qh, FILE *fp) {
 
   if (!qh_QUICKhelp) {
     qh_fprintf(qh, fp, 9428, "\n\
-A wide merge error has occurred.  Qhull has produced a wide facet due to facet and vertex merging.\n\
+A wide merge error has occurred.  Qhull has produced a wide facet due to facet merges and vertex merges.\n\
 This usually occurs when the input is nearly degenerate and substantial merging has occurred.\n\
 See http://www.qhull.org/html/qh-impre.htm#limit\n");
   }

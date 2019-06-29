@@ -7,8 +7,8 @@
    see qh-merge.htm and merge.c
 
    Copyright (c) 1993-2019 C.B. Barber.
-   $Id: //main/2019/qhull/src/libqhull/merge.h#1 $$Change: 2661 $
-   $DateTime: 2019/05/24 20:09:58 $$Author: bbarber $
+   $Id: //main/2019/qhull/src/libqhull/merge.h#2 $$Change: 2672 $
+   $DateTime: 2019/06/06 15:21:49 $$Author: bbarber $
 */
 
 #ifndef qhDEFmerge
@@ -107,7 +107,7 @@ struct mergeT {         /* initialize in qh_appendmergeset */
       restart or use qh_setdellast() since qh.facet_mergeset may change
     see <a href="qset.h#FOREACHsetelement_">FOREACHsetelement_</a>
 */
-#define FOREACHmerge_( merges ) FOREACHsetelement_(mergeT, merges, merge)
+#define FOREACHmerge_(merges) FOREACHsetelement_(mergeT, merges, merge)
 
 /*-<a                             href="qh-poly.htm#TOC"
   >--------------------------------</a><a name="FOREACHmergeA_">-</a>

@@ -7,8 +7,8 @@
    see qh-stat_r.htm and stat_r.h
 
    Copyright (c) 1993-2019 The Geometry Center.
-   $Id: //main/2019/qhull/src/libqhull_r/stat_r.c#1 $$Change: 2661 $
-   $DateTime: 2019/05/24 20:09:58 $$Author: bbarber $
+   $Id: //main/2019/qhull/src/libqhull_r/stat_r.c#7 $$Change: 2712 $
+   $DateTime: 2019/06/28 12:57:00 $$Author: bbarber $
 */
 
 #include "qhull_ra.h"
@@ -335,7 +335,7 @@ void qh_collectstatistics(qhT *qh) {
 
   qh->old_randomdist= qh->RANDOMdist;
   qh->RANDOMdist= False;
-  zval_(Zmempoints)= qh->num_points * qh->normal_size + sizeof(qhT);
+  zval_(Zmempoints)= qh->num_points * qh->normal_size + (int)sizeof(qhT);
   zval_(Zmemfacets)= 0;
   zval_(Zmemridges)= 0;
   zval_(Zmemvertices)= 0;
@@ -391,17 +391,17 @@ void qh_collectstatistics(qhT *qh) {
       zadd_(Znumridges, sizridges);
       zmax_(Zmaxridges, sizridges);
     }
-    zadd_(Zmemfacets, sizeof(facetT) + qh->normal_size + 2*sizeof(setT)
+    zadd_(Zmemfacets, (int)sizeof(facetT) + qh->normal_size + 2*(int)sizeof(setT)
        + SETelemsize * (sizneighbors + sizvertices));
     if (facet->ridges) {
       zadd_(Zmemridges,
-         sizeof(setT) + SETelemsize * sizridges + sizridges *
-         (sizeof(ridgeT) + sizeof(setT) + SETelemsize * (qh->hull_dim-1))/2);
+        (int)sizeof(setT) + SETelemsize * sizridges + sizridges *
+         ((int)sizeof(ridgeT) + (int)sizeof(setT) + SETelemsize * (qh->hull_dim-1))/2);
     }
     if (facet->outsideset)
-      zadd_(Zmempoints, sizeof(setT) + SETelemsize * qh_setsize(qh, facet->outsideset));
+      zadd_(Zmempoints, (int)sizeof(setT) + SETelemsize * qh_setsize(qh, facet->outsideset));
     if (facet->coplanarset)
-      zadd_(Zmempoints, sizeof(setT) + SETelemsize * qh_setsize(qh, facet->coplanarset));
+      zadd_(Zmempoints, (int)sizeof(setT) + SETelemsize * qh_setsize(qh, facet->coplanarset));
     if (facet->seen) /* Delaunay upper envelope */
       continue;
     facet->seen= True;
@@ -427,12 +427,12 @@ void qh_collectstatistics(qhT *qh) {
   FORALLvertices {
     if (vertex->deleted)
       continue;
-    zadd_(Zmemvertices, sizeof(vertexT));
+    zadd_(Zmemvertices, (int)sizeof(vertexT));
     if (vertex->neighbors) {
       sizneighbors= qh_setsize(qh, vertex->neighbors);
       zadd_(Znumvneighbors, sizneighbors);
       zmax_(Zmaxvneighbors, sizneighbors);
-      zadd_(Zmemvertices, sizeof(vertexT) + SETelemsize * sizneighbors);
+      zadd_(Zmemvertices, (int)sizeof(vertexT) + SETelemsize * sizneighbors);
     }
   }
   qh->RANDOMdist= qh->old_randomdist;
@@ -455,6 +455,7 @@ void qh_initstatistics(qhT *qh) {
   realT realx;
   int intx;
 
+  qh_allstatistics(qh);
   qh->qhstat.next= 0;
   qh_allstatA(qh);
   qh_allstatB(qh);
@@ -467,8 +468,8 @@ void qh_initstatistics(qhT *qh) {
   qh_allstatH(qh);
   qh_allstatI(qh);
   if (qh->qhstat.next > (int)sizeof(qh->qhstat.id)) {
-    qh_fprintf_stderr(6184, "qhull internal error (qh_initstatistics): increase size of qhstat.id[].\n\
-      qhstat.next %d should be <= sizeof(qh->qhstat.id) %d\n", qh->qhstat.next, (int)sizeof(qh->qhstat.id));
+    qh_fprintf_stderr(6184, "qhull internal error (qh_initstatistics): increase size of qhstat.id[].  qhstat.next %d should be <= sizeof(qh->qhstat.id) %d\n", 
+          qh->qhstat.next, (int)sizeof(qh->qhstat.id));
 #if 0 /* for locating error, Znumridges should be duplicated */
     for(i=0; i < ZEND; i++) {
       int j;
@@ -578,9 +579,9 @@ void qh_printstatistics(qhT *qh, FILE *fp, const char *string) {
     wval_(Wpbalance2)= qh_stddev(qh, zval_(Zpbalance), wval_(Wpbalance),
                                  wval_(Wpbalance2), &ave);
   if (zval_(Zprocessed) == 0)
-    wval_(Wnewbalance2) = 0.0;
+    wval_(Wnewbalance2)= 0.0;
   else
-    wval_(Wnewbalance2) = qh_stddev(qh, zval_(Zprocessed), wval_(Wnewbalance),
+    wval_(Wnewbalance2)= qh_stddev(qh, zval_(Zprocessed), wval_(Wnewbalance),
                                  wval_(Wnewbalance2), &ave);
   qh_fprintf(qh, fp, 9350, "\n\
 %s\n\
@@ -706,12 +707,21 @@ realT qh_stddev(qhT *qh, int num, realT tot, realT tot2, realT *ave) {
   stddev= sqrt(fabs(tot2/num - *ave * *ave));
   return stddev;
 } /* stddev */
-
+#else
+realT qh_stddev(qhT *qh, int num, realT tot, realT tot2, realT *ave) { /* for qhull_r-exports.def */
+  QHULL_UNUSED(qh)
+  QHULL_UNUSED(num)
+  QHULL_UNUSED(tot)
+  QHULL_UNUSED(tot2)
+  QHULL_UNUSED(ave)
+    
+  return 0.0;
+}
 #endif /* qh_KEEPstatistics */
 
 #if !qh_KEEPstatistics
 void    qh_collectstatistics(qhT *qh) {}
-void    qh_printallstatistics(qhT *qh, FILE *fp, const char *string) {};
+void    qh_printallstatistics(qhT *qh, FILE *fp, const char *string) {}
 void    qh_printstatistics(qhT *qh, FILE *fp, const char *string) {}
 #endif
 

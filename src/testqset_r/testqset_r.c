@@ -6,7 +6,7 @@
    The test sets are pointers to int.  Normally a set is a pointer to a type (e.g., facetT, ridgeT, etc.).
    For consistency in notation, an "int" is typedef'd to i2T
 
-Functions and macros from qset.h.  Counts occurrences in this test.  Does not correspond to thoroughness.
+Functions and macros from qset_r.h.  Counts occurrences in this test.  Does not correspond to thoroughness.
     qh_setaddsorted -- 4 tests
     qh_setaddnth -- 1 test
     qh_setappend -- 7 tests
@@ -67,8 +67,8 @@ Functions and macros from qset.h.  Counts occurrences in this test.  Does not co
     SETtruncate_ -- 2 tests
 
     Copyright (c) 2012-2019 C.B. Barber. All rights reserved.
-    $Id: //main/2019/qhull/src/testqset_r/testqset_r.c#1 $$Change: 2661 $
-    $DateTime: 2019/05/24 20:09:58 $$Author: bbarber $
+    $Id: //main/2019/qhull/src/testqset_r/testqset_r.c#4 $$Change: 2683 $
+    $DateTime: 2019/06/14 16:05:16 $$Author: bbarber $
 */
 
 #include "libqhull_r/user_r.h"  /* QHULL_CRTDBG */
@@ -85,10 +85,10 @@ typedef int i2T;
 #define MAXerrorCount 100 /* quit after n errors */
 
 #define FOREACHint_( ints ) FOREACHsetelement_(i2T, ints, i2)
-#define FOREACHint4_( ints ) FOREACHsetelement_(i2T, ints, i4) /* not tested */
 #define FOREACHint_i_(qh, ints) FOREACHsetelement_i_(qh, i2T, ints, i2)
-#define FOREACHintreverse_(qh, ints) FOREACHsetelementreverse_(qh, i2T, ints, i2) /* not tested */
-#define FOREACHintreverse12_( ints ) FOREACHsetelementreverse12_(i2T, ints, i2) /* not tested */
+/* not tested -- #define FOREACHint4_( ints ) FOREACHsetelement_(i2T, ints, i4) */
+/* not tested -- #define FOREACHintreverse_(qh, ints) FOREACHsetelementreverse_(qh, i2T, ints, i2) */
+/* not tested -- #define FOREACHintreverse12_( ints ) FOREACHsetelementreverse12_(i2T, ints, i2) */
 
 enum {
     MAXint= 0x7fffffff
@@ -109,7 +109,7 @@ char prompt[]= "testqset_r N [M] [T5] -- Test reentrant qset_r.c and mem_r.c\n\
 
 int error_count= 0;  /* Global error_count.  checkSetContents(qh) keeps its own error count.  It exits on too many errors */
 
-/* Macros normally defined in geom.h */
+/* Macros normally defined in geom_r.h */
 #define fmax_( a,b )  ( ( a ) < ( b ) ? ( b ) : ( a ) )
 
 /* Macros normally defined in QhullSet.h */
@@ -121,7 +121,7 @@ void    qh_fprintf_stderr(int msgcode, const char *fmt, ... );
 void    qh_free(void *mem);
 void   *qh_malloc(size_t size);
 
-/* Normally defined in user_r.c, use void instead of facetT/ridgeT for testqset.c */
+/* Normally defined in user_r.c, use void instead of facetT/ridgeT for testqset_r.c */
 
 void    qh_errexit(qhT *qh, int exitcode, facetT *f, ridgeT *r);
 void    qh_errexit(qhT *qh, int exitcode, facetT *f, ridgeT *r)
@@ -145,7 +145,7 @@ void    qh_fprintf(qhT *qh, FILE *fp, int msgcode, const char *fmt, ... )
     if (!fp) {
         /* Do not use qh_fprintf_stderr.  This is a standalone program */
         if(!qh)
-            fprintf(stderr, "QH6241 testqset_r (qh_fprintf): fp and qh not defined for '%s'\n", fmt);
+            fprintf(stderr, "QH6043 testqset_r (qh_fprintf): fp and qh not defined for '%s'\n", fmt);
         else
             fprintf(stderr, "QH6232 testqset_r (qh_fprintf): fp is 0.  Was wrong qh_fprintf called for '%s'\n", fmt);
         qh_errexit(qh, qh_ERRqhull, NULL, NULL);
@@ -211,7 +211,8 @@ int main(int argc, char **argv) {
     testSettemp(qh, numInts, intarray, checkEvery);
     testSetlastEtc(qh, numInts, intarray, checkEvery);
     testSetdelsortedEtc(qh, numInts, intarray, checkEvery);
-    qh_fprintf(qh, stderr, 8083, "\nNot testing qh_setduplicate and qh_setfree2.\n  These routines use heap-allocated set contents.  See qhull tests.\n\n");
+    qh_fprintf(qh, stderr, 8083, "\nNot testing qh_setduplicate and qh_setfree2.  These routines use heap-allocated,\n\
+set contents.  See qhull tests in eg/q_test and bin/qhulltest.\n\n");
 
     qh_memstatistics(qh, stderr);
 #ifndef qh_NOmem
@@ -221,7 +222,7 @@ int main(int argc, char **argv) {
         error_count++;
     }
 #endif
-    fflush(stderr);
+    fflush(NULL);
     if(error_count){
         qh_fprintf(qh, stderr, 8088, "testqset_r: %d errors\n\n", error_count);
         exit(qh_ERRqhull);
@@ -287,9 +288,9 @@ void setupMemory(qhT *qh, int tracelevel, int numInts, int **intarray)
         qh_fprintf(qh, stderr, 6303, "testqset_r: qset does not currently support 64-bit ints.  Integer overflow\n");
         exit(qh_ERRinput);
     }
-    *intarray= (int *)qh_malloc(numInts * sizeof(int));
+    *intarray= (int *)qh_malloc((unsigned int)numInts * sizeof(int));
     if(!*intarray){
-        qh_fprintf(qh, stderr, 6304, "testqset_r: Failed to allocate %d bytes of memory\n", numInts * sizeof(int));
+        qh_fprintf(qh, stderr, 6304, "testqset_r: Failed to allocate %d bytes of memory\n", numInts * (int)sizeof(int));
         exit(qh_ERRmem);
     }
     for(i= 0; i<numInts; i++){

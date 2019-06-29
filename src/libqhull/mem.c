@@ -30,8 +30,8 @@
     global.c (qh_initbuffers) for an example of using mem.c
 
   Copyright (c) 1993-2019 The Geometry Center.
-  $Id: //main/2019/qhull/src/libqhull/mem.c#1 $$Change: 2661 $
-  $DateTime: 2019/05/24 20:09:58 $$Author: bbarber $
+  $Id: //main/2019/qhull/src/libqhull/mem.c#3 $$Change: 2698 $
+  $DateTime: 2019/06/24 14:52:34 $$Author: bbarber $
 */
 
 #include "user.h"  /* for QHULL_CRTDBG */
@@ -152,14 +152,14 @@ void *qh_memalloc(int insize) {
         *((void **)newbuffer)= qhmem.curbuffer;  /* prepend newbuffer to curbuffer
                                                     list.  newbuffer!=0 by QH6080 */
         qhmem.curbuffer= newbuffer;
-        size= (sizeof(void **) + qhmem.ALIGNmask) & ~qhmem.ALIGNmask;
+        size= ((int)sizeof(void **) + qhmem.ALIGNmask) & ~qhmem.ALIGNmask;
         qhmem.freemem= (void *)((char *)newbuffer+size);
         qhmem.freesize= bufsize - size;
         qhmem.totbuffer += bufsize - size; /* easier to check */
         /* Periodically test totbuffer.  It matches at beginning and exit of every call */
         n= qhmem.totshort + qhmem.totfree + qhmem.totdropped + qhmem.freesize - outsize;
         if (qhmem.totbuffer != n) {
-            qh_fprintf(qhmem.ferr, 6212, "qh_memalloc internal error: short totbuffer %d != totshort+totfree... %d\n", qhmem.totbuffer, n);
+            qh_fprintf(qhmem.ferr, 6212, "qhull internal error (qh_memalloc): short totbuffer %d != totshort+totfree... %d\n", qhmem.totbuffer, n);
             qh_errexit(qhmem_ERRmem, NULL, NULL);
         }
       }
@@ -205,7 +205,7 @@ void qh_memcheck(void) {
   void *object;
 
   if (qhmem.ferr == 0 || qhmem.IStracing < 0 || qhmem.IStracing > 10 || (((qhmem.ALIGNmask+1) & qhmem.ALIGNmask) != 0)) {
-    qh_fprintf_stderr(6244, "qh_memcheck error: either qhmem is overwritten or qhmem is not initialized.  Call qh_meminit or qh_new_qhull before calling qh_mem routines.  ferr 0x%x, IsTracing %d, ALIGNmask 0x%x\n", 
+    qh_fprintf_stderr(6244, "qhull internal error (qh_memcheck): either qhmem is overwritten or qhmem is not initialized.  Call qh_meminit or qh_new_qhull before calling qh_mem routines.  ferr 0x%x, IsTracing %d, ALIGNmask 0x%x\n", 
           qhmem.ferr, qhmem.IStracing, qhmem.ALIGNmask);
     qh_exit(qhmem_ERRqhull);  /* can not use qh_errexit() */
   }
@@ -386,7 +386,7 @@ void qh_memsetup(void) {
             qhmem.LASTsize, qhmem.BUFsize, qhmem.BUFinit);
     qh_errexit(qhmem_ERRmem, NULL, NULL);
   }
-  if (!(qhmem.indextable= (int *)qh_malloc((qhmem.LASTsize+1) * sizeof(int)))) {
+  if (!(qhmem.indextable= (int *)qh_malloc((size_t)(qhmem.LASTsize+1) * sizeof(int)))) {
     qh_fprintf(qhmem.ferr, 6088, "qhull error (qh_memsetup): insufficient memory\n");
     qh_errexit(qhmem_ERRmem, NULL, NULL);
   }
@@ -411,10 +411,12 @@ void qh_memsize(int size) {
   int k;
 
   if (qhmem.LASTsize) {
-    qh_fprintf(qhmem.ferr, 6089, "qhull internal error (qh_memsize): qh_memsize called after qhmem_setup\n");
+    qh_fprintf(qhmem.ferr, 6089, "qhull internal error (qh_memsize): qh_memsize called after qh_memsetup\n");
     qh_errexit(qhmem_ERRqhull, NULL, NULL);
   }
   size= (size + qhmem.ALIGNmask) & ~qhmem.ALIGNmask;
+  if (qhmem.IStracing >= 3)
+    qh_fprintf(qhmem.ferr, 3078, "qh_memsize: quick memory of %d bytes\n", size);
   for (k=qhmem.TABLEsize; k--; ) {
     if (qhmem.sizetable[k] == size)
       return;
@@ -422,7 +424,7 @@ void qh_memsize(int size) {
   if (qhmem.TABLEsize < qhmem.NUMsizes)
     qhmem.sizetable[qhmem.TABLEsize++]= size;
   else
-    qh_fprintf(qhmem.ferr, 7060, "qhull warning (memsize): free list table has room for only %d sizes\n", qhmem.NUMsizes);
+    qh_fprintf(qhmem.ferr, 7060, "qhull warning (qh_memsize): free list table has room for only %d sizes\n", qhmem.NUMsizes);
 } /* memsize */
 
 

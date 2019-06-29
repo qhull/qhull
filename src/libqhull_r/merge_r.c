@@ -21,8 +21,8 @@
    vertex->neighbors not set until the first merge occurs
 
    Copyright (c) 1993-2019 C.B. Barber.
-   $Id: //main/2019/qhull/src/libqhull_r/merge_r.c#1 $$Change: 2661 $
-   $DateTime: 2019/05/24 20:09:58 $$Author: bbarber $
+   $Id: //main/2019/qhull/src/libqhull_r/merge_r.c#12 $$Change: 2712 $
+   $DateTime: 2019/06/28 12:57:00 $$Author: bbarber $
 */
 
 #include "qhull_ra.h"
@@ -280,7 +280,7 @@ void qh_all_merges(qhT *qh, boolT othermerge, boolT vneighbors) {
         else if (mergetype == MRGcoplanar || mergetype == MRGanglecoplanar)
           numcoplanar++;
         else {
-          qh_fprintf(qh, qh->ferr, 6322, "qhull internal error (qh_all_merges): expecting concave, coplanar, or twisted merge.  Got merge f%d f%d v%d mergetype %d\n",
+          qh_fprintf(qh, qh->ferr, 6394, "qhull internal error (qh_all_merges): expecting concave, coplanar, or twisted merge.  Got merge f%d f%d v%d mergetype %d\n",
             getid_(facet1), getid_(facet2), getid_(vertex), mergetype);
           qh_errexit2(qh, qh_ERRqhull, facet1, facet2);
         }
@@ -427,7 +427,7 @@ void qh_appendmergeset(qhT *qh, facetT *facet, facetT *neighbor, mergeType merge
     return;
   }
   if (!qh->facet_mergeset || !qh->degen_mergeset) {
-    qh_fprintf(qh, qh->ferr, 6331, "qhull internal error (qh_appendmergeset): expecting temp set defined for qh.facet_mergeset (0x%x) and qh.degen_mergeset (0x%x).  Got NULL\n",
+    qh_fprintf(qh, qh->ferr, 6403, "qhull internal error (qh_appendmergeset): expecting temp set defined for qh.facet_mergeset (0x%x) and qh.degen_mergeset (0x%x).  Got NULL\n",
       qh->facet_mergeset, qh->degen_mergeset);
     /* otherwise qh_setappend creates a new set that is not freed by qh_freebuild() */
     qh_errexit(qh, qh_ERRqhull, NULL, NULL);
@@ -513,7 +513,7 @@ void qh_appendvertexmerge(qhT *qh, vertexT *vertex, vertexT *destination, mergeT
   const char *mergename;
 
   if (!qh->vertex_mergeset) {
-    qh_fprintf(qh, qh->ferr, 6316, "qhull internal error (qh_appendvertexmerge): expecting temp set defined for qh.vertex_mergeset (0x%x).  Got NULL\n",
+    qh_fprintf(qh, qh->ferr, 6387, "qhull internal error (qh_appendvertexmerge): expecting temp set defined for qh.vertex_mergeset (0x%x).  Got NULL\n",
       qh->vertex_mergeset);
     /* otherwise qh_setappend creates a new set that is not freed by qh_freebuild() */
     qh_errexit(qh, qh_ERRqhull, NULL, NULL);
@@ -534,7 +534,7 @@ void qh_appendvertexmerge(qhT *qh, vertexT *vertex, vertexT *destination, mergeT
     mergename= mergetypes[MRGnone];
   if (mergetype == MRGvertices) {
     if (!ridge1 || !ridge2 || ridge1 == ridge2) {
-      qh_fprintf(qh, qh->ferr, 6310, "qhull internal error (qh_appendvertexmerge): expecting two distinct ridges for MRGvertices.  Got r%d r%d\n",
+      qh_fprintf(qh, qh->ferr, 6106, "qhull internal error (qh_appendvertexmerge): expecting two distinct ridges for MRGvertices.  Got r%d r%d\n",
         getid_(ridge1), getid_(ridge2));
       qh_errexit(qh, qh_ERRqhull, NULL, ridge1);
     }
@@ -695,7 +695,7 @@ void qh_checkdelfacet(qhT *qh, facetT *facet, setT *mergeset) {
 
   FOREACHmerge_(mergeset) {
     if (merge->facet1 == facet || merge->facet2 == facet) {
-      qh_fprintf(qh, qh->ferr, 6318, "qhull internal error (qh_checkdelfacet): cannot delete f%d.  It is referenced by merge f%d f%d mergetype %d\n",
+      qh_fprintf(qh, qh->ferr, 6390, "qhull internal error (qh_checkdelfacet): cannot delete f%d.  It is referenced by merge f%d f%d mergetype %d\n",
         facet->id, merge->facet1->id, getid_(merge->facet2), merge->mergetype);
       qh_errexit2(qh, qh_ERRqhull, merge->facet1, merge->facet2);
     }
@@ -719,7 +719,7 @@ void qh_checkdelridge(qhT *qh /* qh.visible_facets, vertex_mergeset */) {
   ridgeT *ridge, **ridgep;
 
   if (!SETempty_(qh->vertex_mergeset)) {
-    qh_fprintf(qh, qh->ferr, 6309, "qhull internal error (qh_checkdelridge): expecting empty qh.vertex_mergeset in order to avoid calling qh_delridge_merge.  Got %d merges\n", qh_setsize(qh, qh->vertex_mergeset));
+    qh_fprintf(qh, qh->ferr, 6382, "qhull internal error (qh_checkdelridge): expecting empty qh.vertex_mergeset in order to avoid calling qh_delridge_merge.  Got %d merges\n", qh_setsize(qh, qh->vertex_mergeset));
     qh_errexit(qh, qh_ERRqhull, NULL, NULL);
   }
 
@@ -736,7 +736,7 @@ void qh_checkdelridge(qhT *qh /* qh.visible_facets, vertex_mergeset */) {
   FORALLvisible_facets {
     FOREACHridge_(visible->ridges) {
       if (ridge->nonconvex) {
-        qh_fprintf(qh, qh->ferr, 6314, "qhull internal error (qh_checkdelridge): unexpected 'nonconvex' flag for ridge r%d in visible facet f%d.  Otherwise need to call qh_delridge_merge\n",
+        qh_fprintf(qh, qh->ferr, 6385, "qhull internal error (qh_checkdelridge): unexpected 'nonconvex' flag for ridge r%d in visible facet f%d.  Otherwise need to call qh_delridge_merge\n",
           ridge->id, visible->id);
         qh_errexit(qh, qh_ERRqhull, visible, ridge);
       }
@@ -817,7 +817,7 @@ boolT qh_checkzero(qhT *qh, boolT testall) {
       vertex->visitid= qh->vertex_visit;
       zzinc_(Zdistzero);
       qh_distplane(qh, vertex->point, neighbor, &dist);
-      if (dist >= -qh->DISTround) {
+      if (dist >= -2 * qh->DISTround) {  /* need 2x for qh_distround and 'Rn' for qh_checkconvex, same as qh.premerge_centrum */
         qh->ZEROall_ok= False;
         if (!qh->MERGEexact || testall || dist > qh->DISTround)
           goto LABELnonconvex;
@@ -828,7 +828,7 @@ boolT qh_checkzero(qhT *qh, boolT testall) {
         if (vertex->visitid != qh->vertex_visit) {
           zzinc_(Zdistzero);
           qh_distplane(qh, vertex->point, facet, &dist);
-          if (dist >= -qh->DISTround) {
+          if (dist >= -2 * qh->DISTround) {
             qh->ZEROall_ok= False;
             if (!qh->MERGEexact || dist > qh->DISTround)
               goto LABELnonconvexhorizon;
@@ -915,7 +915,9 @@ int qh_compare_facetmerge(const void *p1, const void *p2) {
 int qh_comparevisit(const void *p1, const void *p2) {
   const vertexT *a= *((vertexT *const*)p1), *b= *((vertexT *const*)p2);
 
-  return (a->visitid - b->visitid);
+  if (a->visitid > b->visitid)
+    return 1;
+  return -1;
 } /* comparevisit */
 
 /*-<a                             href="qh-merge_r.htm#TOC"
@@ -1236,7 +1238,7 @@ vertexT *qh_findbest_pinchedvertex(qhT *qh, mergeT *merge, vertexT *apex, vertex
   }else {
     qh_setdel(subridge, apex);
     if (qh_setsize(qh, subridge) != qh->hull_dim - 2) {
-      qh_fprintf(qh, qh->ferr, 6336, "qhull internal error (qh_findbest_pinchedvertex): expecting subridge of qh.hull_dim-2 vertices for the intersection of new facets f%d and f%d minus their apex.  Got %d vertices\n",
+      qh_fprintf(qh, qh->ferr, 6409, "qhull internal error (qh_findbest_pinchedvertex): expecting subridge of qh.hull_dim-2 vertices for the intersection of new facets f%d and f%d minus their apex.  Got %d vertices\n",
           merge->facet1->id, merge->facet2->id, qh_setsize(qh, subridge));
       qh_errexit2(qh, qh_ERRqhull, merge->facet1, merge->facet2);
     }
@@ -1468,7 +1470,7 @@ void qh_flippedmerges(qhT *qh, facetT *facetlist, boolT *wasmerge) {
   }
   othermerges= qh_settemppop(qh);
   if(othermerges != qh->facet_mergeset) {
-    qh_fprintf(qh, qh->ferr, 6320, "qhull internal error (qh_flippedmerges): facet_mergeset (%d merges) not at top of tempstack (%d merges)\n",
+    qh_fprintf(qh, qh->ferr, 6392, "qhull internal error (qh_flippedmerges): facet_mergeset (%d merges) not at top of tempstack (%d merges)\n",
         qh_setsize(qh, qh->facet_mergeset), qh_setsize(qh, othermerges));
     qh_errexit(qh, qh_ERRqhull, NULL, NULL);
   }
@@ -1652,12 +1654,12 @@ void qh_forcedmerges(qhT *qh, boolT *wasmerge) {
 void qh_freemergesets(qhT *qh) {
 
   if (!qh->facet_mergeset || !qh->degen_mergeset || !qh->vertex_mergeset) {
-    qh_fprintf(qh, qh->ferr, 6316, "qhull internal error (qh_freemergesets): expecting mergesets.  Got a NULL mergeset, qh.facet_mergeset (0x%x), qh.degen_mergeset (0x%x), qh.vertex_mergeset (0x%x)\n",
+    qh_fprintf(qh, qh->ferr, 6388, "qhull internal error (qh_freemergesets): expecting mergesets.  Got a NULL mergeset, qh.facet_mergeset (0x%x), qh.degen_mergeset (0x%x), qh.vertex_mergeset (0x%x)\n",
       qh->facet_mergeset, qh->degen_mergeset, qh->vertex_mergeset);
     qh_errexit(qh, qh_ERRqhull, NULL, NULL);
   }
   if (!SETempty_(qh->facet_mergeset) || !SETempty_(qh->degen_mergeset) || !SETempty_(qh->vertex_mergeset)) {
-    qh_fprintf(qh, qh->ferr, 6317, "qhull internal error (qh_freemergesets): expecting empty mergesets.  Got qh.facet_mergeset (%d merges), qh.degen_mergeset (%d merges), qh.vertex_mergeset (%d merges)\n",
+    qh_fprintf(qh, qh->ferr, 6389, "qhull internal error (qh_freemergesets): expecting empty mergesets.  Got qh.facet_mergeset (%d merges), qh.degen_mergeset (%d merges), qh.vertex_mergeset (%d merges)\n",
       qh_setsize(qh, qh->facet_mergeset), qh_setsize(qh, qh->degen_mergeset), qh_setsize(qh, qh->vertex_mergeset));
     qh_errexit(qh, qh_ERRqhull, NULL, NULL);
   }
@@ -1720,7 +1722,9 @@ void qh_getmergeset(qhT *qh, facetT *facetlist) {
       }else if (neighbor->visitid != qh->visit_id) {
         neighbor->seen= True;
         ridge->nonconvex= False;
-        simplicial= ridge->simplicialbot & ridge->simplicialtop;
+        simplicial= False;
+        if (ridge->simplicialbot && ridge->simplicialtop)
+          simplicial= True;
         if (qh_test_appendmerge(qh, facet, neighbor, simplicial))
           ridge->nonconvex= True;
         ridge->tested= True;
@@ -1861,10 +1865,11 @@ boolT qh_getpinchedmerges(qhT *qh, vertexT *apex, coordT maxdupdist, boolT *isco
   /* qh_mark_dupridges is called a second time in qh_premerge */
   FOREACHmerge_(qh->facet_mergeset) {  /* read-only */
     if (merge->mergetype != MRGdupridge) {
-      qh_fprintf(qh, qh->ferr, 6321, "qhull internal error (qh_getpinchedmerges): expecting MRGdupridge from qh_mark_dupridges.  Got merge f%d f%d type %d\n",
+      qh_fprintf(qh, qh->ferr, 6393, "qhull internal error (qh_getpinchedmerges): expecting MRGdupridge from qh_mark_dupridges.  Got merge f%d f%d type %d\n",
         getid_(merge->facet1), getid_(merge->facet2), merge->mergetype);
       qh_errexit(qh, qh_ERRqhull, NULL, NULL);
     }
+    /* dist is distance between vertices */
     pinched= qh_findbest_pinchedvertex(qh, merge, apex, &nearest, &dist /* qh.newfacet_list */);
     if (pinched == apex && dist < qh_RATIOcoplanarapex*bestdist) { /* prefer coplanar apex since it always works */
       bestdist= dist/qh_RATIOcoplanarapex;
@@ -1893,6 +1898,7 @@ boolT qh_getpinchedmerges(qhT *qh, vertexT *apex, coordT maxdupdist, boolT *isco
       if (bestpinched == apex) {
         trace2((qh, qh->ferr, 2063, "qh_getpinchedmerges: will make the apex a coplanar point.  apex p%d(v%d) is the nearest vertex to v%d on dupridge.  Dist %2.2g\n",
           qh_pointid(qh, apex->point), apex->id, bestvertex->id, bestdist*qh_RATIOcoplanarapex));
+        qh->coplanar_apex= apex->point;
         *iscoplanar= True;
         result= True;
       }else if (qh_setin(bestmerge->facet1->vertices, bestpinched) != qh_setin(bestmerge->facet2->vertices, bestpinched)) { /* pinched in one facet but not the other facet */
@@ -2028,7 +2034,7 @@ ridgeT *qh_hashridge_find(qhT *qh, setT *hashtable, int hashsize, ridgeT *ridge,
 void qh_initmergesets(qhT *qh /* qh.facet_mergeset,degen_mergeset,vertex_mergeset */) {
 
   if (qh->facet_mergeset || qh->degen_mergeset || qh->vertex_mergeset) {
-    qh_fprintf(qh, qh->ferr, 6315, "qhull internal error (qh_initmergesets): expecting NULL mergesets.  Got qh.facet_mergeset (0x%x), qh.degen_mergeset (0x%x), qh.vertex_mergeset (0x%x)\n",
+    qh_fprintf(qh, qh->ferr, 6386, "qhull internal error (qh_initmergesets): expecting NULL mergesets.  Got qh.facet_mergeset (0x%x), qh.degen_mergeset (0x%x), qh.vertex_mergeset (0x%x)\n",
       qh->facet_mergeset, qh->degen_mergeset, qh->vertex_mergeset);
     qh_errexit(qh, qh_ERRqhull, NULL, NULL);
   }
@@ -2090,7 +2096,7 @@ void qh_makeridges(qhT *qh, facetT *facet) {
       ridge= qh_newridge(qh);
       ridge->vertices= qh_setnew_delnthsorted(qh, facet->vertices, qh->hull_dim,
                                                           neighbor_i, 0);
-      toporient= facet->toporient ^ (neighbor_i & 0x1);
+      toporient= (boolT)(facet->toporient ^ (neighbor_i & 0x1));
       if (toporient) {
         ridge->top= facet;
         ridge->bottom= neighbor;
@@ -2119,6 +2125,8 @@ void qh_makeridges(qhT *qh, facetT *facet) {
       }
 #endif
       qh_setappend(qh, &(facet->ridges), ridge);
+      trace5((qh, qh->ferr, 5005, "makeridges: appended r%d to ridges for f%d.  Next is ridges for neighbor f%d\n",
+            ridge->id, facet->id, neighbor->id));
       qh_setappend(qh, &(neighbor->ridges), ridge);
       if (qh->ridge_id == qh->traceridge_id)
         qh->traceridge= ridge;
@@ -2579,7 +2587,7 @@ void qh_merge_nonconvex(qhT *qh, facetT *facet1, facetT *facet2, mergeType merge
   realT dist, dist2, mindist, mindist2, maxdist, maxdist2;
 
   if (mergetype < MRGcoplanar || mergetype > MRGconcavecoplanar) {
-    qh_fprintf(qh, qh->ferr, 6326, "qhull internal error (qh_merge_nonconvex): expecting mergetype MRGcoplanar..MRGconcavecoplanar.  Got merge f%d and f%d type %d\n",
+    qh_fprintf(qh, qh->ferr, 6398, "qhull internal error (qh_merge_nonconvex): expecting mergetype MRGcoplanar..MRGconcavecoplanar.  Got merge f%d and f%d type %d\n",
       facet1->id, facet2->id, mergetype);
     qh_errexit2(qh, qh_ERRqhull, facet1, facet2);
   }
@@ -2665,7 +2673,7 @@ void qh_merge_pinchedvertices(qhT *qh, int apexpointid /* qh.newfacet_list */) {
 
   qh_vertexneighbors(qh);
   if (qh->visible_list || qh->newfacet_list || qh->newvertex_list) {
-    qh_fprintf(qh, qh->ferr, 6330, "qhull internal error (qh_merge_pinchedvertices): qh.visible_list (f%d), newfacet_list (f%d), or newvertex_list (v%d) not empty\n",
+    qh_fprintf(qh, qh->ferr, 6402, "qhull internal error (qh_merge_pinchedvertices): qh.visible_list (f%d), newfacet_list (f%d), or newvertex_list (v%d) not empty\n",
       getid_(qh->visible_list), getid_(qh->newfacet_list), getid_(qh->newvertex_list));
     qh_errexit(qh, qh_ERRqhull, NULL, NULL);
   }
@@ -2692,6 +2700,7 @@ void qh_merge_pinchedvertices(qhT *qh, int apexpointid /* qh.newfacet_list */) {
     dist= merge->distance;
     qh_memfree(qh, merge, (int)sizeof(mergeT)); /* merge is invalidated */
     qh_rename_adjacentvertex(qh, vertex, vertex2, dist);
+#ifndef qh_NOtrace
     if (qh->IStracing >= 2) {
       FOREACHmergeA_(qh->degen_mergeset) {
         if (mergeA->mergetype== MRGdegen) {
@@ -2701,6 +2710,7 @@ void qh_merge_pinchedvertices(qhT *qh, int apexpointid /* qh.newfacet_list */) {
         }
       }
     }
+#endif
     qh_merge_degenredundant(qh); /* simplicial facets with both old and new vertices */
   }
   qh->isRenameVertex= False;
@@ -2742,10 +2752,10 @@ void qh_merge_twisted(qhT *qh, facetT *facet1, facetT *facet2) {
   if (dist > mintwisted && dist2 > mintwisted) {
     bestdist= qh_vertex_bestdist2(qh, facet1->vertices, &bestvertex, &bestpinched);
     if (bestdist > mintwisted) {
-      qh_fprintf(qh, qh->ferr, 6345, "qhull precision error (qh_merge_twisted): twisted facet f%d does not contain pinched vertices.  Too wide to merge into neighbor.  mindist %2.2g maxdist %2.2g vertexdist %2.2g maxpinched %2.2g neighbor f%d mindist %2.2g maxdist %2.2g\n",
+      qh_fprintf(qh, qh->ferr, 6417, "qhull precision error (qh_merge_twisted): twisted facet f%d does not contain pinched vertices.  Too wide to merge into neighbor.  mindist %2.2g maxdist %2.2g vertexdist %2.2g maxpinched %2.2g neighbor f%d mindist %2.2g maxdist %2.2g\n",
         facet1->id, mindist, maxdist, bestdist, mintwisted, facet2->id, mindist2, maxdist2);
     }else {
-      qh_fprintf(qh, qh->ferr, 6346, "qhull precision error (qh_merge_twisted): twisted facet f%d with pinched vertices.  Could merge vertices, but too wide to merge into neighbor.   mindist %2.2g maxdist %2.2g vertexdist %2.2g neighbor f%d mindist %2.2g maxdist %2.2g\n",
+      qh_fprintf(qh, qh->ferr, 6418, "qhull precision error (qh_merge_twisted): twisted facet f%d with pinched vertices.  Could merge vertices, but too wide to merge into neighbor.   mindist %2.2g maxdist %2.2g vertexdist %2.2g neighbor f%d mindist %2.2g maxdist %2.2g\n",
         facet1->id, mindist, maxdist, bestdist, facet2->id, mindist2, maxdist2);
     }
     qh_errexit2(qh, qh_ERRwide, facet1, facet2);
@@ -2814,18 +2824,6 @@ void qh_mergecycle(qhT *qh, facetT *samecycle, facetT *newfacet) {
     qh->qhmem.IStracing= qh->IStracing= qh->TRACElevel;
   trace2((qh, qh->ferr, 2030, "qh_mergecycle: merge #%d for facets from cycle f%d into coplanar horizon f%d\n",
         zzval_(Ztotmerge), samecycle->id, newfacet->id));
-  if (newfacet->tricoplanar) {
-    if (!qh->TRInormals) {
-      qh_fprintf(qh, qh->ferr, 6224, "qhull internal error (qh_mergecycle): does not work for tricoplanar facets.  Use option 'Q11'\n");
-      qh_errexit(qh, qh_ERRqhull, newfacet, NULL);
-    }
-    newfacet->tricoplanar= False;
-    newfacet->keepcentrum= False;
-  }
-  if (qh->CHECKfrequently)
-    qh_checkdelridge(qh);
-  if (!qh->VERTEXneighbors)
-    qh_vertexneighbors(qh);
   if (newfacet == qh->tracefacet) {
     tracerestore= qh->IStracing;
     qh->IStracing= 4;
@@ -2842,6 +2840,18 @@ void qh_mergecycle(qhT *qh, facetT *samecycle, facetT *newfacet) {
   if (qh->IStracing >=4)
     qh_errprint(qh, "MERGING CYCLE", samecycle, newfacet, NULL, NULL);
 #endif /* !qh_NOtrace */
+  if (newfacet->tricoplanar) {
+    if (!qh->TRInormals) {
+      qh_fprintf(qh, qh->ferr, 6224, "qhull internal error (qh_mergecycle): does not work for tricoplanar facets.  Use option 'Q11'\n");
+      qh_errexit(qh, qh_ERRqhull, newfacet, NULL);
+    }
+    newfacet->tricoplanar= False;
+    newfacet->keepcentrum= False;
+  }
+  if (qh->CHECKfrequently)
+    qh_checkdelridge(qh);
+  if (!qh->VERTEXneighbors)
+    qh_vertexneighbors(qh);
   apex= SETfirstt_(samecycle->vertices, vertexT);
   qh_makeridges(qh, newfacet);
   qh_mergecycle_neighbors(qh, samecycle, newfacet);
@@ -3209,7 +3219,7 @@ void qh_mergecycle_ridges(qhT *qh, facetT *samecycle, facetT *newfacet) {
         ridge= qh_newridge(qh);
         ridge->vertices= qh_setnew_delnthsorted(qh, same->vertices, qh->hull_dim,
                                                           neighbor_i, 0);
-        toporient= same->toporient ^ (neighbor_i & 0x1);
+        toporient= (boolT)(same->toporient ^ (neighbor_i & 0x1));
         if (toporient) {
           ridge->top= newfacet;
           ridge->bottom= neighbor;
@@ -3428,11 +3438,10 @@ void qh_mergefacet(qhT *qh, facetT *facet1, facetT *facet2, mergeType mergetype,
     qh_errexit2(qh, qh_ERRqhull, facet1, facet2);
   }
   if (qh->num_facets - qh->num_visible <= qh->hull_dim + 1) {
-    qh_fprintf(qh, qh->ferr, 6227, "qhull topology error: Only %d facets remain.  Can not merge another\n\
-pair.  The input is too degenerate or the convexity constraints are\n\
-too strong.\n", qh->hull_dim+1);
+    qh_fprintf(qh, qh->ferr, 6227, "qhull topology error: Only %d facets remain.  The input is too degenerate or the convexity constraints are too strong.\n", 
+          qh->hull_dim+1);
     if (qh->hull_dim >= 5 && !qh->MERGEexact)
-      qh_fprintf(qh, qh->ferr, 8079, "Option 'Qx' may avoid this problem.\n");
+      qh_fprintf(qh, qh->ferr, 8079, "    Option 'Qx' may avoid this problem.\n");
     qh_errexit(qh, qh_ERRtopology, NULL, NULL);
   }
   if (!qh->VERTEXneighbors)
@@ -4174,13 +4183,13 @@ mergeT *qh_next_vertexmerge(qhT *qh /* qh.vertex_mergeset */) {
     if (bestdist/qh->ONEmerge > qh_WIDEpinched) {
       if (merge->mergetype==MRGvertices) {
         if (merge->ridge1->top == merge->ridge2->bottom && merge->ridge1->bottom == merge->ridge2->top)
-          qh_fprintf(qh, qh->ferr, 6319, "qhull topology error (qh_next_vertexmerge): no nearly adjacent vertices to resolve opposite oriented ridges r%d and r%d in f%d and f%d.  Nearest v%d and v%d dist %2.2g (%.1fx)\n",
+          qh_fprintf(qh, qh->ferr, 6391, "qhull topology error (qh_next_vertexmerge): no nearly adjacent vertices to resolve opposite oriented ridges r%d and r%d in f%d and f%d.  Nearest v%d and v%d dist %2.2g (%.1fx)\n",
             merge->ridge1->id, merge->ridge2->id, merge->ridge1->top->id, merge->ridge1->bottom->id, merge->vertex1->id, merge->vertex2->id, bestdist, bestdist/qh->ONEmerge);
         else
-          qh_fprintf(qh, qh->ferr, 6307, "qhull topology error (qh_next_vertexmerge): no nearly adjacent vertices to resolve duplicate ridges r%d and r%d.  Nearest v%d and v%d dist %2.2g (%.1fx)\n",
+          qh_fprintf(qh, qh->ferr, 6381, "qhull topology error (qh_next_vertexmerge): no nearly adjacent vertices to resolve duplicate ridges r%d and r%d.  Nearest v%d and v%d dist %2.2g (%.1fx)\n",
             merge->ridge1->id, merge->ridge2->id, merge->vertex1->id, merge->vertex2->id, bestdist, bestdist/qh->ONEmerge);
       }else {
-        qh_fprintf(qh, qh->ferr, 6300, "qhull topology error (qh_next_vertexmerge): no nearly adjacent vertices to resolve dupridge.  Nearest v%d and v%d dist %2.2g (%.1fx)\n",
+        qh_fprintf(qh, qh->ferr, 6208, "qhull topology error (qh_next_vertexmerge): no nearly adjacent vertices to resolve dupridge.  Nearest v%d and v%d dist %2.2g (%.1fx)\n",
           merge->vertex1->id, merge->vertex2->id, bestdist, bestdist/qh->ONEmerge);
       }
       /* it may be possible to find a different vertex, after other vertex merges have occurred */
@@ -4225,7 +4234,7 @@ facetT *qh_opposite_horizonfacet(qhT *qh, mergeT *merge, vertexT **opposite) {
   if (neighbor_i==-1)
     neighbor_i= qh_setindex(otherfacet->neighbors, qh_MERGEridge);
   if (neighbor_i==-1) {
-    qh_fprintf(qh, qh->ferr, 6301, "qhull internal error (qh_opposite_horizonfacet): merge facet f%d not connected to mergehorizon f%d\n",
+    qh_fprintf(qh, qh->ferr, 6238, "qhull internal error (qh_opposite_horizonfacet): merge facet f%d not connected to mergehorizon f%d\n",
       otherfacet->id, facet->id);
     qh_errexit2(qh, qh_ERRqhull, otherfacet, facet);
   }
@@ -4579,7 +4588,7 @@ void qh_rename_adjacentvertex(qhT *qh, vertexT *oldvertex, vertexT *newvertex, r
 vertexT *qh_rename_sharedvertex(qhT *qh, vertexT *vertex, facetT *facet) {
   facetT *neighbor, **neighborp, *neighborA= NULL;
   setT *vertices, *ridges;
-  vertexT *newvertex;
+  vertexT *newvertex= NULL;
 
   if (qh_setsize(qh, vertex->neighbors) == 2) {
     neighborA= SETfirstt_(vertex->neighbors, facetT);
@@ -4598,27 +4607,29 @@ vertexT *qh_rename_sharedvertex(qhT *qh, vertexT *vertex, facetT *facet) {
         neighborA= neighbor;
       }
     }
-    if (!neighborA) {
-      qh_fprintf(qh, qh->ferr, 6101, "qhull internal error (qh_rename_sharedvertex): v%d's neighbors not in f%d\n",
-        vertex->id, facet->id);
-      qh_errprint(qh, "ERRONEOUS", facet, NULL, NULL, vertex);
-      qh_errexit(qh, qh_ERRqhull, NULL, NULL);
-    }
   }
-  /* the vertex is shared by facet and neighborA */
-  ridges= qh_settemp(qh, qh->TEMPsize);
-  neighborA->visitid= ++qh->visit_id;
-  qh_vertexridges_facet(qh, vertex, facet, &ridges);
-  trace2((qh, qh->ferr, 2037, "qh_rename_sharedvertex: p%d(v%d) is shared by f%d(%d ridges) and f%d\n",
-    qh_pointid(qh, vertex->point), vertex->id, facet->id, qh_setsize(qh, ridges), neighborA->id));
-  zinc_(Zintersectnum);
-  vertices= qh_vertexintersect_new(qh, facet->vertices, neighborA->vertices);
-  qh_setdel(vertices, vertex);
-  qh_settemppush(qh, vertices);
-  if ((newvertex= qh_find_newvertex(qh, vertex, vertices, ridges)))
-    qh_renamevertex(qh, vertex, newvertex, ridges, facet, neighborA);  /* ridges invalidated */
-  qh_settempfree(qh, &vertices);
-  qh_settempfree(qh, &ridges);
+  if (!neighborA) {
+    qh_fprintf(qh, qh->ferr, 6101, "qhull internal error (qh_rename_sharedvertex): v%d's neighbors not in f%d\n",
+        vertex->id, facet->id);
+    qh_errprint(qh, "ERRONEOUS", facet, NULL, NULL, vertex);
+    qh_errexit(qh, qh_ERRqhull, NULL, NULL);
+  }
+  if (neighborA) { /* avoid warning */
+    /* the vertex is shared by facet and neighborA */
+    ridges= qh_settemp(qh, qh->TEMPsize);
+    neighborA->visitid= ++qh->visit_id;
+    qh_vertexridges_facet(qh, vertex, facet, &ridges);
+    trace2((qh, qh->ferr, 2037, "qh_rename_sharedvertex: p%d(v%d) is shared by f%d(%d ridges) and f%d\n",
+      qh_pointid(qh, vertex->point), vertex->id, facet->id, qh_setsize(qh, ridges), neighborA->id));
+    zinc_(Zintersectnum);
+    vertices= qh_vertexintersect_new(qh, facet->vertices, neighborA->vertices);
+    qh_setdel(vertices, vertex);
+    qh_settemppush(qh, vertices);
+    if ((newvertex= qh_find_newvertex(qh, vertex, vertices, ridges)))
+      qh_renamevertex(qh, vertex, newvertex, ridges, facet, neighborA);  /* ridges invalidated */
+    qh_settempfree(qh, &vertices);
+    qh_settempfree(qh, &ridges);
+  }
   return newvertex;
 } /* rename_sharedvertex */
 
@@ -4651,6 +4662,11 @@ boolT qh_renameridgevertex(qhT *qh, ridgeT *ridge, vertexT *oldvertex, vertexT *
   vertexT *vertex, **vertexp;
 
   oldnth= qh_setindex(ridge->vertices, oldvertex);
+  if (oldnth < 0) {
+    qh_fprintf(qh, qh->ferr, 6424, "qhull internal error (qh_renameridgevertex): oldvertex v%d not found in r%d.  Cannot rename to v%d\n",
+        oldvertex->id, ridge->id, newvertex->id);
+    qh_errexit(qh, qh_ERRqhull, NULL, ridge);
+  }
   qh_setdelnthsorted(qh, ridge->vertices, oldnth);
   FOREACHvertex_(ridge->vertices) {
     if (vertex == newvertex) {
@@ -4722,12 +4738,14 @@ void qh_renamevertex(qhT *qh, vertexT *oldvertex, vertexT *newvertex, setT *ridg
   int topsize, bottomsize;
   boolT istrace= False;
 
+#ifndef qh_NOtrace
   if (qh->IStracing >= 2 || oldvertex->id == qh->tracevertex_id ||
         newvertex->id == qh->tracevertex_id) {
     istrace= True;
     qh_fprintf(qh, qh->ferr, 2086, "qh_renamevertex: rename v%d to v%d in %d ridges with old f%d and neighbor f%d\n",
       oldvertex->id, newvertex->id, qh_setsize(qh, ridges), getid_(oldfacet), getid_(neighborA));
   }
+#endif
   FOREACHridge_(ridges) {
     if (qh_renameridgevertex(qh, ridge, oldvertex, newvertex)) { /* ridge is deleted if False, invalidating ridges */
       topsize= qh_setsize(qh, ridge->top->vertices);
@@ -5525,24 +5543,48 @@ void qh_willdelete(qhT *qh, facetT *facet, facetT *replace) {
 #else /* qh_NOmerge */
 
 void qh_all_vertexmerges(qhT *qh, int apexpointid, facetT *facet, facetT **retryfacet) {
+  QHULL_UNUSED(qh)
+  QHULL_UNUSED(apexpointid)
+  QHULL_UNUSED(facet)
+  QHULL_UNUSED(retryfacet)
 }
 void qh_premerge(qhT *qh, int apexpointid, realT maxcentrum, realT maxangle) {
+  QHULL_UNUSED(qh)
+  QHULL_UNUSED(apexpointid)
+  QHULL_UNUSED(maxcentrum)
+  QHULL_UNUSED(maxangle)
 }
 void qh_postmerge(qhT *qh, const char *reason, realT maxcentrum, realT maxangle,
                       boolT vneighbors) {
+  QHULL_UNUSED(qh)
+  QHULL_UNUSED(reason)
+  QHULL_UNUSED(maxcentrum)
+  QHULL_UNUSED(maxangle)
+  QHULL_UNUSED(vneighbors)
 }
 void qh_checkdelfacet(qhT *qh, facetT *facet, setT *mergeset) {
+  QHULL_UNUSED(qh)
+  QHULL_UNUSED(facet)
+  QHULL_UNUSED(mergeset)
 }
 void qh_checkdelridge(qhT *qh /* qh.visible_facets, vertex_mergeset */) {
+  QHULL_UNUSED(qh)
 }
 boolT qh_checkzero(qhT *qh, boolT testall) {
+  QHULL_UNUSED(qh)
+  QHULL_UNUSED(testall)
+    
   return True;
 }
 void qh_freemergesets(qhT *qh) {
+  QHULL_UNUSED(qh)
 }
 void qh_initmergesets(qhT *qh) {
+  QHULL_UNUSED(qh)
 }
 void qh_merge_pinchedvertices(qhT *qh, int apexpointid /* qh.newfacet_list */) {
+  QHULL_UNUSED(qh)
+  QHULL_UNUSED(apexpointid)
 }
 #endif /* qh_NOmerge */
 

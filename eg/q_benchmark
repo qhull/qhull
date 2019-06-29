@@ -11,8 +11,8 @@
 #
 # Use 'gcc -O3' via libqhull/Makefile
 #
-# $Id: //main/2019/qhull/eg/q_benchmark#1 $$DateTime: 2019/05/24 20:09:58 $
-# $Change: 2661 $$Author: bbarber $
+# $Id: //main/2019/qhull/eg/q_benchmark#4 $$DateTime: 2019/06/25 15:24:47 $
+# $Change: 2701 $$Author: bbarber $
 
 function log { #message
         echo "$1" | tee -a $QH_APPEND_DEST | tee -a $QH_APPEND_SHOW
@@ -129,6 +129,7 @@ log "qhull => $(QHULL -V)"
 log "$(ls -l $(which $QHULL))"
 log "rbox => $(rbox | grep Version | sed 's/^.*Version/Version/')"
 log "$(ls -l $(which rbox))"
+log "$(uname -a)"
 log
 log "Logging to $PWD/$QH_APPEND_DEST and $QH_APPEND_SHOW"
 
@@ -294,6 +295,7 @@ if [[ $DELAUNAY_CIRCLE == 1 ]]; then
     # [2015-2019] D4, 5 errors and three 20+x vs. 3 errors and three 20+x
     # [2015-2019] D5, 7 errors vs. 1 error and one 20+x
     # [2015-2019] D6, 8 errors vs. 9 errors
+    #    Only 8 facets remain due to many dupridges with flipped facets
     $QTEST $N_OTHER '10000 s W1e-13 D2' 'd Tv'  # no Qbb
     $QTEST $N_OTHER '2000 s W1e-13 D3' 'd Tv'
     $QTEST $N_OTHER '1000 s W1e-13 D4' 'd Tv'
@@ -545,7 +547,7 @@ if [[ $TIME_SPHERE == 1 ]]; then
     # [2015-2019] D2 no errors, similar CPU
     # [2015-2019] D3 no errors, 10% slower CPU
     # [2015-2019] D4 no errors, 5% slower CPU
-    # [2015-2019] D4 qconvex, no errors, 2x slower FIXUP
+    # [2019, gcc] D4 qconvex, no errors, 4% faster than qhull
     # [2015-2019] D5 no errors, similar CPU
     # [2015-2019] D6 no errors, similar CPU
     $QTEST $N_TIMING '100000 s D2' ''
@@ -568,7 +570,7 @@ if [[ $TIME_POST_MERGE == 1 ]]; then
     # [2015-2019] D2 no errors, 10% slower CPU
     # [2015-2019] D3 no errors, 20% slower CPU
     # [2015-2019] D4 no errors, 15% slower CPU
-    # [2015-2019] D4 qconvex, no errors, 2x slower FIXUP
+    # [2019, gcc] D4 qconvex, no errors, slightly faster than qhull
     # [2015-2019] D5 no errors, 10% slower CPU
     # [2015-2019] D6 no errors, 10% slower CPU
     $QTEST $N_TIMING '100000 s D2' 'C0.01'

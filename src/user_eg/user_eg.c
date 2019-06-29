@@ -2,7 +2,7 @@
   >-------------------------------</a><a name="TOP">-</a>
 
   user_eg.c
-  sample code for calling qhull() from an application
+  sample code for calling qhull() from an application.  Uses non-reentrant libqhull
 
   call with:
 
@@ -113,13 +113,15 @@ void makeDelaunay(coordT *points, int numpoints, int dim, int seed) {
 } /*.makeDelaunay.*/
 
 /*--------------------------------------------------
--findDelaunay- find Delaunay triangle for [0.5,0.5,...]
+-findDelaunay- find the Delaunay triangle or adjacent triangle for [0.5,0.5,...]
   assumes dim < 100
 notes:
+  See <a href="../../html/qh-code.htm#findfacet">locate a facet with qh_findbestfacet()</a>
   calls qh_setdelaunay() to project the point to a parabaloid
 warning:
-  This is not implemented for tricoplanar facets ('Qt'),
-  See <a href="../html/qh-code.htm#findfacet">locate a facet with qh_findbestfacet()</a>
+  Errors if it finds a tricoplanar facet ('Qt').  The corresponding Delaunay triangle
+  is in the set of tricoplanar facets or one of their neighbors.  This search
+  is not implemented here.
 */
 void findDelaunay(int dim) {
   int k;
@@ -134,7 +136,7 @@ void findDelaunay(int dim) {
   qh_setdelaunay(dim+1, 1, point);
   facet= qh_findbestfacet(point, qh_ALL, &bestdist, &isoutside);
   if (facet->tricoplanar) {
-    fprintf(stderr, "findDelaunay: not implemented for triangulated, non-simplicial Delaunay regions (tricoplanar facet, f%d).\n",
+    fprintf(stderr, "findDelaunay: search not implemented for triangulated, non-simplicial Delaunay regions (tricoplanar facet, f%d).\n",
        facet->id);
     qh_errexit(qh_ERRqhull, facet, NULL);
   }
@@ -227,10 +229,10 @@ as well as -Dqh_QHpointer, or use libqhullstatic, or use a different tool chain.
   for (i=numpoints; i--; )
     rows[i]= points+dim*i;
   qh_printmatrix(outfile, "input", rows, numpoints, dim);
+  fflush(NULL);
   exitcode= qh_new_qhull(dim, numpoints, points, ismalloc,
                       flags, outfile, errfile);
-  fflush(outfile);
-  fflush(errfile);
+  fflush(NULL);
   if (!exitcode) {                  /* if no error */
     /* 'qh facet_list' contains the convex hull */
     print_summary();
@@ -258,10 +260,10 @@ as well as -Dqh_QHpointer, or use libqhullstatic, or use a different tool chain.
   for (i=numpoints; i--; )
     rows[i]= points+dim*i;
   qh_printmatrix(outfile, "input", rows, numpoints, dim);
+  fflush(NULL);
   exitcode= qh_new_qhull(dim, numpoints, points, ismalloc,
                       flags, outfile, errfile);
-  fflush(outfile);
-  fflush(errfile);
+  fflush(NULL);
   if (!exitcode) {                  /* if no error */
     /* 'qh facet_list' contains the convex hull */
     /* If you want a Voronoi diagram ('v') and do not request output (i.e., outfile=NULL),
@@ -270,10 +272,10 @@ as well as -Dqh_QHpointer, or use libqhullstatic, or use a different tool chain.
     FORALLfacets {
        /* ... your code ... */
     }
-    printf( "\nfind %d-d Delaunay triangle closest to [0.5, 0.5, ...]\n", dim);
+    printf( "\nfind %d-d Delaunay triangle or adjacent triangle closest to [0.5, 0.5, ...]\n", dim);
     exitcode= setjmp(qh errexit);
     if (!exitcode) {
-      /* Trap Qhull errors in findDelaunay().  Without the setjmp(), Qhull
+      /* Trap Qhull errors from findDelaunay().  Without the setjmp(), Qhull
          will exit() after reporting an error */
       qh NOerrexit= False;
       findDelaunay(DIM);
@@ -293,10 +295,10 @@ as well as -Dqh_QHpointer, or use libqhullstatic, or use a different tool chain.
     for (i=numpoints; i--; )
       rows[i]= pointsB+dim*i;
     qh_printmatrix(outfile, "input", rows, numpoints, dim);
+    fflush(NULL);
     exitcode= qh_new_qhull(dim, numpoints, pointsB, ismalloc,
                       flags, outfile, errfile);
-    fflush(outfile);
-    fflush(errfile);
+    fflush(NULL);
     if (!exitcode)
       print_summary();
     printf( "\n========\nFree memory allocated by the new instance of Qhull, and redisplay the old results.\n");
@@ -331,13 +333,13 @@ as well as -Dqh_QHpointer, or use libqhullstatic, or use a different tool chain.
   for (i=numpoints; i--; )
     rows[i]= points+(dim+1)*i;
   qh_printmatrix(outfile, "input as halfspace coefficients + offsets", rows, numpoints, dim+1);
+  fflush(NULL);
   /* use qh_sethalfspace_all to transform the halfspaces yourself.
      If so, set 'qh feasible_point and do not use option 'Hn,...' [it would retransform the halfspaces]
   */
   exitcode= qh_new_qhull(dim+1, numpoints, points, ismalloc,
                       flags, outfile, errfile);
-  fflush(outfile);
-  fflush(errfile);
+  fflush(NULL);
   if (!exitcode)
     print_summary();
 #ifdef qh_NOmem

@@ -267,6 +267,9 @@ a created point that corresponds to the facet's centrum.  Its index is greater
 than the indices of the input points.  Each base
 corresponds to a simplicial ridge between two facets.
 To print the vertices without triangulation, use option 'Fv'.
+To print the centrum coordinates, use option 'Ft'.
+The centrum indices 
+for option 'i' are one more than the centrum indices for option 'Ft'.
 .TP
 m
 Output the hull in Mathematica format.  Qhull writes a Mathematica file for 2\[hy]d and 3\[hy]d

@@ -121,7 +121,7 @@ void adddiamond(coordT *points, int numpoints, int numnew, int dim) {
   realT bestdist;
 
   if (qh JOGGLEmax < REALmax/2 && !qh PREmerge)
-    qh_fprintf(qh ferr, 7096, "qhull warning (user_eg2/adddiamond): joggle 'QJ' was enabled for qh_qhull.  Facet merging for qh_addpoint precision problems is disabled by default\n");
+    qh_fprintf(qh ferr, 7096, "qhull warning (user_eg2/adddiamond): joggle 'QJ' is enabled.  Output is simplicial (i.e., triangles in 2-D)\n");
 
   for (j=0; j < numnew ; j++) {
     point= points + (numpoints+j)*dim;
@@ -191,7 +191,7 @@ void addDelaunay(coordT *points, int numpoints, int numnew, int dim) {
   boolT isoutside;
 
   if (qh JOGGLEmax < REALmax/2 && !qh PREmerge)
-    qh_fprintf(qh ferr, 7097, "qhull warning (user_eg2/addDelaunay): joggle 'QJ' was enabled for qh_qhull.  Facet merging for qh_addpoint precision problems is disabled by default\n");
+    qh_fprintf(qh ferr, 7097, "qhull warning (user_eg2/addDelaunay): joggle 'QJ' is enabled.  Output is simplicial (i.e., triangles in 2-D)\n");
 
   for (j=0; j < numnew ; j++) {
     point= points + (numpoints+j)*dim;
@@ -225,13 +225,15 @@ void addDelaunay(coordT *points, int numpoints, int numnew, int dim) {
 } /*.addDelaunay.*/
 
 /*--------------------------------------------------
--findDelaunay- find Delaunay triangle for [0.5,0.5,...]
+-findDelaunay- find Delaunay triangle or adjacent triangle for [0.5,0.5,...]
   assumes dim < 100
 notes:
+  See <a href="../../html/qh-code.htm#findfacet">locate a facet with qh_findbestfacet()</a>
   calls qh_setdelaunay() to project the point to a parabaloid
 warning:
-  This is not implemented for tricoplanar facets ('Qt'),
-  See <a href="../html/qh-code.htm#findfacet">locate a facet with qh_findbestfacet()</a>
+  Errors if it finds a tricoplanar facet ('Qt').  The corresponding Delaunay triangle
+  is in the set of tricoplanar facets or one of their neighbors.  This search
+  is not implemented here.
 */
 void findDelaunay(int dim) {
   int k;
@@ -246,7 +248,7 @@ void findDelaunay(int dim) {
   qh_setdelaunay(dim, 1, point);
   facet= qh_findbestfacet(point, qh_ALL, &bestdist, &isoutside);
   if (facet->tricoplanar) {
-    fprintf(stderr, "findDelaunay: not implemented for triangulated, non-simplicial Delaunay regions (tricoplanar facet, f%d).\n",
+    fprintf(stderr, "findDelaunay: search not implemented for triangulated, non-simplicial Delaunay regions (tricoplanar facet, f%d).\n",
        facet->id);
     qh_errexit(qh_ERRqhull, facet, NULL);
   }
@@ -308,7 +310,7 @@ void addhalf(coordT *points, int numpoints, int numnew, int dim, coordT *feasibl
   realT bestdist;
 
   if (qh JOGGLEmax < REALmax/2 && !qh PREmerge)
-    qh_fprintf(qh ferr, 7098, "qhull warning (user_eg2/addhalf): joggle 'QJ' was enabled for qh_qhull.  Facet merging for qh_addpoint precision problems is disabled by default\n");
+    qh_fprintf(qh ferr, 7098, "qhull warning (user_eg2/addhalf): joggle 'QJ' is enabled.  Output is simplicial (i.e., triangles in 2-D)\n");
 
   for (j=0; j < numnew ; j++) {
     offset= -1.0;
@@ -363,17 +365,17 @@ int main(int argc, char *argv[]) {
   printf("\n========\nuser_eg2 'cube qhull options' 'Delaunay options' 'halfspace options'\n\
 \n\
 This is the output from user_eg2.c.  It shows how qhull() may be called from\n\
-an application, via Qhull's static, non-reentrant library.  user_eg2 is not part of\n\
-Qhull itself.  If user_eg2 fails immediately, user_eg2.c was incorrectly linked\n\
-to Qhull's reentrant library, libqhullstatic_r.\n\
+an application, via Qhull's static, non-reentrant library.  user_eg2 is not part\n\
+of Qhull itself.  If user_eg2 fails immediately, user_eg2.c was incorrectly\n\
+linked to Qhull's reentrant library, libqhullstatic_r.\n\
 Try -- user_eg2 'T1' 'T1' 'T1'\n\
 \n");
 
 #if qh_QHpointer  /* see user.h */
   if (qh_qh){
-      printf("QH6237: Qhull link error.  The global variable qh_qh was not initialized\n\
-              to NULL by global.c.  Please compile user_eg2.c with -Dqh_QHpointer_dllimport\n\
-              as well as -Dqh_QHpointer, or use libqhullstatic, or use a different tool chain.\n\n");
+      printf("QH6237: Qhull link error.  The global variable qh_qh was not initialized to NULL by global.c.\n\
+Please compile user_eg2.c with -Dqh_QHpointer_dllimport and -Dqh_QHpointer,\n\
+or use libqhull_r or libqhullstatic, or use a different tool chain.\n\n");
       return -1;
   }
 #endif
@@ -394,6 +396,7 @@ Try -- user_eg2 'T1' 'T1' 'T1'\n\
     qh_initflags(options);
     printf( "\n========\ncompute triangulated convex hull of cube after rotating input\n");
     makecube(array[0], SIZEcube, DIM);
+    fflush(NULL);
     qh_init_B(array[0], SIZEcube, DIM, ismalloc);
     qh_qhull();
     qh_check_output();
@@ -401,17 +404,15 @@ Try -- user_eg2 'T1' 'T1' 'T1'\n\
     print_summary();
     if (qh VERIFYoutput && !qh FORCEoutput && !qh STOPadd && !qh STOPcone && !qh STOPpoint)
       qh_check_points();
-    fflush(stdout);
-    fflush(stderr);
+    fflush(NULL);
     printf( "\nadd points in a diamond\n");
     adddiamond(array[0], SIZEcube, SIZEdiamond, DIM);
     qh_check_output();
     print_summary();
     qh_produce_output();  /* delete this line to help avoid io.c */
-    fflush(stdout);
     if (qh VERIFYoutput && !qh FORCEoutput && !qh STOPadd && !qh STOPcone && !qh STOPpoint)
       qh_check_points();
-    fflush(stderr);
+    fflush(NULL);
   }
   qh NOerrexit= True;
 #ifdef qh_NOmem
@@ -451,20 +452,18 @@ Try -- user_eg2 'T1' 'T1' 'T1'\n\
     qh_check_output();
     print_summary();
     qh_produce_output();  /* delete this line to help avoid io.c */
-    fflush(stdout);
     if (qh VERIFYoutput && !qh FORCEoutput && !qh STOPadd && !qh STOPcone && !qh STOPpoint)
       qh_check_points();
-    fflush(stderr);
+    fflush(NULL);
     printf( "\n========\nadd points to triangulation\n");
     addDelaunay(array[0], SIZEcube, SIZEdiamond, DIM);
     qh_check_output();
-    printf("\nfind Delaunay triangle closest to [0.5, 0.5, ...]\n");
+    printf("\nfind Delaunay triangle or adjacent triangle closest to [0.5, 0.5, ...]\n");
     findDelaunay(DIM);
     qh_produce_output();  /* delete this line to help avoid io.c */
-    fflush(stdout);
     if (qh VERIFYoutput && !qh FORCEoutput && !qh STOPadd && !qh STOPcone && !qh STOPpoint)
       qh_check_points();
-    fflush(stderr);
+    fflush(NULL);
   }
   qh NOerrexit= True;
 #ifdef qh_NOmem
@@ -473,7 +472,7 @@ Try -- user_eg2 'T1' 'T1' 'T1'\n\
   qh_freeqhull(!qh_ALL);
   qh_memfreeshort(&curlong, &totlong);
   if (curlong || totlong)
-      fprintf(stderr, "qhull warning (user_eg2, run 2): did not free %d bytes of long memory (%d pieces)\n",
+    fprintf(stderr, "qhull warning (user_eg2, run 2): did not free %d bytes of long memory (%d pieces)\n",
          totlong, curlong);
 #endif
 
@@ -498,22 +497,19 @@ Try -- user_eg2 'T1' 'T1' 'T1'\n\
     points= qh_sethalfspace_all(DIM+1, SIZEcube, array[0], qh feasible_point);
     qh_init_B(points, SIZEcube, DIM, True); /* qh_freeqhull frees points */
     qh_qhull();
-    fflush(stdout);
-    fflush(stderr);
+    fflush(NULL);
     qh_check_output();
     qh_produce_output();  /* delete this line to help avoid io.c */
-    fflush(stdout);
     if (qh VERIFYoutput && !qh FORCEoutput && !qh STOPadd && !qh STOPcone && !qh STOPpoint)
       qh_check_points();
-    fflush(stderr);
+    fflush(NULL);
     printf( "\n========\nadd halfspaces for cube to intersection\n");
     addhalf(array[0], SIZEcube, SIZEdiamond, DIM, qh feasible_point);
     qh_check_output();
     qh_produce_output();  /* delete this line to help avoid io.c */
-    fflush(stdout);
     if (qh VERIFYoutput && !qh FORCEoutput && !qh STOPadd && !qh STOPcone && !qh STOPpoint)
       qh_check_points();
-    fflush(stderr);
+    fflush(NULL);
   }
   qh NOerrexit= True;
   qh NOerrexit= True;
@@ -523,7 +519,7 @@ Try -- user_eg2 'T1' 'T1' 'T1'\n\
   qh_freeqhull(!qh_ALL);
   qh_memfreeshort(&curlong, &totlong);
   if (curlong || totlong)
-      fprintf(stderr, "qhull warning (user_eg2, run 3): did not free %d bytes of long memory (%d pieces)\n",
+    fprintf(stderr, "qhull warning (user_eg2, run 3): did not free %d bytes of long memory (%d pieces)\n",
           totlong, curlong);
 #endif
   return exitcode;
@@ -587,10 +583,10 @@ void qh_printfacetlist(facetT *facetlist, setT *facets, boolT printall) {
 
   /* remove these calls to help avoid io.c */
   qh_printbegin(qh ferr, qh_PRINTfacets, facetlist, facets, printall);/*io.c*/
-  FORALLfacet_(facetlist)                                              /*io.c*/
-    qh_printafacet(qh ferr, qh_PRINTfacets, facet, printall);          /*io.c*/
-  FOREACHfacet_(facets)                                                /*io.c*/
-    qh_printafacet(qh ferr, qh_PRINTfacets, facet, printall);          /*io.c*/
+  FORALLfacet_(facetlist)                                             /*io.c*/
+    qh_printafacet(qh ferr, qh_PRINTfacets, facet, printall);         /*io.c*/
+  FOREACHfacet_(facets)                                               /*io.c*/
+    qh_printafacet(qh ferr, qh_PRINTfacets, facet, printall);         /*io.c*/
   qh_printend(qh ferr, qh_PRINTfacets, facetlist, facets, printall);  /*io.c*/
 
   FORALLfacet_(facetlist)

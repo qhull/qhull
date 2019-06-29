@@ -51,5 +51,5 @@ rbox 30 s D4 | qconvex s Gh Pd0d1d2D3 Tc >eg/eg.t24.intersect.precise.4d
 echo ==the following generates an error== >/dev/null
 rbox 1000 D4 | qhull Q0 s Po R0.005 Ga Tc Tv >eg/eg.t25.neighbors.4d
 echo ==the previous should generate an error== >/dev/null
-echo END q_egtest >/dev/null
+echo END eg/q_egtest >/dev/null
 

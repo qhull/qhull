@@ -7,8 +7,8 @@
    see qh-geom_r.htm and geom_r.h
 
    Copyright (c) 1993-2019 The Geometry Center.
-   $Id: //main/2019/qhull/src/libqhull_r/geom_r.c#2 $$Change: 2664 $
-   $DateTime: 2019/05/25 13:44:04 $$Author: bbarber $
+   $Id: //main/2019/qhull/src/libqhull_r/geom_r.c#4 $$Change: 2712 $
+   $DateTime: 2019/06/28 12:57:00 $$Author: bbarber $
 
    infrequent code goes into geom2_r.c
 */
@@ -88,11 +88,13 @@ void qh_distplane(qhT *qh, pointT *point, facetT *facet, realT *dist) {
     *dist += (2.0 * randr / qh_RANDOMmax - 1.0) *
       qh->RANDOMfactor * qh->MAXabs_coord;
   }
+#ifndef qh_NOtrace
   if (qh->IStracing >= 4) {
     qh_fprintf(qh, qh->ferr, 8001, "qh_distplane: ");
     qh_fprintf(qh, qh->ferr, 8002, qh_REAL_1, *dist);
     qh_fprintf(qh, qh->ferr, 8003, "from p%d to f%d\n", qh_pointid(qh, point), facet->id);
   }
+#endif
   return;
 } /* distplane */
 
@@ -163,6 +165,7 @@ facetT *qh_findbest(qhT *qh, pointT *point, facetT *startfacet,
   boolT testhorizon= True; /* needed if precise, e.g., rbox c D6 | qhull Q0 Tv */
 
   zinc_(Zfindbest);
+#ifndef qh_NOtrace
   if (qh->IStracing >= 4 || (qh->TRACElevel && qh->TRACEpoint >= 0 && qh->TRACEpoint == qh_pointid(qh, point))) {
     if (qh->TRACElevel > qh->IStracing)
       qh->IStracing= qh->TRACElevel;
@@ -172,6 +175,7 @@ facetT *qh_findbest(qhT *qh, pointT *point, facetT *startfacet,
     qh_fprintf(qh, qh->ferr, 8006, " Last qh_addpoint p%d,", qh->furthest_id);
     qh_fprintf(qh, qh->ferr, 8007, " Last merge #%d, max_outside %2.2g\n", zzval_(Ztotmerge), qh->max_outside);
   }
+#endif
   if (isoutside)
     *isoutside= True;
   if (!startfacet->flipped) {  /* test startfacet before testing its neighbors */
@@ -464,11 +468,12 @@ facetT *qh_findbestnew(qhT *qh, pointT *point, facetT *startfacet,
     isdistoutside= False;
   else {
     isdistoutside= True;
-    distoutside= qh_DISToutside; /* multiple of qh.MINoutside & qh.max_outside, see user.h */
+    distoutside= qh_DISToutside; /* multiple of qh.MINoutside & qh.max_outside, see user_r.h */
   }
   if (isoutside)
     *isoutside= True;
   *numpart= 0;
+#ifndef qh_NOtrace
   if (qh->IStracing >= 4 || (qh->TRACElevel && qh->TRACEpoint >= 0 && qh->TRACEpoint == qh_pointid(qh, point))) {
     if (qh->TRACElevel > qh->IStracing)
       qh->IStracing= qh->TRACElevel;
@@ -477,6 +482,7 @@ facetT *qh_findbestnew(qhT *qh, pointT *point, facetT *startfacet,
     qh_fprintf(qh, qh->ferr, 8009, " Last qh_addpoint p%d, qh.visit_id %d, vertex_visit %d,",  qh->furthest_id, visitid, qh->vertex_visit);
     qh_fprintf(qh, qh->ferr, 8010, " Last merge #%d\n", zzval_(Ztotmerge));
   }
+#endif
   /* visit all new facets starting with startfacet, maybe qh->facet_list */
   for (i=0, facet=startfacet; i < 2; i++, facet= qh->newfacet_list) {
     FORALLfacet_(facet) {
@@ -636,10 +642,12 @@ void qh_gausselim(qhT *qh, realT **rows, int numrow, int numcol, boolT *sign, bo
     if (pivot_abs <= qh->NEARzero[k]) {
       *nearzero= True;
       if (pivot_abs == 0.0) {   /* remainder of column == 0 */
+#ifndef qh_NOtrace
         if (qh->IStracing >= 4) {
           qh_fprintf(qh, qh->ferr, 8011, "qh_gausselim: 0 pivot at column %d. (%2.2g < %2.2g)\n", k, pivot_abs, qh->DISTround);
           qh_printmatrix(qh, qh->ferr, "Matrix:", rows, numrow, numcol);
         }
+#endif
         zzinc_(Zgauss0);
         qh_joggle_restart(qh, "zero pivot for Gaussian elimination");
         goto LABELnextcol;
@@ -974,6 +982,7 @@ void qh_setfacetplane(qhT *qh, facetT *facet) {
   zzinc_(Zsetplane);
   if (!facet->normal)
     qh_memalloc_(qh, normsize, freelistp, facet->normal, coordT);
+#ifndef qh_NOtrace
   if (facet == qh->tracefacet) {
     oldtrace= qh->IStracing;
     qh->IStracing= 5;
@@ -984,6 +993,7 @@ void qh_setfacetplane(qhT *qh, facetT *facet) {
     qh_fprintf(qh, qh->ferr, 8015, "\n\nCurrent summary is:\n");
       qh_printsummary(qh, qh->ferr);
   }
+#endif
   if (qh->hull_dim <= 4) {
     i= 0;
     if (qh->RANDOMdist) {
@@ -1078,6 +1088,7 @@ void qh_setfacetplane(qhT *qh, facetT *facet) {
     }
     qh->RANDOMdist= qh->old_randomdist;
   }
+#ifndef qh_NOtrace
   if (qh->IStracing >= 4) {
     qh_fprintf(qh, qh->ferr, 8017, "qh_setfacetplane: f%d offset %2.2g normal: ",
              facet->id, facet->offset);
@@ -1085,6 +1096,7 @@ void qh_setfacetplane(qhT *qh, facetT *facet) {
       qh_fprintf(qh, qh->ferr, 8018, "%2.2g ", facet->normal[k]);
     qh_fprintf(qh, qh->ferr, 8019, "\n");
   }
+#endif
   qh_checkflipped(qh, facet, NULL, qh_ALL);
   if (facet == qh->tracefacet) {
     qh->IStracing= oldtrace;

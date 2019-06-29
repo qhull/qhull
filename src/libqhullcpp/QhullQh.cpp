@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2019 C.B. Barber. All rights reserved.
-** $Id: //main/2019/qhull/src/libqhullcpp/QhullQh.cpp#2 $$Change: 2664 $
-** $DateTime: 2019/05/25 13:44:04 $$Author: bbarber $
+** $Id: //main/2019/qhull/src/libqhullcpp/QhullQh.cpp#3 $$Change: 2710 $
+** $DateTime: 2019/06/27 14:24:04 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -193,6 +193,7 @@ setOutputStream(ostream *os)
 
 notes:
     only called from libqhull
+    sets qhullQh->qhull_status if msgcode is error 6000..6999
     same as fprintf() and RboxPoints.qh_fprintf_rbox()
     fgets() is not trapped like fprintf()
     Do not throw errors from here.  Use qh_errexit;
@@ -200,12 +201,14 @@ notes:
 extern "C"
 void qh_fprintf(qhT *qh, FILE *fp, int msgcode, const char *fmt, ... ) {
     va_list args;
+    int last_errcode;
 
     using namespace orgQhull;
 
     if(!qh->ISqhullQh){
         qh_fprintf_stderr(10025, "Qhull error: qh_fprintf called from a Qhull instance without QhullQh defined\n");
-        qh_exit(10025);
+        last_errcode= 10025;
+        qh_exit(last_errcode);
     }
     QhullQh *qhullQh= static_cast<QhullQh *>(qh);
     va_start(args, fmt);

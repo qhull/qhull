@@ -1,8 +1,8 @@
 
-/*<html><pre>  -<a                             href="../libqhull/index.htm#TOC"
+/*<html><pre>  -<a                             href="../libqhull_r/index.htm#TOC"
   >-------------------------------</a><a name="TOP">-</a>
 
-   rbox.c
+   rbox_r.c
      rbox program for generating input points for qhull.
 
    notes:
@@ -25,7 +25,7 @@
 char prompt[]= "\n\
 rbox -- generate various point distributions.  Default is random in cube.\n\
 \n\
-args (any order, space separated):                    Version: 2019/05/24\n\
+args (any order, space separated):                    Version: 2019/06/21\n\
   3000    number of random points in cube, lens, spiral, sphere or grid\n\
   D3      dimension 3-d\n\
   c       add a unit cube to the output ('c G2.0' sets size)\n\
@@ -53,7 +53,7 @@ args (any order, space separated):                    Version: 2019/05/24\n\
   tn      use n as the random number seed\n\
   z       print integer coordinates, default 'Bn' is %2.2g\n\
 ";
-/* Not including 'V' for rbox version, clumsy coordination with rboxlib.c */
+/* Not including 'V' for rbox version, clumsy coordination with rboxlib_r.c */
 
 /*--------------------------------------------
 -rbox-  main procedure of rbox application

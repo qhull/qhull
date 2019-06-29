@@ -8,10 +8,11 @@
 # Test for internal errors using difficult cases for Qhull (see q_benchmark)
 #  ../eg/qtest.sh 100 '500 s W1e-13 C1,1e-13 D4' 'd' | grep -vE 'topology|precision|CPU|Maximum
 #
-# $Id: //main/2019/qhull/eg/qtest.sh#1 $$DateTime: 2019/05/24 20:09:58 $
-# $Change: 2661 $$Author: bbarber $
+# $Id: //main/2019/qhull/eg/qtest.sh#4 $$DateTime: 2019/06/25 15:24:47 $
+# $Change: 2701 $$Author: bbarber $
 
 QHULL=${QHULL:-qhull}
+Tnz=${Tnz:-T4z}
 PROG=$0
 NOW=$(date +"%s")
 TODAY=$(date +"%Y-%m-%d")
@@ -82,6 +83,7 @@ if [[ $# -eq 0 || "$1" == "help" || "$1" == "--help" || "$1" == "-?" ]]; then
     echo "  QH_SHOWX            --   additional exclude grep for show log"
     echo "  QH_GREP             -- additional grep expression for grep log"
     echo "  QH_GREPX            --   additional exclude grep for grep log"
+    echo "  Tnz                 -- Trace setting for 'qtest.sh log'"
     echo "examples"
     echo "  qtest.sh help"
     echo "  qtest.sh 25 '1000 W1e-13 D4' ''"
@@ -342,14 +344,14 @@ elif [[ "$1" == "grep-step" ]]; then
     fi
     echo "qtest.sh: grep step log from '$SRC' to stdout" >&2
     if [[ $ISLOG -gt 0 ]]; then
-        echo "qtest.sh: (grep -E '$GREP2' '$SRC' | grep -Ev '$GREPX2'; echo; echo ==== EXTRA $(date) ====; grep '$ARG' -E '$EXTRA' '$SRC')"  >&2
+        echo "qtest.sh: (grep -E '$GREP2' '$SRC' | grep -Ev '$GREPX2'; echo; echo ==== EXTRA $(date) ====; echo; grep '$ARG' -E '$EXTRA' '$SRC')"  >&2
         echo -e "  QH_STEP_GREP='$QH_STEP_GREP'" >&2
         echo -e "  QH_STEP_ARG='$QH_STEP_ARG'\n  QH_STEP_EXTRA='$QH_STEP_EXTRA'" >&2
         echo -e "  QH_ARG='$QH_ARG'\n  QH_STEP='$QH_STEP'" >&2
     fi
     #grep-step
     grep -E "$GREP2" "$SRC" | grep -Ev "$GREPX2"; 
-    echo; echo ==== EXTRA $(date) ====; grep $ARG -E "$EXTRA" "$SRC"
+    echo; echo ==== EXTRA $(date) ====; echo; grep $ARG -E "$EXTRA" "$SRC"
 elif [[ "$1" == "log" && $# -ne 2 ]]; then
     echo "qtest.sh: Expecting 'log' followed by a qhull command line in quotes.  Got $# arguments" >&2
     exit 1
@@ -399,10 +401,10 @@ else
         EXTRA="$EXTRA|$QH_EXTRA"
     fi
     if [[ "$1" == "log" ]]; then
-        echo "qtest.sh: log '$2 T4z' to '$DEST' and '$DEST2'" | tee "$DEST" | tee "$DEST2" >&2
-        (date; pwd; ls -ld "$(which $QHULL)"; $QHULL -V) >> "$DEST"
+        echo "qtest.sh: log '$2 $Tnz' to '$DEST' and '$DEST2'" | tee "$DEST" | tee "$DEST2" >&2
+        (echo -n "$HOSTNAME "; date ; pwd; ls -ld "$(which $QHULL)"; $QHULL -V) >> "$DEST"
         if [[ $ISLOG -gt 0 ]]; then
-            echo "qtest.sh: $2 T4z | grep -n . | grep -E '$GREP' | grep -Ev '$GREPX' | tee -a '$DEST' | grep -E '$GREP2' | grep -Ev '$GREPX2' | tee -a '$DEST2'; (echo; echo ==== EXTRA $(date) ====; grep '$ARG' -E '$EXTRA' '$DEST') | tee -a '$DEST2' " >&2
+            echo "qtest.sh: $2 $Tnz | grep -n . | grep -E '$GREP' | grep -Ev '$GREPX' | tee -a '$DEST' | grep -E '$GREP2' | grep -Ev '$GREPX2' | tee -a '$DEST2'; (echo; echo ==== EXTRA $(date) ====; echo; grep '$ARG' -E '$EXTRA' '$DEST') | tee -a '$DEST2' " >&2
             echo -e "  QH_LOG_DEST='$QH_LOG_DEST'\n  QH_STEP_DEST='$QH_STEP_DEST'" >&2
             echo -e "  QH_LOG_GREP='$QH_LOG_GREP'\n  QH_STEP_GREP='$QH_STEP_GREP'" >&2
             echo -e "  QH_STEP_ARG='$QH_STEP_ARG'\n  QH_STEP_EXTRA='$QH_STEP_EXTRA'" >&2
@@ -410,14 +412,14 @@ else
             echo -e "  QH_ARG='$QH_ARG'\n  QH_STEP='$QH_STEP'" >&2
         fi
         #log-qhull
-        sh -c "$2 T4z" | grep -n . | grep -E "$GREP" | grep -Ev "$GREPX" | tee -a "$DEST" \
+        sh -c "$2 $Tnz" | grep -n . | grep -E "$GREP" | grep -Ev "$GREPX" | tee -a "$DEST" \
               | grep -E "$GREP2" | grep -Ev "$GREPX2" >> "$DEST2"           
-        (echo; echo ==== EXTRA $(date) ====; grep $ARG -E "$EXTRA" "$DEST") | tee -a "$DEST2"
+        (echo; echo ==== EXTRA $(date) ====; echo; grep $ARG -E "$EXTRA" "$DEST") | tee -a "$DEST2"
     elif [[ "${1:0:1}" == "t" ]]; then
         echo "qtest.sh: logging 'rbox $2 $1 | $QHULL T4sz $3' to '$DEST' and '$DEST2'" | tee "$DEST" | tee "$DEST2" >&2
         (date; pwd; ls -ld "$(which $QHULL)"; $QHULL -V) >> "$DEST"
         if [[ $ISLOG -gt 0 ]]; then
-            echo "qtest.sh: rbox $2 $i | $QHULL T4sz $3 | grep -E '$GREP' | grep -Ev '$GREPX' | tee -a '$DEST' | grep -E '$GREP2' | grep -Ev '$GREPX2' | tee -a '$DEST2'; (echo; echo ==== EXTRA $(date) ====; grep '$ARG' -E '$EXTRA' '$DEST') | tee -a '$DEST2'" >&2
+            echo "qtest.sh: rbox $2 $i | $QHULL T4sz $3 | grep -E '$GREP' | grep -Ev '$GREPX' | tee -a '$DEST' | grep -E '$GREP2' | grep -Ev '$GREPX2' | tee -a '$DEST2'; (echo; echo ==== EXTRA $(date) ====; echo; grep '$ARG' -E '$EXTRA' '$DEST') | tee -a '$DEST2'" >&2
             echo -e "  QH_TEST_DEST='$QH_TEST_DEST'\n  QH_SHOW_DEST='$QH_SHOW_DEST'" >&2
             echo -e "  QH_TEST_GREP='$QH_TEST_GREP'\n  QH_SHOW_GREPX='$QH_SHOW_GREPX'" >&2
             echo -e "  QH_TEST_ARG='$QH_TEST_ARG'\n  QH_TEST_EXTRA='$QH_TEST_EXTRA'" >&2
@@ -430,14 +432,14 @@ else
             exit 1
         fi
         #log-t
-        rbox $2 $1 | $QHULL T4z $3 | grep -n . | grep -E "$GREP" | grep -Ev "$GREPX" | tee -a "$DEST" \
+        rbox $2 $1 | $QHULL $Tnz $3 | grep -n . | grep -E "$GREP" | grep -Ev "$GREPX" | tee -a "$DEST" \
               | grep -E "$GREP2" | grep -Ev "$GREPX2" >> "$DEST2"
-        (echo; echo ==== EXTRA $(date) ====; grep $ARG -E "$EXTRA" "$DEST") | tee -a "$DEST2"
+        (echo; echo ==== EXTRA $(date) ====; echo; grep $ARG -E "$EXTRA" "$DEST") | tee -a "$DEST2"
     elif [[ "${1:0:2}" == "QR" ]]; then
-        echo "qtest.sh: log '$2 T4z $1' to '$DEST' and '$DEST2'" | tee "$DEST" | tee "$DEST2" >&2
+        echo "qtest.sh: log '$2 $Tnz $1' to '$DEST' and '$DEST2'" | tee "$DEST" | tee "$DEST2" >&2
         (date; pwd; ls -ld "$(which $QHULL)"; $QHULL -V) >> "$DEST"
         if [[ $ISLOG -gt 0 ]]; then
-            echo "qtest.sh: $2 T4z $1 | grep -n . | grep -E '$GREP' | grep -Ev '$GREPX' | tee -a '$DEST' | grep -E '$GREP2' | grep -Ev '$GREPX2' | tee -a '$DEST2'; (echo; echo ==== EXTRA $(date) ====; grep '$ARG' -E '$EXTRA' '$DEST') | tee -a '$DEST2' " >&2
+            echo "qtest.sh: $2 $Tnz $1 | grep -n . | grep -E '$GREP' | grep -Ev '$GREPX' | tee -a '$DEST' | grep -E '$GREP2' | grep -Ev '$GREPX2' | tee -a '$DEST2'; (echo; echo ==== EXTRA $(date) ====; echo; grep '$ARG' -E '$EXTRA' '$DEST') | tee -a '$DEST2' " >&2
             echo -e "  QH_LOG_DEST='$QH_LOG_DEST'\n  QH_STEP_DEST='$QH_STEP_DEST'" >&2
             echo -e "  QH_LOG_GREP='$QH_LOG_GREP'\n  QH_STEP_GREP='$QH_STEP_GREP'" >&2
             echo -e "  QH_STEP_ARG='$QH_STEP_ARG'\n  QH_STEP_EXTRA='$QH_STEP_EXTRA'" >&2
@@ -445,9 +447,9 @@ else
             echo -e "  QH_ARG='$QH_ARG'\n  QH_STEP='$QH_STEP'" >&2
         fi
         #log-QR
-        sh -c "$2 T4z $1" | grep -n . | grep -E "$GREP" | grep -Ev "$GREPX" | tee -a "$DEST" \
+        sh -c "$2 $Tnz $1" | grep -n . | grep -E "$GREP" | grep -Ev "$GREPX" | tee -a "$DEST" \
               | grep -E "$GREP2" | grep -Ev "$GREPX2" >> "$DEST2"           
-        (echo; echo ==== EXTRA $(date) ====; grep $ARG -E "$EXTRA" "$DEST") | tee -a "$DEST2"
+        (echo; echo ==== EXTRA $(date) ====; echo; grep $ARG -E "$EXTRA" "$DEST") | tee -a "$DEST2"
     else
         echo "qtest.sh: unexpected arguments, run 'qtest.sh' for help -- qtest.sh $1 $2 $3"
         exit 1

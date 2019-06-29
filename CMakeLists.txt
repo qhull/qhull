@@ -11,6 +11,10 @@
 #   make
 #   make install
 #
+# 32-bit vs. 64-bit
+#   Qhull uses less memory when built as 32-bit code
+#   On 64-bit hosts, consider building with -DCMAKE_CXX_FLAGS=-m32 -DCMAKE_C_FLAGS=-m32
+#
 # To uninstall on unix or MSYS/mingw
 #   xargs rm <build/install_manifest.txt
 #
@@ -57,18 +61,18 @@
 #   Remove CMAKE_INTDIR from PreprocessorDefinitions
 #   Adjust target names and destinations (e.g., lib/libqhullstatic_rd.a)
 #  
-# $Id: //main/2019/qhull/CMakeLists.txt#1 $$Change: 2661 $
-# $DateTime: 2019/05/24 20:09:58 $$Author: bbarber $
+# $Id: //main/2019/qhull/CMakeLists.txt#5 $$Change: 2711 $
+# $DateTime: 2019/06/27 22:34:56 $$Author: bbarber $
 
 project(qhull)
 cmake_minimum_required(VERSION 2.6)
 
 # Define qhull_VERSION in README.txt, Announce.txt, qh-get.htm, CMakeLists.txt, 
 #   Makefile, qhull-exports.def, qhull_p-exports.def, qhull_r-exports.def, qhull-warn.pri
-set(qhull_VERSION2 "2019.0.1 2019/05/24")  # not used, See global.c, global_r.c, rbox.c, rbox_r.c
-set(qhull_VERSION     "7.3.1")  # Advance every release
+set(qhull_VERSION2 "2019.1 2019/06/21")  # not used, See global.c, global_r.c, rbox.c, rbox_r.c
+set(qhull_VERSION     "7.3.2")  # Advance every release
 
-# SOVERSION -- qhull 2003 = empty, 2009 = 5, 2010-2012 = 6, 2015 (reentrant) = 7
+# SOVERSION -- qhull 2003 = empty, 2009 = 5, 2010-2012 = 6, 2015-date (reentrant) = 7
 set(qhull_SOVERSION 7) # For SOVERSION 
 
 include(CMakeModules/CheckLFS.cmake)

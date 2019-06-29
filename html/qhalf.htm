@@ -102,6 +102,22 @@ the neighboring intersection points (<a href="qh-optf.htm#Fn">Fn</a>).
 For random inputs, halfspace
 intersections are usually defined by more than <i>d</i> halfspaces.  See the sphere example.
 
+<p>The identity pipeline for Qhull starts with points, produces the halfspaces for their convex hull, and
+intersects these halfspaces, returning the original points.  For example, 'rbox c' is the unit cube.
+<pre>
+	rbox c | qconvex FV n | qhalf Fp
+	3
+	8
+	  -0.5    0.5    0.5
+	   0.5    0.5    0.5
+	  -0.5    0.5   -0.5
+	   0.5    0.5   -0.5
+	   0.5   -0.5    0.5
+	  -0.5   -0.5    0.5
+	   0.5   -0.5   -0.5
+	  -0.5   -0.5   -0.5
+</pre>
+
 <p>You can try triangulated output ('<a href="qh-optq.htm#Qt">Qt</a>') and joggled input ('<a href="qh-optq.htm#QJn">QJ</a>').
 It demonstrates that triangulated output is more accurate than joggled input.
 

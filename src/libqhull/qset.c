@@ -11,9 +11,11 @@
    either the actual size of the set plus 1, or the NULL terminator
    of the set (i.e., setelemT).
 
+   Do not reference 'qh' since it brings in qhT unnecessarily
+
    Copyright (c) 1993-2019 The Geometry Center.
-   $Id: //main/2019/qhull/src/libqhull/qset.c#1 $$Change: 2661 $
-   $DateTime: 2019/05/24 20:09:58 $$Author: bbarber $
+   $Id: //main/2019/qhull/src/libqhull/qset.c#6 $$Change: 2711 $
+   $DateTime: 2019/06/27 22:34:56 $$Author: bbarber $
 */
 
 #include "libqhull.h" /* for qhT and QHULL_CRTDBG */
@@ -231,7 +233,7 @@ void qh_setappend2ndlast(setT **setp, void *newelem) {
   design:
     checks that maxsize, actual size, and NULL terminator agree
 */
-void qh_setcheck(setT *set, const char *tname, unsigned id) {
+void qh_setcheck(setT *set, const char *tname, unsigned int id) {
   int maxsize, size;
   int waserr= 0;
 
@@ -428,7 +430,7 @@ void *qh_setdelnth(setT *set, int nth) {
 
   sizep= SETsizeaddr_(set);
   if ((sizep->i--)==0)         /*  if was a full set */
-      sizep->i= set->maxsize;  /*     *sizep= (maxsize-1)+ 1 */
+    sizep->i= set->maxsize;    /*    *sizep= (maxsize-1)+ 1 */
   if (nth < 0 || nth >= sizep->i) {
     qh_fprintf(qhmem.ferr, 6174, "qhull internal error (qh_setdelnth): nth %d is out-of-bounds for set:\n", nth);
     qh_setprint(qhmem.ferr, "", set);
@@ -600,7 +602,7 @@ int qh_setequal(setT *setA, setT *setB) {
     return 1;
   elemAp= SETaddr_(setA, void);
   elemBp= SETaddr_(setB, void);
-  if (!memcmp((char *)elemAp, (char *)elemBp, sizeA*SETelemsize))
+  if (!memcmp((char *)elemAp, (char *)elemBp, (size_t)(sizeA * SETelemsize)))
     return 1;
   return 0;
 } /* setequal */
@@ -718,7 +720,7 @@ void qh_setfree(setT **setp) {
   void **freelistp;  /* used if !qh_NOmem by qh_memfree_() */
 
   if (*setp) {
-    size= sizeof(setT) + ((*setp)->maxsize)*SETelemsize;
+    size= (int)sizeof(setT) + ((*setp)->maxsize)*SETelemsize;
     if (size <= qhmem.LASTsize) {
       qh_memfree_(*setp, size, freelistp);
     }else
@@ -771,7 +773,7 @@ void qh_setfreelong(setT **setp) {
   int size;
 
   if (*setp) {
-    size= sizeof(setT) + ((*setp)->maxsize)*SETelemsize;
+    size= (int)sizeof(setT) + ((*setp)->maxsize)*SETelemsize;
     if (size > qhmem.LASTsize) {
       qh_memfree(*setp, size);
       *setp= NULL;
@@ -843,7 +845,13 @@ int qh_setindex(setT *set, void *atelem) {
     returns a larger set that contains all elements of *oldsetp
 
   notes:
-    the set is at least twice as large
+    if long memory,
+      the new set is 2x larger
+    if qhmem.LASTsize is between 1.5x and 2x
+      the new set is qhmem.LASTsize
+    otherwise use quick memory,
+      the new set is 2x larger, rounded up to next qh_memsize
+       
     if temp set, updates qhmem.tempstack
 
   design:
@@ -853,22 +861,23 @@ int qh_setindex(setT *set, void *atelem) {
     deletes the old set
 */
 void qh_setlarger(setT **oldsetp) {
-  int size= 1;
+  int setsize= 1, newsize;
   setT *newset, *set, **setp, *oldset;
   setelemT *sizep;
   setelemT *newp, *oldp;
 
   if (*oldsetp) {
     oldset= *oldsetp;
-    SETreturnsize_(oldset, size);
+    SETreturnsize_(oldset, setsize);
     qhmem.cntlarger++;
-    qhmem.totlarger += size+1;
-    newset= qh_setnew(2 * size);
+    qhmem.totlarger += setsize+1;
+    qh_setlarger_quick(setsize, &newsize);
+    newset= qh_setnew(newsize);
     oldp= (setelemT *)SETaddr_(oldset, void);
     newp= (setelemT *)SETaddr_(newset, void);
-    memcpy((char *)newp, (char *)oldp, (size_t)(size+1) * SETelemsize);
+    memcpy((char *)newp, (char *)oldp, (size_t)(setsize+1) * SETelemsize);
     sizep= SETsizeaddr_(newset);
-    sizep->i= size+1;
+    sizep->i= setsize+1;
     FOREACHset_((setT *)qhmem.tempstack) {
       if (set == oldset)
         *(setp-1)= newset;
@@ -879,6 +888,39 @@ void qh_setlarger(setT **oldsetp) {
   *oldsetp= newset;
 } /* setlarger */
 
+
+/*-<a                             href="qh-set.htm#TOC"
+  >-------------------------------<a name="setlarger_quick">-</a>
+
+  qh_setlarger_quick( setsize, newsize )
+    determine newsize for setsize
+    returns True if newsize fits in quick memory
+
+  design:
+    if 2x fits into quick memory
+      return True, 2x
+    if x+4 does not fit into quick memory
+      return False, 2x
+    if x+x/3 fits into quick memory
+      return True, the last quick set
+    otherwise
+      return False, 2x
+*/
+int qh_setlarger_quick(int setsize, int *newsize) {
+    int lastquickset;
+
+    *newsize= 2 * setsize;
+    lastquickset= (qhmem.LASTsize - (int)sizeof(setT)) / SETelemsize; /* matches size computation in qh_setnew */
+    if (*newsize <= lastquickset)
+      return 1;
+    if (setsize + 4 > lastquickset)
+      return 0;
+    if (setsize + setsize/3 <= lastquickset) {
+      *newsize= lastquickset;
+      return 1;
+    }
+    return 0;
+} /* setlarger_quick */
 
 /*-<a                             href="qh-set.htm#TOC"
   >-------------------------------<a name="setlast">-</a>
@@ -929,7 +971,7 @@ setT *qh_setnew(int setsize) {
 
   if (!setsize)
     setsize++;
-  size= sizeof(setT) + setsize * SETelemsize;
+  size= (int)sizeof(setT) + setsize * SETelemsize; /* setT includes NULL terminator, see qh.LASTquickset */
   if (size>0 && size <= qhmem.LASTsize) {
     qh_memalloc_(size, freelistp, set, setT);
 #ifndef qh_NOmem

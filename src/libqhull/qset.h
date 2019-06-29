@@ -17,8 +17,8 @@
     - sets may be sorted or unsorted, the caller must distinguish this
 
    Copyright (c) 1993-2019 The Geometry Center.
-   $Id: //main/2019/qhull/src/libqhull/qset.h#1 $$Change: 2661 $
-   $DateTime: 2019/05/24 20:09:58 $$Author: bbarber $
+   $Id: //main/2019/qhull/src/libqhull/qset.h#3 $$Change: 2700 $
+   $DateTime: 2019/06/25 05:52:18 $$Author: bbarber $
 */
 
 #ifndef qhDEFset
@@ -455,7 +455,7 @@ void  qh_setaddnth(setT **setp, int nth, void *newelem);
 void  qh_setappend(setT **setp, void *elem);
 void  qh_setappend_set(setT **setp, setT *setA);
 void  qh_setappend2ndlast(setT **setp, void *elem);
-void  qh_setcheck(setT *set, const char *tname, unsigned id);
+void  qh_setcheck(setT *set, const char *tname, unsigned int id);
 void  qh_setcompact(setT *set);
 setT *qh_setcopy(setT *set, int extra);
 void *qh_setdel(setT *set, void *elem);
@@ -474,6 +474,7 @@ void  qh_setfreelong(setT **set);
 int   qh_setin(setT *set, void *setelem);
 int   qh_setindex(setT *set, void *setelem);
 void  qh_setlarger(setT **setp);
+int   qh_setlarger_quick(int setsize, int *newsize);
 void *qh_setlast(setT *set);
 setT *qh_setnew(int size);
 setT *qh_setnew_delnthsorted(setT *set, int size, int nth, int prepend);

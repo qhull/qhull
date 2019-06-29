@@ -10,8 +10,8 @@
    (all but top 50 and their callers 12/3/95)
 
    Copyright (c) 1993-2019 The Geometry Center.
-   $Id: //main/2019/qhull/src/libqhull/poly.c#1 $$Change: 2661 $
-   $DateTime: 2019/05/24 20:09:58 $$Author: bbarber $
+   $Id: //main/2019/qhull/src/libqhull/poly.c#6 $$Change: 2705 $
+   $DateTime: 2019/06/26 16:34:45 $$Author: bbarber $
 */
 
 #include "qhull_a.h"
@@ -223,9 +223,9 @@ void qh_attachnewfacets(void /* qh.visible_list, qh.newfacet_list */) {
     checks facet orientation to interior point
 
     if allerror set,
-      tests against qh.DISTround
+      tests against -qh.DISTround
     else
-      tests against 0 since tested against DISTround before
+      tests against 0.0 since tested against -qh.DISTround before
 
   returns:
     False if it flipped orientation (sets facet->flipped)
@@ -243,10 +243,10 @@ boolT qh_checkflipped(facetT *facet, realT *distp, boolT allerror) {
   qh_distplane(qh interior_point, facet, &dist);
   if (distp)
     *distp= dist;
-  if ((allerror && dist >= -qh DISTround) || (!allerror && dist >= 0.0)) {
+  if ((allerror && dist >= -qh DISTround) || (!allerror && dist > 0.0)) {
     facet->flipped= True;
-    trace0((qh ferr, 19, "qh_checkflipped: facet f%d is flipped, distance= %6.12g during p%d\n",
-              facet->id, dist, qh furthest_id));
+    trace0((qh ferr, 19, "qh_checkflipped: facet f%d flipped, allerror? %d, distance= %6.12g during p%d\n",
+              facet->id, allerror, dist, qh furthest_id));
     if (qh num_facets > qh hull_dim+1) { /* qh_initialhull reverses orientation if !qh_checkflipped */
       zzinc_(Zflippedfacets);
       qh_joggle_restart("flipped facet");
@@ -436,7 +436,7 @@ setT *qh_facetintersect(facetT *facetA, facetT *facetB,
 int qh_gethash(int hashsize, setT *set, int size, int firstindex, void *skipelem) {
   void **elemp= SETelemaddr_(set, firstindex, void);
   ptr_intT hash= 0, elem;
-  unsigned result;
+  unsigned int uresult;
   int i;
 #ifdef _MSC_VER                   /* Microsoft Visual C++ -- warn about 64-bit issues */
 #pragma warning( push)            /* WARN64 -- ptr_intT holds a 64-bit pointer */
@@ -484,10 +484,10 @@ int qh_gethash(int hashsize, setT *set, int size, int firstindex, void *skipelem
     qh_fprintf(qh ferr, 6202, "qhull internal error: negative hashsize %d passed to qh_gethash [poly.c]\n", hashsize);
     qh_errexit2(qh_ERRqhull, NULL, NULL);
   }
-  result= (unsigned)hash;
-  result %= (unsigned)hashsize;
+  uresult= (unsigned int)hash;
+  uresult %= (unsigned int)hashsize;
   /* result= 0; for debugging */
-  return result;
+  return (int)uresult;
 #ifdef _MSC_VER
 #pragma warning( pop)
 #endif
@@ -624,7 +624,7 @@ facetT *qh_makenew_nonsimplicial(facetT *visible, vertexT *apex, int *numnew) {
   facetT *neighbor, *newfacet= NULL, *samecycle;
   setT *vertices;
   boolT toporient;
-  int ridgeid;
+  unsigned int ridgeid;
 
   FOREACHridge_(visible->ridges) {
     ridgeid= ridge->id;
@@ -693,6 +693,10 @@ facetT *qh_makenew_nonsimplicial(facetT *visible, vertexT *apex, int *numnew) {
 
 #else /* qh_NOmerge */
 facetT *qh_makenew_nonsimplicial(facetT *visible, vertexT *apex, int *numnew) {
+  QHULL_UNUSED(visible)
+  QHULL_UNUSED(apex)
+  QHULL_UNUSED(numnew)
+
   return NULL;
 }
 #endif /* qh_NOmerge */
@@ -946,7 +950,7 @@ coordT qh_matchnewfacets(void /* qh.newfacet_list */) {
     {  /* inline qh_setzero(newfacet->neighbors, 1, qh hull_dim); */
       neighbors= newfacet->neighbors;
       neighbors->e[neighbors->maxsize].i= dim+1; /*may be overwritten*/
-      memset((char *)SETelemaddr_(neighbors, 1, void), 0, dim * SETelemsize);
+      memset((char *)SETelemaddr_(neighbors, 1, void), 0, (size_t)(dim * SETelemsize));
     }
   }
 
@@ -1123,8 +1127,7 @@ ridgeT *qh_newridge(void) {
   memset((char *)ridge, (size_t)0, sizeof(ridgeT));
   zinc_(Ztotridges);
   if (qh ridge_id == UINT_MAX) {
-    qh_fprintf(qh ferr, 7074, "\
-qhull warning: more than 2^32 ridges.  Qhull results are OK.  Since the ridge ID wraps around to 0, two ridges may have the same identifier.\n");
+    qh_fprintf(qh ferr, 7074, "qhull warning: more than 2^32 ridges.  Qhull results are OK.  Since the ridge ID wraps around to 0, two ridges may have the same identifier.\n");
   }
   ridge->id= qh ridge_id++;
   trace4((qh ferr, 4056, "qh_newridge: created ridge r%d\n", ridge->id));
@@ -1250,6 +1253,7 @@ void qh_removevertex(vertexT *vertex) {
     [jan'19] split off qh_update_vertexneighbors_cone.  Optimize the remaining cases in a future release
     called by qh_triangulate_facet after triangulating a non-simplicial facet, followed by reset_lists
     called by qh_triangulate after triangulating null and mirror facets
+    called by qh_all_vertexmerges after calling qh_merge_pinchedvertices
 
   design:
     if qh.VERTEXneighbors
@@ -1294,8 +1298,13 @@ void qh_update_vertexneighbors(void /* qh.newvertex_list, newfacet_list, visible
       }
     }
     FORALLnew_facets {
-      FOREACHvertex_(newfacet->vertices)
-        qh_setunique(&vertex->neighbors, newfacet); /* was qh_setappend before pinched vertex merge in qh_addpoint, could be optimized */
+      if (qh first_newfacet && newfacet->id >= qh first_newfacet) {
+        FOREACHvertex_(newfacet->vertices)
+          qh_setappend(&vertex->neighbors, newfacet);
+      }else {  /* called after qh_merge_pinchedvertices.  In 7-D, many more neighbors than new facets.  qh_setin is expensive */
+        FOREACHvertex_(newfacet->vertices)
+          qh_setunique(&vertex->neighbors, newfacet); 
+      }
     }
     trace3((qh ferr, 3058, "qh_update_vertexneighbors: delete interior vertices for qh.visible_list (f%d)\n",
         getid_(qh visible_list)));

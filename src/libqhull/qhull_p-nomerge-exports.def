@@ -1,14 +1,14 @@
 ; qhull_p-nomerge-exports.def -- msvc module-definition file
 ;
 ;   Generated from depends.exe by cut-and-paste of exported symbols by mingw gcc
-;   [mar'11] 399 symbols [jan'15] added 3 symbols
+;   [jan'14] 391 symbols 
 ;   Annotate as DATA qh_last_random qh_qh qh_qhstat qhmem rbox rbox_inuse
 ;   Annotate as __declspec for outside access in win32 -- qh_qh qh_qhstat
-;   Same as ../libqhullp/qhull-nomerge-exports.def with qh_save_qhull and qh_restore_qhull
+;   Same as ../libqhull/qhull-nomerge-exports.def with qh_save_qhull and qh_restore_qhull
 ;
-; $Id: //main/2019/qhull/src/libqhull/qhull_p-nomerge-exports.def#1 $$Change: 2661 $
-; $DateTime: 2019/05/24 20:09:58 $$Author: bbarber $
-;
+; $Id: //main/2019/qhull/src/libqhull/qhull_p-nomerge-exports.def#3 $$Change: 2703 $
+; $DateTime: 2019/06/26 10:41:19 $$Author: bbarber $
+; 
 ; Define qhull_VERSION in CMakeLists.txt, Makefile, qhull-exports.def, qhull_p-exports.def, qhull_r-exports.def, and qhull-warn.pri
 VERSION 7.0
 EXPORTS
@@ -319,6 +319,7 @@ qh_sethyperplane_gauss
 qh_setin
 qh_setindex
 qh_setlarger
+qh_setlarger_quick
 qh_setlast
 qh_setnew
 qh_setnew_delnthsorted
