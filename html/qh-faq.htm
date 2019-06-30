@@ -86,7 +86,7 @@ using joggled input ('<a href="qh-optq.htm#QJn">QJ</a>').
 
 <hr>
 
-<h2><a href="#TOP">&#187;</a><a name="TOC">FAQ: Table of Contents </a></h2>
+<h2><a href="#TOP">&#187;</a><a name="TOC">FAQ: Table of Contents</a></h2>
 
 <p>Within each category, the most recently asked questions are
 first.
@@ -125,7 +125,7 @@ first.
         <li><a href="#3dd">How</a> do I construct a 3-d Delaunay triangulation?
         <li><a href="#2d">How</a> do I get the triangles for a 2-d Delaunay
     triangulation and the vertices of its Voronoi diagram?
-        <li><a href="#big">Can </a>Qhull triangulate a
+        <li><a href="#big">Can</a> Qhull triangulate a
             hundred 16-d points?</li>
         </ul>
 
@@ -335,8 +335,8 @@ find the ones that you need. </p>
 
 <p>You will need to decide how Qhull should handle precision
 problems. It can triangulate the output ('<a
- href="qh-optq.htm#Qt" >Qt</a>'), joggle the input ('<a
- href="qh-optq.htm#QJn" >QJ</a>'), or merge facets (the default). </p>
+ href="qh-optq.htm#Qt">Qt</a>'), joggle the input ('<a
+ href="qh-optq.htm#QJn">QJ</a>'), or merge facets (the default). </p>
 
 <ul>
     <li>With triangulated output, Qhull merges facets and triangulates
@@ -417,7 +417,7 @@ Statistics for: rbox c D2 | qconvex FA
 points in a 4-d or higher convex hull?</h4><blockquote>
 
 <p>Options '<a
-href="qh-opto.htm#i" >i</a>' (in 4-D and higher) and '<a href="qh-optf.htm#Ft">Ft</a>'
+href="qh-opto.htm#i">i</a>' (in 4-D and higher) and '<a href="qh-optf.htm#Ft">Ft</a>'
  (in 3-D and higher) use "extra" points for non-simplicial facets (e.g., a face
 of a cube or hypercube).  These points are not part
 of the convex hull.  Options 'i' and 'Ft' triangulate non-simplicial facets using
@@ -497,7 +497,7 @@ C:\qhull&gt;rbox c D4 | qconvex Pd0:0.5 Fv
 </blockquote>
 
 <p>The coordinates of the extra point are printed with the '<A
-href="qh-optf.htm#Ft" >Ft</a>' option.  For centrums, option 'Ft' uses
+href="qh-optf.htm#Ft">Ft</a>' option.  For centrums, option 'Ft' uses
 indices one less than option 'i'.  In this case, point 16 represents
 the centrum of the facet.</p>
 
@@ -687,8 +687,8 @@ occurs twice. Once for tetrahedron 9 5 8 7 and the other for
 tetrahedron 2 9 5 8. </p>
 
 <p>You can also use the Qhull library to generate the triangles.
-See "<a href="#ridges2">How</a> do I visit the ridges of a
-Delaunay triangulation?"</p>
+See '<a href="#ridges2">How</a> do I visit the ridges of a
+Delaunay triangulation?'</p>
 
 </blockquote><h4><a href="#TOC">&#187;</a><a name="3dd">How</a> do I construct a
 3-d Delaunay triangulation?</h4><blockquote>
@@ -750,10 +750,8 @@ C:\qhull&gt;rbox r y c G0.1 | qdelaunay Fv
 </blockquote>
 
 <p>If you want simplicial output use options
-'<a href="qh-optq.htm#Qt">Qt</a> <A
- href="qh-optf.htm#Ft" >i</a>' or
-'<a href="qh-optq.htm#QJn">QJ</a> <A
- href="qh-optf.htm#Ft" >i</a>', e.g.,
+'<a href="qh-optq.htm#Qt">Qt</a> <a href="qh-optf.htm#Ft">i</a>' or
+'<a href="qh-optq.htm#QJn">QJ</a> <a href="qh-optf.htm#Ft">i</a>', e.g.,
 </p>
 
 <blockquote>
@@ -849,7 +847,7 @@ or
     <p>rbox 10 D2 | qconvex Fx </p>
 </blockquote>
 
-</blockquote><h4><a href="#TOC">&#187;</a><a name="big">Can </a>Qhull triangulate
+</blockquote><h4><a href="#TOC">&#187;</a><a name="big">Can</a> Qhull triangulate
 a hundred 16-d points?</h4><blockquote>
 
 <p>No. This is an immense structure. A triangulation of 19, 16-d
@@ -860,8 +858,7 @@ megabytes of memory. When Qhull uses virtual memory, it becomes
 too slow to use. </p>
 
 </blockquote>
-<h2><a href="#TOC">&#187;</a><a name="voronoi">Voronoi
-diagram questions</a></h2>
+<h2><a href="#TOC">&#187;</a><a name="voronoi">Voronoi diagram questions</a></h2>
 
 <h4><a href="#TOC">&#187;</a><a name="volume">How</a> do I compute the volume of a Voronoi region?</h4><blockquote>
 
@@ -1475,9 +1472,9 @@ side of a lens-shaped distribution may be closer to a point than
 all of the facet's neighbors. The exhaustive search may be
 skipped for spherical distributions. </p>
 
-<p>Also see, "<a href="#vclosest">How</a> do I find the
+<p>Also see, '<a href="#vclosest">How</a> do I find the
 Delaunay triangle that is closest to a
-point?" </p>
+point?' </p>
 
 </blockquote><h4><a href="#TOC">&#187;</a><a name="vclosest">How</a> do I find the
 Delaunay triangle or Voronoi region that is closest to a point?</h4><blockquote>
@@ -1496,7 +1493,7 @@ adjacent facet.  Determine the closest vertex to find the corresponding
 Voronoi region.  Do not use options
 '<a href="qh-optq.htm#Qbb">Qbb</a>', '<a href="qh-optq.htm#QbB">QbB</a>',
 '<a href="qh-optq.htm#Qbk">Qbk:n</a>', or '<A
- href="qh-optq.htm#QBk" >QBk:n</a>' since these scale the last
+ href="qh-optq.htm#QBk">QBk:n</a>' since these scale the last
 coordinate.  Optimizations of qh_findbestfacet() should
 be possible for Delaunay triangulations.</p>
 
@@ -1525,14 +1522,13 @@ the point, or it is the
 closest Delaunay triangle along the convex hull of the input set.
 
 <p>Point location is an active research area in Computational
-Geometry.  For a practical approach, see Mucke, et al, "Fast randomized
-point location without preprocessing in two- and
-three-dimensional Delaunay triangulations," <i>Computational
-Geometry '96</i>, p. 274-283, May 1996.
+Geometry.  For a practical approach, see Mucke, et al,
+"Fast randomized point location without preprocessing in two- and three-dimensional Delaunay triangulations,"
+<i>Computational Geometry '96</i>, p. 274-283, May 1996.
 For an introduction to planar point location see [O'Rourke '93].
-Also see, "<A
+Also see, '<A
  href="#closest" >How</a> do I find the facet that is closest to a
-point?" </p>
+point?' </p>
 
 <p>To locate the closest Voronoi region, determine the closest
 vertex of the closest Delaunay triangle. </p>
@@ -1599,8 +1595,7 @@ the vertex order and the flag facet-&gt;toporient.</p>
 </blockquote>
 <hr><!-- Navigation links -->
 
-<p><a><b>Up:</b> </a><a
- href="http://www.qhull.org">Home page</a> for Qhull (<a href="../index.htm">local</a>)<br>
+<p><b>Up:</b><a href="http://www.qhull.org">Home page</a> for Qhull (<a href="../index.htm">local</a>)<br>
 <b>Up:</b> <a href="http://github.com/qhull/qhull/wiki">Qhull Wiki</a> and
 <a href="http://www.qhull.org/html/qh-faq.htm">FAQ</a> (<a href="qh-faq.htm">local</a>) <br>
 <b>Up:</b> <a href="index.htm#TOC">Qhull manual</a>: Table of Contents <br>

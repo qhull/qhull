@@ -27,7 +27,7 @@
 
 <p>This section lists the format options for Qhull. These options
 are indicated by 'F' followed by a letter. See <A
- href="qh-opto.htm#output" >Output</a>, <a href="qh-optp.htm#print">Print</a>,
+ href="qh-opto.htm#output">Output</a>, <a href="qh-optp.htm#print">Print</a>,
 and <a href="qh-optg.htm#geomview">Geomview</a> for other output
 options. </p>
 
@@ -128,8 +128,7 @@ may also be used.</p>
 
 <hr>
 
-<h3><a href="#format">&#187;</a><a name="Fa">Fa - print area for each
-facet </a></h3>
+<h3><a href="#format">&#187;</a><a name="Fa">Fa - print area for each facet</a></h3>
 
 <p>The first line is the number of facets. The remaining lines
 are the area for each facet, one facet per line. See '<A
@@ -155,18 +154,18 @@ facet's hyperplane. If so, the approximation is less than the
 actual value and it may be significantly less or 0.0. </p>
 
 <h3><a href="#format">&#187;</a><a name="FA">FA - compute total area
-and volume for option 's' </a></h3>
+and volume for option 's'</a></h3>
 
 <p>With option 'FA', Qhull includes the total area and volume in
 the summary ('<a href="qh-opto.htm#s">s</a>').  Option '<a href="#FS">FS</a>' also includes the total area and volume.
 If facets are
 merged, the area and volume are approximations. Option 'FA' is
 automatically set for options '<a href="#Fa">Fa</a>', '<A
- href="qh-optp.htm#PAn" >PAn</a>', and '<a href="qh-optp.htm#PFn">PFn</a>'.
+ href="qh-optp.htm#PAn">PAn</a>', and '<a href="qh-optp.htm#PFn">PFn</a>'.
 </p>
 
 <p>With '<a href="qdelaun.htm">qdelaunay</a> <A
- href="qh-opto.htm#s" >s</a> FA', Qhull computes the total area of
+ href="qh-opto.htm#s">s</a> FA', Qhull computes the total area of
 the Delaunay triangulation. This equals the volume of the convex
 hull of the data points. With options '<a href="qdelau_f.htm">qdelaunay Qu</a>
 <a href="qh-opto.htm#s">s</a> FA', Qhull computes the
@@ -176,7 +175,7 @@ equals of the total area of the Delaunay triangulation. </p>
 <p>See '<a href="#Fa">Fa</a>' for further details.  Option '<a href="#FS">FS</a>' also computes the total area and volume.</p>
 
 <h3><a href="#format">&#187;</a><a name="Fc">Fc - print coplanar
-points for each facet </a></h3>
+points for each facet</a></h3>
 
 <p>The output starts with the number of facets. Then each facet
 is printed one per line. Each line is the number of coplanar
@@ -196,7 +195,7 @@ coplanar point coordinates. Use '<a href="qh-optf.htm#Fv">Fv</a>'
 to print vertices. </p>
 
 <h3><a href="#format">&#187;</a><a name="FC">FC - print centrum or
-Voronoi vertex for each facet </a></h3>
+Voronoi vertex for each facet</a></h3>
 
 <p>The output starts with the dimension followed by the number of
 facets. Then each facet centrum is printed, one per line. For
@@ -204,7 +203,7 @@ facets. Then each facet centrum is printed, one per line. For
 printed instead. </p>
 
 <h3><a href="#format">&#187;</a><a name="Fd">Fd - use cdd format for
-input </a></h3>
+input</a></h3>
 
 <p>The input starts with comments. The first comment is reported
 in the summary. Data starts after a "begin" line. The
@@ -221,11 +220,11 @@ convention. The first two lines of the input may be an interior
 point in '<a href="#FV">FV</a>' format.</p>
 
 <h3><a href="#format">&#187;</a><a name="FD">FD - use cdd format for
-normals </a></h3>
+normals</a></h3>
 
 <p>Option 'FD' prints normals ('<a href="qh-opto.htm#n">n</a>', '<A
  href="#Fo" >Fo</a>', '<a href="#Fi">Fi</a>') or points ('<A
- href="qh-opto.htm#p" >p</a>') in cdd format. The first line is the
+ href="qh-opto.htm#p">p</a>') in cdd format. The first line is the
 command line that invoked Qhull. Data starts with a
 "begin" line. The next line is the number of normals or
 points followed by the dimension plus one and "real".
@@ -234,17 +233,15 @@ coefficients. The offset for points is 1.0. For normals,
 the offset and coefficients use the opposite sign from Qhull.
 The data ends with an "end" line.</p>
 
-<h3><a href="#format">&#187;</a><a name="FF">FF - print facets w/o
-ridges </a></h3>
+<h3><a href="#format">&#187;</a><a name="FF">FF - print facets w/o ridges</a></h3>
 
 <p>Option 'FF' prints all fields of all facets (as in '<A
- href="qh-opto.htm#f" >f</a>') without printing the ridges. This is
+ href="qh-opto.htm#f">f</a>') without printing the ridges. This is
 useful in higher dimensions where a facet may have many ridges.
 For simplicial facets, options 'FF' and '<a href="qh-opto.htm#f">f
 </a>' are equivalent.</p>
 
-<h3><a href="#format">&#187;</a><a name="Fi">Fi - print inner planes
-for each facet </a></h3>
+<h3><a href="#format">&#187;</a><a name="Fi">Fi - print inner planes for each facet</a></h3>
 
 <p>The first line is the dimension plus one. The second line is
 the number of facets. The remainder is one inner plane per line.
@@ -255,7 +252,7 @@ It is an offset from the facet's hyperplane. It includes a
 roundoff error for computing the vertex distance.</p>
 
 <p>Note that the inner planes for Geomview output ('<A
- href="qh-optg.htm#Gi" >Gi</a>') include an additional offset for
+ href="qh-optg.htm#Gi">Gi</a>') include an additional offset for
 vertex visualization and roundoff error. </p>
 
 <h3><a href="#format">&#187;</a><a name="Fi2">Fi - print separating
@@ -269,7 +266,7 @@ number of indices and floats. The first pair of indices indicates
 an adjacent pair of input sites. The next <i>d</i> floats are the
 normalized coefficients for the hyperplane, and the last float is
 the offset. The hyperplane is oriented toward '<A
- href="qh-optq.htm#QVn" >QVn</a>' (if defined), or the first input
+ href="qh-optq.htm#QVn">QVn</a>' (if defined), or the first input
 site of the pair. </p>
 
 <p>Use '<a href="qh-optf.htm#Fo2">Fo</a>' for unbounded regions,
@@ -287,16 +284,14 @@ non-zero. The deviations appear to be largest when the
 corresponding Delaunay triangles are large and thin; for example,
 the Voronoi diagram of nearly cospherical points. </p>
 
-<h3><a href="#format">&#187;</a><a name="FI">FI - print ID for each
-facet </a></h3>
+<h3><a href="#format">&#187;</a><a name="FI">FI - print ID for each facet</a></h3>
 
 <p>Print facet identifiers. These are used internally and listed
 with options '<a href="qh-opto.htm#f">f</a>' and '<a href="#FF">FF</a>'.
-Options '<a href="#Fn">Fn </a>' and '<a href="#FN">FN</a>' use
+Options '<a href="#Fn">Fn</a>' and '<a href="#FN">FN</a>' use
 facet identifiers for negative indices. </p>
 
-<h3><a href="#format">&#187;</a><a name="Fm">Fm - print merge count
-for each facet </a></h3>
+<h3><a href="#format">&#187;</a><a name="Fm">Fm - print merge count for each facet</a></h3>
 
 <p>The first line is the number of facets. The remainder is the
 number of merges for each facet, one per line. At most 511 merges
@@ -304,7 +299,7 @@ are reported for a facet. See '<a href="qh-optp.htm#PMn">PMn</a>'
 for printing the facets with the most merges. </p>
 
 <h3><a href="#format">&#187;</a><a name="FM">FM - print Maple
-output </a></h3>
+output</a></h3>
 
 <p>Qhull writes a Maple file for 2-d and 3-d convex hulls,
 2-d and 3-d halfspace intersections,
@@ -364,7 +359,7 @@ convex hull.
 for other URLs.
 
 <h3><a href="#format">&#187;</a><a name="Fn">Fn - print neighboring
-facets for each facet </a></h3>
+facets for each facet</a></h3>
 
 <p>The output starts with the number of facets. Then each facet
 is printed one per line. Each line is the number of neighbors
@@ -381,11 +376,11 @@ the neighbors are unordered.
 only good facets ('<a href="qh-optp.htm#Pg">Pg</a>', <a href="qdelaun.htm" >qdelaunay</a>,
 <a href="qvoronoi.htm" >qvoronoi</a>). It
 is the negation of the facet's ID (option '<a href="#FI">FI</a>').
-For example, negative indices are used for facets "at
-infinity" in the Delaunay triangulation.</p>
+For example, negative indices are used for facets "at infinity" in
+the Delaunay triangulation.</p>
 
 <h3><a href="#format">&#187;</a><a name="FN">FN - print neighboring
-facets for each point </a></h3>
+facets for each point</a></h3>
 
 <p>The first line is the number of points. Then each point is
 printed, one per line. For unassigned points (either interior or
@@ -393,7 +388,7 @@ coplanar), the line is "0". For assigned coplanar
 points ('<a href="qh-optq.htm#Qc">Qc</a>'), the line is
 "1" followed by the index of the facet that is furthest
 below the point. For assigned interior points ('<A
- href="qh-optq.htm#Qi" >Qi</a>'), the line is "1"
+ href="qh-optq.htm#Qi">Qi</a>'), the line is "1"
 followed by the index of the facet that is least above the point.
 For vertices that do not belong to good facet, the line is
 "0"</p>
@@ -416,15 +411,14 @@ Delaunay triangulation.</p>
 Voronoi region for each input site. Option 'FN' lists the regions
 in site ID order. Option 'FN' corresponds to the second half of
 option '<a href="qh-opto.htm#o">o</a>'. To convert from 'FN' to '<A
- href="qh-opto.htm#o" >o</a>', replace negative indices with zero
+ href="qh-opto.htm#o">o</a>', replace negative indices with zero
 and increment non-negative indices by one. </p>
 
 <p>If you are using the <a href="qh-code.htm#library">Qhull
 library</a> or <a href="qh-code.htm#cpp">C++ interface</a>, option 'FN' has the side effect of reordering the
 neighbors for a vertex </p>
 
-<h3><a href="#format">&#187;</a><a name="Fo">Fo - print outer planes
-for each facet </a></h3>
+<h3><a href="#format">&#187;</a><a name="Fo">Fo - print outer planes for each facet</a></h3>
 
 <p>The first line is the dimension plus one. The second line is
 the number of facets. The remainder is one outer plane per line.
@@ -442,7 +436,7 @@ distance is used instead. This can be much larger than the actual
 outer planes.</p>
 
 <p>Note that the outer planes for Geomview output ('<A
- href="qh-optg.htm#G" >G</a>') include an additional offset for
+ href="qh-optg.htm#G">G</a>') include an additional offset for
 vertex/point visualization, 'lines closer,' and roundoff error.</p>
 
 <h3><a href="#format">&#187;</a><a name="Fo2">Fo - print separating
@@ -456,7 +450,7 @@ number of indices and floats. The first pair of indices indicates
 an adjacent pair of input sites. The next <i>d</i> floats are the
 normalized coefficients for the hyperplane, and the last float is
 the offset. The hyperplane is oriented toward '<A
- href="qh-optq.htm#QVn" >QVn</a>' (if defined), or the first input
+ href="qh-optq.htm#QVn">QVn</a>' (if defined), or the first input
 site of the pair. </p>
 
 <p>Option 'Fo' gives the hyperplanes for the unbounded rays of
@@ -469,8 +463,7 @@ and '<a href="qh-optf.htm#Fv2">Fv</a>' for the corresponding
 Voronoi vertices. Use '<a href="qh-optt.htm#Tv">Tv</a>' to verify
 that the corresponding Voronoi vertices lie on the hyperplane. </p>
 
-<h3><a href="#format">&#187;</a><a name="FO">FO - print list of
-selected options </a></h3>
+<h3><a href="#format">&#187;</a><a name="FO">FO - print list of selected options</a></h3>
 
 <p>Lists selected options and default values to stderr.
 Additional 'FO's are printed to stdout. </p>
@@ -490,8 +483,7 @@ is its offset, the halfspace intersection occurs at
 [x/-b,y/-b,z/-b] plus the interior point. If <i>b&gt;=0</i>, the
 halfspace intersection is unbounded. </p>
 
-<h3><a href="#format">&#187;</a><a name="FP">FP - print nearest
-vertex for coplanar points </a></h3>
+<h3><a href="#format">&#187;</a><a name="FP">FP - print nearest vertex for coplanar points</a></h3>
 
 <p>The output starts with the number of coplanar points. Then
 each coplanar point is printed one per line. Each line is the
@@ -500,7 +492,7 @@ point, the corresponding facet ID, and the distance. Sort the
 lines to list the coplanar points nearest to each vertex. </p>
 
 <p>Use options '<a href="qh-optq.htm#Qc">Qc</a>' and/or '<A
- href="qh-optq.htm#Qi" >Qi</a>' with 'FP'. Options 'Qc FP' prints
+ href="qh-optq.htm#Qi">Qi</a>' with 'FP'. Options 'Qc FP' prints
 coplanar points while 'Qci FP' prints coplanar and interior
 points.  Option 'Qc' is automatically selected if 'Qi' is not
 selected.
@@ -519,11 +511,10 @@ facets are triangulated ('<a href="qh-optq.htm#Qt">Qt</a>'), option
 'FP' may be inefficient.  It redetermines the original vertex set
 for each coplanar point.</p>
 
-<h3><a href="#format">&#187;</a><a name="FQ">FQ - print command for
-qhull and input </a></h3>
+<h3><a href="#format">&#187;</a><a name="FQ">FQ - print command for qhull and input</a></h3>
 
-<p>Prints qhull and input command, e.g., "rbox 10 s | qhull
-FQ".   Option 'FQ' may be repeated multiple times.</p>
+<p>Prints qhull and input command, e.g., 'rbox 10 s | qhull FQ'.
+Option 'FQ' may be repeated multiple times.</p>
 
 <h3><a href="#format">&#187;</a><a name="Fs">Fs - print summary</a></h3>
 
@@ -571,8 +562,8 @@ or reals.</p>
 <p>The total volume measures the volume of the intersection of
 the halfspaces defined by each facet. It is computed from the
 facet area. Both area and volume are approximations for
-non-simplicial facets. See option '<a href="#Fa">Fa </a>' for
-further notes. Option '<a href="#FA">FA </a>' also computes the total area and volume. </p>
+non-simplicial facets. See option '<a href="#Fa">Fa</a>' for
+further notes. Option '<a href="#FA">FA</a>' also computes the total area and volume. </p>
 
 <h3><a href="#format">&#187;</a><a name="Ft">Ft - print triangulation</a></h3>
 
@@ -610,8 +601,8 @@ may even have a flipped orientation. Use triangulated input ('<A
 same as option '<a href="qh-opto.htm#o">o</a>' without the lifted
 coordinate.  Since 'Ft' is invalid for merged Delaunay facets, option
 'Ft' is not available for qdelaunay or qvoronoi.  It may be used with
-joggled input ('<a  href="qh-optq.htm#QJn" >QJ</a>') or triangulated output ('<A
- href="qh-optq.htm#Qt" >Qt</a>'), for example, rbox 10 c G 0.01 | qhull d QJ Ft</p>
+joggled input ('<a  href="qh-optq.htm#QJn">QJ</a>') or triangulated output ('<A
+ href="qh-optq.htm#Qt">Qt</a>'), for example, rbox 10 c G 0.01 | qhull d QJ Ft</p>
 
 <p>If you add a point-at-infinity with '<a href="qh-optq.htm#Qz">Qz</a>',
 it is printed after the input sites and before any centrums. It
@@ -649,7 +640,7 @@ unbounded ray is directed from the Voronoi vertices to infinity. </p>
 
 <p>Use '<a href="qh-optf.htm#Fo2">Fo</a>' for separating
 hyperplanes of outer, unbounded regions. Use '<A
- href="qh-optf.htm#Fi2" >Fi</a>' for separating hyperplanes of
+ href="qh-optf.htm#Fi2">Fi</a>' for separating hyperplanes of
 inner, bounded regions. </p>
 
 <p>Option 'Fv' does not list ridges that require more than one
@@ -668,8 +659,7 @@ can formally describe these cases or
 write code to handle them, please send email to <A
  href="mailto:qhull@qhull.org" >qhull@qhull.org</a>. </p>
 
-<h3><a href="#format">&#187;</a><a name="FV">FV - print average
-vertex </a></h3>
+<h3><a href="#format">&#187;</a><a name="FV">FV - print average vertex</a></h3>
 
 <p>The average vertex is the average of all vertex coordinates.
 It is an interior point for halfspace intersection. The first
@@ -696,7 +686,7 @@ counterclockwise order (by qh_ORIENTclock in user.h). </p>
 
 <p>In 3-d and higher convex hulls, the extreme points (vertices)
 are sorted by index. This is the same order as option '<A
- href="qh-opto.htm#p" >p</a>' when it doesn't include coplanar or
+ href="qh-opto.htm#p">p</a>' when it doesn't include coplanar or
 interior points. </p>
 
 <p>For Delaunay triangulations, 'Fx' lists the extreme

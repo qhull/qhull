@@ -57,7 +57,7 @@ by O'Rourke [<a href="index.htm#orou94">'94</a>]. </p>
         regions to the console.  Produce triangulated output.</dd>
     <dt>&nbsp;</dt>
     <dt><b>Example:</b> rbox 10 D2 | qdelaunay <a
-        href="qh-optq.htm#QJn">QJ</a> <a href="qh-opto.htm#s">s</a>
+        href="qh-optq.htm#QJ">QJ</a> <a href="qh-opto.htm#s">s</a>
         <a href="qh-opto.htm#i">i</a> <a href="qh-optt.htm#TO">TO
         result</a></dt>
     <dd>Compute the 2-d Delaunay triangulation of 10 random
@@ -70,7 +70,7 @@ by O'Rourke [<a href="index.htm#orou94">'94</a>]. </p>
 <p>Qhull computes the Delaunay triangulation by computing a
 convex hull. It lifts the input sites to a paraboloid by adding
 the sum of the squares of the coordinates. It scales the height
-of the paraboloid to improve numeric precision ('<a href=qh-optq.htm#Qbb>Qbb</a>').
+of the paraboloid to improve numeric precision ('<a href="qh-optq.htm#Qbb">Qbb</a>').
 It computes the convex
 hull of the lifted sites, and projects the lower convex hull to
 the input.
@@ -82,7 +82,7 @@ href="qdelau_f.htm">furthest-site Delaunay triangulation</a>.
 See the examples, <a href="qh-eg.htm#delaunay">Delaunay and
 Voronoi diagrams</a>.</p>
 
-<p>See <a href="http://www.qhull.org/html/qh-faq.htm#TOC">Qhull FAQ</a> (qh-faq.htm#TOC">local</a>) - Delaunay and
+<p>See <a href="http://www.qhull.org/html/qh-faq.htm#TOC">Qhull FAQ</a> (<a href="qh-faq.htm#TOC">local</a>) - Delaunay and
 Voronoi diagram questions.</p>
 
 <p>By default, qdelaunay merges cocircular and cospherical regions.
@@ -113,7 +113,7 @@ joggled input ('<a href="qh-optq.htm#QJn">QJ</a>').
 </p>
 
 <p>The 'qdelaunay' program is equivalent to
-'<a href=qhull.htm#outputs>qhull d</a> <a href=qh-optq.htm#Qbb>Qbb</a>'.
+'<a href="qhull.htm#outputs">qhull d</a> <a href="qh-optq.htm#Qbb">Qbb</a>'.
 It disables the following Qhull
 <a href=qh-quick.htm#options>options</a>: <i>d n v H U Qb QB Qc Qf Qg Qi
 Qm Qr Qv Qx TR E V FC Fi Fo Fp Ft FV Q0,etc</i>.
@@ -171,7 +171,7 @@ input</a></h3>
 </ul>
 
 <p>Use I/O redirection (e.g., qdelaunay &lt; data.txt), a pipe (e.g., rbox 10 | qdelaunay),
-or the '<a href=qh-optt.htm#TI>TI</a>' option (e.g., qdelaunay TI data.txt).
+or the '<a href="qh-optt.htm#TI">TI</a>' option (e.g., qdelaunay TI data.txt).
 
 <p>For example, this is four cocircular points inside a square.  Its Delaunay
 triangulation contains 8 triangles and one four-sided
@@ -345,7 +345,7 @@ degenerate facets of zero area.</dd>
         'good').</dd>
     <dt><a href="qh-optt.htm#Tv">Tv</a></dt>
     <dd>verify result.</dd>
-    <dt><a href="qh-optt.htm#TO">TI file</a></dt>
+    <dt><a href="qh-optt.htm#TI">TI file</a></dt>
     <dd>input data from file.  The filename may not use spaces or quotes.</dd>
     <dt><a href="qh-optt.htm#TO">TO file</a></dt>
     <dd>output results to file.  Use single quotes if the filename
@@ -370,12 +370,14 @@ href="qh-optg.htm#G">G</a>') displays the corresponding convex
 hull (a paraboloid). </p>
 
 <p>To view a 2-d Delaunay triangulation, use 'qdelaunay <a
-href="qh-optg.htm#GDn">GrD2</a>' to drop the last dimension. This
+href="qh-optg.htm#GDn">GrD2</a>' to drop the last dimension and view ridges.
+This
 is the same as viewing the hull without perspective (see
 Geomview's 'cameras' menu). </p>
 
 <p>To view a 3-d Delaunay triangulation, use 'qdelaunay <a
-href="qh-optg.htm#GDn">GrD3</a>' to drop the last dimension. You
+href="qh-optg.htm#GDn">GrD3</a>' to drop the last dimension and
+view ridges. You
 may see extra edges. These are interior edges that Geomview moves
 towards the viewer (see 'lines closer' in Geomview's camera
 options). Use option '<a href="qh-optg.htm#Gt">Gt</a>' to make

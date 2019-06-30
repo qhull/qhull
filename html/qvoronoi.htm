@@ -102,11 +102,11 @@ for further processing [see <a href="#graphics">graphics</a>].</p>
 <p>Use option '<a href="qh-optq.htm#Qz">Qz</a>' if the input is circular, cospherical, or
 nearly so.  It improves precision by adding a point "at infinity," above the corresponding paraboloid.
 
-<p>See <a href="http://www.qhull.org/html/qh-faq.htm#TOC">Qhull FAQ</a> (qh-faq.htm#TOC">local</a>) - Delaunay and
+<p>See <a href="http://www.qhull.org/html/qh-faq.htm#TOC">Qhull FAQ</a> (<a href="qh-faq.htm#TOC">local</a>) - Delaunay and
 Voronoi diagram questions.</p>
 
 <p>The 'qvonoroi' program is equivalent to
-'<a href=qhull.htm#outputs>qhull v</a> <a href=qh-optq.htm#Qbb>Qbb</a>'.  It disables the following Qhull
+'<a href="qhull.htm#outputs">qhull v</a> <a href="qh-optq.htm#Qbb">Qbb</a>'.  It disables the following Qhull
 <a href=qh-quick.htm#options>options</a>: <i>d n v Qbb QbB Qf Qg Qm
 Qr Qv Qx Qz TR E V Fa FA FC FD FS Ft FV Gt Q0,etc</i>.
 
@@ -159,7 +159,7 @@ The input data on <tt>stdin</tt> consists of:
 </ul>
 
 <p>Use I/O redirection (e.g., qvoronoi &lt; data.txt), a pipe (e.g., rbox 10 | qvoronoi),
-or the '<a href=qh-optt.htm#TI>TI</a>' option (e.g., qvoronoi TI data.txt).
+or the '<a href="qh-optt.htm#TI">TI</a>' option (e.g., qvoronoi TI data.txt).
 
 <p>For example, this is four cocircular points inside a square.  Their Voronoi
 diagram has nine vertices and eight regions.  Notice the Voronoi vertex
@@ -351,7 +351,7 @@ controls</a></h3>
         (e.g., 'rbox c | qvoronoi Qz').</dd>
     <dt><a href="qh-optt.htm#Tv">Tv</a></dt>
     <dd>verify result</dd>
-    <dt><a href="qh-optt.htm#TO">TI file</a></dt>
+    <dt><a href="qh-optt.htm#TI">TI file</a></dt>
     <dd>input data from file.  The filename may not use spaces or quotes.</dd>
     <dt><a href="qh-optt.htm#TO">TO file</a></dt>
     <dd>output results to file.  Use single quotes if the filename
@@ -361,7 +361,7 @@ controls</a></h3>
     <dt><a href="qh-optp.htm#PDk">PDk:1</a></dt>
     <dd>include upper and lower facets in the output.  Set <em>k</em>
         to the last dimension (e.g., 'PD2:1' for 2-d inputs). </dd>
-    <dt><a href="qh-opto.htm#f">f </a></dt>
+    <dt><a href="qh-opto.htm#f">f</a></dt>
     <dd>facet dump.  Print the data structure for each facet (i.e.,
         Voronoi vertex).</dd>
 </dl>

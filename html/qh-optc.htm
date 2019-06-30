@@ -132,8 +132,7 @@ maximum roundoff error.</p>
 <p>If 'An' is set without '<a href="#Cn2">Cn</a>', then '<a
 href="#Cn2">C0</a>' is automatically set. </p>
 
-<h3><a href="#prec">&#187;</a><a name="C0">C-0 - handle all precision
-errors </a></h3>
+<h3><a href="#prec">&#187;</a><a name="C0">C-0 - handle all precision errors</a></h3>
 
 <p>Qhull handles precision errors by merging facets. The default option 'C-0'
 handles all precision errors in 2-d, 3-d, and 4-d. It may be used in higher dimensions, but
@@ -203,30 +202,27 @@ convex. The statistic &quot;max. distance of a new vertex to a
 facet&quot; (from option '<a href="qh-optt.htm#Ts">Ts</a>') is a
 reasonable upper bound for the actual roundoff error. </p>
 
-<h3><a href="#prec">&#187;</a><a name="Rn">Rn - randomly perturb
-computations </a></h3>
+<h3><a href="#prec">&#187;</a><a name="Rn">Rn - randomly perturb computations</a></h3>
 
 <p>This option perturbs every distance, hyperplane, and angle
 computation by up to <i>(+/- n * max_coord)</i>. It simulates the
 effect of roundoff errors. Unless '<a href="#En">En</a>' is
 explicitly set, it is adjusted for 'Rn'. The command 'qhull Rn'
 will generate a convex hull despite the perturbations. See the <a
-href="qh-eg.htm#merge">Examples </a>section for an example.</p>
+href="qh-eg.htm#merge">Examples</a> section for an example.</p>
 
 <p>Options 'Rn C-n' have the effect of '<a href="#Wn">W2n</a>'
 and '<a href="#Cn">C-2n</a>'. To use time as the random number
 seed, use option '<a href="qh-optq.htm#QRn">QR-1</a>'.</p>
 
-<h3><a href="#prec">&#187;</a><a name="Un">Un - max distance for a
-new, coplanar point </a></h3>
+<h3><a href="#prec">&#187;</a><a name="Un">Un - max distance for a new, coplanar point</a></h3>
 
 <p>This allows the user to set coplanarity. When pre-merging ('<a
-href="#Cn">C-n </a>', '<a href="#An">A-n</a>' or '<a
+href="#Cn">C-n</a>', '<a href="#An">A-n</a>' or '<a
 href="qh-optq.htm#Qx">Qx</a>'), Qhull merges a new point into any
 coplanar facets. The default value for 'Un' is '<a href="#Vn">Vn</a>'.</p>
 
-<h3><a href="#prec">&#187;</a><a name="Vn">Vn - min distance for a
-visible facet </a></h3>
+<h3><a href="#prec">&#187;</a><a name="Vn">Vn - min distance for a visible facet</a></h3>
 
 <p>This allows the user to set facet visibility. When adding a
 point to the convex hull, Qhull determines all facets that are
@@ -237,7 +233,7 @@ the point to the facet is greater than 'Vn'.</p>
 error ('<a href="#En">En</a>'). With merging, the default value
 is the pre-merge centrum ('<a href="#Cn">C-n</a>') in 2-d or 3-d,
 or three times that in other dimensions. If the outside width is
-specified with option '<a href="#Wn">Wn </a>', the maximum,
+specified with option '<a href="#Wn">Wn</a>', the maximum,
 default value for 'Vn' is '<a href="#Wn">Wn</a>'.</p>
 
 <p>Qhull warns if 'Vn' is greater than '<a href="#Wn">Wn</a>' and
@@ -251,7 +247,7 @@ plane for outside points</a></h3>
 <p>Points are added to the convex hull only if they are clearly
 outside of a facet. A point is outside of a facet if its distance
 to the facet is greater than 'Wn'. Without pre-merging, the
-default value for 'Wn' is '<a href="#En">En </a>'. If the user
+default value for 'Wn' is '<a href="#En">En</a>'. If the user
 specifies pre-merging and does not set 'Wn', than 'Wn' is set to
 the maximum of '<a href="#Cn">C-n</a>' and <i>maxcoord*(1 - </i><a
 href="#An"><i>A-n</i></a><i>)</i>.</p>

@@ -56,8 +56,7 @@ normalization option on the 'obscure' menu.</p>
 
 <hr>
 
-<h2><a href="#TOP">&#187;</a><a name="TOC">Qhull examples: Table of
-Contents </a></h2>
+<h2><a href="#TOP">&#187;</a><a name="TOC">Qhull examples: Table of Contents</a></h2>
 
 <ul>
     <li><a href="#2d">2-d and 3-d examples</a></li>
@@ -114,7 +113,7 @@ Contents </a></h2>
         </ul>
     </li>
     <li><a href="#TOC">&#187;</a><a name="merge">Facet merging for
-        imprecision </a><ul>
+        imprecision</a><ul>
             <li><a href="#20">eg.20.cone</a></li>
             <li><a href="#21a">eg.21a.roundoff.errors</a></li>
             <li><a href="#21b">eg.21b.roundoff.fixed</a></li>
@@ -146,7 +145,7 @@ Contents </a></h2>
 <h2><a href="#TOC">&#187;</a>2-d and 3-d examples</h2>
 
 <h3><a href="#2d">&#187;</a><a name="01">rbox c D3 | qconvex G
-&gt;eg.01.cube </a></h3>
+&gt;eg.01.cube</a></h3>
 
 <p>The first example is a cube in 3-d. The color of each facet
 indicates its normal. For example, normal [0,0,1] along the Z
@@ -158,14 +157,14 @@ that each facet is a square that qconvex merged from coplanar
 triangles.</p>
 
 <h3><a href="#2d">&#187;</a><a name="02">rbox c d G3.0 | qconvex G
-&gt;eg.02.diamond.cube </a></h3>
+&gt;eg.02.diamond.cube</a></h3>
 
 <p>The second example is a cube plus a diamond ('d') scaled by <tt>rbox</tt>'s
 'G' option. In higher dimensions, diamonds are much simpler than
 hypercubes. </p>
 
 <h3><a href="#2d">&#187;</a><a name="03">rbox s 100 D3 | qconvex G
-&gt;eg.03.sphere </a></h3>
+&gt;eg.03.sphere</a></h3>
 
 <p>The <tt>rbox s</tt> option generates random points and
 projects them to the d-sphere. All points should be on the convex
@@ -175,7 +174,7 @@ facets and printing the vertices, e.g.,<i> rbox 1000 s | qconvex
 A-0.95 p | qconvex G &gt;eg.99</i>.</p>
 
 <h3><a href="#2d">&#187;</a><a name="04">rbox s 100 D2 | qconvex G
-&gt;eg.04.circle </a></h3>
+&gt;eg.04.circle</a></h3>
 
 <p>In 2-d, there are many ways to generate a convex hull. One of
 the earliest algorithms, and one of the fastest, is the 2-d
@@ -184,7 +183,7 @@ href="index.htm#pre-sha85">'85</a>]. It was the model for
 Qhull.</p>
 
 <h3><a href="#2d">&#187;</a><a name="05">rbox 10 l | qconvex G
-&gt;eg.05.spiral </a></h3>
+&gt;eg.05.spiral</a></h3>
 
 <p>One rotation of a spiral.</p>
 
@@ -204,13 +203,13 @@ least 0.03 below the planes of its neighbors. This guarantees
 that the facets are convex.</p>
 
 <h3><a href="#2d">&#187;</a><a name="07">rbox 1000 D3 | qconvex G
-&gt;eg.07.box </a></h3>
+&gt;eg.07.box</a></h3>
 
 <p>Here's the same distribution but in 3-d with Qhull handling
 machine roundoff errors. Note the large number of facets. </p>
 
 <h3><a href="#2d">&#187;</a><a name="08a">rbox c G0.4 s 500 | qconvex G
-&gt;eg.08a.cube.sphere </a></h3>
+&gt;eg.08a.cube.sphere</a></h3>
 
 <p>The sphere is just barely poking out of the cube. Try the same
 distribution with randomization turned on ('<a
@@ -227,13 +226,13 @@ algorithm builds most of the sphere before it adds the cube's
 vertices.</p>
 
 <h3><a href="#2d">&#187;</a><a name="08b">rbox d G0.6 s 500 | qconvex G
-&gt;eg.08b.diamond.sphere </a></h3>
+&gt;eg.08b.diamond.sphere</a></h3>
 
 <p>This is a combination of the diamond distribution and the
 sphere.</p>
 
 <h3><a href="#2d">&#187;</a><a name="09">rbox 100 L3 G0.5 s | qconvex
-G &gt;eg.09.lens </a></h3>
+G &gt;eg.09.lens</a></h3>
 
 <p>Each half of the lens distribution lies on a sphere of radius
 three. A directed search for the furthest facet below a point
@@ -262,20 +261,20 @@ of the facets that are visible from the point. Qhull will replace
 these facets with new facets.</p>
 
 <h3><a href="#how">&#187;</a><a name="10b">rbox 100 s
-P0.5,0.5,0.5|qconvex Ga QG-0 &gt;eg.10b.sphere.beyond </a></h3>
+P0.5,0.5,0.5|qconvex Ga QG-0 &gt;eg.10b.sphere.beyond</a></h3>
 
 <p>These are the facets that are not visible from the point.
 Qhull will keep these facets.</p>
 
 <h3><a href="#how">&#187;</a><a name="10c">rbox 100 s P0.5,0.5,0.5 |
-qconvex PG Ga QG0 &gt;eg.10c.sphere.horizon </a></h3>
+qconvex PG Ga QG0 &gt;eg.10c.sphere.horizon</a></h3>
 
 <p>These facets are the horizon facets; they border the visible
 facets. The inside edges are the horizon ridges. Each horizon
 ridge will form the base for a new facet.</p>
 
 <h3><a href="#how">&#187;</a><a name="10d">rbox 100 s P0.5,0.5,0.5 |
-qconvex Ga QV0 PgG &gt;eg.10d.sphere.cone </a></h3>
+qconvex Ga QV0 PgG &gt;eg.10d.sphere.cone</a></h3>
 
 <p>This is the cone of points from the new point to the horizon
 facets.  Try combining this image with <tt>eg.10c.sphere.horizon</tt>
@@ -295,7 +294,7 @@ a point that is furthest in an outside set. A point like
 qhull Ga QV0g Q0 &gt;eg.14.sphere.corner</a></h3>
 
 <p>The '<a href="qh-optq.htm#QVn">QVn</a>', '<a
-href="qh-optq.htm#QGn">QGn </a>' and '<a href="qh-optp.htm#Pdk">Pdk</a>'
+href="qh-optq.htm#QGn">QGn</a>' and '<a href="qh-optp.htm#Pdk">Pdk</a>'
 options define good facets for Qhull. In this case '<a
 href="qh-optq.htm#QVn">QV0</a>' defines the 0'th point
 [0.5,0.5,0.5] as the good vertex, and '<a href="qh-optq.htm#Qg">Qg</a>'
@@ -369,7 +368,7 @@ GnraD2 &gt;eg.17b.delaunay.2i</a></h3>
 merges the non-unique Delaunay triangles into a hexagon.</p>
 
 <h3><a href="#delaunay">&#187;</a><a name="17c">qdelaunay &lt;eg.data.17
-Ga &gt;eg.17c.delaunay.2-3 </a></h3>
+Ga &gt;eg.17c.delaunay.2-3</a></h3>
 
 <p>This is how Qhull generated both diagrams. Use Geomview's
 'obscure' menu to turn off normalization, and Geomview's
@@ -402,7 +401,7 @@ example uses joggled input ('<a href="qh-optq.htm#QJn">QJ</a>').
 Normally, you should use neither 'QJ' nor 'Qt' for Voronoi diagrams.
 
 <h3><a href="#delaunay">&#187;</a><a name="17e">qvoronoi &lt;eg.data.17
-Gna &gt;eg.17e.voronoi.2i </a></h3>
+Gna &gt;eg.17e.voronoi.2i</a></h3>
 
 <p>This looks the same as the previous diagrams, but take a look
 at the data.  Run 'qvoronoi p &lt;eg/eg.data.17'.  This prints
@@ -421,7 +420,7 @@ input sites define one Voronoi vertex near the origin. </p>
 four triangles.  Each triangle is assigned the same Voronoi vertex.</p>
 
 <h3><a href="#delaunay">&#187;</a><a name="17f"> rbox c G0.1 d |
-qdelaunay Gt Qz &lt;eg.17f.delaunay.3 </a></h3>
+qdelaunay Gt Qz &lt;eg.17f.delaunay.3</a></h3>
 
 <p>This is the 3-d Delaunay triangulation of a small cube inside
 a prism. Since the outside ridges are transparent, it shows the
@@ -432,7 +431,7 @@ to add a point &quot;at infinity&quot;. This avoids a degenerate
 input due to cospherical points.</p>
 
 <h3><a href="#delaunay">&#187;</a><a name="18a">rbox 10 D2 d | qdelaunay
-Qu G &gt;eg.18a.furthest.2-3 </a></h3>
+Qu G &gt;eg.18a.furthest.2-3</a></h3>
 
 <p>The furthest-site Voronoi diagram contains Voronoi regions for
 points that are <i>furthest </i>from an input site. It is the
@@ -465,7 +464,7 @@ Geomview's 'cameras' menu to turn off perspective. Then load this
 with the upper convex hull.</p>
 
 <h3><a href="#delaunay">&#187;</a><a name="19">rbox 10 D3 | qvoronoi QV5
-p | qconvex G &gt;eg.19.voronoi.region.3 </a></h3>
+p | qconvex G &gt;eg.19.voronoi.region.3</a></h3>
 
 <p>This shows the Voronoi region for input site 5 of a 3-d
 Voronoi diagram.</p>
@@ -473,7 +472,7 @@ Voronoi diagram.</p>
 <h2><a href="#TOC">&#187;</a>Facet merging for imprecision</h2>
 
 <h3><a href="#merge">&#187;</a><a name="20">rbox r s 20 Z1 G0.2 |
-qconvex G &gt;eg.20.cone </a></h3>
+qconvex G &gt;eg.20.cone</a></h3>
 
 <p>There are two things unusual about this <a
 href="http://www.geom.uiuc.edu/graphics/pix/Special_Topics/Computational_Geometry/cone.html">cone</a>.
@@ -486,7 +485,7 @@ triangles instead of rectangles. By requiring convexity, Qhull
 has recovered the original design.</p>
 
 <h3><a href="#merge">&#187;</a><a name="21a">rbox 200 s | qhull Q0
-R0.01 Gav Po &gt;eg.21a.roundoff.errors </a></h3>
+R0.01 Gav Po &gt;eg.21a.roundoff.errors</a></h3>
 
 <p>This is the convex hull of 200 cospherical points with
 precision errors ignored ('<a href="qh-optq.htm#Q0">Q0</a>'). To
@@ -508,14 +507,14 @@ If it did not report flipped facets, increase the number of
 points or perturbation.</p>
 
 <h3><a href="#merge">&#187;</a><a name="21b">rbox 200 s | qconvex Qc
-R0.01 Gpav &gt;eg.21b.roundoff.fixed </a></h3>
+R0.01 Gpav &gt;eg.21b.roundoff.fixed</a></h3>
 
 <p>Qhull handles the random perturbations and returns an
 imprecise <a
 href="http://www.geom.uiuc.edu/graphics/pix/Special_Topics/Computational_Geometry/fixed.html">sphere</a>.
 In this case, the output is a weak approximation to the points.
 This is because a random perturbation of '<a
-href="qh-optc.htm#Rn">R0.01 </a>' is equivalent to losing all but
+href="qh-optc.htm#Rn">R0.01</a>' is equivalent to losing all but
 1.8 digits of precision. The outer planes float above the points
 because Qhull needs to allow for the maximum roundoff error. </p>
 <p>
@@ -584,7 +583,7 @@ the topological ridges, i.e., as triangles between three
 vertices. That is why the cube looks lopsided.</p>
 
 <h3><a href="#4d">&#187;</a><a name="30">rbox 5000 D4 | qconvex s
-C-0.02 C0.1 Gh &gt;eg.30.4d.merge.cube </a></h3>
+C-0.02 C0.1 Gh &gt;eg.30.4d.merge.cube</a></h3>
 
 <p><a
 href="http://www.geom.uiuc.edu/graphics/pix/Special_Topics/Computational_Geometry/4dcube.html">Here</a>
@@ -607,7 +606,7 @@ convexity constraint for post-merging ('<a href="qh-optc.htm#Cn2">C0.1</a>').
 It deletes the small facets.</p>
 
 <h3><a href="#4d">&#187;</a><a name="31">rbox 20 D3 | qdelaunay G
-&gt;eg.31.4d.delaunay </a></h3>
+&gt;eg.31.4d.delaunay</a></h3>
 
 <p>The Delaunay triangulation of 3-d sites corresponds to a 4-d
 convex hull. You can't see 4-d directly but each facet is a 3-d
@@ -640,7 +639,7 @@ Geomview's <tt>ndview</tt> on this example.</p>
 <h2><a href="#TOC">&#187;</a>Halfspace intersections</h2>
 
 <h3><a href="#half">&#187;</a><a name="33a">rbox 10 r s Z1 G0.3 |
-qconvex G &gt;eg.33a.cone </a></h3>
+qconvex G &gt;eg.33a.cone</a></h3>
 
 <h3><a href="#half">&#187;</a><a name="33b">rbox 10 r s Z1 G0.3 |
 qconvex FV n | qhalf G &gt;eg.33b.cone.dual</a></h3>

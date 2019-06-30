@@ -9,8 +9,8 @@
 #   can not use path with $zip_file 
 #   odd error messages if can't locate directory
 #
-# $Id: //main/2019/qhull/eg/qhull-zip.sh#12 $$Change: 2722 $
-# $DateTime: 2019/06/28 21:07:44 $$Author: bbarber $
+# $Id: //main/2019/qhull/eg/qhull-zip.sh#14 $$Change: 2725 $
+# $DateTime: 2019/06/30 16:34:48 $$Author: bbarber $
 
 if [[ $# -ne 3 ]]; then
         echo 'Missing date stamp -- eg/qhull-zip.sh 2019 2019.1 7.3.2' 
@@ -288,13 +288,20 @@ if [[ -r $root_dir/$qhull_zip_file ]]; then
     find . -type f | grep -vE '/bin/|q_benchmark|q_test' | xargs grep '\-20' | grep -v -E '(page=|ISBN|sql-2005|utility-2000|written 2002-2003|tail -n -20|Spinellis|WEBSIDESTORY|D:06-5-2007|server-2005)' >Dates.txt
     find . -type f | grep -vE '/bin/|q_benchmark|q_test' | xargs grep -i 'qhull *20' >>Dates.txt
     find . -type f | grep -vE '/bin/|q_benchmark|q_test' | xargs grep -E 'SO=|SO |VERSION|FIXUP' >>Dates.txt
-    log_step $LINENO "Search for error codes into zip/Errors.matched"
+    log_step $LINENO "Search for error codes into zip/Errors-matched.txt"
     (find */src -type f) | grep -vE '_test\.cpp|\.log|Changes\.txt' | xargs grep -Eh ', [67][0-9][0-9][0-9]|"QH[67][0-9]|qh_fprintf_stderr\([67][0-9][0-9][0-9]' | sed -r 's/^[^Q67]*QH//' | sed -r 's/^.*qh_fprintf_stderr\(//' | sed -r 's/^[^67]*(errfile|ferr|fp|stderr), //' | sed 's/\\n"[,\)].*/ EOL/' | sed -r 's/_r([: ])/\1/' | sort >Errors.txt
     (cat Errors.txt | sed 's/, .*//'; for ((i=6001; i<6400; i++)); do echo $i; done;  for ((i=7001; i<7200; i++)); do echo $i; done) | sort | uniq -c | grep -v '^ *3 ' | sed -r 's/^[^0-9]*([0-9]) (.*)/\2 \1 NOT-MATCHED/' >Errors-not-matched.txt
-    cat Errors.txt | grep -v 'EOL$' | sort -u >Errors.matched
+    cat Errors.txt | grep -v 'EOL$' | sort -u >Errors-matched.txt
     log_step $LINENO "Search for mismatched '*_r.h' references to zip/FileRef.txt"
     grep -E '[^_][^_][^ *][.][ch]($|[^a-z>])|/libqhull/' */src/*/*_r.* */src/*/*_ra.* */src/libqhull_r/Makefile | grep -vE 'float.h|/html/| l.h.s. |libqhullcpp|mem.c for a standalone|qglobal.h|QhullError.|QhullSet.|string.h|unused.h|user.h and user_r.h' >FileRef.txt
     grep -E '_r[.]|_ra[.]|/libqhull_r/' */src/qconvex/qconvex.c */src/qconvex/qconvex.c */src/qdelaunay/qdelaun.c */src/qhalf/qhalf.c */src/qvoronoi/qvoronoi.c */src/testqset/* | grep -vE 'user.h and user_r.h' >>FileRef.txt
+    log_step $LINENO "Search for mismatched option links in htm files to Links-single.txt"
+    findf htm | xargs grep 'qh-opt.*\#' | tee Links-all.txt | sed -r -e 's/^[^:]*://' -e 's/qh-opt/\nqh-opt/g' | grep 'qh-opt.*<' | sed -r -e 's/<.*//' | LC_ALL=C  sort | uniq -c >Links-counts.txt
+    grep ' 1 ' Links-counts.txt >Links-single.txt
+    log_step $LINENO "Search for other internal links to Links-check-other.txt"
+    findf htm | xargs grep -E 'http[^#]*htm#|href="?#|name='  | tee Links-other.txt | sed -e 's/#/\n#/g' -e 's/name="/\n#/g' -e 's/name=/\nname=/g' | grep -E '^#|name=' | sed -r -e 's/[" ].*//' | grep -vE ';|#[1-9][0-9]|#3dd|#[Hdv]$|[0-9][0-9]$|[a-z]T$|QJ$|convex|option|startup|voronoi|name=(as_q|num|sitesearch)' | LC_ALL=C  sort | uniq -c | grep ' 1 ' >Links-check-other.txt
+    log_step $LINENO "Search for mismatched link quotes"
+    findf htm | xargs grep -E '"'  | sed -e 's/"[^"]*"//g' | grep '"' | grep -vE 'html/qhull|html/rbox|working/debian' > Links-check-quotes.txt 
 fi
 if [[ -r $root_dir/$qhull_tgz_file ]]; then
     exit_if_fail $LINENO "mkdir -p $TEMP_DIR/tgz && cd $TEMP_DIR/tgz"
@@ -309,6 +316,9 @@ log_step $LINENO "==============================================================
 log_step $LINENO "Check *qhull-zip-.../zip/Dates.txt for timestamps that need updating"
 log_step $LINENO "Check *qhull-zip-.../zip/Errors-matched.txt for mismatched codes, errors not ending in NL, errors on multiple lines, and recently missing codes"
 log_step $LINENO "Check *qhull-zip-.../zip/Errors-not-matched.txt for unused error codes (count==1) or multiply-defined codes (count>2)"
+log_step $LINENO "Check *qhull-zip-.../zip/Links-single.txt for single use option links in Links-all.txt"
+log_step $LINENO "Check *qhull-zip-.../zip/Links-check-other.txt for unknown tags in Links-other.txt"
+log_step $LINENO "Check *qhull-zip-.../zip/Links-check-quotes.txt for quotes that cross a line"
 log_step $LINENO "Check q_egtest examples in Geomview"
 log_step $LINENO "Check for 18 projects in Release mode, including qhulltest"
 log_step $LINENO "Check build dependencies for programs."
@@ -367,6 +377,7 @@ log_step $LINENO "Compare previous zip release, Dates.txt, and md5sum"
 log_step $LINENO "Compare zip and tgz for CRLF vs LF"
 log_step $LINENO "Compare qh_prompt* for unix_r.c,qconvex.c,etc."
 log_step $LINENO "Check html links with Firefox Link Analyzer (fast but doesn't check #..."
+log_step $LINENO "  Replace old links with web.archive.org (archive.is)"
 log_step $LINENO "Check all files for FIXUP comments, including Makefile, html, etc."
 log_step $LINENO "Extract zip to download/ and compare directories"
 log_step $LINENO "Check for 32-bit release executables from DevStudio (<500K and 'Ts' 32-bit allocations)"

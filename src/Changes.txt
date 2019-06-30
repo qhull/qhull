@@ -1,4 +1,4 @@
-$Id: //main/2019/qhull/src/Changes.txt#43 $$Date: 2019/06/28 $
+$Id: //main/2019/qhull/src/Changes.txt#45 $$Date: 2019/06/30 $
 
 .............This file lists all changes to qhull and rbox.....................
 Qhull 2019.1
@@ -17,6 +17,10 @@ Qhull 2.0 (1994) to 2012.1
 =============
 == Qhull 2019.1
 =============
+
+------------
+Qhull 2019.1 github
+- Review and fix Qhull html and option links
 
 ------------
 Qhull 2019.1 2019/06/21 (7.3.2)

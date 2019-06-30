@@ -10,10 +10,7 @@
 
     <p>
         <a name="TOP"><b>Up:</b></a> <a href="http://www.qhull.org">Home page</a> for Qhull (<a href="../index.htm">local</a>)<br>
-        <b>Up:</b> <a href="index.htm#TOC">
-            Qhull manual: Table of
-            Contents
-        </a><br>
+        <b>Up:</b> <a href="index.htm#TOC">Qhull manual: Table of Contents</a><br>
         <b>To:</b> <a href="qh-quick.htm#programs">Programs</a>
         &#149; <a href="qh-quick.htm#options">Options</a>
         &#149; <a href="qh-opto.htm#output">Output</a>
@@ -42,8 +39,7 @@ height="100"></a> Qhull code</h1>
 
 <hr>
 
-<h2><a href="#TOP">&#187;</a><a name="TOC">Qhull code: Table of
-Contents </a></h2>
+<h2><a href="#TOP">&#187;</a><a name="TOC">Qhull code: Table of Contents</a></h2>
 
 <ul>
     <li><a href="#reentrant">Reentrant</a> Qhull
@@ -589,7 +585,7 @@ the convex hull is either the distance to this facet or the
 distance to a subface of the facet.</p>
 
 <blockquote>
-<p><b>Warning:</b> If triangulated output ('<a href=qh-optq.htm#Qt>Qt</a>') and
+<p><b>Warning:</b> If triangulated output ('<a href="qh-optq.htm#Qt">Qt</a>') and
 the best facet was triangulated, qh_findbestfacet() returns one of
 the corresponding 'tricoplanar' facets.  The actual best facet may be a different
 tricoplanar facet from the same set of facets.
@@ -685,8 +681,7 @@ call qh_check_maxout() to compute outer planes
 terminate qhull</pre>
 </blockquote>
 
-<h3><a href="#TOC">&#187;</a><a name="constrained">Constrained
-Delaunay triangulation </a></h3>
+<h3><a href="#TOC">&#187;</a><a name="constrained">Constrained Delaunay triangulation</a></h3>
 
 <p>With a fair amount of work, Qhull is suitable for constrained
 Delaunay triangulation. See Shewchuk, ACM Symposium on
@@ -700,7 +695,7 @@ separation may be incorrect. [H. Geron] </p>
 
 <h3><a href="#TOC">&#187;</a><a name="tricoplanar">Tricoplanar facets and option 'Qt'</h3>
 
-<p>Option '<a href=qh-optq.htm#Qt>Qt</a>' triangulates non-simplicial
+<p>Option '<a href="qh-optq.htm#Qt">Qt</a>' triangulates non-simplicial
 facets (e.g., a square facet in 3-d or a cubical facet in 4-d).
 All facets share the same apex (i.e., the first vertex in facet->vertices).
 For each triangulated facet, Qhull
@@ -729,7 +724,7 @@ corresponds to a vertex of the convex hull and a Voronoi vertex
 corresponds to an adjacent facet. A facet is
 &quot;upperdelaunay&quot; if it corresponds to a Voronoi vertex
 &quot;at-infinity&quot;. Qhull uses qh_printvoronoi in <tt>io.c</tt>
-for '<a href=qvoronoi.htm>qvoronoi</a> <a href="qh-opto.htm#o">o'</a> </p>
+for '<a href=qvoronoi.htm>qvoronoi</a> <a href="qh-opto.htm#o">o</a>' </p>
 
 <blockquote>
     <pre>
@@ -800,7 +795,7 @@ graph of the convex hull. </p>
 
 <p>Qhull continually checks its execution, so most errors will stop Qhull with an error message.
 Additional checking occurs for verified output ('<a href="qh-optt.htm#Tv">Tv</a>'), check
-frequently ('<a href="qh-optt.htm#Tc">Tc</a>'), check for duplicate ridges ('<a href="qh-optt.htm#Q15">T15</a>'),
+frequently ('<a href="qh-optt.htm#Tc">Tc</a>'), check for duplicate ridges ('<a href="qh-optq.htm#Q15">Q15</a>'),
 and tracing at level 4 ('<a href="qh-optt.htm#Tn">T4</a>'). </p>
 
 <p>If Qhull detects an error, it writes a descriptive error message to stderr, and exits with an exit status code (see following).
@@ -915,7 +910,7 @@ If you sort by address and sequence number, each allocate should be paired with 
 When Qhull reports an error, it reports "Last merge was #nnn".
 <li>'<a href="qh-optt.htm#TPn">TPn</a>' -- turn on tracing when point n is added to hull or point n is referenced.
 When Qhull reports an error, it reports "Last point added to hull was pnnn".
-<li>'<a href="qh-optt.htm#TVn">TVn</a>' -- stop Qhull after adding point n, -n for before
+<li>'<a href="qh-optt.htm#TVn2">TVn</a>' -- stop Qhull after adding point n, -n for before
 <li>'<a href="qh-optt.htm#TWn">TWn</a>' -- trace merge facets when width > n
 </ul></p>
 
@@ -930,12 +925,13 @@ Logging will be significantly slower than normal.</p>
 
 <p>The following debugging plan usually identifies the error
 <ol>
-<li>Trace execution at level 1 with flush after each qh_fprintf and output to stdout ('<a href="qh-optq.htm#T1">T1</a> <a href="qh-optq.htm#Tf">Tf</a> <a href="qh-optq.htm#Tz">Tz</a>').
-<li>Repeat at level 4 after the last qh_addpoint (QH1049, '<a href="qh-optq.htm#TPn">TPn</a>').
+<li>Trace execution at level 1 with flush after each qh_fprintf
+and output to stdout ('<a href="qh-optt.htm#Tn">T1</a> <a href="qh-optt.htm#Tf">Tf</a> <a href="qh-optt.htm#Tz">Tz</a>').
+<li>Repeat at level 4 after the last qh_addpoint (QH1049, '<a href="qh-optt.htm#TPn">TPn</a>').
 Add line numbers to the log by piping the output through 'grep -n .'.
 <ul>
-<li>If there is too much level 4 output,
-repeat at level 2 to find the last qh_mergefacet (QH2081) and then trace at level 4 from the last merge ('<a href="qh-optq.htm#TMn">TMn</a>').
+<li>If there is too much level 4 output, repeat at level 2 to find the last
+qh_mergefacet (QH2081) and then trace at level 4 from the last merge ('<a href="qh-optt.htm#TMn">TMn</a>').
 <li>If there is still too much level 4 output, identify one of the last level 3 events and add debugging
 to the corresponding trace3 call.  Be sure to mark the code for removal.  For example<br>
 <pre>
@@ -1029,8 +1025,7 @@ qh.tracefacet_id, qh.traceridge_id, or qh.tracevertex_id in global_r.c/qh_initqh
 <li>qh_tracemerge in merge_r.c -- called after each merge.  It is a good location for debugging code.
 </ul>
 
-<h2><a href="#TOC">&#187;</a><a name="performance">Performance of
-Qhull </a></h2>
+<h2><a href="#TOC">&#187;</a><a name="performance">Performance of Qhull</a></h2>
 
 <p>Empirically, Qhull's performance is balanced in the sense that
 the average case happens on average. This may always be true if
@@ -1211,7 +1206,7 @@ sys     0m0.015s
 </pre>
 </ul>
 
-<h2><a href="#TOC">&#187;</a><a name="enhance">Enhancements to Qhull </a></h2>
+<h2><a href="#TOC">&#187;</a><a name="enhance">Enhancements to Qhull</a></h2>
 
 <p>There are many ways in which Qhull can be improved. </p>
 
@@ -1484,10 +1479,7 @@ Performance improvements:
 
 <p>
     <b>Up:</b> <a href="http://www.qhull.org">Home page</a> for Qhull (<a href="../index.htm">local</a>) <br>
-    <b>Up:</b> <a href="index.htm#TOC">
-        Qhull manual: Table of
-        Contents
-    </a><br>
+    <b>Up:</b> <a href="index.htm#TOC">Qhull manual: Table of Contents</a><br>
     <b>To:</b> <a href="qh-quick.htm#programs">Programs</a>
     &#149; <a href="qh-quick.htm#options">Options</a>
     &#149; <a href="qh-opto.htm#output">Output</a>
