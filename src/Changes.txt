@@ -1,4 +1,4 @@
-$Id: //main/2019/qhull/src/Changes.txt#45 $$Date: 2019/06/30 $
+$Id: //main/2019/qhull/src/Changes.txt#41 $$Date: 2019/06/28 $
 
 .............This file lists all changes to qhull and rbox.....................
 Qhull 2019.1
@@ -54,7 +54,7 @@ bugs fixed
 - Qhull.cpp/outputQhull: fixed missed conditional if qh.GOODvertex == -qh.GOODpoint
 
 documentation and web site
-- Add notes that Qhull 64-bit code uses almost twice as much memory as 32-bit code.  This slows down Qhull.
+- Add notes that Qhull 64-bit code uses 50% more memory than 32-bit code.  This slows down Qhull.
   A future version of Qhull will include memory and performance improvements for 64-bit code.
 - Add the Qhull identity pipeline to html/qhalf.htm
 - Enabled PDF download from portal.acm.org
