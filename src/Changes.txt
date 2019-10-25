@@ -1,4 +1,4 @@
-$Id: //main/2019/qhull/src/Changes.txt#41 $$Date: 2019/06/28 $
+$Id: //main/2019/qhull/src/Changes.txt#49 $$Date: 2019/10/24 $
 
 .............This file lists all changes to qhull and rbox.....................
 Qhull 2019.1
@@ -13,7 +13,7 @@ Qhull 2.0 (1994) to 2012.1
   http://www.qhull.org/html/qh-code.htm#enhance
 - The C++ interface needs work and documentation.  Give it a try and make it better. 
   http://github.com/qhull/qhull/wiki
-
+  
 =============
 == Qhull 2019.1
 =============
@@ -21,6 +21,12 @@ Qhull 2.0 (1994) to 2012.1
 ------------
 Qhull 2019.1 github
 - Review and fix Qhull html and option links
+- README.txt: Install GitForWindows in C:\Git\
+- libqhull_r/index.htm: Fixed Firefox web access to '.c' and '.h' files (http://qhull.org/src/libqhull_r/)
+- merge_r.c/qh_appendmergeset,qh_appendvertexmerge,qh_mergefacet,qh_tracemerge: 
+  fix test of mergetype index of mergetypes
+- CMakeLists.txt: Rename Qhull to QhullExport.  On MacOS, "Qhull" conflicts with "qhull" [tamasmeszaros, C. Xu, tschoonj]
+- CMakeLists.txt: Add POSITION_INDEPENDENT_CODE "TRUE" to set_target_properties for libqhullcpp [joaander]
 
 ------------
 Qhull 2019.1 2019/06/21 (7.3.2)

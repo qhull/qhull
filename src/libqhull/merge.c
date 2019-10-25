@@ -21,8 +21,8 @@
    vertex->neighbors not set until the first merge occurs
 
    Copyright (c) 1993-2019 C.B. Barber.
-   $Id: //main/2019/qhull/src/libqhull/merge.c#9 $$Change: 2712 $
-   $DateTime: 2019/06/28 12:57:00 $$Author: bbarber $
+   $Id: //main/2019/qhull/src/libqhull/merge.c#10 $$Change: 2839 $
+   $DateTime: 2019/10/24 23:21:08 $$Author: bbarber $
 */
 
 #include "qhull_a.h"
@@ -452,7 +452,7 @@ void qh_appendmergeset(facetT *facet, facetT *neighbor, mergeType mergetype, coo
   merge->ridge1= NULL;
   merge->ridge2= NULL;
   merge->mergetype= mergetype;
-  if(mergetype > 0 && mergetype <= sizeof(mergetypes))
+  if(mergetype > 0 && mergetype < sizeof(mergetypes)/sizeof(char *))
     mergename= mergetypes[mergetype];
   else
     mergename= mergetypes[MRGnone];
@@ -528,7 +528,7 @@ void qh_appendvertexmerge(vertexT *vertex, vertexT *destination, mergeType merge
   merge->ridge1= ridge1;
   merge->ridge2= ridge2;
   merge->mergetype= mergetype;
-  if(mergetype > 0 && mergetype <= sizeof(mergetypes))
+  if(mergetype > 0 && mergetype < sizeof(mergetypes)/sizeof(char *))
     mergename= mergetypes[mergetype];
   else
     mergename= mergetypes[MRGnone];

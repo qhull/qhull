@@ -134,6 +134,7 @@ Installing Qhull on Windows 10, 8, 7 (32- or 64-bit), Windows XP, and Windows NT
       http://www.msys2.org/
       https://github.com/msys2/msys2/wiki
       [mar'19] Git for Windows v2.21 requires 'qhull --help'
+      Install in C:\Git\... # Not 'Program Files\...' otherwise './configure && make' fails
     www.cygwin.com 
     www.mingw.org/wiki/msys        # for Windows XP
     Road Bash (www.qhull.org/bash) # based on MSYS
@@ -293,8 +294,8 @@ Compiling Qhull with mingw/gcc on Windows
   - Download and extract Qhull (either GitHub, .tgz file, or .zip file)
   - Install GitForWindows (https://gitforwindows.org/)
     or MSYS2 (http://www.msys2.org/)
-  - Install MINGW-w64
-  with gcc (https://mingw-w64.org/)
+    Install in C:\Git\... # Not 'Program Files\...' otherwise './configure && make' will not work
+  - Install MINGW-w64 with gcc (https://mingw-w64.org/)
     Download installer (https://sourceforge.net/projects/mingw-w64/files/)
     Select i686/posix/dwarf
     Install in C:\mingw-w64\... # Not 'Program Files\...'

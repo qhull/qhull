@@ -83,7 +83,11 @@ go to the corresponding source location.
 <ul>
 <li>Internet Explorer -- OK for web access but not for file access
 <li>Chrome -- OK for web access but not for file access
-<li>Firefox -- Mime types are not available from 'Preferences'.  Is there an add-on to change the file extensions for a mime type?
+<li>Firefox -- OK for web access but not for file access
+<pre>
+# .htaccess on web server with NL line endings
+AddType text/html .c .h
+</pre>
 <li>Opera 12.10
 <ol>
 <li>In Tools > Preferences > Advanced > Downloads

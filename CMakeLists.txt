@@ -61,8 +61,8 @@
 #   Remove CMAKE_INTDIR from PreprocessorDefinitions
 #   Adjust target names and destinations (e.g., lib/libqhullstatic_rd.a)
 #  
-# $Id: //main/2019/qhull/CMakeLists.txt#6 $$Change: 2720 $
-# $DateTime: 2019/06/28 20:49:47 $$Author: bbarber $
+# $Id: //main/2019/qhull/CMakeLists.txt#7 $$Change: 2839 $
+# $DateTime: 2019/10/24 23:21:08 $$Author: bbarber $
 
 project(qhull)
 cmake_minimum_required(VERSION 3.0)
