@@ -466,7 +466,8 @@ endif(UNIX)
 
 add_library(${qhull_CPP} STATIC ${libqhullcpp_SOURCES})
 set_target_properties(${qhull_CPP} PROPERTIES
-    VERSION ${qhull_VERSION})
+    VERSION ${qhull_VERSION}
+    POSITION_INDEPENDENT_CODE "TRUE")
 
 # ---------------------------------------
 # Define qhull executables linked to qhullstatic library
@@ -626,18 +627,18 @@ install(TARGETS ${qhull_TARGETS_INSTALL} EXPORT QhullTargets
 include(CMakePackageConfigHelpers)
 
 write_basic_package_version_file(
-    "${CMAKE_CURRENT_BINARY_DIR}/Qhull/QhullConfigVersion.cmake"
+    "${CMAKE_CURRENT_BINARY_DIR}/QhullExport/QhullConfigVersion.cmake"
     VERSION ${qhull_VERSION}
     COMPATIBILITY AnyNewerVersion
 )
 
 export(EXPORT QhullTargets
-  FILE "${CMAKE_CURRENT_BINARY_DIR}/Qhull/QhullTargets.cmake"
+  FILE "${CMAKE_CURRENT_BINARY_DIR}/QhullExport/QhullTargets.cmake"
   NAMESPACE Qhull::
 )
 
 configure_file(${PROJECT_SOURCE_DIR}/build/config.cmake.in
-  "${CMAKE_CURRENT_BINARY_DIR}/Qhull/QhullConfig.cmake"
+  "${CMAKE_CURRENT_BINARY_DIR}/QhullExport/QhullConfig.cmake"
   @ONLY
 )
 
@@ -652,8 +653,8 @@ install(EXPORT QhullTargets
 )
 install(
   FILES
-    "${CMAKE_CURRENT_BINARY_DIR}/Qhull/QhullConfig.cmake"
-    "${CMAKE_CURRENT_BINARY_DIR}/Qhull/QhullConfigVersion.cmake"
+    "${CMAKE_CURRENT_BINARY_DIR}/QhullExport/QhullConfig.cmake"
+    "${CMAKE_CURRENT_BINARY_DIR}/QhullExport/QhullConfigVersion.cmake"
   DESTINATION
     ${ConfigPackageLocation}
   COMPONENT
