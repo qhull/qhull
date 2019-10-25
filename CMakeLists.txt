@@ -466,7 +466,8 @@ endif(UNIX)
 
 add_library(${qhull_CPP} STATIC ${libqhullcpp_SOURCES})
 set_target_properties(${qhull_CPP} PROPERTIES
-    VERSION ${qhull_VERSION})
+    VERSION ${qhull_VERSION}
+    POSITION_INDEPENDENT_CODE "TRUE")
 
 # ---------------------------------------
 # Define qhull executables linked to qhullstatic library
