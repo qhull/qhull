@@ -4,12 +4,14 @@
 #   See README.txt and ../../Makefile
 #       
 # Variables
-#   BINDIR         directory where to copy executables
 #   DESTDIR        destination directory for 'make install'
+#   PREFIX         installation prefix
+#   BINDIR         directory where to copy executables
 #   DOCDIR         directory where to copy html documentation
 #   INCDIR         directory where to copy headers
 #   LIBDIR         directory where to copy libraries
 #   MANDIR         directory where to copy manual pages
+#   PCDIR          directory where to copy pkg-config files
 #   PRINTMAN       command for printing manual pages
 #   PRINTC         command for printing C files
 #   CC             ANSI C or C++ compiler
@@ -53,12 +55,20 @@
 # Unix line endings (\n)
 # $Id: //main/2019/qhull/src/libqhull/Makefile#4 $
 
-DESTDIR = /usr/local
-BINDIR	= $(DESTDIR)/bin
-INCDIR	= $(DESTDIR)/include
-LIBDIR	= $(DESTDIR)/lib
-DOCDIR	= $(DESTDIR)/share/doc/qhull
-MANDIR	= $(DESTDIR)/share/man/man1
+PREFIX ?= /usr/local
+BINDIR ?= bin
+INCDIR ?= include
+LIBDIR ?= lib
+DOCDIR ?= share/doc/qhull
+MANDIR ?= share/man/man1
+PCDIR  ?= $(LIBDIR)/pkgconfig
+
+ABS_BINDIR = $(DESTDIR)$(PREFIX)/$(BINDIR)
+ABS_INCDIR = $(DESTDIR)$(PREFIX)/$(INCDIR)
+ABS_LIBDIR = $(DESTDIR)$(PREFIX)/$(LIBDIR)
+ABS_DOCDIR = $(DESTDIR)$(PREFIX)/$(DOCDIR)
+ABS_MANDIR = $(DESTDIR)$(PREFIX)/$(MANDIR)
+ABS_PCDIR  = $(DESTDIR)$(PREFIX)/$(PCDIR)
 
 # if you do not have enscript, try a2ps or just use lpr.  The files are text.
 PRINTMAN = enscript -2rl
@@ -94,7 +104,7 @@ CC_OPTS2 = $(CC_OPTS1)
 all: qhull_links qhull_all qtest
 
 help:
-	head -n 51 Makefile
+	head -n 53 Makefile
 
 clean:
 	rm -f *.o 
@@ -110,17 +120,26 @@ doc:
 	$(PRINTMAN) $(TXTFILES) $(DOCFILES)
 
 install:
-	mkdir -p $(BINDIR)
-	mkdir -p $(DOCDIR)
-	mkdir -p $(INCDIR)/libqhull
-	mkdir -p $(LIBDIR)
-	mkdir -p $(MANDIR)
-	cp -p qconvex qdelaunay qhalf qhull qvoronoi rbox $(BINDIR)
-	cp -p libqhullstatic.a $(LIBDIR)
-	cp -p ../../html/qhull.man $(MANDIR)/qhull.1
-	cp -p ../../html/rbox.man $(MANDIR)/rbox.1
-	cp -p ../../html/* $(DOCDIR)
-	cp *.h $(INCDIR)/libqhull
+	mkdir -p $(ABS_BINDIR)
+	mkdir -p $(ABS_DOCDIR)
+	mkdir -p $(ABS_INCDIR)/libqhull
+	mkdir -p $(ABS_LIBDIR)
+	mkdir -p $(ABS_MANDIR)
+	mkdir -p $(ABS_PCDIR)
+	cp -p qconvex qdelaunay qhalf qhull qvoronoi rbox $(ABS_BINDIR)
+	cp -p libqhullstatic.a $(ABS_LIBDIR)
+	cp -p ../../html/qhull.man $(ABS_MANDIR)/qhull.1
+	cp -p ../../html/rbox.man $(ABS_MANDIR)/rbox.1
+	cp -p ../../html/* $(ABS_DOCDIR)
+	cp *.h $(ABS_INCDIR)/libqhull
+	sed \
+		-e 's#@qhull_VERSION@#$(qhull_VERSION)#' \
+		-e 's#@CMAKE_INSTALL_PREFIX@#$(PREFIX)#' \
+		-e 's#@LIB_INSTALL_DIR@#$(LIBDIR)#' \
+		-e 's#@INCLUDE_INSTALL_DIR@#$(INCDIR)#' \
+		-e 's#@LIBRARY_NAME@#qhullstatic#' \
+		-e 's#@LIBRARY_DESCRIPTION@#Qhull static library#' \
+		../../qhull.pc.in > $(ABS_PCDIR)/qhullstatic.pc
 
 new:	cleanall all
 
@@ -175,15 +194,15 @@ qhull_links:
 
 # compile qhull without using bin/libqhullstatic.a
 qhull_all: qconvex.o qdelaun.o qhalf.o qvoronoi.o unix.o user_eg.o user_eg2.o rbox.o testqset.o $(LIBQHULLS_OBJS)
-	$(CC) -o qconvex $(CC_OPTS2) -lm $(LIBQHULLS_OBJS_2) qconvex.o
-	$(CC) -o qdelaunay $(CC_OPTS2) -lm $(LIBQHULLS_OBJS_2) qdelaun.o
-	$(CC) -o qhalf $(CC_OPTS2) -lm $(LIBQHULLS_OBJS_2) qhalf.o
-	$(CC) -o qvoronoi $(CC_OPTS2) -lm $(LIBQHULLS_OBJS_2) qvoronoi.o
-	$(CC) -o qhull $(CC_OPTS2) -lm $(LIBQHULLS_OBJS_2) unix.o 
-	$(CC) -o rbox $(CC_OPTS2) -lm $(LIBQHULLS_OBJS) rbox.o
-	$(CC) -o user_eg $(CC_OPTS2) -lm $(LIBQHULLS_OBJS_2) user_eg.o 
-	$(CC) -o user_eg2 $(CC_OPTS2) -lm $(LIBQHULLS_OBJS_1) user_eg2.o  usermem.o userprintf.o io.o
-	$(CC) -o testqset $(CC_OPTS2) -lm mem.o qset.o usermem.o testqset.o
+	$(CC) -o qconvex $(CC_OPTS2) $(LIBQHULLS_OBJS_2) qconvex.o -lm
+	$(CC) -o qdelaunay $(CC_OPTS2) $(LIBQHULLS_OBJS_2) qdelaun.o -lm
+	$(CC) -o qhalf $(CC_OPTS2) $(LIBQHULLS_OBJS_2) qhalf.o -lm
+	$(CC) -o qvoronoi $(CC_OPTS2) $(LIBQHULLS_OBJS_2) qvoronoi.o -lm
+	$(CC) -o qhull $(CC_OPTS2) $(LIBQHULLS_OBJS_2) unix.o -lm
+	$(CC) -o rbox $(CC_OPTS2) $(LIBQHULLS_OBJS) rbox.o -lm
+	$(CC) -o user_eg $(CC_OPTS2) $(LIBQHULLS_OBJS_2) user_eg.o -lm
+	$(CC) -o user_eg2 $(CC_OPTS2) $(LIBQHULLS_OBJS_1) user_eg2.o  usermem.o userprintf.o io.o -lm
+	$(CC) -o testqset $(CC_OPTS2) mem.o qset.o usermem.o testqset.o -lm
 	-ar -rs libqhullstatic.a $(LIBQHULLS_OBJS)
 	#libqhullstatic.a is not needed for qhull
 	#If 'ar -rs' fails try using 'ar -s' with 'ranlib'
