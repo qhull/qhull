@@ -7,11 +7,13 @@
 #   
 # Variables
 #   DESTDIR        destination directory for 'make install'.
+#   PREFIX         install prefix
 #   BINDIR         directory where to copy executables
 #   DOCDIR         directory where to copy html documentation
 #   INCDIR         directory where to copy headers
 #   LIBDIR         directory where to copy libraries
 #   MANDIR         directory where to copy manual pages
+#   PCDIR          directory where to copy pkg-config files
 #   PRINTMAN       command for printing manual pages
 #   PRINTC         command for printing C files
 #   CC             ANSI C or C++ compiler
@@ -83,12 +85,20 @@
 # Do not replace tabs with spaces.  Needed for build rules
 # Unix line endings (\n)
 
-DESTDIR = /usr/local
-BINDIR  = $(DESTDIR)/bin
-INCDIR  = $(DESTDIR)/include
-LIBDIR  = $(DESTDIR)/lib
-DOCDIR  = $(DESTDIR)/share/doc/qhull
-MANDIR  = $(DESTDIR)/share/man/man1
+PREFIX ?= /usr/local
+BINDIR ?= bin
+INCDIR ?= include
+LIBDIR ?= lib
+DOCDIR ?= share/doc/qhull
+MANDIR ?= share/man/man1
+PCDIR  ?= $(LIBDIR)/pkgconfig
+
+ABS_BINDIR = $(DESTDIR)$(PREFIX)/$(BINDIR)
+ABS_INCDIR = $(DESTDIR)$(PREFIX)/$(INCDIR)
+ABS_LIBDIR = $(DESTDIR)$(PREFIX)/$(LIBDIR)
+ABS_DOCDIR = $(DESTDIR)$(PREFIX)/$(DOCDIR)
+ABS_MANDIR = $(DESTDIR)$(PREFIX)/$(MANDIR)
+ABS_PCDIR  = $(DESTDIR)$(PREFIX)/$(PCDIR)
 
 # if you do not have enscript, try a2ps or just use lpr.  The files are text.
 PRINTMAN = enscript -2rl
@@ -114,8 +124,9 @@ CC_OPTS3  =
 # Define qhull_VERSION in CMakeLists.txt, Makefile, and qhull-warn.pri
 # Truncated version in qhull-exports.def, qhull_p-exports.def, qhull_r-exports.def
 #  libqhull_r.so -- reentrant Qhull with qh_qhT passed as an argument.
-qhull_SOVERSION=7
-SO  = so.7.3.2
+qhull_VERSION=$(shell grep 'set.qhull_VERSION ' CMakeLists.txt | grep -o '[0-9.]\+' || echo 0unknown)
+qhull_SOVERSION=$(shell grep 'set.qhull_SOVERSION ' CMakeLists.txt | grep -o '[0-9]\+' || echo 0unknown)
+SO  = so.$(qhull_VERSION)
 
 # On MinGW, 
 #   make SO=dll
@@ -182,7 +193,7 @@ all: bin-lib bin/rbox bin/qconvex bin/qdelaunay bin/qhalf bin/qvoronoi bin/qhull
      bin/testqset_r qtest bin/user_eg2 bin/user_eg3 bin/user_eg qconvex-prompt
 
 help:
-	head -n 80 Makefile
+	head -n 82 Makefile
 
 bin-lib:
 	mkdir -p bin
@@ -238,27 +249,38 @@ doc:
 	$(PRINTMAN) $(TXTFILES) $(DOCFILES)
 
 install: bin/qconvex bin/qdelaunay bin/qhalf bin/qhull bin/qvoronoi bin/rbox
-	mkdir -p $(BINDIR)
-	mkdir -p $(DOCDIR)
-	mkdir -p $(INCDIR)/libqhull
-	mkdir -p $(INCDIR)/libqhull_r
-	mkdir -p $(INCDIR)/libqhullcpp
-	mkdir -p $(LIBDIR)
-	mkdir -p $(MANDIR)
-	cp bin/qconvex $(BINDIR)
-	cp bin/qdelaunay $(BINDIR)
-	cp bin/qhalf $(BINDIR)
-	cp bin/qhull $(BINDIR)
-	cp bin/qvoronoi $(BINDIR)
-	cp bin/rbox $(BINDIR)
-	cp html/qhull.man $(MANDIR)/qhull.1
-	cp html/rbox.man $(MANDIR)/rbox.1
-	cp html/* $(DOCDIR)
-	cp -P lib/* $(LIBDIR)
-	cp src/libqhull/DEPRECATED.txt src/libqhull/*.h src/libqhull/*.htm $(INCDIR)/libqhull
-	cp src/libqhull_r/*.h src/libqhull_r/*.htm $(INCDIR)/libqhull_r
-	cp src/libqhullcpp/*.h $(INCDIR)/libqhullcpp
-	cp src/qhulltest/*.h $(INCDIR)/libqhullcpp
+	mkdir -p $(ABS_BINDIR)
+	mkdir -p $(ABS_DOCDIR)
+	mkdir -p $(ABS_INCDIR)/libqhull
+	mkdir -p $(ABS_INCDIR)/libqhull_r
+	mkdir -p $(ABS_INCDIR)/libqhullcpp
+	mkdir -p $(ABS_LIBDIR)
+	mkdir -p $(ABS_MANDIR)
+	mkdir -p $(ABS_PCDIR)
+	cp bin/qconvex $(ABS_BINDIR)
+	cp bin/qdelaunay $(ABS_BINDIR)
+	cp bin/qhalf $(ABS_BINDIR)
+	cp bin/qhull $(ABS_BINDIR)
+	cp bin/qvoronoi $(ABS_BINDIR)
+	cp bin/rbox $(ABS_BINDIR)
+	cp html/qhull.man $(ABS_MANDIR)/qhull.1
+	cp html/rbox.man $(ABS_MANDIR)/rbox.1
+	cp html/* $(ABS_DOCDIR)
+	cp -P lib/* $(ABS_LIBDIR)
+	cp src/libqhull/DEPRECATED.txt src/libqhull/*.h src/libqhull/*.htm $(ABS_INCDIR)/libqhull
+	cp src/libqhull_r/*.h src/libqhull_r/*.htm $(ABS_INCDIR)/libqhull_r
+	cp src/libqhullcpp/*.h $(ABS_INCDIR)/libqhullcpp
+	cp src/qhulltest/*.h $(ABS_INCDIR)/libqhullcpp
+	for lib in qhullstatic qhullstatic_r qhull_r qhullcpp; \
+	do sed \
+		-e 's#@qhull_VERSION@#$(qhull_VERSION)#' \
+		-e 's#@CMAKE_INSTALL_PREFIX@#$(PREFIX)#' \
+		-e 's#@LIB_INSTALL_DIR@#$(LIBDIR)#' \
+		-e 's#@INCLUDE_INSTALL_DIR@#$(INCDIR)#' \
+		-e 's#@LIBRARY_NAME@#'$$lib'#' \
+		-e 's#@LIBRARY_DESCRIPTION@#'$$lib'#' \
+		qhull.pc.in > $(ABS_PCDIR)/$$lib.pc; \
+	done
 
 new:	cleanall all
 
