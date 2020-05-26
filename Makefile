@@ -57,10 +57,12 @@
 #   user_eg3       An example of the C++ interface with libqhullcpp and libqhullstatic_r
 #
 # Targets
-#   make           Build results using gcc or another compiler
+#   make           Build Qhull using gcc or another compiler
 #   make all
 #   make SO=dll    For mingw on Windows, use SO=dll. It builds dlls
-#   make bin/qvoronoi  Produce bin/qvoronoi (etc.)
+#   make M32=-m32  Build 32-bit Qhull on a 64-bit host (less memory)
+#   make FPIC= M32=-m32 Build 32-bit Qhull on 64-bit host without '-fpic' (faster)
+#   make bin/qvoronoi   Produce bin/qvoronoi (etc.)
 #   make qhullx    Produce qhull, qconvex etc. without using library
 #
 #   make benchmark Benchmark of qhull precision and performance
@@ -107,16 +109,17 @@ PRINTC = enscript -2r
 # PRINTC = lpr
 
 #for Gnu's gcc compiler, -O3 for optimization, -g for debugging, -pg for profiling
-# Qhull uses less memory with 32-bit builds (-m32), override with 'make M32='
-# -fpic needed for gcc x86_64-linux-gnu.  Not needed for mingw
 # see below for gcc's CC_WARNINGS and CXX_WARNINGS
-M32       = -m32
+# With 32-bit builds (-m32), Qhull uses less memory
+# M32     = -m32
+# -fpic may be needed for gcc to build the library.  For 32-bit builds, -fpic is slower
+FPIC      = -fpic
 CC        = gcc
-CC_OPTS1  = -O3 -ansi -Isrc -fpic $(CC_WARNINGS) ${M32}
+CC_OPTS1  = -O3 -ansi -Isrc/ $(CC_WARNINGS) $(M32) $(FPIC)
 CXX       = g++
 
 # libqhullcpp must be before libqhull_r
-CXX_OPTS1 = -O3 -Isrc/ $(CXX_WARNINGS) ${M32}
+CXX_OPTS1  = -O3 -Isrc/ $(CXX_WARNINGS) $(M32) $(FPIC)
 
 # for shared library link
 CC_OPTS3  =
@@ -198,9 +201,7 @@ help:
 bin-lib:
 	mkdir -p bin
 	mkdir -p lib
-	@echo "if gcc fails with -- bits/predefs.h: No such file"
-	@echo "  install a 32-bit build environment, or"
-	@echo "  make M32="
+	@echo "if user_eg or the shared library build fails, other targets remain OK"
 
 # Remove intermediate files for all builds
 # Deletes eg/*.x, *.x, and *.tmp
@@ -482,14 +483,14 @@ LIBQHULLCPP_HDRS = $(LCPP)/RoadError.h $(LCPP)/RoadLogEvent.h $(LCPP)/Coordinate
 	$(LCPP)/QhullLinkedList.h $(LCPP)/QhullPoint.h $(LCPP)/QhullPoints.h \
 	$(LCPP)/QhullPointSet.h $(LCPP)/QhullQh.h $(LCPP)/QhullRidge.h \
 	$(LCPP)/QhullSet.h $(LCPP)/QhullSets.h $(LCPP)/QhullStat.h \
-	$(LCPP)/QhullVertex.h $(LCPP)/RboxPoints.h
+	$(LCPP)/QhullVertex.h $(LCPP)/QhullVertexSet.h $(LCPP)/RboxPoints.h
 
 LIBQHULLCPP_OBJS = $(LCPP)/RoadError.o $(LCPP)/RoadLogEvent.o $(LCPP)/Coordinates.o \
 	$(LCPP)/PointCoordinates.o $(LCPP)/Qhull.o $(LCPP)/QhullFacet.o \
 	$(LCPP)/QhullFacetList.o $(LCPP)/QhullFacetSet.o \
-	$(LCPP)/QhullHyperplane.o $(LCPP)/QhullPoint.o \
-	$(LCPP)/QhullPoints.o $(LCPP)/QhullPointSet.o $(LCPP)/QhullQh.o \
-	$(LCPP)/QhullRidge.o $(LCPP)/QhullSet.o $(LCPP)/QhullStat.o \
+	$(LCPP)/QhullHyperplane.o $(LCPP)/QhullPoint.o $(LCPP)/QhullPoints.o \
+	$(LCPP)/QhullPointSet.o $(LCPP)/QhullQh.o $(LCPP)/QhullRidge.o \
+	$(LCPP)/QhullSet.o $(LCPP)/QhullStat.o \
 	$(LCPP)/QhullVertex.o $(LCPP)/QhullVertexSet.o $(LCPP)/RboxPoints.o
 
 # CFILES for non-reentrant Qhull, ordered alphabetically after libqhull.c
@@ -700,7 +701,7 @@ lib/libqhullstatic.a: $(LIBQHULLS_RBOX_OBJS)
 	@echo ==== If 'ar' fails, try 'make qhullx' ====
 	@echo ==========================================
 	ar -rs $@ $^
-	#If 'ar -rs' fails try using 'ar -s' with 'ranlib'
+	#If 'ar -rs' fails, try using 'ar -s' with 'ranlib'
 	#ranlib $@
 
 lib/libqhullstatic_r.a: $(LIBQHULLSR_RBOX_OBJS)
