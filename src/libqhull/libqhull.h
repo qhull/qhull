@@ -6,9 +6,9 @@
 
    see qh-qhull.htm, qhull_a.h
 
-   Copyright (c) 1993-2019 The Geometry Center.
-   $Id: //main/2019/qhull/src/libqhull/libqhull.h#9 $$Change: 2712 $
-   $DateTime: 2019/06/28 12:57:00 $$Author: bbarber $
+   Copyright (c) 1993-2020 The Geometry Center.
+   $Id: //main/2019/qhull/src/libqhull/libqhull.h#11 $$Change: 2958 $
+   $DateTime: 2020/05/26 16:17:49 $$Author: bbarber $
 
    NOTE: access to qh_qh is via the 'qh' macro.  This allows
    qh_qh to be either a pointer or a structure.  An example
@@ -428,7 +428,7 @@ struct vertexT {
                            initialized in io.c or after first merge
                            qh_update_vertices for qh_addpoint or qh_triangulate
                            updated by merges
-                           qh_order_vertexneighbors for 2-d and 3-d */
+                           qh_order_vertexneighbors by 2-d (orientation) 3-d (adjacency), n-d (f.visitid,id) */
   unsigned int id;      /* unique identifier, 1..qh.vertex_id,  0 for sentinel, printed as 'r%d' */
   unsigned int visitid; /* for use with qh.vertex_visit, size must match */
   flagT    seen:1;      /* used to perform operations only once */

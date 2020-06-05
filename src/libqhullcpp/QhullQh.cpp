@@ -1,8 +1,9 @@
+
 /****************************************************************************
 **
-** Copyright (c) 2008-2019 C.B. Barber. All rights reserved.
-** $Id: //main/2019/qhull/src/libqhullcpp/QhullQh.cpp#3 $$Change: 2710 $
-** $DateTime: 2019/06/27 14:24:04 $$Author: bbarber $
+** Copyright (c) 2008-2020 C.B. Barber. All rights reserved.
+** $Id: //main/2019/qhull/src/libqhullcpp/QhullQh.cpp#6 $$Change: 2953 $
+** $DateTime: 2020/05/21 22:05:32 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -185,56 +186,3 @@ setOutputStream(ostream *os)
 
 }//namespace orgQhull
 
-/*-<a                             href="qh_qh-user.htm#TOC"
- >-------------------------------</a><a name="qh_fprintf">-</a>
-
-  qh_fprintf(qhT *qh, fp, msgcode, format, list of args )
-    replaces qh_fprintf() in userprintf_r.c
-
-notes:
-    only called from libqhull
-    sets qhullQh->qhull_status if msgcode is error 6000..6999
-    same as fprintf() and RboxPoints.qh_fprintf_rbox()
-    fgets() is not trapped like fprintf()
-    Do not throw errors from here.  Use qh_errexit;
-*/
-extern "C"
-void qh_fprintf(qhT *qh, FILE *fp, int msgcode, const char *fmt, ... ) {
-    va_list args;
-    int last_errcode;
-
-    using namespace orgQhull;
-
-    if(!qh->ISqhullQh){
-        qh_fprintf_stderr(10025, "Qhull error: qh_fprintf called from a Qhull instance without QhullQh defined\n");
-        last_errcode= 10025;
-        qh_exit(last_errcode);
-    }
-    QhullQh *qhullQh= static_cast<QhullQh *>(qh);
-    va_start(args, fmt);
-    if(msgcode<MSG_OUTPUT || fp == qh_FILEstderr){
-        if(msgcode>=MSG_ERROR && msgcode<MSG_WARNING){
-            if(qhullQh->qhull_status<MSG_ERROR || qhullQh->qhull_status>=MSG_WARNING){
-                qhullQh->qhull_status= msgcode;
-            }
-        }
-        char newMessage[MSG_MAXLEN];
-        // RoadError will add the message tag
-        vsnprintf(newMessage, sizeof(newMessage), fmt, args);
-        qhullQh->appendQhullMessage(newMessage);
-        va_end(args);
-        return;
-    }
-    if(qhullQh->output_stream && qhullQh->use_output_stream){
-        char newMessage[MSG_MAXLEN];
-        vsnprintf(newMessage, sizeof(newMessage), fmt, args);
-        *qhullQh->output_stream << newMessage;
-        va_end(args);
-        return;
-    }
-    // QH11008 FIX: how do users trap messages and handle input?  A callback?
-    char newMessage[MSG_MAXLEN];
-    vsnprintf(newMessage, sizeof(newMessage), fmt, args);
-    qhullQh->appendQhullMessage(newMessage);
-    va_end(args);
-} /* qh_fprintf */

@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (c) 2008-2019 C.B. Barber. All rights reserved.
-** $Id: //main/2019/qhull/src/qhulltest/QhullRidge_test.cpp#1 $$Change: 2661 $
-** $DateTime: 2019/05/24 20:09:58 $$Author: bbarber $
+** Copyright (c) 2008-2020 C.B. Barber. All rights reserved.
+** $Id: //main/2019/qhull/src/qhulltest/QhullRidge_test.cpp#3 $$Change: 2963 $
+** $DateTime: 2020/06/03 19:31:01 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -90,6 +90,9 @@ t_getSet()
         while(i.hasNext()){
             const QhullRidge r= i.next();
             cout << r.id() << endl;
+            QhullRidge r2;
+            r2.setRidgeT(r.qh(), r.getRidgeT());
+            QCOMPARE(r, r2);
             QVERIFY(r.bottomFacet()!=r.topFacet());
             QCOMPARE(r.dimension(), 2); // Ridge one-dimension less than facet
             QVERIFY(r.id()>=0 && r.id()<9*27);

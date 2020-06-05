@@ -214,6 +214,7 @@
     <ClInclude Include="..\src\libqhullcpp\QhullSet.h" />
     <ClInclude Include="..\src\libqhullcpp\QhullSets.h" />
     <ClInclude Include="..\src\libqhullcpp\QhullStat.h" />
+    <ClInclude Include="..\src\libqhullcpp\QhullUser.h" />
     <ClInclude Include="..\src\libqhullcpp\QhullVertex.h" />
     <ClInclude Include="..\src\libqhullcpp\QhullVertexSet.h" />
     <ClInclude Include="..\src\libqhullcpp\RboxPoints.h" />
@@ -234,6 +235,7 @@
     <ClCompile Include="..\src\libqhullcpp\QhullRidge.cpp"  />
     <ClCompile Include="..\src\libqhullcpp\QhullSet.cpp"  />
     <ClCompile Include="..\src\libqhullcpp\QhullStat.cpp"  />
+    <ClCompile Include="..\src\libqhullcpp\QhullUser.cpp"  />
     <ClCompile Include="..\src\libqhullcpp\QhullVertex.cpp"  />
     <ClCompile Include="..\src\libqhullcpp\QhullVertexSet.cpp"  />
     <ClCompile Include="..\src\libqhullcpp\RboxPoints.cpp"  />

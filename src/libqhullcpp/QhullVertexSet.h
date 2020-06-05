@@ -1,14 +1,15 @@
 /****************************************************************************
 **
-** Copyright (c) 2009-2019 C.B. Barber. All rights reserved.
-** $Id: //main/2019/qhull/src/libqhullcpp/QhullVertexSet.h#1 $$Change: 2661 $
-** $DateTime: 2019/05/24 20:09:58 $$Author: bbarber $
+** Copyright (c) 2009-2020 C.B. Barber. All rights reserved.
+** $Id: //main/2019/qhull/src/libqhullcpp/QhullVertexSet.h#3 $$Change: 2953 $
+** $DateTime: 2020/05/21 22:05:32 $$Author: bbarber $
 **
 ****************************************************************************/
 
 #ifndef QHULLVERTEXSET_H
 #define QHULLVERTEXSET_H
 
+#include "libqhullcpp/QhullFacetList.h"
 #include "libqhullcpp/QhullSet.h"
 #include "libqhullcpp/QhullVertex.h"
 
@@ -56,6 +57,8 @@ public:
 #ifdef QHULL_USES_QT
     QList<QhullVertex>   toQList() const;
 #endif //QHULL_USES_QT
+
+#//!\name Methods
 
 #//!\name IO
     struct PrintVertexSet{

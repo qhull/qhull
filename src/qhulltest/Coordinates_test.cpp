@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (c) 2009-2019 C.B. Barber. All rights reserved.
-** $Id: //main/2019/qhull/src/qhulltest/Coordinates_test.cpp#1 $$Change: 2661 $
-** $DateTime: 2019/05/24 20:09:58 $$Author: bbarber $
+** Copyright (c) 2009-2020 C.B. Barber. All rights reserved.
+** $Id: //main/2019/qhull/src/qhulltest/Coordinates_test.cpp#3 $$Change: 2966 $
+** $DateTime: 2020/06/04 16:14:31 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -61,7 +61,7 @@ t_construct()
     c2 << 2.0;
     QCOMPARE(c2.count(), 2);
     Coordinates c3;
-    c3 = c2;
+    c3= c2;
     QCOMPARE(c3.count(), 2);
     QCOMPARE(c3[0]+c3[1], 3.0);
     QVERIFY(c2==c3);

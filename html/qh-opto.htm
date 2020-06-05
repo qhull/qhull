@@ -34,7 +34,7 @@ href="qh-optp.htm#print">Print</a>, and <a
 href="qh-optg.htm#geomview">Geomview</a> for other output
 options. </p>
 
-<p><b>Copyright &copy; 1995-2019 C.B. Barber</b></p>
+<p><b>Copyright &copy; 1995-2020 C.B. Barber</b></p>
 
 <hr>
 
@@ -127,6 +127,13 @@ of non-simplicial facets as is. Use option '<a
 href="qh-optf.htm#Ft">Ft</a>' to print the coordinates of the
 centrums as well as those of the input points.  The centrum indices
 for option 'i' are one more than the centrum indices for option 'Ft'.</p>
+
+<p>For halfspace intersection (<a href="qhalf.htm">qhalf</a>), a "facet"
+is an intersection point and a "point" is a halfspace.  Option 'i' lists the
+non-redundant halfspaces incident to each intersection point.
+The first line is the number of non-redundant halfspaces.  Each remaining
+line lists the incident, non-redundant halfspaces for that intersection point.
+</p>
 
 <h3><a href="#output">&#187;</a><a name="m">m - print Mathematica output</a></h3>
 

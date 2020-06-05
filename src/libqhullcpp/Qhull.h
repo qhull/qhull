@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (c) 2008-2019 C.B. Barber. All rights reserved.
-** $Id: //main/2019/qhull/src/libqhullcpp/Qhull.h#2 $$Change: 2673 $
-** $DateTime: 2019/06/07 16:27:53 $$Author: bbarber $
+** Copyright (c) 2008-2020 C.B. Barber. All rights reserved.
+** $Id: //main/2019/qhull/src/libqhullcpp/Qhull.h#5 $$Change: 2956 $
+** $DateTime: 2020/05/23 21:08:29 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -76,6 +76,7 @@ public:
     bool                initialized() const { return (qh_qh->hull_dim>0); }
     const char *        inputComment() const { return qh_qh->rbox_command; }
     QhullPoint          inputOrigin();
+    bool                isDelaunay() const { return qh_qh->DELAUNAY; }
                         //! non-const due to QhullPoint
     QhullPoint          origin() { QHULL_ASSERT(initialized()); return QhullPoint(qh_qh, origin_point.data()); }
     QhullQh *           qh() const { return qh_qh; }
@@ -118,6 +119,7 @@ public:
     double              area();
     void                outputQhull();
     void                outputQhull(const char * outputflags);
+    void                prepareVoronoi(bool *isLower, int *voronoiVertexCount);
     void                runQhull(const RboxPoints &rboxPoints, const char *qhullCommand2);
     void                runQhull(const char *inputComment2, int pointDimension, int pointCount, const realT *pointCoordinates, const char *qhullCommand2);
     double              volume();

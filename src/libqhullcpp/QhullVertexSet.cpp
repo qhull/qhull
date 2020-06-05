@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (c) 2009-2019 C.B. Barber. All rights reserved.
-** $Id: //main/2019/qhull/src/libqhullcpp/QhullVertexSet.cpp#1 $$Change: 2661 $
-** $DateTime: 2019/05/24 20:09:58 $$Author: bbarber $
+** Copyright (c) 2009-2020 C.B. Barber. All rights reserved.
+** $Id: //main/2019/qhull/src/libqhullcpp/QhullVertexSet.cpp#3 $$Change: 2953 $
+** $DateTime: 2020/05/21 22:05:32 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -115,6 +115,8 @@ toStdVector() const
     return vs;
 }//toStdVector
 #endif //QHULL_NO_STL
+
+#//!\name Class functions
 
 }//namespace orgQhull
 

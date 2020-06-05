@@ -9,11 +9,13 @@
 #   can not use path with $zip_file 
 #   odd error messages if can't locate directory
 #
-# $Id: //main/2019/qhull/eg/qhull-zip.sh#14 $$Change: 2725 $
-# $DateTime: 2019/06/30 16:34:48 $$Author: bbarber $
+# $Id: //main/2019/qhull/eg/qhull-zip.sh#28 $$Change: 2972 $
+# $DateTime: 2020/06/05 17:59:50 $$Author: bbarber $
 
 if [[ $# -ne 3 ]]; then
-        echo 'Missing date stamp -- eg/qhull-zip.sh 2019 2019.1 7.3.2' 
+        echo 'Missing date stamp -- eg/qhull-zip.sh 2020 2020.1 8.0.0' 
+        echo 'Build Release Win32 binaries -- build/... from Perforce, make cleanall, retarget vcxproj files, restart DevStudio'
+        echo 'Check libqhull_r and libqhull are the same.  See qh_code.htm#convert'
         exit
 fi
 versionyear=$1
@@ -43,6 +45,7 @@ if [[ ! -d qhull/eg ]]; then
     fi
 fi
 root_dir=$(pwd)
+echo root_dir= $root_dir
 
 TEMP_DIR="$TMP/qhull-zip-$(ro_today2)"
 TEMP_FILE="$TMP/qhull-zip-$(ro_today2).txt"
@@ -52,6 +55,30 @@ qhull_tgz_file=qhull-$versionyear-src-$versionunix.tgz
 qhullmd5_file=qhull-$version.md5sum
 
 exit_if_fail $LINENO "rm -f $qhull_zip_file $qhull_tgz_file $qhullmd5_file"
+
+if [[ -e /bin/msysinfo || -e /bin/msys-z.dll ]]; then
+
+    #############################
+    log_step $LINENO "Check for DevStudio 32-bit release build without q_test2"
+    #############################
+
+    ls -l qhull/bin/*.exe qhull/bin/*.dll
+    qhull/bin/rbox 4 D2 | qhull/bin/qhull Tsz | grep "size in bytes"
+    qhull/bin/rbox 4 D2 | qhull/bin/qhull Tsz | grep "size in bytes" | grep "ridge 20"
+    exit_if_err $LINENO "Not a 32-bit build (expecting 'ridge 20')"
+   
+    if grep eg/q_test2 qhull/Makefile; then
+       exit_err $LINENO "Change eg/q_test2 to eg/q_test in Makefile.testall"
+    fi
+    
+    if (p4 diff -se qhull/... | grep -v vcxp | grep qhull); then
+       exit_err $LINENO "Submit modified files to Perforce"
+    fi
+    
+    if [[ -d src/qhull_qh ]]; then
+       exit_err $LINENO "Delete src/qhull_qh/"
+    fi
+fi
 
 #############################
 log_step $LINENO "Check files"
@@ -141,6 +168,11 @@ function create_md5sum #md5_file -- create md5sum of current directory
     log_note $HERE "$(md5sum $md5_file)"
 }
 
+function findf #name [path]
+{
+    find . -type f -name "*$2*" -not -path "*.git*" | egrep -i "${1:-.}"
+}
+
 #############################
 log_step $LINENO "Configure $0 for $(pwd)/qhull"
 #############################
@@ -153,7 +185,7 @@ qhull_dirs="qhull/CMakeModules qhull/eg qhull/html qhull/src"
 qhull_files="qhull/build/*.sln qhull/build/*.vcproj qhull/build/qhulltest/*.vcproj \
     qhull/build/*.vcxproj qhull/build/config.cmake.in qhull/build/qhulltest/*.vcxproj \
     qhull/Announce.txt qhull/CMakeLists.txt qhull/COPYING.txt \
-    qhull/File_id.diz qhull/QHULL-GO.lnk qhull/README.txt \
+    qhull/File_id.diz qhull/qhull.pc.in qhull/QHULL-GO.lnk qhull/README.txt \
     qhull/REGISTER.txt qhull/index.htm qhull/Makefile  \
     qhull/bin/qconvex.exe qhull/bin/qdelaunay.exe qhull/bin/qhalf.exe \
     qhull/bin/qhull.exe qhull/bin/*qhull_r.dll qhull/bin/qvoronoi.exe \
@@ -161,15 +193,26 @@ qhull_files="qhull/build/*.sln qhull/build/*.vcproj qhull/build/qhulltest/*.vcpr
     qhull/bin/testqset_r.exe \
     qhull/bin/user_eg3.exe qhull/bin/testqset.exe qhull/bin/msvcr80.dll"
 qhull_ufiles="$qhull_dirs qhull/build/*.sln qhull/build/*.vcproj \
-    qhull/build/config.cmake.in \
+    qhull/build/*.vcxproj qhull/build/config.cmake.in \
     qhull/Announce.txt qhull/CMakeLists.txt qhull/COPYING.txt \
-    qhull/File_id.diz qhull/QHULL-GO.lnk qhull/README.txt \
+    qhull/File_id.diz qhull/qhull.pc.in qhull/QHULL-GO.lnk qhull/README.txt \
     qhull/REGISTER.txt qhull/index.htm qhull/Makefile"
 qhull_d2ufiles="Makefile src/libqhull/Makefile src/libqhull_r/Makefile \
     qhull/build/config.cmake.in \
     src/*/DEPRECATED.txt src/*/*.pro src/*/*.htm html/*.htm html/*.txt \
     src/libqhull/MBorland eg/q_eg eg/q_egtest eg/q_test "
     
+
+if [[ -e /bin/msysinfo || -e /bin/msys-z.dll ]]; then
+
+    #############################
+    log_step $LINENO "Check qhull_files for zip directory"
+    #############################
+
+    ls -l $qhull_files $qhull_dirs >>$err_log 
+    exit_if_err $LINENO "Missing files for zip directory.  Release build only"
+fi
+
 #############################
 log_step $LINENO "Clean distribution directories"
 #############################
@@ -309,10 +352,11 @@ if [[ -r $root_dir/$qhull_tgz_file ]]; then
     exit_if_fail $LINENO "tar -zxf $root_dir/$qhull_tgz_file"
 fi
 log_step $LINENO "Check Changes.txt"
-head -30 */src/Changes.txt | tail -17
+head -40 */src/Changes.txt | tail -17
 
 #############################
 log_step $LINENO "====================================================================="
+log_step $LINENO "Check libqhull_r and libqhull are the same.  See qh_code.htm#convert"
 log_step $LINENO "Check *qhull-zip-.../zip/Dates.txt for timestamps that need updating"
 log_step $LINENO "Check *qhull-zip-.../zip/Errors-matched.txt for mismatched codes, errors not ending in NL, errors on multiple lines, and recently missing codes"
 log_step $LINENO "Check *qhull-zip-.../zip/Errors-not-matched.txt for unused error codes (count==1) or multiply-defined codes (count>2)"
@@ -328,7 +372,7 @@ log_step $LINENO " prompts: see qhull-zip.sh for command"
 log_step $LINENO " check QhullFacet/qh_printfacetheader, QhullRidge/qh_printridge, QhullVertex/qh_printvertex"
 log_step $LINENO " check for internal errors while merging with pinched vertices, see qhull-zip.sh for command"
 # ../eg/qtest.sh 10 '10000 s C1,2e-13 D3' 'd Q14' | grep -vE 'topology|precision|CPU|Maximum'
-log_step $LINENO " check libqhull_r and libqhullcpp for ' = '"
+log_step $LINENO " check solution for ' = '"
 log_step $LINENO "Test CMake build"
 log_step $LINENO " cd $TEMP_DIR/tgz/qhull*/build"
 log_step $LINENO " cmake -G \"MSYS Makefiles\" .. && cmake .."
@@ -337,44 +381,53 @@ log_step $LINENO " mkdir -p ../bin/ && cp -p lib*.dll *.exe ../bin/"
 log_step $LINENO " cd ..; make test"
 log_step $LINENO "Test Linux compile"
 log_step $LINENO " cd .. && scp $qhull_tgz_file qhull@qhull.org:"
-log_step $LINENO " tar zxf $qhull_tgz_file && cd qhull-$version && make >../make.x 2>&1"
+log_step $LINENO " rm -rf qhull-$version; tar zxf $qhull_tgz_file && cd qhull-$version && make >../make.x 2>&1"
+log_step $LINENO " more ../make.x"
+log_step $LINENO " export DESTDIR=.; make install; cd usr/local/lib"
 log_step $LINENO " make test"
 log_step $LINENO " eg/q_test >eg/q_test.x 2>&1"
+log_step $LINENO "Update 'Qhull wiki.md', qhull-news.htm (#problems, #bugs), qh-code.htm#enhance"
 log_step $LINENO "Test qhull and compare to q_test-ok.txt"
-log_step $LINENO " cd $TEMP_DIR/zip/qhull* && make testall >/c/bash/local/qhull/eg/q_test.x 2>&1"
-log_step $LINENO "Build and test testqhull.  Compare to eg/qhulltest-ok.txt"
-log_step $LINENO " cd /c/bash/local/qhull && bin/qhulltest --all >eg/qhulltest.x 2>&1"
+log_step $LINENO " cd $TEMP_DIR/zip/qhull* && make testall >/d/bash/local/qhull/eg/q_test.x 2>&1"
+log_step $LINENO "Build and test 64-bit qhulltest.  Compare to eg/qhulltest-ok.txt"
+log_step $LINENO " cd /d/bash/local/qhull && bin/qhulltest --all >eg/qhulltest.x 2>&1"
+log_step $LINENO "Compare source directories:  Copy 'qhull/' to 'downloads/qhull-YYYY/'"
+log_step $LINENO "  find qhull-2020 -type f ! -path "./.git*" ! -path "*working*" | xargs sed -i 's/2020/2019/g'"
 log_step $LINENO "Benchmark qhull.  Compare to eg/q_benchmark-ok.txt"
-log_step $LINENO "  cd $TEMP_DIR/zip/qhull* && make benchmark >/c/bash/local/qhull/eg/q_benchmark.x 2>&1"
+log_step $LINENO "  cd $TEMP_DIR/zip/qhull* && make benchmark >/d/bash/local/qhull/eg/q_benchmark.x 2>&1"
 log_step $LINENO "Build qhull with gcc"
 log_step $LINENO " cd $TEMP_DIR/zip/qhull* && make SO=dll" 
 log_step $LINENO "Test qhull with 32-bit devstudio release, compare and update with q_test-ok.txt"
-log_step $LINENO " cp -p lib/libqhull*.dll bin && make testall >/c/bash/local/qhull/eg/q_test-make.x 2>&1"
+log_step $LINENO " cp -p lib/libqhull*.dll bin && make testall >/d/bash/local/qhull/eg/q_test-make.x 2>&1"
 log_step $LINENO "Create qhull_qh and compare with libqhull, qconvex, etc."
 log_step $LINENO " eg/make-qhull_qh.sh libqhull_r"
-log_step $LINENO "Build and test libqhull"
-log_step $LINENO " make cleanall cd src/libqhull && make cleanall && make && cp *.exe ../../bin && cd ../.. && make test && ls -l bin/qhull.exe"
-log_step $LINENO " make testall >/c/bash/local/qhull/eg/q_test-libqhull.x 2>&1"
+log_step $LINENO " Ignore 'Id: //.*' and 'DateTime: 20.*'  Edit>FullRefresh"
+log_step $LINENO " Compare qhull*exports.def and add new functions"
+log_step $LINENO "Build and test libqhull.  user_eg3 not built"
+log_step $LINENO " make cleanall && cd src/libqhull && make cleanall && make && cp *.exe ../../bin && cd ../.. && make test && ls -l bin/qhull.exe"
+log_step $LINENO " make testall >/d/bash/local/qhull/eg/q_test-libqhull.x 2>&1"
 log_step $LINENO "Build and test libqhull with qh_QHpointer"
+log_step $LINENO " e src/libqhull/user.h"
 log_step $LINENO " make cleanall && cd src/libqhull && make cleanall && make && cp *.exe ../../bin && cd ../.. && make test && ls -l bin/qhull.exe"
 log_step $LINENO " bin/rbox c | bin/qhull FO Tz | grep QHpointer"
 log_step $LINENO " make testall 2>&1 | tee eg/q_test-qh_QHpointer.x"
-log_step $LINENO "Build and test libqhull_r"
+log_step $LINENO "Build and test libqhull_r.  user_eg3 not built"
 log_step $LINENO " make cleanall && cd src/libqhull_r && make cleanall && make && cp *.exe ../../bin && cd ../.. && make test && ls -l bin/qhull.exe"
-log_step $LINENO " make testall >/c/bash/local/qhull/eg/q_test-libqhull_r.x 2>&1"
+log_step $LINENO " make testall >/d/bash/local/qhull/eg/q_test-libqhull_r.x 2>&1"
 log_step $LINENO "Build and test libqhull_r with qh_NOmem"
 log_step $LINENO "Build and test libqhull_r with qh_NOmerge"
 log_step $LINENO "Build and test libqhull_r with qh_NOtrace"
 log_step $LINENO "Build and test libqhull_r with qh_KEEPstatistics 0"
-log_step $LINENO "Build and check Makefile/qhullx"
+log_step $LINENO "Build and check Makefile/qhullx.  user_eg* not built"
 log_step $LINENO " make cleanall && make qhullx && make test && ls -l bin/qhull.exe"
 log_step $LINENO "Benchmark libqhull_r with gcc"
-log_step $LINENO " make benchmark >/c/bash/local/qhull/eg/q_benchmark-libqhull_r.x 2>&1"
+log_step $LINENO " make benchmark >/d/bash/local/qhull/eg/q_benchmark-libqhull_r.x 2>&1"
 log_step $LINENO "Check Qhull-go (double-click)"
 log_step $LINENO "Compare Changes.txt with previous release"
 log_step $LINENO "Compare README.txt with previous release"
 log_step $LINENO "Compare previous zip release, Dates.txt, and md5sum"
 log_step $LINENO "Compare zip and tgz for CRLF vs LF"
+log_step $LINENO "  C:/Git$TEMP_DIR/"
 log_step $LINENO "Compare qh_prompt* for unix_r.c,qconvex.c,etc."
 log_step $LINENO "Check html links with Firefox Link Analyzer (fast but doesn't check #..."
 log_step $LINENO "  Replace old links with web.archive.org (archive.is)"
@@ -383,7 +436,10 @@ log_step $LINENO "Extract zip to download/ and compare directories"
 log_step $LINENO "Check for 32-bit release executables from DevStudio (<500K and 'Ts' 32-bit allocations)"
 log_step $LINENO "Check for virus with Windows Defender"
 log_step $LINENO "Copy tarballs to qhull.org"
-log_step $LINENO " scp  qhull-2019.1*x qhull*7.3.2*x qhull@qhull.org:web/download/"
+log_step $LINENO " cd .. && ls -l qhull-2020.1* qhull*8.0.0*"
+log_step $LINENO " scp -p qhull-2020.1* qhull*8.0.0* qhull@qhull.org:web/download/"
+log_step $LINENO "Add md5sums to end of qh-get.htm"
+log_step $LINENO "Add release labels to git"
 log_step $LINENO "Finished successfully"
 #############################
 

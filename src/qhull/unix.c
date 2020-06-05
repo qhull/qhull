@@ -7,9 +7,9 @@
 
    see qh-qhull.htm
 
-   Copyright (c) 1993-2019 The Geometry Center.
-   $Id: //main/2019/qhull/src/qhull/unix.c#3 $$Change: 2710 $
-   $DateTime: 2019/06/27 14:24:04 $$Author: bbarber $
+   Copyright (c) 1993-2020 The Geometry Center.
+   $Id: //main/2019/qhull/src/qhull/unix.c#4 $$Change: 2954 $
+   $DateTime: 2020/05/21 22:30:09 $$Author: bbarber $
 */
 
 #include "libqhull/libqhull.h"

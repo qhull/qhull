@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (c) 2009-2019 C.B. Barber. All rights reserved.
-** $Id: //main/2019/qhull/src/qhulltest/PointCoordinates_test.cpp#1 $$Change: 2661 $
-** $DateTime: 2019/05/24 20:09:58 $$Author: bbarber $
+** Copyright (c) 2009-2020 C.B. Barber. All rights reserved.
+** $Id: //main/2019/qhull/src/qhulltest/PointCoordinates_test.cpp#3 $$Change: 2966 $
+** $DateTime: 2020/06/04 16:14:31 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -409,7 +409,7 @@ t_coord_iterator()
     QhullPoint p0(c[0]);
     QhullPoint p1(c[1]);
     QhullPoint p2(c[2]);
-    coordT c2[] = {-1.0, -2.0};
+    coordT c2[]= {-1.0, -2.0};
     QhullPoint p3(q, 2, c2);
     PointCoordinatesIterator i2= c;
     QVERIFY(i.findNext(p1));

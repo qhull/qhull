@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (c) 2008-2019 C.B. Barber. All rights reserved.
-** $Id: //main/2019/qhull/src/qhulltest/QhullPoint_test.cpp#1 $$Change: 2661 $
-** $DateTime: 2019/05/24 20:09:58 $$Author: bbarber $
+** Copyright (c) 2008-2020 C.B. Barber. All rights reserved.
+** $Id: //main/2019/qhull/src/qhulltest/QhullPoint_test.cpp#3 $$Change: 2966 $
+** $DateTime: 2020/06/04 16:14:31 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -369,7 +369,7 @@ t_qhullpoint_iterator()
     QVERIFY(!i.hasNext());
     QVERIFY(!i.hasPrevious());
 
-    QhullPoint p = q.firstVertex().point();
+    QhullPoint p= q.firstVertex().point();
     QhullPointIterator i2(p);
     QCOMPARE(p.dimension(), 3);
     i= p;
@@ -408,7 +408,7 @@ t_method()
     // advancePoint tested above
     RboxPoints rcube("c");
     Qhull q(rcube, "");
-    QhullPoint p = q.firstVertex().point();
+    QhullPoint p= q.firstVertex().point();
     double dist= p.distance(q.origin());
     QCOMPARE(dist, sqrt(double(2.0+1.0))/2); // half diagonal of unit cube
 }//t_qhullpoint_iterator

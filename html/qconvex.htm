@@ -129,7 +129,7 @@ are there extra points in a 4-d or higher convex hull?</a><br>
 <a href=qh-quick.htm#options>options</a>: <i>d v H Qbb Qf Qg Qm
 Qr Qu Qv Qx Qz TR E V Fp Gt Q0,etc</i>.
 
-<p><b>Copyright &copy; 1995-2019 C.B. Barber</b></p>
+<p><b>Copyright &copy; 1995-2020 C.B. Barber</b></p>
 
 <hr>
 
@@ -249,15 +249,15 @@ individually or together.</p>
     <dt><a href="qh-optf.htm#Fx">Fx</a></dt>
     <dd>list extreme points (i.e., vertices).  The first line is the number of
         extreme points.  Each point is listed, one per line.  The cube example
-        has eight vertices.</dd>
+        has eight vertices.  In 2-d, extreme points are in counter-clockwise order.</dd>
     <dt><a href="qh-optf.htm#Fv">Fv</a></dt>
     <dd>list vertices for each facet.  The first line is the number of facets.
         Each remaining line starts with the number of vertices.  For the cube example,
         each facet has four vertices.</dd>
     <dt><a href="qh-opto.htm#i">i</a></dt>
     <dd>list vertices for each facet.  The first line is the number of facets.  The
-        remaining lines list the vertices for each facet.  In 4-d and
-        higher, triangulate non-simplicial facets by adding an extra point.</dd>
+        remaining lines list the vertices for each facet.  The facets are oriented.
+        In 4-d and higher, triangulate non-simplicial facets by adding an extra point.</dd>
     <dt>&nbsp;</dt>
     <dt>&nbsp;</dt>
     <dd><b>Coordinates</b></dd>
@@ -266,7 +266,8 @@ individually or together.</p>
            first line is the dimension.  The second line is the number of
            vertices, facets, and ridges.  The vertex
            coordinates are next, followed by the facets.  Each facet starts with
-           the number of vertices.  The cube example has four vertices per facet.</dd>
+           the number of vertices.  Simplicial and 3-d facets are oriented.  The cube
+           example has four vertices per facet.</dd>
     <dt><a href="qh-optf.htm#Ft">Ft</a></dt>
     <dd>print a triangulation of the convex hull in OFF format.  The first line
         is the dimension.  The second line is the number of vertices and added points,

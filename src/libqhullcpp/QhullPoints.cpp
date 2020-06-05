@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (c) 2009-2019 C.B. Barber. All rights reserved.
-** $Id: //main/2019/qhull/src/libqhullcpp/QhullPoints.cpp#2 $$Change: 2673 $
-** $DateTime: 2019/06/07 16:27:53 $$Author: bbarber $
+** Copyright (c) 2009-2020 C.B. Barber. All rights reserved.
+** $Id: //main/2019/qhull/src/libqhullcpp/QhullPoints.cpp#4 $$Change: 2953 $
+** $DateTime: 2020/05/21 22:05:32 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -87,7 +87,7 @@ countT QhullPoints::
 extraCoordinatesCount() const
 {
     if(point_dimension>0){
-        return (point_end-point_first) % point_dimension;
+        return (point_end-point_first) % point_dimension; /* must be less than point_dimension */
     }
     return 0;
 }//extraCoordinatesCount
@@ -196,7 +196,7 @@ indexOf(const coordT *pointCoordinates) const
     }
     size_t offset= pointCoordinates-point_first;
     countT idx= static_cast<countT>(offset/point_dimension);
-    countT extra= offset % point_dimension;
+    countT extra= offset % point_dimension;   /* must be less than point_dimension */
     if(extra!=0){
         throw QhullError(10066, "Qhull error: coordinates %x are not at point boundary (extra %d at index %d)", extra, idx, 0.0, pointCoordinates);
     }

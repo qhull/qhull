@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (c) 2008-2019 C.B. Barber. All rights reserved.
-** $Id: //main/2019/qhull/src/libqhullcpp/RboxPoints.cpp#4 $$Change: 2711 $
-** $DateTime: 2019/06/27 22:34:56 $$Author: bbarber $
+** Copyright (c) 2008-2020 C.B. Barber. All rights reserved.
+** $Id: //main/2019/qhull/src/libqhullcpp/RboxPoints.cpp#8 $$Change: 2965 $
+** $DateTime: 2020/06/04 15:37:41 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -11,6 +11,7 @@
 #include "libqhullcpp/QhullError.h"
 
 #include <iostream>
+#include <cstring>
 
 using std::cerr;
 using std::endl;
@@ -109,13 +110,29 @@ hasRboxMessage() const
 #//!\name Methods
 
 //! Appends points as defined by rboxCommand
+//! If dimension previously defined, adds " Ddim" to rboxCommand
 //! Appends rboxCommand to comment
 //! For rbox commands, see http://www.qhull.org/html/rbox.htm or html/rbox.htm
 void RboxPoints::
 appendPoints(const char *rboxCommand)
 {
     string s("rbox ");
+    int dim= dimension(); // QhullPoints
     s += rboxCommand;
+    if(dim==0){
+        if(*rboxCommand=='D'){
+            char *endDim= NULL;
+            dim= (int)strtol(rboxCommand+1, &endDim, 10);
+            if(*endDim=='\0' && dim>0){
+                setDimension(dim);
+                return;
+            }
+        }
+    }else if(dim!=3){
+        char dimStr[20]; // max dim is 200 (MAXdim)
+        sprintf(dimStr, " D%d", dim);
+        s += dimStr;
+    }
     char *command= const_cast<char*>(s.c_str());
     if(qh()->cpp_object){
         throw QhullError(10001, "Qhull error: conflicting user of cpp_object for RboxPoints::appendPoints() or corrupted qh_qh");

@@ -24,7 +24,7 @@
 char prompt[]= "\n\
 rbox -- generate various point distributions.  Default is random in cube.\n\
 \n\
-args (any order, space separated):                    Version: 2019/06/21\n\
+args (any order, space separated):                    Version: 2019/11/10\n\
   3000    number of random points in cube, lens, spiral, sphere or grid\n\
   D3      dimension 3-d\n\
   c       add a unit cube to the output ('c G2.0' sets size)\n\

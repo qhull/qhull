@@ -97,7 +97,7 @@ int qh_rboxpoints(FILE* fout, FILE* ferr, char* rbox_command) {
     qh_fprintf_stderr(6188, "rbox error: rbox in use by another process.  Please lock calls to rbox or use libqhull_r/rboxlib_r.c\n");
     return qh_ERRqhull;
   }
-  rbox_inuse = True;
+  rbox_inuse= True;
   rbox.ferr= ferr;
   rbox.fout= fout;
   

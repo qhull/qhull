@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (c) 2008-2019 C.B. Barber. All rights reserved.
-** $Id: //main/2019/qhull/src/libqhullcpp/QhullVertex.h#1 $$Change: 2661 $
-** $DateTime: 2019/05/24 20:09:58 $$Author: bbarber $
+** Copyright (c) 2008-2020 C.B. Barber. All rights reserved.
+** $Id: //main/2019/qhull/src/libqhullcpp/QhullVertex.h#3 $$Change: 2963 $
+** $DateTime: 2020/06/03 19:31:01 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -82,6 +82,7 @@ public:
     QhullPoint          point() const { return QhullPoint(qh_qh, qh_vertex->point); }
     QhullVertex         previous() const { return QhullVertex(qh_qh, qh_vertex->previous); }
     QhullQh *           qh() const { return qh_qh; }
+    void                setVertexT(QhullQh *qqh, vertexT *vertex) { qh_qh= qqh; qh_vertex= vertex; }
 
 #//!\name foreach
     //See also QhullVertexList

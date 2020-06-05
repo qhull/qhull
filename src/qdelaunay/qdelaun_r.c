@@ -7,7 +7,7 @@
 
    see unix_r.c for full interface
 
-   Copyright (c) 1993-2019, The Geometry Center
+   Copyright (c) 1993-2020, The Geometry Center
 */
 
 #include "libqhull_r/libqhull_r.h"

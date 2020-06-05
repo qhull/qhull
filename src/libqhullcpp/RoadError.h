@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (c) 2008-2019 C.B. Barber. All rights reserved.
-** $Id: //main/2019/qhull/src/libqhullcpp/RoadError.h#3 $$Change: 2673 $
-** $DateTime: 2019/06/07 16:27:53 $$Author: bbarber $
+** Copyright (c) 2008-2020 C.B. Barber. All rights reserved.
+** $Id: //main/2019/qhull/src/libqhullcpp/RoadError.h#7 $$Change: 2959 $
+** $DateTime: 2020/05/28 22:25:29 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -64,7 +64,7 @@ public:
 
     static void         clearGlobalLog() { global_log.seekp(0); }
     static bool         emptyGlobalLog() { return global_log.tellp()<=0; }
-    static const char  *stringGlobalLog() { return global_log.str().c_str(); }
+    static std::string  stringGlobalLog() { return global_log.str(); }
 
 #//!\name Virtual
     virtual const char *what() const throw();

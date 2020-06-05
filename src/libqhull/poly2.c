@@ -8,9 +8,9 @@
 
    frequently used code is in poly.c
 
-   Copyright (c) 1993-2019 The Geometry Center.
-   $Id: //main/2019/qhull/src/libqhull/poly2.c#13 $$Change: 2712 $
-   $DateTime: 2019/06/28 12:57:00 $$Author: bbarber $
+   Copyright (c) 1993-2020 The Geometry Center.
+   $Id: //main/2019/qhull/src/libqhull/poly2.c#16 $$Change: 2963 $
+   $DateTime: 2020/06/03 19:31:01 $$Author: bbarber $
 */
 
 #include "qhull_a.h"
@@ -2940,9 +2940,37 @@ vertexT *qh_newvertex(pointT *point) {
 } /* newvertex */
 
 /*-<a                             href="qh-poly.htm#TOC"
+  >-------------------------------</a><a name="nextfacet2d">-</a>
+
+  qh_nextfacet2d( facet, &nextvertex )
+    return next facet and vertex for a 2d facet in qh_ORIENTclock order
+    returns NULL on error
+
+  notes:
+    in qh_ORIENTclock order (default counter-clockwise)
+    nextvertex is in between the two facets
+    does not use qhT or qh_errexit [QhullFacet.cpp]
+
+  design:
+    see io.c/qh_printextremes_2d
+*/
+facetT *qh_nextfacet2d(facetT *facet, vertexT **nextvertexp) {
+  facetT *nextfacet;
+
+  if (facet->toporient ^ qh_ORIENTclock) {
+    *nextvertexp= SETfirstt_(facet->vertices, vertexT);
+    nextfacet= SETfirstt_(facet->neighbors, facetT);
+  }else {
+    *nextvertexp= SETsecondt_(facet->vertices, vertexT);
+    nextfacet= SETsecondt_(facet->neighbors, facetT);
+  }
+  return nextfacet;
+} /* nextfacet2d */
+
+/*-<a                             href="qh-poly.htm#TOC"
   >-------------------------------</a><a name="nextridge3d">-</a>
 
-  qh_nextridge3d( atridge, facet, vertex )
+  qh_nextridge3d( atridge, facet, &vertex )
     return next ridge and vertex for a 3d facet
     returns NULL on error
     [for QhullFacet::nextRidge3d] Does not call qh_errexit nor access qh_qh.

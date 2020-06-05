@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (c) 2008-2019 C.B. Barber. All rights reserved.
-** $Id: //main/2019/qhull/src/qhulltest/QhullFacet_test.cpp#1 $$Change: 2661 $
-** $DateTime: 2019/05/24 20:09:58 $$Author: bbarber $
+** Copyright (c) 2008-2020 C.B. Barber. All rights reserved.
+** $Id: //main/2019/qhull/src/qhulltest/QhullFacet_test.cpp#4 $$Change: 2966 $
+** $DateTime: 2020/06/04 16:14:31 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -38,6 +38,7 @@ private slots:
     void t_construct_qh();
     void t_constructConvert();
     void t_getSet();
+    void t_getSet2d();
     void t_value();
     void t_foreach();
     void t_io();
@@ -103,6 +104,9 @@ t_getSet()
         while(i.hasNext()){
             const QhullFacet f= i.next();
             cout << f.id() << endl;
+            QhullFacet f2;
+            f2.setFacetT(f.qh(), f.getFacetT());
+            QCOMPARE(f, f2);
             QCOMPARE(f.dimension(),3);
             QVERIFY(f.id()>0 && f.id()<=39);
             QVERIFY(f.isValid());
@@ -133,8 +137,8 @@ t_getSet()
           QCOMPARE(f, i.peekNext());
         }
         // test tricoplanarOwner
-        QhullFacet facet = q.beginFacet();
-        QhullFacet tricoplanarOwner = facet.tricoplanarOwner();
+        QhullFacet facet= q.beginFacet();
+        QhullFacet tricoplanarOwner= facet.tricoplanarOwner();
         int tricoplanarCount= 0;
         i.toFront();
         while(i.hasNext()){
@@ -207,6 +211,26 @@ t_getSet()
         QCOMPARE(voronoiCount, 1);
     }
 }//t_getSet
+
+void QhullFacet_test::
+t_getSet2d()
+{
+    RboxPoints rsquare("c D2");
+    Qhull q(rsquare, "o");  // convex hull of square
+    q.setOutputStream(&cout);
+    cout << "Points and facets.  Facet vertices in counter-clockwise order (option 'o')\n";
+    q.outputQhull();
+    int n= q.facetCount();
+    QhullFacet f= q.firstFacet();
+    QhullVertex v;
+    cout << "Facets and vertices in counter-clockwise order (f.nextFacet2d)\n";
+    for(int i= 0; i<n; ++i){
+        f= f.nextFacet2d(&v);
+        cout << "f" << f.id() << " v" << v.id() << " p" << v.point().id() << "\n";
+    }
+    cout << "Extreme points in counter-clockwise order (option 'Fx')\n";
+    q.outputQhull("Fx");
+}//t_getSet2d
 
 void QhullFacet_test::
 t_value()

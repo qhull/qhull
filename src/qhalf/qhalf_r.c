@@ -6,7 +6,7 @@
 
    see unix_r.c for full interface
 
-   Copyright (c) 1993-2019, The Geometry Center
+   Copyright (c) 1993-2020, The Geometry Center
 */
 
 #include "libqhull_r/libqhull_r.h"
@@ -131,7 +131,7 @@ More formats:\n\
     Fm   - merge count for each intersection (511 max)\n\
     FM   - Maple output (dual 2-d or 3-d convex hull)\n\
     Fn   - count plus neighboring intersections for each intersection\n\
-    FN   - count plus intersections for each non-redundant halfspace\n\
+    FN   - count plus intersections for each halfspace\n\
     FO   - options and precision constants\n\
     Fp   - dim, count, and intersection coordinates\n\
     FP   - nearest halfspace and distance for each redundant halfspace\n\

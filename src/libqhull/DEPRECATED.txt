@@ -14,8 +14,8 @@ qhull/src/libqhull
     with libqhull_r.
 
     Qhull's C++ interface requires libqhull_r.  If you previously used the 
-    C++ interface, you will need to update your code.   See Changes.txt for 
-    suggestions.
+    C++ interface with libqhull, you will need to update your code to libqhull_r.
+    See qh-code.htm#convert and Changes.txt for suggestions.
      
     The C code in libqhull looks unusual because of the 'qh' macro.  The 'qh'
     macro controls access to Qhull's global data structure, qhT.  If 

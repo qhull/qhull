@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (c) 2008-2019 C.B. Barber. All rights reserved.
-** $Id: //main/2019/qhull/src/qhulltest/QhullVertex_test.cpp#1 $$Change: 2661 $
-** $DateTime: 2019/05/24 20:09:58 $$Author: bbarber $
+** Copyright (c) 2008-2020 C.B. Barber. All rights reserved.
+** $Id: //main/2019/qhull/src/qhulltest/QhullVertex_test.cpp#3 $$Change: 2963 $
+** $DateTime: 2020/06/03 19:31:01 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -97,6 +97,9 @@ t_getSet()
             QCOMPARE(v.dimension(),3);
             QVERIFY(v.id()>=0 && v.id()<9);
             QVERIFY(v.isValid());
+            QhullVertex v2;
+            v2.setVertexT(v.qh(), v.getVertexT());
+            QCOMPARE(v, v2);
             if(i.hasNext()){
                 QCOMPARE(v.next(), i.peekNext());
                 QVERIFY(v.next()!=v);

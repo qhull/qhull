@@ -13,9 +13,9 @@
    unix.c and user.c are the only callers of io.c functions
    This allows the user to avoid loading io.o from qhull.a
 
-   Copyright (c) 1993-2019 The Geometry Center.
-   $Id: //main/2019/qhull/src/libqhull/io.c#7 $$Change: 2698 $
-   $DateTime: 2019/06/24 14:52:34 $$Author: bbarber $
+   Copyright (c) 1993-2020 The Geometry Center.
+   $Id: //main/2019/qhull/src/libqhull/io.c#11 $$Change: 2965 $
+   $DateTime: 2020/06/04 15:37:41 $$Author: bbarber $
 */
 
 #include "qhull_a.h"
@@ -383,6 +383,7 @@ pointT *qh_detvnorm(vertexT *vertex, vertexT *vertexA, setT *centers, realT *off
   normal= gmcoord;
   qh_sethyperplane_gauss(dim, qh gm_row, point0, True,
                 normal, &offset, &nearzero);
+  /* nearzero is true for axis-parallel hyperplanes (e.g., a bounding box).  Should detect degenerate hyperplanes.  See 'Tv' check following */
   if (qh GOODvertexp == vertexA->point)
     inpoint= vertexA->point;
   else
@@ -1016,43 +1017,75 @@ setT *qh_markvoronoi(facetT *facetlist, setT *facets, boolT printall, boolT *isL
   >-------------------------------</a><a name="order_vertexneighbors">-</a>
 
   qh_order_vertexneighbors( vertex )
-    order facet neighbors of a 2-d or 3-d vertex by adjacency
+    order facet neighbors of vertex by 2-d (orientation), 3-d (adjacency), or n-d (f.visitid,id)
 
   notes:
-    does not orient the neighbors
+    error if qh_vertexneighbors not called beforehand
+    only 2-d orients the neighbors
+    for 4-d and higher
+      set or clear f.visitid for qh_compare_facetvisit
+      for example, use qh_markvoronoi (e.g., qh_printvornoi) or qh_countfacets (e.g., qh_printvneighbors)
 
-  design:
+  design (2-d):
+    see qh_printextremes_2d
+  design (3-d):
     initialize a new neighbor set with the first facet in vertex->neighbors
     while vertex->neighbors non-empty
       select next neighbor in the previous facet's neighbor set
     set vertex->neighbors to the new neighbor set
+  design (n-d):
+    qsort by f.visitid, or f.facetid (qh_compare_facetvisit)
+    facet_id is negated (sorted before visit_id facets)
 */
 void qh_order_vertexneighbors(vertexT *vertex) {
   setT *newset;
-  facetT *facet, *neighbor, **neighborp;
+  facetT *facet, *facetA, *facetB, *neighbor, **neighborp;
+  vertexT *vertexA;
+  int numneighbors;
 
-  trace4((qh ferr, 4018, "qh_order_vertexneighbors: order neighbors of v%d for 3-d\n", vertex->id));
-  newset= qh_settemp(qh_setsize(vertex->neighbors));
-  facet= (facetT *)qh_setdellast(vertex->neighbors);
-  qh_setappend(&newset, facet);
-  while (qh_setsize(vertex->neighbors)) {
-    FOREACHneighbor_(vertex) {
-      if (qh_setin(facet->neighbors, neighbor)) {
-        qh_setdel(vertex->neighbors, neighbor);
-        qh_setappend(&newset, neighbor);
-        facet= neighbor;
-        break;
+  trace4((qh ferr, 4018, "qh_order_vertexneighbors: order facet neighbors of v%d by 2-d (orientation), 3-d (adjacency), or n-d (f.visitid,id)\n", vertex->id));
+  if (!qh VERTEXneighbors) {
+    qh_fprintf(qh ferr, 6428, "qhull internal error (qh_order_vertexneighbors): call qh_vertexneighbors before calling qh_order_vertexneighbors\n");
+    qh_errexit(qh_ERRqhull, NULL, NULL);
+  }
+  if (qh hull_dim == 2) {
+    facetA= SETfirstt_(vertex->neighbors, facetT);
+    if (facetA->toporient ^ qh_ORIENTclock)
+      vertexA= SETfirstt_(facetA->vertices, vertexT);
+    else
+      vertexA= SETsecondt_(facetA->vertices, vertexT);
+    if (vertexA!=vertex) {
+      facetB= SETsecondt_(vertex->neighbors, facetT);
+      SETfirst_(vertex->neighbors)= facetB;
+      SETsecond_(vertex->neighbors)= facetA;
+    }
+  }else if (qh hull_dim == 3) {
+    newset= qh_settemp(qh_setsize(vertex->neighbors));
+    facet= (facetT *)qh_setdellast(vertex->neighbors);
+    qh_setappend(&newset, facet);
+    while (qh_setsize(vertex->neighbors)) {
+      FOREACHneighbor_(vertex) {
+        if (qh_setin(facet->neighbors, neighbor)) {
+          qh_setdel(vertex->neighbors, neighbor);
+          qh_setappend(&newset, neighbor);
+          facet= neighbor;
+          break;
+        }
+      }
+      if (!neighbor) {
+        qh_fprintf(qh ferr, 6066, "qhull internal error (qh_order_vertexneighbors): no neighbor of v%d for f%d\n",
+          vertex->id, facet->id);
+        qh_errexit(qh_ERRqhull, facet, NULL);
       }
     }
-    if (!neighbor) {
-      qh_fprintf(qh ferr, 6066, "qhull internal error (qh_order_vertexneighbors): no neighbor of v%d for f%d\n",
-        vertex->id, facet->id);
-      qh_errexit(qh_ERRqhull, facet, NULL);
-    }
+    qh_setfree(&vertex->neighbors);
+    qh_settemppop();
+    vertex->neighbors= newset;
+  }else { /* qh.hull_dim >= 4 */
+    numneighbors= qh_setsize(vertex->neighbors);
+    qsort(SETaddr_(vertex->neighbors, facetT), (size_t)numneighbors,
+        sizeof(facetT *), qh_compare_facetvisit);
   }
-  qh_setfree(&vertex->neighbors);
-  qh_settemppop();
-  vertex->neighbors= newset;
 } /* order_vertexneighbors */
 
 /*-<a                             href="qh-io.htm#TOC"
@@ -3367,11 +3400,7 @@ void qh_printvneighbors(FILE *fp, facetT* facetlist, setT *facets, boolT printal
     if (vertex) {
       numneighbors= qh_setsize(vertex->neighbors);
       qh_fprintf(fp, 9249, "%d", numneighbors);
-      if (qh hull_dim == 3)
-        qh_order_vertexneighbors(vertex);
-      else if (qh hull_dim >= 4)
-        qsort(SETaddr_(vertex->neighbors, facetT), (size_t)numneighbors,
-             sizeof(facetT *), qh_compare_facetvisit);
+      qh_order_vertexneighbors(vertex);
       FOREACHneighbor_(vertex)
         qh_fprintf(fp, 9250, " %d",
                  neighbor->visitid ? neighbor->visitid - 1 : 0 - neighbor->id);
@@ -3467,12 +3496,7 @@ void qh_printvoronoi(FILE *fp, qh_PRINT format, facetT *facetlist, setT *facets,
     numneighbors= 0;
     numinf=0;
     if (vertex) {
-      if (qh hull_dim == 3)
-        qh_order_vertexneighbors(vertex);
-      else if (qh hull_dim >= 4)
-        qsort(SETaddr_(vertex->neighbors, facetT),
-             (size_t)qh_setsize(vertex->neighbors),
-             sizeof(facetT *), qh_compare_facetvisit);
+      qh_order_vertexneighbors(vertex);
       FOREACHneighbor_(vertex) {
         if (neighbor->visitid == 0)
           numinf= 1;

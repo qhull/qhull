@@ -31,7 +31,7 @@ are indicated by 'F' followed by a letter. See <A
 and <a href="qh-optg.htm#geomview">Geomview</a> for other output
 options. </p>
 
-<p><b>Copyright &copy; 1995-2019 C.B. Barber</b></p>
+<p><b>Copyright &copy; 1995-2020 C.B. Barber</b></p>
 
 <hr>
 
@@ -190,6 +190,16 @@ points.
 <p>Each coplanar point or interior point is assigned to the
 facet it is furthest above (resp., least below). </p>
 
+<p>For halfspace intersection (<a href="qhalf.htm">qhalf</a>), a "facet"
+is an intersection point and a "point" is a halfspace.  Option 'Fc' lists the
+coplanar halfspaces for each intersection point.
+The first line is the number of intersection points.  Each remaining
+line starts with the number of coplanar halfspaces.  A coplanar halfspace
+is listed for one intersection point even though it is coplanar to
+multiple intersection points.  Options "Fc <a href="qh-optq.htm#Qi">Qi</a>" list
+the redundant halfspaces for each intersection point.
+<p>
+
 <p>Use 'Qc <a href="qh-opto.htm#p">p</a>' to print vertex and
 coplanar point coordinates. Use '<a href="qh-optf.htm#Fv">Fv</a>'
 to print vertices. </p>
@@ -267,7 +277,7 @@ an adjacent pair of input sites. The next <i>d</i> floats are the
 normalized coefficients for the hyperplane, and the last float is
 the offset. The hyperplane is oriented toward '<A
  href="qh-optq.htm#QVn">QVn</a>' (if defined), or the first input
-site of the pair. </p>
+site of the pair (the point is below the hyperplane).</p>
 
 <p>Use '<a href="qh-optf.htm#Fo2">Fo</a>' for unbounded regions,
 and '<a href="qh-optf.htm#Fv2">Fv</a>' for the corresponding
@@ -379,6 +389,10 @@ is the negation of the facet's ID (option '<a href="#FI">FI</a>').
 For example, negative indices are used for facets "at infinity" in
 the Delaunay triangulation.</p>
 
+<p>For halfspace intersection (<a href="qhalf.htm">qhalf</a>), a "facet"
+is an intersection point.  Option 'Fn' lists
+the neighboring intersection points for each intersection point.</p>
+
 <h3><a href="#format">&#187;</a><a name="FN">FN - print neighboring
 facets for each point</a></h3>
 
@@ -413,6 +427,12 @@ in site ID order. Option 'FN' corresponds to the second half of
 option '<a href="qh-opto.htm#o">o</a>'. To convert from 'FN' to '<A
  href="qh-opto.htm#o">o</a>', replace negative indices with zero
 and increment non-negative indices by one. </p>
+
+<p>For halfspace intersection (<a href="qhalf.htm">qhalf</a>), a "facet"
+is an intersection point and a "point" is a halfspace.  Option 'FN' lists
+the intersection points for each halfspace.  The first line is the number of
+halfspaces.   Each remaining line starts with the number of intersection
+points for this halfspace.  Redundant halfspaces have 0 intersection points. </p>
 
 <p>If you are using the <a href="qh-code.htm#library">Qhull
 library</a> or <a href="qh-code.htm#cpp">C++ interface</a>, option 'FN' has the side effect of reordering the
@@ -451,17 +471,18 @@ an adjacent pair of input sites. The next <i>d</i> floats are the
 normalized coefficients for the hyperplane, and the last float is
 the offset. The hyperplane is oriented toward '<A
  href="qh-optq.htm#QVn">QVn</a>' (if defined), or the first input
-site of the pair. </p>
+site of the pair (the point is below the hyperplane).</p>
 
-<p>Option 'Fo' gives the hyperplanes for the unbounded rays of
-the unbounded regions of the Voronoi diagram. Each hyperplane
-goes through the midpoint of the corresponding input sites. The
-rays are directed away from the input sites. </p>
+<p>Option 'Fo' gives the separating hyperplanes for the unbounded regions of
+the Voronoi diagram.  The midpoint between each pair of input sites is used
+in place of the vertex at infinity.
+
+<p>If the midpoint happens to be a Voronoi vertex, the hyperplane is degenerate
+(e.g., 'rbox c P0 D2 | qvoronoi p Fo').</p>
 
 <p>Use '<a href="qh-optf.htm#Fi2">Fi</a>' for bounded regions,
 and '<a href="qh-optf.htm#Fv2">Fv</a>' for the corresponding
-Voronoi vertices. Use '<a href="qh-optt.htm#Tv">Tv</a>' to verify
-that the corresponding Voronoi vertices lie on the hyperplane. </p>
+Voronoi vertices.</p>
 
 <h3><a href="#format">&#187;</a><a name="FO">FO - print list of selected options</a></h3>
 
@@ -475,8 +496,8 @@ halfspace intersections</a></h3>
 remainder is one intersection point per line. A intersection
 point is the intersection of <i>d</i> or more halfspaces from
 '<a href="qhalf.htm">qhalf</a>'. It corresponds to a
-facet of the dual polytope. The "infinity" point
-[-10.101,-10.101,...] indicates an unbounded intersection.</p>
+facet of the dual polytope. The "infinity" point,
+[-10.101,-10.101,...] (qh_INFINITE), indicates an unbounded intersection.</p>
 
 <p>If [x,y,z] are the dual facet's normal coefficients and <i>b&lt;0</i>
 is its offset, the halfspace intersection occurs at
@@ -622,6 +643,12 @@ but it orients facets by reversing the order of two
 vertices.  Option 'i' triangulates non-simplicial, 4-d and higher facets by
 adding vertices for the centrums.
 </p>
+<p> For halfspace intersection (<a href="qhalf.htm">qhalf</a>), a "facet"
+is an intersection point and a "point" is a halfspace.  Option 'Fv' lists the
+non-redundant halfspaces incident to each intersection point.
+The first line is the number of non-redundant halfspaces.  Each remaining
+line starts with the number of non-redundant halfspaces incident to that point.
+</p>
 
 <h3><a href="#format">&#187;</a><a name="Fv2">Fv - print Voronoi
 diagram</a></h3>
@@ -639,7 +666,7 @@ unbounded, add the midpoint of the pair of input sites. The
 unbounded ray is directed from the Voronoi vertices to infinity. </p>
 
 <p>Use '<a href="qh-optf.htm#Fo2">Fo</a>' for separating
-hyperplanes of outer, unbounded regions. Use '<A
+hyperplanes of outer, unbounded regions. Use '<a
  href="qh-optf.htm#Fi2">Fi</a>' for separating hyperplanes of
 inner, bounded regions. </p>
 
@@ -682,7 +709,7 @@ give the index of the corresponding points. The first point is
 '0'. </p>
 
 <p>In 2-d, the extreme points (vertices) are listed in
-counterclockwise order (by qh_ORIENTclock in user.h). </p>
+counter-clockwise order (by qh_ORIENTclock in user.h). </p>
 
 <p>In 3-d and higher convex hulls, the extreme points (vertices)
 are sorted by index. This is the same order as option '<A

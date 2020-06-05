@@ -119,7 +119,7 @@ It disables the following Qhull
 Qm Qr Qv Qx TR E V FC Fi Fo Fp Ft FV Q0,etc</i>.
 
 
-<p><b>Copyright &copy; 1995-2019 C.B. Barber</b></p>
+<p><b>Copyright &copy; 1995-2020 C.B. Barber</b></p>
 
 <hr>
 
@@ -432,14 +432,16 @@ of random 3-d points is
 approximately linear for reasonably sized point sets.
 
 <p>With the <a href="qh-code.htm#library">Qhull library</a>, you
-can use <tt>qh_findbestfacet</tt> in <tt>poly2.c</tt> to locate the facet
-that contains a point. You should first lift the point to the
+can use <tt>qh_findbestfacet</tt> in <tt>poly2.c</tt> to locate the facet or adjacent
+facet that contains a point.  First lift the point to the
 paraboloid (i.e., the last coordinate is the sum of the squares
 of the point's coordinates -- <tt>qh_setdelaunay</tt>). Do not use options
 '<a href="qh-optq.htm#Qbb">Qbb</a>', '<a href="qh-optq.htm#QbB">QbB</a>',
 '<a href="qh-optq.htm#Qbk">Qbk:n</a>', or '<a
 href="qh-optq.htm#QBk">QBk:n</a>' since these scale the last
-coordinate. </p>
+coordinate.  See <a href="qh-code.htm#findfacet">locate a facet with
+qh_findbestfacet()</a>
+</p>
 
 <p>If a point is interior to the convex hull of the input set, it
 is interior to the adjacent vertices of the Delaunay

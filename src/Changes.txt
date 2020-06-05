@@ -1,9 +1,27 @@
-$Id: //main/2019/qhull/src/Changes.txt#49 $$Date: 2019/10/24 $
+$Id: //main/2019/qhull/src/Changes.txt#60 $$Date: 2020/06/05 $
 
 .............This file lists all changes to qhull and rbox.....................
-Qhull 2019.1
-Qhull 2015.2
-Qhull 2.0 (1994) to 2012.1
+
+====
+== Contents
+====
+
+To do
+Qhull 2018-2020
+Qhull 2015
+Qhull 2012.1
+Qhull 2011.1
+Qhull 2010.1 and 2009.1
+Qhull 2003.1
+Qhull 2002.1
+Qhull 3.1 (2001)
+Qhull 2.6 (1999)
+Qhull 2.5 (1998)
+Qhull 2.4 (1997)
+Qhull 2.3 (1996)
+Qhull 2.2 (1995-1996)
+Qhull 2.1 (1995)
+Qhull 2.0 (1994-1995)
 
 ====
 == To do
@@ -11,22 +29,132 @@ Qhull 2.0 (1994) to 2012.1
 
 - For a list of enhancement requests, see
   http://www.qhull.org/html/qh-code.htm#enhance
-- The C++ interface needs work and documentation.  Give it a try and make it better. 
+- The C++ interface needs documentation.
+  Give C++ a try and make it better.
   http://github.com/qhull/qhull/wiki
+- Expand the C++ interface for Voronoi diagrams
+  Design for arbitrary dimension with non-simplicial facets
+  Start with 'user_eg3 eg-voronoi eg-fifo'
+  Compute the convex hull of each Voronoi region
+  Compare its facet hyperplanes with eg-fifo
+  Create a data structure for the Voronoi diagram
+  Compare your result to CGAL's 2-d Voronoi diagram
+  A CGAL halfedge is equivalent to a Qhull ridge
+  https://doc.cgal.org/4.7/Voronoi_diagram_2/group__PkgVoronoiDiagramAdaptor2.html
   
-=============
-== Qhull 2019.1
-=============
+==================
+== Qhull 2018-2020
+==================
 
 ------------
-Qhull 2019.1 github
+Qhull 2020.1 2020/05/29 (8.0.0)
+
+Bugs fixed
+- QhullLinkedList::const_iterator: Fixed operator->() for T*.  It returned &i [J. Mirabel 5/1/2020 #61]
+
+API changes
+- RoadError.cpp: stringGlobalLog returns std::string instead of const char* [M. Gehre #46]
+- io_r.c/qh_order_vertexneighbors: order facet neighbors of a vertex by 2-d (orientation), 3-d (adjacency), n-d (f.visitid,id) [I. Gardner]
+- poly2_r.c/qh_nextfacet2d: Return next facet and vertex in qh_ORIENTclock order [N. Katzakis #54]
+
+C++ interface
+- Qhull.cpp: Add isDelaunay().  True if computing Delaunay or Voronoi regions
+  Add prepareVoronoi() for Voronoi output.  See user_eg3_r.cpp for examples
+  ~Qhull: Change 'Qhull output at end' to 'Qhull messages at ~Qhull()' 
+- QhullFacet.cpp: Add visitId() for f.visitid.  Needed for Voronoi output
+  Add nextFacet2d(): Iterate 2-d facets and vertices in counter-clockwise order [N. Katzakis #54]
+  Add setFacetT()
+- QhullRidge.cpp: Add setRidgeT() and qh()
+- QhullUser.cpp: Add a user-modifiable interface to Qhull using a custom qh_fprintf
+  Enhanced qh_fprintf with qhull-2019.1 updates to userprintf_r
+     Option 'Ta' prefixes output with message code, [QHnnnn]
+     Option 'Tf' flushes the output after each message, for tracing segfaults
+     Errors and high-level trace messages prefixed with QHnnnn
+     Debugging traps for qh.tracefacet, qh.traceridge, qh.tracevertex
+- QhullVertex.cpp: Add setVertexT()
+- QhullQh.cpp: moved qh_fprintf to QhullUser
+- RoadLogEvent::toString: do not prepend QHnnnn if format_string starts with QHn or [QHn
+- RboxPoints::appendPoints: use current dimension instead of throwing an error
+- user_eg3 rbox: set dimension for multiple options (e.g., user_eg3 rbox D4 5 qhull)
+- user_eg3 eg-convex: a 3-d convex hull using the C++ interface to Qhull [I. Voutchkov]
+- user_eg3 eg-delaunay: a 2-d Delaunay triangulation using the C++ interface to Qhull
+- user_eg3 eg-voronoi: a 2-d Voronoi diagram using the C++ interface to Qhull
+- user_eg3 eg-fifo: hyperplanes separating Voronoi regions via QhullUser and qh_fprintf
+
+Documentation
+- index.htm: Add Teillaud's http://www.computational-geometry.org/
+- index.htm: Add When to use Qhull and Performance of Qhull to the Qhull Manual
+- html/qconvex.htm: Add orientation for options 'i', 'Fx', and 'o'
+  qconvex .: keep the option prompt to five columns
+- html/qdelaun.htm: qh_findbestfacet may return an adjacent facet for a point
+- html/qhalf.htm,qh-optf.htm,qh-opto.htm: Added notes for options to halfspaces, e.g., 'Fp' and -10.101 [E. Huang #53]
+- html/qhalf.htm,qhalf.c,qhalf_r.c,qh-optf.htm: Fix documentation for 'qhalf FN'.  The output includes all halfspaces.
+- html/qvoronoi.htm,qvoron_f.htm: Fix link for control option, 'TI file'
+- html/qvoronoi.htm,qvoron_f.htm, qh-optf: the hyperplanes for 'Fi' and 'Fo' include the first vertex
+  Option 'Fo' uses the midpoint in place of the vertex at infinity.
+- html/qh-optf.htm: Voronoi options 'Fi' and 'Fo' orient the hyperplane so that the site is below the hyperplane
+- html/qh-optf.htm,qh-optt.htm: Voronoi option 'Fo' does not check the hyperplane with 'Tv'
+  The hyperplane check for 'Fi Tv' uses the midpoint, which 'Fo' already used in place of infinity
+- README.txt/Windows install: install Git for Windows in C:\Git\ instead of Program Files
+  README.txt/Unix install: add options for 32-bit builds w/o -fpic
+  README.txt,Makefile: link libqhullcpp before libqhull_r
+- COPYING.txt: Add a note to COPYING.txt about C.B. Barber [M. Pryczek]
+- libqhull/DEPRECATED.txt: Add link to qh-code.htm#convert
+- Qhull::vertexList: ordered by qh.vertex_list, not by adjacency [N. Katzakis #54]
+- QhullPoints.cpp/extraCoordinatesCount: must be less than point_dimension (-Wconversion)
+- QhullPoints.cpp/indexOf: extra must be less than point_dimension (-Wconversion)
+- io_r.c/qh_detvnorm: add note that qh_sethyperplane_gauss returns nearzero for axis-parallel hyperplanes
+- user_r.h/qh_CPUclock: may be converted to approximate double (-Wconversion)
+- Update copyright to 2020
+
+Build
+- Increase SOVERSION to 8.0 due to ABI breakage in 2019.1 [T. Roehling #58]
+  Change SOVERSION to major.minor due to Qhull's global data structure qhT [T. Roehling #58]
+  Add symbolic link from SONAME_EXT to libqhull_r [T. Roehling #58]
+  Add SO and SONAME_EXT to 'make help'
+- qhull.pc.in: Added for pkg-config support [T. Roehling #60]
+- CMakeLists.txt: Add pkg-config support and change *_INSTALL_DIR to relative paths [T. Roehling #60]
+  Change CMAKE_SOURCE_DIR to CMAKE_CURRENT_SOURCE_DIR to allow qhull as a subdirectory [Morwenn #53, A. De #59, A. Maloney, futex]
+- Makefile: 
+  Add pkg-support [T. Roehling #63]
+  Renamed $DESTDIR as $PREFIX to conform with GNU Makefile standards [T. Roehling #63]
+  $DESTDIR is for staged installs as defined by GNU Makefile standards [T. Roehling #63]
+  Commented out M32=-m32 despite memory savings. It caused build failures, e.g., Mac [J. Hollowed]
+  '-fpic' is required for linking to shared libraries [T. Roehling #63]
+  Replaced -fpic with FPIC=-fpic for gcc builds
+  Added FPIC to CXX_OPTS1 (same as CMakeLists.txt for libqhullcpp)
+  Use 'FPIC=' to disable -fpic (may be faster for 32-bit builds on 64-bit hosts)
+  Extract qhull_VERSION and qhull_SOVERSION from CMakeLists.txt [T. Roehling #63]
+  Move the -lm linker flag to the end of the linker command [T. Roehling #63]
+  Add QhullVertexSet.h to LIBQHULLCPP_HDRS
+  Invoke q_test via bash to avoid "eg not a valid command"
+- Add build/*vcxproj to Unix distribution
+
+Testing and other changes
+- q_test: Add list of executables via 'which'
+  Add tests of user_eg3 with each option and use case
+  Add "Testing done" notification
+  Add "set +v" for echoes
+- qhull-zip.sh: Add early check for 32-bit release build and modified files
+  Add link checks for options
+  Add findf for identifying files for link checks
+  Add prompts for web.archive and md5sum in qh-get.htm
+  
+------------
+Qhull 2019.1 github 2019/10/24
+
+Documentation
 - Review and fix Qhull html and option links
-- README.txt: Install GitForWindows in C:\Git\
+- README.txt/mingw: Install GitForWindows in C:\Git\
 - libqhull_r/index.htm: Fixed Firefox web access to '.c' and '.h' files (http://qhull.org/src/libqhull_r/)
+
+Bugs fixed
 - merge_r.c/qh_appendmergeset,qh_appendvertexmerge,qh_mergefacet,qh_tracemerge: 
-  fix test of mergetype index of mergetypes
-- CMakeLists.txt: Rename Qhull to QhullExport.  On MacOS, "Qhull" conflicts with "qhull" [tamasmeszaros, C. Xu, tschoonj]
-- CMakeLists.txt: Add POSITION_INDEPENDENT_CODE "TRUE" to set_target_properties for libqhullcpp [joaander]
+  fix error check of index for mergetypes
+
+Build
+- CMakeLists.txt: Rename Qhull to QhullExport for QhullConfig.  On MacOS, "Qhull" conflicts with "qhull" [tamasmeszaros #48, C. Xu, tschoonj]
+- CMakeLists.txt: Add POSITION_INDEPENDENT_CODE "TRUE" to set_target_properties for libqhullcpp [J Anderson 11/20/2019 #47]
 
 ------------
 Qhull 2019.1 2019/06/21 (7.3.2)
@@ -658,7 +786,7 @@ Qhull github 2018
 - build/qhull*.pc.in: Removed templates for pkg-config (not updated for Qhull 2015)
 
 =============
-== Qhull 2015.2
+== Qhull 2015
 =============
 
 ------------
@@ -1157,24 +1285,6 @@ C++ interface by class
    Removed
    Replace setGlobalDistanceEpsilon with setFactorEpsilon
    Replace globalDistanceEpsilon with distanceEpsilon
-
-=============
-== Qhull 2.0 (1994) to 2012.1
-=============
-
-Qhull 2012.1
-Qhull 2011.1
-Qhull 2010.1 and 2009.1
-Qhull 2003.1
-Qhull 2002.1
-Qhull 3.1 (2001)
-Qhull 2.6 (1999)
-Qhull 2.5 (1998)
-Qhull 2.4 (1997)
-Qhull 2.3 (1996)
-Qhull 2.2 (1995-1996)
-Qhull 2.1 (1995)
-Qhull 2.0 (1994-1995)
 
 =============
 == Qhull 2012.1

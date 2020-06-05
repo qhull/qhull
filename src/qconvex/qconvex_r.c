@@ -6,7 +6,7 @@
 
    see unix_r.c for full interface
 
-   Copyright (c) 1993-2019, The Geometry Center
+   Copyright (c) 1993-2020, The Geometry Center
 */
 
 #include "libqhull_r/libqhull_r.h"
@@ -257,9 +257,9 @@ Except for 'F.' and 'PG', upper-case options take an argument.\n\
  PArea-keep     Pdrop-d0:0D0   PFacet-area-keep  Pgood       PGood-neighbors\n\
  PMerge-keep    Poutput-forced Pprecision-not\n\
 \n\
- Qallow-short   QbBound-0:0.5  QbB-scale-box  Qcoplanar      QGood-point    Qinterior\n\
- QJoggle        QRotate        Qsearch-all    Qtriangulate   QVertex-good   Qwarn-allow\n\
- Q12-allow-wide Q14-merge-pinched\n\
+ Qallow-short   QbBound-0:0.5  QbB-scale-box  Qcoplanar      QGood-point\n\
+ Qinterior      QJoggle        QRotate        Qsearch-all    Qtriangulate\n\
+ QVertex-good   Qwarn-allow    Q12-allow-wide Q14-merge-pinched\n\
 \n\
  TFacet-log     TInput-file    TOutput-file   Tstatistics    Tverify\n\
  Tz-stdout\n\

@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (c) 2008-2019 C.B. Barber. All rights reserved.
-** $Id: //main/2019/qhull/src/libqhullcpp/Qhull.cpp#6 $$Change: 2711 $
-** $DateTime: 2019/06/27 22:34:56 $$Author: bbarber $
+** Copyright (c) 2008-2020 C.B. Barber. All rights reserved.
+** $Id: //main/2019/qhull/src/libqhullcpp/Qhull.cpp#11 $$Change: 2963 $
+** $DateTime: 2020/06/03 19:31:01 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -29,7 +29,7 @@ using std::ostream;
 #pragma warning( disable : 4996)  // function was declared deprecated(strcpy, localtime, etc.)
 #endif
 
-namespace orgQhull {
+namespace orgQhull{
 
 #//!\name Global variables
 
@@ -96,7 +96,7 @@ Qhull::
 {
     // Except for cerr, does not throw errors
     if(qh_qh->hasQhullMessage()){
-        cerr<< "\nQhull output at end\n"; // QH11005 FIX: where should error and log messages go on ~Qhull?
+        cerr<< "\nQhull messages at ~Qhull()\n"; // QH11005 FIX: where should error and log messages go on ~Qhull?
         cerr<< qh_qh->qhullMessage();
         qh_qh->clearQhullMessage();
     }
@@ -183,7 +183,8 @@ defineVertexNeighborFacets(){
 }//defineVertexNeighborFacets
 
 QhullFacetList Qhull::
-facetList() const{
+facetList() const
+{
     return QhullFacetList(beginFacet(), endFacet());
 }//facetList
 
@@ -199,9 +200,11 @@ otherPoints() const
     return QhullPointSet(qh_qh, qh_qh->other_points);
 }//otherPoints
 
-//! Return vertices of the convex hull.
+//! Return vertices of the convex hull in qh.vertex_list order
+//! Vertices are not ordered by adjacency (see QhullFacet::nextFacet2d)
 QhullVertexList Qhull::
-vertexList() const{
+vertexList() const
+{
     return QhullVertexList(beginVertex(), endVertex());
 }//vertexList
 
@@ -232,11 +235,11 @@ outputQhull(const char *outputflags)
         qh_checkflags(qh_qh, command, const_cast<char *>(s_not_output_options));
         qh_initflags(qh_qh, s);
         qh_initqhull_outputflags(qh_qh);
-        if(qh_qh->KEEPminArea < REALmax/2 || qh_qh->KEEParea || qh_qh->KEEPmerge || qh_qh->GOODvertex 
+        if(qh_qh->KEEPminArea < REALmax/2 || qh_qh->KEEParea || qh_qh->KEEPmerge || qh_qh->GOODvertex
                   || qh_qh->GOODpoint || qh_qh->GOODthreshold || qh_qh->SPLITthresholds){
             facetT *facet;
             qh_qh->ONLYgood= False;
-            FORALLfacet_(qh_qh->facet_list) {
+            FORALLfacet_(qh_qh->facet_list){
                 facet->good= True;
             }
             qh_prepare_output(qh_qh);
@@ -249,6 +252,28 @@ outputQhull(const char *outputflags)
     qh_qh->NOerrexit= true;
     qh_qh->maybeThrowQhullMessage(QH_TRY_status);
 }//outputQhull
+
+//! Prepare Qhull for Voronoi output
+//! Calls qh_markvoronoi ('v o Fi Fo') and qh_order_vertexneighbors ('v Fi Fo')
+void Qhull::
+prepareVoronoi(bool *isLower, int *voronoiVertexCount)
+{
+  QH_TRY_(qh_qh){ // no object creation -- destructors skipped on longjmp()
+    boolT isLowerHull;
+    vertexT *vertex;
+
+    setT *vertices= qh_markvoronoi(qh_qh, facetList().first().getFacetT(), NULL, !qh_ALL, &isLowerHull, voronoiVertexCount);
+    *isLower= isLowerHull;
+
+    qhT *qh= qh_qh;
+    FORALLvertices{
+      qh_order_vertexneighbors(qh, vertex);
+    }
+    qh_settempfree(qh, &vertices);
+  }
+  qh_qh->NOerrexit= true;
+  qh_qh->maybeThrowQhullMessage(QH_TRY_status);
+}//prepareVoronoi
 
 //! For qhull commands, see http://www.qhull.org/html/qhull.htm or html/qhull.htm
 void Qhull::
@@ -336,7 +361,7 @@ initializeFeasiblePoint(int hulldim)
             qh_errexit(qh_qh, qh_ERRmem, NULL, NULL);
         }
         qh_qh->feasible_point= static_cast<coordT*>(qh_malloc(static_cast<size_t>(hulldim) * sizeof(coordT)));
-        if (!qh_qh->feasible_point) {
+        if (!qh_qh->feasible_point){
             qh_fprintf(qh_qh, qh_qh->ferr, 6042, "qhull error (Qhull.cpp): insufficient memory for feasible point\n");
             qh_errexit(qh_qh, qh_ERRmem, NULL, NULL);
         }

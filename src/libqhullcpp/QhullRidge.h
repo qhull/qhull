@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (c) 2008-2019 C.B. Barber. All rights reserved.
-** $Id: //main/2019/qhull/src/libqhullcpp/QhullRidge.h#1 $$Change: 2661 $
-** $DateTime: 2019/05/24 20:09:58 $$Author: bbarber $
+** Copyright (c) 2008-2020 C.B. Barber. All rights reserved.
+** $Id: //main/2019/qhull/src/libqhullcpp/QhullRidge.h#3 $$Change: 2963 $
+** $DateTime: 2020/06/03 19:31:01 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -86,6 +86,8 @@ public:
     bool                operator==(const QhullRidge &other) const { return qh_ridge==other.qh_ridge; }
     bool                operator!=(const QhullRidge &other) const { return !operator==(other); }
     QhullFacet          otherFacet(const QhullFacet &f) const { return QhullFacet(qh_qh, (qh_ridge->top==f.getFacetT() ? qh_ridge->bottom : qh_ridge->top)); }
+    QhullQh *           qh() const { return qh_qh; }
+    void                setRidgeT(QhullQh *qqh, ridgeT *ridge) { qh_qh= qqh; qh_ridge= ridge; }
     QhullFacet          topFacet() const { return QhullFacet(qh_qh, qh_ridge->top); }
 
 #//!\name foreach

@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (c) 2009-2019 C.B. Barber. All rights reserved.
-** $Id: //main/2019/qhull/src/libqhullcpp/PointCoordinates.cpp#1 $$Change: 2661 $
-** $DateTime: 2019/05/24 20:09:58 $$Author: bbarber $
+** Copyright (c) 2009-2020 C.B. Barber. All rights reserved.
+** $Id: //main/2019/qhull/src/libqhullcpp/PointCoordinates.cpp#3 $$Change: 2961 $
+** $DateTime: 2020/06/01 22:17:03 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -164,7 +164,7 @@ setDimension(int i)
     if(i<0){
         throw QhullError(10062, "Qhull error: can not set PointCoordinates dimension to %d", i);
     }
-    int currentDimension=QhullPoints::dimension();
+    int currentDimension= dimension(); // QhullPoints
     if(currentDimension!=0 && i!=currentDimension){
         throw QhullError(10063, "Qhull error: can not change PointCoordinates dimension (from %d to %d)", currentDimension, i);
     }

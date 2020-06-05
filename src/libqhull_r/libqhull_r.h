@@ -6,9 +6,9 @@
 
    see qh-qhull_r.htm, qhull_ra.h
 
-   Copyright (c) 1993-2019 The Geometry Center.
-   $Id: //main/2019/qhull/src/libqhull_r/libqhull_r.h#13 $$Change: 2714 $
-   $DateTime: 2019/06/28 16:16:13 $$Author: bbarber $
+   Copyright (c) 1993-2020 The Geometry Center.
+   $Id: //main/2019/qhull/src/libqhull_r/libqhull_r.h#15 $$Change: 2953 $
+   $DateTime: 2020/05/21 22:05:32 $$Author: bbarber $
 
    includes function prototypes for libqhull_r.c, geom_r.c, global_r.c, io_r.c, user_r.c
 
@@ -424,7 +424,7 @@ struct vertexT {
                            initialized in io_r.c or after first merge
                            qh_update_vertices for qh_addpoint or qh_triangulate
                            updated by merges
-                           qh_order_vertexneighbors for 2-d and 3-d */
+                           qh_order_vertexneighbors by 2-d (orientation) 3-d (adjacency), n-d (f.visitid,id) */
   unsigned int id;      /* unique identifier, 1..qh.vertex_id,  0 for sentinel, printed as 'r%d' */
   unsigned int visitid; /* for use with qh.vertex_visit, size must match */
   flagT    seen:1;      /* used to perform operations only once */
@@ -851,6 +851,8 @@ struct qhT {
   int     rbox_isinteger;
   double  rbox_out_offset;
   void *  cpp_object;     /* C++ pointer.  Currently used by RboxPoints.qh_fprintf_rbox */
+  void *  cpp_other;      /* C++ pointer.  Reserved for other users */
+  void *  cpp_user;       /* C++ pointer.  Currently used by QhullUser.qh_fprintf */
 
   /* Last, otherwise zero'd by qh_initqhull_start2 (global_r.c */
   qhmemT  qhmem;          /* Qhull managed memory (mem_r.h) */

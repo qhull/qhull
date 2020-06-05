@@ -61,19 +61,21 @@
 #   Remove CMAKE_INTDIR from PreprocessorDefinitions
 #   Adjust target names and destinations (e.g., lib/libqhullstatic_rd.a)
 #  
-# $Id: //main/2019/qhull/CMakeLists.txt#7 $$Change: 2839 $
-# $DateTime: 2019/10/24 23:21:08 $$Author: bbarber $
+# $Id: //main/2019/qhull/CMakeLists.txt#12 $$Change: 2961 $
+# $DateTime: 2020/06/01 22:17:03 $$Author: bbarber $
 
 project(qhull)
 cmake_minimum_required(VERSION 3.0)
 
-# Define qhull_VERSION in README.txt, Announce.txt, qh-get.htm, CMakeLists.txt, 
-#   Makefile, qhull-exports.def, qhull_p-exports.def, qhull_r-exports.def, qhull-warn.pri
-set(qhull_VERSION2 "2019.1 2019/06/21")  # not used, See global.c, global_r.c, rbox.c, rbox_r.c
-set(qhull_VERSION     "7.3.2")  # Advance every release
+# Define qhull_VERSION in README.txt, Announce.txt, qh-get.htm, CMakeLists.txt
+#   qhull-zip.sh (twice), qhull-wiki.md, qhull-news.htm, File_id.diz, index.htm
+#   Makefile (SO), qhull-warn.pri (VERSION), qhull-exports.def (VERSION 8.0), qhull_p-exports.def, qhull_r-exports.def
+set(qhull_VERSION2 "2020.1 2020/05/29")  # not used, See global.c, global_r.c, rbox.c, rbox_r.c
+set(qhull_VERSION  "8.0.0")  # Advance every release
 
-# SOVERSION -- qhull 2003 = empty, 2009 = 5, 2010-2012 = 6, 2015-date (reentrant) = 7
-set(qhull_SOVERSION 7) # For SOVERSION 
+# SOVERSION -- qhull 2003 = empty, 2009 = 5, 2010-2012 = 6, 2015-2019 = 7, 2020 = 8.0
+# Increase SOVERSION if ABI breaks (abi-compliance-checker)
+set(qhull_SOVERSION 8.0) # For SOVERSION 
 
 include(CMakeModules/CheckLFS.cmake)
 option(WITH_LFS "Enable Large File Support" ON)
@@ -290,6 +292,7 @@ set(
         src/libqhullcpp/QhullSet.h
         src/libqhullcpp/QhullSets.h
         src/libqhullcpp/QhullStat.h
+        src/libqhullcpp/QhullUser.h
         src/libqhullcpp/QhullVertex.h
         src/libqhullcpp/QhullVertexSet.h
         src/libqhullcpp/RboxPoints.h
@@ -314,6 +317,7 @@ set(
         src/libqhullcpp/QhullRidge.cpp
         src/libqhullcpp/QhullSet.cpp
         src/libqhullcpp/QhullStat.cpp
+        src/libqhullcpp/QhullUser.cpp
         src/libqhullcpp/QhullVertex.cpp
         src/libqhullcpp/QhullVertexSet.cpp
         src/libqhullcpp/RboxPoints.cpp

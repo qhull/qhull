@@ -6,14 +6,14 @@
 #   For static builds, a simple alternative is src/libqhull_r/Makefile
 #   
 # Variables
-#   DESTDIR        destination directory for 'make install'.
-#   PREFIX         install prefix
-#   BINDIR         directory where to copy executables
-#   DOCDIR         directory where to copy html documentation
-#   INCDIR         directory where to copy headers
-#   LIBDIR         directory where to copy libraries
-#   MANDIR         directory where to copy manual pages
-#   PCDIR          directory where to copy pkg-config files
+#   DESTDIR        directory for staged installs (GNU Makefile standards)
+#   PREFIX         install directory for 'make install' (default /usr/local)
+#   BINDIR         sub-directory where to copy executables
+#   DOCDIR         sub-directory where to copy html documentation
+#   INCDIR         sub-directory where to copy headers
+#   LIBDIR         sub-directory where to copy libraries
+#   MANDIR         sub-directory where to copy manual pages
+#   PCDIR          sub-directory where to copy pkg-config files
 #   PRINTMAN       command for printing manual pages
 #   PRINTC         command for printing C files
 #   CC             ANSI C or C++ compiler
@@ -25,6 +25,8 @@
 #   CXX_OPTS2      options used to link .o files
 #   CC_WARNINGS    warnings for .c programs
 #   CXX_WARNINGS   warnings for .cpp programs
+#   SO		   file extension for libqhull_r (so-$VERSION or dll)
+#   SONAME_EXT	   SONAME extension for libqhull_r (so-$SOVERSION)
 #
 #   LIBQHULLS_RBOX_OBJS .o files for linking
 #   LIBQHULLR_HDRS  non-reentrant .h files
@@ -61,7 +63,7 @@
 #   make all
 #   make SO=dll    For mingw on Windows, use SO=dll. It builds dlls
 #   make M32=-m32  Build 32-bit Qhull on a 64-bit host (less memory)
-#   make FPIC= M32=-m32 Build 32-bit Qhull on 64-bit host without '-fpic' (faster)
+#   make M32=-m32 FPIC= Build 32-bit Qhull on 64-bit host without '-fpic' (maybe faster)
 #   make bin/qvoronoi   Produce bin/qvoronoi (etc.)
 #   make qhullx    Produce qhull, qconvex etc. without using library
 #
@@ -82,7 +84,7 @@
 #                  make testall 2>&1 | tee eg/q_test.x
 #                  Build the C++ qhulltest with Qt
 #
-# $Id: //main/2019/qhull/Makefile#19 $
+# $Id: //main/2019/qhull/Makefile#27 $
 
 # Do not replace tabs with spaces.  Needed for build rules
 # Unix line endings (\n)
@@ -102,6 +104,18 @@ ABS_DOCDIR = $(DESTDIR)$(PREFIX)/$(DOCDIR)
 ABS_MANDIR = $(DESTDIR)$(PREFIX)/$(MANDIR)
 ABS_PCDIR  = $(DESTDIR)$(PREFIX)/$(PCDIR)
 
+# Define qhull_VERSION in CMakeLists.txt, Makefile, and qhull-warn.pri
+# Truncated version in qhull-exports.def, qhull_p-exports.def, qhull_r-exports.def
+#  libqhull_r.so -- reentrant Qhull with qh_qhT passed as an argument.
+qhull_VERSION=$(shell grep 'set.qhull_VERSION ' CMakeLists.txt | grep -o '[0-9.]\+' || echo 0unknown)
+qhull_SOVERSION=$(shell grep 'set.qhull_SOVERSION ' CMakeLists.txt | grep -o '[0-9.]\+' || echo 0unknown)
+SO  = so.$(qhull_VERSION)
+SONAME_EXT = so.$(qhull_SOVERSION)
+
+# On MinGW, 
+#   make SO=dll
+#   Copy lib/libqhull_r.dll to bin/
+
 # if you do not have enscript, try a2ps or just use lpr.  The files are text.
 PRINTMAN = enscript -2rl
 PRINTC = enscript -2r
@@ -110,30 +124,22 @@ PRINTC = enscript -2r
 
 #for Gnu's gcc compiler, -O3 for optimization, -g for debugging, -pg for profiling
 # see below for gcc's CC_WARNINGS and CXX_WARNINGS
-# With 32-bit builds (-m32), Qhull uses less memory
+# Qhull uses less memory for 32-bit builds on 64-bit hosts
+# Enable 32-bit builds with 'make M32=-m32'
 # M32     = -m32
-# -fpic may be needed for gcc to build the library.  For 32-bit builds, -fpic is slower
+# -fpic is required for linking to shared libraries
+# -fpic may be slower for 32-bit builds on 64-bit hosts
+# Disable -fpic with 'make FPIC=' 
 FPIC      = -fpic
 CC        = gcc
 CC_OPTS1  = -O3 -ansi -Isrc/ $(CC_WARNINGS) $(M32) $(FPIC)
 CXX       = g++
 
-# libqhullcpp must be before libqhull_r
+# libqhullcpp must be listed before libqhull_r, otherwise it pulls in userprintf_r.c
 CXX_OPTS1  = -O3 -Isrc/ $(CXX_WARNINGS) $(M32) $(FPIC)
 
 # for shared library link
 CC_OPTS3  =
-
-# Define qhull_VERSION in CMakeLists.txt, Makefile, and qhull-warn.pri
-# Truncated version in qhull-exports.def, qhull_p-exports.def, qhull_r-exports.def
-#  libqhull_r.so -- reentrant Qhull with qh_qhT passed as an argument.
-qhull_VERSION=$(shell grep 'set.qhull_VERSION ' CMakeLists.txt | grep -o '[0-9.]\+' || echo 0unknown)
-qhull_SOVERSION=$(shell grep 'set.qhull_SOVERSION ' CMakeLists.txt | grep -o '[0-9]\+' || echo 0unknown)
-SO  = so.$(qhull_VERSION)
-
-# On MinGW, 
-#   make SO=dll
-#   Copy lib/libqhull_r.dll to bin/
 
 # for Sun's cc compiler, -fast or O2 for optimization, -g for debugging, -Xc for ANSI
 #CC       = cc
@@ -196,7 +202,7 @@ all: bin-lib bin/rbox bin/qconvex bin/qdelaunay bin/qhalf bin/qvoronoi bin/qhull
      bin/testqset_r qtest bin/user_eg2 bin/user_eg3 bin/user_eg qconvex-prompt
 
 help:
-	head -n 82 Makefile
+	head -n 86 Makefile
 
 bin-lib:
 	mkdir -p bin
@@ -380,9 +386,9 @@ testall: test
 	@echo -n "== "
 	@date
 	@echo
-	-eg/q_eg
-	-eg/q_egtest
-	-eg/q_test
+	eg/q_eg
+	eg/q_egtest
+	bash -c eg/q_test
 	-eg/q_benchmark test 1 1 1 1
 
 # make benchmark >eg/q_benchmark.x 2>&1
@@ -482,7 +488,7 @@ LIBQHULLCPP_HDRS = $(LCPP)/RoadError.h $(LCPP)/RoadLogEvent.h $(LCPP)/Coordinate
 	$(LCPP)/QhullFacetList.h $(LCPP)/QhullFacetSet.h $(LCPP)/QhullIterator.h \
 	$(LCPP)/QhullLinkedList.h $(LCPP)/QhullPoint.h $(LCPP)/QhullPoints.h \
 	$(LCPP)/QhullPointSet.h $(LCPP)/QhullQh.h $(LCPP)/QhullRidge.h \
-	$(LCPP)/QhullSet.h $(LCPP)/QhullSets.h $(LCPP)/QhullStat.h \
+	$(LCPP)/QhullSet.h $(LCPP)/QhullSets.h $(LCPP)/QhullStat.h $(LCPP)/QhullUser.h \
 	$(LCPP)/QhullVertex.h $(LCPP)/QhullVertexSet.h $(LCPP)/RboxPoints.h
 
 LIBQHULLCPP_OBJS = $(LCPP)/RoadError.o $(LCPP)/RoadLogEvent.o $(LCPP)/Coordinates.o \
@@ -490,7 +496,7 @@ LIBQHULLCPP_OBJS = $(LCPP)/RoadError.o $(LCPP)/RoadLogEvent.o $(LCPP)/Coordinate
 	$(LCPP)/QhullFacetList.o $(LCPP)/QhullFacetSet.o \
 	$(LCPP)/QhullHyperplane.o $(LCPP)/QhullPoint.o $(LCPP)/QhullPoints.o \
 	$(LCPP)/QhullPointSet.o $(LCPP)/QhullQh.o $(LCPP)/QhullRidge.o \
-	$(LCPP)/QhullSet.o $(LCPP)/QhullStat.o \
+	$(LCPP)/QhullSet.o $(LCPP)/QhullStat.o $(LCPP)/QhullUser.o \
 	$(LCPP)/QhullVertex.o $(LCPP)/QhullVertexSet.o $(LCPP)/RboxPoints.o
 
 # CFILES for non-reentrant Qhull, ordered alphabetically after libqhull.c
@@ -511,7 +517,7 @@ CXXFILES=  $(LCPP)/Coordinates.cpp $(LCPP)/PointCoordinates.cpp \
 	$(LCPP)/QhullFacetList.cpp $(LCPP)/QhullFacetSet.cpp \
 	$(LCPP)/QhullHyperplane.cpp $(LCPP)/QhullPoint.cpp \
 	$(LCPP)/QhullPoints.cpp $(LCPP)/QhullPointSet.cpp $(LCPP)/QhullQh.cpp \
-	$(LCPP)/QhullRidge.cpp $(LCPP)/QhullSet.cpp $(LCPP)/QhullStat.cpp \
+	$(LCPP)/QhullRidge.cpp $(LCPP)/QhullSet.cpp $(LCPP)/QhullStat.cpp $(LCPP)/QhullUser.cpp \
 	$(LCPP)/QhullVertex.cpp $(LCPP)/QhullVertexSet.cpp $(LCPP)/RboxPoints.cpp \
 	$(LCPP)/RoadError.cpp $(LCPP)/RoadLogEvent.cpp src/user_eg3/user_eg3_r.cpp
 	
@@ -595,6 +601,7 @@ $(LCPP)/QhullSet.o:         $(LIBQHULLCPP_HDRS) $(LIBQHULLR_HDRS)
 $(LCPP)/QhullStat.o:        $(LIBQHULLCPP_HDRS) $(LIBQHULLR_HDRS)
 $(LCPP)/QhullVertex.o:      $(LIBQHULLCPP_HDRS) $(LIBQHULLR_HDRS)
 $(LCPP)/QhullVertexSet.o:   $(LIBQHULLCPP_HDRS) $(LIBQHULLR_HDRS)
+$(LCPP)/QhullUser.o:        $(LIBQHULLCPP_HDRS) $(LIBQHULLR_HDRS)
 $(LCPP)/RboxPoints.o:       $(LIBQHULLCPP_HDRS) $(LIBQHULLR_HDRS)
 
 .c.o:
@@ -717,6 +724,7 @@ lib/libqhull_r.$(SO): $(LIBQHULLSR_RBOX_OBJS)
 	$(CC) -shared -o $@ $(CC_OPTS3) $^
 	# the following line fails under MSYS, not needed for SO=dll
 	-(cd lib/ && ln -f -s libqhull_r.$(SO) libqhull_r.so)
+	-(cd lib/ && ln -f -s libqhull_r.$(SO) libqhull_r.$(SONAME_EXT))
 
 # don't use ../qconvex.	 Does not work on Red Hat Linux
 bin/qconvex: src/qconvex/qconvex.o lib/libqhullstatic.a

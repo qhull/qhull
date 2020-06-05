@@ -6,9 +6,9 @@
 
    see qh-poly.htm, libqhull.h and poly.c
 
-   Copyright (c) 1993-2019 The Geometry Center.
-   $Id: //main/2019/qhull/src/libqhull/poly.h#3 $$Change: 2703 $
-   $DateTime: 2019/06/26 10:41:19 $$Author: bbarber $
+   Copyright (c) 1993-2020 The Geometry Center.
+   $Id: //main/2019/qhull/src/libqhull/poly.h#5 $$Change: 2963 $
+   $DateTime: 2020/06/03 19:31:01 $$Author: bbarber $
 */
 
 #ifndef qhDEFpoly
@@ -275,6 +275,7 @@ void    qh_nearcoplanar(void /* qh.facet_list */);
 vertexT *qh_nearvertex(facetT *facet, pointT *point, realT *bestdistp);
 int     qh_newhashtable(int newsize);
 vertexT *qh_newvertex(pointT *point);
+facetT *qh_nextfacet2d(facetT *facet, vertexT **nextvertexp);
 ridgeT *qh_nextridge3d(ridgeT *atridge, facetT *facet, vertexT **vertexp);
 vertexT *qh_opposite_vertex(facetT *facetA,  facetT *neighbor);
 void    qh_outcoplanar(void /* qh.facet_list */);

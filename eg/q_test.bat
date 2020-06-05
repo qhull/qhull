@@ -4,7 +4,7 @@ echo
 echo Instructions:
 echo
 echo Launch QHULL-GO.bat
-echo "  ..\eg\q_test2.bat >q_test.x 2>&1  "
+echo "  ..\eg\q_test.bat >q_test.x 2>&1  "
 echo
 echo Compare bin\q_test.x with ..\eg\q_test-ok.txt
 
@@ -23,12 +23,53 @@ echo "=============================="
 echo "== check user_eg, user_eg2, and user_eg3"
 echo "== errors if 'user_eg' and 'user_eg2' not found"
 echo "=============================="
+echo user_eg
+user_eg
 echo "user_eg 'QR1 p n Qt' 'v p' Fp"
 user_eg "QR1 p n Qt" "v p" Fp
+echo user_eg2
+user_eg2
 echo "user_eg2 'QR1 p' 'v p' Fp"
 user_eg2 "QR1 p" "v p" Fp
-echo user_eg3 rbox "10 D2" "s r 5 D2" qhull "s p"
-user_eg3 rbox "10 D2" "s r 5 D2" qhull "s p"
+echo user_eg3
+user_eg3
+echo user_eg3 eg-100
+user_eg3 eg-100
+echo user_eg3 eg-convex
+user_eg3 eg-convex
+echo user_eg3 eg-delaunay
+user_eg3 eg-delaunay
+echo user_eg3 eg-voronoi
+user_eg3 eg-voronoi
+echo user_eg3 eg-fifo
+user_eg3 eg-fifo
+echo user_eg3 rbox qhull
+user_eg3 rbox qhull
+echo user_eg3 rbox qhull T1
+user_eg3 rbox qhull T1
+echo user_eg3 rbox qhull d
+user_eg3 rbox qhull d
+echo user_eg3 rbox y c
+user_eg3 rbox y c
+echo 'user_eg3 rbox D2 10 2 "s r 5"  qhull 's p' facets'
+user_eg3 rbox D2 10 2 "s r 5"  qhull 's p' facets
+echo user_eg3 rbox "10 D2" eg-convex
+user_eg3 rbox "10 D2" eg-convex
+echo 'user_eg3 rbox "10 D2" qhull s eg-convex'
+user_eg3 rbox "10 D2" qhull s eg-convex
+echo 'user_eg3 rbox 10 eg-delaunay qhull "d o"'
+user_eg3 rbox 10 eg-delaunay qhull "d o"
+echo user_eg3 rbox D5 c P2 qhull d eg-delaunay
+user_eg3 rbox D5 c P2 qhull d eg-delaunay
+echo user_eg3 rbox "10 D2" eg-voronoi
+user_eg3 rbox "10 D2" eg-voronoi
+echo user_eg3 rbox "D5 c P2" qhull v eg-voronoi o
+user_eg3 rbox "D5 c P2" qhull v eg-voronoi o
+echo user_eg3 rbox "10 D2" eg-fifo
+user_eg3 rbox "10 D2" eg-fifo
+echo user_eg3 rbox "10 D2" qhull v eg-fifo p Fi Fo
+user_eg3 rbox "10 D2" qhull v eg-fifo p Fi Fo
+
 echo === check front ends ==========================================================
 echo "qconvex -"
 qconvex -
@@ -785,6 +826,10 @@ echo "rbox 50 C1,1E-13 t1447644703 | qhull d Q12"
 rbox 50 C1,1E-13 t1447644703 | qhull d Q12
 echo "rbox 50 C1,1E-13 t1447644703 | qhull d Q14"
 rbox 50 C1,1E-13 t1447644703 | qhull d Q14
+
+echo "======================================================="
+echo "=== Testing done.  Print documentation"
+echo "======================================================="
 echo "qhull -"
 qhull -
 echo "rbox"

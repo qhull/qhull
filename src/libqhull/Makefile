@@ -4,8 +4,8 @@
 #   See README.txt and ../../Makefile
 #       
 # Variables
-#   DESTDIR        destination directory for 'make install'
-#   PREFIX         installation prefix
+#   DESTDIR        directory for staged installs (GNU Makefile standards)
+#   PREFIX         install directory for 'make install' (default /usr/local)
 #   BINDIR         directory where to copy executables
 #   DOCDIR         directory where to copy html documentation
 #   INCDIR         directory where to copy headers
@@ -51,9 +51,10 @@
 #   make qtest     Quick test of qset, rbox, and qhull
 #   make test      Quck test of qhull, qconvex, etc.
 #
+# $Id: //main/2019/qhull/src/libqhull/Makefile#8 $
+
 # Do not replace tabs with spaces.  Needed for build rules
 # Unix line endings (\n)
-# $Id: //main/2019/qhull/src/libqhull/Makefile#4 $
 
 PREFIX ?= /usr/local
 BINDIR ?= bin
@@ -70,6 +71,8 @@ ABS_DOCDIR = $(DESTDIR)$(PREFIX)/$(DOCDIR)
 ABS_MANDIR = $(DESTDIR)$(PREFIX)/$(MANDIR)
 ABS_PCDIR  = $(DESTDIR)$(PREFIX)/$(PCDIR)
 
+qhull_VERSION=$(shell grep 'set.qhull_VERSION ' ../../CMakeLists.txt | grep -o '[0-9.]\+' || echo 0unknown)
+
 # if you do not have enscript, try a2ps or just use lpr.  The files are text.
 PRINTMAN = enscript -2rl
 PRINTC = enscript -2r
@@ -77,12 +80,16 @@ PRINTC = enscript -2r
 # PRINTC = lpr
 
 #for Gnu's gcc compiler, -O3 for optimization, -g for debugging, -pg for profiling
-# Qhull uses less memory with 32-bit builds (-m32)
-# -fpic  needed for gcc x86_64-linux-gnu.  Not needed for mingw
-# caller may defined CC_WARNINGS
-M32       = -m32
+# caller may define CC_WARNINGS
+# Qhull uses less memory for 32-bit builds on 64-bit hosts
+# Enable 32-bit builds with 'make M32=-m32'
+# M32     = -m32
+# -fpic is required for linking to shared libraries
+# -fpic may be slower for 32-bit builds on 64-bit hosts
+# Disable -fpic with 'make FPIC=' 
+FPIC      = -fpic
 CC        = gcc
-CC_OPTS1  = -O3 -ansi -I../../src -fpic $(CC_WARNINGS) ${M32}
+CC_OPTS1  = -O3 -ansi -I../../src $(CC_WARNINGS) $(M32) $(FPIC)
 
 # for Sun's cc compiler, -fast or O2 for optimization, -g for debugging, -Xc for ANSI
 #CC       = cc

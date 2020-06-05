@@ -17,6 +17,7 @@ r?
 *.rej
 
 # Build products
+bin/*
 tmp/*
 build-cmake/*
 build/.vs/*

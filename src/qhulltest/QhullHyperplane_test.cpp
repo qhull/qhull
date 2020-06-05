@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (c) 2009-2019 C.B. Barber. All rights reserved.
-** $Id: //main/2019/qhull/src/qhulltest/QhullHyperplane_test.cpp#1 $$Change: 2661 $
-** $DateTime: 2019/05/24 20:09:58 $$Author: bbarber $
+** Copyright (c) 2009-2020 C.B. Barber. All rights reserved.
+** $Id: //main/2019/qhull/src/qhulltest/QhullHyperplane_test.cpp#3 $$Change: 2966 $
+** $DateTime: 2020/06/04 16:14:31 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -371,7 +371,7 @@ t_qhullHyperplane_iterator()
 {
     RboxPoints rcube("c");
     Qhull q(rcube,"QR0");  // rotated unit cube
-    QhullHyperplane h = q.firstFacet().hyperplane();
+    QhullHyperplane h= q.firstFacet().hyperplane();
     QhullHyperplaneIterator i2(h);
     QCOMPARE(h.dimension(), 3);
     QhullHyperplaneIterator i= h;

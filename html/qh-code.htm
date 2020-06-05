@@ -35,7 +35,7 @@ height="100"></a> Qhull code</h1>
 
 <p>This section discusses the code for Qhull. </p>
 
-<p><b>Copyright &copy; 1995-2019 C.B. Barber</b></p>
+<p><b>Copyright &copy; 1995-2020 C.B. Barber</b></p>
 
 <hr>
 
@@ -161,6 +161,7 @@ or another directory comparison utility.
 <li>Review Rules > Importance > Mark grammar elements.  Be sure to include 'Comment'
 </ul>
 <li>Almost all unmodified lines should be identical.
+<li>Use 'Diffs' view to review diffs, and 'All' view to copy diffs.  Otherwise wrong lines may be changed
 <li>Copy modified lines as needed.
 <li>Be careful of removing true differences, such as those involiving
 <ul>
@@ -216,7 +217,7 @@ For example, <a href="#facet-cpp">QhullFacet</a> is an instance of Qhull's <a hr
 </p>
 
 <p>You can retain most of the data in Qhull and use the C++ interface to explore its results.
-Each object contains a reference the Qhull's data structure (via QhullQh), making the C++ representation less memory efficient.
+Each object contains a reference to Qhull's data structure (via QhullQh), making the C++ representation less memory efficient.
 </p>
 
 <p>Besides using the C++ interface, you can also use libqhull_r directly.  For example,
@@ -393,7 +394,7 @@ ordered for simplicial facets and unordered for non-simplicial facets.
 
 <p>
 RboxPoints is a std::vector of point coordinates (<a href="#point-cpp">QhullPoint</a>).
-It's iterator is <a href="#coordinate-cpp">CoordinateIterator</a>.
+Its iterator is <a href="#coordinate-cpp">CoordinateIterator</a>.
 </p>
 <p>
 <code>RboxPoints.appendRandomPoints()</code> appends points from a variety of distributions such as uniformly distributed within a cube and random points on a sphere.
@@ -483,6 +484,13 @@ example, the Qhull program is defined with <tt>libqhull_r.h</tt> and <tt>unix_r.
 To access all functions, use <tt>qhull_ra.h</tt>. Include the file
 with &quot;<tt>#include &lt;libqhull_r/qhull_ra.h&gt;</tt>&quot;. This
 avoids potential name conflicts.</p>
+
+<p>Qhull provides qhull.pc.in for pkg-config support and CMakeLists.txt for CMake.
+Using back-ticks, you can compile your C program with Qhull.  For example:
+<pre>
+  	gcc `pkg-config --cflags --libs qhull_r` -o my_app my_app.c
+</pre>
+</p>
 
 <p>If you use the Qhull library, you are on your own as far as
 bugs go. Start with small examples for which you know the output.
@@ -1212,6 +1220,8 @@ sys     0m0.015s
 
 <pre>
 Top Suggestions
+ - Document the C++ interface using Doxygen
+ - Construct the full Voronoi Diagram using the C++ interface.  See "To do" in Changes.txt
  - Optimize for 64-bit code
    Custom facetT for simplicial facets
    32-bit indices for facets and vertices
@@ -1251,6 +1261,31 @@ Top Suggestions
  - Add RPM and Debian builds to Qhull (CMake's CPackRMP and CPackDeb).
  - Create a mirror/archive web site for old and new Qhull builds
  - Constrain delaunay triangulations via Shewchuk's algorithm (ACM Symp. Comp. Geo., 1998)
+
+-----------
+To do for a furture version of the C++ interface
+ - Add defineAs() to each object
+ - Add Qtest::toString() functions for QhullPoint and others.  QByteArray and qstrdup()
+ - Document C++ using Doxygen conventions (//! and //!<)
+ - Should Qhull manage the output formats for doubles?  QH11010 FIX: user_r.h defines qh_REAL_1 as %6.8g
+ - Allocate memory for QhullSet using Qhull.qhmem.  Create default constructors for QhullVertexSet etc.  Also mid() etc.
+ - Add interior point for automatic translation?
+ - Write a program with concurrent Qhull
+ - Write QhullStat and QhullStat_test
+ - Add QList and vector instance of facetT*, etc.
+ - Generalize QhullPointSetIterator
+ - qh-code.htm: Document changes to C++ interface.
+      Organize C++ documentation into collection classes, etc.
+ - Review all C++ classes and C++ tests
+ - QhullVertexSet uses QhullSetBase::referenceSetT() to free its memory.   Probably needed elsewhere
+ - The Boost Graph Library provides C++ classes for graph data structures. It may help
+   enhance Qhull's C++ interface [Dr. Dobb's 9/00 p. 29-38; OOPSLA 99 p. 399-414].
+
+[May 2020] Suggestions
+- Check that the midpoint for Voronoi option 'Fo' is not a Voronoi vertex (rbox c D2 P0 | qvoronoi Fo)
+- How to detect degenerate hyperplanes for Voronoi option 'Fo' and 'Fi'?
+  qh_sethyperplane_gauss reports nearzero for axis parallel hyperplanes.
+- Add a 'Tv' test for Voronoi option 'Fo' that does not use midpoints
 
 [May 2019] Suggestions
 ------------
@@ -1295,6 +1330,22 @@ Other
 - Review Qhull's collection API conventions, http://www.qhull.org/road/road-faq/xml/qhull-cpp.xml
   See http://gnuwin32.sourceforge.net/packages.html and https://google-styleguide.googlecode.com/svn/trunk/cppguide.html
 
+[Jan 2019] Suggestions
+- Optimize poly_r.c/qh_update_vertexneighbors for qh_triangulate. qh_setunique and qh_setcompact are slow
+- The size of maxpoints in qh_initialvertices/qh_maxsimplex should be d+3 unique points to help avoid QH6154
+- Review coordT vs. realT.  Should parameters and variables be coordT when they are distances or coordinates?
+  'coordT' is defined as 'realT'
+  Having computations as 'double' with coordinates stored as 'float' requires many type conversions
+  Expressions are often computed as 'double' anyway
+  Source code sometimes uses 'coordT' and sometimes 'realT'
+- Need a separate, hash check for duplicate ridge vertices in a facet list -- faster than current qh_checkfacet
+- Add joggle for 'almost incident' vertices (order of 100), may clean up Qt as well, projected to hyperplane
+- Consider using r.mergevertex2 to optimize qh_postmerge
+- Report two facets with same ridge vertices, opposite orientation (topology error)
+  add warning (see QH7084) for duplicate ridge with opposite orientation (only two facets in the list)
+- Review 'VERSION 8.0' in qhull_r-exports.def.  Should it include the sub-version?
+- Check 'qh_NOmerge' compiler option
+
 [Jan 2016] Suggestions
 ------------
  - Add a post-merge pass for Delaunay slivers.  Merge into a neighbor with a circumsphere that includes the opposite point. [M. Treacy]
@@ -1324,41 +1375,6 @@ Other
    Coordinates.lastIndexOf assumes countT is signed (from end)
    All error messages with countT are wrong, convert to int?
    RboxPoints.qh_fprintf_rbox, etc. message 9393 assumes countT but may be int, va_arg(args, countT);  Need to split
-
-------------
-To do for a furture version of the C++ interface
- - Add defineAs() to each object
- - Add Qtest::toString() functions for QhullPoint and others.  QByteArray and qstrdup()
- - Document C++ using Doxygen conventions (//! and //!<)
- - Should Qhull manage the output formats for doubles?  QH11010 FIX: user_r.h defines qh_REAL_1 as %6.8g
- - Allocate memory for QhullSet using Qhull.qhmem.  Create default constructors for QhullVertexSet etc.  Also mid() etc.
- - Add interior point for automatic translation?
- - Write a program with concurrent Qhull
- - Write QhullStat and QhullStat_test
- - Add QList and vector instance of facetT*, etc.
- - Generalize QhullPointSetIterator
- - qh-code.htm: Document changes to C++ interface.
-      Organize C++ documentation into collection classes, etc.
- - Review all C++ classes and C++ tests
- - QhullVertexSet uses QhullSetBase::referenceSetT() to free it's memory.   Probably needed elsewhere
- - The Boost Graph Library provides C++ classes for graph data structures. It may help
-   enhance Qhull's C++ interface [Dr. Dobb's 9/00 p. 29-38; OOPSLA '99 p. 399-414].
-
-[Jan 2019] Suggestions
-- Optimize poly_r.c/qh_update_vertexneighbors for qh_triangulate. qh_setunique and qh_setcompact are slow
-- The size of maxpoints in qh_initialvertices/qh_maxsimplex should be d+3 unique points to help avoid QH6154
-- Review coordT vs. realT.  Should parameters and variables be coordT when they are distances or coordinates?
-  'coordT' is defined as 'realT'
-  Having computations as 'double' with coordinates stored as 'float' requires many type conversions
-  Expressions are often computed as 'double' anyway
-  Source code sometimes uses 'coordT' and sometimes 'realT'
-- Need a separate, hash check for duplicate ridge vertices in a facet list -- faster than current qh_checkfacet
-- Add joggle for 'almost incident' vertices (order of 100), may clean up Qt as well, projected to hyperplane
-- Consider using r.mergevertex2 to optimize qh_postmerge
-- Report two facets with same ridge vertices, opposite orientation (topology error)
-  add warning (see QH7084) for duplicate ridge with opposite orientation (only two facets in the list)
-- Review 'VERSION 7.0' in qhull_r-exports.def.  Should it include the sub-version?
-- Check 'qh_NOmerge' compiler option
 
 [Jan 2010] Suggestions
  - Generate vcproj from qtpro files

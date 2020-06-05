@@ -141,7 +141,7 @@ href="qh-impre.htm#joggle">Merged facets or joggled input</a>. </p>
 Qr Qv Qx Qz TR E V Fa FA FC FD FS Ft FV Gt Q0,etc</i>.
 
 
-<p><b>Copyright &copy; 1995-2019 C.B. Barber</b></p>
+<p><b>Copyright &copy; 1995-2020 C.B. Barber</b></p>
 <hr>
 
 <h3><a href="#TOP">&#187;</a><a name="synopsis">qhalf synopsis</a></h3>
@@ -287,16 +287,17 @@ intersection.</p>
     <dt>&nbsp;</dt>
     <dd><b>Intersections</b></dd>
     <dt><a href="qh-optf.htm#FN">FN</a></dt>
-    <dd>list intersection points for each non-redundant
+    <dd>list intersection points for each
         halfspace.  The first line
-            is the number of non-redundant halfspaces.  Each remaining
-                lines starts with the number of intersection points.  For the cube
+            is the number of halfspaces.  Each remaining
+                line starts with the number of intersection points.  Redundant halfspaces
+                have 0 intersection points.  For the cube
                 example, each halfspace has four intersection points.</dd>
     <dt><a href="qh-optf.htm#Fn">Fn</a></dt>
     <dd>list neighboring intersections for each intersection point.  The first line
-            is the number of intersection points.  Each remaining line
-                starts with the number of neighboring intersections.  For the cube
-                example, each intersection point has three neighboring intersections.
+            is the number of intersection points.  Each following line
+                starts with the number of neighboring intersections.
+                For the cube example, each intersection point has three neighboring intersections.
                 <p>
                 In 3-d, a non-simplicial intersection has more than three neighboring
                 intersections.  For random data (e.g., the sphere example), non-simplicial intersections are the norm.
@@ -309,7 +310,8 @@ intersection.</p>
     <dt><a href="qh-optf.htm#Fp">Fp</a></dt>
     <dd>print intersection coordinates.  The first line is the dimension and the
         second line is the number of intersection points.  The following lines are the
-        coordinates of each intersection.</dd>
+        coordinates of each intersection point.  The "infinity" point,
+[-10.101,-10.101,...] (qh_INFINITE), indicates an unbounded intersection.</dd>
     <dt><a href="qh-optf.htm#FI">FI</a></dt>
     <dd>list intersection IDs.  The first line is the number of
         intersections.  The IDs follow, one per line.</dd>
@@ -321,19 +323,19 @@ intersection.</p>
         non-redundant halfspaces.  The other lines list one halfspace per line.
         A halfspace is <i>non-redundant</i> if it
         defines a facet of the intersection.  Redundant halfspaces are ignored.  For
-        the cube example, all of the halfspaces are non-redundant.
+        the cube example, none of the halfspaces are redundant.
         </dd>
     <dt><a href="qh-optf.htm#Fv">Fv</a></dt>
     <dd>list non-redundant halfspaces incident to each intersection point.
         The first line is the number of
         non-redundant halfspaces.  Each remaining line starts with the number
-        of non-redundant halfspaces.  For the
-         cube example, each intersection is incident to three halfspaces.</dd>
+        of non-redundant halfspaces incident to that point.  For the
+         cube example, each intersection point is incident to three halfspaces.</dd>
     <dt><a href="qh-opto.htm#i">i</a></dt>
     <dd>list non-redundant halfspaces incident to each intersection point.  The first
           line is the number of intersection points.  Each remaining line
-          lists the incident, non-redundant halfspaces.  For the
-         cube example, each intersection is incident to three halfspaces.
+          lists the incident, non-redundant halfspaces for that intersection point.  For the
+         cube example, each intersection point is incident to three halfspaces.
        </dd>
     <dt><a href="qh-optf.htm#Fc">Fc</a></dt>
     <dd>list coplanar halfspaces for each intersection point. The first line is
@@ -592,7 +594,7 @@ More formats:
     Fm   - merge count for each intersection (511 max)
     FM   - Maple output (dual 2-d or 3-d convex hull)
     Fn   - count plus neighboring intersections for each intersection
-    FN   - count plus intersections for each non-redundant halfspace
+    FN   - count plus intersections for each halfspace
     FO   - options and precision constants
     Fp   - dim, count, and intersection coordinates
     FP   - nearest halfspace and distance for each redundant halfspace

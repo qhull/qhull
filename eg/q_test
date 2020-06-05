@@ -22,6 +22,7 @@ if ! user_eg >/dev/null; then
     echo 'On Linux, export LD_LIBRARY_PATH=$PWD/lib:$LD_LIBRARY_PATH'
     echo 'On Windows with mingw, cp -p lib/libqhull_r.dll bin/'
 fi
+
 echo ==============================
 echo ========= eg/q_test ==========
 echo == Check qhull programs ======
@@ -32,16 +33,46 @@ echo "qconvex => $(qconvex -V)"
 echo "qvoronoi => $(qconvex -V)"
 echo "qdelaunay => $(qdelaunay -V)"
 echo "qhalf => $(qhalf -V)"
-echo
+(ls -ld $(which qhull) \
+      $(which qconvex) \
+      $(which qvoronoi) \
+      $(which qdelaunay) \
+      $(which qhalf) \
+      $(which user_eg) \
+      $(which user_eg2) \
+      $(which user_eg3)) 2>/dev/null
 echo ==============================
 echo == check user_eg, user_eg2, and user_eg3
 echo == errors if 'user_eg' and 'user_eg2' not found
 echo ==============================
 set -v # echo commands to stdout
+user_eg
 user_eg  'QR1 p n Qt'  'v p'  'Fp'
+user_eg2
 user_eg2 'QR1 p'       'v p'  'Fp'
-user_eg3 rbox '10 D2'  's r 5 D2'  qhull 's p'
+user_eg3
+user_eg3 eg-100
+user_eg3 eg-convex
+user_eg3 eg-delaunay
+user_eg3 eg-voronoi
+user_eg3 eg-fifo
+user_eg3 rbox qhull
+user_eg3 rbox qhull T1
+user_eg3 rbox qhull d
+user_eg3 rbox y c
+user_eg3 rbox D2 10 2 "s r 5"  qhull 's p' facets
+user_eg3 rbox "10 D2" eg-convex
+user_eg3 rbox '10 D2' qhull s eg-convex
+user_eg3 rbox 10 eg-delaunay qhull 'd o'
+user_eg3 rbox D5 c P2 qhull d eg-delaunay
+user_eg3 rbox '10 D2' eg-voronoi
+user_eg3 rbox "D5 c P2" qhull v eg-voronoi o
+user_eg3 rbox '10 D2' eg-fifo
+user_eg3 rbox D2 10 qhull v eg-fifo p Fi Fo
+
+set +v
 echo === check front ends and examples ${d:-`date`} ==================
+set -v
 qconvex -
 qconvex .
 qconvex -? # [mar'19] isatty does not work for Git for Windows
@@ -112,7 +143,9 @@ rbox c | qhull n
 rbox c | qhull TA1
 rbox 10 s | qhull C1e-5 T1P-1f
 
+set +v
 echo === check quality of Qhull for ${d:-`hostname`} ${d:-`date`}
+set -v
 rbox 1000 W0 | qhull QR2 QJ s Fs Tv
 rbox 1000 W0 | qhull QR2 s Fs Tv
 rbox 1000 s | qhull C0.02 Qc Tv
@@ -124,7 +157,10 @@ rbox 100 s D6 | qhull C-0.001 Qx Qc Tv
 rbox 1000 W1e-4 | qhull C-1e-6 Qc Tv
 rbox 1000 W5e-4 D4 | qhull C-1e-5 Qc Tv
 rbox 400 W1e-3 D5 | qhull C-1e-5 Qx Qc Tv
+
+set +v
 echo === check input format etc. ${d:-`date`}
+set -v
 qhull <<EOF
 2 4 input comment
 1 0 1 1 1 2  0 0
@@ -163,7 +199,9 @@ EOF
 rbox d h | qhull Fd FV n FD Tcv | qhull Fd H Fp Tcv
 rbox 10 h | qhull Fd FD p Tcv | qhull Fd d Tcv 
 
+set +v
 echo === check rbox ${d:-`date`}
+set -v
 rbox 3 n D2
 rbox 3 D2
 rbox 3 h D2
@@ -232,8 +270,9 @@ rbox 100 r s Z1 G0.1 | qhull Tcv C-0
 rbox 100 s Z1 G0.1 | qhull Tcv 
 rbox 100 s Z1e-5 G0.1 | qhull Tc Pp
 
+set +v
 echo === check qhull option errors ${d:-`date`}
-
+set -v
 rbox 10 | qhull d H0
 rbox 10 | qhull Zza
 rbox 10 | qhull Zza Qw
@@ -245,7 +284,9 @@ qhull TIr.x
 qhull p TI    r.x TO x.x
 cat x.x
 
+set +v
 echo === check qhull output formats ${d:-`date`}
+set -v
 rbox 5 r s D2 | qhull Tcv
 rbox 5 r s D2 | qhull s 
 rbox 5 r s D2 | qhull s o 
@@ -291,7 +332,9 @@ rbox P0.5,0.5 P0.5,0.5 W0 5 D2 | qhull d FN Qc
 rbox 10 D3 | qhull Fa PA5
 rbox 10 D3 | qhull Fa PF0.4
 
+set +v
 echo === test Qt ${d:-`date`}
+set -v
 rbox c | qhull Qt s o Tcv
 rbox c | qhull Qt f i
 rbox c | qhull Qt m FM n
@@ -305,7 +348,9 @@ rbox c | qhull Qt C-0.1 Qc FF s FQ Fi n Fo FQ FI Fm Fn FN FO FO FQ Fs FS FV Fv T
 rbox 6 r s c G0.1 D2 P0.1,0.1 | qhull s FP d FO Qt
 rbox 100 W0 | qhull Tv Q11 FO 
 
+set +v
 echo === test unbounded intersection ${d:-`date`}
+set -v
 rbox c | qhull PD0:0.5 n | qhull H0 Fp Tcv
 rbox 1000 W1e-3 D3 | qhull PA8 Fa FS s n Tcv 
 rbox 1000 W1e-3 D3 | qhull C-0.01 PM10 Fm n Tcv Qc
@@ -313,7 +358,9 @@ rbox 1000 W1e-3 D3 | qhull C-0.01 PA8 PG n Tcv Qc
 rbox 10 | qhull FO Tz TO q_test.log.1
 cat q_test.log.1
 
+set +v
 echo === check Delaunay/Voronoi ${d:-`date`}
+set -v
 rbox 10 D2 | qhull d Tcv
 rbox 10 D2 | qhull d Qz Tcv
 rbox 10 D3 | qhull d Tcv
@@ -336,8 +383,10 @@ rbox 10 D3 | qhull v Fo Tcv
 rbox 10 D3 | qhull v Qu o Fv Fi Fo Tcv
 rbox 5 D2 | qhull v f FnN o
 
+set +v
 echo === check Halfspace and Qhull identity pipeline, showing the input ${d:-`date`}
 echo === the Qhull pipeline recreates 100 4-D cospherical points with the same area and volume
+set -v
 rbox 100 s D4 | qhull FA FV s n | head
 rbox 100 s D4 | qhull FQ FA FV n s | qhull s H Fp | head
 rbox 100 s D4 | qhull FQ FA FV n s Tcv | qhull FQ s H Fp Tcv | qhull FA Tcv
@@ -348,7 +397,9 @@ echo === the Qhull pipeline recreates a regular 2-D pentagon
 rbox 5 r D2 | qhull FQ n
 rbox 5 r D2 | qhull s FQ n Tcv | qhull s H0 Fp Tcv
 
+set +v
 echo === check qhull ${d:-`date`}
+set -v
 rbox 10 s D3 | qhull Tcv
 rbox 10 s D3 | qhull f Pd0:0.5 Pd2 Pg Tcv
 rbox 10 s D3 | qhull f Tcv PD2:-0.5 Pg 
@@ -393,7 +444,9 @@ rbox 200 L20 D5 t | qhull FO Tcv Qx
 rbox 1000 W1e-3 s D2 t | qhull d FO Tcv Qu Q0
 rbox 1000 W1e-3 s D2 t | qhull d FO Tcv Qu C-0
 
+set +v
 echo === check joggle and TRn ${d:-`date`}
+set -v
 rbox 100 W0 | qhull QJ1e-14 Qc TR100 Tv
 rbox 100 W0 | qhull QJ1e-13 Qc TR100 Tv
 rbox 100 W0 | qhull QJ1e-12 Qc TR100 Tv
@@ -401,7 +454,9 @@ rbox 100 W0 | qhull QJ1e-11 Qc TR100 Tv
 rbox 100 W0 | qhull QJ1e-10 Qc TR100 Tv
 rbox 100 | qhull d QJ Qb0:1e4 QB0:1e5 Qb1:1e4 QB1:1e6 Qb2:1e5 QB2:1e7 FO Tv
 
+set +v
 echo === check precision options ${d:-`date`}
+set -v
 rbox 100 D3 s | qhull E0.01 Qx Tcv FO
 rbox 100 D3 W1e-1 | qhull W1e-3 Tcv
 rbox 100 D3 W1e-1 | qhull W1e-2 Tcv Q0
@@ -445,11 +500,13 @@ rbox 300 D5 t |qhull A-0.999 Qx Qc Tcv
 rbox 100 D6 t |qhull A-0.9999 Qx Qc Tcv
 rbox 50 D7 t |qhull A-0.99999 Qx Qc Tcv W0.1
 
+set +v
 echo =======================================================
 echo === The following commands may cause errors ${d:-`date`}
 echo =======================================================
-
+echo
 echo === check bad cases for Qhull ${d:-`date`}
+set -v
 rbox 1000 L100000 s G1e-6 t | qhull Tv
 rbox 1000 L100000 s G1e-6 t | qhull Tv Q10
 rbox 1000 s Z1 G1e-13 t | qhull Tv
@@ -457,7 +514,9 @@ rbox 1000 s W1e-13 P0 t | qhull d Qbb Qc Q12 Tv
 rbox 1000 s W1e-13 t | qhull d Q12 Tv
 rbox 1000 s W1e-13 t D2 | qhull d Tv
 
+set +v
 echo === check Qhull without merging Q0 ${d:-`date`}
+set -v
 rbox c D7 | qhull Q0 Tcv
 rbox 100 s D3 | qhull Q0 E1e-3 Tc Po
 rbox 100 s D3 | qhull Q0 E1e-2 Tc Po
@@ -470,12 +529,20 @@ rbox 1000 W1e-7 | qhull Q0 Tc Po
 rbox 50 s | qhull Q0 V0.05 W0.01 Tc Po
 rbox 100 s D5 | qhull Q0 R1e-2 Tc Po
 
+set +v
 echo === check nearly incident points ${d:-`date`}
+set -v
 rbox L100 2000 D4 s C1,1e-13 t2 | qhull
 rbox L100 2000 D4 s C1,1e-13 t2 | qhull Q12
 rbox 50 C1,1E-13 t1447644703 | qhull d
 rbox 50 C1,1E-13 t1447644703 | qhull d Q12
 rbox 50 C1,1E-13 t1447644703 | qhull d Q14
+
+set +v
+echo =======================================================
+echo === Testing done.  Print documentation
+echo =======================================================
+set -v
 
 qhull -
 rbox

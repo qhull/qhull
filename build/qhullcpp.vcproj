@@ -401,6 +401,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\libqhullcpp\QhullUser.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\src\libqhullcpp\QhullVertex.cpp"
 				>
 			</File>
@@ -498,6 +502,10 @@
 			</File>
 			<File
 				RelativePath="..\src\libqhullcpp\QhullStat.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\libqhullcpp\QhullUser.h"
 				>
 			</File>
 			<File

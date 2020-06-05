@@ -4,8 +4,8 @@
 #   See README.txt and ../../Makefile
 #       
 # Variables
-#   DESTDIR        destination directory for 'make install'
-#   PREFIX         installation prefix
+#   DESTDIR        directory for staged installs (GNU Makefile standards)
+#   PREFIX         install directory for 'make install' (default /usr/local)
 #   BINDIR         directory where to copy executables
 #   DOCDIR         directory where to copy html documentation
 #   INCDIR         directory where to copy headers
@@ -51,9 +51,10 @@
 #   make qtest     Quick test of qset, rbox, and qhull
 #   make test      Quck test of qhull, qconvex, etc.
 #
+# $Id: //main/2019/qhull/src/libqhull_r/Makefile#9 $
+
 # Do not replace tabs with spaces.  Needed for build rules
 # Unix line endings (\n)
-# $Id: //main/2019/qhull/src/libqhull_r/Makefile#4 $
 
 PREFIX ?= /usr/local
 BINDIR ?= bin
@@ -79,12 +80,16 @@ PRINTC = enscript -2r
 # PRINTC = lpr
 
 #for Gnu's gcc compiler, -O3 for optimization, -g for debugging, -pg for profiling
-# Qhull uses less memory with 32-bit builds (-m32)
-# -fpic  needed for gcc x86_64-linux-gnu.  Not needed for mingw
-# caller may defined CC_WARNINGS
-M32       = -m32
+# caller may define CC_WARNINGS
+# Qhull uses less memory for 32-bit builds on 64-bit hosts
+# Enable 32-bit builds with 'make M32=-m32'
+# M32     = -m32
+# -fpic is required for linking to shared libraries
+# -fpic may be slower for 32-bit builds on 64-bit hosts
+# Disable -fpic with 'make FPIC=' 
+FPIC      = -fpic
 CC        = gcc
-CC_OPTS1  = -O3 -ansi -I../../src -fpic $(CC_WARNINGS) ${M32}
+CC_OPTS1  = -O3 -ansi -I../../src $(CC_WARNINGS) $(M32) $(FPIC)
 
 # for Sun's cc compiler, -fast or O2 for optimization, -g for debugging, -Xc for ANSI
 #CC       = cc
@@ -204,7 +209,7 @@ qhull_all: qconvex_r.o qdelaun_r.o qhalf_r.o qvoronoi_r.o unix_r.o user_eg_r.o u
 	$(CC) -o rbox $(CC_OPTS2) $(LIBQHULLS_OBJS) rbox_r.o -lm
 	$(CC) -o user_eg $(CC_OPTS2) $(LIBQHULLS_OBJS_2) user_eg_r.o -lm
 	$(CC) -o user_eg2 $(CC_OPTS2) $(LIBQHULLS_OBJS_1) user_eg2_r.o  usermem_r.o userprintf_r.o io_r.o -lm
-	$(CC) -o testqset_r $(CC_OPTS2) -lm mem_r.o qset_r.o usermem_r.o testqset_r.o -lm
+	$(CC) -o testqset_r $(CC_OPTS2) mem_r.o qset_r.o usermem_r.o testqset_r.o -lm
 	-ar -rs libqhullstatic_r.a $(LIBQHULLS_OBJS)
 	#libqhullstatic_r.a is not needed for qhull
 	#If 'ar -rs' fails try using 'ar -s' with 'ranlib'

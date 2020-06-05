@@ -11,9 +11,9 @@
 
    see qhull_a.h for internal functions
 
-   Copyright (c) 1993-2019 The Geometry Center.
-   $Id: //main/2019/qhull/src/libqhull/global.c#9 $$Change: 2712 $
-   $DateTime: 2019/06/28 12:57:00 $$Author: bbarber $
+   Copyright (c) 1993-2020 The Geometry Center.
+   $Id: //main/2019/qhull/src/libqhull/global.c#12 $$Change: 2959 $
+   $DateTime: 2020/05/28 22:25:29 $$Author: bbarber $
  */
 
 #include "qhull_a.h"
@@ -47,8 +47,8 @@ qhT qh_qh;              /* all global variables.
     recompile user_eg.c, rbox.c, libqhull.c, qconvex.c, qdelaun.c qvoronoi.c, qhalf.c, testqset.c
 */
 
-const char qh_version[]= "2019.1 2019/06/21";
-const char qh_version2[]= "qhull 7.3.2 (2019.1 2019/06/21)";
+const char qh_version[]= "2020.1 2020/05/29";
+const char qh_version2[]= "qhull 8.0.0 (2020.1 2020/05/29)";
 
 /*-<a                             href="qh-globa.htm#TOC"
   >-------------------------------</a><a name="appendprint">-</a>
@@ -1545,7 +1545,7 @@ void qh_initflags(char *command) {
     lastwarning= command;
   }
   if (lastwarning && !qh ALLOWwarning) {
-    qh_fprintf(qh ferr, 6035, "qhull option error: see previous warnings, use 'Qw' to override: '%s' (last offset %d)\n", 
+    qh_fprintf(qh ferr, 6035, "qhull option error: see previous warnings, use 'Qw' to override: '%s' (last offset %d)\n",
           command, (int)(lastwarning-command));
     qh_errexit(qh_ERRinput, NULL, NULL);
   }
@@ -2139,14 +2139,14 @@ void qh_initthresholds(char *command) {
           if (!isdigit(*s)) {
             qh_fprintf(qh ferr, 7047, "qhull option warning: no dimension given for Qhull option 'Q%c'\n",
                     key);
-            lastwarning= lastoption;            
+            lastwarning= lastoption;
             continue;
           }
           idx= qh_strtol(s, &s);
           if (idx >= maxdim) {
             qh_fprintf(qh ferr, 7048, "qhull option warning: dimension %d for Qhull option 'Q%c' is >= %d.  Ignored\n",
                 idx, key, maxdim);
-            lastwarning= lastoption;            
+            lastwarning= lastoption;
             continue;
           }
           if (*s == ':') {
@@ -2181,7 +2181,7 @@ void qh_initthresholds(char *command) {
       qh GOODthreshold= True;
   }
   if (lastwarning && !qh ALLOWwarning) {
-    qh_fprintf(qh ferr, 6036, "qhull option error: see previous warnings, use 'Qw' to override: '%s' (last offset %d)\n", 
+    qh_fprintf(qh ferr, 6036, "qhull option error: see previous warnings, use 'Qw' to override: '%s' (last offset %d)\n",
       command, (int)(lastwarning-command));
     qh_errexit(qh_ERRinput, NULL, NULL);
   }

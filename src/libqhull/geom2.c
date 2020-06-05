@@ -7,9 +7,9 @@
 
    see qh-geom.htm and geom.h
 
-   Copyright (c) 1993-2019 The Geometry Center.
-   $Id: //main/2019/qhull/src/libqhull/geom2.c#11 $$Change: 2712 $
-   $DateTime: 2019/06/28 12:57:00 $$Author: bbarber $
+   Copyright (c) 1993-2020 The Geometry Center.
+   $Id: //main/2019/qhull/src/libqhull/geom2.c#13 $$Change: 2961 $
+   $DateTime: 2020/06/01 22:17:03 $$Author: bbarber $
 
    frequently used code goes into geom.c
 */
@@ -27,12 +27,12 @@
   notes:
     qh_free the returned points to avoid a memory leak
 */
-coordT *qh_copypoints(coordT *points, int numpoints, int dimension) {
+coordT *qh_copypoints(coordT *points, int numpoints, int dimension){
   int size;
   coordT *newpoints;
 
   size= numpoints * dimension * (int)sizeof(coordT);
-  if (!(newpoints= (coordT *)qh_malloc((size_t)size))) {
+  if (!(newpoints= (coordT *)qh_malloc((size_t)size))){
     qh_fprintf(qh ferr, 6004, "qhull error: insufficient memory to copy %d points\n",
         numpoints);
     qh_errexit(qh_ERRmem, NULL, NULL);
@@ -54,7 +54,7 @@ coordT *qh_copypoints(coordT *points, int numpoints, int dimension) {
 */
 void qh_crossproduct(int dim, realT vecA[3], realT vecB[3], realT vecC[3]){
 
-  if (dim == 3) {
+  if (dim == 3){
     vecC[0]=   det2_(vecA[1], vecA[2],
                      vecB[1], vecB[2]);
     vecC[1]= - det2_(vecA[0], vecA[2],

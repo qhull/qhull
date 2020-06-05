@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (c) 2008-2019 C.B. Barber. All rights reserved.
-** $Id: //main/2019/qhull/src/libqhullcpp/QhullFacet.cpp#2 $$Change: 2664 $
-** $DateTime: 2019/05/25 13:44:04 $$Author: bbarber $
+** Copyright (c) 2008-2020 C.B. Barber. All rights reserved.
+** $Id: //main/2019/qhull/src/libqhullcpp/QhullFacet.cpp#4 $$Change: 2963 $
+** $DateTime: 2020/06/03 19:31:01 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -107,7 +107,8 @@ getCenter(qh_PRINT printFormat)
 //! Return innerplane clearly below the vertices
 //! from io_r.c[qh_PRINTinner]
 QhullHyperplane QhullFacet::
-innerplane() const{
+innerplane() const
+{
     QhullHyperplane h;
     if(qh_qh){
         realT inner;
@@ -119,10 +120,25 @@ innerplane() const{
     return h;
 }//innerplane
 
+QhullFacet QhullFacet::
+nextFacet2d(QhullVertex *nextVertex) const
+{
+    QhullFacet f;
+    if(qh_qh && qh_facet){
+        vertexT *vertex;
+        // Does not error, TRY_QHULL_ not needed
+        facetT *facet= qh_nextfacet2d(getFacetT(), &vertex);
+        f.setFacetT(qh_qh, facet);
+        nextVertex->setVertexT(qh_qh, vertex);
+    }
+    return f;
+}//nextFacet2d
+
 //! Return outerplane clearly above all points
 //! from io_r.c[qh_PRINTouter]
 QhullHyperplane QhullFacet::
-outerplane() const{
+outerplane() const
+{
     QhullHyperplane h;
     if(qh_qh){
         realT outer;

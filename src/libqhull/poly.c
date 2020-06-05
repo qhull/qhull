@@ -9,9 +9,9 @@
    infrequent code is in poly2.c
    (all but top 50 and their callers 12/3/95)
 
-   Copyright (c) 1993-2019 The Geometry Center.
-   $Id: //main/2019/qhull/src/libqhull/poly.c#6 $$Change: 2705 $
-   $DateTime: 2019/06/26 16:34:45 $$Author: bbarber $
+   Copyright (c) 1993-2020 The Geometry Center.
+   $Id: //main/2019/qhull/src/libqhull/poly.c#7 $$Change: 2953 $
+   $DateTime: 2020/05/21 22:05:32 $$Author: bbarber $
 */
 
 #include "qhull_a.h"

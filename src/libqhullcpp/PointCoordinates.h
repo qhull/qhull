@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (c) 2009-2019 C.B. Barber. All rights reserved.
-** $Id: //main/2019/qhull/src/libqhullcpp/PointCoordinates.h#3 $$Change: 2711 $
-** $DateTime: 2019/06/27 22:34:56 $$Author: bbarber $
+** Copyright (c) 2009-2020 C.B. Barber. All rights reserved.
+** $Id: //main/2019/qhull/src/libqhullcpp/PointCoordinates.h#5 $$Change: 2961 $
+** $DateTime: 2020/06/01 22:17:03 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -136,7 +136,7 @@ private:
 
 public:
                         PointCoordinatesIterator(const PointCoordinates &container) : c(&container), i(c->constBegin()) {}
-                        PointCoordinatesIterator &operator=(const PointCoordinates &container) { c= &container; i = c->constBegin(); return *this; }
+                        PointCoordinatesIterator &operator=(const PointCoordinates &container) { c= &container; i= c->constBegin(); return *this; }
 
     void                toFront() { i= c->constBegin(); }
     void                toBack() { i= c->constEnd(); }

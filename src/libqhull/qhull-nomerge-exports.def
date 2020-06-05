@@ -6,11 +6,11 @@
 ;   Annotate as __declspec for outside access in win32 -- qh_qh qh_qhstat
 ;   Same as ../libqhullp/qhull_p-nomerge-exports.def without qh_save_qhull and qh_restore_qhull
 ;
-; $Id: //main/2019/qhull/src/libqhull/qhull-nomerge-exports.def#3 $$Change: 2703 $
-; $DateTime: 2019/06/26 10:41:19 $$Author: bbarber $
+; $Id: //main/2019/qhull/src/libqhull/qhull-nomerge-exports.def#4 $$Change: 2959 $
+; $DateTime: 2020/05/28 22:25:29 $$Author: bbarber $
 ; 
 ; Define qhull_VERSION in CMakeLists.txt, Makefile, qhull-exports.def, qhull_p-exports.def, qhull_r-exports.def, and qhull-warn.pri
-VERSION 7.0
+VERSION 8.0
 EXPORTS
 qh_addhash
 qh_addpoint

@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-** Copyright (c) 2008-2019 C.B. Barber. All rights reserved.
-** $Id: //main/2019/qhull/src/libqhullcpp/QhullFacet.h#1 $$Change: 2661 $
-** $DateTime: 2019/05/24 20:09:58 $$Author: bbarber $
+** Copyright (c) 2008-2020 C.B. Barber. All rights reserved.
+** $Id: //main/2019/qhull/src/libqhullcpp/QhullFacet.h#4 $$Change: 2963 $
+** $DateTime: 2020/06/03 19:31:01 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -79,12 +79,15 @@ public:
     bool                isTriCoplanar() const { return qh_facet && qh_facet->tricoplanar; }
     bool                isUpperDelaunay() const { return qh_facet && qh_facet->upperdelaunay; }
     QhullFacet          next() const { return QhullFacet(qh_qh, qh_facet->next); }
+    QhullFacet          nextFacet2d(QhullVertex *nextVertex) const;
     bool                operator==(const QhullFacet &other) const { return qh_facet==other.qh_facet; }
     bool                operator!=(const QhullFacet &other) const { return !operator==(other); }
     QhullHyperplane     outerplane() const;
     QhullFacet          previous() const { return QhullFacet(qh_qh, qh_facet->previous); }
     QhullQh *           qh() const { return qh_qh; }
+    void                setFacetT(QhullQh *qqh, facetT *facet) { qh_qh= qqh; qh_facet= facet; }
     QhullFacet          tricoplanarOwner() const;
+    int                 visitId() const { return (qh_facet ? qh_facet->visitid : -1); }
     QhullPoint          voronoiVertex();
 
 #//!\name value

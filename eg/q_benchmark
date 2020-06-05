@@ -11,8 +11,8 @@
 #
 # Use 'gcc -O3' via libqhull/Makefile
 #
-# $Id: //main/2019/qhull/eg/q_benchmark#4 $$DateTime: 2019/06/25 15:24:47 $
-# $Change: 2701 $$Author: bbarber $
+# $Id: //main/2019/qhull/eg/q_benchmark#5 $$DateTime: 2020/06/05 16:33:18 $
+# $Change: 2967 $$Author: bbarber $
 
 function log { #message
         echo "$1" | tee -a $QH_APPEND_DEST | tee -a $QH_APPEND_SHOW
@@ -116,6 +116,8 @@ log "============================================"
 log "== eg/q_benchmark [test] [precision-count] [other-count] [pinched-count] [time-count]"
 log "== Time and precision benchmarks for qhull"
 log "============================================"
+log
+log "[jun'20] Many timing figures 5-10% faster than jun'19 results.  No change to code"
 log
 if [[ "$TEST_QTEST" == 1 ]]; then
     log "'q_benchmark test $N_PRECISION $N_OTHER $N_PINCHED $N_TIMING' $(date)"
