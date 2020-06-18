@@ -94,15 +94,15 @@ int main(int argc, char **argv){
 
 void printDoubles(const std::vector< double> &doubles)
 {
-    for(double x : doubles){
-        cout << std::setw(6) << x << " ";
+    for (size_t i = 0; i < doubles.size(); i++) {
+        cout << std::setw(6) << doubles[i] << " ";
     }
 }//printDoubles
 
 void printInts(const std::vector< int> &ints)
 {
-    for(int i : ints){
-        cout << i << " ";
+    for (size_t i = 0; i < ints.size(); i++) {
+        cout << ints[i] << " ";
     }
 }//printInts
 
