@@ -98,7 +98,7 @@ captureOff()
         throw QhullError(10080, "Qhull error: QhullUser::captureOn not call before QhullUser::captureOff for QhullUser 0x%llx", 0, 0, 0.0, this);
     }
     if(qh()->cpp_user!=this){
-        throw QhullError(10081, "Qhull error: conflicting QhullUser (0x%llx) for QhullUser::captureOff().  Does not match 'this' (0x...%X)", int((uintptr_t)this), 0, 0.0, qh()->cpp_user);
+        throw QhullError(10081, "Qhull error: conflicting QhullUser (0x%llx) for QhullUser::captureOff().  Does not match 'this' (0x...%X)", this, 0, 0.0, qh()->cpp_user);
     }
     qh()->cpp_user= NULL;
 }//captureOff
