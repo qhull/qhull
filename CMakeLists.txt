@@ -81,6 +81,18 @@ include(CMakeModules/CheckLFS.cmake)
 option(WITH_LFS "Enable Large File Support" ON)
 check_lfs(WITH_LFS)
 
+include(CMakeDependentOption)
+# Build shared and static libs by default
+option(BUILD_STATIC_LIBS "Build static libraries" ON)
+option(BUILD_SHARED_LIBS "Build shared libraries" ON)
+# When shared libs are built, allow to use it for linking the apps
+set(_NO_STATIC_LIBS NOCACHE INTERNAL (NOT ${BUILD_STATIC_LIBS}))
+cmake_dependent_option(LINK_APPS_SHARED "Use shared libraries for linking applications"
+    _NO_STATIC_LIBS
+    "BUILD_SHARED_LIBS;BUILD_STATIC_LIBS"
+    ${BUILD_SHARED_LIBS}
+)
+
 if(INCLUDE_INSTALL_DIR)
 else()
 set(INCLUDE_INSTALL_DIR include)
@@ -119,6 +131,9 @@ message(STATUS "Include Directory (INCLUDE_INSTALL_DIR):   ${INCLUDE_INSTALL_DIR
 message(STATUS "Documentation Directory (DOC_INSTALL_DIR): ${DOC_INSTALL_DIR}")
 message(STATUS "Man Pages Directory (MAN_INSTALL_DIR):     ${MAN_INSTALL_DIR}")
 message(STATUS "Build Type (CMAKE_BUILD_TYPE):             ${CMAKE_BUILD_TYPE}")
+message(STATUS "Build static libraries:                    ${BUILD_STATIC_LIBS}")
+message(STATUS "Build shared libraries:                    ${BUILD_SHARED_LIBS}")
+message(STATUS "Use shared libraries for linking apps:     ${LINK_APPS_SHARED}")
 message(STATUS "To override these options, add -D{OPTION_NAME}=... to the cmake command")
 message(STATUS "  Build the debug targets                  -DCMAKE_BUILD_TYPE=Debug")
 message(STATUS)
@@ -355,10 +370,10 @@ else()
     set(qhull_STATICR qhullstatic_r)
 endif()
 
-set(
-    qhull_TARGETS_INSTALL
-        ${qhull_CPP} ${qhull_STATIC} ${qhull_STATICR} ${qhull_SHAREDR}
-        qhull rbox qconvex qdelaunay qvoronoi qhalf
+set(qhull_TARGETS_TOOLS qhull rbox qconvex qdelaunay qvoronoi qhalf)
+set(qhull_TARGETS_STATIC ${qhull_CPP} ${qhull_STATIC} ${qhull_STATICR})
+set(qhull_TARGETS_SHARED
+	${qhull_SHAREDR}
         ${qhull_SHARED} ${qhull_SHAREDP}  # Deprecated, use qhull_r instead
 )
 set(
@@ -474,11 +489,23 @@ set_target_properties(${qhull_CPP} PROPERTIES
     POSITION_INDEPENDENT_CODE "TRUE")
 
 # ---------------------------------------
-# Define qhull executables linked to qhullstatic library
+# Exclude shared or static library builds from "make all" if disabled
+# ---------------------------------------
+if(NOT ${BUILD_STATIC_LIBS})
+    set_target_properties(${qhull_STATIC} PROPERTIES EXCLUDE_FROM_ALL TRUE)
+    set_target_properties(${qhull_STATICR} PROPERTIES EXCLUDE_FROM_ALL TRUE)
+    set_target_properties(${qhull_CPP} PROPERTIES EXCLUDE_FROM_ALL TRUE)
+endif()
+if(NOT ${BUILD_SHARED_LIBS})
+    set_target_properties(${qhull_SHARED} PROPERTIES EXCLUDE_FROM_ALL TRUE)
+    set_target_properties(${qhull_SHAREDR} PROPERTIES EXCLUDE_FROM_ALL TRUE)
+    set_target_properties(${qhull_SHAREDP} PROPERTIES EXCLUDE_FROM_ALL TRUE)
+endif()
+
+# ---------------------------------------
+# Define qhull executables linked to qhullstatic/qhull library
 #   qhull is linked to reentrant qhull (more flexible)
 #   the others are linked to non-reentrant qhull (somewhat faster)
-#
-# If you prefer dynamic linking, use qhull_SHAREDR or qhull_SHARED instead.
 # ---------------------------------------
 
 set(qhull_SOURCES       src/qhull/unix_r.c)
@@ -488,23 +515,31 @@ set(qdelaunay_SOURCES   src/qdelaunay/qdelaun.c)
 set(qvoronoi_SOURCES    src/qvoronoi/qvoronoi.c)
 set(qhalf_SOURCES       src/qhalf/qhalf.c)
 
+if (LINK_APPS_SHARED)
+    set(qhull_LIBRARY ${qhull_SHARED})
+    set(qhull_LIBRARYR ${qhull_SHAREDR})
+else()
+    set(qhull_LIBRARY ${qhull_STATIC})
+    set(qhull_LIBRARYR ${qhull_STATICR})
+endif()
+
 add_executable(qhull ${qhull_SOURCES})
-target_link_libraries(qhull ${qhull_STATICR})
+target_link_libraries(qhull ${qhull_LIBRARYR})
 
 add_executable(rbox ${rbox_SOURCES})
-target_link_libraries(rbox ${qhull_STATIC})
+target_link_libraries(rbox ${qhull_LIBRARY})
 
 add_executable(qconvex ${qconvex_SOURCES})
-target_link_libraries(qconvex ${qhull_STATIC})
+target_link_libraries(qconvex ${qhull_LIBRARY})
 
 add_executable(qdelaunay ${qdelaunay_SOURCES})
-target_link_libraries(qdelaunay ${qhull_STATIC})
+target_link_libraries(qdelaunay ${qhull_LIBRARY})
 
 add_executable(qvoronoi ${qvoronoi_SOURCES})
-target_link_libraries(qvoronoi ${qhull_STATIC})
+target_link_libraries(qvoronoi ${qhull_LIBRARY})
 
 add_executable(qhalf ${qhalf_SOURCES})
-target_link_libraries(qhalf ${qhull_STATIC})
+target_link_libraries(qhalf ${qhull_LIBRARY})
 
 # ---------------------------------------
 # Define options for linking to qhull_SHAREDR or qhull_SHARED
@@ -621,6 +656,14 @@ add_test(NAME user_eg3
 # ---------------------------------------
 # Define install
 # ---------------------------------------
+
+set(qhull_TARGETS_INSTALL ${qhull_TARGETS_TOOLS})
+if (BUILD_SHARED_LIBS)
+    list(APPEND qhull_TARGETS_INSTALL ${qhull_TARGETS_SHARED})
+endif()
+if (BUILD_STATIC_LIBS)
+    list(APPEND qhull_TARGETS_INSTALL ${qhull_TARGETS_STATIC})
+endif()
 
 install(TARGETS ${qhull_TARGETS_INSTALL} EXPORT QhullTargets
         RUNTIME DESTINATION ${BIN_INSTALL_DIR}
