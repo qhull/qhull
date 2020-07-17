@@ -231,11 +231,10 @@ Example (c.f., <code>user_eg3 eg-100</code>).   It prints the facets generated b
 
 <pre>
     RboxPoints rbox;
-    rbox.appendRandomPoints("100");
+    rbox.appendPoints("100");
     Qhull qhull;
-    qhull.runQhull("", rbox);
-    QhullFacetList facets(qhull);
-    cout<< facets;
+    qhull.runQhull(rbox, "");
+    cout << qhull.facetList();
 </pre>
 
 <p>
@@ -397,7 +396,7 @@ RboxPoints is a std::vector of point coordinates (<a href="#point-cpp">QhullPoin
 Its iterator is <a href="#coordinate-cpp">CoordinateIterator</a>.
 </p>
 <p>
-<code>RboxPoints.appendRandomPoints()</code> appends points from a variety of distributions such as uniformly distributed within a cube and random points on a sphere.
+<code>RboxPoints.appendPoints()</code> appends points from a variety of distributions such as uniformly distributed within a cube and random points on a sphere.
 It can also append a cube's vertices or specific points.
 </p>
 
