@@ -36,8 +36,8 @@ namespace orgQhull{
 #//!\name Fields
         QhullQh *       qh_qh;          //!< QhullQh/qhT for access to libqhull_r
         void *          previous_user;  //!< previous qh.cpp_user, restored on deconstruction
-        std::vector< std::vector< double>> doubles_vector;  //! vectors for capturing ints and doubles
-        std::vector< std::vector< int>> ints_vector;
+        std::vector< std::vector< double> > doubles_vector;  //! vectors for capturing ints and doubles
+        std::vector< std::vector< int> >  ints_vector;
         std::vector< int>               fprintf_ints;
         std::vector< double>            fprintf_doubles;
         std::vector< int>               fprintf_codes;
@@ -77,11 +77,11 @@ namespace orgQhull{
         void            clearIntsVector() { ints_vector.clear(); }
         const std::vector< int> &codes() const { return fprintf_codes; }
         int             delaunayDim() const { return delaunay_dim; }
-        const std::vector< std::vector< double>> &doublesVector() const { return doubles_vector; }
+        const std::vector< std::vector< double> > &doublesVector() const { return doubles_vector; }
         const std::vector< double> &doubles() const { return fprintf_doubles; }
         int             firstCode() const { return (fprintf_codes.size() == 0 ? -1 : fprintf_codes[0]); }
         const std::vector< int> &ints() const { return fprintf_ints; }
-        const std::vector< std::vector< int>> &intsVector() const { return ints_vector; }
+        const std::vector< std::vector< int> > &intsVector() const { return ints_vector; }
         int             numDoubles() const { return (int)doubles_vector.size();  }
         int             numFacets() const { return num_facets; }
         int             numInts() const { return (int)ints_vector.size(); }
