@@ -303,7 +303,7 @@ void qvoronoi_o(const Qhull &qhull)
         if(voronoiRegion.size() > numinf){
             int siteId= vertex.point().id();
             if(siteId>=0 && siteId<int(numpoints)){ // otherwise indicate qh.other_points
-				voronoiRegions[siteId]= voronoiRegion;
+                voronoiRegions[siteId]= voronoiRegion;
             }
         }
     }
