@@ -345,8 +345,8 @@ void qvoronoi_pfn(const Qhull &qhull)
         cout << "\n";
     }
 
-    // Gather Voronoi vertices
-    std::vector<std::vector<int>> inputSites(numpoints); // nqh_printvoronoi calls qh_pointvertex via qh_markvoronoi
+    // Gather Voronoi regions
+    std::vector<std::vector<int>> voronoiRegions(numpoints); // nqh_printvoronoi calls qh_pointvertex via qh_markvoronoi
     for(QhullVertex vertex : qhull.vertexList()){
         size_t numinf= 0;
         std::vector<int> voronoiRegion;
@@ -363,14 +363,14 @@ void qvoronoi_pfn(const Qhull &qhull)
         if(voronoiRegion.size() > numinf){
             int siteId= vertex.point().id();
             if(siteId>=0 && siteId<int(numpoints)){ // otherwise would indicate qh.other_points
-                inputSites[siteId]= voronoiRegion;
+                voronoiRegions[siteId]= voronoiRegion;
             }
         }
     }
 
     // Print Voronoi regions by siteId
     cout << numpoints << "\n";
-    for(std::vector<int> voronoiRegion : inputSites){
+    for(std::vector<int> voronoiRegion : voronoiRegions){
         size_t n= voronoiRegion.size();
         cout << n;
         for(size_t i= 0; i<n; ++i){
