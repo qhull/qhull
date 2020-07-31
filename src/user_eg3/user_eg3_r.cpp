@@ -128,7 +128,7 @@ void qconvex_o(const Qhull &qhull)
     }
     QhullFacetList facets= qhull.facetList();
     std::vector<std::vector<int>> facetVertices;
-    for(QhullFacet f : facets){
+    for(QhullFacet& f : facets){
         std::vector<int> vertices;
         if(!f.isGood()){
             // ignore facet
@@ -185,7 +185,7 @@ void qdelaunay_o(const Qhull &qhull)
 
     // Delaunay regions as a vector of vectors
     std::vector<std::vector<int>> regions;
-    for(QhullFacet f : facets){
+    for(QhullFacet& f : facets){
         std::vector<int> vertices;
         if(!f.isUpperDelaunay()){
             if(!f.isTopOrient() && f.isSimplicial()){ /* orient the vertices like option 'o' */
@@ -269,7 +269,7 @@ void qvoronoi_o(const Qhull &qhull)
         vertexAtInfinity.push_back(qh_INFINITE);
     }
     voronoiVertices.push_back(vertexAtInfinity);
-    for(QhullFacet facet : qhull.facetList()){
+    for(QhullFacet& facet : qhull.facetList()){
         if(facet.visitId() && facet.visitId()<numfacets){
             voronoiVertices.push_back(facet.getCenter().toStdVector());
         }
@@ -290,7 +290,7 @@ void qvoronoi_o(const Qhull &qhull)
     for(QhullVertex vertex : qhull.vertexList()){
         size_t numinf= 0;
         std::vector<int> voronoiRegion;
-        for(QhullFacet neighbor : vertex.neighborFacets()){
+        for(QhullFacet& neighbor : vertex.neighborFacets()){
             if(neighbor.visitId()==0){
                 if(!numinf){
                     numinf= 1;
@@ -328,7 +328,7 @@ void qvoronoi_pfn(const Qhull &qhull)
 
     // Gather Voronoi vertices
     std::vector<std::vector<double>> voronoiVertices;
-    for(QhullFacet facet : qhull.facetList()){
+    for(QhullFacet& facet : qhull.facetList()){
         if(facet.visitId() && facet.visitId()<numfacets){
             voronoiVertices.push_back(facet.getCenter().toStdVector());
         }
@@ -350,7 +350,7 @@ void qvoronoi_pfn(const Qhull &qhull)
     for(QhullVertex vertex : qhull.vertexList()){
         size_t numinf= 0;
         std::vector<int> voronoiRegion;
-        for(QhullFacet neighbor : vertex.neighborFacets()){
+        for(QhullFacet& neighbor : vertex.neighborFacets()){
             if(neighbor.visitId()==0){
                 if(!numinf){
                     numinf= 1;
