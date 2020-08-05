@@ -1,4 +1,4 @@
-$Id: //main/2019/qhull/src/Changes.txt#67 $$Date: 2020/08/04 $
+$Id: //main/2019/qhull/src/Changes.txt#63 $$Date: 2020/07/24 $
 
 .............This file lists all changes to qhull and rbox.....................
 
@@ -63,7 +63,7 @@ C++ interface
   These Java-style iterators copy the container instead of pointing to the container
 - QhullSetIterator,QhullFacetSetIterator,QhullPointSetIterator,QhullVertexSetIterator: add documentation about temporary results
   These Java-style iterators have always copied the container
-- QhullUser.h, user_eg3_r.cpp: Removed C++11 dependencies [S. Grein #66,#67]
+- QhullUser.h, user_eg3_r.cpp: Removed C++11 dependencies [G. Romualdi, S. Grein #65, #66,#67]
   QhullUser.cpp: Use intptr_t to avoid C++11 dependencies  [S. Grein, Spacelm #68]
 - QhullVertex.cpp: moved the copy constructor to the code file.  It was inline. 
 
