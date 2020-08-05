@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2009-2020 C.B. Barber. All rights reserved.
-** $Id: //main/2019/qhull/src/libqhullcpp/Coordinates.h#4 $$Change: 2953 $
-** $DateTime: 2020/05/21 22:05:32 $$Author: bbarber $
+** $Id: //main/2019/qhull/src/libqhullcpp/Coordinates.h#5 $$Change: 3001 $
+** $DateTime: 2020/07/24 20:43:28 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -11,7 +11,6 @@
 
 #include "libqhull_r/qhull_ra.h"
 #include "libqhullcpp/QhullError.h"
-#include "libqhullcpp/QhullIterator.h"
 
 #include <cstddef> // ptrdiff_t, size_t
 #include <ostream>
@@ -25,7 +24,10 @@ namespace orgQhull {
     //! Used by PointCoordinates for RboxPoints and by Qhull for feasiblePoint
     //! A QhullPoint refers to previously allocated coordinates
     class Coordinates;
-    class MutableCoordinatesIterator;
+
+    //! Java-style iterators are not implemented for Coordinates.  std::vector has an expensive copy constructor and copy assignment.
+    //!    A pointer to Coordinates is vulnerable to mysterious overwrites (e.g., deleting a returned value and reusing its memory)
+    //! Qt's 'foreach' should not be used.  It makes a copy of the std::vector
 
 class Coordinates {
 
@@ -229,70 +231,6 @@ public:
     };//Coordinates::const_iterator
 
 };//Coordinates
-
-//class CoordinatesIterator
-//QHULL_DECLARE_SEQUENTIAL_ITERATOR(Coordinates, coordT)
-
-class CoordinatesIterator
-{
-    typedef Coordinates::const_iterator const_iterator;
-
-private:
-    const Coordinates * c;
-    const_iterator      i;
-
-public:
-                        CoordinatesIterator(const Coordinates &container): c(&container), i(c->constBegin()) {}
-    CoordinatesIterator &operator=(const Coordinates &container) { c= &container; i= c->constBegin(); return *this; }
-                        ~CoordinatesIterator() {}
-
-    bool                findNext(const coordT &t) { while (i != c->constEnd()) if(*i++ == t){ return true;} return false; }
-    bool                findPrevious(const coordT &t) { while (i != c->constBegin())if (*(--i) == t){ return true;} return false;  }
-    bool                hasNext() const { return i != c->constEnd(); }
-    bool                hasPrevious() const { return i != c->constBegin(); }
-    const coordT &      next() { return *i++; }
-    const coordT &      previous() { return *--i; }
-    const coordT &      peekNext() const { return *i; }
-    const coordT &      peekPrevious() const { const_iterator p= i; return *--p; }
-    void                toFront() { i= c->constBegin(); }
-    void                toBack() { i= c->constEnd(); }
-};//CoordinatesIterator
-
-//class MutableCoordinatesIterator
-//QHULL_DECLARE_MUTABLE_SEQUENTIAL_ITERATOR(Coordinates, coordT)
-class MutableCoordinatesIterator
-{
-    typedef Coordinates::iterator iterator;
-    typedef Coordinates::const_iterator const_iterator;
-
-private:
-    Coordinates *       c;
-    iterator            i;
-    iterator            n;
-    bool                item_exists() const { return const_iterator(n) != c->constEnd(); }
-
-public:
-                        MutableCoordinatesIterator(Coordinates &container) : c(&container), i(), n() { i= c->begin(); n= c->end(); }
-    MutableCoordinatesIterator &operator=(Coordinates &container) { c= &container; i= c->begin(); n= c->end(); return *this; }
-                        ~MutableCoordinatesIterator() {}
-
-    bool                findNext(const coordT &t) { while(c->constEnd()!=const_iterator(n= i)){ if(*i++==t){ return true;}} return false; }
-    bool                findPrevious(const coordT &t) { while(c->constBegin()!=const_iterator(i)){ if(*(n= --i)== t){ return true;}} n= c->end(); return false;  }
-    bool                hasNext() const { return (c->constEnd()!=const_iterator(i)); }
-    bool                hasPrevious() const { return (c->constBegin()!=const_iterator(i)); }
-    void                insert(const coordT &t) { n= i= c->insert(i, t); ++i; }
-    coordT &            next() { n= i++; return *n; }
-    coordT &            peekNext() const { return *i; }
-    coordT &            peekPrevious() const { iterator p= i; return *--p; }
-    coordT &            previous() { n= --i; return *n; }
-    void                remove() { if(c->constEnd()!=const_iterator(n)){ i= c->erase(n); n= c->end();} }
-    void                setValue(const coordT &t) const { if(c->constEnd()!=const_iterator(n)){ *n= t;} }
-    void                toFront() { i= c->begin(); n= c->end(); }
-    void                toBack() { i= c->end(); n= i; }
-    coordT &            value() { QHULL_ASSERT(item_exists()); return *n; }
-    const coordT &      value() const { QHULL_ASSERT(item_exists()); return *n; }
-};//MutableCoordinatesIterator
-
 
 }//namespace orgQhull
 

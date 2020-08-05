@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (p) 2009-2020 C.B. Barber. All rights reserved.
-** $Id: //main/2019/qhull/src/qhulltest/QhullPoints_test.cpp#2 $$Change: 2953 $
-** $DateTime: 2020/05/21 22:05:32 $$Author: bbarber $
+** $Id: //main/2019/qhull/src/qhulltest/QhullPoints_test.cpp#3 $$Change: 3001 $
+** $DateTime: 2020/07/24 20:43:28 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -34,8 +34,10 @@ private slots:
     void t_element();
     void t_iterator();
     void t_const_iterator();
+    void t_foreach();
     void t_search();
     void t_points_iterator();
+    void t_java_iterator();
     void t_io();
 };//QhullPoints_test
 
@@ -430,6 +432,36 @@ t_const_iterator()
     // QhullPoints is const-only
 }//t_const_iterator
 
+void QhullPoints_test::
+t_foreach()
+{
+    RboxPoints rcube("c");
+    Qhull q(rcube, "QR0");  // rotated unit cube
+    QhullPoints ps= q.points();
+    QhullPoint p2= ps.at(1);
+
+    bool isP2= false;
+    int count= 0;
+    foreach(QhullPoint p, q.points()) { // Qt only
+        ++count;
+        if(p==p2){
+            isP2= true;
+        }
+    }
+    QVERIFY(isP2);
+    QCOMPARE(count, ps.count());
+
+    isP2= false;
+    count= 0;
+    for(QhullPoint p : q.points()) {
+        ++count;
+        if(p==p2){
+            isP2= true;
+        }
+    }
+    QVERIFY(isP2);
+    QCOMPARE(count, ps.count());
+}//t_foreach
 
 void QhullPoints_test::
 t_search()
@@ -533,6 +565,29 @@ t_points_iterator()
     i.toFront();
     QCOMPARE(i.next(), p);
 }//t_points_iterator
+
+void QhullPoints_test::
+t_java_iterator()
+{
+    RboxPoints rcube("c");
+    Qhull q(rcube, "QR0");  // rotated unit cube
+    QhullPoints ps= q.points();
+    QhullPoint p2= ps.at(1);
+
+    bool isP2= false;
+    int count= 0;
+    QhullPointsIterator i(q.points());
+    while(i.hasNext()){
+        QhullPoint p= i.next();
+        QCOMPARE(i.peekPrevious(), p);
+        ++count;
+        if(p==p2){
+            isP2= true;
+        }
+    }
+    QVERIFY(isP2);
+    QCOMPARE(count, ps.count());
+}//t_java_iterator
 
 void QhullPoints_test::
 t_io()

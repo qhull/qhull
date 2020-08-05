@@ -27,13 +27,19 @@ using orgQhull::Qhull;
 using orgQhull::QhullError;
 using orgQhull::QhullFacet;
 using orgQhull::QhullFacetList;
+using orgQhull::QhullFacetListIterator;
 using orgQhull::QhullFacetSet;
+using orgQhull::QhullFacetSetIterator;
 using orgQhull::QhullPoint;
 using orgQhull::QhullPoints;
+using orgQhull::QhullPointsIterator;
 using orgQhull::QhullQh;
 using orgQhull::QhullUser;
 using orgQhull::QhullVertex;
+using orgQhull::QhullVertexList;
+using orgQhull::QhullVertexListIterator;
 using orgQhull::QhullVertexSet;
+using orgQhull::QhullVertexSetIterator;
 using orgQhull::RboxPoints;
 
 int main(int argc, char **argv);
@@ -92,16 +98,16 @@ int main(int argc, char **argv){
     }
 }//main
 
-void printDoubles(const std::vector< double> &doubles)
+void printDoubles(const std::vector<double> &doubles)
 {
-    for (size_t i = 0; i < doubles.size(); i++) {
+    for(size_t i= 0; i < doubles.size(); i++){
         cout << std::setw(6) << doubles[i] << " ";
     }
 }//printDoubles
 
-void printInts(const std::vector< int> &ints)
+void printInts(const std::vector<int> &ints)
 {
-    for (size_t i = 0; i < ints.size(); i++) {
+    for(size_t i= 0; i < ints.size(); i++){
         cout << ints[i] << " ";
     }
 }//printInts
@@ -112,14 +118,18 @@ void qconvex_o(const Qhull &qhull)
     int numfacets= qhull.facetList().count();
     int totneighbors= numfacets * dim;  /* incorrect for non-simplicial facets, see qh_countfacets */
     cout << dim << "\n" << qhull.points().size() << " " << numfacets << " " << totneighbors/2 << "\n";
-    std::vector<std::vector<double>> points;
-    for(QhullPoint point : qhull.points()){
+    std::vector<std::vector<double> > points;
+    // for(QhullPoint point : qhull.points())
+    for(QhullPoints::ConstIterator i= qhull.points().begin(); i != qhull.points().end(); ++i){
+        QhullPoint point= *i;
         points.push_back(point.toStdVector());
     }
-    for(std::vector<double> point : points){
+    // for(std::vector<double> point : points){
+    for(size_t j= 0; j < points.size(); ++j){
+        std::vector<double> point= points[j];
         size_t n= point.size();
-        for(size_t i= 0; i<n; ++i){
-            if(i<n - 1){
+        for(size_t i= 0; i < n; ++i){
+            if(i < n-1){
                 cout << std::setw(6) << point[i] << " ";
             }else{
                 cout << std::setw(6) << point[i] << "\n";
@@ -127,8 +137,11 @@ void qconvex_o(const Qhull &qhull)
         }
     }
     QhullFacetList facets= qhull.facetList();
-    std::vector<std::vector<int>> facetVertices;
-    for(QhullFacet f : facets){
+    std::vector<std::vector<int> > facetVertices;
+    // for(QhullFacet f : facets)
+    QhullFacetListIterator j(facets);
+    while(j.hasNext()){
+        QhullFacet f= j.next();
         std::vector<int> vertices;
         if(!f.isGood()){
             // ignore facet
@@ -141,14 +154,19 @@ void qconvex_o(const Qhull &qhull)
             }
             facetVertices.push_back(vertices);
         }else{  /* note: for non-simplicial facets, this code does not duplicate option 'o', see qh_facet3vertex and qh_printfacetNvertex_nonsimplicial */
-            for(QhullVertex vertex : f.vertices()){
+            // for(QhullVertex vertex : f.vertices()){
+            QhullVertexSetIterator k(f.vertices());
+            while(k.hasNext()){
+                QhullVertex vertex= k.next();
                 QhullPoint p= vertex.point();
                 vertices.push_back(p.id());
             }
             facetVertices.push_back(vertices);
         }
     }
-    for(std::vector<int> vertices : facetVertices){
+    // for(std::vector<int> vertices : facetVertices)
+    for(size_t k= 0; k<facetVertices.size(); ++k){
+        std::vector<int> vertices= facetVertices[k];
         size_t n= vertices.size();
         cout << n << " ";
         for(size_t i= 0; i<n; ++i){
@@ -164,9 +182,12 @@ void qdelaunay_o(const Qhull &qhull)
     int hullDimension= qhull.hullDimension();
 
     // Input sites as a vector of vectors
-    std::vector<std::vector<double>> inputSites;
+    std::vector<std::vector<double> > inputSites;
     QhullPoints points= qhull.points();
-    for(QhullPoint point : points){
+    // for(QhullPoint point : points)
+    QhullPointsIterator j(points);
+    while(j.hasNext()){
+        QhullPoint point= j.next();
         inputSites.push_back(point.toStdVector());
     }
 
@@ -175,7 +196,9 @@ void qdelaunay_o(const Qhull &qhull)
     int numFacets= facets.count();
     size_t numRidges= numFacets*hullDimension/2;  // only for simplicial facets
     cout << hullDimension << "\n" << inputSites.size() << " " << numFacets << " " << numRidges << "\n";
-    for(std::vector<double> site : inputSites){
+    // for(std::vector<double> site : inputSites)
+    for(size_t k= 0; k < inputSites.size(); ++k){
+        std::vector<double> site= inputSites[k];
         size_t n= site.size();
         for(size_t i= 0; i<n; ++i){
             cout << site[i] << " ";
@@ -184,8 +207,11 @@ void qdelaunay_o(const Qhull &qhull)
     }
 
     // Delaunay regions as a vector of vectors
-    std::vector<std::vector<int>> regions;
-    for(QhullFacet f : facets){
+    std::vector<std::vector<int> > regions;
+    // for(QhullFacet f : facets)
+    QhullFacetListIterator k(facets);
+    while(k.hasNext()){
+        QhullFacet f= k.next();
         std::vector<int> vertices;
         if(!f.isUpperDelaunay()){
             if(!f.isTopOrient() && f.isSimplicial()){ /* orient the vertices like option 'o' */
@@ -196,7 +222,10 @@ void qdelaunay_o(const Qhull &qhull)
                     vertices.push_back(vs[i].point().id());
                 }
             }else{  /* note: for non-simplicial facets, this code does not duplicate option 'o', see qh_facet3vertex and qh_printfacetNvertex_nonsimplicial */
-                for(QhullVertex vertex : f.vertices()){
+                // for(QhullVertex vertex : f.vertices()){
+                QhullVertexSetIterator i(f.vertices());
+                while(i.hasNext()){
+                    QhullVertex vertex= i.next();
                     QhullPoint p= vertex.point();
                     vertices.push_back(p.id());
                 }
@@ -204,7 +233,9 @@ void qdelaunay_o(const Qhull &qhull)
             regions.push_back(vertices);
         }
     }
-    for(std::vector<int> vertices : regions){
+    // for(std::vector<int> vertices : regions)
+    for(size_t k2= 0; k2 < regions.size(); ++k2){
+        std::vector<int> vertices= regions[k2];
         size_t n= vertices.size();
         cout << n << " ";
         for(size_t i= 0; i<n; ++i){
@@ -263,13 +294,16 @@ void qvoronoi_o(const Qhull &qhull)
     size_t numpoints= qhull.points().size();
 
     // Gather Voronoi vertices
-    std::vector<std::vector<double>> voronoiVertices;
+    std::vector<std::vector<double> > voronoiVertices;
     std::vector<double> vertexAtInfinity;
     for(int i= 0; i<voronoiDimension; ++i){
         vertexAtInfinity.push_back(qh_INFINITE);
     }
     voronoiVertices.push_back(vertexAtInfinity);
-    for(QhullFacet facet : qhull.facetList()){
+    // for(QhullFacet facet : qhull.facetList())
+    QhullFacetListIterator j(qhull.facetList());
+    while(j.hasNext()){
+        QhullFacet facet= j.next();
         if(facet.visitId() && facet.visitId()<numfacets){
             voronoiVertices.push_back(facet.getCenter().toStdVector());
         }
@@ -277,7 +311,9 @@ void qvoronoi_o(const Qhull &qhull)
 
     // Printer header and Voronoi vertices
     cout << voronoiDimension << "\n" << voronoiVertices.size() << " " << numpoints << " 1\n";
-    for(std::vector<double> voronoiVertex : voronoiVertices){
+    // for(std::vector<double> voronoiVertex : voronoiVertices)
+    for(size_t k= 0; k < voronoiVertices.size(); ++k){
+        std::vector<double> voronoiVertex= voronoiVertices[k];
         size_t n= voronoiVertex.size();
         for(size_t i= 0; i<n; ++i){
             cout << voronoiVertex[i] << " ";
@@ -285,12 +321,18 @@ void qvoronoi_o(const Qhull &qhull)
         cout << "\n";
     }
 
-    // Gather Voronoi vertices
-    std::vector<std::vector<int>> inputSites(numpoints); // nqh_printvoronoi calls qh_pointvertex via qh_markvoronoi
-    for(QhullVertex vertex : qhull.vertexList()){
+    // Gather Voronoi regions
+    std::vector<std::vector<int> > voronoiRegions(numpoints); // qh_printvoronoi calls qh_pointvertex via qh_markvoronoi
+    // for(QhullVertex vertex : qhull.vertexList())
+    QhullVertexListIterator j2(qhull.vertexList());
+    while(j2.hasNext()){
+        QhullVertex vertex= j2.next();
         size_t numinf= 0;
         std::vector<int> voronoiRegion;
-        for(QhullFacet neighbor : vertex.neighborFacets()){
+        //for(QhullFacet neighbor : vertex.neighborFacets())
+        QhullFacetSetIterator k2(vertex.neighborFacets());
+        while(k2.hasNext()){
+            QhullFacet neighbor= k2.next();
             if(neighbor.visitId()==0){
                 if(!numinf){
                     numinf= 1;
@@ -303,13 +345,15 @@ void qvoronoi_o(const Qhull &qhull)
         if(voronoiRegion.size() > numinf){
             int siteId= vertex.point().id();
             if(siteId>=0 && siteId<int(numpoints)){ // otherwise indicate qh.other_points
-                inputSites[siteId]= voronoiRegion;
+                voronoiRegions[siteId]= voronoiRegion;
             }
         }
     }
 
     // Print Voronoi regions by siteId
-    for(std::vector<int> voronoiRegion : inputSites){
+    // for(std::vector<int> voronoiRegion : voronoiRegions)
+    for(size_t k3= 0; k3 < voronoiRegions.size(); ++k3){
+        std::vector<int> voronoiRegion= voronoiRegions[k3];
         size_t n= voronoiRegion.size();
         cout << n;
         for(size_t i= 0; i<n; ++i){
@@ -327,8 +371,11 @@ void qvoronoi_pfn(const Qhull &qhull)
     size_t numpoints= qhull.points().size();
 
     // Gather Voronoi vertices
-    std::vector<std::vector<double>> voronoiVertices;
-    for(QhullFacet facet : qhull.facetList()){
+    std::vector<std::vector<double> > voronoiVertices;
+    // for(QhullFacet facet : qhull.facetList())
+    QhullFacetListIterator j(qhull.facetList());
+    while(j.hasNext()){
+        QhullFacet facet= j.next();
         if(facet.visitId() && facet.visitId()<numfacets){
             voronoiVertices.push_back(facet.getCenter().toStdVector());
         }
@@ -337,7 +384,9 @@ void qvoronoi_pfn(const Qhull &qhull)
     // Printer header and Voronoi vertices
     cout << voronoiDimension << "\n";
     cout << voronoiVertices.size() << "\n";
-    for(std::vector<double> voronoiVertex : voronoiVertices){
+    // for(std::vector<double> voronoiVertex : voronoiVertices)
+    for(size_t k= 0; k < voronoiVertices.size(); ++k){
+        std::vector<double> voronoiVertex= voronoiVertices[k];
         size_t n= voronoiVertex.size();
         for(size_t i= 0; i<n; ++i){
             cout << voronoiVertex[i] << " ";
@@ -345,12 +394,18 @@ void qvoronoi_pfn(const Qhull &qhull)
         cout << "\n";
     }
 
-    // Gather Voronoi vertices
-    std::vector<std::vector<int>> inputSites(numpoints); // nqh_printvoronoi calls qh_pointvertex via qh_markvoronoi
-    for(QhullVertex vertex : qhull.vertexList()){
+    // Gather Voronoi regions
+    std::vector<std::vector<int> > voronoiRegions(numpoints); // qh_printvoronoi calls qh_pointvertex via qh_markvoronoi
+    //for(QhullVertex vertex : qhull.vertexList()){
+    QhullVertexListIterator j2(qhull.vertexList());
+    while(j2.hasNext()){
+        QhullVertex vertex= j2.next();
         size_t numinf= 0;
         std::vector<int> voronoiRegion;
-        for(QhullFacet neighbor : vertex.neighborFacets()){
+        // for(QhullFacet neighbor : vertex.neighborFacets())
+        QhullFacetSetIterator k(vertex.neighborFacets());
+        while(k.hasNext()){
+            QhullFacet neighbor= k.next();
             if(neighbor.visitId()==0){
                 if(!numinf){
                     numinf= 1;
@@ -363,14 +418,16 @@ void qvoronoi_pfn(const Qhull &qhull)
         if(voronoiRegion.size() > numinf){
             int siteId= vertex.point().id();
             if(siteId>=0 && siteId<int(numpoints)){ // otherwise would indicate qh.other_points
-                inputSites[siteId]= voronoiRegion;
+                voronoiRegions[siteId]= voronoiRegion;
             }
         }
     }
 
     // Print Voronoi regions by siteId
     cout << numpoints << "\n";
-    for(std::vector<int> voronoiRegion : inputSites){
+    // for(std::vector<int> voronoiRegion : voronoiRegions)
+    for(size_t j3= 0; j3 < voronoiRegions.size(); ++j3){
+        std::vector<int> voronoiRegion= voronoiRegions[j3];
         size_t n= voronoiRegion.size();
         cout << n;
         for(size_t i= 0; i<n; ++i){

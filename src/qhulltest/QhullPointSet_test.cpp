@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (p) 2009-2020 C.B. Barber. All rights reserved.
-** $Id: //main/2019/qhull/src/qhulltest/QhullPointSet_test.cpp#2 $$Change: 2953 $
-** $DateTime: 2020/05/21 22:05:32 $$Author: bbarber $
+** $Id: //main/2019/qhull/src/qhulltest/QhullPointSet_test.cpp#4 $$Change: 3009 $
+** $DateTime: 2020/07/30 19:25:22 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -36,7 +36,9 @@ private slots:
     void t_iterator();
     void t_const_iterator();
     void t_search();
+    void t_foreach();
     void t_pointset_iterator();
+    void t_java_iterator();
     void t_io();
 };//QhullPointSet_test
 
@@ -267,7 +269,6 @@ t_const_iterator()
     // QhullPointSet is const-only
 }//t_const_iterator
 
-
 void QhullPointSet_test::
 t_search()
 {
@@ -294,6 +295,41 @@ t_search()
     QCOMPARE(ps.lastIndexOf(p3), 2);
     QCOMPARE(ps.lastIndexOf(p4), -1);
 }//t_search
+
+void QhullPointSet_test::
+t_foreach()
+{
+    RboxPoints rcube("c W0 1000");
+    Qhull q(rcube,"Qc");  // cube with 1000 coplanar points
+    QhullFacet f= q.firstFacet();
+    QhullPointSet ps= f.coplanarPoints();
+    QVERIFY(ps.count()>=3);  // Sometimes no coplanar points
+    QhullPoint p2= ps.at(1);
+
+    bool isP2= false;
+    int count= 0;
+    foreach(QhullPoint p, f.coplanarPoints()){  // Qt only
+        ++count;
+        if(p==p2){
+            isP2= true;
+            QCOMPARE(count, 2);
+        }
+    }
+    QVERIFY(isP2);
+    QCOMPARE(count, ps.count());
+
+    isP2= false;
+    count= 0;
+    for(QhullPoint p : f.coplanarPoints()){
+        ++count;
+        if(p==p2){
+            isP2= true;
+            QCOMPARE(count, 2);
+        }
+    }
+    QVERIFY(isP2);
+    QCOMPARE(count, ps.count());
+}//t_foreach
 
 void QhullPointSet_test::
 t_pointset_iterator()
@@ -352,6 +388,32 @@ t_pointset_iterator()
     i.toFront();
     QCOMPARE(i.next(), p);
 }//t_pointset_iterator
+
+void QhullPointSet_test::
+t_java_iterator()
+{
+    RboxPoints rcube("c W0 1000");
+    Qhull q(rcube,"Qc");  // cube with 1000 coplanar points
+    QhullFacet f= q.firstFacet();
+    QhullPointSet ps= f.coplanarPoints();
+    QVERIFY(ps.count()>=3);  // Sometimes no coplanar points
+    QhullPoint p2= ps.at(1);
+
+    bool isP2= false;
+    int count= 0;
+    QhullPointSetIterator i(f.coplanarPoints());
+    while(i.hasNext()){
+        QhullPoint p= i.next();
+        QCOMPARE(i.peekPrevious(), p);
+        ++count;
+        if(p==p2){
+            isP2= true;
+            QCOMPARE(count, 2);
+        }
+    }
+    QVERIFY(isP2);
+    QCOMPARE(count, ps.count());
+}//t_java_iterator
 
 void QhullPointSet_test::
 t_io()

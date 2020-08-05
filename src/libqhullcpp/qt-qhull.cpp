@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2009-2020 C.B. Barber. All rights reserved.
-** $Id: //main/2019/qhull/src/libqhullcpp/qt-qhull.cpp#2 $$Change: 2953 $
-** $DateTime: 2020/05/21 22:05:32 $$Author: bbarber $
+** $Id: //main/2019/qhull/src/libqhullcpp/qt-qhull.cpp#5 $$Change: 3009 $
+** $DateTime: 2020/07/30 19:25:22 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -30,10 +30,10 @@ namespace orgQhull {
 QList<coordT> Coordinates::
 toQList() const
 {
-    CoordinatesIterator i(*this);
-    QList<coordT> cs;
-    while(i.hasNext()){
-        cs.append(i.next());
+    QList<coordT> cs; 
+    for(int i= 0; i<size(); ++i){
+        coordT a= at(i);
+        cs.append(a);
     }
     return cs;
 }//toQList

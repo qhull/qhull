@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2020 C.B. Barber. All rights reserved.
-** $Id: //main/2019/qhull/src/qhulltest/QhullPoint_test.cpp#3 $$Change: 2966 $
-** $DateTime: 2020/06/04 16:14:31 $$Author: bbarber $
+** $Id: //main/2019/qhull/src/qhulltest/QhullPoint_test.cpp#5 $$Change: 3006 $
+** $DateTime: 2020/07/29 18:28:16 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -42,7 +42,9 @@ private slots:
     void t_operator();
     void t_iterator();
     void t_const_iterator();
+    void t_foreach();
     void t_qhullpoint_iterator();
+    void t_java_iterator();
     void t_method();
     void t_io();
 };//QhullPoint_test
@@ -355,6 +357,39 @@ t_const_iterator()
 }//t_const_iterator
 
 void QhullPoint_test::
+t_foreach()
+{
+    RboxPoints rcube("c");
+    Qhull q(rcube, "QR0");  // rotated unit cube
+    QhullPoint p= q.firstVertex().point();
+    coordT c2= (p.coordinates())[1];
+
+    bool isC2= false;
+    int count= 0;
+    foreach(coordT c, q.firstVertex().point()){  // Qt only
+        ++count;
+        if(c==c2){
+            isC2= true;
+            QCOMPARE(count, 2);
+        }
+    }
+    QVERIFY(isC2);
+    QCOMPARE(count, p.dimension());
+
+    isC2= false;
+    count= 0;
+    for(coordT c : q.firstVertex().point()){
+        ++count;
+        if(c==c2){
+            isC2= true;
+            QCOMPARE(count, 2);
+        }
+    }
+    QVERIFY(isC2);
+    QCOMPARE(count, p.dimension());
+}//t_foreach
+
+void QhullPoint_test::
 t_qhullpoint_iterator()
 {
     RboxPoints rcube("c");
@@ -401,6 +436,30 @@ t_qhullpoint_iterator()
     i.toFront();
     QCOMPARE(i.next(), p[0]);
 }//t_qhullpoint_iterator
+
+void QhullPoint_test::
+t_java_iterator()
+{
+    RboxPoints rcube("c");
+    Qhull q(rcube, "QR0");  // rotated unit cube
+    QhullPoint p= q.firstVertex().point();
+    coordT c2= (p.coordinates())[1];
+
+    bool isC2= false;
+    int count= 0;
+    QhullPointIterator i(q.firstVertex().point());
+    while(i.hasNext()){
+        coordT c= i.next();
+        QCOMPARE(i.peekPrevious(), c);
+        ++count;
+        if(c==c2){
+            isC2= true;
+            QCOMPARE(count, 2);
+        }
+    }
+    QVERIFY(isC2);
+    QCOMPARE(count, p.dimension());
+}//t_java_iterator
 
 void QhullPoint_test::
 t_method()

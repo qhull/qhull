@@ -12,8 +12,8 @@
    see qhull_ra.h for internal functions
 
    Copyright (c) 1993-2020 The Geometry Center.
-   $Id: //main/2019/qhull/src/libqhull_r/global_r.c#15 $$Change: 2959 $
-   $DateTime: 2020/05/28 22:25:29 $$Author: bbarber $
+   $Id: //main/2019/qhull/src/libqhull_r/global_r.c#17 $$Change: 3006 $
+   $DateTime: 2020/07/29 18:28:16 $$Author: bbarber $
  */
 
 #include "qhull_ra.h"
@@ -39,8 +39,8 @@
     recompile user_eg_r.c, rbox_r.c, libqhull_r.c, qconvex_r.c, qdelaun_r.c qvoronoi_r.c, qhalf_r.c, testqset_r.c
 */
 
-const char qh_version[]= "2020.1.r 2020/05/29";
-const char qh_version2[]= "qhull_r 8.0.0 (2020.1.r 2020/05/29)";
+const char qh_version[]= "2020.2.r 2020/07/24";
+const char qh_version2[]= "qhull_r 8.0.1 (2020.2.r 2020/07/24)";
 
 /*-<a                             href="qh-globa_r.htm#TOC"
   >-------------------------------</a><a name="appendprint">-</a>

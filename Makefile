@@ -84,7 +84,7 @@
 #                  make testall 2>&1 | tee eg/q_test.x
 #                  Build the C++ qhulltest with Qt
 #
-# $Id: //main/2019/qhull/Makefile#27 $
+# $Id: //main/2019/qhull/Makefile#30 $
 
 # Do not replace tabs with spaces.  Needed for build rules
 # Unix line endings (\n)
@@ -135,8 +135,8 @@ CC        = gcc
 CC_OPTS1  = -O3 -ansi -Isrc/ $(CC_WARNINGS) $(M32) $(FPIC)
 CXX       = g++
 
-# libqhullcpp must be listed before libqhull_r, otherwise it pulls in userprintf_r.c
-CXX_OPTS1  = -O3 -Isrc/ $(CXX_WARNINGS) $(M32) $(FPIC)
+# libqhullcpp must be listed before libqhull_r, otherwise libqhull_r pulls in userprintf_r.c
+CXX_OPTS1  = -std=c++98 -O3 -Isrc/ $(CXX_WARNINGS) $(M32) $(FPIC)
 
 # for shared library link
 CC_OPTS3  =
@@ -159,6 +159,8 @@ CXX_OPTS2 = $(CXX_OPTS1)
 
 # Warnings for gcc
 # [gcc 8.1 from may'2018] Compiles without error (-Werror)
+# gcc -pedantic not used due to -Woverlength-strings.  Maximum string length is less than 2000
+# g++ -pedantic not used due to 'long long' warning.
 CC_WARNINGS  = -Wall -Wcast-qual -Wextra -Wwrite-strings -Wshadow -Wsign-conversion -Wconversion
 CXX_WARNINGS = -Wall -Wcast-qual -Wextra -Wwrite-strings -Wno-sign-conversion -Wshadow -Wconversion 
 
@@ -286,7 +288,7 @@ install: bin/qconvex bin/qdelaunay bin/qhalf bin/qhull bin/qvoronoi bin/rbox
 		-e 's#@INCLUDE_INSTALL_DIR@#$(INCDIR)#' \
 		-e 's#@LIBRARY_NAME@#'$$lib'#' \
 		-e 's#@LIBRARY_DESCRIPTION@#'$$lib'#' \
-		qhull.pc.in > $(ABS_PCDIR)/$$lib.pc; \
+		build/qhull.pc.in > $(ABS_PCDIR)/$$lib.pc; \
 	done
 
 new:	cleanall all

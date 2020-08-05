@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2020 C.B. Barber. All rights reserved.
-** $Id: //main/2019/qhull/src/libqhullcpp/QhullRidge.h#3 $$Change: 2963 $
-** $DateTime: 2020/06/03 19:31:01 $$Author: bbarber $
+** $Id: //main/2019/qhull/src/libqhullcpp/QhullRidge.h#4 $$Change: 3001 $
+** $DateTime: 2020/07/24 20:43:28 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -28,9 +28,13 @@ namespace orgQhull {
 #//!\name Defined here
     //! QhullRidge -- Qhull's ridge structure, ridgeT [libqhull.h], as a C++ class
     class QhullRidge;
+
     typedef QhullSet<QhullRidge>  QhullRidgeSet;
+
+    //! QhullRidgeSetIterator is a Java-style iterator for QhullRidge in a QhullRidgeSet
+    //! QhullRidgeSetIterator may be used on temporary results.  It copies the pointers in QhullRidgeSet
+    //! Use QhullSets.h to avoid circular references to QhullRidgeSet and QhullRidgeSetIterator
     typedef QhullSetIterator<QhullRidge>  QhullRidgeSetIterator;
-    // see QhullSets.h for QhullRidgeSet and QhullRidgeSetIterator -- avoids circular references
 
 /************************
 a ridge is hull_dim-1 simplex between two neighboring facets.  If the

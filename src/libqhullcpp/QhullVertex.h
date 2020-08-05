@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2020 C.B. Barber. All rights reserved.
-** $Id: //main/2019/qhull/src/libqhullcpp/QhullVertex.h#3 $$Change: 2963 $
-** $DateTime: 2020/06/03 19:31:01 $$Author: bbarber $
+** $Id: //main/2019/qhull/src/libqhullcpp/QhullVertex.h#4 $$Change: 3001 $
+** $DateTime: 2020/07/24 20:43:28 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -61,7 +61,7 @@ public:
     explicit            QhullVertex(QhullQh *qqh) : qh_vertex(&s_empty_vertex), qh_qh(qqh) {}
                         QhullVertex(QhullQh *qqh, vertexT *v) : qh_vertex(v ? v : &s_empty_vertex), qh_qh(qqh) {}
                         // Creates an alias.  Does not copy QhullVertex.  Needed for return by value and parameter passing
-                        QhullVertex(const QhullVertex &other) : qh_vertex(other.qh_vertex), qh_qh(other.qh_qh) {}
+                        QhullVertex(const QhullVertex &other);
                         // Creates an alias.  Does not copy QhullVertex.  Needed for vector<QhullVertex>
     QhullVertex &       operator=(const QhullVertex &other) { qh_vertex= other.qh_vertex; qh_qh= other.qh_qh; return *this; }
                         ~QhullVertex() {}

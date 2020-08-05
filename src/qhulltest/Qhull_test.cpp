@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2020 C.B. Barber. All rights reserved.
-** $Id: //main/2019/qhull/src/qhulltest/Qhull_test.cpp#8 $$Change: 2961 $
-** $DateTime: 2020/06/01 22:17:03 $$Author: bbarber $
+** $Id: //main/2019/qhull/src/qhulltest/Qhull_test.cpp#9 $$Change: 3010 $
+** $DateTime: 2020/07/30 22:14:11 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -336,11 +336,11 @@ t_diamond()
     int numfacets= q.facetList().count();
     int totneighbors= numfacets*dim;  /* incorrect for non-simplicial facets, see qh_countfacets */
     cout << dim << "\n" << q.points().size() << " " << numfacets << " " << totneighbors/2 << "\n";
-    std::vector < std::vector < double >> points;
+    std::vector<std::vector<double> > points;
     for(QhullPoint point : q.points()){
         points.push_back(point.toStdVector());
     }
-    for(std::vector < double > point : points){
+    for(std::vector<double> point : points){
         size_t n= point.size();
         for(size_t i= 0; i < n; ++i){
             if(i < n - 1){
@@ -351,9 +351,9 @@ t_diamond()
         }
     }
     QhullFacetList facets= q.facetList();
-    std::vector < std::vector < int >> facetVertices;
+    std::vector<std::vector<int> > facetVertices;
     for(QhullFacet f : facets){
-        std::vector < int > vertices;
+        std::vector<int> vertices;
         if(!f.isTopOrient() && f.isSimplicial()){ /* orient the vertices like option 'o' */
             QhullVertexSet vs= f.vertices();
             vertices.push_back(vs[1].point().id());
@@ -369,7 +369,7 @@ t_diamond()
         }
         facetVertices.push_back(vertices);
     }
-    for(std::vector < int > vertices : facetVertices){
+    for(std::vector<int> vertices : facetVertices){
         size_t n= vertices.size();
         cout << n << " ";
         for(size_t i= 0; i<n; ++i){

@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2009-2020 C.B. Barber. All rights reserved.
-** $Id: //main/2019/qhull/src/qhulltest/QhullSet_test.cpp#3 $$Change: 2966 $
-** $DateTime: 2020/06/04 16:14:31 $$Author: bbarber $
+** $Id: //main/2019/qhull/src/qhulltest/QhullSet_test.cpp#5 $$Change: 3009 $
+** $DateTime: 2020/07/30 19:25:22 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -36,6 +36,7 @@ private slots:
     void t_iterator();
     void t_const_iterator();
     void t_qhullset_iterator();
+    void t_java_iterator();
     void t_io();
 };//QhullSet_test
 
@@ -408,6 +409,48 @@ t_qhullset_iterator()
     i.toFront();
     QCOMPARE(i.next(), f4);
 }//t_qhullset_iterator
+
+void QhullSet_test::
+t_java_iterator()
+{
+    RboxPoints rcube("c");
+    Qhull q(rcube, "QR0");  // rotated unit cube
+    QhullVertexSet vs= q.firstFacet().vertices();
+    QhullVertex v2= vs.at(1);
+
+    bool isV2= false;
+    int count= 0;
+    QhullVertexSetIterator i(q.firstFacet().vertices());
+    while(i.hasNext()){
+        QhullVertex v= i.next();
+        QCOMPARE(i.peekPrevious(), v);
+        ++count;
+        if(v==v2){
+            isV2= true;
+            QCOMPARE(count, 2);
+        }
+    }
+    QVERIFY(isV2);
+    QCOMPARE(count, vs.count());
+
+    QhullRidgeSet rs= q.firstFacet().ridges();
+    QhullRidge r2= rs.at(1);
+
+    bool isR2= false;
+    count= 0;
+    QhullRidgeSetIterator ir(q.firstFacet().ridges());
+    while(ir.hasNext()){
+        QhullRidge r= ir.next();
+        QCOMPARE(ir.peekPrevious(), r);
+        ++count;
+        if(r==r2){
+            isR2= true;
+            QCOMPARE(count, 2);
+        }
+    }
+    QVERIFY(isR2);
+    QCOMPARE(count, rs.count());
+}//t_java_iterator
 
 void QhullSet_test::
 t_io()

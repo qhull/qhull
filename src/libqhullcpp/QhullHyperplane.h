@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2009-2020 C.B. Barber. All rights reserved.
-** $Id: //main/2019/qhull/src/libqhullcpp/QhullHyperplane.h#2 $$Change: 2953 $
-** $DateTime: 2020/05/21 22:05:32 $$Author: bbarber $
+** $Id: //main/2019/qhull/src/libqhullcpp/QhullHyperplane.h#4 $$Change: 3008 $
+** $DateTime: 2020/07/30 13:54:27 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -23,10 +23,8 @@ namespace orgQhull {
     class QhullPoint;
 
 #//!\name Defined here
-    //! QhullHyperplane as an offset, dimension, and pointer to coordinates
-    class QhullHyperplane;
-    //! Java-style iterator for QhullHyperplane coordinates
-    class QhullHyperplaneIterator;
+    class QhullHyperplane;          //!< QhullHyperplane is a pointer to the normal vector, an offset from the origin, and dimension
+    class QhullHyperplaneIterator;  //!< Java-style iterator for QhullHyperplane coordinates    
 
 class QhullHyperplane { // Similar to QhullPoint
 public:
@@ -110,6 +108,7 @@ public:
 
 };//QhullHyperplane
 
+//! QhullHyperplaneIterator is a Java-style iterator for QhullHyperplane coordinates
 QHULL_DECLARE_SEQUENTIAL_ITERATOR(QhullHyperplane, coordT)
 
 }//namespace orgQhull

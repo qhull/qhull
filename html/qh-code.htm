@@ -484,7 +484,7 @@ To access all functions, use <tt>qhull_ra.h</tt>. Include the file
 with &quot;<tt>#include &lt;libqhull_r/qhull_ra.h&gt;</tt>&quot;. This
 avoids potential name conflicts.</p>
 
-<p>Qhull provides qhull.pc.in for pkg-config support and CMakeLists.txt for CMake.
+<p>Qhull provides build/qhull.pc.in for pkg-config support and CMakeLists.txt for CMake.
 Using back-ticks, you can compile your C program with Qhull.  For example:
 <pre>
   	gcc `pkg-config --cflags --libs qhull_r` -o my_app my_app.c
@@ -1243,6 +1243,9 @@ Top Suggestions
    Should wide merges be proportional to qh.ONEmerge or f.maxoutside?
    Can dupridges be avoided with geometric and topological constraints?
    Review coplanar tests across sharp ridges (coplanar horizon, qh_test_appendmerge, qh_check_maxout)
+ - Improve Qhull's computations, particularly qh_setfacetplane for hyperplanes
+   Toronto, N., McCarthy, J., "Practically accurate floating-point math,", Computing in
+   Science & Engineering, IEEE, July/August 2014, p. 80-95.
  - Octave creates endpoints for unbounded ridges, for drawing Delaunay/Voronoi diagrams [M. Voss]
  - Option to select bounded Voronoi regions [A. Uzunovic]
  - Review Qhull performance.  qh_next_vertexmerge and qh_check_maxout are slower than expected
@@ -1263,9 +1266,11 @@ Top Suggestions
 
 -----------
 To do for a furture version of the C++ interface
+ - Document C++ using Doxygen conventions (//! and //!<)
  - Add defineAs() to each object
  - Add Qtest::toString() functions for QhullPoint and others.  QByteArray and qstrdup()
- - Document C++ using Doxygen conventions (//! and //!<)
+ - Add toQVector() for Qt container support.  QVector is preferred over QList
+ - Add mutable Java-style iterators for containers.  Limited due to memory-allocation issues.
  - Should Qhull manage the output formats for doubles?  QH11010 FIX: user_r.h defines qh_REAL_1 as %6.8g
  - Allocate memory for QhullSet using Qhull.qhmem.  Create default constructors for QhullVertexSet etc.  Also mid() etc.
  - Add interior point for automatic translation?
@@ -1342,7 +1347,6 @@ Other
 - Consider using r.mergevertex2 to optimize qh_postmerge
 - Report two facets with same ridge vertices, opposite orientation (topology error)
   add warning (see QH7084) for duplicate ridge with opposite orientation (only two facets in the list)
-- Review 'VERSION 8.0' in qhull_r-exports.def.  Should it include the sub-version?
 - Check 'qh_NOmerge' compiler option
 
 [Jan 2016] Suggestions

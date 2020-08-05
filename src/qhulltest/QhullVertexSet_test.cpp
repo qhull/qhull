@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2020 C.B. Barber. All rights reserved.
-** $Id: //main/2019/qhull/src/qhulltest/QhullVertexSet_test.cpp#2 $$Change: 2953 $
-** $DateTime: 2020/05/21 22:05:32 $$Author: bbarber $
+** $Id: //main/2019/qhull/src/qhulltest/QhullVertexSet_test.cpp#4 $$Change: 3009 $
+** $DateTime: 2020/07/30 19:25:22 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -36,6 +36,7 @@ private slots:
     void t_convert();
     void t_readonly();
     void t_foreach();
+    void t_java_iterator();
     void t_io();
 };//QhullVertexSet_test
 
@@ -114,7 +115,54 @@ t_foreach()
     QVERIFY(vs.contains(vs.last()));
     QCOMPARE(vs.first(), *vs.begin());
     QCOMPARE(*(vs.end()-1), vs.last());
+    QhullVertex v2= vs.at(1);
+
+    bool isV2= false;
+    int count= 0;
+    foreach(QhullVertex v, q.firstFacet().vertices()){ // Qt only
+        ++count;
+        if(v==v2){
+            isV2= true;
+        }
+    }
+    QVERIFY(isV2);
+    QCOMPARE(count, vs.count());
+
+    isV2= false;
+    count= 0;
+    for(QhullVertex v : q.firstFacet().vertices()){
+        ++count;
+        if(v==v2){
+            isV2= true;
+        }
+    }
+    QVERIFY(isV2);
+    QCOMPARE(count, vs.count());
 }//t_foreach
+
+void QhullVertexSet_test::
+t_java_iterator()
+{
+    RboxPoints rcube("c");
+    Qhull q(rcube, "QR0");  // rotated unit cube
+    QhullVertexSet vs= q.firstFacet().vertices();
+    QhullVertex v2= vs.at(1);
+
+    bool isV2= false;
+    int count= 0;
+    QhullVertexSetIterator i(q.firstFacet().vertices());
+    while(i.hasNext()){
+        QhullVertex v= i.next();
+        QCOMPARE(i.peekPrevious(), v);
+        ++count;
+        if(v==v2){
+            isV2= true;
+            QCOMPARE(count, 2);
+        }
+    }
+    QVERIFY(isV2);
+    QCOMPARE(count, vs.count());
+}//t_java_iterator
 
 void QhullVertexSet_test::
 t_io()

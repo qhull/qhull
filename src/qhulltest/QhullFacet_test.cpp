@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2020 C.B. Barber. All rights reserved.
-** $Id: //main/2019/qhull/src/qhulltest/QhullFacet_test.cpp#4 $$Change: 2966 $
-** $DateTime: 2020/06/04 16:14:31 $$Author: bbarber $
+** $Id: //main/2019/qhull/src/qhulltest/QhullFacet_test.cpp#6 $$Change: 3006 $
+** $DateTime: 2020/07/29 18:28:16 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -150,23 +150,26 @@ t_getSet()
         QCOMPARE(tricoplanarCount, 2);
         int tricoplanarCount2= 0;
         foreach (QhullFacet f, q.facetList()){  // Qt only
+            QhullHyperplane hi= f.innerplane();
+            QCOMPARE(hi.count(), 3);
+            double innerOffset= hi.offset() + 0.5;
+            cout << "InnerPlane: " << hi << "   innerOffset+0.5 " << innerOffset << endl;
             QhullHyperplane h= f.hyperplane();
-            cout << "Hyperplane: " << h;
+            double offset= h.offset() + 0.5;
+            cout << "Hyperplane: " << h << "   offset+0.5 " << offset << endl;
             QCOMPARE(h.count(), 3);
             QCOMPARE(h.offset(), -0.5);
             double n= h.norm();
             QCOMPARE(n, 1.0);
-            QhullHyperplane hi= f.innerplane();
-            QCOMPARE(hi.count(), 3);
-            double innerOffset= hi.offset()+0.5;
-            cout << "InnerPlane: " << hi << "   innerOffset+0.5 " << innerOffset << endl;
-            QVERIFY(innerOffset >= 0.0-(2*q.distanceEpsilon())); // A guessed epsilon.  It needs to account for roundoff due to rotation of the vertices
             QhullHyperplane ho= f.outerplane();
             QCOMPARE(ho.count(), 3);
             double outerOffset= ho.offset()+0.5;
             cout << "OuterPlane: " << ho << "   outerOffset+0.5 " << outerOffset << endl;
-            QVERIFY(outerOffset <= 0.0+(2*q.distanceEpsilon())); // A guessed epsilon.  It needs to account for roundoff due to rotation of the vertices
-            QVERIFY(outerOffset-innerOffset < 1e-7);
+            QVERIFY(offset < innerOffset); // the outerOffset is more negative than the innerOffset.  The expected values are -0.5 for the unit cube centered at the origin
+            QVERIFY(outerOffset < offset); // QR1595623290 was 8.4x,   innerOffset+0.5 9.71445e-15, 2.5e-16 max. distance of a new vertex to a facet
+            QVERIFY2(fabs(innerOffset) < (10 * q.distanceEpsilon()), "Guessed epsilon from -0.5 due to rotation");   
+            QVERIFY2(fabs(outerOffset) < (10 * q.distanceEpsilon()), "Guessed epsilon from -0.5 due to rotation");
+
             for(int k= 0; k<3; k++){
                 QVERIFY(ho[k]==hi[k]);
                 QVERIFY(ho[k]==h[k]);

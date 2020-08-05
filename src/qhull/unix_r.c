@@ -8,8 +8,8 @@
    see qh-qhull.htm
 
    Copyright (c) 1993-2020 The Geometry Center.
-   $Id: //main/2019/qhull/src/qhull/unix_r.c#5 $$Change: 2953 $
-   $DateTime: 2020/05/21 22:05:32 $$Author: bbarber $
+   $Id: //main/2019/qhull/src/qhull/unix_r.c#6 $$Change: 3006 $
+   $DateTime: 2020/07/29 18:28:16 $$Author: bbarber $
 */
 
 #include "libqhull_r/libqhull_r.h"
@@ -389,7 +389,7 @@ int main(int argc, char *argv[]) {
   qh_init_A(qh, stdin, stdout, stderr, argc, argv);  /* sets qh->qhull_command */
   exitcode= setjmp(qh->errexit); /* simple statement for CRAY J916 */
   if (!exitcode) {
-    qh->NOerrexit = False;
+    qh->NOerrexit= False;
     qh_initflags(qh, qh->qhull_command);
     points= qh_readpoints(qh, &numpoints, &dim, &ismalloc);
     qh_init_B(qh, points, numpoints, dim, ismalloc);

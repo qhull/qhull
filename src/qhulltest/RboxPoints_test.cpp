@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2006-2020 C.B. Barber. All rights reserved.
-** $Id: //main/2019/qhull/src/qhulltest/RboxPoints_test.cpp#3 $$Change: 2966 $
-** $DateTime: 2020/06/04 16:14:31 $$Author: bbarber $
+** $Id: //main/2019/qhull/src/qhulltest/RboxPoints_test.cpp#5 $$Change: 3010 $
+** $DateTime: 2020/07/30 22:14:11 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -157,6 +157,21 @@ t_foreach()
     orgQhull::Coordinates::ConstIterator cci4= rp.beginCoordinates(4);
     orgQhull::Coordinates::ConstIterator cci5= rp.endCoordinates();
     QCOMPARE(cci5-cci4, 4*3);
+
+    //! Qt's foreach is not available since the copy constructor is private.  PointCoordinates makes a copy of std::vector point_coordinates
+
+    QhullPoint p2= rp.at(1);
+    bool isP2= false;
+    int count= 0;
+    for(QhullPoint p : rp){
+        ++count;
+        if(p==p2){
+            isP2= true;
+            QCOMPARE(count, 2);
+        }
+    }
+    QVERIFY(isP2);
+    QCOMPARE(count, rp.count());
 }//t_foreach
 
 void RboxPoints_test::

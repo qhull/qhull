@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2009-2020 C.B. Barber. All rights reserved.
-** $Id: //main/2019/qhull/src/qhulltest/Coordinates_test.cpp#3 $$Change: 2966 $
-** $DateTime: 2020/06/04 16:14:31 $$Author: bbarber $
+** $Id: //main/2019/qhull/src/qhulltest/Coordinates_test.cpp#4 $$Change: 3001 $
+** $DateTime: 2020/07/24 20:43:28 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -36,10 +36,9 @@ private slots:
     void t_operator();
     void t_const_iterator();
     void t_iterator();
-    void t_coord_iterator();
-    void t_mutable_coord_iterator();
-    void t_readwrite();
+    void t_foreach();
     void t_search();
+    void t_readwrite();
     void t_io();
 };//Coordinates_test
 
@@ -251,155 +250,74 @@ t_iterator()
 }//t_iterator
 
 void Coordinates_test::
-t_coord_iterator()
+t_foreach()
 {
-    Coordinates c;
-    c << 1.0 << 3.0;
-    CoordinatesIterator i(c);
-    CoordinatesIterator i2= c;
-    QVERIFY(i.findNext(1.0));
-    QVERIFY(!i.findNext(2.0));
-    QVERIFY(!i.findNext(3.0));
-    QVERIFY(i.findPrevious(3.0));
-    QVERIFY(!i.findPrevious(2.0));
-    QVERIFY(!i.findPrevious(1.0));
-    QVERIFY(i2.findNext(3.0));
-    QVERIFY(i2.findPrevious(3.0));
-    QVERIFY(i2.findNext(3.0));
-    QVERIFY(i2.findPrevious(1.0));
-    QVERIFY(i2.hasNext());
-    QVERIFY(!i2.hasPrevious());
-    QVERIFY(i.hasNext());
-    QVERIFY(!i.hasPrevious());
-    i.toBack();
-    i2.toFront();
-    QVERIFY(!i.hasNext());
-    QVERIFY(i.hasPrevious());
-    QVERIFY(i2.hasNext());
-    QVERIFY(!i2.hasPrevious());
-    Coordinates c2;
-    i2= c2;
-    QVERIFY(!i2.hasNext());
-    QVERIFY(!i2.hasPrevious());
-    i2.toBack();
-    QVERIFY(!i2.hasNext());
-    QVERIFY(!i2.hasPrevious());
-    QCOMPARE(i.peekPrevious(), 3.0);
-    QCOMPARE(i.previous(), 3.0);
-    QCOMPARE(i.previous(), 1.0);
-    QVERIFY(!i.hasPrevious());
-    QCOMPARE(i.peekNext(), 1.0);
-    // i.peekNext()= 1.0; // compiler error
-    QCOMPARE(i.next(), 1.0);
-    QCOMPARE(i.peekNext(), 3.0);
-    QCOMPARE(i.next(), 3.0);
-    QVERIFY(!i.hasNext());
-    i.toFront();
-    QCOMPARE(i.next(), 1.0);
-}//t_coord_iterator
+    RboxPoints rcube("c");
+    Qhull q;
+    Coordinates cs;
+    cs << 0.1 << 0.2 << 0.3;
+    q.setFeasiblePoint(cs);
+    q.runQhull(rcube, "QR0"); // a rotated cube, feasiblePoint is set but not used
+    coordT c2= cs.at(1);
+
+    // Qt's 'foreach' should not be used.  It makes a copy of the std::vector
+
+    bool isC2= false;
+    int count= 0;
+    for(coordT c : q.feasiblePoint()){
+        ++count;
+        if(c==c2){
+            isC2= true;
+        }
+    }
+    QVERIFY(isC2);
+    QCOMPARE(count, cs.count());
+}//t_foreach
 
 void Coordinates_test::
-t_mutable_coord_iterator()
+t_search()
 {
-    // Same tests as CoordinatesIterator
     Coordinates c;
-    c << 1.0 << 3.0;
-    MutableCoordinatesIterator i(c);
-    MutableCoordinatesIterator i2= c;
-    QVERIFY(i.findNext(1.0));
-    QVERIFY(!i.findNext(2.0));
-    QVERIFY(!i.findNext(3.0));
-    QVERIFY(i.findPrevious(3.0));
-    QVERIFY(!i.findPrevious(2.0));
-    QVERIFY(!i.findPrevious(1.0));
-    QVERIFY(i2.findNext(3.0));
-    QVERIFY(i2.findPrevious(3.0));
-    QVERIFY(i2.findNext(3.0));
-    QVERIFY(i2.findPrevious(1.0));
-    QVERIFY(i2.hasNext());
-    QVERIFY(!i2.hasPrevious());
-    QVERIFY(i.hasNext());
-    QVERIFY(!i.hasPrevious());
-    i.toBack();
-    i2.toFront();
-    QVERIFY(!i.hasNext());
-    QVERIFY(i.hasPrevious());
-    QVERIFY(i2.hasNext());
-    QVERIFY(!i2.hasPrevious());
-    Coordinates c2;
-    i2= c2;
-    QVERIFY(!i2.hasNext());
-    QVERIFY(!i2.hasPrevious());
-    i2.toBack();
-    QVERIFY(!i2.hasNext());
-    QVERIFY(!i2.hasPrevious());
-    QCOMPARE(i.peekPrevious(), 3.0);
-    QCOMPARE(i.peekPrevious(), 3.0);
-    QCOMPARE(i.previous(), 3.0);
-    QCOMPARE(i.previous(), 1.0);
-    QVERIFY(!i.hasPrevious());
-    QCOMPARE(i.peekNext(), 1.0);
-    QCOMPARE(i.next(), 1.0);
-    QCOMPARE(i.peekNext(), 3.0);
-    QCOMPARE(i.next(), 3.0);
-    QVERIFY(!i.hasNext());
-    i.toFront();
-    QCOMPARE(i.next(), 1.0);
-
-    // Mutable tests
-    i.toFront();
-    i.peekNext()= -1.0;
-    QCOMPARE(i.peekNext(), -1.0);
-    QCOMPARE((i.next()= 1.0), 1.0);
-    QCOMPARE(i.peekPrevious(), 1.0);
-    i.remove();
-    QCOMPARE(c.count(), 1);
-    i.remove();
-    QCOMPARE(c.count(), 1);
-    QCOMPARE(i.peekNext(), 3.0);
-    i.insert(1.0);
-    i.insert(2.0);
-    QCOMPARE(c.count(), 3);
-    QCOMPARE(i.peekNext(), 3.0);
-    QCOMPARE(i.peekPrevious(), 2.0);
-    i.peekPrevious()= -2.0;
-    QCOMPARE(i.peekPrevious(), -2.0);
-    QCOMPARE((i.previous()= 2.0), 2.0);
-    QCOMPARE(i.peekNext(), 2.0);
-    i.toBack();
-    i.remove();
-    QCOMPARE(c.count(), 3); // unchanged
-    i.toFront();
-    i.remove();
-    QCOMPARE(c.count(), 3); // unchanged
-    QCOMPARE(i.peekNext(), 1.0);
-    i.remove();
-    QCOMPARE(c.count(), 3); // unchanged
-    i.insert(0.0);
-    QCOMPARE(c.count(), 4);
-    QCOMPARE(i.value(), 0.0);
-    QCOMPARE(i.peekPrevious(), 0.0);
-    i.setValue(-10.0);
-    QCOMPARE(c.count(), 4); // unchanged
-    QCOMPARE(i.peekNext(), 1.0);
-    QCOMPARE(i.peekPrevious(), -10.0);
-    i.findNext(1.0);
-    i.setValue(-1.0);
-    QCOMPARE(i.peekPrevious(), -1.0);
-    i.setValue(1.0);
-    QCOMPARE(i.peekPrevious(), 1.0);
-    QCOMPARE(i.value(), 1.0);
-    i.findPrevious(1.0);
-    i.setValue(-1.0);
-    QCOMPARE(i.peekNext(), -1.0);
-    i.toBack();
-    QCOMPARE(i.previous(), 3.0);
-    i.setValue(-3.0);
-    QCOMPARE(i.peekNext(), -3.0);
-    double d= i.value();
-    QCOMPARE(d, -3.0);
-    QCOMPARE(i.previous(), 2.0);
-}//t_mutable_coord_iterator
+    c << 1.0 << 3.0 << 1.0;
+    QVERIFY(c.contains(1.0));
+    QVERIFY(c.contains(3.0));
+    QVERIFY(!c.contains(0.0));
+    QCOMPARE(c.count(1.0), 2);
+    QCOMPARE(c.count(3.0), 1);
+    QCOMPARE(c.count(0.0), 0);
+    QCOMPARE(c.indexOf(1.0), 0);
+    QCOMPARE(c.indexOf(3.0), 1);
+    QCOMPARE(c.indexOf(1.0, -1), 2);
+    QCOMPARE(c.indexOf(3.0, -1), -1);
+    QCOMPARE(c.indexOf(3.0, -2), 1);
+    QCOMPARE(c.indexOf(1.0, -3), 0);
+    QCOMPARE(c.indexOf(1.0, -4), 0);
+    QCOMPARE(c.indexOf(1.0, 1), 2);
+    QCOMPARE(c.indexOf(3.0, 2), -1);
+    QCOMPARE(c.indexOf(1.0, 2), 2);
+    QCOMPARE(c.indexOf(1.0, 3), -1);
+    QCOMPARE(c.indexOf(1.0, 4), -1);
+    QCOMPARE(c.lastIndexOf(1.0), 2);
+    QCOMPARE(c.lastIndexOf(3.0), 1);
+    QCOMPARE(c.lastIndexOf(1.0, -1), 2);
+    QCOMPARE(c.lastIndexOf(3.0, -1), 1);
+    QCOMPARE(c.lastIndexOf(3.0, -2), 1);
+    QCOMPARE(c.lastIndexOf(1.0, -3), 0);
+    QCOMPARE(c.lastIndexOf(1.0, -4), -1);
+    QCOMPARE(c.lastIndexOf(1.0, 1), 0);
+    QCOMPARE(c.lastIndexOf(3.0, 2), 1);
+    QCOMPARE(c.lastIndexOf(1.0, 2), 2);
+    QCOMPARE(c.lastIndexOf(1.0, 3), 2);
+    QCOMPARE(c.lastIndexOf(1.0, 4), 2);
+    c.removeAll(3.0);
+    QCOMPARE(c.count(), 2);
+    c.removeAll(4.0);
+    QCOMPARE(c.count(), 2);
+    c.removeAll(1.0);
+    QCOMPARE(c.count(), 0);
+    c.removeAll(4.0);
+    QCOMPARE(c.count(), 0);
+}//t_search
 
 void Coordinates_test::
 t_readwrite()
@@ -476,51 +394,6 @@ t_readwrite()
     QVERIFY(c.isEmpty()); \
     QCOMPARE(d3, 0.0);
 }//t_readwrite
-
-void Coordinates_test::
-t_search()
-{
-    Coordinates c;
-    c << 1.0 << 3.0 << 1.0;
-    QVERIFY(c.contains(1.0));
-    QVERIFY(c.contains(3.0));
-    QVERIFY(!c.contains(0.0));
-    QCOMPARE(c.count(1.0), 2);
-    QCOMPARE(c.count(3.0), 1);
-    QCOMPARE(c.count(0.0), 0);
-    QCOMPARE(c.indexOf(1.0), 0);
-    QCOMPARE(c.indexOf(3.0), 1);
-    QCOMPARE(c.indexOf(1.0, -1), 2);
-    QCOMPARE(c.indexOf(3.0, -1), -1);
-    QCOMPARE(c.indexOf(3.0, -2), 1);
-    QCOMPARE(c.indexOf(1.0, -3), 0);
-    QCOMPARE(c.indexOf(1.0, -4), 0);
-    QCOMPARE(c.indexOf(1.0, 1), 2);
-    QCOMPARE(c.indexOf(3.0, 2), -1);
-    QCOMPARE(c.indexOf(1.0, 2), 2);
-    QCOMPARE(c.indexOf(1.0, 3), -1);
-    QCOMPARE(c.indexOf(1.0, 4), -1);
-    QCOMPARE(c.lastIndexOf(1.0), 2);
-    QCOMPARE(c.lastIndexOf(3.0), 1);
-    QCOMPARE(c.lastIndexOf(1.0, -1), 2);
-    QCOMPARE(c.lastIndexOf(3.0, -1), 1);
-    QCOMPARE(c.lastIndexOf(3.0, -2), 1);
-    QCOMPARE(c.lastIndexOf(1.0, -3), 0);
-    QCOMPARE(c.lastIndexOf(1.0, -4), -1);
-    QCOMPARE(c.lastIndexOf(1.0, 1), 0);
-    QCOMPARE(c.lastIndexOf(3.0, 2), 1);
-    QCOMPARE(c.lastIndexOf(1.0, 2), 2);
-    QCOMPARE(c.lastIndexOf(1.0, 3), 2);
-    QCOMPARE(c.lastIndexOf(1.0, 4), 2);
-    c.removeAll(3.0);
-    QCOMPARE(c.count(), 2);
-    c.removeAll(4.0);
-    QCOMPARE(c.count(), 2);
-    c.removeAll(1.0);
-    QCOMPARE(c.count(), 0);
-    c.removeAll(4.0);
-    QCOMPARE(c.count(), 0);
-}//t_search
 
 void Coordinates_test::
 t_io()

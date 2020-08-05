@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2020 C.B. Barber. All rights reserved.
-** $Id: //main/2019/qhull/src/libqhullcpp/QhullUser.h#5 $$Change: 2961 $
-** $DateTime: 2020/06/01 22:17:03 $$Author: bbarber $
+** $Id: //main/2019/qhull/src/libqhullcpp/QhullUser.h#7 $$Change: 3010 $
+** $DateTime: 2020/07/30 22:14:11 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -36,12 +36,12 @@ namespace orgQhull{
 #//!\name Fields
         QhullQh *       qh_qh;          //!< QhullQh/qhT for access to libqhull_r
         void *          previous_user;  //!< previous qh.cpp_user, restored on deconstruction
-        std::vector< std::vector< double> > doubles_vector;  //! vectors for capturing ints and doubles
-        std::vector< std::vector< int> >  ints_vector;
-        std::vector< int>               fprintf_ints;
-        std::vector< double>            fprintf_doubles;
-        std::vector< int>               fprintf_codes;
-        std::vector< std::string>       fprintf_strings;
+        std::vector<std::vector<double> > doubles_vector;  //! vectors for capturing ints and doubles
+        std::vector<std::vector<int> >  ints_vector;
+        std::vector<int>                fprintf_ints;
+        std::vector<double>             fprintf_doubles;
+        std::vector<int>                fprintf_codes;
+        std::vector<std::string>        fprintf_strings;
         int             num_facets;
         int             num_neighbors;
         int             num_numbers;
@@ -75,13 +75,13 @@ namespace orgQhull{
         void            clearDoublesVector() { doubles_vector.clear(); }
         void            clearInts() { fprintf_ints.clear(); }
         void            clearIntsVector() { ints_vector.clear(); }
-        const std::vector< int> &codes() const { return fprintf_codes; }
+        const std::vector<int> &codes() const { return fprintf_codes; }
         int             delaunayDim() const { return delaunay_dim; }
-        const std::vector< std::vector< double> > &doublesVector() const { return doubles_vector; }
-        const std::vector< double> &doubles() const { return fprintf_doubles; }
+        const std::vector<std::vector<double> > &doublesVector() const { return doubles_vector; }
+        const std::vector<double> &doubles() const { return fprintf_doubles; }
         int             firstCode() const { return (fprintf_codes.size() == 0 ? -1 : fprintf_codes[0]); }
-        const std::vector< int> &ints() const { return fprintf_ints; }
-        const std::vector< std::vector< int> > &intsVector() const { return ints_vector; }
+        const std::vector<int> &ints() const { return fprintf_ints; }
+        const std::vector<std::vector<int> > &intsVector() const { return ints_vector; }
         int             numDoubles() const { return (int)doubles_vector.size();  }
         int             numFacets() const { return num_facets; }
         int             numInts() const { return (int)ints_vector.size(); }

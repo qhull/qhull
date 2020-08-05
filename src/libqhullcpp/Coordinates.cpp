@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2009-2020 C.B. Barber. All rights reserved.
-** $Id: //main/2019/qhull/src/libqhullcpp/Coordinates.cpp#2 $$Change: 2953 $
-** $DateTime: 2020/05/21 22:05:32 $$Author: bbarber $
+** $Id: //main/2019/qhull/src/libqhullcpp/Coordinates.cpp#4 $$Change: 3009 $
+** $DateTime: 2020/07/30 19:25:22 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -111,17 +111,22 @@ swap(countT idx, countT other)
 bool Coordinates::
 contains(const coordT &t) const
 {
-    CoordinatesIterator i(*this);
-    return i.findNext(t);
+    for(Coordinates::const_iterator i= constBegin(); i!=constEnd(); ++i){
+        if(*i==t){
+            return true;
+        }
+    } 
+    return false;
 }//contains
 
 countT Coordinates::
 count(const coordT &t) const
 {
-    CoordinatesIterator i(*this);
     countT result= 0;
-    while(i.findNext(t)){
-        ++result;
+    for(Coordinates::const_iterator i= constBegin(); i != constEnd(); ++i){
+        if(*i==t){
+            ++result;
+        }
     }
     return result;
 }//count
@@ -171,9 +176,13 @@ lastIndexOf(const coordT &t, countT from) const
 void Coordinates::
 removeAll(const coordT &t)
 {
-    MutableCoordinatesIterator i(*this);
-    while(i.findNext(t)){
-        i.remove();
+    std::vector<coordT>::iterator i= coordinate_array.begin();
+    while(i!=coordinate_array.end()){
+        if(*i==t){
+            i= coordinate_array.erase(i);
+        }else{
+            ++i;
+        }
     }
 }//removeAll
 

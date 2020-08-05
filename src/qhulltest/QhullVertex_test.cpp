@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2020 C.B. Barber. All rights reserved.
-** $Id: //main/2019/qhull/src/qhulltest/QhullVertex_test.cpp#3 $$Change: 2963 $
-** $DateTime: 2020/06/03 19:31:01 $$Author: bbarber $
+** $Id: //main/2019/qhull/src/qhulltest/QhullVertex_test.cpp#4 $$Change: 3001 $
+** $DateTime: 2020/07/24 20:43:28 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -140,16 +140,31 @@ t_getSet()
 void QhullVertex_test::
 t_foreach()
 {
+    //!\see QhullLinkedList_test::t_java_iterator for test of QhullVertexListIterator
     RboxPoints rcube("c W0 300");  // 300 points on surface of cube
     {
         Qhull q(rcube, "QR0 Qc"); // keep coplanars, thick facet, and rotate the cube
-        foreach (QhullVertex v, q.vertexList()){  // Qt only
+        int count= 0;
+        foreach(QhullVertex v, q.vertexList()){  // Qt only
+            ++count;
             QhullFacetSet fs= v.neighborFacets();
             QCOMPARE(fs.count(), 3);
-            foreach (QhullFacet f, fs){  // Qt only
+            foreach(QhullFacet f, v.neighborFacets()){  // Qt only
                 QVERIFY(f.vertices().contains(v));
             }
         }
+        QCOMPARE(count, q.vertexCount());
+
+        count= 0;
+        for(QhullVertex v : q.vertexList()) { 
+            ++count;
+            QhullFacetSet fs= v.neighborFacets();
+            QCOMPARE(fs.count(), 3);
+            foreach(QhullFacet f, v.neighborFacets()){
+                QVERIFY(f.vertices().contains(v));
+            }
+        }
+        QCOMPARE(count, q.vertexCount());
     }
 }//t_foreach
 

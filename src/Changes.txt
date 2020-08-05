@@ -1,4 +1,4 @@
-$Id: //main/2019/qhull/src/Changes.txt#61 $$Date: 2020/07/21 $
+$Id: //main/2019/qhull/src/Changes.txt#67 $$Date: 2020/08/04 $
 
 .............This file lists all changes to qhull and rbox.....................
 
@@ -45,6 +45,52 @@ Qhull 2.0 (1994-1995)
 ==================
 == Qhull 2018-2020
 ==================
+
+------------
+Qhull 2020.2 2020/07/24 (8.0.1)
+
+C++ interface
+- Removed Java-style iterators for Coordinates and PointCoordinates.
+  std::vector has an expensive copy constructor and copy assignment, and
+  a pointer to std::vector is vulnerable to mysterious overwrites (e.g., deleting 
+  a returned value and reusing its memory).  Qt's 'foreach' should not be used for 
+  Coordinates and PointCoordinates.  It copies std::vector
+- QHULL_DECLARE_SEQUENTIAL_ITERATOR: allow temporary results
+  The Jave-style iterator copies the container.  Same as Qt's Q_DECLARE_SEQUENTIAL_ITERATOR
+- QhullHyperplaneIterator,QhullPointIterator,QhullPointsIterator: allow temporary results
+  These Java-style iterators copy the container instead of pointing to the container
+- QhullLinkedListIterator,QhullFacetListIterator,QhullVertexListIterator: allow temporary results
+  These Java-style iterators copy the container instead of pointing to the container
+- QhullSetIterator,QhullFacetSetIterator,QhullPointSetIterator,QhullVertexSetIterator: add documentation about temporary results
+  These Java-style iterators have always copied the container
+- QhullUser.h, user_eg3_r.cpp: Removed C++11 dependencies [S. Grein #66,#67]
+  QhullUser.cpp: Use intptr_t to avoid C++11 dependencies  [S. Grein, Spacelm #68]
+- QhullVertex.cpp: moved the copy constructor to the code file.  It was inline. 
+
+Testing and example programs
+- user_eg3_r.cpp: Renamed 'inputSites' to 'voronoiRegions' in qvoronoi_o/qvoronoi_pfn [M. Konecny #72]
+- user_eg3_r.cpp: Replaced C++11's range-based for loops with Qhull's Java-style iterators
+- qh-code.html: Updated qhullcpp code example [M. Konecny #71]
+- QhullFacet_test.cpp: fixed hyperplane epsilon test in t_getSet. The epsilon due to rotation is unknown.
+- Qhull*List_test.cpp,Qhull*Set_test.cpp,QhullRidge_test,QhullVertex_test: test Qt's 'foreach' in t_foreach
+- Qhull*List_test.cpp,Qhull*Set_test.cpp,QhullRidge_test,QhullVertex_test: test C++11 range for in t_foreach
+- Qhull*List_test.cpp,Qhull*Set_test.cpp: test Java-style iterator in t_java_iterator
+- Coordinates_test.cpp,PointCoordinates_test.cpp,QhullHyperplane_test.cpp,QhullPoint_test.cpp,QhullPoints_test.cpp,RboxPoints_test.cpp
+  test C++11 range for, Qt's 'foreach', and Java-style iterators (if available)
+
+Builds
+- README.txt: Fixed "cmake -G" for "Installing Qhull with CMake"
+- README.txt: Added a note on 'make install' to "Installing Qhull on Unix"
+- README.txt: Added 'make test' to "Installing Qhull on Unix"
+- README.txt: Added 'ctest' to "Installing Qhull with CMake"
+- README.txt: Added pkg-config notes to "Installing Qhull with CMake"
+- README.txt: Added usage notes for Windows to "Installing Qhull with CMake"
+- README.txt: Added instructions for downloading MinGW-W64-install.exe
+- build/qhull_p.pc.in,qhull_r.pc.in: Delete obsolete files [T. Roehling #63]
+- build/qhull.pc.in: move qhull.pc.in into the build/ directory [T. Roehling #63]
+
+Documentation
+- qh-code.htm, qhull-news.html: Add Toronto and McCarthy, "Practically accurate floating-point math".
 
 ------------
 Qhull 2020.1 2020/05/29 (8.0.0)

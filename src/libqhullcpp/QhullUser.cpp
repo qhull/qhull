@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2020 C.B. Barber. All rights reserved.
-** $Id: //main/2019/qhull/src/libqhullcpp/QhullUser.cpp#8 $$Change: 2963 $
-** $DateTime: 2020/06/03 19:31:01 $$Author: bbarber $
+** $Id: //main/2019/qhull/src/libqhullcpp/QhullUser.cpp#10 $$Change: 3008 $
+** $DateTime: 2020/07/30 13:54:27 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -11,6 +11,7 @@
 #include "libqhullcpp/QhullError.h"
 
 #include <iostream>
+#include <stdint.h>
 
 using std::cerr;
 using std::endl;
@@ -98,7 +99,7 @@ captureOff()
         throw QhullError(10080, "Qhull error: QhullUser::captureOn not call before QhullUser::captureOff for QhullUser 0x%llx", 0, 0, 0.0, this);
     }
     if(qh()->cpp_user!=this){
-        throw QhullError(10081, "Qhull error: conflicting QhullUser (0x%llx) for QhullUser::captureOff().  Does not match 'this' (0x...%X)", int((uintptr_t)this), 0, 0.0, qh()->cpp_user);
+        throw QhullError(10081, "Qhull error: conflicting QhullUser (0x%llx) for QhullUser::captureOff().  Does not match 'this' (0x...%X)", int(0xffff&(intptr_t)this), 0, 0.0, qh()->cpp_user);
     }
     qh()->cpp_user= NULL;
 }//captureOff

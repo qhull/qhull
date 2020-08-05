@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2020 C.B. Barber. All rights reserved.
-** $Id: //main/2019/qhull/src/libqhullcpp/QhullSet.h#3 $$Change: 2953 $
-** $DateTime: 2020/05/21 22:05:32 $$Author: bbarber $
+** $Id: //main/2019/qhull/src/libqhullcpp/QhullSet.h#4 $$Change: 3001 $
+** $DateTime: 2020/07/24 20:43:28 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -276,6 +276,8 @@ public:
 };//class QhullSet
 
 
+//! QhullSetIterator is a Java-style iterator.  It may be used on temporary results.
+//! QhullSetIterator copies the qh_set and qh_qh pointers in QhullSetBase
 //! Faster then interator/const_iterator due to T::base_type
 template <typename T>
 class QhullSetIterator {
@@ -285,7 +287,7 @@ class QhullSetIterator {
 
 private:
 #//!\name Fields
-    const typename T::base_type *  i;  // e.g., facetT**, first for debugger
+    const typename T::base_type *  i;        // e.g., facetT**, first for debugger
     const typename T::base_type *  begin_i;  // must be initialized after i
     const typename T::base_type *  end_i;
     QhullQh *                qh_qh;

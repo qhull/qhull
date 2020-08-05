@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2020 C.B. Barber. All rights reserved.
-** $Id: //main/2019/qhull/src/libqhullcpp/Qhull.cpp#11 $$Change: 2963 $
-** $DateTime: 2020/06/03 19:31:01 $$Author: bbarber $
+** $Id: //main/2019/qhull/src/libqhullcpp/Qhull.cpp#12 $$Change: 3009 $
+** $DateTime: 2020/07/30 19:25:22 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -361,7 +361,7 @@ initializeFeasiblePoint(int hulldim)
             qh_errexit(qh_qh, qh_ERRmem, NULL, NULL);
         }
         qh_qh->feasible_point= static_cast<coordT*>(qh_malloc(static_cast<size_t>(hulldim) * sizeof(coordT)));
-        if (!qh_qh->feasible_point){
+        if(!qh_qh->feasible_point){
             qh_fprintf(qh_qh, qh_qh->ferr, 6042, "qhull error (Qhull.cpp): insufficient memory for feasible point\n");
             qh_errexit(qh_qh, qh_ERRmem, NULL, NULL);
         }

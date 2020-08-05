@@ -299,7 +299,7 @@ int main(int argc, char *argv[]) {
   qh_init_A(stdin, stdout, stderr, argc, argv);  /* sets qh qhull_command */
   exitcode= setjmp(qh errexit); /* simple statement for CRAY J916 */
   if (!exitcode) {
-    qh NOerrexit = False;
+    qh NOerrexit= False;
     qh_option("delaunay  Qbbound-last", NULL, NULL);
     qh DELAUNAY= True;     /* 'd'   */
     qh SCALElast= True;    /* 'Qbb' */

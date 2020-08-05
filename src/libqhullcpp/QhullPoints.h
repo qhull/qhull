@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2009-2020 C.B. Barber. All rights reserved.
-** $Id: //main/2019/qhull/src/libqhullcpp/QhullPoints.h#5 $$Change: 2953 $
-** $DateTime: 2020/05/21 22:05:32 $$Author: bbarber $
+** $Id: //main/2019/qhull/src/libqhullcpp/QhullPoints.h#6 $$Change: 3001 $
+** $DateTime: 2020/07/24 20:43:28 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -230,30 +230,32 @@ public:
     PrintPoints          printWithIdentifier(const char *message) const { return PrintPoints(message, true, *this); }
 };//QhullPoints
 
-// Instead of QHULL_DECLARE_SEQUENTIAL_ITERATOR because next(),etc would return a reference to a temporary
+
+//! QhullPointsIterator is a Java-style iterator.  It may be used on temporary results.  It copies the pointers in QhullPoints
+//! Did not use QHULL_DECLARE_SEQUENTIAL_ITERATOR because next(),etc cannot return a reference to a temporary
 class QhullPointsIterator
 {
     typedef QhullPoints::const_iterator const_iterator;
 
 #//!\name Fields
 private:
-    const QhullPoints  *ps;
+    QhullPoints         ps;
     const_iterator      i;
 
 public:
-                        QhullPointsIterator(const QhullPoints &other) : ps(&other), i(ps->constBegin()) {}
-    QhullPointsIterator &operator=(const QhullPoints &other) { ps= &other; i= ps->constBegin(); return *this; }
+                        QhullPointsIterator(const QhullPoints &other) : ps(other), i(ps.constBegin()) {}
+    QhullPointsIterator &operator=(const QhullPoints &other) { ps= other; i= ps.constBegin(); return *this; }
 
     bool                findNext(const QhullPoint &t);
     bool                findPrevious(const QhullPoint &t);
-    bool                hasNext() const { return i != ps->constEnd(); }
-    bool                hasPrevious() const { return i != ps->constBegin(); }
+    bool                hasNext() const { return i != ps.constEnd(); }
+    bool                hasPrevious() const { return i != ps.constBegin(); }
     QhullPoint          next() { return *i++; }
     QhullPoint          peekNext() const { return *i; }
     QhullPoint          peekPrevious() const { const_iterator p= i; return *--p; }
     QhullPoint          previous() { return *--i; }
-    void                toBack() { i= ps->constEnd(); }
-    void                toFront() { i= ps->constBegin(); }
+    void                toBack() { i= ps.constEnd(); }
+    void                toFront() { i= ps.constBegin(); }
 };//QhullPointsIterator
 
 }//namespace orgQhull

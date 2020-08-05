@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2009-2020 C.B. Barber. All rights reserved.
-** $Id: //main/2019/qhull/src/libqhullcpp/QhullPoints.cpp#4 $$Change: 2953 $
-** $DateTime: 2020/05/21 22:05:32 $$Author: bbarber $
+** $Id: //main/2019/qhull/src/libqhullcpp/QhullPoints.cpp#5 $$Change: 3001 $
+** $DateTime: 2020/07/24 20:43:28 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -265,7 +265,7 @@ mid(countT idx, countT length) const
 bool QhullPointsIterator::
 findNext(const QhullPoint &p)
 {
-    while(i!=ps->constEnd()){
+    while(i!=ps.constEnd()){
         if(*i++ == p){
             return true;
         }
@@ -276,7 +276,7 @@ findNext(const QhullPoint &p)
 bool QhullPointsIterator::
 findPrevious(const QhullPoint &p)
 {
-    while(i!=ps->constBegin()){
+    while(i!=ps.constBegin()){
         if(*--i == p){
             return true;
         }

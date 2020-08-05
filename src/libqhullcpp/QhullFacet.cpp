@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2020 C.B. Barber. All rights reserved.
-** $Id: //main/2019/qhull/src/libqhullcpp/QhullFacet.cpp#4 $$Change: 2963 $
-** $DateTime: 2020/06/03 19:31:01 $$Author: bbarber $
+** $Id: //main/2019/qhull/src/libqhullcpp/QhullFacet.cpp#5 $$Change: 3009 $
+** $DateTime: 2020/07/30 19:25:22 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -271,7 +271,7 @@ operator<<(ostream &os, const QhullFacet::PrintCenter &pr)
     if(pr.facet->qh()->CENTERtype!=qh_ASvoronoi && pr.facet->qh()->CENTERtype!=qh_AScentrum){
         return os;
     }
-    if (pr.message){
+    if(pr.message){
         os << pr.message;
     }
     int numCoords;
@@ -426,7 +426,7 @@ operator<<(ostream &os, const QhullFacet::PrintHeader &pr)
     QhullPointSet ps= facet.outsidePoints();
     if(!ps.isEmpty()){
         QhullPoint furthest= ps.last();
-        if (ps.size() < 6) {
+        if(ps.size() < 6){
             os << "    - outside set(furthest p" << furthest.id() << "):" << endl;
             for(QhullPointSet::iterator i=ps.begin(); i!=ps.end(); ++i){
                 QhullPoint p= *i;
@@ -445,7 +445,7 @@ operator<<(ostream &os, const QhullFacet::PrintHeader &pr)
     QhullPointSet cs= facet.coplanarPoints();
     if(!cs.isEmpty()){
         QhullPoint furthest= cs.last();
-        if (cs.size() < 6) {
+        if(cs.size() < 6){
             os << "    - coplanar set(furthest p" << furthest.id() << "):" << endl;
             for(QhullPointSet::iterator i=cs.begin(); i!=cs.end(); ++i){
                 QhullPoint p= *i;

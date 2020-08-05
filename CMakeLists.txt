@@ -61,17 +61,17 @@
 #   Remove CMAKE_INTDIR from PreprocessorDefinitions
 #   Adjust target names and destinations (e.g., lib/libqhullstatic_rd.a)
 #  
-# $Id: //main/2019/qhull/CMakeLists.txt#12 $$Change: 2961 $
-# $DateTime: 2020/06/01 22:17:03 $$Author: bbarber $
+# $Id: //main/2019/qhull/CMakeLists.txt#16 $$Change: 3008 $
+# $DateTime: 2020/07/30 13:54:27 $$Author: bbarber $
 
 project(qhull)
 cmake_minimum_required(VERSION 3.0)
 
 # Define qhull_VERSION in README.txt, Announce.txt, qh-get.htm, CMakeLists.txt
 #   qhull-zip.sh (twice), qhull-wiki.md, qhull-news.htm, File_id.diz, index.htm
-#   Makefile (SO), qhull-warn.pri (VERSION), qhull-exports.def (VERSION 8.0), qhull_p-exports.def, qhull_r-exports.def
-set(qhull_VERSION2 "2020.1 2020/05/29")  # not used, See global.c, global_r.c, rbox.c, rbox_r.c
-set(qhull_VERSION  "8.0.0")  # Advance every release
+#   qhull-warn.pri (VERSION), qhull-exports.def (VERSION), qhull_p-exports.def, qhull_r-exports.def
+set(qhull_VERSION2 "2020.2  2020/07/24")  # not used, See global.c, global_r.c, rbox.c, rbox_r.c
+set(qhull_VERSION  "8.0.1")  # Advance every release
 
 # SOVERSION -- qhull 2003 = empty, 2009 = 5, 2010-2012 = 6, 2015-2019 = 7, 2020 = 8.0
 # Increase SOVERSION if ABI breaks (abi-compliance-checker)
@@ -676,7 +676,7 @@ foreach(pkgconfig IN ITEMS "${qhull_SHARED};Qhull shared library"
         set(LIBRARY_NAME "qhull")
     endif()
     list(GET pkgconfig 1 LIBRARY_DESCRIPTION)
-    configure_file(qhull.pc.in ${LIBRARY_NAME}.pc @ONLY)
+    configure_file(build/qhull.pc.in ${LIBRARY_NAME}.pc @ONLY)
     install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${LIBRARY_NAME}.pc DESTINATION ${PkgConfigLocation} COMPONENT Devel)
 endforeach()
 

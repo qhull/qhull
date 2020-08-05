@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2020 C.B. Barber. All rights reserved.
-** $Id: //main/2019/qhull/src/qhulltest/QhullFacetList_test.cpp#2 $$Change: 2953 $
-** $DateTime: 2020/05/21 22:05:32 $$Author: bbarber $
+** $Id: //main/2019/qhull/src/qhulltest/QhullFacetList_test.cpp#4 $$Change: 3009 $
+** $DateTime: 2020/07/30 19:25:22 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -38,6 +38,7 @@ private slots:
     void t_convert();
     void t_readonly();
     void t_foreach();
+    void t_java_iterator();
     void t_io();
 };//QhullFacetList_test
 
@@ -164,14 +165,64 @@ t_foreach()
     Qhull q(rcube,"Qt QR0");  // triangulation of rotated unit cube
     QhullFacetList fs= q.facetList();
     QVERIFY(fs.contains(q.firstFacet()));
-    QhullFacet f= q.firstFacet().next();
-    QVERIFY(fs.contains(f));
+    QhullFacet f2= q.firstFacet().next();
+    QVERIFY(fs.contains(f2));
     QCOMPARE(fs.first(), *fs.begin());
     QCOMPARE(*(fs.end()-1), fs.last());
     QCOMPARE(fs.first(), q.firstFacet());
     QCOMPARE(*fs.begin(), q.beginFacet());
     QCOMPARE(*fs.end(), q.endFacet());
+
+    bool isF2= false;
+    int count= 0;
+    foreach(QhullFacet f, q.facetList()){  // Qt only
+        ++count;
+        if(f==f2){
+            isF2= true;
+            QCOMPARE(count, 2);
+        }
+    }
+    QVERIFY(isF2);
+    QCOMPARE(count, q.facetCount());
+    QCOMPARE(count, fs.count());
+
+    isF2= false;
+    count= 0;
+    for(QhullFacet f : q.facetList()){
+        ++count;
+        if(f==f2){
+            isF2= true;
+            QCOMPARE(count, 2);
+        }
+    }
+    QVERIFY(isF2);
+    QCOMPARE(count, q.facetCount());
+    QCOMPARE(count, fs.count());
 }//t_foreach
+
+//! \see QhullLinkedList_test::t_QhullLinkedList_iterator
+void QhullFacetList_test::
+t_java_iterator()
+{
+    RboxPoints rcube("c");
+    Qhull q(rcube, "Qt QR0");  // triangulation of rotated unit cube
+    QhullFacet f2= q.firstFacet().next();
+
+    bool isF2= false;
+    int count= 0;
+    QhullFacetListIterator i(q.facetList());
+    while(i.hasNext()){
+        QhullFacet f= i.next();
+        QCOMPARE(i.peekPrevious(), f);
+        ++count;
+        if(f==f2){
+            isF2= true;
+            QCOMPARE(count, 2);
+        }
+    }
+    QVERIFY(isF2);
+    QCOMPARE(count, q.facetCount());
+}//t_java_iterator
 
 void QhullFacetList_test::
 t_io()

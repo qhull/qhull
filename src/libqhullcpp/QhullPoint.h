@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2009-2020 C.B. Barber. All rights reserved.
-** $Id: //main/2019/qhull/src/libqhullcpp/QhullPoint.h#3 $$Change: 2953 $
-** $DateTime: 2020/05/21 22:05:32 $$Author: bbarber $
+** $Id: //main/2019/qhull/src/libqhullcpp/QhullPoint.h#5 $$Change: 3008 $
+** $DateTime: 2020/07/30 13:54:27 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -20,8 +20,8 @@
 namespace orgQhull {
 
 #//!\name Defined here
-    class QhullPoint;  //!<  QhullPoint as a pointer and dimension to shared memory
-    class QhullPointIterator; //!< Java-style iterator for QhullPoint coordinates
+    class QhullPoint;           //!< QhullPoint is a pointer to coordinates and dimension
+    class QhullPointIterator;   //!< Java-style iterator for QhullPoint coordinates
 
 #//!\name Used here
     class Qhull;
@@ -123,6 +123,8 @@ public:
 
 };//QhullPoint
 
+//! QhullPointIterator is a Java-style iterator for QhullPoint coordinates
+//! QhullPointIterator may be used on temporary results.  It copies the coordinates pointer in QhullPoint
 QHULL_DECLARE_SEQUENTIAL_ITERATOR(QhullPoint, coordT)
 
 }//namespace orgQhull

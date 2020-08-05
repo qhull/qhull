@@ -51,7 +51,7 @@
 #   make qtest     Quick test of qset, rbox, and qhull
 #   make test      Quck test of qhull, qconvex, etc.
 #
-# $Id: //main/2019/qhull/src/libqhull/Makefile#8 $
+# $Id: //main/2019/qhull/src/libqhull/Makefile#9 $
 
 # Do not replace tabs with spaces.  Needed for build rules
 # Unix line endings (\n)
@@ -146,7 +146,7 @@ install:
 		-e 's#@INCLUDE_INSTALL_DIR@#$(INCDIR)#' \
 		-e 's#@LIBRARY_NAME@#qhullstatic#' \
 		-e 's#@LIBRARY_DESCRIPTION@#Qhull static library#' \
-		../../qhull.pc.in > $(ABS_PCDIR)/qhullstatic.pc
+		../../build/qhull.pc.in > $(ABS_PCDIR)/qhullstatic.pc
 
 new:	cleanall all
 

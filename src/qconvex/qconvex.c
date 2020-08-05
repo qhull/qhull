@@ -312,7 +312,7 @@ int main(int argc, char *argv[]) {
   qh_init_A(stdin, stdout, stderr, argc, argv);  /* sets qh qhull_command */
   exitcode= setjmp(qh errexit); /* simple statement for CRAY J916 */
   if (!exitcode) {
-    qh NOerrexit = False;
+    qh NOerrexit= False;
     qh_checkflags(qh qhull_command, hidden_options);
     qh_initflags(qh qhull_command);
     points= qh_readpoints(&numpoints, &dim, &ismalloc);

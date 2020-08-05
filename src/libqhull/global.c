@@ -12,8 +12,8 @@
    see qhull_a.h for internal functions
 
    Copyright (c) 1993-2020 The Geometry Center.
-   $Id: //main/2019/qhull/src/libqhull/global.c#12 $$Change: 2959 $
-   $DateTime: 2020/05/28 22:25:29 $$Author: bbarber $
+   $Id: //main/2019/qhull/src/libqhull/global.c#14 $$Change: 3006 $
+   $DateTime: 2020/07/29 18:28:16 $$Author: bbarber $
  */
 
 #include "qhull_a.h"
@@ -47,8 +47,8 @@ qhT qh_qh;              /* all global variables.
     recompile user_eg.c, rbox.c, libqhull.c, qconvex.c, qdelaun.c qvoronoi.c, qhalf.c, testqset.c
 */
 
-const char qh_version[]= "2020.1 2020/05/29";
-const char qh_version2[]= "qhull 8.0.0 (2020.1 2020/05/29)";
+const char qh_version[]= "2020.2 2020/07/24";
+const char qh_version2[]= "qhull 8.0.1 (2020.2 2020/07/24)";
 
 /*-<a                             href="qh-globa.htm#TOC"
   >-------------------------------</a><a name="appendprint">-</a>
@@ -2213,7 +2213,7 @@ void qh_lib_check(int qhullLibraryType, int qhTsize, int vertexTsize, int ridgeT
     if (qhullLibraryType==QHULL_NON_REENTRANT) { /* 0 */
       if (qh_QHpointer) {
         qh_fprintf_stderr(6246, "qh_lib_check: Incorrect qhull library called.  Caller uses a static qhT while library uses a dynamic qhT via qh_QHpointer.  Both caller and qhull library are non-reentrant.\n");
-        last_errcode = 6246;
+        last_errcode= 6246;
       }
     }else if (qhullLibraryType==QHULL_QH_POINTER) { /* 1 */
       if (!qh_QHpointer) {
