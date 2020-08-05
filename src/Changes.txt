@@ -47,7 +47,7 @@ Qhull 2.0 (1994-1995)
 ==================
 
 ------------
-Qhull 2020.2 2020/07/24 (8.0.1)
+Qhull 8.0.1 (2020.2 2020/07/24)
 
 C++ interface
 - Removed Java-style iterators for Coordinates and PointCoordinates.
