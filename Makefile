@@ -84,7 +84,7 @@
 #                  make testall 2>&1 | tee eg/q_test.x
 #                  Build the C++ qhulltest with Qt
 #
-# $Id: //main/2019/qhull/Makefile#30 $
+# $Id: //main/2019/qhull/Makefile#32 $
 
 # Do not replace tabs with spaces.  Needed for build rules
 # Unix line endings (\n)
@@ -276,8 +276,8 @@ install: bin/qconvex bin/qdelaunay bin/qhalf bin/qhull bin/qvoronoi bin/rbox
 	cp html/rbox.man $(ABS_MANDIR)/rbox.1
 	cp html/* $(ABS_DOCDIR)
 	cp -P lib/* $(ABS_LIBDIR)
-	cp src/libqhull/DEPRECATED.txt src/libqhull/*.h src/libqhull/*.htm $(ABS_INCDIR)/libqhull
-	cp src/libqhull_r/*.h src/libqhull_r/*.htm $(ABS_INCDIR)/libqhull_r
+	cp src/libqhull/DEPRECATED.txt src/libqhull/*.h $(ABS_INCDIR)/libqhull
+	cp src/libqhull_r/*.h $(ABS_INCDIR)/libqhull_r
 	cp src/libqhullcpp/*.h $(ABS_INCDIR)/libqhullcpp
 	cp src/qhulltest/*.h $(ABS_INCDIR)/libqhullcpp
 	for lib in qhullstatic qhullstatic_r qhull_r qhullcpp; \
@@ -435,8 +435,9 @@ qconvex-prompt: bin/qconvex bin/rbox
 	@echo ============================================
 	@echo
 	@echo ============================================
-	@echo == To show all make targets
+	@echo == To install qhull or show help
 	@echo '==     make help'
+	@echo '==     make install'
 	@echo ============================================
 	@echo
 

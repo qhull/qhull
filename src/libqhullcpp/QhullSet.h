@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2020 C.B. Barber. All rights reserved.
-** $Id: //main/2019/qhull/src/libqhullcpp/QhullSet.h#4 $$Change: 3001 $
-** $DateTime: 2020/07/24 20:43:28 $$Author: bbarber $
+** $Id: //main/2019/qhull/src/libqhullcpp/QhullSet.h#5 $$Change: 3018 $
+** $DateTime: 2020/08/15 19:58:23 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -129,7 +129,7 @@ public:
     std::vector<T> toStdVector() const;
 #endif
 #ifdef QHULL_USES_QT
-    QList<typename T> toQList() const;
+    QList<T>            toQList() const;
 #endif
 
 #//!\name GetSet -- see QhullSetBase for count(), empty(), isEmpty(), size()

@@ -51,7 +51,7 @@
 #   make qtest     Quick test of qset, rbox, and qhull
 #   make test      Quck test of qhull, qconvex, etc.
 #
-# $Id: //main/2019/qhull/src/libqhull_r/Makefile#10 $
+# $Id: //main/2019/qhull/src/libqhull_r/Makefile#11 $
 
 # Do not replace tabs with spaces.  Needed for build rules
 # Unix line endings (\n)
@@ -232,8 +232,9 @@ qtest:
 	@echo ============================================
 	@echo
 	@echo ============================================
-	@echo == To show all make targets
+	@echo == To install qhull or show help
 	@echo '==     make help'
+	@echo '==     make install'
 	@echo ============================================
 	@echo
 

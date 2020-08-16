@@ -41,10 +41,41 @@ Qhull 2.0 (1994-1995)
   Compare your result to CGAL's 2-d Voronoi diagram
   A CGAL halfedge is equivalent to a Qhull ridge
   https://doc.cgal.org/4.7/Voronoi_diagram_2/group__PkgVoronoiDiagramAdaptor2.html
-  
+
+- Install the Qhull documentation with index.htm, README.txt, etc.
+- Add an 'uninstall' target to Makefile
+- Remove qhull_p and qhull_p.dll from DevStudio builds, retain the corresponding project files
+- Remove libqhull and qhull.dll from DevStudio builds, retain the corresponding project files
+
 ==================
 == Qhull 2018-2020
 ==================
+
+------------
+Qhull Github 
+
+- Github Qhull build systems: Wiki page on Qhull's eight build systems
+- CMakeLists.txt: Use same target name for Debug and non-Debug builds [Spacelm #76]
+- CMakeLists.txt: Remove functional documentation from /usr/local/include/libqhull*
+  Most of the links are broken.
+- CMakeLists.txt: Move Qhull html documentation to /usr/local/share/doc/qhull/html/
+  Otherwise index.htm is overwritten and README links are broken
+- CMakeLists.txt: Add /usr/local/share/doc/qhull/src/Changes.txt
+- Makefile, make install: Remove functional documentation from /usr/local/include/libqhull
+  and /usr/local/include/libqhullinclude/libqhull_r.  Most of the links are broken.
+- Makefile, src/libqhull/Makefile: Add DEPRECATED.txt to /usr/local/include/libqhull
+- Makefile, src/libqhull*/Makefile: Add 'make install' to the welcome prompt
+- index.htm: Balance the top-page 'URL:' and 'To:' links
+- index.htm: Send the top-page 'Functions' link to www.qhull.org (better 'src' links)
+- index.htm: Make the bottom-page 'URL:' and 'To:' links the same as the top-page links
+- index.htm: "please use rentrant Qhull (libqhull_r or libqhullstatic_r)"
+- html/index.htm: Add rbox.txt to Contents and rename "Table of Contents"
+- html/index.htm,qh-code.htm,qh-eg.htm,qh-impre.htm: Remove 'please wait while loading'
+- libqhullcpp/qt-qhull.cpp: In toQList(), use count() to avoid a type error
+- libqhullcpp/qt-qhull.cpp: In toQList(), use nullptr instead of NULL
+- libqhullcpp/QhullSet.h: Declare 'QList<T> toQList() const' to avoid a prototype error
+- README.txt/Installing Qhull with Qt: The shadow build directory should be at the same level as 'src'
+- README.txt/Compiling Qhull with Qt Creator: Copy steps from 'Installing Qhull with Qt'
 
 ------------
 Qhull 8.0.1 (2020.2 2020/07/24)

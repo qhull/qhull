@@ -32,20 +32,24 @@ build/CMakeFiles
 build/CTestTestfile.cmake
 build/install_manifest.txt
 build/Makefile*
+build/QhullExport/*
+build/Testing/*
 build/*/Makefile*
 build/*/object_script*
 build/*/Release/*
 build/*/Debug/*
 build/*/MinSizeRel/*
 build/*/RelWithDebInfo/*
-lib
+libq
 *.a
+*.autosave
 *.dll
+*.exe
 *.idb
 *.lib
-*.exe
-*.o
 *.md5sum
+*.o
+*.pc
 
 # Qt files
 *.pro.user

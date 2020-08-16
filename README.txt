@@ -177,7 +177,7 @@ Installing Qhull with CMake 2.6 or later
   - cd build
   - cmake --help               # List build generators
   - cmake -G "<generator>" ..  # e.g., for MINGW-w64 -- cmake -G "MSYS Makefiles" ..
-  - cmake ..
+  - cmake ..                   # for MINGW-w64 -- cmake .. -DCMAKE_INSTALL_PREFIX=/usr/local
   - make
   - ctest
   - make install
@@ -201,13 +201,18 @@ Installing Qhull with CMake 2.6 or later
 ------------------
 Installing Qhull with Qt
 
-  To build Qhull, including its C++ test (qhulltest)
+  To build Qhull, including its C++ test program (qhulltest)
   - Download and extract Qhull (either GitHub, .tgz file, or .zip file)
   - Load src/qhull-all.pro into QtCreator
+  - Configure the project to use a Shadow build at the same level as 'src', 'bin', and 'lib'
+    If, instead, the shadow build is a subdirectory of 'build', Qt Creator will install Qhull in 'build/bin' and 'build/lib'
+  - Build
+  
   - Build qhulltest with a C++11 or later compiler
   - qhulltest depends on shared libraries QtCore.a and QtTest.a.  They may need to be copied 
-    into the bin directory.  On Windows, copy Qt5Core.dll and Qt5Test.dll, e.g., qt/5.11.2/msvc2017_64/bin
-  - If qhulltest fails without an error message, check for missing Q5Core.dll and Qt5Test.dll
+    into the bin directory.  On Windows, copy Qt5Core.dll and Qt5Test.dll, e.g., /qt/5.11.2/msvc2017_64/bin
+  - If qhulltest fails with exit status 127 and no error message, 
+    check for missing Q5Core.dll and Qt5Test.dll
 
 ------------------
 Working with Qhull's C++ interface
@@ -274,7 +279,7 @@ Compiling Qhull with Microsoft Visual C++
 
   To compile 32-bit Qhull with Microsoft Visual C++ 2010 and later
   - Download and extract Qhull (either GitHub, .tgz file, or .zip file)
-  - Load solution build/qhull-32.sln
+  - Load solution build/qhull-32.sln	
   - Right-click 'Retarget solution' from toolset v110 to your Platform Toolset
     File > Save All
   - Build target 'Win32'
@@ -321,7 +326,15 @@ Compiling Qhull with Qt Creator
   - Download the Qt SDK
   - Start Qt Creator
   - Load src/qhull-all.pro
+  - Configure the project to use a Shadow build at the same level as 'src', 'bin', and 'lib'
+    If, instead, the shadow build is a subdirectory of 'build', Qt Creator will install Qhull in 'build/bin' and 'build/lib'
   - Build
+  
+  - Build qhulltest with a C++11 or later compiler
+  - qhulltest depends on shared libraries QtCore.a and QtTest.a.  They may need to be copied 
+    into the bin directory.  On Windows, copy Qt5Core.dll and Qt5Test.dll, e.g., /qt/5.11.2/msvc2017_64/bin
+  - If qhulltest fails with exit status 127 and no error message, 
+    check for missing Q5Core.dll and Qt5Test.dll
 
 ------------------
 Compiling Qhull with mingw/gcc on Windows

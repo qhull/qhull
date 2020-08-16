@@ -173,22 +173,6 @@ set(
 )
 
 set(
-    libqhull_DOC
-        src/libqhull/index.htm
-        src/libqhull/qh-geom.htm
-        src/libqhull/qh-globa.htm
-        src/libqhull/qh-io.htm
-        src/libqhull/qh-mem.htm
-        src/libqhull/qh-merge.htm
-        src/libqhull/qh-poly.htm
-        src/libqhull/qh-qhull.htm
-        src/libqhull/qh-set.htm
-        src/libqhull/qh-stat.htm
-        src/libqhull/qh-user.htm    
-        src/libqhull/DEPRECATED.txt    
-)
-
-set(
     testqset_HEADERS
         src/libqhull/mem.h
         src/libqhull/qset.h
@@ -238,21 +222,6 @@ set(
         src/libqhull_r/rboxlib_r.c
         src/libqhull_r/userprintf_rbox_r.c
         ${libqhullr_HEADERS}
-)
-
-set(
-    libqhullr_DOC
-        src/libqhull_r/index.htm
-        src/libqhull_r/qh-geom_r.htm
-        src/libqhull_r/qh-globa_r.htm
-        src/libqhull_r/qh-io_r.htm
-        src/libqhull_r/qh-mem_r.htm
-        src/libqhull_r/qh-merge_r.htm
-        src/libqhull_r/qh-poly_r.htm
-        src/libqhull_r/qh-qhull_r.htm
-        src/libqhull_r/qh-set_r.htm
-        src/libqhull_r/qh-stat_r.htm
-        src/libqhull_r/qh-user_r.htm    
 )
 
 set(
@@ -672,11 +641,11 @@ foreach(pkgconfig IN ITEMS "${qhull_SHARED};Qhull shared library"
 endforeach()
 
 install(FILES ${libqhull_HEADERS}    DESTINATION ${INCLUDE_INSTALL_DIR}/libqhull)
-install(FILES ${libqhull_DOC}        DESTINATION ${INCLUDE_INSTALL_DIR}/libqhull)
+install(FILES src/libqhull/DEPRECATED.txt DESTINATION ${INCLUDE_INSTALL_DIR}/libqhull)
 install(FILES ${libqhullr_HEADERS}    DESTINATION ${INCLUDE_INSTALL_DIR}/libqhull_r)
-install(FILES ${libqhullr_DOC}        DESTINATION ${INCLUDE_INSTALL_DIR}/libqhull_r)
 install(FILES ${libqhullcpp_HEADERS} DESTINATION ${INCLUDE_INSTALL_DIR}/libqhullcpp)
 install(FILES html/qhull.man         DESTINATION ${MAN_INSTALL_DIR} RENAME qhull.1)
 install(FILES html/rbox.man          DESTINATION ${MAN_INSTALL_DIR} RENAME rbox.1)
 install(FILES ${doc_FILES}           DESTINATION ${DOC_INSTALL_DIR})
-install(DIRECTORY html/              DESTINATION ${DOC_INSTALL_DIR})
+install(DIRECTORY html/              DESTINATION ${DOC_INSTALL_DIR}/html)
+install(FILES src/Changes.txt        DESTINATION ${DOC_INSTALL_DIR}/src)

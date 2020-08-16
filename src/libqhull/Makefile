@@ -51,7 +51,7 @@
 #   make qtest     Quick test of qset, rbox, and qhull
 #   make test      Quck test of qhull, qconvex, etc.
 #
-# $Id: //main/2019/qhull/src/libqhull/Makefile#9 $
+# $Id: //main/2019/qhull/src/libqhull/Makefile#11 $
 
 # Do not replace tabs with spaces.  Needed for build rules
 # Unix line endings (\n)
@@ -138,7 +138,7 @@ install:
 	cp -p ../../html/qhull.man $(ABS_MANDIR)/qhull.1
 	cp -p ../../html/rbox.man $(ABS_MANDIR)/rbox.1
 	cp -p ../../html/* $(ABS_DOCDIR)
-	cp *.h $(ABS_INCDIR)/libqhull
+	cp DEPRECATED.txt *.h $(ABS_INCDIR)/libqhull
 	sed \
 		-e 's#@qhull_VERSION@#$(qhull_VERSION)#' \
 		-e 's#@CMAKE_INSTALL_PREFIX@#$(PREFIX)#' \
@@ -232,8 +232,9 @@ qtest:
 	@echo ============================================
 	@echo
 	@echo ============================================
-	@echo == To show all make targets
+	@echo == To install qhull or show help
 	@echo '==     make help'
+	@echo '==     make install'
 	@echo ============================================
 	@echo
 
