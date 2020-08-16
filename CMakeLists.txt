@@ -339,21 +339,12 @@ set(
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
 
-if(CMAKE_BUILD_TYPE MATCHES "[dD]ebug")
-    set(qhull_CPP qhullcpp_d)
-    set(qhull_SHARED qhull_d) 
-    set(qhull_SHAREDP qhull_pd)
-    set(qhull_SHAREDR qhull_rd)
-    set(qhull_STATIC qhullstatic_d)
-    set(qhull_STATICR qhullstatic_rd)
-else()
-    set(qhull_CPP qhullcpp)
-    set(qhull_SHARED libqhull)  # Temporarily avoid name conflict with qhull executable
-    set(qhull_SHAREDP qhull_p)
-    set(qhull_SHAREDR qhull_r)
-    set(qhull_STATIC qhullstatic)
-    set(qhull_STATICR qhullstatic_r)
-endif()
+set(qhull_CPP qhullcpp)
+set(qhull_SHARED libqhull)  # Temporarily avoid name conflict with qhull executable
+set(qhull_SHAREDP qhull_p)
+set(qhull_SHAREDR qhull_r)
+set(qhull_STATIC qhullstatic)
+set(qhull_STATICR qhullstatic_r)
 
 set(
     qhull_TARGETS_INSTALL
@@ -375,7 +366,8 @@ add_library(${qhull_SHAREDR} SHARED
         src/libqhull_r/qhull_r-exports.def)
 set_target_properties(${qhull_SHAREDR} PROPERTIES
     SOVERSION ${qhull_SOVERSION}
-    VERSION ${qhull_VERSION})
+    VERSION ${qhull_VERSION}
+    OUTPUT_NAME "${qhull_SHAREDR}$<$<CONFIG:Debug>:d>")
 
 if(UNIX)
     target_link_libraries(${qhull_SHAREDR} m)
@@ -397,16 +389,11 @@ endif(UNIX)
 add_library(${qhull_SHARED} SHARED 
         ${libqhull_SOURCES}
         src/libqhull/qhull-exports.def)
-        
-if(qhull_SHARED MATCHES "libqhull")
-   set(qhull_OUTPUT_NAME qhull)
-   set_target_properties(${qhull_SHARED} PROPERTIES
-        OUTPUT_NAME "${qhull_OUTPUT_NAME}" )
-endif()
 
 set_target_properties(${qhull_SHARED} PROPERTIES
     SOVERSION ${qhull_SOVERSION}
-    VERSION ${qhull_VERSION})
+    VERSION ${qhull_VERSION}
+    OUTPUT_NAME "qhull$<$<CONFIG:Debug>:_d>")
 
 if(UNIX)
     target_link_libraries(${qhull_SHARED} m)
@@ -431,7 +418,8 @@ add_library(${qhull_SHAREDP} SHARED
 set_target_properties(${qhull_SHAREDP} PROPERTIES
     COMPILE_DEFINITIONS "qh_QHpointer"
     SOVERSION ${qhull_SOVERSION}
-    VERSION ${qhull_VERSION})
+    VERSION ${qhull_VERSION}
+    OUTPUT_NAME "${qhull_SHAREDP}$<$<CONFIG:Debug>:d>")
 
 if(UNIX)
     target_link_libraries(${qhull_SHAREDP} m)
@@ -452,11 +440,13 @@ endif(UNIX)
 
 add_library(${qhull_STATIC} STATIC ${libqhull_SOURCES})
 set_target_properties(${qhull_STATIC} PROPERTIES
-    VERSION ${qhull_VERSION})
+    VERSION ${qhull_VERSION}
+    OUTPUT_NAME "${qhull_STATIC}$<$<CONFIG:Debug>:_d>")
 
 add_library(${qhull_STATICR} STATIC ${libqhullr_SOURCES})
 set_target_properties(${qhull_STATICR} PROPERTIES
-    VERSION ${qhull_VERSION})
+    VERSION ${qhull_VERSION}
+    OUTPUT_NAME "${qhull_STATICR}$<$<CONFIG:Debug>:d>")
 
 if(UNIX)
     target_link_libraries(${qhull_STATIC} m)
@@ -471,6 +461,7 @@ endif(UNIX)
 add_library(${qhull_CPP} STATIC ${libqhullcpp_SOURCES})
 set_target_properties(${qhull_CPP} PROPERTIES
     VERSION ${qhull_VERSION}
+    OUTPUT_NAME "${qhull_CPP}$<$<CONFIG:Debug>:_d>"
     POSITION_INDEPENDENT_CODE "TRUE")
 
 # ---------------------------------------
