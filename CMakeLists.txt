@@ -1,22 +1,33 @@
 # CMakeLists.txt -- CMake configuration file for qhull, qhull6, and related programs
 #
+# CMake options
+#   BUILD_SHARED_LIBS=OFF -- Do not build libqhull_r.so
+#   BUILD_STATIC_LIBS=OFF -- Do not build libqhullcpp.a, libqhullstatic_r.a, libqhullstatic.a, and user_eg3
+#   CMAKE_INSTALL_PREFIX=path -- Prefix for the install directories
+#   LINK_APPS_SHARED=ON -- Link qconvex,etc. to libqhull_r instead of libqhullstatic_r
+#
+# 32-bit vs. 64-bit
+#   Qhull uses less memory when built as 32-bit code
+#   On 64-bit hosts, consider building with -DCMAKE_CXX_FLAGS=-m32 -DCMAKE_C_FLAGS=-m32
+#
+# Additional build targets
+#   libqhull -- Deprecated, shared library for non-reentrant Qhull (use libqhull_r or libqhullstatic)
+#   qhull_p -- Deprecated, shared library for qh_QHpointer and non-reentrant Qhull (use libqhull_r)
+#   qhullp -- Same as qhull using qh_QHpointer and libqhull_p
+#   user_egp -- Same as user_eg using qh_QHpointer and libqhull_p
+#
+# For qhulltest, use the Qt build (src/qhull-all.pro)
+#
 # To install CMake
 #   Download from http://www.cmake.org/download/
 #
 # To find the available targets for CMake -G "..."
 #   cmake --help
 #
-# To build with MSYS/mingw
+# To build with MSYS, MSYS2, mingw, mingw-w64, or GitForWindows
 #   cd build && cmake -G "MSYS Makefiles" .. && cmake ..
 #   make
 #   make install
-#
-# 32-bit vs. 64-bit
-#   Qhull uses less memory when built as 32-bit code
-#   On 64-bit hosts, consider building with -DCMAKE_CXX_FLAGS=-m32 -DCMAKE_C_FLAGS=-m32
-#
-# To uninstall on unix or MSYS/mingw
-#   xargs rm <build/install_manifest.txt
 #
 # To build Qhull with Visual Studio projects, run cmake twice
 #   To install bin/doc/include/lib in the current directory
@@ -31,9 +42,8 @@
 #   Double click build-cmake/qhull-all.sln
 #   Build INSTALL to copy files into C:/Program Files/qhull
 #
-# Additional build targets
-#   qhullp -- Same as qhull using qh_QHpointer and deprecated libqhull_p
-#   user_egp -- Same as user_eg using qh_QHpointer and deprecated libqhull_p
+# To uninstall on unix or MSYS/mingw
+#   make uninstall
 #
 # Notes on Visual Studio projects
 #   You may need to copy bin/msvcr80.dll into C:/Program Files/qhull/bin
@@ -43,14 +53,7 @@
 #   "No CMAKE_C_COMPILER could be found"
 #     cmake was not able to find the build environment specified (e.g., Visual Studio 11)
 # 
-# To uninstall on Windows
-#   Delete C:/Program Files/qhull
-#
-# If creating a qhull package, please include a pkg-config file based on build/qhull*.pc.in
-#
-# For qhulltest, use the Qt build (src/qhull-all.pro)
-#
-# Qhull ships with cmake-derived sln and proj files for DevStudio 8 2005
+# Qhull ships with CMake-derived sln and proj files for DevStudio 8 2005
 #   See eg/make-vcproj.sh
 #   Change to relative paths
 #   Remove ZERO_CHECK, ALL_BUILD, and INSTALL projects
@@ -61,8 +64,8 @@
 #   Remove CMAKE_INTDIR from PreprocessorDefinitions
 #   Adjust target names and destinations (e.g., lib/libqhullstatic_rd.a)
 #  
-# $Id: //main/2019/qhull/CMakeLists.txt#16 $$Change: 3008 $
-# $DateTime: 2020/07/30 13:54:27 $$Author: bbarber $
+# $Id: //main/2019/qhull/CMakeLists.txt#21 $$Change: 3039 $
+# $DateTime: 2020/09/03 21:26:22 $$Author: bbarber $
 
 project(qhull)
 cmake_minimum_required(VERSION 3.0)
@@ -70,44 +73,66 @@ cmake_minimum_required(VERSION 3.0)
 # Define qhull_VERSION in README.txt, Announce.txt, qh-get.htm, CMakeLists.txt
 #   qhull-zip.sh (twice), qhull-wiki.md, qhull-news.htm, File_id.diz, index.htm
 #   qhull-warn.pri (VERSION), qhull-exports.def (VERSION), qhull_p-exports.def, qhull_r-exports.def
-set(qhull_VERSION2 "2020.2  2020/07/24")  # not used, See global.c, global_r.c, rbox.c, rbox_r.c
-set(qhull_VERSION  "8.0.1")  # Advance every release
+set(qhull_VERSION2 "2020.2  2020/08/31")  # not used, See global.c, global_r.c, rbox.c, rbox_r.c
+set(qhull_VERSION  "8.0.2")  # Advance every release
 
 # SOVERSION -- qhull 2003 = empty, 2009 = 5, 2010-2012 = 6, 2015-2019 = 7, 2020 = 8.0
 # Increase SOVERSION if ABI breaks (abi-compliance-checker)
 set(qhull_SOVERSION 8.0) # For SOVERSION 
 
-include(CMakeModules/CheckLFS.cmake)
+# If MSYS, set CMAKE_INSTALL_PREFIX to /usr/local; if WINDOWS, '..'
+if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+    if(MSYS)
+    	execute_process(
+            COMMAND sh -c 'cd / && pwd -W'
+            OUTPUT_VARIABLE MSYS_PWD
+            ERROR_VARIABLE MSYS_ERR
+        )
+        if(MSYS_ERR STREQUAL "")
+            string(REPLACE "\n" "" MSYS_ROOT ${MSYS_PWD})
+            set(CMAKE_INSTALL_PREFIX "${MSYS_ROOT}/usr/local" CACHE PATH "Install to ${MSYS_ROOT}/usr/local" FORCE)
+        else()
+            message(STATUS "Use default MAKE_INSTALL_PREFIX due to ${MSYS_ERR}")
+        endif()
+    endif()
+endif()
+
+include(build/CMakeModules/CheckLFS.cmake)
 option(WITH_LFS "Enable Large File Support" ON)
 check_lfs(WITH_LFS)
 
+# Build shared and static libs by default
+# If LINK_APPS_SHARED=ON, link applications to libqhull_r.so
+
+include(CMakeDependentOption)
+option(BUILD_STATIC_LIBS "Build static libraries" ON)
+option(BUILD_SHARED_LIBS "Build shared library" ON)
+set(_NO_STATIC_LIBS NOCACHE INTERNAL (NOT ${BUILD_STATIC_LIBS}))
+cmake_dependent_option(LINK_APPS_SHARED "Use shared library for linking applications"
+    _NO_STATIC_LIBS
+    "BUILD_SHARED_LIBS;BUILD_STATIC_LIBS"
+    ${BUILD_SHARED_LIBS}
+)
+
 if(INCLUDE_INSTALL_DIR)
 else()
-set(INCLUDE_INSTALL_DIR include)
+    set(INCLUDE_INSTALL_DIR include)
 endif()
 if(LIB_INSTALL_DIR)
 else()
-set(LIB_INSTALL_DIR lib)
+    set(LIB_INSTALL_DIR lib)
 endif()
 if(BIN_INSTALL_DIR)
 else()
-set(BIN_INSTALL_DIR bin)
+    set(BIN_INSTALL_DIR bin)
 endif()
 if(MAN_INSTALL_DIR)
 else()
-    if(WIN32)
-        set(MAN_INSTALL_DIR man/man1)
-    else()
-        set(MAN_INSTALL_DIR share/man/man1)
-    endif()
+    set(MAN_INSTALL_DIR share/man/man1)
 endif()
 if(DOC_INSTALL_DIR)
 else()
-    if(WIN32)
-        set(DOC_INSTALL_DIR doc)
-    else()
-        set(DOC_INSTALL_DIR share/doc/qhull)
-    endif()
+    set(DOC_INSTALL_DIR share/doc/qhull)
 endif()
 message(STATUS)
 message(STATUS "========== qhull Build Information ==========")
@@ -119,13 +144,15 @@ message(STATUS "Include Directory (INCLUDE_INSTALL_DIR):   ${INCLUDE_INSTALL_DIR
 message(STATUS "Documentation Directory (DOC_INSTALL_DIR): ${DOC_INSTALL_DIR}")
 message(STATUS "Man Pages Directory (MAN_INSTALL_DIR):     ${MAN_INSTALL_DIR}")
 message(STATUS "Build Type (CMAKE_BUILD_TYPE):             ${CMAKE_BUILD_TYPE}")
+message(STATUS "Build static libraries:                    ${BUILD_STATIC_LIBS}")
+message(STATUS "Build shared library:                      ${BUILD_SHARED_LIBS}")
+message(STATUS "Use shared library for linking apps:       ${LINK_APPS_SHARED}")
 message(STATUS "To override these options, add -D{OPTION_NAME}=... to the cmake command")
 message(STATUS "  Build the debug targets                  -DCMAKE_BUILD_TYPE=Debug")
 message(STATUS)
 message(STATUS "To build and install qhull, enter \"make\" and \"make install\"")
 message(STATUS "To smoketest qhull, enter \"ctest\"")
 message(STATUS)
-
 
 # ---------------------------------------
 # Define library source files and variables
@@ -309,21 +336,23 @@ set(
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 set(qhull_CPP qhullcpp)
-set(qhull_SHARED libqhull)  # Temporarily avoid name conflict with qhull executable
-set(qhull_SHAREDP qhull_p)
-set(qhull_SHAREDR qhull_r)
 set(qhull_STATIC qhullstatic)
 set(qhull_STATICR qhullstatic_r)
+set(qhull_SHAREDR qhull_r)
+set(qhull_SHARED libqhull)  # Temporarily avoid name conflict with qhull executable
+set(qhull_SHAREDP qhull_p)  # libqhull and qhull_p are deprecated, use qhull_r instead
+
+set(qhull_TARGETS_APPLICATIONS qhull rbox qconvex qdelaunay qvoronoi qhalf)
+set(qhull_TARGETS_STATIC ${qhull_CPP} ${qhull_STATIC} ${qhull_STATICR})
+set(qhull_TARGETS_SHARED ${qhull_SHAREDR})
 
 set(
-    qhull_TARGETS_INSTALL
-        ${qhull_CPP} ${qhull_STATIC} ${qhull_STATICR} ${qhull_SHAREDR}
-        qhull rbox qconvex qdelaunay qvoronoi qhalf
-        ${qhull_SHARED} ${qhull_SHAREDP}  # Deprecated, use qhull_r instead
+    qhull_TARGETS_TEST   # Unused
+        testqset testqset_r user_eg user_eg2 user_eg3
 )
 set(
-    qhull_TARGETS_TEST   # Unused
-        user_eg user_eg2 user_eg3 user_egp testqset testqset_r
+    qhull_TARGETS_DEPRECATED   # Unused
+        $(qhull_SHARED) $(qhull_SHAREDP) qhullp user_egp 
 )
 
 # ---------------------------------------
@@ -352,7 +381,7 @@ if(UNIX)
 endif(UNIX)
 
 # ---------------------------------------
-# Define shared library for non-reentrant qhull without qh_QHpointer
+# Define deprecated shared library for non-reentrant qhull
 # ---------------------------------------
 
 add_library(${qhull_SHARED} SHARED 
@@ -360,6 +389,7 @@ add_library(${qhull_SHARED} SHARED
         src/libqhull/qhull-exports.def)
 
 set_target_properties(${qhull_SHARED} PROPERTIES
+    EXCLUDE_FROM_ALL TRUE
     SOVERSION ${qhull_SOVERSION}
     VERSION ${qhull_VERSION}
     OUTPUT_NAME "qhull$<$<CONFIG:Debug>:_d>")
@@ -378,13 +408,15 @@ if(UNIX)
 endif(UNIX)
 
 # ---------------------------------------
-# Define old shared library qhull with qh_QHpointer
+# Define deprecated shared library for non-reentrant qhull with qh_QHpointer
 # ---------------------------------------
 
-add_library(${qhull_SHAREDP} SHARED 
+add_library(${qhull_SHAREDP} SHARED
         ${libqhull_SOURCES}
         src/libqhull/qhull_p-exports.def)
+
 set_target_properties(${qhull_SHAREDP} PROPERTIES
+    EXCLUDE_FROM_ALL TRUE
     COMPILE_DEFINITIONS "qh_QHpointer"
     SOVERSION ${qhull_SOVERSION}
     VERSION ${qhull_VERSION}
@@ -424,7 +456,9 @@ endif(UNIX)
 
 # ---------------------------------------
 # Define C++ static library qhullcpp
-#     Do not create libqhullcpp as a shared library.  Qhull C++ classes may change layout and size. 
+#     Do not create libqhullcpp as a shared library.  
+#     Qhull C++ classes may change layout and size. 
+#     Qhull C programs use setjmp/longjmp for error handling.
 # ---------------------------------------
 
 add_library(${qhull_CPP} STATIC ${libqhullcpp_SOURCES})
@@ -434,58 +468,114 @@ set_target_properties(${qhull_CPP} PROPERTIES
     POSITION_INDEPENDENT_CODE "TRUE")
 
 # ---------------------------------------
-# Define qhull executables linked to qhullstatic library
-#   qhull is linked to reentrant qhull (more flexible)
-#   the others are linked to non-reentrant qhull (somewhat faster)
-#
-# If you prefer dynamic linking, use qhull_SHAREDR or qhull_SHARED instead.
+# if BUILD_STATIC_LIBS=OFF or BUILD_SHARED_LIBS=OFF
+#   Exclude library builds from "make all" 
 # ---------------------------------------
-
-set(qhull_SOURCES       src/qhull/unix_r.c)
-set(rbox_SOURCES        src/rbox/rbox.c)
-set(qconvex_SOURCES     src/qconvex/qconvex.c)
-set(qdelaunay_SOURCES   src/qdelaunay/qdelaun.c)
-set(qvoronoi_SOURCES    src/qvoronoi/qvoronoi.c)
-set(qhalf_SOURCES       src/qhalf/qhalf.c)
-
-add_executable(qhull ${qhull_SOURCES})
-target_link_libraries(qhull ${qhull_STATICR})
-
-add_executable(rbox ${rbox_SOURCES})
-target_link_libraries(rbox ${qhull_STATIC})
-
-add_executable(qconvex ${qconvex_SOURCES})
-target_link_libraries(qconvex ${qhull_STATIC})
-
-add_executable(qdelaunay ${qdelaunay_SOURCES})
-target_link_libraries(qdelaunay ${qhull_STATIC})
-
-add_executable(qvoronoi ${qvoronoi_SOURCES})
-target_link_libraries(qvoronoi ${qhull_STATIC})
-
-add_executable(qhalf ${qhalf_SOURCES})
-target_link_libraries(qhalf ${qhull_STATIC})
-
-# ---------------------------------------
-# Define options for linking to qhull_SHAREDR or qhull_SHARED
-# ---------------------------------------
-if(MSVC)
-    set(user_eg_DEFINES qh_dllimport)
-    set(user_eg2_DEFINES qh_dllimport)
-    set(user_eg3_DEFINES qh_dllimport)
-    set(user_egp_DEFINES qh_QHpointer_dllimport qh_QHpointer)
-    set(qhullp_DEFINES qh_QHpointer_dllimport qh_QHpointer)
-else()
-    set(user_eg_DEFINES )
-    set(user_eg2_DEFINES )
-    set(user_eg3_DEFINES )
-    set(user_egp_DEFINES )
-    set(qhullp_DEFINES )
+if(NOT ${BUILD_STATIC_LIBS})
+    set_target_properties(${qhull_STATIC} PROPERTIES EXCLUDE_FROM_ALL TRUE)
+    set_target_properties(${qhull_STATICR} PROPERTIES EXCLUDE_FROM_ALL TRUE)
+    set_target_properties(${qhull_CPP} PROPERTIES EXCLUDE_FROM_ALL TRUE)
+endif()
+if(NOT ${BUILD_SHARED_LIBS})
+    set_target_properties(${qhull_SHARED} PROPERTIES EXCLUDE_FROM_ALL TRUE)
+    set_target_properties(${qhull_SHAREDR} PROPERTIES EXCLUDE_FROM_ALL TRUE)
+    set_target_properties(${qhull_SHAREDP} PROPERTIES EXCLUDE_FROM_ALL TRUE)
 endif()
 
 # ---------------------------------------
-# Define testqset linked to qset.o and mem.o
-# Define testqset_r linked to qset_r.o and mem_r.o
+# Define options for linking to shared libaries
+# ---------------------------------------
+if(MSVC) 
+    set(qconvex_DEFINES  qh_dllimport)
+    set(qdelaunay_DEFINES qh_dllimport)
+    set(qhalf_DEFINES    qh_dllimport)
+    set(qhull_DEFINES    qh_dllimport)
+    set(qvoronoi_DEFINES qh_dllimport)
+    set(rbox_DEFINES 	 qh_dllimport)
+    set(user_eg_DEFINES  qh_dllimport)
+    set(user_eg2_DEFINES qh_dllimport)
+    set(user_egp_DEFINES qh_QHpointer_dllimport qh_QHpointer)
+    set(qhullp_DEFINES   qh_QHpointer_dllimport qh_QHpointer)
+else()
+    set(qconvex_DEFINES )
+    set(qdelaunay_DEFINES )
+    set(qhalf_DEFINES )
+    set(qhull_DEFINES )
+    set(qvoronoi_DEFINES )
+    set(rbox_DEFINES )
+    set(user_eg_DEFINES )
+    set(user_eg2_DEFINES )
+    set(user_egp_DEFINES qh_QHpointer)
+    set(qhullp_DEFINES qh_QHpointer)
+endif()
+
+# ---------------------------------------
+# Define qhull applications
+# 
+# By default, qhull is linked to reentrant qhull (more flexible)
+# the other applications are linked to non-reentrant qhull (somewhat faster)
+#
+# If LINK_APPS_SHARED, applications are linked to reentrant qhull
+# ---------------------------------------
+
+if(${LINK_APPS_SHARED})
+    add_executable(qconvex src/qconvex/qconvex_r.c)
+    target_link_libraries(qconvex ${qhull_SHAREDR})
+    set_target_properties(qconvex PROPERTIES
+        COMPILE_DEFINITIONS "${qconvex_DEFINES}")
+
+    add_executable(qdelaunay src/qdelaunay/qdelaun_r.c)
+    target_link_libraries(qdelaunay ${qhull_SHAREDR})
+    set_target_properties(qdelaunay PROPERTIES
+        COMPILE_DEFINITIONS "${qdelaunay_DEFINES}")
+
+    add_executable(qhalf src/qhalf/qhalf_r.c)
+    target_link_libraries(qhalf ${qhull_SHAREDR})
+    set_target_properties(qhalf PROPERTIES
+        COMPILE_DEFINITIONS "${qhalf_DEFINES}")
+
+    add_executable(qhull src/qhull/unix_r.c)
+    target_link_libraries(qhull ${qhull_SHAREDR})
+    set_target_properties(qhull PROPERTIES
+        COMPILE_DEFINITIONS "${qhull_DEFINES}")
+
+    add_executable(qvoronoi src/qvoronoi/qvoronoi_r.c)
+    target_link_libraries(qvoronoi ${qhull_SHAREDR})
+    set_target_properties(qvoronoi PROPERTIES
+        COMPILE_DEFINITIONS "${qvoronoi_DEFINES}")
+
+    add_executable(rbox src/rbox/rbox_r.c)
+    target_link_libraries(rbox ${qhull_SHAREDR})
+    set_target_properties(rbox PROPERTIES
+        COMPILE_DEFINITIONS "${rbox_DEFINES}")
+else()
+    if(NOT ${BUILD_STATIC_LIBS})
+        message(FATAL_ERROR, " Nothing to build -- BUILD_SHARED_LIBS=OFF and BUILD_STATIC_LIBS=OFF")
+    endif()
+
+    add_executable(qconvex src/qconvex/qconvex.c)
+    target_link_libraries(qconvex ${qhull_STATIC})
+
+    add_executable(qdelaunay src/qdelaunay/qdelaun.c)
+    target_link_libraries(qdelaunay ${qhull_STATIC})
+
+    add_executable(qhalf src/qhalf/qhalf.c)
+    target_link_libraries(qhalf ${qhull_STATIC})
+
+    add_executable(qhull src/qhull/unix_r.c)
+    target_link_libraries(qhull ${qhull_STATICR})
+
+    add_executable(qvoronoi src/qvoronoi/qvoronoi.c)
+    target_link_libraries(qvoronoi ${qhull_STATIC})
+
+    add_executable(rbox src/rbox/rbox.c)
+    target_link_libraries(rbox ${qhull_STATIC})
+endif()
+
+# #@# 20
+# ---------------------------------------
+# Define testqset linked to qset.o, mem.o, and usermem.o
+# Define testqset_r linked to qset_r.o, mem_r.o, and usermem.o
 # ---------------------------------------
 
 add_executable(testqset ${testqset_SOURCES})
@@ -495,57 +585,59 @@ add_executable(testqset_r ${testqsetr_SOURCES})
 # Define user_eg linked to reentrant qhull shared library
 # ---------------------------------------
 
-set(user_eg_SOURCES     src/user_eg/user_eg_r.c)
+add_executable(user_eg src/user_eg/user_eg_r.c)
 
-add_executable(user_eg ${user_eg_SOURCES})
-# user_eg may be linked to qhull_STATICR if user_eg_DEFINES is removed
-target_link_libraries(user_eg ${qhull_SHAREDR})
-set_target_properties(user_eg PROPERTIES
-    COMPILE_DEFINITIONS "${user_eg_DEFINES}")
+if(${BUILD_SHARED_LIBS})
+    target_link_libraries(user_eg ${qhull_SHAREDR})
+    set_target_properties(user_eg PROPERTIES
+	COMPILE_DEFINITIONS "${user_eg_DEFINES}")
+else()
+    target_link_libraries(user_eg ${qhull_STATICR})
+endif()
 
 # ---------------------------------------
 # Define user_eg2 linked to reentrant qhull static library
 # ---------------------------------------
 
-set(user_eg2_SOURCES    src/user_eg2/user_eg2_r.c)
+add_executable(user_eg2 src/user_eg2/user_eg2_r.c)
 
-add_executable(user_eg2 ${user_eg2_SOURCES})
-# user_eg2 may be linked to qhull_SHAREDR if user_eg2_DEFINES is added
-target_link_libraries(user_eg2 ${qhull_STATICR})
+if(${BUILD_STATIC_LIBS})
+    target_link_libraries(user_eg2 ${qhull_STATICR})
+else()
+    target_link_libraries(user_eg2 ${qhull_SHAREDR})
+    set_target_properties(user_eg2 PROPERTIES
+	COMPILE_DEFINITIONS "${user_eg2_DEFINES}")
+endif()
 
 # ---------------------------------------
-# Define user_eg3 linked to qhullstatic_r and qhullcpp static library
+# Define user_eg3 linked to qhullcpp and qhullstatic_r static libraries
 # 
-# user_eg3 and qhullcpp must be compiled with the same compiler for setjmp/longjmp
+# user_eg3 is not defined for shared libraries
+#   user_eg3 and qhullcpp must be compiled with the same compiler for setjmp/longjmp
 # ---------------------------------------
 
-set(user_eg3_SOURCES    src/user_eg3/user_eg3_r.cpp)
-
-add_executable(user_eg3 ${user_eg3_SOURCES})
-# qhull_STATICR must be last, otherwise qh_fprintf,etc. are not loaded from qhull_CPP
-# user_eg3 may be linked to qhull_SHAREDR if user_eg3_DEFINES is added
-target_link_libraries(user_eg3 ${qhull_CPP} ${qhull_STATICR})
+if(${BUILD_STATIC_LIBS})
+    add_executable(user_eg3 src/user_eg3/user_eg3_r.cpp)
+    # qhull_STATICR must be last, otherwise qh_fprintf,etc. are not loaded from qhull_CPP
+    target_link_libraries(user_eg3 ${qhull_CPP} ${qhull_STATICR})
+endif()
 
 # ---------------------------------------
-# qhullp is qhull/unix.c linked to deprecated qh_QHpointer libqhull_p
+# qhullp is qhull/unix.c linked to unsuported qh_QHpointer libqhull_p
 # Included for testing qh_QHpointer 
 # ---------------------------------------
 
-set(qhullp_SOURCES     src/qhull/unix.c)
-
-add_executable(qhullp EXCLUDE_FROM_ALL ${qhullp_SOURCES})
+add_executable(qhullp EXCLUDE_FROM_ALL src/qhull/unix.c)
 target_link_libraries(qhullp ${qhull_SHAREDP})
 set_target_properties(qhullp PROPERTIES
     COMPILE_DEFINITIONS "${qhullp_DEFINES}")
 
 # ---------------------------------------
-# user_egp is user_eg/user_eg.c linked to deprecated qh_QHpointer libqhull_p
+# user_egp is user_eg/user_eg.c linked to unsuported qh_QHpointer libqhull_p
 # Included for compatibility with qhull-2012.1 
 # ---------------------------------------
 
-set(user_egp_SOURCES   src/user_eg/user_eg.c)
-
-add_executable(user_egp EXCLUDE_FROM_ALL ${user_egp_SOURCES})
+add_executable(user_egp EXCLUDE_FROM_ALL src/user_eg/user_eg.c)
 target_link_libraries(user_egp ${qhull_SHAREDP})
 set_target_properties(user_egp PROPERTIES
     COMPILE_DEFINITIONS "${user_egp_DEFINES}")
@@ -575,12 +667,23 @@ add_test(NAME user_eg
    COMMAND sh -c "./user_eg")
 add_test(NAME user_eg2
    COMMAND sh -c "./user_eg2")
-add_test(NAME user_eg3
-   COMMAND sh -c "./user_eg3 rbox '10 D2' '2 D2' qhull 's p' facets")
+   
+if(${BUILD_STATIC_LIBS})
+    add_test(NAME user_eg3
+       COMMAND sh -c "./user_eg3 rbox '10 D2' '2 D2' qhull 's p' facets")
+endif()
 
 # ---------------------------------------
 # Define install
 # ---------------------------------------
+
+set(qhull_TARGETS_INSTALL ${qhull_TARGETS_APPLICATIONS})
+if (BUILD_SHARED_LIBS)
+    list(APPEND qhull_TARGETS_INSTALL ${qhull_TARGETS_SHARED})
+endif()
+if (BUILD_STATIC_LIBS)
+    list(APPEND qhull_TARGETS_INSTALL ${qhull_TARGETS_STATIC})
+endif()
 
 install(TARGETS ${qhull_TARGETS_INSTALL} EXPORT QhullTargets
         RUNTIME DESTINATION ${BIN_INSTALL_DIR}
@@ -598,7 +701,7 @@ write_basic_package_version_file(
 
 export(EXPORT QhullTargets
   FILE "${CMAKE_CURRENT_BINARY_DIR}/QhullExport/QhullTargets.cmake"
-  NAMESPACE Qhull::
+  NAMESPACE Qhull:: 
 )
 
 configure_file(${PROJECT_SOURCE_DIR}/build/config.cmake.in
@@ -626,14 +729,17 @@ install(
 )
 
 set(PkgConfigLocation lib/pkgconfig)
-foreach(pkgconfig IN ITEMS "${qhull_SHARED};Qhull shared library"
-                           "${qhull_SHAREDR};Qhull reentrant shared library"
+foreach(pkgconfig IN ITEMS "${qhull_SHAREDR};Qhull reentrant shared library"
                            "${qhull_STATIC};Qhull static library"
                            "${qhull_STATICR};Qhull reentrant static library"
                            "${qhull_CPP};Qhull C++ library")
     list(GET pkgconfig 0 LIBRARY_NAME)
     if(LIBRARY_NAME STREQUAL "libqhull")
         set(LIBRARY_NAME "qhull")
+    endif()
+    if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+        string(REGEX REPLACE "_(.)$" "_\\1d" LIBRARY_NAME ${LIBRARY_NAME})
+        string(REGEX REPLACE "([^d])$" "\\1_d" LIBRARY_NAME ${LIBRARY_NAME})
     endif()
     list(GET pkgconfig 1 LIBRARY_DESCRIPTION)
     configure_file(build/qhull.pc.in ${LIBRARY_NAME}.pc @ONLY)
@@ -649,3 +755,8 @@ install(FILES html/rbox.man          DESTINATION ${MAN_INSTALL_DIR} RENAME rbox.
 install(FILES ${doc_FILES}           DESTINATION ${DOC_INSTALL_DIR})
 install(DIRECTORY html/              DESTINATION ${DOC_INSTALL_DIR}/html)
 install(FILES src/Changes.txt        DESTINATION ${DOC_INSTALL_DIR}/src)
+
+add_custom_target(uninstall
+    COMMENT "uninstall Qhull by deleting files in install_manifest.txt"
+    COMMAND cat install_manifest.txt | tr -d \"\\r\" | xargs -r rm
+)

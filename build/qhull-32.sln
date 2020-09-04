@@ -1,7 +1,5 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libqhull", "libqhull-32.vcxproj", "{AE297F0D-5402-41C0-83B1-0194B583B67E}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "qconvex", "qconvex-32.vcxproj", "{14FC642B-13AD-43EE-98A1-A15D9373B9BA}"
 	ProjectSection(ProjectDependencies) = postProject
 		{F9AF9BC6-2CA5-4E0C-982B-CF7974723A0B} = {F9AF9BC6-2CA5-4E0C-982B-CF7974723A0B}
@@ -21,8 +19,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "qhull", "qhull-32.vcxproj",
 	ProjectSection(ProjectDependencies) = postProject
 		{526F05C7-E54E-4673-91DC-A3AF75041688} = {526F05C7-E54E-4673-91DC-A3AF75041688}
 	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "qhull_p", "qhull_p-32.vcxproj", "{9969E173-B078-4FC0-A35E-9F3B0FDA1CE9}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "qhull_r", "qhull_r-32.vcxproj", "{D1E7C352-C0F9-4E64-B0CB-6C4371280C86}"
 EndProject

@@ -2,13 +2,27 @@
 #
 # make-qhull_qh.sh [libqhull_r] [sed-only] [files] -- Derive src/qhull-qh/ from src/libqhull_r with 'qh' macros
 #
-# $Id: //main/2019/qhull/eg/make-qhull_qh.sh#2 $$Change: 2672 $
-# $DateTime: 2019/06/06 15:21:49 $$Author: bbarber $
+# $Id: //main/2019/qhull/eg/make-qhull_qh.sh#3 $$Change: 3037 $
+# $DateTime: 2020/09/03 17:28:32 $$Author: bbarber $
 
-if [[ "$1" == "" ]]; then
-    echo "eg/make-qhull_qh.sh libqhull_r | sed-only | <directory-file-list> -- convert 'qh->' to macro 'qh'"
-    echo "  creates 'src/qhull_qh/' unless 'DEST=destination eg/make-qhull_qh.sh ..."
-    exit
+if [[ "$1" == "" || "$1" == "--help" ]]; then
+    echo
+    echo "eg/make-qhull_qh.sh -- convert reentrant Qhull files for comparison to non-reentrant Qhull files"
+    echo
+    echo "  eg/make-qhull_qh.sh libqhull_r"
+    echo "    converts 'qh->' to macro 'qh' for src/libqhull_r, src/qhalf, etc."
+    echo "    the default default destination directory is 'src/qhull_qh'"
+    echo "    errors if the destination directory already exists"
+    echo "    override via 'DEST=destination eg/make-qhull_qh.sh ...'"
+    echo
+    echo "  eg/make-qhull_qh.sh <directory-file-list>"
+    echo "    specify the source directory list"
+    echo
+    echo "  eg/make-qhull_qh.sh sed-only src/qhull_qh"
+    echo "    reconvert files in src/qhull_qh via sed scripts"
+    echo "    requires file '_QH_CONVERTED_FILES' as a safety check"
+    echo
+    exit 0
 fi
 # set -v
 SEDONLY=0
@@ -21,9 +35,13 @@ if [[ "$1" == "libqhull_r" ]]; then
     fi
 elif [[ "$1" == "sed-only" ]]; then
     SEDONLY=1
-    DEST=${DEST:-.}
-    if [[ $# -gt 1 ]]; then
-        echo "eg/make-qhull_qh.sh: 'sedonly' does not take source directories.  It converts qhull files in '$DEST' from 'qh->' to the macro 'qh'"
+    if [[ $# -ne 2 ]]; then
+        echo "eg/make-qhull_qh.sh: 'sed-only' requires the destination directory, 'src/qhull_qh'
+        exit 1
+    fi
+    DEST=$2
+    if [[ ! -f $DEST/_QH_CONVERTED_FILES ]]; then
+        echo "eg/make-qhull_qh.sh: 'sed-only' is missing '$DEST/_QH_CONVERTED_FILES'.  Run 'eg/make-qhull_qh.sh libqhull_r' first.
         exit 1
     fi
 else
@@ -53,6 +71,7 @@ if [[ $SEDONLY -ne 1 ]]; then
     echo -e "\nSource directories and files -- $SOURCES" >>$DEST/README.txt
     echo -e "\n'make cleanall' deletes 'src/qhull_qh/'\n" >>$DEST/README.txt
     date >>$DEST/README.txt
+    touch $DEST/_QH_CONVERTED_FILES
     for X in $SOURCES; do
         if [[ -d $X ]]; then
             for F in $X/*_r.* $X/*_ra.*  $X/*.def; do

@@ -7,8 +7,8 @@
    see qh-stat_r.htm and stat_r.h
 
    Copyright (c) 1993-2020 The Geometry Center.
-   $Id: //main/2019/qhull/src/libqhull_r/stat_r.c#8 $$Change: 2953 $
-   $DateTime: 2020/05/21 22:05:32 $$Author: bbarber $
+   $Id: //main/2019/qhull/src/libqhull_r/stat_r.c#9 $$Change: 3037 $
+   $DateTime: 2020/09/03 17:28:32 $$Author: bbarber $
 */
 
 #include "qhull_ra.h"
@@ -714,7 +714,7 @@ realT qh_stddev(qhT *qh, int num, realT tot, realT tot2, realT *ave) { /* for qh
   QHULL_UNUSED(tot)
   QHULL_UNUSED(tot2)
   QHULL_UNUSED(ave)
-    
+
   return 0.0;
 }
 #endif /* qh_KEEPstatistics */

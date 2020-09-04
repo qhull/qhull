@@ -9,11 +9,11 @@
 #   can not use path with $zip_file 
 #   odd error messages if can't locate directory
 #
-# $Id: //main/2019/qhull/eg/qhull-zip.sh#35 $$Change: 3009 $
-# $DateTime: 2020/07/30 19:25:22 $$Author: bbarber $
+# $Id: //main/2019/qhull/eg/qhull-zip.sh#39 $$Change: 3039 $
+# $DateTime: 2020/09/03 21:26:22 $$Author: bbarber $
 
 if [[ $# -ne 3 ]]; then
-        echo 'Missing date stamp -- eg/qhull-zip.sh 2020 2020.2 8.0.1' 
+        echo 'Missing date stamp -- eg/qhull-zip.sh 2020 2020.2 8.0.2' 
         echo 'Build Release Win32 binaries -- build/... from Perforce, make cleanall, retarget vcxproj files, restart DevStudio'
         echo 'Check libqhull_r and libqhull are the same.  See qh_code.htm#convert'
         exit
@@ -182,12 +182,12 @@ md5_zip_file=qhull-$version-zip.md5sum
 md5_tgz_file=qhull-$versionyear-src-$versionunix-tgz.md5sum
 
 # recursive 
-qhull_dirs="qhull/CMakeModules qhull/eg qhull/html qhull/src"
+qhull_dirs="qhull/build/CMakeModules qhull/eg qhull/html qhull/src"
 qhull_files="qhull/build/*.sln qhull/build/*.vcproj qhull/build/qhulltest/*.vcproj \
     qhull/build/*.vcxproj qhull/build/config.cmake.in qhull/build/qhulltest/*.vcxproj \
-    qhull/Announce.txt qhull/CMakeLists.txt qhull/COPYING.txt \
-    qhull/File_id.diz qhull/build/qhull.pc.in qhull/QHULL-GO.lnk qhull/README.txt \
-    qhull/REGISTER.txt qhull/index.htm qhull/Makefile  \
+    qhull/Announce.txt qhull/CMakeLists.txt qhull/COPYING.txt qhull/File_id.diz \
+    qhull/build/qhull.pc.in qhull/build/README-build.txt qhull/QHULL-GO.lnk \
+    qhull/README.txt qhull/REGISTER.txt qhull/index.htm qhull/Makefile  \
     qhull/bin/qconvex.exe qhull/bin/qdelaunay.exe qhull/bin/qhalf.exe \
     qhull/bin/qhull.exe qhull/bin/*qhull_r.dll qhull/bin/qvoronoi.exe \
     qhull/bin/rbox.exe qhull/bin/user_eg.exe qhull/bin/user_eg2.exe \
@@ -228,7 +228,7 @@ cd ..
 # Includes many files from 'cleanall' (Makefile)
 rm -f qhull/src/qhull-all.pro.user* qhull/src/libqhull/BCC32tmp.cfg
 rm -f qhull/eg/eg.* qhull/eg/qhull-benchmark.log qhull/eg/qhull-benchmark-show.log
-rm -f qhull/bin/qhulltest.exe qhull/bin/qhulltest qhull/bin/qhullp.exe qhull/bin/
+rm -f qhull/bin/qhulltest.exe qhull/bin/qhulltest qhull/bin/qhullp.exe
 rm -f qhull/bin/user_egp.exe qhull/bin/libqhull_*.dll
 rm -f qhull/src/libqhull/*.exe qhull/src/libqhull/*.a qhull/src/libqhull/*.dll
 rm -f qhull/src/libqhull_r/*.exe qhull/src/libqhull_r/*.a qhull/src/libqhull_r/*.dll
@@ -354,19 +354,19 @@ if [[ -r $root_dir/$qhull_tgz_file ]]; then
     exit_if_fail $LINENO "tar -zxf $root_dir/$qhull_tgz_file"
 fi
 log_step $LINENO "Check Changes.txt"
-head -40 */src/Changes.txt | tail -17
+head -60 */src/Changes.txt | tail -17
 
 #############################
 log_step $LINENO "====================================================================="
-log_step $LINENO "Check libqhull_r and libqhull are the same.  See qh_code.htm#convert"
-log_step $LINENO "Check *qhull-zip-.../zip/Dates.txt for timestamps that need updating"
+log_step $LINENO "Check *qhull-zip-.../zip/Dates.txt and rbox.c for timestamps that need updating"
 log_step $LINENO "Check *qhull-zip-.../zip/Errors-matched.txt for mismatched codes, errors not ending in NL, errors on multiple lines, and recently missing codes"
-log_step $LINENO "Check *qhull-zip-.../zip/Errors-not-matched.txt for unused error codes (count==1) or multiply-defined codes (count>2)"
-log_step $LINENO "Check *qhull-zip-.../zip/Links-single.txt for single use option links in Links-all.txt"
+log_step $LINENO "  OK (\\n in error message) -- counters 6429,7027,.., 6023, 6233, 6237, 7089"
+log_step $LINENO "Check *qhull-zip-.../zip/Errors-not-matched.txt for unused error codes (count==1, without text) or multiply-defined codes (count>2, 7079 OK)"
+log_step $LINENO "Check *qhull-zip-.../zip/Links-single.txt for single use option links (matched names OK) in Links-all.txt"
 log_step $LINENO "Check *qhull-zip-.../zip/Links-check-other.txt for unknown tags in Links-other.txt"
 log_step $LINENO "Check *qhull-zip-.../zip/Links-check-quotes.txt for quotes that cross a line"
 log_step $LINENO "Check q_egtest examples in Geomview"
-log_step $LINENO "Check for 18 projects in Release mode, including qhulltest"
+log_step $LINENO "Check for 16 projects in Release mode, including qhulltest"
 log_step $LINENO "Check build dependencies for programs."
 log_step $LINENO "Check source dependencies and help prompts once a release"
 log_step $LINENO " prompts: see qhull-zip.sh for command"
@@ -374,8 +374,10 @@ log_step $LINENO " prompts: see qhull-zip.sh for command"
 log_step $LINENO " check QhullFacet/qh_printfacetheader, QhullRidge/qh_printridge, QhullVertex/qh_printvertex"
 log_step $LINENO " check for internal errors while merging with pinched vertices, see qhull-zip.sh for command"
 # ../eg/qtest.sh 10 '10000 s C1,2e-13 D3' 'd Q14' | grep -vE 'topology|precision|CPU|Maximum'
-log_step $LINENO " check solution for ' = '"
+log_step $LINENO " check solution for ' = ' (comments OK)"
 log_step $LINENO "Test qhull with 32-bit devstudio release, compare and update with q_test-ok.txt"
+log_step $LINENO "  make testall 2>&1 | tee eg/q_test.x"
+
 log_step $LINENO "Test CMake build"
 log_step $LINENO " cd $TEMP_DIR/tgz/qhull*/build"
 log_step $LINENO " cmake -G \"MSYS Makefiles\" .. && cmake .."
@@ -401,7 +403,7 @@ log_step $LINENO "  cd $TEMP_DIR/zip/qhull* && make benchmark >/d/bash/local/qhu
 log_step $LINENO "Build qhull with gcc"
 log_step $LINENO " cd $TEMP_DIR/zip/qhull* && make SO=dll" 
 log_step $LINENO " cp -p lib/libqhull*.dll bin && make testall >/d/bash/local/qhull/eg/q_test-make.x 2>&1"
-log_step $LINENO "Create qhull_qh and compare with libqhull, qconvex, etc."
+log_step $LINENO "Create qhull_qh and compare with libqhull, qconvex, etc.  See qh_code.htm#convert"
 log_step $LINENO " eg/make-qhull_qh.sh libqhull_r"
 log_step $LINENO " Ignore 'Id: //.*' and 'DateTime: 20.*'  Edit>FullRefresh"
 log_step $LINENO " Compare qhull*exports.def and add new functions"
@@ -440,8 +442,8 @@ log_step $LINENO "Check for 32-bit release executables from DevStudio (<500K and
 log_step $LINENO "Check for virus with Windows Defender"
 log_step $LINENO "Check object dependencies with 'objdump -p user_eg.exe'"
 log_step $LINENO "Copy tarballs to qhull.org"
-log_step $LINENO " cd .. && ls -l qhull-2020.2* qhull*8.0.1*"
-log_step $LINENO " scp -p qhull-2020.2* qhull*8.0.1* qhull@qhull.org:web/download/"
+log_step $LINENO " cd .. && ls -l qhull-2020.2* qhull*8.0.2*"
+log_step $LINENO " scp -p qhull-2020.2* qhull*8.0.2* qhull@qhull.org:web/download/"
 log_step $LINENO "Add md5sums to end of qh-get.htm"
 log_step $LINENO "Add release labels to git"
 log_step $LINENO "Finished successfully"

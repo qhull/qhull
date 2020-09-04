@@ -45,13 +45,14 @@
 #   make cleanall  Remove generated files
 #   make doc       Print documentation
 #   make help
-#   make install   Copy qhull, rbox, qhull.1, rbox.1 to BINDIR, MANDIR
+#   make install   Copy results and documentation to BINDIR, DOCDIR, INCDIR, LIBDIR, MANDIR, PCDOC
+#   make uninstall Delete Qhull files from BINDIR, DOCDIR, INCDIR, LIBDIR, MANDIR, PCDOC
 #   make new       Rebuild qhull and rbox from source
 #   make printall  Print all files
 #   make qtest     Quick test of qset, rbox, and qhull
 #   make test      Quck test of qhull, qconvex, etc.
 #
-# $Id: //main/2019/qhull/src/libqhull_r/Makefile#11 $
+# $Id: //main/2019/qhull/src/libqhull_r/Makefile#13 $
 
 # Do not replace tabs with spaces.  Needed for build rules
 # Unix line endings (\n)
@@ -111,7 +112,7 @@ CC_OPTS2 = $(CC_OPTS1)
 all: qhull_links qhull_all qtest
 
 help:
-	head -n 53 Makefile
+	head -n 54 Makefile
 
 clean:
 	rm -f *.o 
@@ -129,15 +130,18 @@ doc:
 install:
 	mkdir -p $(ABS_BINDIR)
 	mkdir -p $(ABS_DOCDIR)
+	mkdir -p $(ABS_DOCDIR)/src
 	mkdir -p $(ABS_INCDIR)/libqhull_r
 	mkdir -p $(ABS_LIBDIR)
 	mkdir -p $(ABS_MANDIR)
 	mkdir -p $(ABS_PCDIR)
 	cp -p qconvex qdelaunay qhalf qhull qvoronoi rbox $(ABS_BINDIR)
 	cp -p libqhullstatic_r.a $(ABS_LIBDIR)
+	(cd ../.. && cp -p README.txt REGISTER.txt Announce.txt COPYING.txt index.htm $(ABS_DOCDIR)/)
+	(cd ../.. && cp -pr html $(ABS_DOCDIR)/)
+	(cd ../.. && cp -p src/Changes.txt $(ABS_DOCDIR)/src/)
 	cp -p ../../html/qhull.man $(ABS_MANDIR)/qhull.1
 	cp -p ../../html/rbox.man $(ABS_MANDIR)/rbox.1
-	cp -p ../../html/* $(ABS_DOCDIR)
 	cp *.h $(ABS_INCDIR)/libqhull_r
 	sed \
 		-e 's#@qhull_VERSION@#$(qhull_VERSION)#' \
@@ -147,6 +151,18 @@ install:
 		-e 's#@LIBRARY_NAME@#qhullstatic_r#' \
 		-e 's#@LIBRARY_DESCRIPTION@#Qhull reentrant static library#' \
 		../../build/qhull.pc.in > $(ABS_PCDIR)/qhullstatic_r.pc
+
+uninstall:
+	-(cd $(ABS_BINDIR) && rm -f qconvex qdelaunay qhalf qhull qvoronoi rbox)
+	-(cd $(ABS_BINDIR) && rm -f qconvex.exe qdelaunay.exe qhalf.exe qhull.exe qvoronoi.exe rbox.exe)
+	-(cd $(ABS_MANDIR) && rm -f qhull.1 rbox.1)
+	-(cd $(ABS_DOCDIR) && rm -f README.txt REGISTER.txt Announce.txt COPYING.txt index.htm src/Changes.txt)
+	-(cd $(ABS_DOCDIR) && rm -rf html)
+	-(cd $(ABS_LIBDIR) && rm -f libqhullstatic_r.a)
+	-(cd $(ABS_INCDIR) && rm -rf libqhull_r)
+	-(cd $(ABS_PCDIR) && rm -f qhullstatic_r.pc)
+	-rmdir $(ABS_DOCDIR)/src
+	-rmdir $(ABS_DOCDIR)
 
 new:	cleanall all
 

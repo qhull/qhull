@@ -1,4 +1,4 @@
-$Id: //main/2019/qhull/src/Changes.txt#63 $$Date: 2020/07/24 $
+$Id: //main/2019/qhull/src/Changes.txt#77 $$Date: 2020/09/03 $
 
 .............This file lists all changes to qhull and rbox.....................
 
@@ -39,22 +39,61 @@ Qhull 2.0 (1994-1995)
   Compare its facet hyperplanes with eg-fifo
   Create a data structure for the Voronoi diagram
   Compare your result to CGAL's 2-d Voronoi diagram
-  A CGAL halfedge is equivalent to a Qhull ridge
+  Two CGAL halfedges is equivalent to a Qhull ridge
   https://doc.cgal.org/4.7/Voronoi_diagram_2/group__PkgVoronoiDiagramAdaptor2.html
-
-- Install the Qhull documentation with index.htm, README.txt, etc.
-- Add an 'uninstall' target to Makefile
-- Remove qhull_p and qhull_p.dll from DevStudio builds, retain the corresponding project files
-- Remove libqhull and qhull.dll from DevStudio builds, retain the corresponding project files
 
 ==================
 == Qhull 2018-2020
 ==================
 
 ------------
+Qhull 2020.2 2020/08/31 (8.0.2)
+
+CMake builds
+- CMakeLists.txt: Fixed /usr/local/lib/pkgconfig for debug builds
+- CMakeLists.txt: Remove qhull_SHARED and qhull_SHAREDP from 'make all'
+  Remove qhull_SHARED and qhull_SHAREDP from qhull_TARGETS_SHARED
+  Use reentrant Qhull (libqhull_r) for user code
+- CMakeLists.txt: If "MSYS Makefiles", change the default CMAKE_INSTALL_PREFIX to "/usr/local"
+  Remove WIN32 conditionals from MAN_INSTALL_DIR and DOC_INSTALL_DIR
+- CMakeLists.txt: Add 'uninstall' to delete the files listed in install_manifest.txt
+- CMakeLists.txt: If LINK_APPS_SHARED, link qhull applications to libqhull_r.so [S. Bruens #69]
+  If BUILD_STATIC_LIBS=OFF or BUILD_SHARED_LIBS=OFF, exclude those libraries [S. Bruens #69]
+  libqhullcpp and user_eg3 are built only if BUILD_STATIC_LIBS is true
+- CMakeModules/CheckLFS.cmake: Moved CMakeModules to the build/ directory
+- CMakeLists.txt: Replace rbox_SOURCES(etc.) with a source file, either reentrant or non-reentrant
+- CMakeLists.txt: Add deprecated libqhull and qhull_p to "# Additional build targets"
+  If not MSVC, add qh_QHpointer to user_egp_DEFINES and qhullp_DEFINES (otherwise qh_lib_check fails)
+
+Other builds
+- build/README-build.txt: Add description of build/ directory
+- build/qhull*.sln: Remove qhull_p and qhull_p.dll, retain the corresponding DevStudio project files
+  Remove libqhull and qhull.dll, retain the corresponding DevStudio project files
+- Makefile: Add libqhull_r/libqhullstatic_r.a to 'cleanall'
+- Makefile: Add note about installing debug libraries (e.g., libqhull_rd)
+- Makefile,libqhull*/Makefile: Copy README.txt,...,Changes.txt and html/* to ABS_DOCDIR
+- Makefile,libqhull*/Makefile: Add target 'uninstall' to delete installed Qhull files
+- libqhull/qhull-exports.def,qhull-nomerge-exports.def: Add qh_nextfacet2d
+
+Documentation
+- html/qh-code.htm: Add request for Doxygen documentation of the C++ interface
+- html/index.htm,etc: "Contents" instead of "Table of Contents"
+
+Testing
+- eg/make-qhull_qh.sh: Redo help prompt
+- eg/make-qhull_qh.sh: Create src/qhull_qh/_QH_CONVERTED_FILES as a safety check
+- eg/make-qhull_qh.sh: Require destination directory and _QH_CONVERTED_FILES for 'sed-only'
+
+------------
 Qhull Github 
 
-- Github Qhull build systems: Wiki page on Qhull's eight build systems
+C++ interface
+- libqhullcpp/qt-qhull.cpp: In toQList(), use count() to avoid a type error
+- libqhullcpp/qt-qhull.cpp: In toQList(), use nullptr instead of NULL
+- libqhullcpp/QhullSet.h: Declare 'QList<T> toQList() const' to avoid a prototype error
+
+Builds
+- Qhull build systems: Add wiki page on build systems to GitHub
 - CMakeLists.txt: Use same target name for Debug and non-Debug builds [Spacelm #76]
 - CMakeLists.txt: Remove functional documentation from /usr/local/include/libqhull*
   Most of the links are broken.
@@ -65,15 +104,14 @@ Qhull Github
   and /usr/local/include/libqhullinclude/libqhull_r.  Most of the links are broken.
 - Makefile, src/libqhull/Makefile: Add DEPRECATED.txt to /usr/local/include/libqhull
 - Makefile, src/libqhull*/Makefile: Add 'make install' to the welcome prompt
+
+Documentation
 - index.htm: Balance the top-page 'URL:' and 'To:' links
 - index.htm: Send the top-page 'Functions' link to www.qhull.org (better 'src' links)
 - index.htm: Make the bottom-page 'URL:' and 'To:' links the same as the top-page links
 - index.htm: "please use rentrant Qhull (libqhull_r or libqhullstatic_r)"
 - html/index.htm: Add rbox.txt to Contents and rename "Table of Contents"
 - html/index.htm,qh-code.htm,qh-eg.htm,qh-impre.htm: Remove 'please wait while loading'
-- libqhullcpp/qt-qhull.cpp: In toQList(), use count() to avoid a type error
-- libqhullcpp/qt-qhull.cpp: In toQList(), use nullptr instead of NULL
-- libqhullcpp/QhullSet.h: Declare 'QList<T> toQList() const' to avoid a prototype error
 - README.txt/Installing Qhull with Qt: The shadow build directory should be at the same level as 'src'
 - README.txt/Compiling Qhull with Qt Creator: Copy steps from 'Installing Qhull with Qt'
 

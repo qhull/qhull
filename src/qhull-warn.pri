@@ -8,8 +8,8 @@
 
 # Define qhull_VERSION in CMakeLists.txt, Makefile, and qhull-warn.pri
 # [apr'11] VERSION works erratically for msvc builds
-# VERSION = 8.0.1
-qhull_SOVERSION = 8.0
+# VERSION= 8.0.2
+qhull_SOVERSION= 8.0
 
 # Uncomment to report warnings as errors
 #CONFIG += qhull_warn_error

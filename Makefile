@@ -73,7 +73,9 @@
 #   make cleanall  Remove generated files, build/*.dlr/, buildqt/, and buildvc/
 #   make doc       Print documentation
 #   make help
-#   make install   Copy qhull, rbox, qhull.1, rbox.1 to BINDIR, MANDIR
+#   make install   Copy results and documentation to BINDIR, DOCDIR, INCDIR, LIBDIR, MANDIR, PCDOC
+#                  For debug libraries, please append '_d' (e.g., libqhull_rd)
+#   make uninstall Delete Qhull files from BINDIR, DOCDIR, INCDIR, LIBDIR, MANDIR, PCDOC
 #   make new       Rebuild qhull and rbox from source
 #   make printall  Print all files
 #   make qtest     Quick test of rbox and qhull
@@ -84,7 +86,7 @@
 #                  make testall 2>&1 | tee eg/q_test.x
 #                  Build the C++ qhulltest with Qt
 #
-# $Id: //main/2019/qhull/Makefile#32 $
+# $Id: //main/2019/qhull/Makefile#36 $
 
 # Do not replace tabs with spaces.  Needed for build rules
 # Unix line endings (\n)
@@ -204,7 +206,7 @@ all: bin-lib bin/rbox bin/qconvex bin/qdelaunay bin/qhalf bin/qvoronoi bin/qhull
      bin/testqset_r qtest bin/user_eg2 bin/user_eg3 bin/user_eg qconvex-prompt
 
 help:
-	head -n 86 Makefile
+	head -n 88 Makefile
 
 bin-lib:
 	mkdir -p bin
@@ -249,7 +251,7 @@ cleanall: clean
 	rm -f build-cmake/*/*.lib build-cmake/*/*.pdb
 	rm -f eg/eg.* eg/t*.tmp
 	rm -f lib/libqhull* lib/qhull*.lib lib/qhull*.exp  lib/qhull*.dll
-	rm -f src/libqhull*/*.exe  src/libqhull*/libqhullstatic.a src/libqhull*/core
+	rm -f src/libqhull*/*.exe  src/libqhull*/libqhullstatic*.a src/libqhull*/core
 	rm -f src/libqhull*/qconvex src/libqhull*/qdelaunay src/libqhull*/qhalf 
 	rm -f src/libqhull*/qvoronoi src/libqhull*/qhull src/libqhull*/rbox
 	rm -f src/libqhull*/user_eg src/libqhull*/user_eg2 src/libqhull*/user_eg3
@@ -260,6 +262,7 @@ doc:
 install: bin/qconvex bin/qdelaunay bin/qhalf bin/qhull bin/qvoronoi bin/rbox
 	mkdir -p $(ABS_BINDIR)
 	mkdir -p $(ABS_DOCDIR)
+	mkdir -p $(ABS_DOCDIR)/src
 	mkdir -p $(ABS_INCDIR)/libqhull
 	mkdir -p $(ABS_INCDIR)/libqhull_r
 	mkdir -p $(ABS_INCDIR)/libqhullcpp
@@ -272,9 +275,11 @@ install: bin/qconvex bin/qdelaunay bin/qhalf bin/qhull bin/qvoronoi bin/rbox
 	cp bin/qhull $(ABS_BINDIR)
 	cp bin/qvoronoi $(ABS_BINDIR)
 	cp bin/rbox $(ABS_BINDIR)
-	cp html/qhull.man $(ABS_MANDIR)/qhull.1
-	cp html/rbox.man $(ABS_MANDIR)/rbox.1
-	cp html/* $(ABS_DOCDIR)
+	cp -p html/qhull.man $(ABS_MANDIR)/qhull.1
+	cp -p html/rbox.man $(ABS_MANDIR)/rbox.1
+	cp -p README.txt REGISTER.txt Announce.txt COPYING.txt index.htm $(ABS_DOCDIR)/
+	cp -pr html $(ABS_DOCDIR)/
+	cp -p src/Changes.txt $(ABS_DOCDIR)/src/
 	cp -P lib/* $(ABS_LIBDIR)
 	cp src/libqhull/DEPRECATED.txt src/libqhull/*.h $(ABS_INCDIR)/libqhull
 	cp src/libqhull_r/*.h $(ABS_INCDIR)/libqhull_r
@@ -290,6 +295,18 @@ install: bin/qconvex bin/qdelaunay bin/qhalf bin/qhull bin/qvoronoi bin/rbox
 		-e 's#@LIBRARY_DESCRIPTION@#'$$lib'#' \
 		build/qhull.pc.in > $(ABS_PCDIR)/$$lib.pc; \
 	done
+
+uninstall:
+	-(cd $(ABS_BINDIR) && rm -f qconvex qdelaunay qhalf qhull qvoronoi rbox)
+	-(cd $(ABS_BINDIR) && rm -f qconvex.exe qdelaunay.exe qhalf.exe qhull.exe qvoronoi.exe rbox.exe libqhull*.dll)
+	-(cd $(ABS_MANDIR) && rm -f qhull.1 rbox.1)
+	-(cd $(ABS_DOCDIR) && rm -f README.txt REGISTER.txt Announce.txt COPYING.txt index.htm src/Changes.txt)
+	-(cd $(ABS_DOCDIR) && rm -rf html)
+	-(cd $(ABS_LIBDIR) && rm -f libqhull*.a libqhull*.dll libqhull*.so* qhull*.lib qhull*.exp)
+	-(cd $(ABS_INCDIR) && rm -rf libqhull_r libqhull libqhullcpp)
+	-(cd $(ABS_PCDIR) && rm -f qhullstatic.pc qhullstatic_r.pc qhull_r.pc qhullcpp.pc)
+	-rmdir $(ABS_DOCDIR)/src
+	-rmdir $(ABS_DOCDIR)
 
 new:	cleanall all
 

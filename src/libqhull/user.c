@@ -123,8 +123,8 @@ or use libqhull_r or libqhullstatic, or a different tool chain.\n\n");
 
 
   To allow multiple, concurrent calls to qhull()
-    - use libqhull_r for relocatable Qhull
-        - qh_QHpointer is deprecated.  To use it
+    - use libqhull_r for reentrant Qhull
+    - qh_QHpointer is deprecated.  To use it
     -   set qh_QHpointer in user.h
     -   use qh_save_qhull and qh_restore_qhull to swap the global data structure between calls.
     -   use qh_freeqhull(qh_ALL) to free intermediate convex hulls

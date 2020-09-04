@@ -1,6 +1,6 @@
 Name
 
-      qhull, rbox        2020.2        2020/07/24        8.0.1   
+      qhull, rbox        2020.2        2020/08/31        (8.0.2)
   
 Convex hull, Delaunay triangulation, Voronoi diagrams, Halfspace intersection
 
@@ -67,6 +67,7 @@ To install Qhull
   Qhull includes Makefiles for gcc and other targets, CMakeLists.txt for CMake,
   .sln/.vcproj/.vcxproj files for Microsoft Visual Studio, and .pro files 
   for Qt Creator.  It compiles under Windows with mingw.
+      (<https://github.com/qhull/qhull/wiki/Qhull-build-systems>)
 
   Install and build instructions follow.  
 
@@ -177,16 +178,18 @@ Installing Qhull with CMake 2.6 or later
   - cd build
   - cmake --help               # List build generators
   - cmake -G "<generator>" ..  # e.g., for MINGW-w64 -- cmake -G "MSYS Makefiles" ..
-  - cmake ..                   # for MINGW-w64 -- cmake .. -DCMAKE_INSTALL_PREFIX=/usr/local
+  - cmake ..                   
   - make
   - ctest
-  - make install
+  - make install		# If MSYS or UNIX, default CMAKE_INSTALL_PREFIX is '/usr/local'
+  				# otherwise if WINDOWS, installs to ../bin, ../include, and ../lib
+  - make uninstall		# Delete the files in install_manifest.txt
 
   The ".." is important.  It refers to the parent directory (i.e., qhull/)
   
   CMake installs lib/pkgconfig/qhull*.pc for use with pkg-config
 
-  On Windows, CMake installs to C:/Program Files/qhull.  You may need to give 'Users' "full control" 
+  If CMAKE_INSTALL_PREFIX is C:/Program Files/qhull, you may need to give 'Users' "full control" 
   to qhull's sub-directories: bin, doc, include, lib, and man (folder > Properties > Security > Edit > Users).
   
   On Windows, CMake's 64-bit generators have a "Win64" tag.  Qhull's data structures 
@@ -446,13 +449,13 @@ Distributed files
   QHULL-GO.lnk         // Windows icon for eg/qhull-go.bat
   Announce.txt         // Announcement 
   CMakeLists.txt       // CMake build file (2.6 or later)
-  CMakeModules/CheckLFS.cmake // enables Large File Support in cmake
   File_id.diz          // Package descriptor
   index.htm            // Home page 
   Makefile             // Makefile for gcc and other compilers
   qhull*.md5sum        // md5sum for all files
 
   bin/*                // Qhull executables and dll (.zip only)
+  build/CMakeModules/CheckLFS.cmake // enables Large File Support in CMake
   build/config.cmake.in // extract target variables
   build/qhull.pc.in    // pkg-config template for creating lib/pkgconfig/qhull*.pc
   build/qhull-32.sln   // 32-bit DevStudio solution and project files (2010 and later)
@@ -461,6 +464,8 @@ Distributed files
   build/*-64.vcxproj
   build/qhull.sln      // DevStudio solution and project files (2005 and 2009)
   build/*.vcproj
+  build/qhulltest/     // DevStudio project files for qhulltest (C++ and Qt)
+  build/README-build.txt // Contents of build/	
   eg/*                 // Test scripts and geomview files from q_eg
   html/index.htm       // Manual
   html/qh-faq.htm      // Frequently asked questions

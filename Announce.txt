@@ -1,5 +1,5 @@
 
- Qhull 2020.2  2020/07/24
+ Qhull 2020.2  2020/08/31  (8.0.2)
 
         http://www.qhull.org
         http://github.com/qhull/qhull/wiki

@@ -12,8 +12,8 @@
    see qhull_a.h for internal functions
 
    Copyright (c) 1993-2020 The Geometry Center.
-   $Id: //main/2019/qhull/src/libqhull/global.c#14 $$Change: 3006 $
-   $DateTime: 2020/07/29 18:28:16 $$Author: bbarber $
+   $Id: //main/2019/qhull/src/libqhull/global.c#16 $$Change: 3037 $
+   $DateTime: 2020/09/03 17:28:32 $$Author: bbarber $
  */
 
 #include "qhull_a.h"
@@ -41,14 +41,14 @@ qhT qh_qh;              /* all global variables.
     change date:    Changes.txt, Announce.txt, index.htm, README.txt,
                     qhull-news.html, Eudora signatures, CMakeLists.txt
     change version: README.txt, qh-get.htm, File_id.diz, Makefile.txt, CMakeLists.txt
-    check that CmakeLists @version is the same as qh_version2
+    check that CMakeLists.txt @version is the same as qh_version2
     change year:    Copying.txt
     check download size
     recompile user_eg.c, rbox.c, libqhull.c, qconvex.c, qdelaun.c qvoronoi.c, qhalf.c, testqset.c
 */
 
-const char qh_version[]= "2020.2 2020/07/24";
-const char qh_version2[]= "qhull 8.0.1 (2020.2 2020/07/24)";
+const char qh_version[]= "2020.2 2020/08/31";
+const char qh_version2[]= "qhull 8.0.2 (2020.2 2020/08/31)";
 
 /*-<a                             href="qh-globa.htm#TOC"
   >-------------------------------</a><a name="appendprint">-</a>
@@ -2258,8 +2258,8 @@ void qh_lib_check(int qhullLibraryType, int qhTsize, int vertexTsize, int ridgeT
       }else {
         qh_fprintf_stderr(6256, "qhull internal error (qh_lib_check): Cannot continue due to QH%d..  Library '%s' should use a static qhT (e.g., libqhull.so).  It may be out-of-date.  Exit with %d\n",
               last_errcode, qh_version2, last_errcode - 6200);
-        }
-        qh_exit(last_errcode - 6200);  /* can not use qh_errexit(), must be less than 255 */
+      }
+      qh_exit(last_errcode - 6200);  /* can not use qh_errexit(), must be less than 255 */
     }
 } /* lib_check */
 

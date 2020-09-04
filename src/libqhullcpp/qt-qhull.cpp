@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2009-2020 C.B. Barber. All rights reserved.
-** $Id: //main/2019/qhull/src/libqhullcpp/qt-qhull.cpp#6 $$Change: 3018 $
-** $DateTime: 2020/08/15 19:58:23 $$Author: bbarber $
+** $Id: //main/2019/qhull/src/libqhullcpp/qt-qhull.cpp#7 $$Change: 3032 $
+** $DateTime: 2020/09/01 17:08:51 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -57,7 +57,7 @@ QList<QhullVertex> QhullFacetList::
 vertices_toQList() const
 {
     QList<QhullVertex> vs;
-    QhullVertexSet qvs(qh(), first().getFacetT(), NULL, isSelectAll());
+    QhullVertexSet qvs(qh(), first().getFacetT(), nullptr, isSelectAll());
     for(QhullVertexSet::iterator i=qvs.begin(); i!=qvs.end(); ++i){
         vs.push_back(*i);
     }

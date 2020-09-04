@@ -7,8 +7,8 @@
    see qh-qhull_r.htm, qhull_ra.h
 
    Copyright (c) 1993-2020 The Geometry Center.
-   $Id: //main/2019/qhull/src/libqhull_r/libqhull_r.h#15 $$Change: 2953 $
-   $DateTime: 2020/05/21 22:05:32 $$Author: bbarber $
+   $Id: //main/2019/qhull/src/libqhull_r/libqhull_r.h#16 $$Change: 3037 $
+   $DateTime: 2020/09/03 17:28:32 $$Author: bbarber $
 
    includes function prototypes for libqhull_r.c, geom_r.c, global_r.c, io_r.c, user_r.c
 
@@ -188,7 +188,7 @@ typedef enum {qh_PRINTnone= 0,
 #define qh_ERRother 6    /* other error detected */
 #define qh_ERRtopology 7 /* topology error, maybe due to nearly adjacent vertices, calls qh_printhelp_topology */
 #define qh_ERRwide 8     /* wide facet error, maybe due to nearly adjacent vertices, calls qh_printhelp_wide */
-#define qh_ERRdebug 9   /* qh_errexit from debugging code */
+#define qh_ERRdebug 9    /* qh_errexit from debugging code */
 
 /*-<a                             href="qh-qhull_r.htm#TOC"
 >--------------------------------</a><a name="qh_FILEstderr">-</a>
