@@ -1,4 +1,4 @@
-$Id: //main/2019/qhull/src/Changes.txt#73 $$Date: 2020/09/01 $
+$Id: //main/2019/qhull/src/Changes.txt#78 $$Date: 2020/09/08 $
 
 .............This file lists all changes to qhull and rbox.....................
 
@@ -47,7 +47,7 @@ Qhull 2.0 (1994-1995)
 ==================
 
 ------------
-Qhull Github
+Qhull GitHub
 
 build/README-build.txt: Add deprecated targets
 
