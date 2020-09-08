@@ -1,4 +1,4 @@
-$Id: //main/2019/qhull/src/Changes.txt#77 $$Date: 2020/09/03 $
+$Id: //main/2019/qhull/src/Changes.txt#73 $$Date: 2020/09/01 $
 
 .............This file lists all changes to qhull and rbox.....................
 
@@ -47,6 +47,11 @@ Qhull 2.0 (1994-1995)
 ==================
 
 ------------
+Qhull Github
+
+build/README-build.txt: Add deprecated targets
+
+------------
 Qhull 2020.2 2020/08/31 (8.0.2)
 
 CMake builds
@@ -63,7 +68,7 @@ CMake builds
 - CMakeModules/CheckLFS.cmake: Moved CMakeModules to the build/ directory
 - CMakeLists.txt: Replace rbox_SOURCES(etc.) with a source file, either reentrant or non-reentrant
 - CMakeLists.txt: Add deprecated libqhull and qhull_p to "# Additional build targets"
-  If not MSVC, add qh_QHpointer to user_egp_DEFINES and qhullp_DEFINES (otherwise qh_lib_check fails)
+  Add qh_QHpointer to user_egp_DEFINES and qhullp_DEFINES (otherwise qh_lib_check fails)
 
 Other builds
 - build/README-build.txt: Add description of build/ directory
@@ -85,7 +90,7 @@ Testing
 - eg/make-qhull_qh.sh: Require destination directory and _QH_CONVERTED_FILES for 'sed-only'
 
 ------------
-Qhull Github 
+Qhull GitHub
 
 C++ interface
 - libqhullcpp/qt-qhull.cpp: In toQList(), use count() to avoid a type error
@@ -256,7 +261,7 @@ Testing and other changes
   Add prompts for web.archive and md5sum in qh-get.htm
   
 ------------
-Qhull 2019.1 github 2019/10/24
+Qhull 2019.1 GitHub 2019/10/24
 
 Documentation
 - Review and fix Qhull html and option links
@@ -892,7 +897,7 @@ Source code changes
  - poly2_r.c/qh_triangulate_mirror: skip duplicate MRGmirror merges and previously deleted MRGmirror facets
 
 ------------
-Qhull github 2018
+Qhull GitHub 2018
 
 - Fixed confusing indentation [A. Lee 2018/12/28]
 - Add labels for each release [A. Mailaga 2016/7/5]
@@ -1031,7 +1036,7 @@ Qhull 2015.0.6 2015/10/20 (7.0.6.2013)
  - html/index.htm: Fix table of contents for qh-code
  - libqhull_r/index.htm: Rewrite introduction to Reentrant Qhull
  - qh-faq.htm: Rewrite "Can Qhull use coordinates without placing  them in a data file?"
- - qh-get.html: Link to github
+ - qh-get.html: Link to GitHub
  - Remove qhull_interface.cpp from the documentation
 
 ------------
