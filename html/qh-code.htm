@@ -65,6 +65,7 @@ height="100"></a> Qhull code</h1>
         <li><a href="#vertex-cpp">QhullVertex</a></li>
         <li><a href="#vertexlist-cpp">QhullVertexList</a></li>
         <li><a href="#vertexset-cpp">QhullVertexSet</a></li>
+        <li><a href="#user-cpp">QhullUser</a></li>
         <li><a href="#rbox-cpp">RboxPoints</a></li>
     </ul>
     <li><a href="#library">Calling</a> Qhull from C programs
@@ -205,15 +206,11 @@ the corresponding data structures.  The sizes for Qhull 2012.1 were
 <h2><a href="#TOC">&#187;</a><a name="cpp">Calling Qhull from
 C++ programs</a></h2>
 
-<p>Qhull 2015 uses reentrant Qhull for its C++ interface.  If you used
-the C++ interface from qhull 2012.1, you may need to adjust how you initialize and use
-the Qhull classes.   See <a href="#convert">How to convert code to reentrant Qhull</a>.
-
 <p>
 Qhull's C++ interface allows you to explore the results of running Qhull.
 It provides access to Qhull's data structures.
 Most of the classes derive from the corresponding qhull data structure.
-For example, <a href="#facet-cpp">QhullFacet</a> is an instance of Qhull's <a href="../src/libqhull_r/libqhull_r.h#facetT">facetT</a>.
+For example, <a href="#facet-cpp">QhullFacet</a> is an instance of Qhull's <a href="http://www.qhull.org/src/libqhull_r/libqhull_r.h#facetT">facetT</a>.
 </p>
 
 <p>You can retain most of the data in Qhull and use the C++ interface to explore its results.
@@ -244,7 +241,7 @@ another javadoc-style processor.
 </pre>
 
 <p>
-The C++ iterface for RboxPoints redefines the fprintf() calls
+The C++ interface for RboxPoints redefines the fprintf() calls
 in rboxlib.c.   Instead of writing its output to stdout, RboxPoints appends
 the output to a std::vector.
 </p>
@@ -268,6 +265,10 @@ one run of Qhull.
 <p>
 Do <i>not</i> have two threads accessing the same Qhull instance.  Qhull is not thread-safe.
 </p>
+
+<p>Qhull 2015 used reentrant Qhull for its C++ interface.  If you used
+the C++ interface from qhull 2012.1, you may need to adjust how you initialize and use
+the Qhull classes.   See <a href="#convert">How to convert code to reentrant Qhull</a>.
 
 <h3><a href="#TOC">&#187;</a><a name="coordinate-cpp">CoordinateIterator</a></h3>
 <p>
@@ -398,6 +399,13 @@ The QhullVertexSet of a <a href="#facet-cpp">QhullFacet</a> is the vertices of t
 ordered for simplicial facets and unordered for non-simplicial facets.
 </p>
 
+<h3><a href="#TOC">&#187;</a><a name="user-cpp">QhullUser</a></h3>
+
+<p>
+QhullUser is a framework for capturing data from any Qhull output.  The C++ demonstration
+program, <code>user_eg3</code>, uses QhullUser for its Voronoi 'eg-fifo' output.
+</p>
+
 <h3><a href="#TOC">&#187;</a><a name="rbox-cpp">RboxPoints</a></h3>
 
 <p>
@@ -458,14 +466,14 @@ command.
 <p>For examples of calling Qhull, see GNU Octave's
 <a href=http://www.gnu.org/software/octave/doc/interpreter/Geometry.html>computational geometry code</a>,
 and Qhull's
-<a href=../src/user_eg/user_eg_r.c>user_eg_r.c</a>,
-<a href=../src/user_eg2/user_eg2_r.c>user_eg2_r.c</a>, and
-<a href=../src/libqhull_r/user_r.c>user_r.c</a>.  To see how Qhull calls its library, read
-<a href=../src/qhull/unix_r.c>unix_r.c</a>,
-<a href=../src/qconvex/qconvex.c>qconvex.c</a>,
-<a href=../src/qdelaunay/qdelaun.c>qdelaun.c</a>,
-<a href=../src/qhalf/qhalf.c>qhalf.c</a>, and
-<a href=../src/qvoronoi/qvoronoi.c>qvoronoi.c</a>.  The '*_r.c' files are reentrant, otherwise they are non-reentrant.
+<a href=http://www.qhull.org/src/user_eg/user_eg_r.c>user_eg_r.c</a>,
+<a href=http://www.qhull.org/src/user_eg2/user_eg2_r.c>user_eg2_r.c</a>, and
+<a href=http://www.qhull.org/src/libqhull_r/user_r.c>user_r.c</a>.  To see how Qhull calls its library, read
+<a href=http://www.qhull.org/src/qhull/unix_r.c>unix_r.c</a>,
+<a href=http://www.qhull.org/src/qconvex/qconvex.c>qconvex.c</a>,
+<a href=http://www.qhull.org/src/qdelaunay/qdelaun.c>qdelaun.c</a>,
+<a href=http://www.qhull.org/src/qhalf/qhalf.c>qhalf.c</a>, and
+<a href=http://www.qhull.org/src/qvoronoi/qvoronoi.c>qvoronoi.c</a>.  The '*_r.c' files are reentrant, otherwise they are non-reentrant.
 Either version may be used.  New code should use reentrant Qhull.
 
 <p>
@@ -1293,6 +1301,14 @@ To do for a furture version of the C++ interface
  - QhullVertexSet uses QhullSetBase::referenceSetT() to free its memory.   Probably needed elsewhere
  - The Boost Graph Library provides C++ classes for graph data structures. It may help
    enhance Qhull's C++ interface [Dr. Dobb's 9/00 p. 29-38; OOPSLA 99 p. 399-414].
+
+[Sep 2020] Suggestions
+- In qh_mergefacet, check for nearly adjacent vertices via hash of high-order bits
+  If close enough, merge a pair of vertices instead of merging the facets
+  Is there an inexpensive way to identify slivers?  It may help select which hyperplane to keep
+- qhulltest: Add check for missing Qt dlls.  Qhulltest exits without an error message
+- Add C++ documentation for 'calling Qhull'
+- Add examples to rbox.htm
 
 [May 2020] Suggestions
 - Check that the midpoint for Voronoi option 'Fo' is not a Voronoi vertex (rbox c D2 P0 | qvoronoi Fo)

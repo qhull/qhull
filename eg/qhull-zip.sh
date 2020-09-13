@@ -9,8 +9,8 @@
 #   can not use path with $zip_file 
 #   odd error messages if can't locate directory
 #
-# $Id: //main/2019/qhull/eg/qhull-zip.sh#39 $$Change: 3039 $
-# $DateTime: 2020/09/03 21:26:22 $$Author: bbarber $
+# $Id: //main/2019/qhull/eg/qhull-zip.sh#41 $$Change: 3047 $
+# $DateTime: 2020/09/13 14:18:03 $$Author: bbarber $
 
 if [[ $# -ne 3 ]]; then
         echo 'Missing date stamp -- eg/qhull-zip.sh 2020 2020.2 8.0.2' 
@@ -193,9 +193,9 @@ qhull_files="qhull/build/*.sln qhull/build/*.vcproj qhull/build/qhulltest/*.vcpr
     qhull/bin/rbox.exe qhull/bin/user_eg.exe qhull/bin/user_eg2.exe \
     qhull/bin/testqset_r.exe \
     qhull/bin/user_eg3.exe qhull/bin/testqset.exe qhull/bin/msvcr80.dll"
-qhull_ufiles="$qhull_dirs qhull/build/*.sln qhull/build/*.vcproj \
-    qhull/build/*.vcxproj qhull/build/config.cmake.in \
-    qhull/Announce.txt qhull/CMakeLists.txt qhull/COPYING.txt \
+qhull_ufiles="$qhull_dirs qhull/build/*.sln qhull/build/*.vcproj qhull/build/qhulltest/*.vcproj \
+    qhull/build/*.vcxproj qhull/build/config.cmake.in qhull/build/qhulltest/*.vcxproj \
+    qhull/Announce.txt qhull/CMakeLists.txt qhull/COPYING.txt qhull/build/README-build.txt \
     qhull/File_id.diz qhull/build/qhull.pc.in qhull/QHULL-GO.lnk qhull/README.txt \
     qhull/REGISTER.txt qhull/index.htm qhull/Makefile"
 qhull_d2ufiles="Makefile src/libqhull/Makefile src/libqhull_r/Makefile \
@@ -230,6 +230,7 @@ rm -f qhull/src/qhull-all.pro.user* qhull/src/libqhull/BCC32tmp.cfg
 rm -f qhull/eg/eg.* qhull/eg/qhull-benchmark.log qhull/eg/qhull-benchmark-show.log
 rm -f qhull/bin/qhulltest.exe qhull/bin/qhulltest qhull/bin/qhullp.exe
 rm -f qhull/bin/user_egp.exe qhull/bin/libqhull_*.dll
+rm -f qhull/bin/Qt5*.dll
 rm -f qhull/src/libqhull/*.exe qhull/src/libqhull/*.a qhull/src/libqhull/*.dll
 rm -f qhull/src/libqhull_r/*.exe qhull/src/libqhull_r/*.a qhull/src/libqhull_r/*.dll
 rm -f qhull/src/libqhull/qconvex.c qhull/src/libqhull/unix.c 
@@ -391,7 +392,7 @@ log_step $LINENO " more ../make.x"
 log_step $LINENO " export DESTDIR=.; make install; cd usr/local/lib"
 log_step $LINENO " make test"
 log_step $LINENO " eg/q_test >eg/q_test.x 2>&1"
-log_step $LINENO "Update 'Qhull wiki.md', qhull-news.htm (#problems, #bugs), qh-code.htm#enhance"
+log_step $LINENO "Update qh-code.htm#enhance"
 log_step $LINENO "Test qhull and compare to q_test-ok.txt"
 log_step $LINENO " cd $TEMP_DIR/zip/qhull* && make testall >/d/bash/local/qhull/eg/q_test.x 2>&1"
 log_step $LINENO "Build and test 64-bit qhulltest.  Compare to eg/qhulltest-ok.txt"
@@ -445,7 +446,12 @@ log_step $LINENO "Copy tarballs to qhull.org"
 log_step $LINENO " cd .. && ls -l qhull-2020.2* qhull*8.0.2*"
 log_step $LINENO " scp -p qhull-2020.2* qhull*8.0.2* qhull@qhull.org:web/download/"
 log_step $LINENO "Add md5sums to end of qh-get.htm"
-log_step $LINENO "Add release labels to git"
+log_step $LINENO "Add v8.0.x label to git"
+log_step $LINENO "Release on GitHub"
+log_step $LINENO "Repeat build on qhull.org from tgz file"
+log_step $LINENO "Repeat test of zip download to /keep/qhull"
+log_step $LINENO "Review home page (check links), qh-get.htm (check size of builds)"
+log_step $LINENO "Update 'Qhull wiki.md', qhull-news.htm (#problems, #bugs, check links), qh-code.htm#enhance"
 log_step $LINENO "Finished successfully"
 #############################
 
