@@ -2091,7 +2091,7 @@ void qh_infiniteloop(qhT *qh, facetT *facet) {
 
   returns:
     qh_facetlist with initial hull
-    points partioned into outside sets, coplanar sets, or inside
+    points partitioned into outside sets, coplanar sets, or inside
     initializes qh.GOODpointp, qh.GOODvertexp,
 
   design:

@@ -33,7 +33,7 @@ private:
 #//!\name Fields
     int                 error_code;  //! Non-zero code (not logged), maybe returned as program status
     RoadLogEvent        log_event;   //! Format string w/ arguments
-    mutable std::string error_message;  //! Formated error message.  Must be after log_event.
+    mutable std::string error_message;  //! Formatted error message.  Must be after log_event.
 
 #//!\name Class fields
     static const char  *  ROADtag;

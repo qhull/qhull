@@ -278,7 +278,7 @@ public:
 
 //! QhullSetIterator is a Java-style iterator.  It may be used on temporary results.
 //! QhullSetIterator copies the qh_set and qh_qh pointers in QhullSetBase
-//! Faster then interator/const_iterator due to T::base_type
+//! Faster then iterator/const_iterator due to T::base_type
 template <typename T>
 class QhullSetIterator {
 

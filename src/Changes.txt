@@ -422,7 +422,7 @@ Qhull builds, scripts, and debugging
 - eg/q_test: update error messages for missing bin/ and bin/libqhull_r.dll
 - eg/q_test: tests of Tf and TAn
 - eg/qhull-zip.sh: add note that it requires road-script.sh from http://www.qhull.org/road/
-- eg/qhull-zip.sh: check source depencencies for prompts
+- eg/qhull-zip.sh: check source dependencies for prompts
 - eg/qtest.sh: new script for testing Qhull and summarizing its trace files
 - libqhull_r/Makefile: install target creates $INCDIR/libqhull_r and $LIBDIR
 - libqhull_r.h/qh_ERRdebug: define error status for debugging exits
@@ -692,8 +692,8 @@ Qhull options
    Renamed 'new' to 'newfacet'
    'isarea' if area is listed for the facet
    'cycledone' if qh_mergefacet completed  
-   Renamed 'MERGE' to 'MERGEridge' in the facet neighors (for merging)
-   Renamed 'DUP' to 'DUPLICATEridge' in the facet neighors (for merging)
+   Renamed 'MERGE' to 'MERGEridge' in the facet neighbors (for merging)
+   Renamed 'DUP' to 'DUPLICATEridge' in the facet neighbors (for merging)
    Comment '- horizon ridge to visible facet' added for tentative new facets
  - option 'f' (print facets): updated flags for ridges
    'mergevertex' and 'mergevertex2' if a ridge vertex will be merged
@@ -739,7 +739,7 @@ Bugs fixed
  - user_eg2.c: do not call qh_check_points if qh.FORCEoutput
  
 Qhull error reporting
- - io_r.c/qh_readpoints: improved formating of error "QH6410 ... instead of n points"
+ - io_r.c/qh_readpoints: improved formatting of error "QH6410 ... instead of n points"
  - libqulll_r.c/qh_findhorizon: error if no neighbors for a visible facet
  - libqulll_r.c/qh_findbestnew: error if facet sentinel (!facet->next)
  - libqhull_r.c/qh_nextfurthest: error if infinite loop
@@ -752,7 +752,7 @@ Qhull error reporting
              Call from qh_mergecycle, qh_makenewfacets, qh_attachnewfacets
  - merge_r.c/qh_maydropneighbor: error if simplicial facet or neighbor
  - merge_r.c/qh_merge_facet: error if wide merge (allow with 'Q12')
- - merge_r.c/qh_merge_nonconvex: error if unexected mergetype
+ - merge_r.c/qh_merge_nonconvex: error if unexpected mergetype
  - poly_r.c/qh_matchneighbor: convert error QH6106 (two facets with same vertices) to a warning (QH7084) and automatic fix
  - poly2_r.c/qh_check_maxout: error if wide qh.max_outside/min_vertex (allow with 'Q12')
  - poly2_r.c/qh_check_maxout: warn if wide maxout for vertices (for diagnosing errors)
@@ -1804,7 +1804,7 @@ Preliminary C++ support:
  - Preliminary documentation for Qhull's C++ interface [qh-code.htm#cpp, qhull-cpp.xml]
  - Added user_eg3 as an example of Qhull.cpp
  - Removed qhull_interface.cpp.  Use Qhull.cpp instead.
-   If math.h breaks '#include qhull_a.h', preceed it with '#include math.h'
+   If math.h breaks '#include qhull_a.h', precede it with '#include math.h'
 
 Changes to qhull options and results
  - Allow 'd' and 'v' as the filename for 'TO ..' and 'TI ...' in qdelaunay [M. Jambon]
@@ -2072,7 +2072,7 @@ Changes to options
  - If 'TPn' and 'TWn' defined, trace the addition of point 'n'
      otherwise continue tracing (previously it stopped in 4-d)
  - Removed 'Ft' from qdelaunay.  Use 'Qt o' or 'qhull d QJ Qt' instead.
-     For non-simplicial regions, 'Ft' does not satisify the Delaunay property.
+     For non-simplicial regions, 'Ft' does not satisfy the Delaunay property.
  - If 'Po' or 'TVn', qhull checks outer planes.  Use 'Q5' to turn off.
  - If 'T4', print facet lists and check polygon after adding each point
 
@@ -2944,7 +2944,7 @@ qhull V2.02 1/25/95
 
 ------------
 qhull V2.01 6/20/94
-  - fixed bug in qh_matchnewfacets that occured when memory alignment makes
+  - fixed bug in qh_matchnewfacets that occurred when memory alignment makes
     facet->neighbors larger than necessary.
   - fixed bug in computing worst-case simplicial merge of angle coplanar
     facets (ONEmerge).  This decreases (...x) in printsummary.
@@ -2965,7 +2965,7 @@ qhull V2.01 6/11/94
   - if pre-merge, 'Qf' is automatically set.  Otherwise an outside point may
         be dropt by qh_findbest().  This slows down partitioning.
   - always use 'Qc' if merging and all facet->maxoutside's must be right.
-        Otherwise distributions with many coplanar points may occassionally
+        Otherwise distributions with many coplanar points may occasionally
         miss a coplanar point for a facet.  This is because qh_findbest, when
         called by qh_check_maxout, can become stuck at a local maximum if
         the search is started at an arbitrary facet.  With 'Qc', the search
