@@ -23,7 +23,7 @@ if [[ "$1" == "qhull-x" ]]; then
     set -v
     win64=1
     if [[ ! -w build/qhull.sln || ! -r build/qhull-64.vcxproj || ! -d src/libqhull_r ]]; then
-        echo "Excute 'eg/make-vcproj.sh qhull-x' from qhull directory with build/qhull.sln, build/qhull-64.vcxproj, src/libqhull_r"
+        echo "Execute 'eg/make-vcproj.sh qhull-x' from qhull directory with build/qhull.sln, build/qhull-64.vcxproj, src/libqhull_r"
         exit
     fi
 
@@ -128,7 +128,7 @@ if [[ "$1" == "sed-only" || "$2" == "sed-only" ]]; then
 else # else execute to 'fi ... sed-only'
 
 if [[ ! -f CMakeLists.txt || ! -f src/qhull-all.pro ]]; then
-    echo "Excute eg/make-vcproj.sh from qhull directory with CMakeLists.txt and src/qhull-all.pro"
+    echo "Execute eg/make-vcproj.sh from qhull directory with CMakeLists.txt and src/qhull-all.pro"
     exit
 fi
 

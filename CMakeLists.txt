@@ -624,7 +624,7 @@ if(${BUILD_STATIC_LIBS})
 endif()
 
 # ---------------------------------------
-# qhullp is qhull/unix.c linked to unsuported qh_QHpointer libqhull_p
+# qhullp is qhull/unix.c linked to unsupported qh_QHpointer libqhull_p
 # Included for testing qh_QHpointer 
 # ---------------------------------------
 
@@ -634,7 +634,7 @@ set_target_properties(qhullp PROPERTIES
     COMPILE_DEFINITIONS "${qhullp_DEFINES}")
 
 # ---------------------------------------
-# user_egp is user_eg/user_eg.c linked to unsuported qh_QHpointer libqhull_p
+# user_egp is user_eg/user_eg.c linked to unsupported qh_QHpointer libqhull_p
 # Included for compatibility with qhull-2012.1 
 # ---------------------------------------
 

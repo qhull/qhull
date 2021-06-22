@@ -151,7 +151,7 @@ Simple C++ programs should compile as is.
 
 <p>Suggestions for updating src/libqhull/* from src/libqhull_r/*:
 <ul>
-<li>Make edits to libqhull_r/* instead of libqhull/*.  The reverse update is more difficult, as desribed above.
+<li>Make edits to libqhull_r/* instead of libqhull/*.  The reverse update is more difficult, as described above.
 <li>Use 'eg/make-qhull_qh.sh libqhull_r' to automatically convert libqhull_r/* to qhull_qh/*
 <li>Compare src/qhull_qh/ to src/libqhull/ using Beyond Compare (<a href="https://www.scootersoftware.com/">www.scootersoftware.com</a>)
 or another directory comparison utility.
@@ -446,7 +446,7 @@ Please add notes to <a href="http://github.com/qhull/qhull/wiki">Qhull Wiki</a>.
 <li>Infinite point as !defined()
 <li>qlist and qlinkedlist define pointer, reference, size_type, difference_type, const_pointer, const_reference for the class but not for iterator and const_iterator
       vector.h -- <pre>reference operator[](difference_type _Off) const</pre>
-<li>When forwarding an implementation is base() an approriate name (e.g., Coordinates::iterator::base() as std::vector<coordT>::iterator).
+<li>When forwarding an implementation is base() an appropriate name (e.g., Coordinates::iterator::base() as std::vector<coordT>::iterator).
 <li>When forwarding an implementation, does not work "returning address of temporary"
 <li>Also --, +=, and -=
        <pre>iterator       &operator++() { return iterator(i++); }</pre>
@@ -532,7 +532,7 @@ href="qh-optt.htm#Tz">Tz</a>'.</p>
 
 <p>Qhull does not use stderr, stdout, fprintf(), or exit() directly.</p>
 
-<p>Qhull reports errors via qh_errexit() by writting a message to qh.ferr and invoking longjmp().
+<p>Qhull reports errors via qh_errexit() by writing a message to qh.ferr and invoking longjmp().
 This returns the caller to the corresponding setjmp() (c.f., QH_TRY_ in QhullQh.h).  If
 qh_errexit() is not available, Qhull functions call qh_exit().   qh_exit() normally calls exit(),
 but may be redefined by the user.  An example is
@@ -922,7 +922,7 @@ an execution of Qhull at various levels of detail, with various options to contr
 <li>Level 2 ('T2') -- Minor steps in the program are prefixed with '[QH2nnn]'.
 <li>Level 3 ('T3') -- Merge and other events are prefixed with '[QH3nnn]'.
 <li>Level 4 ('T4') -- Detailed trace of Qhull execution.
-<li>Level 5 ('T5') -- Memory allocations and Guassian elimination.  Memory allocations are prefixed with "qh_mem " followed by address, sequence number, alloc/free, short/long, etc.
+<li>Level 5 ('T5') -- Memory allocations and Gaussian elimination.  Memory allocations are prefixed with "qh_mem " followed by address, sequence number, alloc/free, short/long, etc.
 If you sort by address and sequence number, each allocate should be paired with its free.
 </ul></p>
 
@@ -1282,7 +1282,7 @@ Top Suggestions
  - Constrain delaunay triangulations via Shewchuk's algorithm (ACM Symp. Comp. Geo., 1998)
 
 -----------
-To do for a furture version of the C++ interface
+To do for a future version of the C++ interface
  - Document C++ using Doxygen conventions (//! and //!<)
  - Add defineAs() to each object
  - Add Qtest::toString() functions for QhullPoint and others.  QByteArray and qstrdup()

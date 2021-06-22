@@ -9,7 +9,7 @@
 # qmake is in Qt's bin directory
 # mkdir -p build && cd build && qmake -tp vc -r ../src/qhull-all.pro
 # Additional Library Directories -- C:\qt\Qt5.2.0\5.2.0\msvc2012_64\lib
-# libqhullcpp and libqhullstatic refered to $(QTDIR) but apparently didn't retrieve (should be %QTDIR%?)
+# libqhullcpp and libqhullstatic referred to $(QTDIR) but apparently didn't retrieve (should be %QTDIR%?)
 # libqhull_r also needs ..\..\lib
 # Need to change build/x64/Debug/*.lib to lib/ (or copy libs by hand, each time)
 # Additional Build Dependencies

@@ -126,7 +126,7 @@ if ! which rbox >/dev/null 2>&1; then
     fi
     PATH="$PWD/bin:$PATH"
     if ! which rbox >/dev/null 2>&1; then
-        echo 'eg/qtest.sh: Failed to temporily add "$PWD/bin" to $PATH for access to $QHULL and rbox'  "'$QHULL'." 'Please execute "export PATH=$PWD/bin:$PATH"'
+        echo 'eg/qtest.sh: Failed to temporarily add "$PWD/bin" to $PATH for access to $QHULL and rbox'  "'$QHULL'." 'Please execute "export PATH=$PWD/bin:$PATH"'
         exit 1
     fi
 fi

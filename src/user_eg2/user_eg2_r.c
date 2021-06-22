@@ -290,7 +290,7 @@ notes:
   It is transformed by qh_sethalfspace_all into a
   (dim)-d set of newpoints.  Qhull computed the convex hull of newpoints -
   this is equivalent to the halfspace intersection of the
-  orginal halfspaces.
+  original halfspaces.
 
   For addhalf(), the remainder of points stores the transforms of
   the added halfspaces.  Qhull computes the convex hull of newpoints
@@ -724,7 +724,7 @@ the points by randomly rotating the input with 'QR0'.\n");
   qh_fprintf(qh, fp, 9385, "\nThe min and max coordinates for each dimension are:\n");
   for (k=0; k < qh->hull_dim; k++) {
     min= REALmax;
-    max= -REALmin;
+    max= -REALmax;
     for (i=qh->num_points, coord= qh->first_point+k; i--; coord += qh->hull_dim) {
       maximize_(max, *coord);
       minimize_(min, *coord);
