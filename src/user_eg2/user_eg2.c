@@ -291,7 +291,7 @@ notes:
   It is transformed by qh_sethalfspace_all into a
   (dim)-d set of newpoints.  Qhull computed the convex hull of newpoints -
   this is equivalent to the halfspace intersection of the
-  orginal halfspaces.
+  original halfspaces.
 
   For addhalf(), the remainder of points stores the transforms of
   the added halfspaces.  Qhull computes the convex hull of newpoints

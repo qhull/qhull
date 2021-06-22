@@ -197,7 +197,7 @@
             </li><li>
                 private functions -- No syntactic indication.  They may become public later on.
             </li><li>
-                Error messages -- Preceed error messages with the name of the class throwing the error (e.g. "ClassName: ...").  If this is an internal error, use "ClassName inconsistent: ..."
+                Error messages -- Precede error messages with the name of the class throwing the error (e.g. "ClassName: ...").  If this is an internal error, use "ClassName inconsistent: ..."
             </li><li>
                parameter order -- qhRunId, dimension, coordinates, count.
             </li><li>

@@ -40,7 +40,7 @@ QhullVertexSet(const Qhull &q, facetT *facetlist, setT *facetset, bool allfacets
     q.qh()->maybeThrowQhullMessage(QH_TRY_status);
 }//QhullVertexSet facetlist facetset
 
-//! Return tempory QhullVertexSet of vertices for a list and/or a set of facets
+//! Return temporary QhullVertexSet of vertices for a list and/or a set of facets
 //! Sets qhsettemp_defined (disallows copy constructor and assignment to prevent double-free)
 QhullVertexSet::
 QhullVertexSet(QhullQh *qqh, facetT *facetlist, setT *facetset, bool allfacets)
