@@ -4,7 +4,7 @@
 #   See README.txt
 #   For qhulltest of the C++ interface, use Qt project file at src/qhull-all.pro
 #   For static builds, a simple alternative is src/libqhull_r/Makefile
-#   
+#
 # Variables
 #   DESTDIR        directory for staged installs (GNU Makefile standards)
 #   PREFIX         install directory for 'make install' (default /usr/local)
@@ -114,7 +114,7 @@ qhull_SOVERSION=$(shell grep 'set.qhull_SOVERSION ' CMakeLists.txt | grep -o '[0
 SO  = so.$(qhull_VERSION)
 SONAME_EXT = so.$(qhull_SOVERSION)
 
-# On MinGW, 
+# On MinGW,
 #   make SO=dll
 #   Copy lib/libqhull_r.dll to bin/
 
@@ -131,7 +131,7 @@ PRINTC = enscript -2r
 # M32     = -m32
 # -fpic is required for linking to shared libraries
 # -fpic may be slower for 32-bit builds on 64-bit hosts
-# Disable -fpic with 'make FPIC=' 
+# Disable -fpic with 'make FPIC='
 FPIC      = -fpic
 CC        = gcc
 CC_OPTS1  = -O3 -ansi -Isrc/ $(CC_WARNINGS) $(M32) $(FPIC)
@@ -155,7 +155,7 @@ CC_OPTS3  =
 #CC       = cc
 #CC_OPTS1 = -ansi -O2 -arch m68k -arch i386 -arch hppa
 
-# For loader, ld, 
+# For loader, ld,
 CC_OPTS2 = $(CC_OPTS1)
 CXX_OPTS2 = $(CXX_OPTS1)
 
@@ -164,7 +164,7 @@ CXX_OPTS2 = $(CXX_OPTS1)
 # gcc -pedantic not used due to -Woverlength-strings.  Maximum string length is less than 2000
 # g++ -pedantic not used due to 'long long' warning.
 CC_WARNINGS  = -Wall -Wcast-qual -Wextra -Wwrite-strings -Wshadow -Wsign-conversion -Wconversion
-CXX_WARNINGS = -Wall -Wcast-qual -Wextra -Wwrite-strings -Wno-sign-conversion -Wshadow -Wconversion 
+CXX_WARNINGS = -Wall -Wcast-qual -Wextra -Wwrite-strings -Wno-sign-conversion -Wshadow -Wconversion
 
 # All warnings for gcc
 # Ignore these gcc warnings (-f*, Fortran only, Go only, ObjC only, Qhull issues)
@@ -217,7 +217,7 @@ bin-lib:
 # Deletes eg/*.x, *.x, and *.tmp
 clean:
 	rm -f src/*/*.o src/qhulltest/RoadTest.h.cpp build/*/*/*.o  build/*/*.o
-	rm -f src/*/*.obj build/*/*/*.obj build/*/*/*/*/*.obj build/*/*.obj 
+	rm -f src/*/*.obj build/*/*/*.obj build/*/*/*/*/*.obj build/*/*.obj
 	rm -f src/*/gmon.out bin/*.idb lib/*.idb build-cmake/*/*.idb
 	rm -f eg/*.x *.x *.tmp
 	rm -f build/*/*/*.a build/*/*/*.rsp build/moc/*.moc
@@ -234,7 +234,7 @@ clean:
 # Remove intermediate files and targets for all builds
 # DevStudio prevents build/qhull.ncb deletes
 cleanall: clean
-	rm -rf build/*.dir/ 
+	rm -rf build/*.dir/
 	-rm -rf build/qhull.ncb
 	rm -rf buildvc/
 	rm -rf buildqt/
@@ -245,18 +245,18 @@ cleanall: clean
 	rm -f bin/rbox core bin/core bin/user_eg bin/user_eg2 bin/user_eg3
 	rm -f bin/testqset bin/testqset_r bin/qhulltest
 	rm -f bin/libqhull* bin/qhull*.dll bin/*.exe bin/*.pdb lib/*.pdb
-	rm -f build/*.dll build/*.exe build/*.a build/*.exp 
+	rm -f build/*.dll build/*.exe build/*.a build/*.exp
 	rm -f build/*.lib build/*.pdb build/*.idb build/qhull-no-qt.sln
-	rm -f build-cmake/*/*.dll build-cmake/*/*.exe build-cmake/*/*.exp 
+	rm -f build-cmake/*/*.dll build-cmake/*/*.exe build-cmake/*/*.exp
 	rm -f build-cmake/*/*.lib build-cmake/*/*.pdb
 	rm -f eg/eg.* eg/t*.tmp
 	rm -f lib/libqhull* lib/qhull*.lib lib/qhull*.exp  lib/qhull*.dll
 	rm -f src/libqhull*/*.exe  src/libqhull*/libqhullstatic*.a src/libqhull*/core
-	rm -f src/libqhull*/qconvex src/libqhull*/qdelaunay src/libqhull*/qhalf 
+	rm -f src/libqhull*/qconvex src/libqhull*/qdelaunay src/libqhull*/qhalf
 	rm -f src/libqhull*/qvoronoi src/libqhull*/qhull src/libqhull*/rbox
 	rm -f src/libqhull*/user_eg src/libqhull*/user_eg2 src/libqhull*/user_eg3
 
-doc: 
+doc:
 	$(PRINTMAN) $(TXTFILES) $(DOCFILES)
 
 install: bin/qconvex bin/qdelaunay bin/qhalf bin/qhull bin/qvoronoi bin/rbox
@@ -347,7 +347,7 @@ qtest:
 	@echo == Run the qhull smoketest              ====
 	@echo ============================================
 	-bin/rbox D4 | bin/qhull Tv
-	
+
 # for Windows, do not depend on bin/qhull,etc.
 test: qtest
 	@echo ============================================
@@ -362,12 +362,12 @@ test: qtest
 	@echo ==============================
 	@echo ========= qconvex ============
 	@echo ==============================
-	-bin/rbox 10 | bin/qconvex Tv 
+	-bin/rbox 10 | bin/qconvex Tv
 	@echo
 	@echo ==============================
 	@echo ========= qdelaunay ==========
 	@echo ==============================
-	-bin/rbox 10 | bin/qdelaunay Tv 
+	-bin/rbox 10 | bin/qdelaunay Tv
 	@echo
 	@echo ==============================
 	@echo ========= qhalf ==============
@@ -398,7 +398,7 @@ test: qtest
 	-bin/user_eg3 rbox "10 D2"  "2 D2" qhull "s p" facets
 
 # make testall >eg/q_test.x 2>&1
-testall: test 
+testall: test
 	@echo ================================================
 	@echo == make testall, after running qtest and test ==
 	@echo ================================================
@@ -411,7 +411,7 @@ testall: test
 	-eg/q_benchmark test 1 1 1 1
 
 # make benchmark >eg/q_benchmark.x 2>&1
-benchmark: 
+benchmark:
 	@echo ============================================
 	@echo == make benchmark ==========================
 	@echo == eg/qtest.sh    ==========================
@@ -422,7 +422,7 @@ benchmark:
 	-eg/q_benchmark -10 -10 -10 -10
 
 # last command for 'make all'
-qconvex-prompt: bin/qconvex bin/rbox 
+qconvex-prompt: bin/qconvex bin/rbox
 	bin/qconvex -?
 	@echo
 	@echo ============================================
@@ -486,7 +486,7 @@ LIBQHULLR_HDRS = $(LR)/user_r.h $(LR)/libqhull_r.h $(LR)/qhull_ra.h $(LR)/geom_r
 
 LIBQHULLS_OBJS= $(LS)/global.o $(LS)/stat.o $(LS)/geom2.o $(LS)/poly2.o \
 	$(LS)/merge.o $(LS)/libqhull.o $(LS)/geom.o $(LS)/poly.o \
-	$(LS)/qset.o $(LS)/mem.o $(LS)/random.o 
+	$(LS)/qset.o $(LS)/mem.o $(LS)/random.o
 
 LIBQHULLS_USER_OBJS = $(LIBQHULLS_OBJS) $(LS)/usermem.o $(LS)/userprintf.o \
 	$(LS)/io.o $(LS)/user.o
@@ -495,7 +495,7 @@ LIBQHULLS_RBOX_OBJS = $(LIBQHULLS_USER_OBJS) $(LS)/rboxlib.o $(LS)/userprintf_rb
 
 LIBQHULLSR_OBJS = $(LSR)/global_r.o $(LSR)/stat_r.o $(LSR)/geom2_r.o $(LSR)/poly2_r.o \
 	$(LSR)/merge_r.o $(LSR)/libqhull_r.o $(LSR)/geom_r.o $(LSR)/poly_r.o \
-	$(LSR)/qset_r.o $(LSR)/mem_r.o $(LSR)/random_r.o
+	$(LSR)/qset_r.o $(LSR)/mem_r.o $(LSR)/random_r.o  $(LSR)/accessors.o
 
 LIBQHULLSR_USER_OBJS = $(LIBQHULLSR_OBJS) $(LSR)/usermem_r.o $(LSR)/userprintf_r.o \
 	$(LSR)/io_r.o $(LSR)/user_r.o
@@ -526,7 +526,7 @@ CFILES= src/qhull/unix.c $(L)/libqhull.c $(L)/geom.c $(L)/geom2.c $(L)/global.c 
 	src/qconvex/qconvex.c src/qdelaunay/qdelaun.c src/qhalf/qhalf.c src/qvoronoi/qvoronoi.c
 
 # CFILESR for reentrant Qhull, ordered alphabetically after libqhull.c
-CFILESR= src/qhull/unix_r.c $(LSR)/libqhull_r.c $(LSR)/geom_r.c $(LSR)/geom2_r.c $(LSR)/global_r.c $(LSR)/io_r.c \
+CFILESR= src/qhull/unix_r.c $(LSR)/libqhull_r.c $(LSR)/accessors.c $(LSR)/geom_r.c $(LSR)/geom2_r.c $(LSR)/global_r.c $(LSR)/io_r.c \
 	$(LSR)/mem_r.c $(LSR)/merge_r.c $(LSR)/poly_r.c $(LSR)/poly2_r.c $(LSR)/random_r.c $(LSR)/rboxlib_r.c \
 	$(LSR)/qset_r.c $(LSR)/stat_r.c $(LSR)/user_r.c $(LSR)/usermem_r.c $(LSR)/userprintf_r.c $(LSR)/userprintf_rbox_r.c \
 	src/qconvex/qconvex_r.c src/qdelaunay/qdelaun_r.c src/qhalf/qhalf_r.c src/qvoronoi/qvoronoi_r.c
@@ -540,7 +540,7 @@ CXXFILES=  $(LCPP)/Coordinates.cpp $(LCPP)/PointCoordinates.cpp \
 	$(LCPP)/QhullRidge.cpp $(LCPP)/QhullSet.cpp $(LCPP)/QhullStat.cpp $(LCPP)/QhullUser.cpp \
 	$(LCPP)/QhullVertex.cpp $(LCPP)/QhullVertexSet.cpp $(LCPP)/RboxPoints.cpp \
 	$(LCPP)/RoadError.cpp $(LCPP)/RoadLogEvent.cpp src/user_eg3/user_eg3_r.cpp
-	
+
 # TESTFILES for Qt test of C++ sources using libqhull_r (reentrant qhull), alphabetical after qhulltest.cpp
 TESTFILES= $(TCPP)/qhulltest.cpp $(TCPP)/Coordinates_test.cpp $(TCPP)/PointCoordinates_test.cpp \
 	$(TCPP)/Qhull_test.cpp $(TCPP)/QhullFacet_test.cpp $(TCPP)/QhullFacetList_test.cpp \
@@ -555,7 +555,7 @@ TXTFILES= Announce.txt REGISTER.txt COPYING.txt README.txt src/Changes.txt
 DOCFILES= html/rbox.txt html/qhull.txt
 FILES=	Makefile src/rbox/rbox.c src/user_eg/user_eg.c src/user_eg2/user_eg2.c \
 	src/testqset/testqset.c eg/q_test eg/q_egtest eg/q_eg
-MANFILES= html/qhull.man html/rbox.man 
+MANFILES= html/qhull.man html/rbox.man
 # Source code is documented by src/libqhull/*.htm
 HTMFILES= html/index.htm html/qh-quick.htm html/qh-impre.htm html/qh-eg.htm \
 	html/qh-optc.htm html/qh-opto.htm html/qh-optf.htm  html/qh-optp.htm html/qh-optq.htm \
@@ -563,7 +563,7 @@ HTMFILES= html/index.htm html/qh-quick.htm html/qh-impre.htm html/qh-eg.htm \
 	html/qh-geom.htm html/qh-globa.htm html/qh-io.htm html/qh-mem.htm html/qh-merge.htm \
 	html/qh-poly.htm html/qh-qhull.htm html/qh-set.htm html/qh-stat.htm html/qh-user.htm \
 	html/qconvex.htm html/qdelau_f.htm html/qdelaun.htm html/qhalf.htm html/qvoronoi.htm \
-	html/qvoron_f.htm html/rbox.htm 
+	html/qvoron_f.htm html/rbox.htm
 
 qhull/unix.o:            $(L)/libqhull.h $(L)/user.h $(L)/mem.h
 qconvex/qconvex.o:       $(L)/libqhull.h $(L)/user.h $(L)/mem.h
@@ -590,6 +590,7 @@ $(LS)/qset.o:     $(L)/qset.h $(L)/mem.h
 $(LS)/stat.o:     $(LIBQHULL_HDRS)
 $(LS)/user.o:     $(LIBQHULL_HDRS)
 $(LSR)/libqhull_r.o: $(LIBQHULLR_HDRS)
+$(LSR)/accessors.o:  $(LIBQHULLR_HDRS)
 $(LSR)/geom_r.o:     $(LIBQHULLR_HDRS)
 $(LSR)/geom2_r.o:    $(LIBQHULLR_HDRS)
 $(LSR)/global_r.o:   $(LIBQHULLR_HDRS)
@@ -604,7 +605,7 @@ $(LSR)/qset_r.o:     $(LR)/qset_r.h $(LR)/mem_r.h
 $(LSR)/stat_r.o:     $(LIBQHULLR_HDRS)
 $(LSR)/user_r.o:     $(LIBQHULLR_HDRS)
 $(LCPP)/RoadError.o:        $(LCPP)/RoadError.h $(LCPP)/RoadLogEvent.h
-$(LCPP)/RoadLogEvent.o:     $(LCPP)/RoadError.h                  
+$(LCPP)/RoadLogEvent.o:     $(LCPP)/RoadError.h
 $(LCPP)/Coordinates.o:      $(LIBQHULLCPP_HDRS) $(LIBQHULLR_HDRS)
 $(LCPP)/PointCoordinates.o: $(LIBQHULLCPP_HDRS) $(LIBQHULLR_HDRS)
 $(LCPP)/Qhull.o:            $(LIBQHULLCPP_HDRS) $(LIBQHULLR_HDRS)
@@ -690,6 +691,8 @@ $(LS)/userprintf_rbox.o:  $(L)/userprintf_rbox.c
 
 $(LSR)/libqhull_r.o: $(LR)/libqhull_r.c
 	$(CC) -c $(CC_OPTS1) -o $@ $<
+$(LSR)/accessors.o:     $(LR)/accessors.c
+	$(CC) -c $(CC_OPTS1) -o $@ $<
 $(LSR)/geom_r.o:     $(LR)/geom_r.c
 	$(CC) -c $(CC_OPTS1) -o $@ $<
 $(LSR)/geom2_r.o:    $(LR)/geom2_r.c
@@ -735,7 +738,7 @@ lib/libqhullstatic_r.a: $(LIBQHULLSR_RBOX_OBJS)
 	ar -rs $@ $^
 	#ranlib $@
 
-# Do not create libqhullcpp as a shared library.  Qhull C++ classes may change layout and size. 
+# Do not create libqhullcpp as a shared library.  Qhull C++ classes may change layout and size.
 lib/libqhullcpp.a: $(LIBQHULLCPP_OBJS)
 	ar -rs $@ $^
 	#ranlib $@

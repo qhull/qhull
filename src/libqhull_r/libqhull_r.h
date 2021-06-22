@@ -830,9 +830,9 @@ struct qhT {
   realT last_newhigh;
   realT lastcpu;          /* for qh_buildtracing */
   int   lastfacets;       /*   last qh.num_facets */
-  int   lastmerges;       /*   last zzval_(Ztotmerge) */ 
-  int   lastplanes;       /*   last zzval_(Zsetplane) */ 
-  int   lastdist;         /*   last zzval_(Zdistplane) */ 
+  int   lastmerges;       /*   last zzval_(Ztotmerge) */
+  int   lastplanes;       /*   last zzval_(Zsetplane) */
+  int   lastdist;         /*   last zzval_(Zdistplane) */
   unsigned int lastreport; /*  last qh.facet_id */
   int mergereport;        /* for qh_tracemerging */
   setT *old_tempstack;    /* for saving qh->qhmem.tempstack in save_qhull */
@@ -1217,6 +1217,17 @@ void    qh_errexit_rbox(qhT *qh, int exitcode);
 
 void    qh_collectstatistics(qhT *qh);
 void    qh_printallstatistics(qhT *qh, FILE *fp, const char *string);
+
+/************************** accessors.c prototypes ******************************/
+qhT *qh_alloc_qh();
+void qh_free_qh(qhT *qh);
+facetT *qh_get_facet_list(qhT *qh);
+int qh_get_num_points(qhT *qh);
+int qh_get_num_facets(qhT *qh);
+int qh_get_num_vertices(qhT *qh);
+pointT *qh_get_first_point(qhT *qh);
+int *qh_get_hull_dim(qhT *qh);
+vertexT *qh_get_vertex_list(qhT *qh);
 
 #ifdef __cplusplus
 } /* extern "C" */
