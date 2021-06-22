@@ -483,9 +483,10 @@ if(NOT ${BUILD_SHARED_LIBS})
 endif()
 
 # ---------------------------------------
-# Define options for linking to shared libraries
+# Define options for linking to shared libaries
+# Use dllimport attribute for Microsoft Windows platform
 # ---------------------------------------
-if(MSVC) 
+if(WIN32)
     set(qconvex_DEFINES  qh_dllimport)
     set(qdelaunay_DEFINES qh_dllimport)
     set(qhalf_DEFINES    qh_dllimport)
