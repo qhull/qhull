@@ -6,7 +6,6 @@ qhT *qh_alloc_qh() {
 }
 
 void qh_free_qh(qhT *qh) {
-  if (qh) qh_freeqhull(qh, qh_ALL);
   free(qh);
 }
 
