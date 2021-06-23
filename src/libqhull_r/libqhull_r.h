@@ -1221,13 +1221,19 @@ void    qh_printallstatistics(qhT *qh, FILE *fp, const char *string);
 /************************** accessors.c prototypes ******************************/
 qhT *qh_alloc_qh();
 void qh_free_qh(qhT *qh);
-facetT *qh_get_facet_list(qhT *qh);
-int qh_get_num_points(qhT *qh);
-int qh_get_num_facets(qhT *qh);
-int qh_get_num_vertices(qhT *qh);
-pointT *qh_get_first_point(qhT *qh);
-int *qh_get_hull_dim(qhT *qh);
-vertexT *qh_get_vertex_list(qhT *qh);
+facetT *qh_get_facet_list(const qhT *qh);
+int qh_get_num_points(const qhT *qh);
+int qh_get_num_facets(const qhT *qh);
+int qh_get_num_vertices(const qhT *qh);
+pointT *qh_get_first_point(const qhT *qh);
+int qh_get_hull_dim(const qhT *qh);
+vertexT *qh_get_vertex_list(const qhT *qh);
+realT qh_get_totarea(const qhT *qh);
+realT qh_get_totvol(const qhT *qh);
+boolT qh_get_hasAreaVolume(const qhT *qh);
+boolT qh_get_hasTriangulation(const qhT *qh);
+void qh_set_hasAreaVolume(qhT *qh, boolT val);
+void qh_set_hasTriangulation(qhT *qh, boolT val);
 
 #ifdef __cplusplus
 } /* extern "C" */
