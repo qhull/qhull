@@ -1,10 +1,16 @@
 #include <stdlib.h>
 #include "libqhull_r.h"
 
-qhT *qh_alloc_qh() {
-  return (qhT*) malloc(sizeof(qhT));
+qhT *qh_alloc_qh(FILE *errfile) {
+  qhT *qh = (qhT*) malloc(sizeof(qhT));
+  QHULL_LIB_CHECK
+  qh_zero(qh, errfile);
+  return qh;
 }
 
+/* Free the qhT pointer.
+
+   Note: qh_freeqhull and qh_memfreeshort should be called before calling qh_free_qh. */
 void qh_free_qh(qhT *qh) {
   free(qh);
 }

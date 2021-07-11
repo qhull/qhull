@@ -1219,7 +1219,7 @@ void    qh_collectstatistics(qhT *qh);
 void    qh_printallstatistics(qhT *qh, FILE *fp, const char *string);
 
 /************************** accessors.c prototypes ******************************/
-qhT     *qh_alloc_qh();
+qhT     *qh_alloc_qh(FILE *errfile);
 void     qh_free_qh(qhT *qh);
 facetT  *qh_get_facet_list(const qhT *qh);
 pointT  *qh_get_first_point(const qhT *qh);
