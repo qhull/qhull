@@ -495,7 +495,7 @@ LIBQHULLS_RBOX_OBJS = $(LIBQHULLS_USER_OBJS) $(LS)/rboxlib.o $(LS)/userprintf_rb
 
 LIBQHULLSR_OBJS = $(LSR)/global_r.o $(LSR)/stat_r.o $(LSR)/geom2_r.o $(LSR)/poly2_r.o \
 	$(LSR)/merge_r.o $(LSR)/libqhull_r.o $(LSR)/geom_r.o $(LSR)/poly_r.o \
-	$(LSR)/qset_r.o $(LSR)/mem_r.o $(LSR)/random_r.o  $(LSR)/accessors.o
+	$(LSR)/qset_r.o $(LSR)/mem_r.o $(LSR)/random_r.o  $(LSR)/accessors_r.o
 
 LIBQHULLSR_USER_OBJS = $(LIBQHULLSR_OBJS) $(LSR)/usermem_r.o $(LSR)/userprintf_r.o \
 	$(LSR)/io_r.o $(LSR)/user_r.o
@@ -526,7 +526,7 @@ CFILES= src/qhull/unix.c $(L)/libqhull.c $(L)/geom.c $(L)/geom2.c $(L)/global.c 
 	src/qconvex/qconvex.c src/qdelaunay/qdelaun.c src/qhalf/qhalf.c src/qvoronoi/qvoronoi.c
 
 # CFILESR for reentrant Qhull, ordered alphabetically after libqhull.c
-CFILESR= src/qhull/unix_r.c $(LSR)/libqhull_r.c $(LSR)/accessors.c $(LSR)/geom_r.c $(LSR)/geom2_r.c $(LSR)/global_r.c $(LSR)/io_r.c \
+CFILESR= src/qhull/unix_r.c $(LSR)/libqhull_r.c $(LSR)/accessors_r.c $(LSR)/geom_r.c $(LSR)/geom2_r.c $(LSR)/global_r.c $(LSR)/io_r.c \
 	$(LSR)/mem_r.c $(LSR)/merge_r.c $(LSR)/poly_r.c $(LSR)/poly2_r.c $(LSR)/random_r.c $(LSR)/rboxlib_r.c \
 	$(LSR)/qset_r.c $(LSR)/stat_r.c $(LSR)/user_r.c $(LSR)/usermem_r.c $(LSR)/userprintf_r.c $(LSR)/userprintf_rbox_r.c \
 	src/qconvex/qconvex_r.c src/qdelaunay/qdelaun_r.c src/qhalf/qhalf_r.c src/qvoronoi/qvoronoi_r.c
@@ -590,7 +590,7 @@ $(LS)/qset.o:     $(L)/qset.h $(L)/mem.h
 $(LS)/stat.o:     $(LIBQHULL_HDRS)
 $(LS)/user.o:     $(LIBQHULL_HDRS)
 $(LSR)/libqhull_r.o: $(LIBQHULLR_HDRS)
-$(LSR)/accessors.o:  $(LIBQHULLR_HDRS)
+$(LSR)/accessors_r.o:  $(LIBQHULLR_HDRS)
 $(LSR)/geom_r.o:     $(LIBQHULLR_HDRS)
 $(LSR)/geom2_r.o:    $(LIBQHULLR_HDRS)
 $(LSR)/global_r.o:   $(LIBQHULLR_HDRS)
@@ -691,7 +691,7 @@ $(LS)/userprintf_rbox.o:  $(L)/userprintf_rbox.c
 
 $(LSR)/libqhull_r.o: $(LR)/libqhull_r.c
 	$(CC) -c $(CC_OPTS1) -o $@ $<
-$(LSR)/accessors.o:     $(LR)/accessors.c
+$(LSR)/accessors_r.o:     $(LR)/accessors_r.c
 	$(CC) -c $(CC_OPTS1) -o $@ $<
 $(LSR)/geom_r.o:     $(LR)/geom_r.c
 	$(CC) -c $(CC_OPTS1) -o $@ $<
