@@ -4,7 +4,7 @@
 qhT *qh_alloc_qh(FILE *errfile) {
   qhT *qh = (qhT*) malloc(sizeof(qhT));
   QHULL_LIB_CHECK
-  qh_zero(qh, errfile);
+  if (qh) qh_zero(qh, errfile);
   return qh;
 }
 
