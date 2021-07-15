@@ -141,9 +141,9 @@ struct setT {
      this includes intervening blocks, e.g. FOREACH...{ if () FOREACH...} )
 */
 #define FOREACHsetelement_(type, set, variable) \
-        if (((variable= NULL), set)) for (\
+        if (((variable= NULL) != 0, set)) for (\
           variable##p= (type **)&((set)->e[0].p); \
-          (variable= *variable##p++);)
+          (variable= *variable##p++) != 0;)
 
 /*-<a                                      href="qh-set_r.htm#TOC"
   >----------------------------------------</a><a name="FOREACHsetelement_i_">-</a>
@@ -174,7 +174,7 @@ struct setT {
      this includes intervening blocks, e.g. FOREACH...{ if () FOREACH...} )
 */
 #define FOREACHsetelement_i_(qh, type, set, variable) \
-        if (((variable= NULL), set)) for (\
+        if (((variable= NULL) != 0, set)) for (\
           variable##_i= 0, variable= (type *)((set)->e[0].p), \
                    variable##_n= qh_setsize(qh, set);\
           variable##_i < variable##_n;\
@@ -207,7 +207,7 @@ struct setT {
      WARNING: needs braces if nested inside another FOREACH
 */
 #define FOREACHsetelementreverse_(qh, type, set, variable) \
-        if (((variable= NULL), set)) for (\
+        if (((variable= NULL) != 0, set)) for (\
            variable##temp= qh_setsize(qh, set)-1, variable= qh_setlast(qh, set);\
            variable; variable= \
            ((--variable##temp >= 0) ? SETelemt_(set, variable##temp, type) : NULL))
@@ -238,9 +238,9 @@ struct setT {
      WARNING: needs braces if nested inside another FOREACH
 */
 #define FOREACHsetelementreverse12_(type, set, variable) \
-        if (((variable= NULL), set)) for (\
+        if (((variable= NULL) != 0, set)) for (\
           variable##p= (type **)&((set)->e[1].p); \
-          (variable= *variable##p); \
+          (variable= *variable##p) != 0; \
           variable##p == ((type **)&((set)->e[0].p))?variable##p += 2: \
               (variable##p == ((type **)&((set)->e[1].p))?variable##p--:variable##p++))
 
