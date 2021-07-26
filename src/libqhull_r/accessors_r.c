@@ -2,7 +2,7 @@
 #include "libqhull_r.h"
 
 qhT *qh_alloc_qh(FILE *errfile) {
-  qhT *qh = (qhT*) malloc(sizeof(qhT));
+  qhT *qh = (qhT*) qh_malloc(sizeof(qhT));
   QHULL_LIB_CHECK
   if (qh) qh_zero(qh, errfile);
   return qh;
@@ -12,7 +12,7 @@ qhT *qh_alloc_qh(FILE *errfile) {
 
    Note: qh_freeqhull and qh_memfreeshort should be called before calling qh_free_qh. */
 void qh_free_qh(qhT *qh) {
-  free(qh);
+  qh_free(qh);
 }
 
 facetT *qh_get_facet_list(const qhT *qh) {
