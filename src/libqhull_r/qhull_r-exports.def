@@ -183,6 +183,7 @@ qh_maxouter
 qh_maxsimplex
 qh_maydropneighbor
 qh_memalloc
+qh_memcheck
 qh_memfree
 qh_memfreeshort
 qh_meminit
@@ -351,6 +352,7 @@ qh_setdelnth
 qh_setdelnthsorted
 qh_setdelsorted
 qh_setduplicate
+qh_setendpointer
 qh_setequal
 qh_setequal_except
 qh_setequal_skip
