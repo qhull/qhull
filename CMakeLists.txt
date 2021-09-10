@@ -359,6 +359,22 @@ set(
 # Define shared library for reentrant qhull (installed)
 # ---------------------------------------
 
+if (NOT DEFINED CMAKE_INSTALL_NAME_DIR)
+    set(CMAKE_INSTALL_NAME_DIR "${LIB_INSTALL_DIR}")
+endif ()
+
+if (NOT DEFINED CMAKE_INSTALL_RPATH)
+    set(CMAKE_INSTALL_RPATH "${LIB_INSTALL_DIR}")
+endif ()
+
+if (NOT DEFINED CMAKE_INSTALL_RPATH_USE_LINK_PATH)
+    set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
+endif ()
+
+if (NOT DEFINED CMAKE_BUILD_WITH_INSTALL_RPATH)
+    set(CMAKE_BUILD_WITH_INSTALL_RPATH FALSE)
+endif ()
+
 add_library(${qhull_SHAREDR} SHARED 
         ${libqhullr_SOURCES}
         src/libqhull_r/qhull_r-exports.def)
@@ -369,15 +385,6 @@ set_target_properties(${qhull_SHAREDR} PROPERTIES
 
 if(UNIX)
     target_link_libraries(${qhull_SHAREDR} m)
-    if(APPLE)
-        set_target_properties(${qhull_SHAREDR} PROPERTIES 
-            INSTALL_NAME_DIR "${LIB_INSTALL_DIR}")
-    else()
-        set_target_properties(${qhull_SHAREDR} PROPERTIES 
-            INSTALL_RPATH "${LIB_INSTALL_DIR}"
-            INSTALL_RPATH_USE_LINK_PATH TRUE
-            BUILD_WITH_INSTALL_RPATH FALSE)
-    endif()
 endif(UNIX)
 
 # ---------------------------------------
@@ -396,15 +403,6 @@ set_target_properties(${qhull_SHARED} PROPERTIES
 
 if(UNIX)
     target_link_libraries(${qhull_SHARED} m)
-    if(APPLE)
-        set_target_properties(${qhull_SHARED} PROPERTIES 
-            INSTALL_NAME_DIR "${LIB_INSTALL_DIR}")
-    else()
-        set_target_properties(${qhull_SHARED} PROPERTIES 
-            INSTALL_RPATH "${LIB_INSTALL_DIR}"
-            INSTALL_RPATH_USE_LINK_PATH TRUE
-            BUILD_WITH_INSTALL_RPATH FALSE)
-    endif()
 endif(UNIX)
 
 # ---------------------------------------
@@ -424,15 +422,6 @@ set_target_properties(${qhull_SHAREDP} PROPERTIES
 
 if(UNIX)
     target_link_libraries(${qhull_SHAREDP} m)
-    if(APPLE)
-        set_target_properties(${qhull_SHAREDP} PROPERTIES 
-            INSTALL_NAME_DIR "${LIB_INSTALL_DIR}")
-    else()
-        set_target_properties(${qhull_SHAREDP} PROPERTIES 
-            INSTALL_RPATH "${LIB_INSTALL_DIR}"
-            INSTALL_RPATH_USE_LINK_PATH TRUE
-            BUILD_WITH_INSTALL_RPATH FALSE)
-    endif()
 endif(UNIX)
 
 # ---------------------------------------
