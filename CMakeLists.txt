@@ -74,11 +74,11 @@ cmake_minimum_required(VERSION 3.0)
 #   qhull-zip.sh (twice), qhull-wiki.md, qhull-news.htm, File_id.diz, index.htm
 #   qhull-warn.pri (VERSION), qhull-exports.def (VERSION), qhull_p-exports.def, qhull_r-exports.def
 set(qhull_VERSION2 "2020.2  2020/08/31")  # not used, See global.c, global_r.c, rbox.c, rbox_r.c
-set(qhull_VERSION  "8.0.2")  # Advance every release
+set(qhull_VERSION  "8.1-alpha1")  # Advance every release
 
 # SOVERSION -- qhull 2003 = empty, 2009 = 5, 2010-2012 = 6, 2015-2019 = 7, 2020 = 8.0
 # Increase SOVERSION if ABI breaks (abi-compliance-checker)
-set(qhull_SOVERSION 8.0) # For SOVERSION 
+set(qhull_SOVERSION 8.1) # For SOVERSION 
 
 # If MSYS, set CMAKE_INSTALL_PREFIX to /usr/local; if WINDOWS, '..'
 if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
