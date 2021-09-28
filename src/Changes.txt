@@ -47,14 +47,24 @@ Qhull 2.0 (1994-1995)
 ==================
 
 ------------
-Qhull GitHub
+Qhull 8.1-alpha1 github 2021/09/27
+- tag Qhull #head for github additions to Qhull [S.J. Johnson #97]
+- testing postponed to the next release of Qhull
+- global_r.c, global.c: update qh_version2 and new date for qh_version
+- CMakeLists.txt: update qhull_VERSION and qhull_SOVERSION
+-   Change MSVC to WIN32 for dllimport attribute [B. Nath #80]
+-   Add BUNDLE DESTINATION to install(QhullTargets) for iOS [#90] 
+-   Define CMAKE_INSTALL_NAME_DIR enabling default set_target_properties [B. Boeckel #94]
+-   Define CMAKE_INSTALL_RPATH, CMAKE_INSTALL_RPATH_USE_LINK_PATH. CMAKE_BUILD_WITH_INSTALL_RPATH [#94]
 
-- build/README-build.txt: Add deprecated targets
-- html/qh-code.htm: Add suggestions on vertex merge and test for missing Qt5 dlls
-- html/qh-code.htm: Replaced '../src/' links with www.qhull.org/src
-- eg/qhull-zip.sh: Add notes on release process
-  For Unix build, add qhulltest/*.proj and README-build.txt
-- index.htm: Add archive link for Gold's voronoi.com
+Additions to 
+- accessors_r.h/.c -- Accessor functions for qhull integration [S. Johnson, B. Legat #89]
+- qhull_r-exports.def -- Add some missing symbols: qh_memcheck and qh_setendpointer [F. Facioni #93]
+
+Documentation changes
+- user_r.c,user_eg2_r.c: Replace -REALmin with -REALmax in two error messages [S. Hutter #87]
+- Fixed various spelling errors in code comments and Changes.txt [luzpaz #84]
+- user_r.h: Replace qh_REALmax,qh_REALmin,qh_REALepsilon with REALmax,REALmin,REALepsilon in header comment
 
 ------------
 Qhull 2020.2 2020/08/31 (8.0.2)
