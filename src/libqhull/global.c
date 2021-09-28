@@ -47,8 +47,8 @@ qhT qh_qh;              /* all global variables.
     recompile user_eg.c, rbox.c, libqhull.c, qconvex.c, qdelaun.c qvoronoi.c, qhalf.c, testqset.c
 */
 
-const char qh_version[]= "2020.2 2020/08/31";
-const char qh_version2[]= "qhull 8.0.2 (2020.2 2020/08/31)";
+const char qh_version[]= "2020.2 2021/09/27";
+const char qh_version2[]= "qhull 8.1-alpha1 (2020.2 2021/09/27)";
 
 /*-<a                             href="qh-globa.htm#TOC"
   >-------------------------------</a><a name="appendprint">-</a>
