@@ -39,8 +39,8 @@
     recompile user_eg_r.c, rbox_r.c, libqhull_r.c, qconvex_r.c, qdelaun_r.c qvoronoi_r.c, qhalf_r.c, testqset_r.c
 */
 
-const char qh_version[]= "2020.2.r 2020/08/31";
-const char qh_version2[]= "qhull_r 8.0.2 (2020.2.r 2020/08/31)";
+const char qh_version[]= "2020.2.r 2021/09/27";
+const char qh_version2[]= "qhull_r 8.1-alpha1 (2020.2.r 2021/09/27)";
 
 /*-<a                             href="qh-globa_r.htm#TOC"
   >-------------------------------</a><a name="appendprint">-</a>
