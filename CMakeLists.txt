@@ -246,6 +246,7 @@ set(
         src/libqhull_r/userprintf_r.c
         src/libqhull_r/io_r.c
         src/libqhull_r/user_r.c
+        src/libqhull_r/accessors_r.c
         src/libqhull_r/rboxlib_r.c
         src/libqhull_r/userprintf_rbox_r.c
         ${libqhullr_HEADERS}
