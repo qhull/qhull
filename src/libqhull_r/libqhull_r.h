@@ -1219,21 +1219,51 @@ void    qh_collectstatistics(qhT *qh);
 void    qh_printallstatistics(qhT *qh, FILE *fp, const char *string);
 
 /************************** accessors.c prototypes ******************************/
-qhT     *qh_alloc_qh(FILE *errfile);
-void     qh_free_qh(qhT *qh);
-facetT  *qh_get_facet_list(const qhT *qh);
-pointT  *qh_get_first_point(const qhT *qh);
-boolT    qh_get_hasAreaVolume(const qhT *qh);
-boolT    qh_get_hasTriangulation(const qhT *qh);
-int      qh_get_hull_dim(const qhT *qh);
-int      qh_get_num_facets(const qhT *qh);
-int      qh_get_num_points(const qhT *qh);
-int      qh_get_num_vertices(const qhT *qh);
-realT    qh_get_totarea(const qhT *qh);
-realT    qh_get_totvol(const qhT *qh);
-vertexT *qh_get_vertex_list(const qhT *qh);
-void     qh_set_hasAreaVolume(qhT *qh, boolT val);
-void     qh_set_hasTriangulation(qhT *qh, boolT val);
+
+#define QH_GETTER(TYPE, FIELD) TYPE qh_get_##FIELD(const qhT *qh)
+#define QH_SETTER(TYPE, FIELD) void qh_set_##FIELD(qhT *qh, TYPE _val_)
+QH_GETTER(facetT*, facet_list);
+QH_GETTER(pointT*, first_point);
+QH_GETTER(int, hull_dim);
+QH_GETTER(int, num_facets);
+QH_GETTER(int, num_points);
+QH_GETTER(int, num_vertices);
+QH_GETTER(vertexT*, vertex_list);
+QH_GETTER(realT, totarea);
+QH_GETTER(realT, totvol);
+QH_GETTER(boolT, hasAreaVolume);
+QH_SETTER(boolT, hasAreaVolume);
+QH_GETTER(boolT, hasTriangulation);
+QH_SETTER(boolT, hasTriangulation);
+QH_GETTER(int, num_good);
+QH_GETTER(setT*, del_vertices);
+QH_GETTER(int, input_dim);
+QH_GETTER(boolT, DELAUNAY);
+QH_GETTER(boolT, SCALElast);
+QH_GETTER(boolT, KEEPcoplanar);
+QH_GETTER(boolT, MERGEexact);
+QH_GETTER(boolT, NOerrexit);
+QH_GETTER(boolT, PROJECTdelaunay);
+QH_GETTER(boolT, ATinfinity);
+QH_GETTER(boolT, UPPERdelaunay);
+QH_GETTER(int, normal_size);
+QH_GETTER(int, num_visible);
+QH_GETTER(int, center_size);
+QH_GETTER(const char *, qhull_command);
+QH_GETTER(facetT*, facet_tail);
+QH_GETTER(vertexT*, vertex_tail);
+QH_GETTER(unsigned int, facet_id);
+QH_GETTER(unsigned int, visit_id);
+QH_GETTER(unsigned int, vertex_visit);
+QH_GETTER(pointT*, input_points);
+QH_GETTER(coordT*, feasible_point);
+QH_GETTER(realT, last_low);
+QH_GETTER(realT, last_high);
+QH_GETTER(realT, last_newhigh);
+QH_GETTER(realT, max_outside);
+QH_GETTER(realT, MINoutside);
+QH_GETTER(realT, DISTround);
+QH_GETTER(setT*, other_points);
 
 #ifdef __cplusplus
 } /* extern "C" */

@@ -15,54 +15,55 @@ void qh_free_qh(qhT *qh) {
   qh_free(qh);
 }
 
-facetT *qh_get_facet_list(const qhT *qh) {
-  return qh->facet_list;
-}
+#define GETTER(TYPE, FIELD) TYPE qh_get_##FIELD(const qhT *qh) { return qh->FIELD; }
+#define SETTER(TYPE, FIELD) void qh_set_##FIELD(qhT *qh, TYPE _val_) { qh->FIELD = _val_; }
 
-pointT *qh_get_first_point(const qhT *qh) {
-  return qh->first_point;
-}
+/* required to emulate the various FOR* macros */
+GETTER(facetT*, facet_list)
+GETTER(pointT*, first_point)
+GETTER(int, hull_dim)
+GETTER(int, num_facets)
+GETTER(int, num_points)
+GETTER(int, num_vertices)
+GETTER(vertexT*, vertex_list)
 
-boolT qh_get_hasAreaVolume(const qhT *qh) {
-  return qh->hasAreaVolume;
-}
+/* suggested by @blegat based on Qhull.jl wrappers */
+GETTER(realT, totarea)
+GETTER(realT, totvol)
+GETTER(boolT, hasAreaVolume)
+SETTER(boolT, hasAreaVolume)
+GETTER(boolT, hasTriangulation)
+SETTER(boolT, hasTriangulation)
 
-boolT qh_get_hasTriangulation(const qhT *qh) {
-  return qh->hasTriangulation;
-}
+/* suggested by @JuhaHeiskala based on his DirectQHull.jl wrapper */
+GETTER(int, num_good)
+GETTER(setT*, del_vertices)
+GETTER(int, input_dim)
 
-int qh_get_hull_dim(const qhT *qh) {
-  return qh->hull_dim;
-}
-
-int qh_get_num_facets(const qhT *qh) {
-  return qh->num_facets;
-}
-
-int qh_get_num_points(const qhT *qh) {
-  return qh->num_points;
-}
-
-int qh_get_num_vertices(const qhT *qh) {
-  return qh->num_vertices;
-}
-
-realT qh_get_totarea(const qhT *qh) {
-  return qh->totarea;
-}
-
-realT qh_get_totvol(const qhT *qh) {
-  return qh->totvol;
-}
-
-vertexT *qh_get_vertex_list(const qhT *qh) {
-  return qh->vertex_list;
-}
-
-void qh_set_hasAreaVolume(qhT *qh, boolT val) {
-  qh->hasAreaVolume = val;
-}
-
-void qh_set_hasTriangulation(qhT *qh, boolT val) {
-  qh->hasTriangulation = val;
-}
+/* other accessors, mimicking those provided by the scipy API: */
+GETTER(boolT, DELAUNAY)
+GETTER(boolT, SCALElast)
+GETTER(boolT, KEEPcoplanar)
+GETTER(boolT, MERGEexact)
+GETTER(boolT, NOerrexit)
+GETTER(boolT, PROJECTdelaunay)
+GETTER(boolT, ATinfinity)
+GETTER(boolT, UPPERdelaunay)
+GETTER(int, normal_size)
+GETTER(int, num_visible)
+GETTER(int, center_size)
+GETTER(const char *, qhull_command)
+GETTER(facetT*, facet_tail)
+GETTER(vertexT*, vertex_tail)
+GETTER(unsigned int, facet_id)
+GETTER(unsigned int, visit_id)
+GETTER(unsigned int, vertex_visit)
+GETTER(pointT*, input_points)
+GETTER(coordT*, feasible_point)
+GETTER(realT, last_low)
+GETTER(realT, last_high)
+GETTER(realT, last_newhigh)
+GETTER(realT, max_outside)
+GETTER(realT, MINoutside)
+GETTER(realT, DISTround)
+GETTER(setT*, other_points)
