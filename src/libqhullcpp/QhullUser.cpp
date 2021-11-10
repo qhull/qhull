@@ -24,6 +24,9 @@ using std::ws;
 
 #ifdef _MSC_VER  // Microsoft Visual C++ -- warning level 4
 #pragma warning( disable : 4996)  // function was declared deprecated(strcpy, localtime, etc.)
+#if _MSC_VER <= 1600
+#define snprintf sprintf_s
+#endif
 #endif
 
 namespace orgQhull{
