@@ -134,6 +134,14 @@ if(DOC_INSTALL_DIR)
 else()
     set(DOC_INSTALL_DIR share/doc/qhull)
 endif()
+if(CMAKE_INSTALL_DIR)
+else()
+    set(CMAKE_INSTALL_DIR lib/cmake/QHull)
+endif()
+if(PKGCONFIG_INSTALL_DIR)
+else()
+    set(PKGCONFIG_INSTALL_DIR lib/pkgconfig)
+endif()
 message(STATUS)
 message(STATUS "========== qhull Build Information ==========")
 message(STATUS "Build Version:                             ${qhull_VERSION}")
@@ -143,6 +151,8 @@ message(STATUS "Library Directory (LIB_INSTALL_DIR):       ${LIB_INSTALL_DIR}")
 message(STATUS "Include Directory (INCLUDE_INSTALL_DIR):   ${INCLUDE_INSTALL_DIR}")
 message(STATUS "Documentation Directory (DOC_INSTALL_DIR): ${DOC_INSTALL_DIR}")
 message(STATUS "Man Pages Directory (MAN_INSTALL_DIR):     ${MAN_INSTALL_DIR}")
+message(STATUS "CMake Directory (CMAKE_INSTALL_DIR):       ${CMAKE_INSTALL_DIR}")
+message(STATUS "PkgConfig Directory (PKGCONFIG_INSTALL_DIR):${PKGCONFIG_INSTALL_DIR}")
 message(STATUS "Build Type (CMAKE_BUILD_TYPE):             ${CMAKE_BUILD_TYPE}")
 message(STATUS "Build static libraries:                    ${BUILD_STATIC_LIBS}")
 message(STATUS "Build shared library:                      ${BUILD_SHARED_LIBS}")
@@ -689,7 +699,7 @@ install(TARGETS ${qhull_TARGETS_INSTALL} EXPORT QhullTargets
         RUNTIME DESTINATION ${BIN_INSTALL_DIR}
         LIBRARY DESTINATION ${LIB_INSTALL_DIR}
         ARCHIVE DESTINATION ${LIB_INSTALL_DIR}
-        INCLUDES DESTINATION include)
+        INCLUDES DESTINATION ${INCLUDE_INSTALL_DIR})
 
 include(CMakePackageConfigHelpers)
 
@@ -709,7 +719,7 @@ configure_file(${PROJECT_SOURCE_DIR}/build/config.cmake.in
   @ONLY
 )
 
-set(ConfigPackageLocation lib/cmake/Qhull)
+set(ConfigPackageLocation ${CMAKE_INSTALL_DIR})
 install(EXPORT QhullTargets
   FILE
     QhullTargets.cmake
@@ -728,7 +738,7 @@ install(
     Devel
 )
 
-set(PkgConfigLocation lib/pkgconfig)
+set(PkgConfigLocation ${PKGCONFIG_INSTALL_DIR})
 foreach(pkgconfig IN ITEMS "${qhull_SHAREDR};Qhull reentrant shared library"
                            "${qhull_STATIC};Qhull static library"
                            "${qhull_STATICR};Qhull reentrant static library"
