@@ -109,7 +109,7 @@ ABS_PCDIR  = $(DESTDIR)$(PREFIX)/$(PCDIR)
 # Define qhull_VERSION in CMakeLists.txt, Makefile, and qhull-warn.pri
 # Truncated version in qhull-exports.def, qhull_p-exports.def, qhull_r-exports.def
 #  libqhull_r.so -- reentrant Qhull with qh_qhT passed as an argument.
-qhull_VERSION=$(shell grep 'set.qhull_VERSION ' CMakeLists.txt | grep -o '[0-9.]\+' || echo 0unknown)
+qhull_VERSION=$(shell grep 'set.qhull_VERSION ' CMakeLists.txt | sed -n 's/.*VERSION \+\"\(.*\)\".*/\1/p' || echo 0unknown)
 qhull_SOVERSION=$(shell grep 'set.qhull_SOVERSION ' CMakeLists.txt | grep -o '[0-9.]\+' || echo 0unknown)
 SO  = so.$(qhull_VERSION)
 SONAME_EXT = so.$(qhull_SOVERSION)
