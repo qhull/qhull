@@ -26,7 +26,7 @@
 
 namespace orgQhull {
 
-#//!\name Defined here
+//#!\name Defined here
     //! QhullLinkedList<T> -- A linked list modeled on QLinkedList.
     //!   T is an opaque type with T(B *b), b=t.getBaseT(), t=t.next(), and t=t.prev().  The end node is a sentinel.
     //!   QhullQh/qhT owns the contents.
@@ -41,7 +41,7 @@ namespace orgQhull {
 template <typename T>
 class QhullLinkedList
 {
-#//!\name Defined here
+//#!\name Defined here
 public:
     class const_iterator;
     class iterator;
@@ -55,27 +55,29 @@ public:
     typedef value_type *pointer;
     typedef value_type &reference;
 
-#//!\name Fields
+//#!\name Fields
 private:
     T                   begin_node;
     T                   end_node;     //! Sentinel node at end of list
 
-#//!\name Constructors
+//#!\name Constructors
 public:
-                        QhullLinkedList<T>(T b, T e) : begin_node(b), end_node(e) {}
+                        template<typename T>
+                        QhullLinkedList(T b, T e) : begin_node(b), end_node(e) {}
                         //! Copy constructor copies begin_node and end_node, but not the list elements.  Needed for return by value and parameter passing.
-                        QhullLinkedList<T>(const QhullLinkedList<T> &other) : begin_node(other.begin_node), end_node(other.end_node) {}
+                        template<typename T>
+                        QhullLinkedList(const QhullLinkedList<T> &other) : begin_node(other.begin_node), end_node(other.end_node) {}
                         //! Copy assignment copies begin_node and end_node, but not the list elements.
-                        QhullLinkedList<T> & operator=(const QhullLinkedList<T> &other) { begin_node= other.begin_node; end_node= other.end_node; return *this; }
-                        ~QhullLinkedList<T>() {}
+                        QhullLinkedList & operator=(const QhullLinkedList &other) { begin_node= other.begin_node; end_node= other.end_node; return *this; }
+                        ~QhullLinkedList() {}
 
 private:
                         //!disabled since a sentinel must be allocated as the private type
-                        QhullLinkedList<T>() {}
+                        QhullLinkedList() {}
 
 public:
 
-#//!\name Conversions
+//#!\name Conversions
 #ifndef QHULL_NO_STL
     std::vector<T>      toStdVector() const;
 #endif
@@ -83,15 +85,15 @@ public:
     QList<T>            toQList() const;
 #endif
 
-#//!\name GetSet
+//#!\name GetSet
     countT              count() const;
-                        //count(t) under #//!\name Search
+                        //count(t) under //#!\name Search
     bool                isEmpty() const { return (begin_node==end_node); }
-    bool                operator==(const QhullLinkedList<T> &o) const;
-    bool                operator!=(const QhullLinkedList<T> &o) const { return !operator==(o); }
+    template<typename T> bool                operator==(const QhullLinkedList<T> &o) const;
+    template<typename T> bool                operator!=(const QhullLinkedList<T> &o) const { return !operator==(o); }
     size_t              size() const { return count(); }
 
-#//!\name Element access
+//#!\name Element access
     //! For back() and last(), return T instead of T& (T is computed)
     const T             back() const { return last(); }
     T                   back() { return last(); }
@@ -102,13 +104,15 @@ public:
     const T             last() const { QHULL_ASSERT(!isEmpty()); return *--end(); }
     T                   last() { QHULL_ASSERT(!isEmpty()); return *--end(); }
 
-#//!\name Modify -- Allocation of opaque types not implemented.
+//#!\name Modify -- Allocation of opaque types not implemented.
 
-#//!\name Search
+//#!\name Search
+    template<typename T>
     bool                contains(const T &t) const;
+    template<typename T>
     countT              count(const T &t) const;
 
-#//!\name Iterator
+//#!\name Iterator
     iterator            begin() { return begin_node; }
     const_iterator      begin() const { return begin_node; }
     const_iterator      constBegin() const { return begin_node; }
@@ -196,8 +200,8 @@ class QhullLinkedListIterator // QH11016 FIX: define QhullMutableLinkedListItera
     const_iterator      i;
 
 public:
-                        QhullLinkedListIterator(const QhullLinkedList<T> &container) : c(container), i(c.constBegin()) {}
-    QhullLinkedListIterator & operator=(const QhullLinkedList<T> &container) { c= container; i= c.constBegin(); return *this; }
+    template<typename T>    QhullLinkedListIterator(const QhullLinkedList<T> &container) : c(container), i(c.constBegin()) {}
+    template<typename T>    QhullLinkedListIterator & operator=(const QhullLinkedList<T> &container) { c= container; i= c.constBegin(); return *this; }
     bool                findNext(const T &t);
     bool                findPrevious(const T &t);
     bool                hasNext() const { return i != c.constEnd(); }
@@ -210,9 +214,9 @@ public:
     void                toBack() { i= c.constEnd(); }
 };//QhullLinkedListIterator
 
-#//!\name == Definitions =========================================
+//#!\name == Definitions =========================================
 
-#//!\name Conversion
+//#!\name Conversion
 
 #ifndef QHULL_NO_STL
 template <typename T>
@@ -239,7 +243,7 @@ toQList() const
 }//toQList
 #endif
 
-#//!\name GetSet
+//#!\name GetSet
 
 template <typename T>
 countT QhullLinkedList<T>::
@@ -254,7 +258,7 @@ count() const
     return c;
 }//count
 
-#//!\name Search
+//#!\name Search
 
 template <typename T>
 bool QhullLinkedList<T>::
@@ -307,7 +311,7 @@ operator==(const QhullLinkedList<T> &l) const
     return true;
 }//operator==
 
-#//!\name Iterator
+//#!\name Iterator
 
 template <typename T>
 typename QhullLinkedList<T>::iterator  QhullLinkedList<T>::iterator::
@@ -343,7 +347,7 @@ operator+(int j) const
     return const_iterator(n);
 }//operator+
 
-#//!\name QhullLinkedListIterator
+//#!\name QhullLinkedListIterator
 
 template <typename T>
 bool QhullLinkedListIterator<T>::
@@ -371,7 +375,7 @@ findPrevious(const T &t)
 
 }//namespace orgQhull
 
-#//!\name Global
+//#!\name Global
 
 template <typename T>
 std::ostream &
