@@ -748,7 +748,9 @@ install(FILES ${doc_FILES}           DESTINATION ${DOC_INSTALL_DIR})
 install(DIRECTORY html/              DESTINATION ${DOC_INSTALL_DIR}/html)
 install(FILES src/Changes.txt        DESTINATION ${DOC_INSTALL_DIR}/src)
 
-add_custom_target(uninstall
-    COMMENT "uninstall Qhull by deleting files in install_manifest.txt"
-    COMMAND cat install_manifest.txt | tr -d \"\\r\" | xargs -r rm
-)
+if(NOT TARGET uninstall)
+    add_custom_target(uninstall
+        COMMENT "uninstall Qhull by deleting files in install_manifest.txt"
+        COMMAND cat install_manifest.txt | tr -d \"\\r\" | xargs -r rm
+    )
+endif()
