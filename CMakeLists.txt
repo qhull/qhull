@@ -113,6 +113,7 @@ cmake_dependent_option(LINK_APPS_SHARED "Use shared library for linking applicat
     "BUILD_SHARED_LIBS;BUILD_STATIC_LIBS"
     ${BUILD_SHARED_LIBS}
 )
+option(QHULL_ENABLE_TESTING "Build and run tests" ON)
 
 if(INCLUDE_INSTALL_DIR)
 else()
@@ -147,6 +148,7 @@ message(STATUS "Build Type (CMAKE_BUILD_TYPE):             ${CMAKE_BUILD_TYPE}")
 message(STATUS "Build static libraries:                    ${BUILD_STATIC_LIBS}")
 message(STATUS "Build shared library:                      ${BUILD_SHARED_LIBS}")
 message(STATUS "Use shared library for linking apps:       ${LINK_APPS_SHARED}")
+message(STATUS "Build tests:				   ${QHULL_ENABLE_TESTING}")
 message(STATUS "To override these options, add -D{OPTION_NAME}=... to the cmake command")
 message(STATUS "  Build the debug targets                  -DCMAKE_BUILD_TYPE=Debug")
 message(STATUS)
@@ -636,32 +638,33 @@ set_target_properties(user_egp PROPERTIES
 # ---------------------------------------
 # Define test
 # ---------------------------------------
+if (QHULL_ENABLE_TESTING)
+    enable_testing()
+    add_test(NAME testqset
+       COMMAND ./testqset 10000)
+    add_test(NAME testqset_r
+       COMMAND ./testqset_r 10000)
+    add_test(NAME smoketest
+       COMMAND sh -c "./rbox D4 | ./qhull Tv")
+    add_test(NAME rbox-10-qhull
+       COMMAND sh -c "./rbox 10 | ./qhull Tv")
+    add_test(NAME rbox-10-qconvex
+       COMMAND sh -c "./rbox 10 | ./qconvex Tv")
+    add_test(NAME rbox-10-qdelaunay
+       COMMAND sh -c "./rbox 10 | ./qdelaunay Tv")
+    add_test(NAME rbox-10-qhalf
+       COMMAND sh -c "./rbox 10 | ./qconvex FQ FV n Tv | ./qhalf Tv")
+    add_test(NAME rbox-10-qvoronoi
+       COMMAND sh -c "./rbox 10 | ./qvoronoi Tv")
+    add_test(NAME user_eg
+       COMMAND sh -c "./user_eg")
+    add_test(NAME user_eg2
+       COMMAND sh -c "./user_eg2")
 
-enable_testing()
-add_test(NAME testqset
-   COMMAND ./testqset 10000)
-add_test(NAME testqset_r
-   COMMAND ./testqset_r 10000)
-add_test(NAME smoketest
-   COMMAND sh -c "./rbox D4 | ./qhull Tv")
-add_test(NAME rbox-10-qhull
-   COMMAND sh -c "./rbox 10 | ./qhull Tv")
-add_test(NAME rbox-10-qconvex
-   COMMAND sh -c "./rbox 10 | ./qconvex Tv")
-add_test(NAME rbox-10-qdelaunay
-   COMMAND sh -c "./rbox 10 | ./qdelaunay Tv")
-add_test(NAME rbox-10-qhalf
-   COMMAND sh -c "./rbox 10 | ./qconvex FQ FV n Tv | ./qhalf Tv")
-add_test(NAME rbox-10-qvoronoi
-   COMMAND sh -c "./rbox 10 | ./qvoronoi Tv")
-add_test(NAME user_eg
-   COMMAND sh -c "./user_eg")
-add_test(NAME user_eg2
-   COMMAND sh -c "./user_eg2")
-   
-if(${BUILD_STATIC_LIBS})
-    add_test(NAME user_eg3
-       COMMAND sh -c "./user_eg3 rbox '10 D2' '2 D2' qhull 's p' facets")
+    if(${BUILD_STATIC_LIBS})
+        add_test(NAME user_eg3
+           COMMAND sh -c "./user_eg3 rbox '10 D2' '2 D2' qhull 's p' facets")
+     endif()
 endif()
 
 # ---------------------------------------
