@@ -744,7 +744,7 @@ lib/libqhullcpp.a: $(LIBQHULLCPP_OBJS)
 	#ranlib $@
 
 lib/libqhull_r.$(SO): $(LIBQHULLSR_RBOX_OBJS)
-	$(CC) -shared -o $@ $(CC_OPTS3) $^
+	$(CC) -shared -lm -o $@ $(CC_OPTS3) $^
 	# the following line fails under MSYS, not needed for SO=dll
 	-(cd lib/ && ln -f -s libqhull_r.$(SO) libqhull_r.so)
 	-(cd lib/ && ln -f -s libqhull_r.$(SO) libqhull_r.$(SONAME_EXT))
