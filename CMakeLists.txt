@@ -684,13 +684,13 @@ endif()
 # Define install
 # ---------------------------------------
 
-if(BUILD_APPLICATIONS)
+if(${BUILD_APPLICATIONS})
     set(qhull_TARGETS_INSTALL ${qhull_TARGETS_APPLICATIONS})
 endif()
-if (BUILD_SHARED_LIBS)
+if(${BUILD_SHARED_LIBS})
     list(APPEND qhull_TARGETS_INSTALL ${qhull_TARGETS_SHARED})
 endif()
-if (BUILD_STATIC_LIBS)
+if(${BUILD_STATIC_LIBS})
     list(APPEND qhull_TARGETS_INSTALL ${qhull_TARGETS_STATIC})
 endif()
 
