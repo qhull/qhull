@@ -110,17 +110,17 @@ public:
     typedef typename QhullSet<T>::const_iterator ConstIterator;
 
 #//!\name Constructors
-                        QhullSet<T>(const Qhull &q, setT *s) : QhullSetBase(q, s) { }
-                        QhullSet<T>(QhullQh *qqh, setT *s) : QhullSetBase(qqh, s) { }
+                        QhullSet(const Qhull &q, setT *s) : QhullSetBase(q, s) { }
+                        QhullSet(QhullQh *qqh, setT *s) : QhullSetBase(qqh, s) { }
                         //Conversion from setT* is not type-safe.  Implicit conversion for void* to T
                         //Copy constructor copies pointer but not contents.  Needed for return by value.
-                        QhullSet<T>(const QhullSet<T> &other) : QhullSetBase(other) {}
-    QhullSet<T> &       operator=(const QhullSet<T> &other) { QhullSetBase::operator=(other); return *this; }
-                        ~QhullSet<T>() {}
+                        QhullSet(const QhullSet &other) : QhullSetBase(other) {}
+    QhullSet<T> &       operator=(const QhullSet &other) { QhullSetBase::operator=(other); return *this; }
+                        ~QhullSet() {}
 
 private:
                         //!Disable default constructor.  See QhullSetBase
-                        QhullSet<T>();
+                        QhullSet();
 public:
 
 #//!\name Conversion
@@ -136,8 +136,8 @@ public:
     using QhullSetBase::count;
     using QhullSetBase::isEmpty;
     // operator== defined for QhullSets of the same type
-    bool                operator==(const QhullSet<T> &other) const { return qh_setequal(getSetT(), other.getSetT()); }
-    bool                operator!=(const QhullSet<T> &other) const { return !operator==(other); }
+    bool                operator==(const QhullSet &other) const { return qh_setequal(getSetT(), other.getSetT()); }
+    bool                operator!=(const QhullSet &other) const { return !operator==(other); }
 
 #//!\name Element access
     // Constructs T.  Cannot return reference.
@@ -294,9 +294,9 @@ private:
 
 public:
 #//!\name Constructors
-                        QhullSetIterator<T>(const QhullSet<T> &s) : i(s.data()), begin_i(i), end_i(s.endData()), qh_qh(s.qh()) {}
-                        QhullSetIterator<T>(const QhullSetIterator<T> &o) : i(o.i), begin_i(o.begin_i), end_i(o.end_i), qh_qh(o.qh_qh) {}
-    QhullSetIterator<T> &operator=(const QhullSetIterator<T> &o) { i= o.i; begin_i= o.begin_i; end_i= o.end_i; qh_qh= o.qh_qh; return *this; }
+                        QhullSetIterator(const QhullSet<T> &s) : i(s.data()), begin_i(i), end_i(s.endData()), qh_qh(s.qh()) {}
+                        QhullSetIterator(const QhullSetIterator<T> &o) : i(o.i), begin_i(o.begin_i), end_i(o.end_i), qh_qh(o.qh_qh) {}
+    QhullSetIterator &operator=(const QhullSetIterator &o) { i= o.i; begin_i= o.begin_i; end_i= o.end_i; qh_qh= o.qh_qh; return *this; }
 
 #//!\name ReadOnly
     countT              countRemaining() { return static_cast<countT>(end_i-i); } // WARN64
