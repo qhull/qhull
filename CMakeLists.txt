@@ -704,7 +704,7 @@ configure_file(${PROJECT_SOURCE_DIR}/build/config.cmake.in
   @ONLY
 )
 
-set(ConfigPackageLocation lib/cmake/Qhull)
+set(ConfigPackageLocation ${LIB_INSTALL_DIR}/cmake/Qhull)
 install(EXPORT QhullTargets
   FILE
     QhullTargets.cmake
@@ -723,7 +723,7 @@ install(
     Devel
 )
 
-set(PkgConfigLocation lib/pkgconfig)
+set(PkgConfigLocation ${LIB_INSTALL_DIR}/pkgconfig)
 foreach(pkgconfig IN ITEMS "${qhull_SHAREDR};Qhull reentrant shared library"
                            "${qhull_STATIC};Qhull static library"
                            "${qhull_STATICR};Qhull reentrant static library"
