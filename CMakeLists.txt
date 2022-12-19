@@ -114,6 +114,8 @@ cmake_dependent_option(LINK_APPS_SHARED "Use shared library for linking applicat
     ${BUILD_SHARED_LIBS}
 )
 option(QHULL_ENABLE_TESTING "Build and run tests" ON)
+# BUILD_APPLICATIONS=OFF -- Do not build qhull applications
+option(BUILD_APPLICATIONS "Build applications" ON)
 
 if(INCLUDE_INSTALL_DIR)
 else()
@@ -583,7 +585,7 @@ add_executable(user_eg src/user_eg/user_eg_r.c)
 if(${BUILD_SHARED_LIBS})
     target_link_libraries(user_eg ${qhull_SHAREDR})
     set_target_properties(user_eg PROPERTIES
-	COMPILE_DEFINITIONS "${user_eg_DEFINES}")
+  COMPILE_DEFINITIONS "${user_eg_DEFINES}")
 else()
     target_link_libraries(user_eg ${qhull_STATICR})
 endif()
@@ -599,7 +601,7 @@ if(${BUILD_STATIC_LIBS})
 else()
     target_link_libraries(user_eg2 ${qhull_SHAREDR})
     set_target_properties(user_eg2 PROPERTIES
-	COMPILE_DEFINITIONS "${user_eg2_DEFINES}")
+  COMPILE_DEFINITIONS "${user_eg2_DEFINES}")
 endif()
 
 # ---------------------------------------
@@ -634,6 +636,26 @@ add_executable(user_egp EXCLUDE_FROM_ALL src/user_eg/user_eg.c)
 target_link_libraries(user_egp ${qhull_SHAREDP})
 set_target_properties(user_egp PROPERTIES
     COMPILE_DEFINITIONS "${user_egp_DEFINES}")
+
+# ---------------------------------------
+# if BUILD_APPLICATIONS=OFF
+#   Exclude application builds from "make all" 
+# ---------------------------------------
+if(NOT ${BUILD_APPLICATIONS})
+    set_target_properties(qconvex PROPERTIES EXCLUDE_FROM_ALL TRUE)
+    set_target_properties(qdelaunay PROPERTIES EXCLUDE_FROM_ALL TRUE)
+    set_target_properties(qhalf PROPERTIES EXCLUDE_FROM_ALL TRUE)
+    set_target_properties(qhull PROPERTIES EXCLUDE_FROM_ALL TRUE)
+    set_target_properties(qvoronoi PROPERTIES EXCLUDE_FROM_ALL TRUE)
+    set_target_properties(rbox PROPERTIES EXCLUDE_FROM_ALL TRUE)
+    set_target_properties(testqset PROPERTIES EXCLUDE_FROM_ALL TRUE)
+    set_target_properties(testqset_r PROPERTIES EXCLUDE_FROM_ALL TRUE)
+    set_target_properties(user_eg PROPERTIES EXCLUDE_FROM_ALL TRUE)
+    set_target_properties(user_eg2 PROPERTIES EXCLUDE_FROM_ALL TRUE)
+endif()
+if(NOT ${BUILD_APPLICATIONS} AND NOT ${BUILD_STATIC_LIBS})
+    set_target_properties(user_eg3 PROPERTIES EXCLUDE_FROM_ALL TRUE)
+endif()
 
 # ---------------------------------------
 # Define test
@@ -671,11 +693,13 @@ endif()
 # Define install
 # ---------------------------------------
 
-set(qhull_TARGETS_INSTALL ${qhull_TARGETS_APPLICATIONS})
-if (BUILD_SHARED_LIBS)
+if(${BUILD_APPLICATIONS})
+    set(qhull_TARGETS_INSTALL ${qhull_TARGETS_APPLICATIONS})
+endif()
+if(${BUILD_SHARED_LIBS})
     list(APPEND qhull_TARGETS_INSTALL ${qhull_TARGETS_SHARED})
 endif()
-if (BUILD_STATIC_LIBS)
+if(${BUILD_STATIC_LIBS})
     list(APPEND qhull_TARGETS_INSTALL ${qhull_TARGETS_STATIC})
 endif()
 
