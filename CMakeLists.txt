@@ -1,6 +1,7 @@
 # CMakeLists.txt -- CMake configuration file for qhull, qhull6, and related programs
 #
 # CMake options
+#   BUILD_APPLICATIONS=OFF -- Do not build qhull applications
 #   BUILD_SHARED_LIBS=OFF -- Do not build libqhull_r.so
 #   BUILD_STATIC_LIBS=OFF -- Do not build libqhullcpp.a, libqhullstatic_r.a, libqhullstatic.a, and user_eg3
 #   CMAKE_INSTALL_PREFIX=path -- Prefix for the install directories
@@ -114,7 +115,6 @@ cmake_dependent_option(LINK_APPS_SHARED "Use shared library for linking applicat
     ${BUILD_SHARED_LIBS}
 )
 option(QHULL_ENABLE_TESTING "Build and run tests" ON)
-# BUILD_APPLICATIONS=OFF -- Do not build qhull applications
 option(BUILD_APPLICATIONS "Build applications" ON)
 
 if(INCLUDE_INSTALL_DIR)
@@ -585,7 +585,7 @@ add_executable(user_eg src/user_eg/user_eg_r.c)
 if(${BUILD_SHARED_LIBS})
     target_link_libraries(user_eg ${qhull_SHAREDR})
     set_target_properties(user_eg PROPERTIES
-  COMPILE_DEFINITIONS "${user_eg_DEFINES}")
+        COMPILE_DEFINITIONS "${user_eg_DEFINES}")
 else()
     target_link_libraries(user_eg ${qhull_STATICR})
 endif()
@@ -601,7 +601,7 @@ if(${BUILD_STATIC_LIBS})
 else()
     target_link_libraries(user_eg2 ${qhull_SHAREDR})
     set_target_properties(user_eg2 PROPERTIES
-  COMPILE_DEFINITIONS "${user_eg2_DEFINES}")
+      COMPILE_DEFINITIONS "${user_eg2_DEFINES}")
 endif()
 
 # ---------------------------------------
@@ -652,15 +652,15 @@ if(NOT ${BUILD_APPLICATIONS})
     set_target_properties(testqset_r PROPERTIES EXCLUDE_FROM_ALL TRUE)
     set_target_properties(user_eg PROPERTIES EXCLUDE_FROM_ALL TRUE)
     set_target_properties(user_eg2 PROPERTIES EXCLUDE_FROM_ALL TRUE)
-endif()
-if(NOT ${BUILD_APPLICATIONS} AND NOT ${BUILD_STATIC_LIBS})
-    set_target_properties(user_eg3 PROPERTIES EXCLUDE_FROM_ALL TRUE)
+    if(${BUILD_STATIC_LIBS})
+        set_target_properties(user_eg3 PROPERTIES EXCLUDE_FROM_ALL TRUE)
+    endif()
 endif()
 
 # ---------------------------------------
 # Define test
 # ---------------------------------------
-if (QHULL_ENABLE_TESTING)
+if (${QHULL_ENABLE_TESTING} AND ${BUILD_APPLICATIONS})
     enable_testing()
     add_test(NAME testqset
        COMMAND ./testqset 10000)
