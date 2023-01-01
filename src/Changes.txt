@@ -43,8 +43,29 @@ Qhull 2.0 (1994-1995)
   https://doc.cgal.org/4.7/Voronoi_diagram_2/group__PkgVoronoiDiagramAdaptor2.html
 
 ==================
-== Qhull 2018-2020
+== Qhull 2018-2023
 ==================
+
+------------
+Qhull 8.1-alpha2 github 2023/01/01
+
+- Reviewed and wrote comments for open issues #121 and earlier.
+- Testing postponed to the next release of Qhull
+
+Code changes
+- QhullUser.cpp: redefine snprintf as sprintf_s for VS2010 and earlier [cmF3 #103]
+- QhullLinkeList.h, QhullSet.h: remove unused type parameters from inside a class template [E. Lorenz, J. Nimmer #122, P. Jia] 
+- qhull_r-exports.def: include new symbols from accessors_r.h [J. Heiskala #105]
+
+Build changes
+- CMakeLists.txt: define 'uninstall' target if not previously defined [F. Ramano #111]
+-   Add QHULL_ENABLE_TESTING to disable testing if needed [F. Ramano #112]
+-   Replace 'install' directory with INCLUDE_INSTALL_DIR [R. Wittmaack #113, O. Poplawski #123]
+-   Move 'cmake_minimum_required' to the first instruction [spacelm #120]
+-   Use ${LIB_INSTALL_DIR} for the CMake and PkgConfig install directories [O. Poplawski #123]
+-   Add BUILD_APPLICATIONS to disable build of Qhull executables [M. Kuhn #124]
+- Makefile: Add '-lm' for libqhull_r.so as done elsewhere [G. Zhang #114]
+-   Use 'sed' to allow "8.1-alpha1" as qhull_VERSION in CMakeLists.txt [G. Zhang #115]
 
 ------------
 Qhull 8.1-alpha1 github 2021/09/27
