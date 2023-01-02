@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2020 C.B. Barber. All rights reserved.
-** $Id: //main/2019/qhull/src/libqhullcpp/QhullUser.cpp#10 $$Change: 3008 $
-** $DateTime: 2020/07/30 13:54:27 $$Author: bbarber $
+** $Id: //main/2019/qhull/src/libqhullcpp/QhullUser.cpp#11 $$Change: 3396 $
+** $DateTime: 2023/01/02 16:59:48 $$Author: bbarber $
 **
 ****************************************************************************/
 

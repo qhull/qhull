@@ -1,4 +1,4 @@
-$Id: //main/2019/qhull/src/Changes.txt#80 $$Date: 2020/09/13 $
+$Id: //main/2019/qhull/src/Changes.txt#84 $$Date: 2023/01/02 $
 
 .............This file lists all changes to qhull and rbox.....................
 
@@ -7,7 +7,7 @@ $Id: //main/2019/qhull/src/Changes.txt#80 $$Date: 2020/09/13 $
 ====
 
 To do
-Qhull 2018-2020
+Qhull 2018-2023
 Qhull 2015
 Qhull 2012.1
 Qhull 2011.1
@@ -47,34 +47,46 @@ Qhull 2.0 (1994-1995)
 ==================
 
 ------------
-Qhull 8.1-alpha2 github 2023/01/01
+Qhull 8.1-alpha3 GitHub 2023/01/02
+
+- user_r.h, user.h: Fix header comment for REALmax,REALmin,REALepsilon
+- global_r.c, global.c: Update qh_version2 and new date for qh_version
+- CMakeLists.txt: Update qhull_VERSION and qhull_SOVERSION
+- README.txt: CMakeCache.txt is in the build/ directory
+- Update Perforce
+
+------------
+Qhull 8.1-alpha2 GitHub 2023/01/01
 
 - Reviewed and wrote comments for open issues #121 and earlier.
 - Testing postponed to the next release of Qhull
 
 Code changes
-- QhullUser.cpp: redefine snprintf as sprintf_s for VS2010 and earlier [cmF3 #103]
-- QhullLinkeList.h, QhullSet.h: remove unused type parameters from inside a class template [E. Lorenz, J. Nimmer #122, P. Jia] 
-- qhull_r-exports.def: include new symbols from accessors_r.h [J. Heiskala #105]
+- QhullUser.cpp: Redefine snprintf as sprintf_s for VS2010 and earlier [cmF3 #103]
+- QhullLinkeList.h, QhullSet.h: Remove unused type parameters from inside a class template [E. Lorenz, J. Nimmer #122, P. Jia] 
+- qhull_r-exports.def: Include new symbols from accessors_r.h [J. Heiskala #105]
 
 Build changes
-- CMakeLists.txt: define 'uninstall' target if not previously defined [F. Ramano #111]
+- CMakeLists.txt:
+-   Define 'uninstall' target if not previously defined [F. Ramano #111]
 -   Add QHULL_ENABLE_TESTING to disable testing if needed [F. Ramano #112]
 -   Replace 'install' directory with INCLUDE_INSTALL_DIR [R. Wittmaack #113, O. Poplawski #123]
 -   Move 'cmake_minimum_required' to the first instruction [spacelm #120]
 -   Use ${LIB_INSTALL_DIR} for the CMake and PkgConfig install directories [O. Poplawski #123]
 -   Add BUILD_APPLICATIONS to disable build of Qhull executables [M. Kuhn #124]
-- Makefile: Add '-lm' for libqhull_r.so as done elsewhere [G. Zhang #114]
+- Makefile:
+-   Add '-lm' for libqhull_r.so as done elsewhere [G. Zhang #114]
 -   Use 'sed' to allow "8.1-alpha1" as qhull_VERSION in CMakeLists.txt [G. Zhang #115]
 
 ------------
-Qhull 8.1-alpha1 github 2021/09/27
-- tag Qhull #head for github additions to Qhull [S.J. Johnson #97]
-- testing postponed to the next release of Qhull
-- global_r.c, global.c: update qh_version2 and new date for qh_version
-- CMakeLists.txt: update qhull_VERSION and qhull_SOVERSION
+Qhull 8.1-alpha1 GitHub 2021/09/27
+- Tag Qhull #head for GitHub additions to Qhull [S.J. Johnson #97]
+- Testing postponed to the next release of Qhull
+- global_r.c, global.c: Update qh_version2 and new date for qh_version
+- CMakeLists.txt:
+-   Update qhull_VERSION and qhull_SOVERSION
 -   Change MSVC to WIN32 for dllimport attribute [B. Nath #80]
--   Add BUNDLE DESTINATION to install(QhullTargets) for iOS [#90] 
+-   Add BUNDLE DESTINATION to install(QhullTargets) for iOS [spacelm #90]
 -   Define CMAKE_INSTALL_NAME_DIR enabling default set_target_properties [B. Boeckel #94]
 -   Define CMAKE_INSTALL_RPATH, CMAKE_INSTALL_RPATH_USE_LINK_PATH. CMAKE_BUILD_WITH_INSTALL_RPATH [#94]
 
@@ -85,7 +97,6 @@ Additions to
 Documentation changes
 - user_r.c,user_eg2_r.c: Replace -REALmin with -REALmax in two error messages [S. Hutter #87]
 - Fixed various spelling errors in code comments and Changes.txt [luzpaz #84]
-- user_r.h: Replace qh_REALmax,qh_REALmin,qh_REALepsilon with REALmax,REALmin,REALepsilon in header comment
 
 ------------
 Qhull 2020.2 2020/08/31 (8.0.2)
@@ -104,7 +115,7 @@ CMake builds
 - CMakeModules/CheckLFS.cmake: Moved CMakeModules to the build/ directory
 - CMakeLists.txt: Replace rbox_SOURCES(etc.) with a source file, either reentrant or non-reentrant
 - CMakeLists.txt: Add deprecated libqhull and qhull_p to "# Additional build targets"
-  Add qh_QHpointer to user_egp_DEFINES and qhullp_DEFINES (otherwise qh_lib_check fails)
+  If not MSVC, add qh_QHpointer to user_egp_DEFINES and qhullp_DEFINES (otherwise qh_lib_check fails)
 
 Other builds
 - build/README-build.txt: Add description of build/ directory

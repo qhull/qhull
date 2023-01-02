@@ -181,9 +181,9 @@ Installing Qhull with CMake 2.6 or later
   - cmake ..                   
   - make
   - ctest
-  - make install		# If MSYS or UNIX, default CMAKE_INSTALL_PREFIX is '/usr/local'
-  				# otherwise if WINDOWS, installs to ../bin, ../include, and ../lib
-  - make uninstall		# Delete the files in install_manifest.txt
+  - make install               # If MSYS or UNIX, default CMAKE_INSTALL_PREFIX is '/usr/local'
+                               # otherwise if WINDOWS, installs to ../bin, ../include, and ../lib
+  - make uninstall             # Delete the files in install_manifest.txt
 
   The ".." is important.  It refers to the parent directory (i.e., qhull/)
   
@@ -199,7 +199,7 @@ Installing Qhull with CMake 2.6 or later
   - cmake was not able to find the build environment specified by -G "..."
 
   If cmake's gcc smoketest fails after a Windows update
-  - Reinstall MINGW-w64 and delete CMakeCache.txt.  A Windows update can break gcc process creation for cc1.
+  - Reinstall MINGW-w64 and delete build/CMakeCache.txt.  A Windows update can break gcc process creation for cc1.
 
 ------------------
 Installing Qhull with Qt
@@ -282,7 +282,7 @@ Compiling Qhull with Microsoft Visual C++
 
   To compile 32-bit Qhull with Microsoft Visual C++ 2010 and later
   - Download and extract Qhull (either GitHub, .tgz file, or .zip file)
-  - Load solution build/qhull-32.sln	
+  - Load solution build/qhull-32.sln
   - Right-click 'Retarget solution' from toolset v110 to your Platform Toolset
     File > Save All
   - Build target 'Win32'
@@ -465,7 +465,7 @@ Distributed files
   build/qhull.sln      // DevStudio solution and project files (2005 and 2009)
   build/*.vcproj
   build/qhulltest/     // DevStudio project files for qhulltest (C++ and Qt)
-  build/README-build.txt // Contents of build/	
+  build/README-build.txt // Contents of build/
   eg/*                 // Test scripts and geomview files from q_eg
   html/index.htm       // Manual
   html/qh-faq.htm      // Frequently asked questions

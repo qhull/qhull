@@ -9,8 +9,8 @@
 #   can not use path with $zip_file 
 #   odd error messages if can't locate directory
 #
-# $Id: //main/2019/qhull/eg/qhull-zip.sh#41 $$Change: 3047 $
-# $DateTime: 2020/09/13 14:18:03 $$Author: bbarber $
+# $Id: //main/2019/qhull/eg/qhull-zip.sh#42 $$Change: 3396 $
+# $DateTime: 2023/01/02 16:59:48 $$Author: bbarber $
 
 if [[ $# -ne 3 ]]; then
         echo 'Missing date stamp -- eg/qhull-zip.sh 2020 2020.2 8.0.2' 

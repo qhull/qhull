@@ -8,8 +8,8 @@
    see qh-geom.htm and geom.h
 
    Copyright (c) 1993-2020 The Geometry Center.
-   $Id: //main/2019/qhull/src/libqhull/geom2.c#14 $$Change: 3037 $
-   $DateTime: 2020/09/03 17:28:32 $$Author: bbarber $
+   $Id: //main/2019/qhull/src/libqhull/geom2.c#15 $$Change: 3396 $
+   $DateTime: 2023/01/02 16:59:48 $$Author: bbarber $
 
    frequently used code goes into geom.c
 */

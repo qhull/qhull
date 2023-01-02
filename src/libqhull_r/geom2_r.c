@@ -8,8 +8,8 @@
    see qh-geom_r.htm and geom_r.h
 
    Copyright (c) 1993-2020 The Geometry Center.
-   $Id: //main/2019/qhull/src/libqhull_r/geom2_r.c#17 $$Change: 3037 $
-   $DateTime: 2020/09/03 17:28:32 $$Author: bbarber $
+   $Id: //main/2019/qhull/src/libqhull_r/geom2_r.c#18 $$Change: 3396 $
+   $DateTime: 2023/01/02 16:59:48 $$Author: bbarber $
 
    frequently used code goes into geom_r.c
 */

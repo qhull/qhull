@@ -8,8 +8,8 @@
 # Test for internal errors using difficult cases for Qhull (see q_benchmark)
 #  ../eg/qtest.sh 100 '500 s W1e-13 C1,1e-13 D4' 'd' | grep -vE 'topology|precision|CPU|Maximum
 #
-# $Id: //main/2019/qhull/eg/qtest.sh#4 $$DateTime: 2019/06/25 15:24:47 $
-# $Change: 2701 $$Author: bbarber $
+# $Id: //main/2019/qhull/eg/qtest.sh#5 $$DateTime: 2023/01/02 16:59:48 $
+# $Change: 3396 $$Author: bbarber $
 
 QHULL=${QHULL:-qhull}
 Tnz=${Tnz:-T4z}

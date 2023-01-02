@@ -10,8 +10,8 @@
 #       Append '_d' to debug products
 #       Write targets to '../lib/' and ../bin/'
 #
-# $Id: //main/2019/qhull/eg/make-vcproj.sh#1 $$Change: 2661 $
-# $DateTime: 2019/05/24 20:09:58 $$Author: bbarber $
+# $Id: //main/2019/qhull/eg/make-vcproj.sh#2 $$Change: 3396 $
+# $DateTime: 2023/01/02 16:59:48 $$Author: bbarber $
 
 if [[ "$1" != "" && "$1" != "Win64" && "$1" != "qhull-x" && "$1" != "sed-only" ]]; then
     echo "eg/make-vcproj.sh Win64|sed-only|qhull-x"

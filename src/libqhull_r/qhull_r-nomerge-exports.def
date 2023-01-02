@@ -10,8 +10,8 @@
 ;   If qh_NOmerge, use qhull_r-nomerge-exports.def
 ;      Created by -- grep -vE 'qh_all_merges|qh_appendmergeset|qh_basevertices|qh_check_dupridge|qh_checkconnect|qh_compare_facetmerge|qh_comparevisit|qh_copynonconvex|qh_degen_redundant_facet|qh_delridge_merge|qh_find_newvertex|qh_findbest_test|qh_findbestneighbor|qh_flippedmerges|qh_forcedmerges|qh_getmergeset|qh_getmergeset_initial|qh_hashridge|qh_hashridge_find|qh_makeridges|qh_mark_dupridges|qh_maydropneighbor|qh_merge_degenredundant|qh_merge_nonconvex|qh_mergecycle|qh_mergecycle_all|qh_mergecycle_facets|qh_mergecycle_neighbors|qh_mergecycle_ridges|qh_mergecycle_vneighbors|qh_mergefacet|qh_mergefacet2d|qh_mergeneighbors|qh_mergeridges|qh_mergesimplex|qh_mergevertex_del|qh_mergevertex_neighbors|qh_mergevertices|qh_nearcoplanar|qh_nearvertex|qh_neighbor_intersections|qh_newhashtable|qh_newvertex|qh_newvertices|qh_nextridge3d|qh_reducevertices|qh_redundant_vertex|qh_remove_extravertices|qh_rename_sharedvertex|qh_renameridgevertex|qh_renamevertex|qh_test_appendmerge|qh_test_degen_neighbors|qh_test_redundant_neighbors|qh_test_vneighbors|qh_tracemerge|qh_tracemerging|qh_triangulate_facet|qh_triangulate_link|qh_triangulate_mirror|qh_triangulate_null|qh_updatetested|qh_vertexridges|qh_vertexridges_facet|qh_willdelete' qhull_r-nomerge-exports.def >qhull_r-nomerge-exports.def
 ;
-; $Id: //main/2019/qhull/src/libqhull_r/qhull_r-nomerge-exports.def#4 $$Change: 2967 $
-; $DateTime: 2020/06/05 16:33:18 $$Author: bbarber $
+; $Id: //main/2019/qhull/src/libqhull_r/qhull_r-nomerge-exports.def#5 $$Change: 3396 $
+; $DateTime: 2023/01/02 16:59:48 $$Author: bbarber $
 ; 
 ; Define qhull_VERSION in CMakeLists.txt, Makefile, qhull-exports.def, qhull_p-exports.def, qhull_r-exports.def, and qhull-warn.pri
 VERSION 8.0

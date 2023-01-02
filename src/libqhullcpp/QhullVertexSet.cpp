@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2009-2020 C.B. Barber. All rights reserved.
-** $Id: //main/2019/qhull/src/libqhullcpp/QhullVertexSet.cpp#3 $$Change: 2953 $
-** $DateTime: 2020/05/21 22:05:32 $$Author: bbarber $
+** $Id: //main/2019/qhull/src/libqhullcpp/QhullVertexSet.cpp#4 $$Change: 3396 $
+** $DateTime: 2023/01/02 16:59:48 $$Author: bbarber $
 **
 ****************************************************************************/
 
