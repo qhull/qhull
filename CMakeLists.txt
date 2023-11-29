@@ -456,6 +456,7 @@ endif(UNIX)
 # ---------------------------------------
 
 add_library(${qhull_CPP} STATIC ${libqhullcpp_SOURCES})
+target_link_libraries(${qhull_CPP} PUBLIC ${qhull_STATICR})
 set_target_properties(${qhull_CPP} PROPERTIES
     VERSION ${qhull_VERSION}
     OUTPUT_NAME "${qhull_CPP}$<$<CONFIG:Debug>:_d>"
@@ -613,8 +614,7 @@ endif()
 
 if(${BUILD_STATIC_LIBS})
     add_executable(user_eg3 src/user_eg3/user_eg3_r.cpp)
-    # qhull_STATICR must be last, otherwise qh_fprintf,etc. are not loaded from qhull_CPP
-    target_link_libraries(user_eg3 ${qhull_CPP} ${qhull_STATICR})
+    target_link_libraries(user_eg3 ${qhull_CPP})
 endif()
 
 # ---------------------------------------
