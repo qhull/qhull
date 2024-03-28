@@ -532,7 +532,7 @@ void testSetequalInEtc(qhT *qh, int numInts, int *intarray, int checkEvery)
             }
             if(j>0){
                 if(qh_setequal(ints, ints2)){
-                    qh_fprintf(qh, stderr, 6324, "testqset_r (testSetequalInEtc): non-empty set equal to empty set\n", j);
+                    qh_fprintf(qh, stderr, 6324, "testqset_r (testSetequalInEtc): non-empty set equal to empty set at %d\n", j);
                     error_count++;
                 }
                 qh_setfree(qh, &ints3);
@@ -551,23 +551,23 @@ void testSetequalInEtc(qhT *qh, int numInts, int *intarray, int checkEvery)
                     error_count++;
                 }
                 if(!qh_setequal_except(ints, intarray+j/2, ints3, intarray+j/2+1)){
-                    qh_fprintf(qh, stderr, 6326, "testqset_r (qh_setequal_except): modified set not equal to original set except modified\n", j);
+                    qh_fprintf(qh, stderr, 6326, "testqset_r (qh_setequal_except): modified set not equal to original set except modified at %d\n", j);
                     error_count++;
                 }
                 if(qh_setequal_except(ints, intarray+j/2, ints3, intarray)){
-                    qh_fprintf(qh, stderr, 6327, "testqset_r (qh_setequal_except): modified set equal to original set with wrong excepts\n", j);
+                    qh_fprintf(qh, stderr, 6327, "testqset_r (qh_setequal_except): modified set equal to original set with wrong excepts at %d\n", j);
                     error_count++;
                 }
                 if(!qh_setequal_skip(ints, j/2, ints3, j/2)){
-                    qh_fprintf(qh, stderr, 6328, "testqset_r (qh_setequal_skip): modified set not equal to original set except modified\n", j);
+                    qh_fprintf(qh, stderr, 6328, "testqset_r (qh_setequal_skip): modified set not equal to original set except modified at %d\n", j);
                     error_count++;
                 }
                 if(j>2 && qh_setequal_skip(ints, j/2, ints3, 0)){
-                    qh_fprintf(qh, stderr, 6329, "testqset_r (qh_setequal_skip): modified set equal to original set with wrong excepts\n", j);
+                    qh_fprintf(qh, stderr, 6329, "testqset_r (qh_setequal_skip): modified set equal to original set with wrong excepts at %d\n", j);
                     error_count++;
                 }
                 if(intarray+j/2+1!=qh_setdel(ints3, intarray+j/2+1)){
-                    qh_fprintf(qh, stderr, 6330, "testqset_r (qh_setdel): failed to find added element\n", j);
+                    qh_fprintf(qh, stderr, 6330, "testqset_r (qh_setdel): failed to find added element at %d\n", j);
                     error_count++;
                 }
                 checkSetContents(qh, "qh_setdel", ints3, j-1, 0, j-1, (j==1 ? -1 : j/2+1));  /* swaps last element with deleted element */
@@ -786,7 +786,7 @@ void checkSetContents(qhT *qh, const char *name, setT *set, int count, int range
     if(set){
         SETreturnsize_(set, actualSize);  /* normally used only when speed is critical */
         if(*qh_setendpointer(set)!=NULL){
-            qh_fprintf(qh, stderr, 6344, "testqset_r (%s): qh_setendpointer(set), 0x%x, is not NULL terminator of set 0x%x\n", name, qh_setendpointer(set), set);
+            qh_fprintf(qh, stderr, 6344, "testqset_r (%s): qh_setendpointer(set), %p, is not NULL terminator of set %p\n", name, qh_setendpointer(set), set);
             error_count++;
         }
     }

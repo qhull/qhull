@@ -357,7 +357,7 @@ initializeFeasiblePoint(int hulldim)
             qh_errexit(qh_qh, qh_ERRmem, NULL, NULL);
         }
         if(feasible_point.size()!=static_cast<size_t>(hulldim)){
-            qh_fprintf(qh_qh, qh_qh->ferr, 6210, "qhull error: dimension of feasiblePoint should be %d.  It is %u\n", hulldim, feasible_point.size());
+            qh_fprintf(qh_qh, qh_qh->ferr, 6210, "qhull error: dimension of feasiblePoint should be %d.  It is %u\n", hulldim, (unsigned int)feasible_point.size());
             qh_errexit(qh_qh, qh_ERRmem, NULL, NULL);
         }
         qh_qh->feasible_point= static_cast<coordT*>(qh_malloc(static_cast<size_t>(hulldim) * sizeof(coordT)));
