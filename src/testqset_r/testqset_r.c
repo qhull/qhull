@@ -117,7 +117,7 @@ int error_count= 0;  /* Global error_count.  checkSetContents(qh) keeps its own 
 /* Functions normally defined in user_r.h for usermem_r.c */
 
 void    qh_exit(int exitcode);
-void    qh_fprintf_stderr(int msgcode, const char *fmt, ... );
+void    qh_fprintf_stderr(int msgcode, const char *fmt, ... ) QH_PRINTF_LIKE(2, 3);
 void    qh_free(void *mem);
 void   *qh_malloc(size_t size);
 
@@ -134,7 +134,7 @@ void    qh_errexit(qhT *qh, int exitcode, facetT *f, ridgeT *r)
 
 /* Normally defined in userprintf_r.c */
 
-void    qh_fprintf(qhT *qh, FILE *fp, int msgcode, const char *fmt, ... );
+void    qh_fprintf(qhT *qh, FILE *fp, int msgcode, const char *fmt, ... ) QH_PRINTF_LIKE(4, 5);
 void    qh_fprintf(qhT *qh, FILE *fp, int msgcode, const char *fmt, ... )
 {
     static int needs_cr= 0;  /* True if qh_fprintf needs a CR. testqset_r is not itself reentrant */

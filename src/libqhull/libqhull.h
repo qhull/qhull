@@ -60,6 +60,13 @@
 #endif
 #endif
 
+#if defined(__GNUC__)
+/* See https://gcc.gnu.org/onlinedocs/gcc/Common-Function-Attributes.html#index-format-function-attribute */
+#define QH_PRINTF_LIKE(string_index, first_to_check) __attribute__((format(printf, string_index, first_to_check)))
+#else
+#define QH_PRINTF_LIKE(string_index, first_to_check)
+#endif
+
 /*============ constants and basic types ====================*/
 
 extern const char qh_version[]; /* defined in global.c */
@@ -1136,13 +1143,13 @@ void    qh_user_memsizes(void);
 
 /********* -usermem.c prototypes (alphabetical) **********************/
 void    qh_exit(int exitcode);
-void    qh_fprintf_stderr(int msgcode, const char *fmt, ... );
+void    qh_fprintf_stderr(int msgcode, const char *fmt, ... ) QH_PRINTF_LIKE(2, 3);
 void    qh_free(void *mem);
 void   *qh_malloc(size_t size);
 
 /********* -userprintf.c and userprintf_rbox.c prototypes **********************/
-void    qh_fprintf(FILE *fp, int msgcode, const char *fmt, ... );
-void    qh_fprintf_rbox(FILE *fp, int msgcode, const char *fmt, ... );
+void    qh_fprintf(FILE *fp, int msgcode, const char *fmt, ... ) QH_PRINTF_LIKE(3, 4);
+void    qh_fprintf_rbox(FILE *fp, int msgcode, const char *fmt, ... ) QH_PRINTF_LIKE(3, 4);
 
 /***** -geom.c/geom2.c/random.c prototypes (duplicated from geom.h, random.h) ****************/
 
