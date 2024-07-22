@@ -1,4 +1,4 @@
-$Id: //main/2019/qhull/src/Changes.txt#84 $$Date: 2023/01/02 $
+$Id: //main/2019/qhull/src/Changes.txt#85 $$Date: 2023/01/09 $
 
 .............This file lists all changes to qhull and rbox.....................
 
@@ -46,12 +46,15 @@ Qhull 2.0 (1994-1995)
 == Qhull 2018-2023
 ==================
 
+next release
+- qconvex,qhalf.htm: OFF format 'o' is points instead of vertices [B. Guang #134]
+
 ------------
 Qhull 8.1-alpha3 GitHub 2023/01/02
 
 - user_r.h, user.h: Fix header comment for REALmax,REALmin,REALepsilon
 - global_r.c, global.c: Update qh_version2 and new date for qh_version
-- CMakeLists.txt: Update qhull_VERSION and qhull_SOVERSION
+- CMakeLists.txt: Update qhull_VERSION
 - README.txt: CMakeCache.txt is in the build/ directory
 - Update Perforce
 
@@ -64,7 +67,7 @@ Qhull 8.1-alpha2 GitHub 2023/01/01
 Code changes
 - QhullUser.cpp: Redefine snprintf as sprintf_s for VS2010 and earlier [cmF3 #103]
 - QhullLinkeList.h, QhullSet.h: Remove unused type parameters from inside a class template [E. Lorenz, J. Nimmer #122, P. Jia] 
-- qhull_r-exports.def: Include new symbols from accessors_r.h [J. Heiskala #105]
+- qhull_r-exports.def: Add new symbols from accessors_r.h [J. Heiskala #105]
 
 Build changes
 - CMakeLists.txt:
