@@ -6363,7 +6363,7 @@ Except for 'F.' and 'PG', upper-case options take an argument.
  Q0-no-premerge Q1-angle-merge     Q2-no-independ  Q3-no-redundant
  Q4-no-old      Q5-no-check-out    Q6-no-concave   Q7-depth-first
  Q8-no-near-in  Q9-pick-furthest   Q10-no-narrow   Q11-trinormals
- Q12-allow-wide Q14-merge-pinched  Q15-duplicates
+ Q12-allow-wide Q14-merge-pinched  Q17-duplicates
 
  TFacet-log     TInput-file    TOutput-file   Tstatistics    Tverify
  Tz-stdout
@@ -14378,7 +14378,7 @@ Qhull extra options:
     Q11  - copy normals and recompute centrums for tricoplanar facets
     Q12  - allow wide facets and wide dupridge
     Q14  - merge pinched vertices that create a dupridge
-    Q15  - check for duplicate ridges with the same vertices
+    Q17  - check for duplicate ridges with the same vertices
 
 T options:
     TFn  - report summary when n or more facets created
@@ -15558,7 +15558,7 @@ qhull(1)                                                 qhull(1)
        
        Q14    With 'Q14', Qhull merges pinched vertices that create a dupridge.
 
-       Q15    With 'Q15', Qhull checks for duplicate ridges with the same vertices.
+       Q17    With 'Q17', Qhull checks for duplicate ridges with the same vertices.
        
        Trace options
 

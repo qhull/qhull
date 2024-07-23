@@ -819,7 +819,7 @@ graph of the convex hull. </p>
 
 <p>Qhull continually checks its execution, so most errors will stop Qhull with an error message.
 Additional checking occurs for verified output ('<a href="qh-optt.htm#Tv">Tv</a>'), check
-frequently ('<a href="qh-optt.htm#Tc">Tc</a>'), check for duplicate ridges ('<a href="qh-optq.htm#Q15">Q15</a>'),
+frequently ('<a href="qh-optt.htm#Tc">Tc</a>'), check for duplicate ridges ('<a href="qh-optq.htm#Q17">Q17</a>'),
 and tracing at level 4 ('<a href="qh-optt.htm#Tn">T4</a>'). </p>
 
 <p>If Qhull detects an error, it writes a descriptive error message to stderr, and exits with an exit status code (see following).
@@ -1252,7 +1252,7 @@ Top Suggestions
  - Develop a theory for merging Qhull's non-simplicial facets
    A merge creates constraints on subsequent merges, what are these constraints?
    Identify topological errors in qh_findbest_test (merge_r.c)f
-   Prevent duplicate ridges (Q15-check-duplicates) or facets with the same vertices
+   Prevent duplicate ridges (Q17-check-duplicates) or facets with the same vertices
    Preserve facet-ridge orientation for nonsimplicial facets (ridge top/bot)
    Produce conformant triangulations for nonsimplicial facets (option 'Qt', QH2088)
    Should vertex merge account for facet orientation?

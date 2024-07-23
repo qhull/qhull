@@ -137,7 +137,7 @@ options are indicated by 'Q' followed by a letter. </p>
     <dd>allow wide facets and wide dupridge</dd>
     <dt><a href="#Q14">Q14</a></dt>
     <dd>merge pinched vertices that create a dupridge</dd>
-    <dt><a href="#Q15">Q15</a></dt>
+    <dt><a href="#Q17">Q17</a></dt>
     <dd>check for duplicate ridges with the same vertices</dd>
 </dl>
 
@@ -757,15 +757,15 @@ merging a pair of facets.  With experimental option, 'Q14' it may resolve a dupr
 "Nearly adjacent vertices within 1e-13" in <a href="qh-impre.htm">Imprecision in Qhull</a>).
 With option 'Q14', Qhull merges nearly adjacent vertices when they create a dupridge.
 
-<h3><a href="#qhull">&#187;</a><a name="Q15">Q15 - check for duplicate ridges with the same vertices</a></h3>
+<h3><a href="#qhull">&#187;</a><a name="Q17">Q17 - check for duplicate ridges with the same vertices</a></h3>
 
-<p>Option 'Q15' (qh.CHECKduplicates) checks for duplicate ridges after each merge (qh_maybe_duplicateridges,
+<p>Option 'Q17' (qh.CHECKduplicates) checks for duplicate ridges after each merge (qh_maybe_duplicateridges,
 qh_checkfacet).
 Duplicate ridges have the same vertices.  It is a topological error for convex hulls.
 Qhull resolves a duplicate ridge by merging vertices and partitioning the deleted vertex as a coplanar
 point (qh_renamevertex).
 
-<p>Option 'Q15' does not prevent duplicate ridges for non-neighboring facets, nor does it prevent other topological
+<p>Option 'Q17' does not prevent duplicate ridges for non-neighboring facets, nor does it prevent other topological
 errors such as inconsistent facet orientation.  Resolving a duplicate ridge may itself lead to topological errors
 and wide facets.
 

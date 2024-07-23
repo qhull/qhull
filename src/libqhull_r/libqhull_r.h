@@ -7,8 +7,8 @@
    see qh-qhull_r.htm, qhull_ra.h
 
    Copyright (c) 1993-2020 The Geometry Center.
-   $Id: //main/2019/qhull/src/libqhull_r/libqhull_r.h#17 $$Change: 3396 $
-   $DateTime: 2023/01/02 16:59:48 $$Author: bbarber $
+   $Id: //main/2019/qhull/src/libqhull_r/libqhull_r.h#18 $$Change: 3664 $
+   $DateTime: 2024/07/22 23:55:01 $$Author: bbarber $
 
    includes function prototypes for libqhull_r.c, geom_r.c, global_r.c, io_r.c, user_r.c
 
@@ -491,7 +491,7 @@ struct qhT {
   boolT BESToutside;      /* true 'Qf' if partition points into best outsideset */
   boolT CDDinput;         /* true 'Pc' if input uses CDD format (1.0/offset first) */
   boolT CDDoutput;        /* true 'PC' if print normals in CDD format (offset first) */
-  boolT CHECKduplicates;  /* true 'Q15' if qh_maybe_duplicateridges after each qh_mergefacet */
+  boolT CHECKduplicates;  /* true 'Q17' if qh_maybe_duplicateridges after each qh_mergefacet */
   boolT CHECKfrequently;  /* true 'Tc' if checking frequently */
   realT premerge_cos;     /*   'A-n'   cos_max when pre merging */
   realT postmerge_cos;    /*   'An'    cos_max when post merging */

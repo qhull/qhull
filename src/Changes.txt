@@ -1,4 +1,4 @@
-$Id: //main/2019/qhull/src/Changes.txt#85 $$Date: 2023/01/09 $
+$Id: //main/2019/qhull/src/Changes.txt#86 $$Date: 2024/07/22 $
 
 .............This file lists all changes to qhull and rbox.....................
 
@@ -45,9 +45,21 @@ Qhull 2.0 (1994-1995)
 ==================
 == Qhull 2018-2023
 ==================
+Qhull 8.1-alpha4 GitHub 2024/07/21
 
-next release
+Build changes
+- CMakeLists.txt: properly express dependency of qhullcpp to qhullstatic_r  [SpaceIm, M. Valgur #128] 
+- qhull-exports.def,*.def: Add DATA after qh_version and qh_version2 [B. Sanders #139]
+-  other symbols in *.def are CODE symbols exported to Windows
+
+Documentation changes
 - qconvex,qhalf.htm: OFF format 'o' is points instead of vertices [B. Guang #134]
+- libqhull_r.h,global_r,merge_r.c: Change Q15-check-duplicates to 'Q17' as coded [djerius #140]
+- libqhull.h,global,merge.c: Change Q15-check-duplicates to 'Q17' as coded (pre-Q2019.0.1)
+- qconvex_r,qdelaun_r,qhalf_r,unix_r,qvoronoi_r.c::hidden_options: Change Q15 to Q17
+- qconvex,qdelaun,qhalf,unix,qvoronoi.c::hidden_options: Change Q15 to Q17
+- Qhull::s_not_output_options: Change Q15 to Q17
+- q_test-ok.txt,qh-code,qh-optq,qh-quick,qhull.htm,qhull.man,qhull.txt: Change to Q17
 
 ------------
 Qhull 8.1-alpha3 GitHub 2023/01/02
@@ -427,7 +439,7 @@ Qhull options
 - New option 'Tf': flush after qh_fprintf for debugging segfaults
 - New experimental option 'Q14-merge-pinched-vertices': merge pinched vertices due to dupridge
   Excessive merging leads to additional topological and wide facet errors
-- New experimental option 'Q15-check-duplicates': check for duplicate ridges with the same vertices
+- New experimental option 'Q17-check-duplicates': check for duplicate ridges with the same vertices
 - Option 'Q1' merges by mergetype/angle instead of mergetype/distance, coplanar merges first
   In 2015.2 by default, Qhull merged by mergetype/angle with lower angles first
 - Option 'TP-1' turns on tracing after qh_buildhull and qh_postmerge

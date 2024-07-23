@@ -21,8 +21,8 @@
    vertex->neighbors not set until the first merge occurs
 
    Copyright (c) 1993-2020 C.B. Barber.
-   $Id: //main/2019/qhull/src/libqhull/merge.c#12 $$Change: 2958 $
-   $DateTime: 2020/05/26 16:17:49 $$Author: bbarber $
+   $Id: //main/2019/qhull/src/libqhull/merge.c#13 $$Change: 3664 $
+   $DateTime: 2024/07/22 23:55:01 $$Author: bbarber $
 */
 
 #include "qhull_a.h"
@@ -2320,14 +2320,14 @@ void qh_maybe_duplicateridge(ridgeT *ridgeA) {
   >-------------------------------</a><a name="maybe_duplicateridges">-</a>
 
   qh_maybe_duplicateridges( facet )
-    if Q15, add MRGvertices if facet has ridges with the same vertices
+    if Q17, add MRGvertices if facet has ridges with the same vertices
 
   returns:
     adds rename requests to qh.vertex_mergeset
 
   notes:
     called at end of qh_mergefacet and qh_mergecycle_all
-    only enabled if qh.CHECKduplicates ('Q15') and 3-D or more
+    only enabled if qh.CHECKduplicates ('Q17') and 3-D or more
     expensive test, not worth it
     same as qh_maybe_duplicateridge
 
@@ -3356,7 +3356,7 @@ void qh_mergecycle_vneighbors(facetT *samecycle, facetT *newfacet) {
       test facet2 for redundant neighbors
       test facet1 for degenerate neighbors
       test for redundant facet2
-      maybe test for duplicate ridges ('Q15')
+      maybe test for duplicate ridges ('Q17')
     move facet1 to qh.visible_list for later deletion
 */
 void qh_mergefacet(facetT *facet1, facetT *facet2, mergeType mergetype, realT *mindist, realT *maxdist, boolT mergeapex) {
@@ -3438,7 +3438,7 @@ void qh_mergefacet(facetT *facet1, facetT *facet2, mergeType mergetype, realT *m
     qh_errexit2(qh_ERRqhull, facet1, facet2);
   }
   if (qh num_facets - qh num_visible <= qh hull_dim + 1) {
-    qh_fprintf(qh ferr, 6227, "qhull topology error: Only %d facets remain.  The input is too degenerate or the convexity constraints are too strong.\n", 
+    qh_fprintf(qh ferr, 6227, "qhull topology error: Only %d facets remain.  The input is too degenerate or the convexity constraints are too strong.\n",
           qh hull_dim+1);
     if (qh hull_dim >= 5 && !qh MERGEexact)
       qh_fprintf(qh ferr, 8079, "    Option 'Qx' may avoid this problem.\n");
@@ -5567,7 +5567,7 @@ void qh_checkdelridge(void /* qh.visible_facets, vertex_mergeset */) {
 }
 boolT qh_checkzero(boolT testall) {
   QHULL_UNUSED(testall)
-    
+
   return True;
 }
 void qh_freemergesets(void) {

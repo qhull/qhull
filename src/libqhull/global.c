@@ -12,8 +12,8 @@
    see qhull_a.h for internal functions
 
    Copyright (c) 1993-2020 The Geometry Center.
-   $Id: //main/2019/qhull/src/libqhull/global.c#17 $$Change: 3396 $
-   $DateTime: 2023/01/02 16:59:48 $$Author: bbarber $
+   $Id: //main/2019/qhull/src/libqhull/global.c#18 $$Change: 3664 $
+   $DateTime: 2024/07/22 23:55:01 $$Author: bbarber $
  */
 
 #include "qhull_a.h"
@@ -1225,7 +1225,7 @@ void qh_initflags(char *command) {
 #endif
             break;
           case '7':
-            qh_option("Q15-check-duplicates", NULL, NULL);
+            qh_option("Q17-check-duplicates", NULL, NULL);
             qh CHECKduplicates= True;
             break;
           default:

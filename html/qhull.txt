@@ -1041,7 +1041,7 @@ qhull(1)                                                 qhull(1)
        
        Q14    With 'Q14', Qhull merges pinched vertices that create a dupridge.
 
-       Q15    With 'Q15', Qhull checks for duplicate ridges with the same vertices.
+       Q17    With 'Q17', Qhull checks for duplicate ridges with the same vertices.
        
        Trace options
 

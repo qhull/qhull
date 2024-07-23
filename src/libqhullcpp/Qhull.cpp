@@ -1,8 +1,8 @@
 /****************************************************************************
 **
 ** Copyright (c) 2008-2020 C.B. Barber. All rights reserved.
-** $Id: //main/2019/qhull/src/libqhullcpp/Qhull.cpp#12 $$Change: 3009 $
-** $DateTime: 2020/07/30 19:25:22 $$Author: bbarber $
+** $Id: //main/2019/qhull/src/libqhullcpp/Qhull.cpp#13 $$Change: 3664 $
+** $DateTime: 2024/07/22 23:55:01 $$Author: bbarber $
 **
 ****************************************************************************/
 
@@ -34,7 +34,7 @@ namespace orgQhull{
 #//!\name Global variables
 
 const char s_unsupported_options[]=" Fd TI ";
-const char s_not_output_options[]= " Fd TI A C d E H P Qa Qb QbB Qbb Qc Qf Qg Qi Qm QJ Qr QR Qs Qt Qv Qx Qz Q0 Q1 Q2 Q3 Q4 Q5 Q6 Q7 Q8 Q9 Q10 Q11 Q15 R TA Tc TC TM TP TR Tv TV TW U v V W ";
+const char s_not_output_options[]= " Fd TI A C d E H P Qa Qb QbB Qbb Qc Qf Qg Qi Qm QJ Qr QR Qs Qt Qv Qx Qz Q0 Q1 Q2 Q3 Q4 Q5 Q6 Q7 Q8 Q9 Q10 Q11 Q17 R TA Tc TC TM TP TR Tv TV TW U v V W ";
 
 #//!\name Constructor, destructor, etc.
 Qhull::

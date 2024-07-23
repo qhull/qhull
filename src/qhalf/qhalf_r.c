@@ -46,7 +46,7 @@ int isatty(int);  /* returns 1 if stdin is a tty
 */
 
 /* duplicated in qhalf.htm */
-char hidden_options[]=" d n v Qbb QbB Qf Qg Qm Qr Qv Qx Qz TR E V Fa FA FC FD FS Ft FV Gt Q0 Q1 Q2 Q3 Q4 Q5 Q6 Q7 Q8 Q9 Q10 Q11 Q15 ";
+char hidden_options[]=" d n v Qbb QbB Qf Qg Qm Qr Qv Qx Qz TR E V Fa FA FC FD FS Ft FV Gt Q0 Q1 Q2 Q3 Q4 Q5 Q6 Q7 Q8 Q9 Q10 Q11 Q17 ";
 
 char qh_prompta[]= "\n\
 qhalf -- compute the intersection of halfspaces about a point\n\

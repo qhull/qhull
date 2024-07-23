@@ -869,8 +869,8 @@ With 'Q12', Qhull allows wide facets and wide dupridge.
 Q14
 With 'Q14', Qhull merges pinched vertices that create a dupridge.
 .TP
-Q15
-With 'Q15', Qhull checks for duplicate ridges with the same vertices.
+Q17
+With 'Q17', Qhull checks for duplicate ridges with the same vertices.
 .PP
 .TP
 Trace options

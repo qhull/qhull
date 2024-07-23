@@ -3,6 +3,7 @@
 
 # Backup and data files
 eg/eg.*
+eg/qhull-benchmark*.*
 *~
 *.bak
 *.off
@@ -41,6 +42,7 @@ build/*/Debug/*
 build/*/MinSizeRel/*
 build/*/RelWithDebInfo/*
 libq
+lib
 *.a
 *.autosave
 *.dll

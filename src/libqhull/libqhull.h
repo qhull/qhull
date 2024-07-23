@@ -7,8 +7,8 @@
    see qh-qhull.htm, qhull_a.h
 
    Copyright (c) 1993-2020 The Geometry Center.
-   $Id: //main/2019/qhull/src/libqhull/libqhull.h#11 $$Change: 2958 $
-   $DateTime: 2020/05/26 16:17:49 $$Author: bbarber $
+   $Id: //main/2019/qhull/src/libqhull/libqhull.h#12 $$Change: 3664 $
+   $DateTime: 2024/07/22 23:55:01 $$Author: bbarber $
 
    NOTE: access to qh_qh is via the 'qh' macro.  This allows
    qh_qh to be either a pointer or a structure.  An example
@@ -522,7 +522,7 @@ struct qhT {
   boolT BESToutside;      /* true 'Qf' if partition points into best outsideset */
   boolT CDDinput;         /* true 'Pc' if input uses CDD format (1.0/offset first) */
   boolT CDDoutput;        /* true 'PC' if print normals in CDD format (offset first) */
-  boolT CHECKduplicates;  /* true 'Q15' if qh_maybe_duplicateridges after each qh_mergefacet */
+  boolT CHECKduplicates;  /* true 'Q17' if qh_maybe_duplicateridges after each qh_mergefacet */
   boolT CHECKfrequently;  /* true 'Tc' if checking frequently */
   realT premerge_cos;     /*   'A-n'   cos_max when pre merging */
   realT postmerge_cos;    /*   'An'    cos_max when post merging */
@@ -861,9 +861,9 @@ struct qhT {
   realT last_newhigh;
   realT lastcpu;          /* for qh_buildtracing */
   int   lastfacets;       /*   last qh.num_facets */
-  int   lastmerges;       /*   last zzval_(Ztotmerge) */ 
-  int   lastplanes;       /*   last zzval_(Zsetplane) */ 
-  int   lastdist;         /*   last zzval_(Zdistplane) */ 
+  int   lastmerges;       /*   last zzval_(Ztotmerge) */
+  int   lastplanes;       /*   last zzval_(Zsetplane) */
+  int   lastdist;         /*   last zzval_(Zdistplane) */
   unsigned int lastreport; /*  last qh.facet_id */
   int mergereport;        /* for qh_tracemerging */
   qhstatT *old_qhstat;    /* for saving qh_qhstat in save_qhull() and UsingLibQhull.  Free with qh_free() */

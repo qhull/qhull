@@ -8,8 +8,8 @@
    see qh-qhull.htm
 
    Copyright (c) 1993-2020 The Geometry Center.
-   $Id: //main/2019/qhull/src/qhull/unix_r.c#6 $$Change: 3006 $
-   $DateTime: 2020/07/29 18:28:16 $$Author: bbarber $
+   $Id: //main/2019/qhull/src/qhull/unix_r.c#7 $$Change: 3664 $
+   $DateTime: 2024/07/22 23:55:01 $$Author: bbarber $
 */
 
 #include "libqhull_r/libqhull_r.h"
@@ -108,7 +108,7 @@ Qhull extra options:\n\
     Q11  - copy normals and recompute centrums for tricoplanar facets\n\
     Q12  - allow wide facets and wide dupridge\n\
     Q14  - merge pinched vertices that create a dupridge\n\
-    Q15  - check for duplicate ridges with the same vertices\n\
+    Q17  - check for duplicate ridges with the same vertices\n\
 \n\
 T options:\n\
     TFn  - report summary when n or more facets created\n\
@@ -323,7 +323,7 @@ char qh_prompt3b[]= "\
  Q0-no-premerge Q1-angle-merge     Q2-no-independ  Q3-no-redundant\n\
  Q4-no-old      Q5-no-check-out    Q6-no-concave   Q7-depth-first\n\
  Q8-no-near-in  Q9-pick-furthest   Q10-no-narrow   Q11-trinormals\n\
- Q12-allow-wide Q14-merge-pinched  Q15-duplicates\n\
+ Q12-allow-wide Q14-merge-pinched  Q17-duplicates\n\
 \n\
  TFacet-log     TInput-file    TOutput-file   Tstatistics    Tverify\n\
  Tz-stdout\n\

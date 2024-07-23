@@ -49,7 +49,7 @@ int isatty(int);  /* returns 1 if stdin is a tty
 /* duplicated in qvoron_f.htm and qvoronoi.htm
    QJ and Qt are deprecated, but allowed for backwards compatibility
 */
-char hidden_options[]=" d n m v H U Qb QB Qc Qf Qg Qi Qm Qr Qv Qx TR E V Fa FA FC FM Fp FS Ft FV Gt Pv Q0 Q1 Q2 Q3 Q4 Q5 Q6 Q7 Q8 Q9 Q10 Q11 Q15 ";
+char hidden_options[]=" d n m v H U Qb QB Qc Qf Qg Qi Qm Qr Qv Qx TR E V Fa FA FC FM Fp FS Ft FV Gt Pv Q0 Q1 Q2 Q3 Q4 Q5 Q6 Q7 Q8 Q9 Q10 Q11 Q17 ";
 
 char qh_prompta[]= "\n\
 qvoronoi -- compute the Voronoi diagram\n\
