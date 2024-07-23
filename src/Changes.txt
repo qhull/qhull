@@ -1,4 +1,4 @@
-$Id: //main/2019/qhull/src/Changes.txt#86 $$Date: 2024/07/22 $
+$Id: //main/2019/qhull/src/Changes.txt#85 $$Date: 2023/01/09 $
 
 .............This file lists all changes to qhull and rbox.....................
 
@@ -45,9 +45,10 @@ Qhull 2.0 (1994-1995)
 ==================
 == Qhull 2018-2023
 ==================
-Qhull 8.1-alpha4 GitHub 2024/07/21
+Qhull 8.1.alpha4 GitHub 2024/07/22
 
 Build changes
+- Replaced tag 8.1-alpha4 with 8.1.alpha4 [T. Kloczek #106]
 - CMakeLists.txt: properly express dependency of qhullcpp to qhullstatic_r  [SpaceIm, M. Valgur #128] 
 - qhull-exports.def,*.def: Add DATA after qh_version and qh_version2 [B. Sanders #139]
 -  other symbols in *.def are CODE symbols exported to Windows
