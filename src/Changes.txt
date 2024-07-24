@@ -1,4 +1,4 @@
-$Id: //main/2019/qhull/src/Changes.txt#85 $$Date: 2023/01/09 $
+$Id: //main/2019/qhull/src/Changes.txt#87 $$Date: 2024/07/23 $
 
 .............This file lists all changes to qhull and rbox.....................
 
@@ -7,7 +7,9 @@ $Id: //main/2019/qhull/src/Changes.txt#85 $$Date: 2023/01/09 $
 ====
 
 To do
-Qhull 2018-2023
+Qhull 2021-2024
+Qhull 2020
+Qhull 2018-2019
 Qhull 2015
 Qhull 2012.1
 Qhull 2011.1
@@ -43,7 +45,7 @@ Qhull 2.0 (1994-1995)
   https://doc.cgal.org/4.7/Voronoi_diagram_2/group__PkgVoronoiDiagramAdaptor2.html
 
 ==================
-== Qhull 2018-2023
+== Qhull 2021-2024
 ==================
 
 ------------
@@ -115,6 +117,10 @@ Additions to
 Documentation changes
 - user_r.c,user_eg2_r.c: Replace -REALmin with -REALmax in two error messages [S. Hutter #87]
 - Fixed various spelling errors in code comments and Changes.txt [luzpaz #84]
+
+==================
+== Qhull 2020
+==================
 
 ------------
 Qhull 2020.2 2020/08/31 (8.0.2)
@@ -325,6 +331,10 @@ Testing and other changes
   Add findf for identifying files for link checks
   Add prompts for web.archive and md5sum in qh-get.htm
   
+==================
+== Qhull 2018-2019
+==================
+
 ------------
 Qhull 2019.1 GitHub 2019/10/24
 
