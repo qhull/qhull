@@ -106,9 +106,9 @@ typedef long ptr_intT;
    users should ignore qhmem except for writing extensions
    qhmem is allocated in mem_r.c
 
-   qhmem could be swapable like qh and qhstat, but then
+   qhmem could be swappable like qh and qhstat, but then
    multiple qh's and qhmem's would need to keep in synch.
-   A swapable qhmem would also waste memory buffers.  As long
+   A swappable qhmem would also waste memory buffers.  As long
    as memory operations are atomic, there is no problem with
    multiple qh structures being active at the same time.
    If you need separate address spaces, you can swap the

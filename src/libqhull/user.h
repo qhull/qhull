@@ -523,7 +523,7 @@ try twice at the original value in case of bad luck the first time
     default box size (Geomview expects 0.5)
 
   qh_DEFAULTbox
-    default box size for integer coorindate (rbox only)
+    default box size for integer coordinate (rbox only)
 */
 #define qh_DEFAULTbox 0.5
 #define qh_DEFAULTzbox 1e6

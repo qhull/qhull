@@ -909,7 +909,7 @@ void qh_matchneighbor(facetT *newfacet, int newskip, int hashsize, int *hashcoun
         vertices for the nth neighbor match all but the nth vertex
     if not merging and qh.FORCEoutput
       for facets with normals (i.e., with dupridges)
-      sets facet->flippped for flipped normals, also prevents point partitioning
+      sets facet->flipped for flipped normals, also prevents point partitioning
 
   notes:
     called by qh_buildcone* and qh_triangulate_facet

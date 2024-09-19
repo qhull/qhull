@@ -185,7 +185,7 @@ Documentation
 - index.htm: Balance the top-page 'URL:' and 'To:' links
 - index.htm: Send the top-page 'Functions' link to www.qhull.org (better 'src' links)
 - index.htm: Make the bottom-page 'URL:' and 'To:' links the same as the top-page links
-- index.htm: "please use rentrant Qhull (libqhull_r or libqhullstatic_r)"
+- index.htm: "please use reentrant Qhull (libqhull_r or libqhullstatic_r)"
 - html/index.htm: Add rbox.txt to Contents and rename "Table of Contents"
 - html/index.htm,qh-code.htm,qh-eg.htm,qh-impre.htm: Remove 'please wait while loading'
 - README.txt/Installing Qhull with Qt: The shadow build directory should be at the same level as 'src'
@@ -1369,7 +1369,7 @@ C++ interface by class
  - Coordinates
    Removed empty().  Use isEmpty() instead
    Added append(dim, coordT*)
-   Reformated the iterators
+   Reformatted the iterators
    Convert to countT
  - PointCoordinates
    Added constructors for Qhull or QhullQh* (provides access to QhullPoint.operator==)
@@ -1832,7 +1832,7 @@ qhull 2010.1 2010/01/06
 - First release of C++ interface [qh-code.htm]
 - Development moved to http://gitorious.org/qhull
   git clone git@gitorious.org:qhull/qhull.git
-- Did not fix conformant tesselations for 'Qt'.
+- Did not fix conformant tessellations for 'Qt'.
   For details, see http://www.qhull.org/news#bugs of May 2007 and Dec 2006.
 - Use g++ builds for Windows distribution (10% faster than msvc2005)
   Combined vcproj/ and qtproj/ into project/
@@ -2619,7 +2619,7 @@ qhull V2.3 96/3/25
  - fixed false error if 'Tc', coplanar points, and a narrow hull
  - turn off 'Rn' when computing statistics, checking code, or tracing code
  - removed ={0} from global.c and stat.c to reduce compiler warnings
- - changed Makefile dependences to $(HFILES) for all but unix.o, set.o, mem.o
+ - changed Makefile dependencies to $(HFILES) for all but unix.o, set.o, mem.o
  - pulled out qh_printpointid and reordered qh_pointid [E. Voth]
  - removed some compiler warnings
  - moved 'FO' print of options to just before qh_buildhull
@@ -3090,7 +3090,7 @@ Converting from qhull 1.01 to qhull 2.00
   - 'qhull o' is now 'qhull Po'
   - 'qhull b' is now always done
   - qhull and rbox now use floats, change REALfloat in libqhull.h for doubles
-  - qhull 2.00 fixes several initialization errors and performanace errors
+  - qhull 2.00 fixes several initialization errors and performance errors
         e.g., "singular input" on data with lots of 0 coordinates
   - 'rbox b' is now 'rbox c G0.48'
   - all rbox distributions are now scaled to a 0.5 box (use 'Bn' to change)

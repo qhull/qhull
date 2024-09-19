@@ -16,7 +16,7 @@ This directory contains
   build/CMakeModules/CheckLFS.cmake // enables Large File Support in CMake
 
 The following build targets are _deprecated_ and are not included in the Qhull builds
-  build/libqhull-??.vcxproj // Non-rentrant Qhull
+  build/libqhull-??.vcxproj // Non-reentrant Qhull
   build/libqhull.vcproj     //   Replaced by qhullstatic
   src/libqhull/libqhull.pro
   CMakeLists.txt#libqhull

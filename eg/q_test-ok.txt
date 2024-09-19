@@ -14775,7 +14775,7 @@ qhull(1)                                                 qhull(1)
        d Qu   Compute the  furthest-site  Delaunay  triangulation
               from  the upper convex hull.  The 'o' option prints
               the input points and facets.  The 'QJ' option guar-
-              antees triangular otuput.  You can also use facets.
+              antees triangular output.  You can also use facets.
 
        v Qu   Compute the furthest-site Voronoi diagram.  The 'p'
               option prints the Voronoi vertices.  The 'o' option

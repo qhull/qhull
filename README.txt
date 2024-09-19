@@ -545,10 +545,10 @@ src/
   qhulltest/qhulltest.cpp // Test of Qhull's C++ interface using Qt's QTestLib
   qhull-*.pri             // Include files for Qt projects
   testqset_r/testqset_r.c  // Test of reentrant qset_r.c and mem_r.c
-  testqset/testqset.c     // Test of non-rentrant qset.c and mem.c
+  testqset/testqset.c     // Test of non-reentrant qset.c and mem.c
 
 src/libqhull
-  libqhull.pro         // Qt project for non-rentrant, shared library (qhull.dll)
+  libqhull.pro         // Qt project for non-reentrant, shared library (qhull.dll)
   index.htm            // design documentation for libqhull
   qh-*.htm
   qhull-exports.def    // Export Definition files for Visual C++
@@ -589,7 +589,7 @@ src/libqhull
   stat.h
 
 src/libqhull_r
-  libqhull_r.pro       // Qt project for rentrant, shared library (qhull_r.dll)
+  libqhull_r.pro       // Qt project for reentrant, shared library (qhull_r.dll)
   index.htm            // design documentation for libqhull_r
   qh-*_r.htm
   qhull_r-exports.def  // Export Definition files for Visual C++
@@ -626,7 +626,7 @@ src/libqhull_r
   stat.h
 
 src/libqhullcpp/
-  libqhullcpp.pro      // Qt project for renentrant, static C++ library     
+  libqhullcpp.pro      // Qt project for reentrant, static C++ library     
   Qhull.cpp            // Calls libqhull_r.c from C++
   Qhull.h
   qt-qhull.cpp         // Supporting methods for Qt

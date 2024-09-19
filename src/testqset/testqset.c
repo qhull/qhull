@@ -93,9 +93,9 @@ enum {
     MAXint= 0x7fffffff
 };
 
-char prompt[]= "testqset N [M] [T5] -- Test non-rentrant qset.c and mem.c\n\
+char prompt[]= "testqset N [M] [T5] -- Test non-reentrant qset.c and mem.c\n\
   \n\
-  If this test fails then non-rentrant Qhull will not work.\n\
+  If this test fails then non-reentrant Qhull will not work.\n\
   \n\
   Test qsets of 0..N integers with a check every M iterations (default ~log10)\n\
   Additional checking and logging if M is 1\n\

@@ -204,7 +204,7 @@ int main(int argc, char *argv[]) {
   printf("\n========\nuser_eg 'cube qhull options' 'Delaunay options' 'halfspace options'\n\
 \n\
 This is the output from user_eg.c.  It shows how qhull() may be called from\n\
-an application, via Qhull's shared, non-rentrant library.  user_eg is not part of\n\
+an application, via Qhull's shared, non-reentrant library.  user_eg is not part of\n\
 Qhull itself.  If user_eg fails immediately, user_eg.c was incorrectly linked\n\
 to Qhull's reentrant library, libqhull_r.\n\
 Try -- user_eg 'T1' 'T1' 'T1'\n\

@@ -4,7 +4,7 @@
 #       eg/make-vcproj.sh qhull-x -- Derive src/qhull-x/ from src/libqhull_r
 #
 # Design
-#       CMake vcproj files includes absolute paths and does not handle 'd' annotatios for debug versions
+#       CMake vcproj files includes absolute paths and does not handle 'd' annotations for debug versions
 #       Remove CMake targets
 #       Change absolute paths to '../..'
 #       Append '_d' to debug products

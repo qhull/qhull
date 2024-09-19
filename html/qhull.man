@@ -222,7 +222,7 @@ option produces a feasible point for a convex hull.
 d Qu
 Compute the furthest\[hy]site Delaunay triangulation from the upper
 convex hull.  The 'o' option prints the input points and facets.
-The 'QJ' option guarantees triangular otuput.  You can also use 'Ft'
+The 'QJ' option guarantees triangular output.  You can also use 'Ft'
 to triangulate via the centrums of non\[hy]simplicial
 facets.
 .TP
