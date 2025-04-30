@@ -689,10 +689,16 @@ install(TARGETS ${qhull_TARGETS_INSTALL} EXPORT QhullTargets)
 
 include(CMakePackageConfigHelpers)
 
+set(ConfigPackageLocation ${CMAKE_INSTALL_LIBDIR}/cmake/Qhull)
 write_basic_package_version_file(
     "${CMAKE_CURRENT_BINARY_DIR}/QhullExport/QhullConfigVersion.cmake"
     VERSION ${qhull_VERSION}
     COMPATIBILITY AnyNewerVersion
+)
+configure_package_config_file(
+    build/config.cmake.in
+    "${CMAKE_CURRENT_BINARY_DIR}/QhullExport/QhullConfig.cmake"
+    INSTALL_DESTINATION ${ConfigPackageLocation}
 )
 
 export(EXPORT QhullTargets
@@ -700,12 +706,6 @@ export(EXPORT QhullTargets
   NAMESPACE Qhull:: 
 )
 
-configure_file(${PROJECT_SOURCE_DIR}/build/config.cmake.in
-  "${CMAKE_CURRENT_BINARY_DIR}/QhullExport/QhullConfig.cmake"
-  @ONLY
-)
-
-set(ConfigPackageLocation ${CMAKE_INSTALL_LIBDIR}/cmake/Qhull)
 install(EXPORT QhullTargets
   FILE
     QhullTargets.cmake
