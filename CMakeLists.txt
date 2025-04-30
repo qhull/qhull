@@ -320,8 +320,6 @@ set(
         index.htm
 )
 
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
-
 set(qhull_CPP qhullcpp)
 set(qhull_STATIC qhullstatic)
 set(qhull_STATICR qhullstatic_r)
@@ -365,6 +363,10 @@ endif ()
 add_library(${qhull_SHAREDR} SHARED 
         ${libqhullr_SOURCES}
         src/libqhull_r/qhull_r-exports.def)
+target_include_directories(${qhull_SHAREDR} PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
+    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+)
 set_target_properties(${qhull_SHAREDR} PROPERTIES
     SOVERSION ${qhull_SOVERSION}
     VERSION ${qhull_VERSION}
@@ -381,6 +383,10 @@ endif(UNIX)
 add_library(${qhull_SHARED} SHARED 
         ${libqhull_SOURCES}
         src/libqhull/qhull-exports.def)
+target_include_directories(${qhull_SHARED} PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
+    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+)
 
 set_target_properties(${qhull_SHARED} PROPERTIES
     EXCLUDE_FROM_ALL TRUE
@@ -399,6 +405,10 @@ endif(UNIX)
 add_library(${qhull_SHAREDP} SHARED
         ${libqhull_SOURCES}
         src/libqhull/qhull_p-exports.def)
+target_include_directories(${qhull_SHAREDP} PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
+    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+)
 
 set_target_properties(${qhull_SHAREDP} PROPERTIES
     EXCLUDE_FROM_ALL TRUE
@@ -419,11 +429,19 @@ add_library(${qhull_STATIC} STATIC ${libqhull_SOURCES})
 set_target_properties(${qhull_STATIC} PROPERTIES
     VERSION ${qhull_VERSION}
     OUTPUT_NAME "${qhull_STATIC}$<$<CONFIG:Debug>:_d>")
+target_include_directories(${qhull_STATIC} PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
+    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+)
 
 add_library(${qhull_STATICR} STATIC ${libqhullr_SOURCES})
 set_target_properties(${qhull_STATICR} PROPERTIES
     VERSION ${qhull_VERSION}
     OUTPUT_NAME "${qhull_STATICR}$<$<CONFIG:Debug>:d>")
+target_include_directories(${qhull_STATICR} PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
+    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+)
 
 if(UNIX)
     target_link_libraries(${qhull_STATIC} m)
@@ -443,6 +461,10 @@ set_target_properties(${qhull_CPP} PROPERTIES
     VERSION ${qhull_VERSION}
     OUTPUT_NAME "${qhull_CPP}$<$<CONFIG:Debug>:_d>"
     POSITION_INDEPENDENT_CODE "TRUE")
+target_include_directories(${qhull_CPP} PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
+    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+)
 
 # ---------------------------------------
 # if BUILD_STATIC_LIBS=OFF or BUILD_SHARED_LIBS=OFF
@@ -558,6 +580,13 @@ endif()
 
 add_executable(testqset ${testqset_SOURCES})
 add_executable(testqset_r ${testqsetr_SOURCES})
+if(${BUILD_SHARED_LIBS})
+    target_link_libraries(testqset PRIVATE ${qhull_SHAREDR})
+    target_link_libraries(testqset_r PRIVATE ${qhull_SHAREDR})
+else()
+    target_link_libraries(testqset PRIVATE ${qhull_STATICR})
+    target_link_libraries(testqset_r PRIVATE ${qhull_STATICR})
+endif()
 
 # ---------------------------------------
 # Define user_eg linked to reentrant qhull shared library
