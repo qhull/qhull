@@ -68,7 +68,7 @@
 # $Id: //main/2019/qhull/CMakeLists.txt#23 $$Change: 3664 $
 # $DateTime: 2024/07/22 23:55:01 $$Author: bbarber $
 
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.5...4.0)
 project(qhull)
 
 # Define qhull_VERSION in README.txt, Announce.txt, qh-get.htm, CMakeLists.txt
@@ -117,35 +117,17 @@ cmake_dependent_option(LINK_APPS_SHARED "Use shared library for linking applicat
 option(QHULL_ENABLE_TESTING "Build and run tests" ON)
 option(BUILD_APPLICATIONS "Build applications" ON)
 
-if(INCLUDE_INSTALL_DIR)
-else()
-    set(INCLUDE_INSTALL_DIR include)
-endif()
-if(LIB_INSTALL_DIR)
-else()
-    set(LIB_INSTALL_DIR lib)
-endif()
-if(BIN_INSTALL_DIR)
-else()
-    set(BIN_INSTALL_DIR bin)
-endif()
-if(MAN_INSTALL_DIR)
-else()
-    set(MAN_INSTALL_DIR share/man/man1)
-endif()
-if(DOC_INSTALL_DIR)
-else()
-    set(DOC_INSTALL_DIR share/doc/qhull)
-endif()
+include(GNUInstallDirs)
+
 message(STATUS)
 message(STATUS "========== qhull Build Information ==========")
 message(STATUS "Build Version:                             ${qhull_VERSION}")
 message(STATUS "Install Prefix (CMAKE_INSTALL_PREFIX):     ${CMAKE_INSTALL_PREFIX}")
-message(STATUS "Binary Directory (BIN_INSTALL_DIR):        ${BIN_INSTALL_DIR}")
-message(STATUS "Library Directory (LIB_INSTALL_DIR):       ${LIB_INSTALL_DIR}")
-message(STATUS "Include Directory (INCLUDE_INSTALL_DIR):   ${INCLUDE_INSTALL_DIR}")
-message(STATUS "Documentation Directory (DOC_INSTALL_DIR): ${DOC_INSTALL_DIR}")
-message(STATUS "Man Pages Directory (MAN_INSTALL_DIR):     ${MAN_INSTALL_DIR}")
+message(STATUS "Binary Directory (CMAKE_INSTALL_BINDIR):   ${CMAKE_INSTALL_BINDIR}")
+message(STATUS "Library Directory (CMAKE_INSTALL_LIBDIR):  ${CMAKE_INSTALL_LIBDIR}")
+message(STATUS "Include Directory (CMAKE_INSTALL_INCLUDEDIR): ${CMAKE_INSTALL_INCLUDEDIR}")
+message(STATUS "Documentation Directory (CMAKE_INSTALL_DOCDIR): ${CMAKE_INSTALL_DOCDIR}")
+message(STATUS "Man Pages Directory (CMAKE_INSTALL_MANDIR): ${CMAKE_INSTALL_MANDIR}")
 message(STATUS "Build Type (CMAKE_BUILD_TYPE):             ${CMAKE_BUILD_TYPE}")
 message(STATUS "Build static libraries:                    ${BUILD_STATIC_LIBS}")
 message(STATUS "Build shared library:                      ${BUILD_SHARED_LIBS}")
@@ -338,8 +320,6 @@ set(
         index.htm
 )
 
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
-
 set(qhull_CPP qhullcpp)
 set(qhull_STATIC qhullstatic)
 set(qhull_STATICR qhullstatic_r)
@@ -365,11 +345,11 @@ set(
 # ---------------------------------------
 
 if (NOT DEFINED CMAKE_INSTALL_NAME_DIR)
-    set(CMAKE_INSTALL_NAME_DIR "${LIB_INSTALL_DIR}")
+    set(CMAKE_INSTALL_NAME_DIR "${CMAKE_INSTALL_LIBDIR}")
 endif ()
 
 if (NOT DEFINED CMAKE_INSTALL_RPATH)
-    set(CMAKE_INSTALL_RPATH "${LIB_INSTALL_DIR}")
+    set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_LIBDIR}")
 endif ()
 
 if (NOT DEFINED CMAKE_INSTALL_RPATH_USE_LINK_PATH)
@@ -383,6 +363,10 @@ endif ()
 add_library(${qhull_SHAREDR} SHARED 
         ${libqhullr_SOURCES}
         src/libqhull_r/qhull_r-exports.def)
+target_include_directories(${qhull_SHAREDR} PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
+    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+)
 set_target_properties(${qhull_SHAREDR} PROPERTIES
     SOVERSION ${qhull_SOVERSION}
     VERSION ${qhull_VERSION}
@@ -399,6 +383,10 @@ endif(UNIX)
 add_library(${qhull_SHARED} SHARED 
         ${libqhull_SOURCES}
         src/libqhull/qhull-exports.def)
+target_include_directories(${qhull_SHARED} PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
+    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+)
 
 set_target_properties(${qhull_SHARED} PROPERTIES
     EXCLUDE_FROM_ALL TRUE
@@ -417,6 +405,10 @@ endif(UNIX)
 add_library(${qhull_SHAREDP} SHARED
         ${libqhull_SOURCES}
         src/libqhull/qhull_p-exports.def)
+target_include_directories(${qhull_SHAREDP} PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
+    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+)
 
 set_target_properties(${qhull_SHAREDP} PROPERTIES
     EXCLUDE_FROM_ALL TRUE
@@ -437,11 +429,19 @@ add_library(${qhull_STATIC} STATIC ${libqhull_SOURCES})
 set_target_properties(${qhull_STATIC} PROPERTIES
     VERSION ${qhull_VERSION}
     OUTPUT_NAME "${qhull_STATIC}$<$<CONFIG:Debug>:_d>")
+target_include_directories(${qhull_STATIC} PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
+    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+)
 
 add_library(${qhull_STATICR} STATIC ${libqhullr_SOURCES})
 set_target_properties(${qhull_STATICR} PROPERTIES
     VERSION ${qhull_VERSION}
     OUTPUT_NAME "${qhull_STATICR}$<$<CONFIG:Debug>:d>")
+target_include_directories(${qhull_STATICR} PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
+    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+)
 
 if(UNIX)
     target_link_libraries(${qhull_STATIC} m)
@@ -461,6 +461,10 @@ set_target_properties(${qhull_CPP} PROPERTIES
     VERSION ${qhull_VERSION}
     OUTPUT_NAME "${qhull_CPP}$<$<CONFIG:Debug>:_d>"
     POSITION_INDEPENDENT_CODE "TRUE")
+target_include_directories(${qhull_CPP} PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
+    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+)
 
 # ---------------------------------------
 # if BUILD_STATIC_LIBS=OFF or BUILD_SHARED_LIBS=OFF
@@ -576,6 +580,13 @@ endif()
 
 add_executable(testqset ${testqset_SOURCES})
 add_executable(testqset_r ${testqsetr_SOURCES})
+if(${BUILD_SHARED_LIBS})
+    target_link_libraries(testqset PRIVATE ${qhull_SHAREDR})
+    target_link_libraries(testqset_r PRIVATE ${qhull_SHAREDR})
+else()
+    target_link_libraries(testqset PRIVATE ${qhull_STATICR})
+    target_link_libraries(testqset_r PRIVATE ${qhull_STATICR})
+endif()
 
 # ---------------------------------------
 # Define user_eg linked to reentrant qhull shared library
@@ -712,12 +723,20 @@ if (${BUILD_STATIC_LIBS})
             INCLUDES DESTINATION ${INCLUDE_INSTALL_DIR})
 endif()
 
+install(TARGETS ${qhull_TARGETS_INSTALL} EXPORT QhullTargets)
+
 include(CMakePackageConfigHelpers)
 
+set(ConfigPackageLocation ${CMAKE_INSTALL_LIBDIR}/cmake/Qhull)
 write_basic_package_version_file(
     "${CMAKE_CURRENT_BINARY_DIR}/QhullExport/QhullConfigVersion.cmake"
     VERSION ${qhull_VERSION}
     COMPATIBILITY AnyNewerVersion
+)
+configure_package_config_file(
+    build/config.cmake.in
+    "${CMAKE_CURRENT_BINARY_DIR}/QhullExport/QhullConfig.cmake"
+    INSTALL_DESTINATION ${ConfigPackageLocation}
 )
 
 export(EXPORT QhullTargets
@@ -725,12 +744,6 @@ export(EXPORT QhullTargets
   NAMESPACE Qhull:: 
 )
 
-configure_file(${PROJECT_SOURCE_DIR}/build/config.cmake.in
-  "${CMAKE_CURRENT_BINARY_DIR}/QhullExport/QhullConfig.cmake"
-  @ONLY
-)
-
-set(ConfigPackageLocation ${LIB_INSTALL_DIR}/cmake/Qhull)
 install(EXPORT QhullTargets
   FILE
     QhullTargets.cmake
@@ -749,7 +762,7 @@ install(
     Devel
 )
 
-set(PkgConfigLocation ${LIB_INSTALL_DIR}/pkgconfig)
+set(PkgConfigLocation ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
 foreach(pkgconfig IN ITEMS "${qhull_SHAREDR};Qhull reentrant shared library"
                            "${qhull_STATIC};Qhull static library"
                            "${qhull_STATICR};Qhull reentrant static library"
@@ -767,15 +780,15 @@ foreach(pkgconfig IN ITEMS "${qhull_SHAREDR};Qhull reentrant shared library"
     install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${LIBRARY_NAME}.pc DESTINATION ${PkgConfigLocation} COMPONENT Devel)
 endforeach()
 
-install(FILES ${libqhull_HEADERS}    DESTINATION ${INCLUDE_INSTALL_DIR}/libqhull)
-install(FILES src/libqhull/DEPRECATED.txt DESTINATION ${INCLUDE_INSTALL_DIR}/libqhull)
-install(FILES ${libqhullr_HEADERS}    DESTINATION ${INCLUDE_INSTALL_DIR}/libqhull_r)
-install(FILES ${libqhullcpp_HEADERS} DESTINATION ${INCLUDE_INSTALL_DIR}/libqhullcpp)
-install(FILES html/qhull.man         DESTINATION ${MAN_INSTALL_DIR} RENAME qhull.1)
-install(FILES html/rbox.man          DESTINATION ${MAN_INSTALL_DIR} RENAME rbox.1)
-install(FILES ${doc_FILES}           DESTINATION ${DOC_INSTALL_DIR})
-install(DIRECTORY html/              DESTINATION ${DOC_INSTALL_DIR}/html)
-install(FILES src/Changes.txt        DESTINATION ${DOC_INSTALL_DIR}/src)
+install(FILES ${libqhull_HEADERS}    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/libqhull)
+install(FILES src/libqhull/DEPRECATED.txt DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/libqhull)
+install(FILES ${libqhullr_HEADERS}    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/libqhull_r)
+install(FILES ${libqhullcpp_HEADERS} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/libqhullcpp)
+install(FILES html/qhull.man         DESTINATION ${CMAKE_INSTALL_MANDIR}/man1 RENAME qhull.1)
+install(FILES html/rbox.man          DESTINATION ${CMAKE_INSTALL_MANDIR}/man1 RENAME rbox.1)
+install(FILES ${doc_FILES}           DESTINATION ${CMAKE_INSTALL_DOCDIR})
+install(DIRECTORY html/              DESTINATION ${CMAKE_INSTALL_DOCDIR}/html)
+install(FILES src/Changes.txt        DESTINATION ${CMAKE_INSTALL_DOCDIR}/src)
 
 if(NOT TARGET uninstall)
     add_custom_target(uninstall
