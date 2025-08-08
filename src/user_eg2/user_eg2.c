@@ -392,7 +392,7 @@ or use libqhull_r or libqhullstatic, or use a different tool chain.\n\n");
 
     qh NOerrexit= False;
     strcat(qh rbox_command, "user_eg2 cube example");
-    sprintf(options, "qhull s Tcv Q11 %s ", argc >= 2 ? argv[1] : "");
+    snprintf(options, sizeof(options) / sizeof(options[0]), "qhull s Tcv Q11 %s ", argc >= 2 ? argv[1] : "");
     qh_initflags(options);
     printf( "\n========\ncompute triangulated convex hull of cube after rotating input\n");
     makecube(array[0], SIZEcube, DIM);
@@ -435,7 +435,7 @@ or use libqhull_r or libqhullstatic, or use a different tool chain.\n\n");
 
     qh NOerrexit= False;
     strcat(qh rbox_command, "user_eg2 Delaunay example");
-    sprintf(options, "qhull s d Tcv %s", argc >= 3 ? argv[2] : "");
+    snprintf(options, sizeof(options) / sizeof(options[0]), "qhull s d Tcv %s", argc >= 3 ? argv[2] : "");
     qh_initflags(options);
     printf( "\n========\ncompute %d-d Delaunay triangulation\n", DIM-1);
     makeDelaunay(array[0], SIZEcube, DIM);
@@ -487,7 +487,7 @@ or use libqhull_r or libqhullstatic, or use a different tool chain.\n\n");
 
     qh NOerrexit= False;
     strcat(qh rbox_command, "user_eg2 halfspace example");
-    sprintf(options, "qhull H0 s Tcv %s", argc >= 4 ? argv[3] : "");
+    snprintf(options, sizeof(options) / sizeof(options[0]), "qhull H0 s Tcv %s", argc >= 4 ? argv[3] : "");
     qh_initflags(options);
     printf( "\n========\ncompute halfspace intersection about the origin for a diamond\n");
     makehalf(array[0], SIZEcube, DIM);
