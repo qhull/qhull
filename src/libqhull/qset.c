@@ -1096,11 +1096,11 @@ void qh_setprint(FILE *fp, const char* string, setT *set) {
   else {
     SETreturnsize_(set, size);
     qh_fprintf(fp, 9347, "%s set=%p maxsize=%d size=%d elems=",
-             string, set, set->maxsize, size);
+             string, (void *) set, set->maxsize, size);
     if (size > set->maxsize)
       size= set->maxsize+1;
     for (k=0; k < size; k++)
-      qh_fprintf(fp, 9348, " %p", set->e[k].p);
+      qh_fprintf(fp, 9348, " %p", (void *) set->e[k].p);
     qh_fprintf(fp, 9349, "\n");
   }
 } /* setprint */
@@ -1193,7 +1193,7 @@ setT *qh_settemp(int setsize) {
   qh_setappend(&qhmem.tempstack, newset);
   if (qhmem.IStracing >= 5)
     qh_fprintf(qhmem.ferr, 8123, "qh_settemp: temp set %p of %d elements, depth %d\n",
-       newset, newset->maxsize, qh_setsize(qhmem.tempstack));
+       (void *) newset, newset->maxsize, qh_setsize(qhmem.tempstack));
   return newset;
 } /* settemp */
 
@@ -1223,8 +1223,8 @@ void qh_settempfree(setT **set) {
   if (stackedset != *set) {
     qh_settemppush(stackedset);
     qh_fprintf(qhmem.ferr, 6179, "qhull internal error (qh_settempfree): set %p(size %d) was not last temporary allocated(depth %d, set %p, size %d)\n",
-             *set, qh_setsize(*set), qh_setsize(qhmem.tempstack)+1,
-             stackedset, qh_setsize(stackedset));
+             (void *) *set, qh_setsize(*set), qh_setsize(qhmem.tempstack)+1,
+             (void *) stackedset, qh_setsize(stackedset));
     qh_errexit(qhmem_ERRqhull, NULL, NULL);
   }
   qh_setfree(set);
@@ -1271,7 +1271,7 @@ setT *qh_settemppop(void) {
   }
   if (qhmem.IStracing >= 5)
     qh_fprintf(qhmem.ferr, 8124, "qh_settemppop: depth %d temp set %p of %d elements\n",
-       qh_setsize(qhmem.tempstack)+1, stackedset, qh_setsize(stackedset));
+       qh_setsize(qhmem.tempstack)+1, (void *) stackedset, qh_setsize(stackedset));
   return stackedset;
 } /* settemppop */
 
@@ -1295,7 +1295,7 @@ void qh_settemppush(setT *set) {
   qh_setappend(&qhmem.tempstack, set);
   if (qhmem.IStracing >= 5)
     qh_fprintf(qhmem.ferr, 8125, "qh_settemppush: depth %d temp set %p of %d elements\n",
-      qh_setsize(qhmem.tempstack), set, qh_setsize(set));
+      qh_setsize(qhmem.tempstack), (void *) set, qh_setsize(set));
 } /* settemppush */
 
 

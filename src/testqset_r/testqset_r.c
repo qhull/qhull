@@ -786,7 +786,7 @@ void checkSetContents(qhT *qh, const char *name, setT *set, int count, int range
     if(set){
         SETreturnsize_(set, actualSize);  /* normally used only when speed is critical */
         if(*qh_setendpointer(set)!=NULL){
-            qh_fprintf(qh, stderr, 6344, "testqset_r (%s): qh_setendpointer(set), %p, is not NULL terminator of set %p\n", name, qh_setendpointer(set), set);
+            qh_fprintf(qh, stderr, 6344, "testqset_r (%s): qh_setendpointer(set), %p, is not NULL terminator of set %p\n", name, (void *) qh_setendpointer(set), (void *) set);
             error_count++;
         }
     }
@@ -806,18 +806,18 @@ void checkSetContents(qhT *qh, const char *name, setT *set, int count, int range
         /* Must be first, otherwise trips msvc 8 */
         i2T **p= SETaddr_(set, i2T);
         if(*p!=SETfirstt_(set, i2T)){
-            qh_fprintf(qh, stderr, 6309, "testqset_r (%s): SETaddr_(set, i2t) [%p] is not the same as SETfirst_(set) [%p]\n", name, SETaddr_(set, i2T), SETfirst_(set));
+            qh_fprintf(qh, stderr, 6309, "testqset_r (%s): SETaddr_(set, i2t) [%p] is not the same as SETfirst_(set) [%p]\n", name, (void *) SETaddr_(set, i2T), (void *) SETfirst_(set));
             error_count++;
         }
         first= *(int *)SETfirst_(set);
         if(SETfirst_(set)!=SETfirstt_(set, i2T)){
-            qh_fprintf(qh, stderr, 6308, "testqset_r (%s): SETfirst_(set) [%p] is not the same as SETfirstt_(set, i2T [%p]\n", name, SETfirst_(set), SETfirstt_(set, i2T));
+            qh_fprintf(qh, stderr, 6308, "testqset_r (%s): SETfirst_(set) [%p] is not the same as SETfirstt_(set, i2T [%p]\n", name, (void *) SETfirst_(set), (void *) SETfirstt_(set, i2T));
             error_count++;
         }
         if(qh_setsize(qh, set)>1){
             second= *(int *)SETsecond_(set);
             if(SETsecond_(set)!=SETsecondt_(set, i2T)){
-                qh_fprintf(qh, stderr, 6310, "testqset_r (%s): SETsecond_(set) [%p] is not the same as SETsecondt_(set, i2T) [%p]\n", name, SETsecond_(set), SETsecondt_(set, i2T));
+                qh_fprintf(qh, stderr, 6310, "testqset_r (%s): SETsecond_(set) [%p] is not the same as SETsecondt_(set, i2T) [%p]\n", name, (void *) SETsecond_(set), (void *) SETsecondt_(set, i2T));
                 error_count++;
             }
         }
@@ -834,7 +834,7 @@ void checkSetContents(qhT *qh, const char *name, setT *set, int count, int range
             error_count++;;
         }
         if(i2!=SETref_(i2)){
-            qh_fprintf(qh, stderr, 6312, "testqset_r (%s): SETref_(i2) [%p] does not point to i2 (the %d'th element)\n", name, SETref_(i2), i);
+            qh_fprintf(qh, stderr, 6312, "testqset_r (%s): SETref_(i2) [%p] does not point to i2 (the %d'th element)\n", name, (void *) SETref_(i2), i);
             error_count++;;
         }
         i++;
@@ -843,7 +843,7 @@ void checkSetContents(qhT *qh, const char *name, setT *set, int count, int range
         /* Must be first conditional, otherwise it trips up msvc 8 */
         i2T **p= SETelemaddr_(set, i2_i, i2T);
         if(i2!=*p){
-            qh_fprintf(qh, stderr, 6320, "testqset_r (%s): SETelemaddr_(set, %d, i2T) [%p] does not point to i2\n", name, i2_i, SETelemaddr_(set, i2_i, int));
+            qh_fprintf(qh, stderr, 6320, "testqset_r (%s): SETelemaddr_(set, %d, i2T) [%p] does not point to i2\n", name, i2_i, (void *) SETelemaddr_(set, i2_i, int));
             error_count++;;
         }
         if(i2_i==0){
@@ -880,11 +880,11 @@ void checkSetContents(qhT *qh, const char *name, setT *set, int count, int range
             }
         }
         if(i2!=SETelem_(set, i2_i)){
-            qh_fprintf(qh, stderr, 6318, "testqset_r (%s): SETelem_(set, %d) [%p] is not i2 [%p] (the %d'th element)\n", name, i2_i, SETelem_(set, i2_i), i2, i2_i);
+            qh_fprintf(qh, stderr, 6318, "testqset_r (%s): SETelem_(set, %d) [%p] is not i2 [%p] (the %d'th element)\n", name, i2_i, (void *) SETelem_(set, i2_i), (void *) i2, i2_i);
             error_count++;;
         }
         if(SETelemt_(set, i2_i, i2T)!=SETelem_(set, i2_i)){   /* Normally SETelemt_ is used for generic sets */
-            qh_fprintf(qh, stderr, 6319, "testqset_r (%s): SETelemt_(set, %d, i2T) [%p] is not SETelem_(set, %d) [%p] (the %d'th element)\n", name, i2_i, SETelemt_(set, i2_i, int), i2_i, SETelem_(set, i2_i), i2_i);
+            qh_fprintf(qh, stderr, 6319, "testqset_r (%s): SETelemt_(set, %d, i2T) [%p] is not SETelem_(set, %d) [%p] (the %d'th element)\n", name, i2_i, (void *) SETelemt_(set, i2_i, int), i2_i, SETelem_(set, i2_i), i2_i);
             error_count++;;
         }
     }

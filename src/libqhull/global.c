@@ -2326,7 +2326,7 @@ void qh_restore_qhull(qhT **oldqh) {
 
   if (*oldqh && strcmp((*oldqh)->qhull, "qhull")) {
     qh_fprintf(qhmem.ferr, 6061, "qhull internal error (qh_restore_qhull): %p is not a qhull data structure\n",
-                  *oldqh);
+                  (void *) *oldqh);
     qh_errexit(qh_ERRqhull, NULL, NULL);
   }
   if (qh_qh) {
@@ -2335,7 +2335,7 @@ void qh_restore_qhull(qhT **oldqh) {
   }
   if (!*oldqh || !(*oldqh)->old_qhstat) {
     qh_fprintf(qhmem.ferr, 6063, "qhull internal error (qh_restore_qhull): did not previously save qhull %p\n",
-                  *oldqh);
+                  (void *) *oldqh);
     qh_errexit(qh_ERRqhull, NULL, NULL);
   }
   qh_qh= *oldqh;
@@ -2344,7 +2344,7 @@ void qh_restore_qhull(qhT **oldqh) {
   qhmem.tempstack= qh old_tempstack;
   qh old_qhstat= 0;
   qh old_tempstack= 0;
-  trace1((qh ferr, 1007, "qh_restore_qhull: restored qhull from %p\n", *oldqh));
+  trace1((qh ferr, 1007, "qh_restore_qhull: restored qhull from %p\n", (void *) *oldqh));
 } /* restore_qhull */
 
 /*-<a                             href="qh-globa.htm#TOC"
@@ -2370,7 +2370,7 @@ void qh_restore_qhull(qhT **oldqh) {
 qhT *qh_save_qhull(void) {
   qhT *oldqh;
 
-  trace1((qhmem.ferr, 1045, "qh_save_qhull: save qhull %p\n", qh_qh));
+  trace1((qhmem.ferr, 1045, "qh_save_qhull: save qhull %p\n", (void *) qh_qh));
   if (!qh_qh) {
     qh_fprintf(qhmem.ferr, 6064, "qhull internal error (qh_save_qhull): qhull not initialized\n");
     qh_errexit(qh_ERRqhull, NULL, NULL);
