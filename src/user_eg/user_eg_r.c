@@ -218,7 +218,7 @@ Try -- user_eg 'T1' 'T1' 'T1'\n\
     Run 1: convex hull
   */
   printf( "\n========\ncompute convex hull of cube after rotating input\n");
-  sprintf(flags, "qhull s Tcv %s", argc >= 2 ? argv[1] : "");
+  snprintf(flags, sizeof(flags) / sizeof(flags[0]), "qhull s Tcv %s", argc >= 2 ? argv[1] : "");
   numpoints= SIZEcube;
   makecube(points, numpoints, DIM);
   for (i=numpoints; i--; )
@@ -249,7 +249,7 @@ Try -- user_eg 'T1' 'T1' 'T1'\n\
   */
 
   printf( "\n========\ncompute %d-d Delaunay triangulation\n", dim);
-  sprintf(flags, "qhull s d Tcv %s", argc >= 3 ? argv[2] : "");
+  snprintf(flags, sizeof(flags) / sizeof(flags[0]), "qhull s d Tcv %s", argc >= 3 ? argv[2] : "");
   numpoints= SIZEcube;
   makeDelaunay(qh, points, numpoints, dim, (int)time(NULL));
   for (i=numpoints; i--; )
@@ -285,7 +285,7 @@ Try -- user_eg 'T1' 'T1' 'T1'\n\
     qh_zero(qhB, errfile);
 
     printf( "\n========\nCompute a new triangulation as a separate instance of Qhull\n");
-    sprintf(flags, "qhull s d Tcv %s", argc >= 3 ? argv[2] : "");
+    snprintf(flags, sizeof(flags) / sizeof(flags[0]), "qhull s d Tcv %s", argc >= 3 ? argv[2] : "");
     numpoints= SIZEcube;
     makeDelaunay(qhB, pointsB, numpoints, dim, (int)time(NULL)+1);
     for (i=numpoints; i--; )
@@ -323,7 +323,7 @@ Try -- user_eg 'T1' 'T1' 'T1'\n\
     Run 3: halfspace intersection about the origin
   */
   printf( "\n========\ncompute halfspace intersection about the origin for a diamond\n");
-  sprintf(flags, "qhull H0 s Tcv %s", argc >= 4 ? argv[3] : "Fp");
+  snprintf(flags, sizeof(flags) / sizeof(flags[0]), "qhull H0 s Tcv %s", argc >= 4 ? argv[3] : "Fp");
   numpoints= SIZEcube;
   makehalf(points, numpoints, dim);
   for (i=numpoints; i--; )

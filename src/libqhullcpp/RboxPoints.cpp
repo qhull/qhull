@@ -130,7 +130,7 @@ appendPoints(const char *rboxCommand)
         }
     }else if(dim!=3){
         char dimStr[20]; // max dim is 200 (MAXdim)
-        sprintf(dimStr, " D%d", dim);
+        snprintf(dimStr, sizeof(dimStr) / sizeof(dimStr[0]), " D%d", dim);
         s += dimStr;
     }
     char *command= const_cast<char*>(s.c_str());
