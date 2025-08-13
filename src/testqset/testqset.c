@@ -810,18 +810,18 @@ void checkSetContents(const char *name, setT *set, int count, int rangeA, int ra
         /* Must be first, otherwise trips msvc 8 */
         i2T **p= SETaddr_(set, i2T);
         if(*p!=SETfirstt_(set, i2T)){
-            qh_fprintf(stderr, 6309, "testqset (%s): SETaddr_(set, i2t) [%p] is not the same as SETfirst_(set) [%p]\n", name, SETaddr_(set, i2T), SETfirst_(set));
+            qh_fprintf(stderr, 6309, "testqset (%s): SETaddr_(set, i2t) [%p] is not the same as SETfirst_(set) [%p]\n", name, (void *) SETaddr_(set, i2T), (void *) SETfirst_(set));
             error_count++;
         }
         first= *(int *)SETfirst_(set);
         if(SETfirst_(set)!=SETfirstt_(set, i2T)){
-            qh_fprintf(stderr, 6308, "testqset (%s): SETfirst_(set) [%p] is not the same as SETfirstt_(set, i2T [%p]\n", name, SETfirst_(set), SETfirstt_(set, i2T));
+            qh_fprintf(stderr, 6308, "testqset (%s): SETfirst_(set) [%p] is not the same as SETfirstt_(set, i2T [%p]\n", name, (void *) SETfirst_(set), (void *) SETfirstt_(set, i2T));
             error_count++;
         }
         if(qh_setsize(set)>1){
             second= *(int *)SETsecond_(set);
             if(SETsecond_(set)!=SETsecondt_(set, i2T)){
-                qh_fprintf(stderr, 6310, "testqset (%s): SETsecond_(set) [%p] is not the same as SETsecondt_(set, i2T) [%p]\n", name, SETsecond_(set), SETsecondt_(set, i2T));
+                qh_fprintf(stderr, 6310, "testqset (%s): SETsecond_(set) [%p] is not the same as SETsecondt_(set, i2T) [%p]\n", name, (void *) SETsecond_(set), (void *) SETsecondt_(set, i2T));
                 error_count++;
             }
         }
@@ -838,7 +838,7 @@ void checkSetContents(const char *name, setT *set, int count, int rangeA, int ra
             error_count++;;
         }
         if(i2!=SETref_(i2)){
-            qh_fprintf(stderr, 6312, "testqset (%s): SETref_(i2) [%p] does not point to i2 (the %d'th element)\n", name, SETref_(i2), i);
+            qh_fprintf(stderr, 6312, "testqset (%s): SETref_(i2) [%p] does not point to i2 (the %d'th element)\n", name, (void *) SETref_(i2), i);
             error_count++;;
         }
         i++;
@@ -847,7 +847,7 @@ void checkSetContents(const char *name, setT *set, int count, int rangeA, int ra
         /* Must be first conditional, otherwise it trips up msvc 8 */
         i2T **p= SETelemaddr_(set, i2_i, i2T);
         if(i2!=*p){
-            qh_fprintf(stderr, 6320, "testqset (%s): SETelemaddr_(set, %d, i2T) [%p] does not point to i2\n", name, i2_i, SETelemaddr_(set, i2_i, int));
+            qh_fprintf(stderr, 6320, "testqset (%s): SETelemaddr_(set, %d, i2T) [%p] does not point to i2\n", name, i2_i, (void *) SETelemaddr_(set, i2_i, int));
             error_count++;;
         }
         if(i2_i==0){
@@ -884,7 +884,7 @@ void checkSetContents(const char *name, setT *set, int count, int rangeA, int ra
             }
         }
         if(i2!=SETelem_(set, i2_i)){
-            qh_fprintf(stderr, 6318, "testqset (%s): SETelem_(set, %d) [%p] is not i2 [%p] (the %d'th element)\n", name, i2_i, SETelem_(set, i2_i), i2, i2_i);
+            qh_fprintf(stderr, 6318, "testqset (%s): SETelem_(set, %d) [%p] is not i2 [%p] (the %d'th element)\n", name, i2_i, SETelem_(set, i2_i), (void *) i2, i2_i);
             error_count++;;
         }
         if(SETelemt_(set, i2_i, i2T)!=SETelem_(set, i2_i)){   /* Normally SETelemt_ is used for generic sets */

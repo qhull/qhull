@@ -1297,7 +1297,7 @@ void qh_checkpolygon(facetT *facetlist) {
         numvertices++;
         if (qh_pointid(vertex->point) == qh_IDunknown) {
           qh_fprintf(qh ferr, 6139, "qhull internal error (qh_checkpolygon): unknown point %p for vertex v%d first_point %p\n",
-                   vertex->point, vertex->id, qh first_point);
+                   (void *) vertex->point, vertex->id, (void *) qh first_point);
           waserror= True;
         }
       }
@@ -1405,7 +1405,7 @@ void qh_checkvertex(vertexT *vertex, boolT allchecks, boolT *waserrorp) {
   facetT *neighbor, **neighborp, *errfacet=NULL;
 
   if (qh_pointid(vertex->point) == qh_IDunknown) {
-    qh_fprintf(qh ferr, 6144, "qhull internal error (qh_checkvertex): unknown point id %p\n", vertex->point);
+    qh_fprintf(qh ferr, 6144, "qhull internal error (qh_checkvertex): unknown point id %p\n", (void *) vertex->point);
     waserror= True;
   }
   if (vertex->id >= qh vertex_id) {
@@ -3115,7 +3115,7 @@ void qh_point_add(setT *set, pointT *point, void *elem) {
   SETreturnsize_(set, size);
   if ((id= qh_pointid(point)) < 0)
     qh_fprintf(qh ferr, 7067, "qhull internal warning (point_add): unknown point %p id %d\n",
-      point, id);
+      (void *) point, id);
   else if (id >= size) {
     qh_fprintf(qh ferr, 6160, "qhull internal error (point_add): point p%d is out of bounds(%d)\n",
              id, size);
