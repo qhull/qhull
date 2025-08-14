@@ -1538,7 +1538,7 @@ void qh_initflags(qhT *qh, char *command) {
 void qh_initqhull_buffers(qhT *qh) {
   int k;
 
-  qh->TEMPsize= (qh->qhmem.LASTsize - (int)sizeof(setT))/SETelemsize;
+  qh->TEMPsize= (qh->qhmem.LASTsize - SETbasesize)/SETelemsize;
   if (qh->TEMPsize <= 0 || qh->TEMPsize > qh->qhmem.LASTsize)
     qh->TEMPsize= 8;  /* e.g., if qh_NOmem */
   qh->other_points= qh_setnew(qh, qh->TEMPsize);
@@ -1810,7 +1810,7 @@ void qh_initqhull_mem(qhT *qh) {
     qh_memsize(qh, (int)sizeof(mergeT));
   }
   qh_memsize(qh, (int)sizeof(facetT));
-  i= (int)sizeof(setT) + (qh->hull_dim - 1) * SETelemsize;  /* ridge.vertices */
+  i= SETbasesize + (qh->hull_dim - 1) * SETelemsize;  /* ridge.vertices */
   qh_memsize(qh, i);
   qh_memsize(qh, qh->normal_size);        /* normal */
   i += SETelemsize;                 /* facet.vertices, .ridges, .neighbors */
@@ -2196,8 +2196,8 @@ void qh_lib_check(int qhullLibraryType, int qhTsize, int vertexTsize, int ridgeT
       qh_fprintf_stderr(6252, "qh_lib_check: Incorrect qhull library called.  Size of facetT for caller is %d, but for qhull library is %d.\n", facetTsize, (int)sizeof(facetT));
       last_errcode= 6252;
     }
-    if (setTsize && setTsize != (int)sizeof(setT)) {
-      qh_fprintf_stderr(6253, "qh_lib_check: Incorrect qhull library called.  Size of setT for caller is %d, but for qhull library is %d.\n", setTsize, (int)sizeof(setT));
+    if (setTsize && setTsize != SETbasesize) {
+      qh_fprintf_stderr(6253, "qh_lib_check: Incorrect qhull library called.  Size of setT for caller is %d, but for qhull library is %d.\n", setTsize, SETbasesize);
       last_errcode= 6253;
     }
     if (qhmemTsize && qhmemTsize != sizeof(qhmemT)) {
