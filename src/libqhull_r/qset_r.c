@@ -720,7 +720,7 @@ void qh_setfree(qhT *qh, setT **setp) {
   void **freelistp;  /* used if !qh_NOmem by qh_memfree_() */
 
   if (*setp) {
-    size= (int)sizeof(setT) + ((*setp)->maxsize)*SETelemsize;
+    size= SETbasesize + ((*setp)->maxsize)*SETelemsize;
     if (size <= qh->qhmem.LASTsize) {
       qh_memfree_(qh, *setp, size, freelistp);
     }else
@@ -773,7 +773,7 @@ void qh_setfreelong(qhT *qh, setT **setp) {
   int size;
 
   if (*setp) {
-    size= (int)sizeof(setT) + ((*setp)->maxsize)*SETelemsize;
+    size= SETbasesize + ((*setp)->maxsize)*SETelemsize;
     if (size > qh->qhmem.LASTsize) {
       qh_memfree(qh, *setp, size);
       *setp= NULL;
@@ -910,7 +910,7 @@ int qh_setlarger_quick(qhT *qh, int setsize, int *newsize) {
     int lastquickset;
 
     *newsize= 2 * setsize;
-    lastquickset= (qh->qhmem.LASTsize - (int)sizeof(setT)) / SETelemsize; /* matches size computation in qh_setnew */
+    lastquickset= (qh->qhmem.LASTsize - SETbasesize) / SETelemsize; /* matches size computation in qh_setnew */
     if (*newsize <= lastquickset)
       return 1;
     if (setsize + 4 > lastquickset)
@@ -971,7 +971,7 @@ setT *qh_setnew(qhT *qh, int setsize) {
 
   if (!setsize)
     setsize++;
-  size= (int)sizeof(setT) + setsize * SETelemsize; /* setT includes NULL terminator, see qh.LASTquickset */
+  size= SETbasesize + setsize * SETelemsize; /* setT includes NULL terminator, see qh.LASTquickset */
   if (size>0 && size <= qh->qhmem.LASTsize) {
     qh_memalloc_(qh, size, freelistp, set, setT);
 #ifndef qh_NOmem
