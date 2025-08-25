@@ -1173,7 +1173,6 @@ facetT *qh_findbestnew(pointT *point, facetT *startfacet,
                      realT *dist, boolT bestoutside, boolT *isoutside, int *numpart);
 boolT   qh_gram_schmidt(int dim, realT **rows);
 void    qh_outerinner(facetT *facet, realT *outerplane, realT *innerplane);
-void    qh_printsummary(FILE *fp);
 void    qh_projectinput(void);
 void    qh_randommatrix(realT *buffer, int dim, realT **row);
 void    qh_rotateinput(realT **rows);
@@ -1217,11 +1216,6 @@ void    qh_produce_output(void);
 coordT *qh_readpoints(int *numpoints, int *dimension, boolT *ismalloc);
 
 
-/********* -mem.c prototypes (duplicated from mem.h) **********************/
-
-void qh_meminit(FILE *ferr);
-void qh_memfreeshort(int *curlong, int *totlong);
-
 /********* -poly.c/poly2.c prototypes (duplicated from poly.h) **********************/
 
 void    qh_check_output(void);
@@ -1240,10 +1234,5 @@ void    qh_triangulate(void /* qh.facet_list */);
 /********* -rboxlib.c prototypes **********************/
 int     qh_rboxpoints(FILE* fout, FILE* ferr, char* rbox_command);
 void    QH_NORETURN qh_errexit_rbox(int exitcode);
-
-/********* -stat.c prototypes (duplicated from stat.h) **********************/
-
-void    qh_collectstatistics(void);
-void    qh_printallstatistics(FILE *fp, const char *string);
 
 #endif /* qhDEFlibqhull */

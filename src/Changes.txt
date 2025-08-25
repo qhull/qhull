@@ -7,7 +7,7 @@ $Id: //main/2019/qhull/src/Changes.txt#87 $$Date: 2024/07/23 $
 ====
 
 To do
-Qhull 2021-2024
+Qhull 2021-2025
 Qhull 2020
 Qhull 2018-2019
 Qhull 2015
@@ -44,9 +44,39 @@ Qhull 2.0 (1994-1995)
   Two CGAL halfedges is equivalent to a Qhull ridge
   https://doc.cgal.org/4.7/Voronoi_diagram_2/group__PkgVoronoiDiagramAdaptor2.html
 
+Rework Qhull for modern C++/C, CMake, 64-bit memory
+  http://github.com/qhull/qhull/wiki/Qhull%20rework%20suggestions
+  http://www.qhull.org/html/qh-code.htm#64bit
+
+Github todo 2024-2025
+- Report error for 'nan' results from qh_detsimplex, etc. [S. Horvat #166]
+- Change qset.h to e[] instead of e[1] [D. Steratt #165]
+- Change qhull_cmd to const [N. Schwarz #159]
+- Fix qh_compare_facetmerge for all compared fields equal [zsz #157]
+- Add shared library for qhullcpp [S. Bruens #153]
+- Alternative initial simplex method [T. Brochill #151]
+- Detect performance issue for coplanar triangulation [C. Sheradil #146]
+- Remove or define undocumented option: QT [djerius #141
+
 ==================
-== Qhull 2021-2024
+== Qhull 2021-2025
 ==================
+
+------------
+Qhull 8.1.alpha5 GitHub 2025/08/24
+
+Documentation changes
+- qhull-news.html: performance issue for coplanar triangulation [C. Sheradil #146]
+  http://www.qhull.org/news/qhull-news.html#problems
+
+Code changes
+- Fix arguments inconsistent with their format strings [E. Sales de Andrade #143]
+- Replace sprintf with snprintf [S. Horvat #161]
+- Add QH_NORETURN macro for qh_errexit, qh_exit, etc. [S. Horvat #167]
+- Remove duplicate declarations in libqhull_r.h and libqhull.h [S. Bruens #154]
+
+Build changes
+- Remove tools from CMake exported targets [S. Bruens #152]
 
 ------------
 Qhull 8.1.alpha4 GitHub 2024/07/22
@@ -77,9 +107,6 @@ Qhull 8.1-alpha3 GitHub 2023/01/02
 
 ------------
 Qhull 8.1-alpha2 GitHub 2023/01/01
-
-- Reviewed and wrote comments for open issues #121 and earlier.
-- Testing postponed to the next release of Qhull
 
 Code changes
 - QhullUser.cpp: Redefine snprintf as sprintf_s for VS2010 and earlier [cmF3 #103]
