@@ -1,4 +1,4 @@
-$Id: //main/2019/qhull/src/Changes.txt#87 $$Date: 2024/07/23 $
+$Id: //main/2019/qhull/src/Changes.txt#88 $$Date: 2025/08/24 $
 
 .............This file lists all changes to qhull and rbox.....................
 

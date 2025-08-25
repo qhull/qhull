@@ -14,8 +14,8 @@
    This allows the user to avoid loading io_r.o from qhull.a
 
    Copyright (c) 1993-2020 The Geometry Center.
-   $Id: //main/2019/qhull/src/libqhull_r/io_r.c#12 $$Change: 2965 $
-   $DateTime: 2020/06/04 15:37:41 $$Author: bbarber $
+   $Id: //main/2019/qhull/src/libqhull_r/io_r.c#13 $$Change: 3978 $
+   $DateTime: 2025/08/24 21:38:45 $$Author: bbarber $
 */
 
 #include "qhull_ra.h"

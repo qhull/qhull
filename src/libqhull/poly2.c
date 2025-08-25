@@ -9,8 +9,8 @@
    frequently used code is in poly.c
 
    Copyright (c) 1993-2020 The Geometry Center.
-   $Id: //main/2019/qhull/src/libqhull/poly2.c#17 $$Change: 3396 $
-   $DateTime: 2023/01/02 16:59:48 $$Author: bbarber $
+   $Id: //main/2019/qhull/src/libqhull/poly2.c#18 $$Change: 3978 $
+   $DateTime: 2025/08/24 21:38:45 $$Author: bbarber $
 */
 
 #include "qhull_a.h"

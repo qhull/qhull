@@ -12,8 +12,8 @@
    see qhull_ra.h for internal functions
 
    Copyright (c) 1993-2020 The Geometry Center.
-   $Id: //main/2019/qhull/src/libqhull_r/global_r.c#21 $$Change: 3664 $
-   $DateTime: 2024/07/22 23:55:01 $$Author: bbarber $
+   $Id: //main/2019/qhull/src/libqhull_r/global_r.c#22 $$Change: 3978 $
+   $DateTime: 2025/08/24 21:38:45 $$Author: bbarber $
  */
 
 #include "qhull_ra.h"

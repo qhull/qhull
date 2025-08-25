@@ -14,8 +14,8 @@
    Do not reference 'qh' since it brings in qhT unnecessarily
 
    Copyright (c) 1993-2020 The Geometry Center.
-   $Id: //main/2019/qhull/src/libqhull/qset.c#7 $$Change: 2953 $
-   $DateTime: 2020/05/21 22:05:32 $$Author: bbarber $
+   $Id: //main/2019/qhull/src/libqhull/qset.c#8 $$Change: 3978 $
+   $DateTime: 2025/08/24 21:38:45 $$Author: bbarber $
 */
 
 #include "libqhull.h" /* for qhT and QHULL_CRTDBG */

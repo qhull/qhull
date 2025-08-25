@@ -14,8 +14,8 @@
    Only reference qh for qhmem or qhstat.  Otherwise the matching code in qset.c will bring in qhT
 
    Copyright (c) 1993-2020 The Geometry Center.
-   $Id: //main/2019/qhull/src/libqhull_r/qset_r.c#8 $$Change: 2953 $
-   $DateTime: 2020/05/21 22:05:32 $$Author: bbarber $
+   $Id: //main/2019/qhull/src/libqhull_r/qset_r.c#9 $$Change: 3978 $
+   $DateTime: 2025/08/24 21:38:45 $$Author: bbarber $
 */
 
 #include "libqhull_r.h" /* for qhT and QHULL_CRTDBG */
