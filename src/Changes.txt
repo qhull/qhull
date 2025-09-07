@@ -1,4 +1,4 @@
-$Id: //main/2019/qhull/src/Changes.txt#88 $$Date: 2025/08/24 $
+$Id: //main/2019/qhull/src/Changes.txt#87 $$Date: 2024/07/23 $
 
 .............This file lists all changes to qhull and rbox.....................
 
@@ -56,11 +56,16 @@ Github todo 2024-2025
 - Add shared library for qhullcpp [S. Bruens #153]
 - Alternative initial simplex method [T. Brochill #151]
 - Detect performance issue for coplanar triangulation [C. Sheradil #146]
-- Remove or define undocumented option: QT [djerius #141
+- Remove or define undocumented option: QT [djerius #141]
 
 ==================
 == Qhull 2021-2025
 ==================
+
+------------
+Qhull 8.1.alpha6 GitHub 2025/09/07
+
+- poly2.c, poly2_r.c: fixed missing 'getid_(previousvertex)' for #143
 
 ------------
 Qhull 8.1.alpha5 GitHub 2025/08/24
