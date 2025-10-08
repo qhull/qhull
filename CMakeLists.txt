@@ -360,6 +360,7 @@ if (NOT DEFINED CMAKE_BUILD_WITH_INSTALL_RPATH)
     set(CMAKE_BUILD_WITH_INSTALL_RPATH FALSE)
 endif ()
 
+if (NOT EMSCRIPTEN)
 add_library(${qhull_SHAREDR} SHARED 
         ${libqhullr_SOURCES}
         src/libqhull_r/qhull_r-exports.def)
@@ -420,7 +421,7 @@ set_target_properties(${qhull_SHAREDP} PROPERTIES
 if(UNIX)
     target_link_libraries(${qhull_SHAREDP} m)
 endif(UNIX)
-
+endif (NOT EMSCRIPTEN)
 # ---------------------------------------
 # Define static libraries qhullstatic (non-reentrant) and qhullstatic_r (reentrant)
 # ---------------------------------------
