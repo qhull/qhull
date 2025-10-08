@@ -359,10 +359,11 @@ endif ()
 if (NOT DEFINED CMAKE_BUILD_WITH_INSTALL_RPATH)
     set(CMAKE_BUILD_WITH_INSTALL_RPATH FALSE)
 endif ()
-
-add_library(${qhull_SHAREDR} SHARED 
-        ${libqhullr_SOURCES}
-        src/libqhull_r/qhull_r-exports.def)
+if (NOT EMSCRIPTEN)
+	add_library(${qhull_SHAREDR} SHARED 
+		${libqhullr_SOURCES}
+		src/libqhull_r/qhull_r-exports.def)
+endif ()   
 target_include_directories(${qhull_SHAREDR} PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
@@ -379,10 +380,11 @@ endif(UNIX)
 # ---------------------------------------
 # Define deprecated shared library for non-reentrant qhull
 # ---------------------------------------
-
-add_library(${qhull_SHARED} SHARED 
-        ${libqhull_SOURCES}
-        src/libqhull/qhull-exports.def)
+if (NOT EMSCRIPTEN)
+	add_library(${qhull_SHARED} SHARED 
+		${libqhull_SOURCES}
+		src/libqhull/qhull-exports.def)
+endif ()
 target_include_directories(${qhull_SHARED} PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
@@ -401,10 +403,11 @@ endif(UNIX)
 # ---------------------------------------
 # Define deprecated shared library for non-reentrant qhull with qh_QHpointer
 # ---------------------------------------
-
-add_library(${qhull_SHAREDP} SHARED
-        ${libqhull_SOURCES}
-        src/libqhull/qhull_p-exports.def)
+if (NOT EMSCRIPTEN)
+	add_library(${qhull_SHAREDP} SHARED
+		${libqhull_SOURCES}
+		src/libqhull/qhull_p-exports.def)
+endif ()
 target_include_directories(${qhull_SHAREDP} PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
