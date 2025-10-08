@@ -106,8 +106,15 @@ check_lfs(WITH_LFS)
 # If LINK_APPS_SHARED=ON, link applications to libqhull_r.so
 
 include(CMakeDependentOption)
-option(BUILD_STATIC_LIBS "Build static libraries" ON)
-option(BUILD_SHARED_LIBS "Build shared library" ON)
+if(EMSCRIPTEN)
+    # For WebAssembly with Emscripten, we MUST build static libraries.
+    # Force these options to the correct values.
+    set(BUILD_STATIC_LIBS ON CACHE BOOL "Build static libraries" FORCE)
+    set(BUILD_SHARED_LIBS OFF CACHE BOOL "Build shared library" FORCE)
+else()
+    option(BUILD_STATIC_LIBS "Build static libraries" ON)
+    option(BUILD_SHARED_LIBS "Build shared library" ON)
+endif()
 set(_NO_STATIC_LIBS NOCACHE INTERNAL (NOT ${BUILD_STATIC_LIBS}))
 cmake_dependent_option(LINK_APPS_SHARED "Use shared library for linking applications"
     _NO_STATIC_LIBS
