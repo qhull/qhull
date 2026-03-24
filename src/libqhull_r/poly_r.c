@@ -435,43 +435,43 @@ setT *qh_facetintersect(qhT *qh, facetT *facetA, facetT *facetB,
 */
 int qh_gethash(qhT *qh, int hashsize, setT *set, int size, int firstindex, void *skipelem) {
   void **elemp= SETelemaddr_(set, firstindex, void);
-  ptr_intT hash= 0, elem;
+  uptr_intT hash= 0, elem;
   unsigned int uresult;
   int i;
 #ifdef _MSC_VER                   /* Microsoft Visual C++ -- warn about 64-bit issues */
-#pragma warning( push)            /* WARN64 -- ptr_intT holds a 64-bit pointer */
-#pragma warning( disable : 4311)  /* 'type cast': pointer truncation from 'void*' to 'ptr_intT' */
+#pragma warning( push)            /* WARN64 -- uptr_intT holds a 64-bit pointer */
+#pragma warning( disable : 4311)  /* 'type cast': pointer truncation from 'void*' to 'uptr_intT' */
 #endif
 
   switch (size-firstindex) {
   case 1:
-    hash= (ptr_intT)(*elemp) - (ptr_intT) skipelem;
+    hash= (uptr_intT)(*elemp) - (uptr_intT) skipelem;
     break;
   case 2:
-    hash= (ptr_intT)(*elemp) + (ptr_intT)elemp[1] - (ptr_intT) skipelem;
+    hash= (uptr_intT)(*elemp) + (uptr_intT)elemp[1] - (uptr_intT) skipelem;
     break;
   case 3:
-    hash= (ptr_intT)(*elemp) + (ptr_intT)elemp[1] + (ptr_intT)elemp[2]
-      - (ptr_intT) skipelem;
+    hash= (uptr_intT)(*elemp) + (uptr_intT)elemp[1] + (uptr_intT)elemp[2]
+      - (uptr_intT) skipelem;
     break;
   case 4:
-    hash= (ptr_intT)(*elemp) + (ptr_intT)elemp[1] + (ptr_intT)elemp[2]
-      + (ptr_intT)elemp[3] - (ptr_intT) skipelem;
+    hash= (uptr_intT)(*elemp) + (uptr_intT)elemp[1] + (uptr_intT)elemp[2]
+      + (uptr_intT)elemp[3] - (uptr_intT) skipelem;
     break;
   case 5:
-    hash= (ptr_intT)(*elemp) + (ptr_intT)elemp[1] + (ptr_intT)elemp[2]
-      + (ptr_intT)elemp[3] + (ptr_intT)elemp[4] - (ptr_intT) skipelem;
+    hash= (uptr_intT)(*elemp) + (uptr_intT)elemp[1] + (uptr_intT)elemp[2]
+      + (uptr_intT)elemp[3] + (uptr_intT)elemp[4] - (uptr_intT) skipelem;
     break;
   case 6:
-    hash= (ptr_intT)(*elemp) + (ptr_intT)elemp[1] + (ptr_intT)elemp[2]
-      + (ptr_intT)elemp[3] + (ptr_intT)elemp[4]+ (ptr_intT)elemp[5]
-      - (ptr_intT) skipelem;
+    hash= (uptr_intT)(*elemp) + (uptr_intT)elemp[1] + (uptr_intT)elemp[2]
+      + (uptr_intT)elemp[3] + (uptr_intT)elemp[4]+ (uptr_intT)elemp[5]
+      - (uptr_intT) skipelem;
     break;
   default:
     hash= 0;
     i= 3;
     do {     /* this is about 10% in 10-d */
-      if ((elem= (ptr_intT)*elemp++) != (ptr_intT)skipelem) {
+      if ((elem= (uptr_intT)*elemp++) != (uptr_intT)skipelem) {
         hash ^= (elem << i) + (elem >> (32-i));
         i += 3;
         if (i >= 32)
