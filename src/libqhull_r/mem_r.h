@@ -90,10 +90,13 @@ Trace short and quick memory allocations at T5
 */
 #if (defined(__MINGW64__)) && defined(_WIN64)
 typedef long long ptr_intT;
+typedef unsigned long long uptr_intT;
 #elif defined(_MSC_VER) && defined(_WIN64)
 typedef long long ptr_intT;
+typedef unsigned long long uptr_intT;
 #else
 typedef long ptr_intT;
+typedef unsigned long uptr_intT;
 #endif
 
 /*-<a                             href="qh-mem_r.htm#TOC"
