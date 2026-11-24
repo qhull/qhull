@@ -33,7 +33,7 @@ toString(const char *tag, int code) const
     size_t n= 0;
     if(tag && code){
         n= strlen(tag);
-        if(format_string && strlen(format_string)>n+1 && isdigit(format_string[n+1]) && (strncmp(format_string, tag, n)==0 || strncmp(format_string+1, tag, n) == 0)){
+        if(format_string && strlen(format_string)>n+1 && isdigit(static_cast<unsigned char>(format_string[n+1])) && (strncmp(format_string, tag, n)==0 || strncmp(format_string+1, tag, n) == 0)){
             // format_string already starts with tag and a code, e.g., QH6024 qhull input error, or [QH1049] qh_addpoint...
         }else{
             os << tag << code;

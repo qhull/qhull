@@ -99,10 +99,10 @@ void qh_checkflags(char *command, char *hiddenflags) {
     qh_fprintf(qh ferr, 6027, "qhull internal error (qh_checkflags): hiddenflags contains commas, newlines, or tabs: \"%s\"\n", hiddenflags);
     qh_errexit(qh_ERRqhull, NULL, NULL);
   }
-  while (*s && !isspace(*s))  /* skip program name */
+  while (*s && !isspace((unsigned char)*s))  /* skip program name */
     s++;
   while (*s) {
-    while (*s && isspace(*s))
+    while (*s && isspace((unsigned char)*s))
       s++;
     if (*s == '-')
       s++;
@@ -117,14 +117,14 @@ void qh_checkflags(char *command, char *hiddenflags) {
     chkkey[1]= key;
     if (strstr(hiddenflags, chkkey)) {
       chkerr= chkkey;
-    }else if (isupper(key)) {
+    }else if (isupper((unsigned char)key)) {
       opt= ' ';
       prevopt= ' ';
       chkopt[1]= key;
       chkopt2[1]= key;
-      while (!chkerr && *s && !isspace(*s)) {
+      while (!chkerr && *s && !isspace((unsigned char)*s)) {
         opt= *s++;
-        if (isalpha(opt)) {
+        if (isalpha((unsigned char)opt)) {
           chkopt[2]= opt;
           if (strstr(hiddenflags, chkopt))
             chkerr= chkopt;
@@ -134,9 +134,9 @@ void qh_checkflags(char *command, char *hiddenflags) {
             if (strstr(hiddenflags, chkopt2))
               chkerr= chkopt2;
           }
-        }else if (key == 'Q' && isdigit(opt) && prevopt != 'b'
-              && (prevopt == ' ' || islower(prevopt))) {
-            if (isdigit(*s)) {  /* Q12 */
+        }else if (key == 'Q' && isdigit((unsigned char)opt) && prevopt != 'b'
+              && (prevopt == ' ' || islower((unsigned char)prevopt))) {
+            if (isdigit((unsigned char)*s)) {  /* Q12 */
               chkopt2[2]= opt;
               chkopt2[3]= *s++;
               if (strstr(hiddenflags, chkopt2))
@@ -654,13 +654,13 @@ void qh_initflags(char *command) {
       *qh qhull_command= '\0';
       strncat(qh qhull_command, command, sizeof(qh qhull_command)-strlen(qh qhull_command)-1);
     }
-    while (*s && !isspace(*s))  /* skip program name */
+    while (*s && !isspace((unsigned char)*s))  /* skip program name */
       s++;
   }
   if (qh_QHpointer)
     qh_option("qh_QHpointer", NULL, NULL);
   while (*s) {
-    while (*s && isspace(*s))
+    while (*s && isspace((unsigned char)*s))
       s++;
     if (*s == '-')
       s++;
@@ -706,7 +706,7 @@ void qh_initflags(char *command) {
       qh DELAUNAY= True;
       break;
     case 'A':
-      if (!isdigit(*s) && *s != '.' && *s != '-') {
+      if (!isdigit((unsigned char)*s) && *s != '.' && *s != '-') {
         qh_fprintf(qh ferr, 7002, "qhull input warning: no maximum cosine angle given for option 'An'.  A1.0 is coplanar\n");
         lastwarning= s-1;
       }else {
@@ -723,7 +723,7 @@ void qh_initflags(char *command) {
       }
       break;
     case 'C':
-      if (!isdigit(*s) && *s != '.' && *s != '-') {
+      if (!isdigit((unsigned char)*s) && *s != '.' && *s != '-') {
         qh_fprintf(qh ferr, 7003, "qhull input warning: no centrum radius given for option 'Cn'\n");
         lastwarning= s-1;
       }else {
@@ -743,7 +743,7 @@ void qh_initflags(char *command) {
       if (*s == '-') {
         qh_fprintf(qh ferr, 6363, "qhull option error: expecting a positive number for maximum roundoff 'En'.  Got '%s'\n", s-1);
         qh_errexit(qh_ERRinput, NULL, NULL);
-      }else if (!isdigit(*s)) {
+      }else if (!isdigit((unsigned char)*s)) {
         qh_fprintf(qh ferr, 7005, "qhull option warning: no maximum roundoff given for option 'En'\n");
         lastwarning= s-1;
       }else {
@@ -757,7 +757,7 @@ void qh_initflags(char *command) {
       qh HALFspace= True;
       qh_strtod(s, &t);
       while (t > s)  {
-        if (*t && !isspace(*t)) {
+        if (*t && !isspace((unsigned char)*t)) {
           if (*t == ',')
             t++;
           else {
@@ -780,7 +780,7 @@ void qh_initflags(char *command) {
         qh_option("Halfspace", NULL, NULL);
       break;
     case 'R':
-      if (!isdigit(*s)) {
+      if (!isdigit((unsigned char)*s)) {
         qh_fprintf(qh ferr, 7007, "qhull option warning: missing random perturbation for option 'Rn'\n");
         lastwarning= s-1;
       }else {
@@ -790,7 +790,7 @@ void qh_initflags(char *command) {
       }
       break;
     case 'V':
-      if (!isdigit(*s) && *s != '-') {
+      if (!isdigit((unsigned char)*s) && *s != '-') {
         qh_fprintf(qh ferr, 7008, "qhull option warning: missing visible distance for option 'Vn'\n");
         lastwarning= s-1;
       }else {
@@ -799,7 +799,7 @@ void qh_initflags(char *command) {
       }
       break;
     case 'U':
-      if (!isdigit(*s) && *s != '-') {
+      if (!isdigit((unsigned char)*s) && *s != '-') {
         qh_fprintf(qh ferr, 7009, "qhull option warning: missing coplanar distance for option 'Un'\n");
         lastwarning= s-1;
       }else {
@@ -811,7 +811,7 @@ void qh_initflags(char *command) {
       if (*s == '-') {
         qh_fprintf(qh ferr, 6365, "qhull option error: expecting a positive number for outside width 'Wn'.  Got '%s'\n", s-1);
         qh_errexit(qh_ERRinput, NULL, NULL);
-      }else if (!isdigit(*s)) {
+      }else if (!isdigit((unsigned char)*s)) {
         qh_fprintf(qh ferr, 7011, "qhull option warning: missing outside width for option 'Wn'\n");
         lastwarning= s-1;
       }else {
@@ -822,7 +822,7 @@ void qh_initflags(char *command) {
       break;
     /************  sub menus ***************/
     case 'F':
-      while (*s && !isspace(*s)) {
+      while (*s && !isspace((unsigned char)*s)) {
         switch (*s++) {
         case 'a':
           qh_option("Farea", NULL, NULL);
@@ -929,7 +929,7 @@ void qh_initflags(char *command) {
           s--;
           qh_fprintf(qh ferr, 7012, "qhull option warning: unknown 'F' output option 'F%c', skip to next space\n", (int)s[0]);
           lastwarning= s-1;
-          while (*++s && !isspace(*s));
+          while (*++s && !isspace((unsigned char)*s));
           break;
         }
       }
@@ -937,7 +937,7 @@ void qh_initflags(char *command) {
     case 'G':
       isgeom= True;
       qh_appendprint(qh_PRINTgeom);
-      while (*s && !isspace(*s)) {
+      while (*s && !isspace((unsigned char)*s)) {
         switch (*s++) {
         case 'a':
           qh_option("Gall-points", NULL, NULL);
@@ -980,7 +980,7 @@ void qh_initflags(char *command) {
           qh PRINTspheres= True;
           break;
         case 'D':
-          if (!isdigit(*s)) {
+          if (!isdigit((unsigned char)*s)) {
             qh_fprintf(qh ferr, 7004, "qhull option warning: missing dimension for option 'GDn'\n");
             lastwarning= s-2;
           }else {
@@ -997,13 +997,13 @@ void qh_initflags(char *command) {
           s--;
           qh_fprintf(qh ferr, 7014, "qhull option warning: unknown 'G' geomview option 'G%c', skip to next space\n", (int)s[0]);
           lastwarning= s-1;
-          while (*++s && !isspace(*s));
+          while (*++s && !isspace((unsigned char)*s));
           break;
         }
       }
       break;
     case 'P':
-      while (*s && !isspace(*s)) {
+      while (*s && !isspace((unsigned char)*s)) {
         switch (*s++) {
         case 'd': case 'D':  /* see qh_initthresholds() */
           key= s[-1];
@@ -1035,7 +1035,7 @@ void qh_initflags(char *command) {
           qh PRINTprecision= False;
           break;
         case 'A':
-          if (!isdigit(*s)) {
+          if (!isdigit((unsigned char)*s)) {
             qh_fprintf(qh ferr, 7006, "qhull option warning: missing facet count for keep area option 'PAn'\n");
             lastwarning= s-2;
           }else {
@@ -1045,7 +1045,7 @@ void qh_initflags(char *command) {
           }
           break;
         case 'F':
-          if (!isdigit(*s)) {
+          if (!isdigit((unsigned char)*s)) {
             qh_fprintf(qh ferr, 7010, "qhull option warning: missing facet area for option 'PFn'\n");
             lastwarning= s-2;
           }else {
@@ -1055,7 +1055,7 @@ void qh_initflags(char *command) {
           }
           break;
         case 'M':
-          if (!isdigit(*s)) {
+          if (!isdigit((unsigned char)*s)) {
             qh_fprintf(qh ferr, 7090, "qhull option warning: missing merge count for option 'PMn'\n");
             lastwarning= s-2;
           }else {
@@ -1067,14 +1067,14 @@ void qh_initflags(char *command) {
           s--;
           qh_fprintf(qh ferr, 7015, "qhull option warning: unknown 'P' print option 'P%c', skip to next space\n", (int)s[0]);
           lastwarning= s-1;
-          while (*++s && !isspace(*s));
+          while (*++s && !isspace((unsigned char)*s));
           break;
         }
       }
       break;
     case 'Q':
       lastproject= -1;
-      while (*s && !isspace(*s)) {
+      while (*s && !isspace((unsigned char)*s)) {
         switch (*s++) {
         case 'a':
           qh_option("Qallow-short", NULL, NULL);
@@ -1102,8 +1102,8 @@ void qh_initflags(char *command) {
             s++;
             if ((r= qh_strtod(s, &s)) == 0.0) {
               t= s;            /* need true dimension for memory allocation */
-              while (*t && !isspace(*t)) {
-                if (toupper(*t++) == 'B'
+              while (*t && !isspace((unsigned char)*t)) {
+                if (toupper((unsigned char)(*t++)) == 'B'
                  && k == qh_strtol(t, &t)
                  && *t++ == ':'
                  && qh_strtod(t, &t) == 0.0) {
@@ -1167,7 +1167,7 @@ void qh_initflags(char *command) {
           break;
         case 'T':
           qh_option("QTestPoints", NULL, NULL);
-          if (!isdigit(*s)) {
+          if (!isdigit((unsigned char)*s)) {
             qh_fprintf(qh ferr, 7091, "qhull option warning: missing number of test points for option 'QTn'\n");
             lastwarning= s-2;
           }else {
@@ -1196,7 +1196,7 @@ void qh_initflags(char *command) {
           qh NOpremerge= True;
           break;
         case '1':
-          if (!isdigit(*s)) {
+          if (!isdigit((unsigned char)*s)) {
             qh_option("Q1-angle-merge", NULL, NULL);
             qh ANGLEmerge= True;
             break;
@@ -1232,7 +1232,7 @@ void qh_initflags(char *command) {
             s--;
             qh_fprintf(qh ferr, 7016, "qhull option warning: unknown 'Q' qhull option 'Q1%c', skip to next space\n", (int)s[0]);
             lastwarning= s-1;
-            while (*++s && !isspace(*s));
+            while (*++s && !isspace((unsigned char)*s));
             break;
           }
           break;
@@ -1245,7 +1245,7 @@ void qh_initflags(char *command) {
           qh_option("Q3-no-merge-vertices", NULL, NULL);
           qh MERGEvertices= False;
         LABELcheckdigit:
-          if (isdigit(*s)) {
+          if (isdigit((unsigned char)*s)) {
             qh_fprintf(qh ferr, 7017, "qhull option warning: can not follow '1', '2', or '3' with a digit.  'Q%c%c' skipped\n", *(s-1), *s);
             lastwarning= s-2;
             s++;
@@ -1293,7 +1293,7 @@ void qh_initflags(char *command) {
           s= t;
           break;
         case 'J':
-          if (!isdigit(*s) && *s != '-')
+          if (!isdigit((unsigned char)*s) && *s != '-')
             qh JOGGLEmax= 0.0;
           else {
             qh JOGGLEmax= (realT) qh_strtod(s, &s);
@@ -1301,7 +1301,7 @@ void qh_initflags(char *command) {
           }
           break;
         case 'R':
-          if (!isdigit(*s) && *s != '-') {
+          if (!isdigit((unsigned char)*s) && *s != '-') {
             qh_fprintf(qh ferr, 7020, "qhull option warning: missing random seed for option 'QRn'\n");
             lastwarning= s-2;
           }else {
@@ -1337,14 +1337,14 @@ void qh_initflags(char *command) {
           s--;
           qh_fprintf(qh ferr, 7023, "qhull option warning: unknown 'Q' qhull option 'Q%c', skip to next space\n", (int)s[0]);
           lastwarning= s-1;
-          while (*++s && !isspace(*s));
+          while (*++s && !isspace((unsigned char)*s));
           break;
         }
       }
       break;
     case 'T':
-      while (*s && !isspace(*s)) {
-        if (isdigit(*s) || *s == '-')
+      while (*s && !isspace((unsigned char)*s)) {
+        if (isdigit((unsigned char)*s) || *s == '-')
           qh IStracing= qh_strtol(s, &s);
         else switch (*s++) {
         case 'a':
@@ -1383,7 +1383,7 @@ void qh_initflags(char *command) {
           }
           break;
         case 'C':
-          if (!isdigit(*s)) {
+          if (!isdigit((unsigned char)*s)) {
             qh_fprintf(qh ferr, 7025, "qhull option warning: missing point id for cone for trace option 'TCn'\n");
             lastwarning= s-2;
           }else {
@@ -1393,7 +1393,7 @@ void qh_initflags(char *command) {
           }
           break;
         case 'F':
-          if (!isdigit(*s)) {
+          if (!isdigit((unsigned char)*s)) {
             qh_fprintf(qh ferr, 7026, "qhull option warning: missing frequency count for trace option 'TFn'\n");
             lastwarning= s-2;
           }else {
@@ -1403,7 +1403,7 @@ void qh_initflags(char *command) {
           }
           break;
         case 'I':
-          while (isspace(*s))
+          while (isspace((unsigned char)*s))
             s++;
           t= qh_skipfilename(s);
           {
@@ -1421,7 +1421,7 @@ void qh_initflags(char *command) {
           }
           break;
         case 'O':
-          while (isspace(*s))
+          while (isspace((unsigned char)*s))
             s++;
           t= qh_skipfilename(s);
           {
@@ -1442,7 +1442,7 @@ void qh_initflags(char *command) {
           }
           break;
         case 'A':
-          if (!isdigit(*s)) {
+          if (!isdigit((unsigned char)*s)) {
             qh_fprintf(qh ferr, 7093, "qhull option warning: missing count of added points for trace option 'TAn'\n");
             lastwarning= s-2;
           }else {
@@ -1454,17 +1454,17 @@ void qh_initflags(char *command) {
           break;
         case 'P':
           if (*s == '-') {
-            if (s[1] == '1' && !isdigit(s[2])) {
+            if (s[1] == '1' && !isdigit((unsigned char)s[2])) {
               s += 2;
               qh TRACEpoint= qh_IDunknown; /* qh_buildhull done */
               qh_option("Trace-point", &qh TRACEpoint, NULL);
             }else {
               qh_fprintf(qh ferr, 7100, "qhull option warning: negative point id for trace option 'TPn'.  Expecting 'TP-1' for tracing after qh_buildhull and qh_postmerge\n");
               lastwarning= s-2;
-              while (isdigit(*(++s)))
+              while (isdigit((unsigned char)*(++s)))
                 ; /* skip digits */
             }
-          }else if (!isdigit(*s)) {
+          }else if (!isdigit((unsigned char)*s)) {
             qh_fprintf(qh ferr, 7029, "qhull option warning: missing point id or -1 for trace option 'TPn'\n");
             lastwarning= s-2;
           }else {
@@ -1473,7 +1473,7 @@ void qh_initflags(char *command) {
           }
           break;
         case 'M':
-          if (!isdigit(*s)) {
+          if (!isdigit((unsigned char)*s)) {
             qh_fprintf(qh ferr, 7030, "qhull option warning: missing merge id for trace option 'TMn'\n");
             lastwarning= s-2;
           }else {
@@ -1482,7 +1482,7 @@ void qh_initflags(char *command) {
           }
           break;
         case 'R':
-          if (!isdigit(*s)) {
+          if (!isdigit((unsigned char)*s)) {
             qh_fprintf(qh ferr, 7031, "qhull option warning: missing rerun count for trace option 'TRn'\n");
             lastwarning= s-2;
           }else {
@@ -1505,7 +1505,7 @@ void qh_initflags(char *command) {
           s= t;
           break;
         case 'W':
-          if (!isdigit(*s)) {
+          if (!isdigit((unsigned char)*s)) {
             qh_fprintf(qh ferr, 7033, "qhull option warning: missing max width for trace option 'TWn'\n");
             lastwarning= s-2;
           }else {
@@ -1517,7 +1517,7 @@ void qh_initflags(char *command) {
           s--;
           qh_fprintf(qh ferr, 7034, "qhull option warning: unknown 'T' trace option 'T%c', skip to next space\n", (int)s[0]);
           lastwarning= s-2;
-          while (*++s && !isspace(*s));
+          while (*++s && !isspace((unsigned char)*s));
           break;
         }
       }
@@ -1528,11 +1528,11 @@ void qh_initflags(char *command) {
       lastwarning= s-2;
       break;
     }
-    if (s-1 == prev_s && *s && !isspace(*s)) {
+    if (s-1 == prev_s && *s && !isspace((unsigned char)*s)) {
       qh_fprintf(qh ferr, 7036, "qhull option warning: missing space after option '%c'(%x), reserved for sub-options, ignoring '%c' options to next space\n",
                (int)*prev_s, (int)*prev_s, (int)*prev_s);
       lastwarning= s-1;
-      while (*s && !isspace(*s))
+      while (*s && !isspace((unsigned char)*s))
         s++;
     }
   }
@@ -2092,9 +2092,9 @@ void qh_initthresholds(char *command) {
       s++;
     if (*s == 'P') {
       lastoption= s++;
-      while (*s && !isspace(key= *s++)) {
+      while (*s && !isspace((unsigned char)(key= *s++))) {
         if (key == 'd' || key == 'D') {
-          if (!isdigit(*s)) {
+          if (!isdigit((unsigned char)*s)) {
             qh_fprintf(qh ferr, 7044, "qhull option warning: no dimension given for Print option 'P%c' at: %s.  Ignored\n",
                     key, s-1);
             lastwarning= lastoption;
@@ -2126,7 +2126,7 @@ void qh_initthresholds(char *command) {
       }
     }else if (*s == 'Q') {
       lastoption= s++;
-      while (*s && !isspace(key= *s++)) {
+      while (*s && !isspace((unsigned char)(key= *s++))) {
         if (key == 'b' && *s == 'B') {
           s++;
           for (k=maxdim; k--; ) {
@@ -2136,7 +2136,7 @@ void qh_initthresholds(char *command) {
         }else if (key == 'b' && *s == 'b')
           s++;
         else if (key == 'b' || key == 'B') {
-          if (!isdigit(*s)) {
+          if (!isdigit((unsigned char)*s)) {
             qh_fprintf(qh ferr, 7047, "qhull option warning: no dimension given for Qhull option 'Q%c'\n",
                     key);
             lastwarning= lastoption;
@@ -2163,10 +2163,10 @@ void qh_initthresholds(char *command) {
         }
       }
     }else {
-      while (*s && !isspace(*s))
+      while (*s && !isspace((unsigned char)*s))
         s++;
     }
-    while (isspace(*s))
+    while (isspace((unsigned char)*s))
       s++;
   }
   for (k=qh hull_dim; k--; ) {

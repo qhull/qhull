@@ -218,7 +218,7 @@ append(const QhullPoint &p)
 void PointCoordinates::
 appendComment(const std::string &s){
     if(char c= s[0] && describe_points.empty()){
-        if(c=='-' || isdigit(c)){
+        if(c=='-' || isdigit(static_cast<unsigned char>(c))){
             throw QhullError(10028, "Qhull argument error: comments can not start with a number or minus, %s", 0, 0, 0.0, s.c_str());
         }
     }
@@ -239,7 +239,7 @@ appendPoints(istream &in)
         getline(in, remainder);
         throw QhullError(10005, "Qhull error: input did not start with dimension or count -- %s", 0, 0, 0, remainder.c_str());
     }
-    char c= static_cast<char>(in.peek());
+    int c= in.peek();                  // an unsigned char value or EOF, as isdigit() requires
     if(c!='-' && !isdigit(c)){         // Comments start with a non-digit
         getline(in, describe_points);
         in >> ws;
@@ -251,7 +251,7 @@ appendPoints(istream &in)
         getline(in, remainder);
         throw QhullError(10009, "Qhull error: input did not start with dimension and count -- %d %s", inDimension, 0, 0, remainder.c_str());
     }
-    c= static_cast<char>(in.peek());
+    c= in.peek();
     if(c!='-' && !isdigit(c)){         // Comments start with a non-digit
         getline(in, describe_points);
         in >> ws;
